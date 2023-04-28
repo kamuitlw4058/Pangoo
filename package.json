@@ -1,0 +1,11 @@
+{
+	"name":"com.kimi.pangoo",
+	"displayName":"Pangoo",
+	"description":"业务通用库",
+	"unity":"2018.3",
+	"author":"kimi",
+	"version":"0.0.1",
+	"dependencies":{
+        "com.ugmax.pangoo_gameframework": "http://192.168.13.108:9980/ugmax/PangooGF.git#main"
+	}
+}
