@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51d84f45ffa037748a350087b75f3ba0, type: 3}
+  m_Name: ExcelTable
+  m_EditorClassIdentifier: 
+  PackConfig: {fileID: 11400000, guid: b28e25bda078ea84aa67d9488e039e49, type: 2}
+  DirInfo:
+    NameSpace: Pangoo
+    ScriptDir: Assets/Plugins/Pangoo/Runtime/ExcelTable
+    ScriptGenerateDir: Assets/Plugins/Pangoo/Runtime/ExcelTable/Generate
+    ScriptCustomDir: Assets/Plugins/Pangoo/Runtime/ExcelTable/Custom
+    ScriptOverviewDir: Assets/Plugins/Pangoo/Runtime/ExcelTable/Overview
+    StreamResDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable
+    JsonDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/Json/cn
+    ExcelDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/Excel/cn
+    ScriptableObjectDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/ScriptableObject
+  ExcelList:
+  - ExcelName: PangooEvents
+    BaseNamespace: Pangoo
+    LoadAtRuntime: 0
+  - ExcelName: UiConfigInfo
+    BaseNamespace: 
+    LoadAtRuntime: 1
+  Headers:
+  - System
+  - System.IO
+  - System.Collections.Generic
+  - LitJson
+  - Pangoo
+  - UnityEngine
+  - Sirenix.OdinInspector

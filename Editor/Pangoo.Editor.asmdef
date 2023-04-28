@@ -1,0 +1,22 @@
+{
+    "name": "Pangoo.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:8a4be66b38ef05c48a38e50656058d66",
+        "GUID:99a1644ff461dfb46b4e42e62991f370",
+        "GUID:a2d8a19598eca814496b089021d08d60",
+        "GUID:363c5eb08ff8e6a439b85e37b8c20d96",
+        "GUID:f44bf595d7886ec4b9c6708ab398aaad"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

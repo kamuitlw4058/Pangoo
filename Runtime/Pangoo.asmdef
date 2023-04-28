@@ -1,0 +1,22 @@
+{
+    "name": "Pangoo",
+    "rootNamespace": "",
+    "references": [
+        "GUID:99a1644ff461dfb46b4e42e62991f370",
+        "GUID:e34d583669d41cb4b983b4e024d437a9",
+        "GUID:363c5eb08ff8e6a439b85e37b8c20d96",
+        "GUID:f44bf595d7886ec4b9c6708ab398aaad",
+        "GUID:f06555f75b070af458a003d92f9efb00",
+        "GUID:7eaa8c94bedeb3f4696d1c583aee89bf",
+        "GUID:4307f53044263cf4b835bd812fc161a4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
