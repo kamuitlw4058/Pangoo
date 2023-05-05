@@ -303,7 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2f1c10caa9d07d4697c50bebc914613, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 4
+  MoveSpeed: 1
   SprintSpeed: 6
   RotationSpeed: 1
   SpeedChangeRate: 10
@@ -312,12 +312,12 @@ MonoBehaviour:
   JumpTimeout: 0.1
   FallTimeout: 0.15
   Grounded: 1
-  GroundedOffset: -0.14
+  GroundedOffset: 0.6
   GroundedRadius: 0.5
   GroundLayers:
     serializedVersion: 2
-    m_Bits: 0
-  CinemachineCameraTarget: {fileID: 0}
+    m_Bits: 64
+  CinemachineCameraTarget: {fileID: 6758206295430319319}
   TopClamp: 90
   BottomClamp: -90
   reverse: 0
