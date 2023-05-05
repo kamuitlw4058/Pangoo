@@ -1,6 +1,5 @@
 using System;
 using DG.Tweening;
-using EFramework.Tweens.Core;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
