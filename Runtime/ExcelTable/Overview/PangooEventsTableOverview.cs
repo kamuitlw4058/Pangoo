@@ -54,7 +54,7 @@ namespace Pangoo
        [Button("从Json重构",30)]
        public override void LoadFromJson()
        {
-          var path = $"Assets/Plugins/Pangoo/StreamRes/ExcelTable/Json/cn/{GetJsonPath()}.json";
+          var path = $"{PackageDir}/StreamRes/ExcelTable/Json/cn/{GetJsonPath()}.json";
           string json = File.ReadAllText(path);
           Data =  JsonMapper.ToObject<PangooEventsTable>(json);
        }
@@ -63,7 +63,7 @@ namespace Pangoo
        [Button("生成Json",30)]
        public override void SaveJson()
        {
-          var path = $"Assets/Plugins/Pangoo/StreamRes/ExcelTable/Json/cn/{GetJsonPath()}.json";
+          var path = $"{PackageDir}/StreamRes/ExcelTable/Json/cn/{GetJsonPath()}.json";
           var json = JsonMapper.ToJson(Data);
           using (var sw = new StreamWriter(path))
            {

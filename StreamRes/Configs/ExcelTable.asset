@@ -14,18 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PackConfig: {fileID: 11400000, guid: b28e25bda078ea84aa67d9488e039e49, type: 2}
   DirInfo:
+    PackageDir: Assets/Plugins/Pangoo
     NameSpace: Pangoo
     ScriptDir: Assets/Plugins/Pangoo/Runtime/ExcelTable
     ScriptGenerateDir: Assets/Plugins/Pangoo/Runtime/ExcelTable/Generate
     ScriptCustomDir: Assets/Plugins/Pangoo/Runtime/ExcelTable/Custom
     ScriptOverviewDir: Assets/Plugins/Pangoo/Runtime/ExcelTable/Overview
     StreamResDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable
+    JsonRelativeDir: StreamRes/ExcelTable/Json/cn
     JsonDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/Json/cn
     ExcelDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/Excel/cn
     ScriptableObjectDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/ScriptableObject
   ExcelList:
   - ExcelName: PangooEvents
-    BaseNamespace: Pangoo
+    BaseNamespace: 
     LoadAtRuntime: 0
   - ExcelName: UiConfigInfo
     BaseNamespace: 

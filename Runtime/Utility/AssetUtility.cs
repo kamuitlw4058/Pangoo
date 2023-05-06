@@ -55,9 +55,19 @@ namespace Pangoo
             return $"{GetStreamRes("FGUI")}/{package}_fui.bytes";
         }
 
+        public static string GetResourceFGUIPackage(string package)
+        {
+            return $"FGUI/{package}_fui";
+        }
+
         public static string GetFGUIAsset(string package, string component)
         {
             return $"{GetStreamRes("FGUI")}/{component}";
+        }
+
+        public static string GetFGUIResourceAsset(string package, string component)
+        {
+            return $"FGUI/{component}";
         }
         public static string GetConfigs()
         {

@@ -20,14 +20,17 @@ namespace Pangoo
         ExcelTableData m_ExcelData;
 
         string m_JsonDir;
+        string m_PackageDir;
 
 
 
 
-        public CSharpCodeTableOverviewWriter(List<string> headers, ExcelTableData excelData, string jsonDir)
+        public CSharpCodeTableOverviewWriter(List<string> headers, ExcelTableData excelData,string packageDir, string jsonDir)
         {
             m_Headers = headers;
             m_ExcelData = excelData;
+            m_PackageDir = packageDir;
+
             m_JsonDir = jsonDir;
         }
 
@@ -121,7 +124,6 @@ namespace Pangoo
                 sw.WriteLine("       }");
                 sw.WriteLine();
 
-
                 sw.WriteLine();
                 sw.WriteLine("       public override Type GetDataType()");
                 sw.WriteLine("       {");
@@ -161,7 +163,7 @@ namespace Pangoo
                 sw.WriteLine("       [Button(\"从Json重构\",30)]");
                 sw.WriteLine("       public override void LoadFromJson()");
                 sw.WriteLine("       {");
-                sw.Write($"          var path = $\"{m_JsonDir}");
+                sw.Write(    "          var path = $\"{PackageDir}/" + $"{m_JsonDir}");
                 sw.WriteLine("/{GetJsonPath()}.json\";");
                 sw.WriteLine($"          string json = File.ReadAllText(path);");
                 sw.WriteLine($"          Data =  JsonMapper.ToObject<{m_ExcelData.ClassName}>(json);");
@@ -172,8 +174,8 @@ namespace Pangoo
                 sw.WriteLine("       [Button(\"生成Json\",30)]");
                 sw.WriteLine("       public override void SaveJson()");
                 sw.WriteLine("       {");
-                sw.Write($"          var path = $\"{m_JsonDir}");
-                sw.WriteLine("/{GetJsonPath()}.json\";");
+                sw.Write(    "          var path = $\"{PackageDir}/" + $"{m_JsonDir}");
+                sw.WriteLine(           "/{GetJsonPath()}.json\";");
                 sw.WriteLine("          var json = JsonMapper.ToJson(Data);");
                 sw.WriteLine("          using (var sw = new StreamWriter(path))");
                 sw.WriteLine("           {");

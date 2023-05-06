@@ -11,6 +11,9 @@ namespace Pangoo
 {
     public abstract class ExcelTableOverview : GameConfigBase
     {
+        [ShowInInspector]
+        public  string PackageDir {get;set;}
+        [ShowInInspector]
         public string Namespace { get; set; }
 
         public virtual Type GetDataType()
@@ -22,7 +25,6 @@ namespace Pangoo
         {
             return null;
         }
-
         public virtual int GetRowCount()
         {
             return 0;

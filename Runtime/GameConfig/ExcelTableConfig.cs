@@ -73,6 +73,8 @@ namespace Pangoo
             var scriptCustomDir = Path.Join(scriptDir, "Custom").Replace("\\", "/");
             var scriptOverviewDir = Path.Join(scriptDir, "Overview").Replace("\\", "/");
             var streamResDir = Path.Join(config.PackageDir, config.StreamResDir, ModuleName).Replace("\\", "/");
+            var moduleRelativeDir = Path.Join( config.StreamResDir, ModuleName).Replace("\\", "/");
+            var jsonRelativeDir = Path.Join(moduleRelativeDir, "Json",Lang).Replace("\\", "/");
             var jsonDir = Path.Join(streamResDir, "Json", Lang).Replace("\\", "/");
             var excelDir = Path.Join(streamResDir, "Excel", Lang).Replace("\\", "/");
             var scriptableObjectDir = Path.Join(streamResDir, "ScriptableObject").Replace("\\", "/");
@@ -88,12 +90,15 @@ namespace Pangoo
             DirectoryUtility.ExistsOrCreate(excelDir);
             DirectoryUtility.ExistsOrCreate(scriptableObjectDir);
 
+            entry.PackageDir = config.PackageDir;
+
             entry.ScriptDir = scriptDir;
             entry.ScriptCustomDir = scriptCustomDir;
             entry.ScriptGenerateDir = scriptGenerateDir;
             entry.ScriptOverviewDir = scriptOverviewDir;
 
             entry.StreamResDir = streamResDir;
+            entry.JsonRelativeDir = jsonRelativeDir;
             entry.JsonDir = jsonDir;
             entry.ExcelDir = excelDir;
             entry.ScriptableObjectDir = scriptableObjectDir;
@@ -195,7 +200,7 @@ namespace Pangoo
                     }
 
                     var overviewPath = Path.Join(DirInfo.ScriptOverviewDir, $"{className}Overview.cs");
-                    JsonClassGenerator.GeneratorCodeString("{}", Namespace, new CSharpCodeTableOverviewWriter(Headers, ExcelData, DirInfo.JsonDir), className, overviewPath);
+                    JsonClassGenerator.GeneratorCodeString("{}", Namespace, new CSharpCodeTableOverviewWriter(Headers, ExcelData,DirInfo.PackageDir, DirInfo.JsonRelativeDir), className, overviewPath);
 
                 }
 
@@ -207,7 +212,7 @@ namespace Pangoo
         [Button("生成SO")]
         public void BuildOverviewSo()
         {
-
+            InitDirInfo();
             foreach (var excelEntry in ExcelList)
             {
                 var className = JsonClassGenerator.ToTitleCase($"{excelEntry.ExcelName}Table");
@@ -218,9 +223,9 @@ namespace Pangoo
                 {
                     File.Delete(path);
                 }
-
-                so.LoadFromJson();
                 so.Namespace = Namespace;
+                so.PackageDir = PackConfig.PackageDir;
+                so.LoadFromJson();
                 AssetDatabase.CreateAsset(so, path);
             }
 
@@ -233,10 +238,10 @@ namespace Pangoo
             InitDirInfo();
             foreach (var entry in ExcelList)
             {
-                if (!string.IsNullOrEmpty(entry.BaseNamespace) && entry.BaseNamespace != Namespace)
-                {
-                    continue;
-                }
+                // if (!string.IsNullOrEmpty(entry.BaseNamespace) && entry.BaseNamespace != Namespace)
+                // {
+                //     continue;
+                // }
 
                 var excelPath = Path.Join(DirInfo.ExcelDir, $"{entry.ExcelName}.xlsx").Replace("\\", "/");
                 Debug.Log($"Start Build:{excelPath}");
@@ -245,6 +250,7 @@ namespace Pangoo
                 var ExcelData = ExcelTableData.Parser(excelPath, classBaseName);
                 var json = DataTableDataGenerator.BuildTableDataJson(ExcelData);
                 var jsonPath = Path.Join(DirInfo.JsonDir, $"{className}.json").Replace("\\", "/");
+                Debug.Log($"Wrte json at:{jsonPath}");
                 if (json != null)
                 {
 
@@ -269,6 +275,7 @@ namespace Pangoo
     [Serializable]
     public class ExcelDirInfo
     {
+        public string PackageDir;
         public string NameSpace;
 
         public string ScriptDir;
@@ -282,6 +289,7 @@ namespace Pangoo
         public string StreamResDir;
 
 
+        public string JsonRelativeDir;
         public string JsonDir;
 
 

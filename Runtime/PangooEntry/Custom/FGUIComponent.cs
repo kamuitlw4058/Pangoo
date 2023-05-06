@@ -306,12 +306,12 @@ namespace Pangoo
         }
 
 
-        private int InternalOpenUI<T>(UiConfigInfoTable.UiConfigInfoRow uiConfig, object userData) where T : UILogicBase, new()
+        private int InternalOpenUI<T>(UiConfigInfoTable.UiConfigInfoRow uiConfig, object userData, bool useResource= false) where T : UILogicBase, new()
         {
-            return InternalOpenUI(typeof(T), uiConfig, userData);
+            return InternalOpenUI(typeof(T), uiConfig, userData,useResource);
         }
 
-        private int InternalOpenUI(Type type, UiConfigInfoTable.UiConfigInfoRow uiConfig, object userData)
+        private int InternalOpenUI(Type type, UiConfigInfoTable.UiConfigInfoRow uiConfig, object userData, bool useResource= false)
         {
             UILogicBase uiLogic = m_UIInstanceObjectPool.Spawn(type.Name);
             if (uiLogic == null)
@@ -322,7 +322,14 @@ namespace Pangoo
 
                 uiLogic.CreateLogic(uiConfig); //构造函数，设置配置和初始化对象池属性
                 m_UIInstanceObjectPool.Register(uiLogic, true); //注册到对象池，并标记为已使用
-                LoadUI(uiLogic, uiConfig, userData); //开始加载界面资源
+                if(useResource){
+                    LoadResourceUI(uiLogic,uiConfig, userData);
+                    // SetAdaptation(uiLogic.GetSelfComponent(), uiConfig);
+                    // OpenUIFinally(uiLogic, userData, true);
+                }else{
+                    LoadUI(uiLogic, uiConfig, userData); //开始加载界面资源
+                }
+               
             }
             else
             {
@@ -341,6 +348,7 @@ namespace Pangoo
 
         private void OpenUIFinally(UILogicBase uiLogic, object userData, bool reuse)
         {
+            Debug.Log($"FrameCount:{Time.frameCount}");
             m_LoadingUIList.Remove(uiLogic);
             uiLogic.HandleBlurMask(reuse);
             HandleStackPush(uiLogic);
