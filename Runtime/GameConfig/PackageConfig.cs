@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using System.Linq;
 
 namespace Pangoo
 {
@@ -52,11 +53,22 @@ namespace Pangoo
         public List<PangooEventsTableOverview> EventOverviews;
 
 
+        [ValueDropdown("GetProcedureType")]
+        public string EntryProcedure;
+
+
 #if UNITY_EDITOR
 
         private IEnumerable GetAllEventsOverview()
         {
             return GameSupportEditorUtility.GetAllEventsOverview();
+        }
+
+        private IEnumerable GetProcedureType()
+        {
+            var typeList = GameSupportEditorUtility.GetTypeNames<GameFramework.Procedure.ProcedureBase>().ToList();
+            typeList.Insert(0,string.Empty);
+            return typeList;
         }
 
         private IEnumerable GetAllSceneDirs()

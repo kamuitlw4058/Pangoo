@@ -264,9 +264,9 @@ namespace Pangoo
         /// 加载场景。
         /// </summary>
         /// <param name="sceneAssetName">场景资源名称。</param>
-        public void LoadScene(string sceneAssetName)
+        private void LoadScene(string sceneAssetName)
         {
-            LoadScene(sceneAssetName, DefaultPriority, null);
+            LoadScene(sceneAssetName, false);
         }
 
         /// <summary>
@@ -274,7 +274,7 @@ namespace Pangoo
         /// </summary>
         /// <param name="sceneAssetName">场景资源名称。</param>
         /// <param name="priority">加载场景资源的优先级。</param>
-        public void LoadScene(string sceneAssetName, int priority)
+        private void LoadScene(string sceneAssetName, int priority)
         {
             LoadScene(sceneAssetName, priority, null);
         }
@@ -284,7 +284,7 @@ namespace Pangoo
         /// </summary>
         /// <param name="sceneAssetName">场景资源名称。</param>
         /// <param name="userData">用户自定义数据。</param>
-        public void LoadScene(string sceneAssetName, object userData)
+        private void LoadScene(string sceneAssetName, object userData)
         {
             LoadScene(sceneAssetName, DefaultPriority, userData);
         }

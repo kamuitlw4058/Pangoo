@@ -64,6 +64,10 @@ namespace Pangoo
             return GetStreamRes("Configs");
         }
 
+        public static string GetScene(string SceneName){
+                return $"{GetStreamRes("Scenes")}/{SceneName}.unity";
+        }
+
         public static string GetResources()
         {
             return "Assets/Resources";

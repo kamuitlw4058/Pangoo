@@ -62,6 +62,10 @@ namespace Pangoo
             return datas;
         }
 
+        public static IEnumerable<string> GetTypeNames<T>(){
+            return TypeUtility.GetRuntimeTypeNames(typeof(T));
+        }
+
         public static IEnumerable GetAllPackageConfig()
         {
             var datas = AssetDatabaseUtility.FindAsset<PackageConfig>();

@@ -13,18 +13,18 @@ namespace Pangoo
 {
     public class ExcelTableComponent : GameFrameworkComponent
     {
-#if UNITY_EDITOR
-        private IEnumerable GetAllAssemblyNames()
-        {
-            return GameSupportEditorUtility.GetAssembly();
-        }
+// #if UNITY_EDITOR
+//         private IEnumerable GetAllAssemblyNames()
+//         {
+//             return GameSupportEditorUtility.GetAssembly();
+//         }
 
-        [ValueDropdown("GetAllAssemblyNames")]
-#endif
+//         [ValueDropdown("GetAllAssemblyNames")]
+// #endif
 
 
         public delegate void ExcelTableLoadCompleteCallback();
-        public List<string> AssemblyNames;
+        // public List<string> AssemblyNames;
 
         public List<ExcelTableOverview> TableOverviews;
 
@@ -44,7 +44,7 @@ namespace Pangoo
             {
                 return (T)tableBase;
             }
-            Log.Error($"获取ExcelTable:{typeof(T).Name} 配置表失败！");
+            Log.Warning($"获取ExcelTable:{typeof(T).Name} 配置表失败！");
             return null;
         }
 

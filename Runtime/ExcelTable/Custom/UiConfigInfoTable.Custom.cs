@@ -34,6 +34,9 @@ namespace Pangoo
 
         public UiConfigInfoRow GetConfigByType(string name)
         {
+            if(m_Dictionary == null){
+                m_Dictionary = Rows.ToDictionary(row => row.Name);
+            }
             if (m_Dictionary.TryGetValue(name, out UiConfigInfoRow row))
             {
                 return row;
