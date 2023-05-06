@@ -57,17 +57,17 @@ namespace Pangoo
 
         public static string GetResourceFGUIPackage(string package)
         {
-            return $"FGUI/{package}_fui";
+            return $"FGUI/{package}/{package}_fui";
         }
 
         public static string GetFGUIAsset(string package, string component)
         {
-            return $"{GetStreamRes("FGUI")}/{component}";
+            return $"{GetStreamRes("FGUI")}/{package}/{component}";
         }
 
-        public static string GetFGUIResourceAsset(string package, string component)
+        public static string GetFGUIResourceAsset(string package, string assetName)
         {
-            return $"FGUI/{component}";
+            return $"FGUI/{package}/{assetName}";
         }
         public static string GetConfigs()
         {
