@@ -140,7 +140,7 @@ namespace Pangoo
 
 
                 sw.WriteLine();
-                sw.WriteLine("       public string GetJsonPath()");
+                sw.WriteLine("       public override string GetJsonPath()");
                 sw.WriteLine("       {");
                 sw.WriteLine($"           return \"{m_ExcelData.ClassName}\";");
                 sw.WriteLine("       }");

@@ -219,7 +219,7 @@ namespace Pangoo.Editor
         // 热更域的更新。
         private void BindScript()
         {
-            var path = "Assets/GameMain/Scripts/Main/Custom/ILRuntime/Generated";
+            // var path = "Assets/GameMain/Scripts/Main/Custom/ILRuntime/Generated";
             //用新的分析热更dll调用引用来生成绑定代码
             // var appDomain = new ILRuntime.Runtime.Enviorment.AppDomain();
             // using (var fs = new FileStream(AssetUtility.GetHotfixDLLEditorAsset(), FileMode.Open, FileAccess.Read))

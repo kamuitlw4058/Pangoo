@@ -38,7 +38,7 @@ namespace Pangoo
        }
 
 
-       public string GetJsonPath()
+       public override string GetJsonPath()
        {
            return "UiConfigInfoTable";
        }
