@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+#if ENABLE_FGUI
 using FairyGUI;
+#endif
 using GameFramework.ObjectPool;
 using UnityGameFramework.Runtime;
 using Sirenix.OdinInspector;
 
 namespace Pangoo
 {
+    #if ENABLE_FGUI
     [Serializable]
     public class UILogicBase : ObjectBase
     {
@@ -356,4 +359,5 @@ namespace Pangoo
 
         #endregion
     }
+    #endif
 }

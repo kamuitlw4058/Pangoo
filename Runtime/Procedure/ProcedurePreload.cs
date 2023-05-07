@@ -19,6 +19,7 @@ namespace Pangoo
             Log.Info($"Entery ProcedurePreload");
 
 
+#if ENABLE_FGUI
             packageConfig = PangooEntry.GameConfig.GetGameMainConfig();
             if(packageConfig != null && packageConfig.LogoEntries != null
             && packageConfig.LogoEntries.Count > 0){
@@ -32,6 +33,7 @@ namespace Pangoo
                     PangooEntry.FGUI.OpenResourceUI(type,LogEntiry.LogoUIConfig);
                 }
             }
+#endif
 
             if (!PangooEntry.Base.EditorResourceMode)
             {
@@ -45,11 +47,13 @@ namespace Pangoo
 
         void ExcelTableLoadTable()
         {
+            #if ENABLE_FGUI
             var table = PangooEntry.ExcelTable.GetExcelTable<UiConfigInfoTable>();
             if(table != null){
                 PangooEntry.FGUI.SetUiConfigTable(table);
                 PangooEntry.FGUI.MainsapceGetType = GetType;
             }
+            #endif
         }
 
         public Type GetType(string name)

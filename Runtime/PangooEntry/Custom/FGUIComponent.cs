@@ -8,7 +8,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+#if ENABLE_FGUI
 using FairyGUI;
+#endif
 using GameFramework;
 using GameFramework.ObjectPool;
 using GameFramework.Resource;
@@ -28,7 +30,7 @@ namespace Pangoo
     [DisallowMultipleComponent]
     public sealed partial class FGUIComponent : GameFrameworkComponent
     {
-
+#if ENABLE_FGUI
         /// <summary> 界面实例ID，递增 </summary>
         private int m_InstanceId;
 
@@ -582,8 +584,9 @@ namespace Pangoo
             GRoot.inst.onSizeChanged.Clear();
             UIPackage.RemoveAllPackages();
         }
+    #endif
     }
-
+#if ENABLE_FGUI
     public class FGUIPackageInfo
     {
         public UIPackage Package;
@@ -600,5 +603,5 @@ namespace Pangoo
         public UILogicBase UILogic;
 
         public object UserData;
-    }
+    #endif
 }

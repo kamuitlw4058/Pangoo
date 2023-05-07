@@ -8,7 +8,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+#if ENABLE_FGUI
 using FairyGUI;
+#endif
 using GameFramework;
 using GameFramework.ObjectPool;
 using GameFramework.Resource;
@@ -21,6 +23,7 @@ using UnityGameFramework.Runtime;
 namespace Pangoo
 {
 
+#if ENABLE_FGUI
     /// <summary>
     /// FGUI组件。
     /// </summary>
@@ -199,5 +202,5 @@ namespace Pangoo
 
 
     }
-
+#endif
 }

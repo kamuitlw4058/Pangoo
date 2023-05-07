@@ -33,13 +33,12 @@ namespace Pangoo
        [ValueDropdown("GetProcedureType")]
         public string EntryProcedure;
 
+#if ENABLE_FGUI
         [ShowInInspector]
         [LabelText("初始化前Logo")]
         public List<LogoEntry> LogoEntries;
+#endif
 
-        public delegate Type GetTypeFunc(string name);
-
-        public GetTypeFunc GetTypeHandler;
 #if UNITY_EDITOR
 
         public bool InitUnloadScene = true;
@@ -63,6 +62,7 @@ namespace Pangoo
         }
 #endif
     }
+    #if ENABLE_FGUI
     [Serializable]
     public class LogoEntry{
         [ValueDropdown("GetUILogicTypes")]
@@ -77,4 +77,5 @@ namespace Pangoo
         }
         #endif
     }
+    #endif
 }
