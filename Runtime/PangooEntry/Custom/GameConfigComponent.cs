@@ -11,12 +11,12 @@ namespace Pangoo
 {
     public class GameConfigComponent : GameFrameworkComponent
     {
-        public PackageConfig m_GameMainConfig;
+        public GameMainConfig m_GameMainConfig;
 
         Dictionary<string, bool> m_LoadWhenGameStartStatus = new Dictionary<string, bool>();
         readonly Dictionary<string, string> m_LoadWhenGameStart = new Dictionary<string, string>()
         {
-            {"PackageConfig",AssetUtility.GetGameMainConfig()},
+            {"GameMainConfig",AssetUtility.GetGameMainConfig()},
         };
 
 
@@ -31,8 +31,8 @@ namespace Pangoo
                     {
                         switch (configItem.Key)
                         {
-                            case "PackageConfig":
-                                m_GameMainConfig = (PackageConfig)asset;
+                            case "GameMainConfig":
+                                m_GameMainConfig = (GameMainConfig)asset;
                                 break;
                         }
 
@@ -75,7 +75,7 @@ namespace Pangoo
         public bool IsLoaded { get; set; }
 
 
-        public PackageConfig GetGameMainConfig()
+        public GameMainConfig GetGameMainConfig()
         {
             return m_GameMainConfig;
         }

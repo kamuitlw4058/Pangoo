@@ -26,6 +26,16 @@ namespace Pangoo
     /// </summary>
     public sealed partial class FGUIComponent
     {
+        public void OpenResourceUI(Type type,UiConfigInfoTable.UiConfigInfoRow uiConfig, object userData = null) 
+        {
+            InternalOpenUI(type,uiConfig, userData,useResource:true);
+        }
+        public void OpenResourceUI<T>(UiConfigInfoTable.UiConfigInfoRow uiConfig, object userData = null) where T : UILogicBase, new()
+        {
+            InternalOpenUI<T>(uiConfig, userData,useResource:true);
+        }
+
+
         public void OpenResourceUI<T>(string PackageName, string ComponentName, object userData = null,int sortingOrder = 0,bool blurMask = false,bool HidePause = false) where T : UILogicBase, new()
         {
             var uiConfig = new UiConfigInfoTable.UiConfigInfoRow();
@@ -34,7 +44,7 @@ namespace Pangoo
             uiConfig.SortingOrder = sortingOrder;
             uiConfig.BlurMask = blurMask;
             uiConfig.HidePause = HidePause;
-            InternalOpenUI<T>(uiConfig, userData,useResource:true);
+            OpenResourceUI<T>(uiConfig, userData);
         }
 
         private void LoadResourceUI(UILogicBase uiLogic, UiConfigInfoTable.UiConfigInfoRow uiConfig, object userData)
@@ -72,7 +82,7 @@ namespace Pangoo
                 }else{
                     fullName = Utility.Text.Format("{0}_{1}{2}", packageName, name, extension);
                 }
-                
+
                 destroyMethod = DestroyMethod.Unload;
                 var path = AssetUtility.GetFGUIResourceAsset(packageName, fullName);
                  Debug.Log($"Load Data:{path} type:{type}");

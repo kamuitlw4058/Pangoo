@@ -10,11 +10,23 @@ namespace Pangoo
     public class ProcedurePreload : ProcedureBase
     {
         bool ResourceInited = false;
+        GameMainConfig packageConfig;
         protected override void OnEnter(ProcedureOwner procedureOwner)
         {
             base.OnEnter(procedureOwner);
             Application.targetFrameRate = -1;
             PangooEntry.Debugger.ActiveWindow = false;
+
+            packageConfig = PangooEntry.GameConfig.GetGameMainConfig();
+            if(packageConfig != null && packageConfig.LogoUI != null){
+                var LogoUI = packageConfig.LogoUI;
+                if(!string.IsNullOrEmpty(LogoUI.PackageName) 
+                && !string.IsNullOrEmpty(LogoUI.ComponentName) 
+                && !string.IsNullOrEmpty(LogoUI.Name)){
+                    //  PangooEntry.FGUI.OpenResourceUI()
+                }
+               
+            }
 
             if (!PangooEntry.Base.EditorResourceMode)
             {
@@ -71,7 +83,9 @@ namespace Pangoo
             // Debug.Log($"Init Resources Finish:{PangooEntry.Resource.ApplicableGameVersion}, {PangooEntry.Resource.AssetCount}");
             PangooEntry.Event.Fire(this,ResourceInitCompleteEventArgs.Create());
             ResourceInited = true;
-            PangooEntry.GameConfig.LoadAllConfig();
+            if(packageConfig == null){
+                PangooEntry.GameConfig.LoadAllConfig();
+            }
         }
     }
 }
