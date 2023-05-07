@@ -20,6 +20,8 @@ namespace Pangoo
 
         public static FGUIComponent FGUI { get; private set; }
 
+        public static PlayerComponent Player{get;private set;}
+
 
         private static void InitCustomComponents()
         {
@@ -30,6 +32,8 @@ namespace Pangoo
             ExcelTable = UnityGameFramework.Runtime.GameEntry.GetComponent<ExcelTableComponent>();
 
             FGUI = UnityGameFramework.Runtime.GameEntry.GetComponent<FGUIComponent>();
+
+            Player = UnityGameFramework.Runtime.GameEntry.GetComponent<PlayerComponent>();
 
         }
     }

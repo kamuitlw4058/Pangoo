@@ -53,9 +53,9 @@ namespace Pangoo
             if (uiPackage == null)
             {
                 var path = AssetUtility.GetResourceFGUIPackage(uiConfig.PackageName);
-                Log.Info($"Load Resource FGUI desc asset from path:'{path}':{Time.frameCount}");
+                // Log.Info($"Load Resource FGUI desc asset from path:'{path}':{Time.frameCount}");
                 var asset = Resources.Load<TextAsset>(path);
-                 Log.Info($"After Load Resource FGUI desc asset from path:'{path}':{Time.frameCount}");
+                //  Log.Info($"After Load Resource FGUI desc asset from path:'{path}':{Time.frameCount}");
                 if(asset != null){
                     AddResourcePackage(uiConfig.PackageName, asset);
                     CreateUI(uiLogic, uiConfig, userData);
@@ -85,7 +85,7 @@ namespace Pangoo
 
                 destroyMethod = DestroyMethod.Unload;
                 var path = AssetUtility.GetFGUIResourceAsset(packageName, fullName);
-                 Debug.Log($"Load Data:{path} type:{type}");
+                //  Debug.Log($"Load Data:{path} type:{type}");
                 return Resources.Load(path, type);
             };
 

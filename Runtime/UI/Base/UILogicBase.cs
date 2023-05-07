@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using FairyGUI;
 using GameFramework.ObjectPool;
 using UnityGameFramework.Runtime;
+using Sirenix.OdinInspector;
 
 namespace Pangoo
 {
@@ -254,6 +255,7 @@ namespace Pangoo
         #region 便捷接口
 
         /// <summary> 关闭本界面 </summary>
+        [Button("关闭")]
         public void CloseSelf()
         {
             if (!IsActive)

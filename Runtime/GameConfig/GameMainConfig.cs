@@ -57,7 +57,9 @@ namespace Pangoo
         }
         private IEnumerable GetAllScenes()
         {
-            return GameSupportEditorUtility.GetAllScenes(SceneBaseDir);
+            var scenesList = GameSupportEditorUtility.GetAllScenes(SceneBaseDir).ToList();
+            scenesList.Insert(0,ConstString.NULL);
+            return scenesList;
         }
 #endif
     }

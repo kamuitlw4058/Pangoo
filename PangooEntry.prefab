@@ -44,6 +44,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02cfd8e7e0b25524ba2ed1881bf7be96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsFinishPreLoaded: 0
+  m_UiConfigTable:
+    Rows: []
+  InstanceAutoReleaseInterval: 60
+  InstanceCapacity: 16
+  InstanceExpireTime: 60
+  InstancePriority: 0
+--- !u!1 &781587388
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 781587389}
+  - component: {fileID: 781587390}
+  m_Layer: 0
+  m_Name: Player
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &781587389
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781587388}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7138320361722007005}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &781587390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781587388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4983603cde51a284a96ba8789d7a0fb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1441183540
 GameObject:
   m_ObjectHideFlags: 0
@@ -88,7 +139,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f39fe45df927851418870b7ac1c63c44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AssemblyNames: []
+  TableOverviews:
+  - {fileID: 0}
 --- !u!1 &442314974464039217
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,6 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f580943fa1a7b4691e9048d2fe7b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_GameMainConfig: {fileID: 11400000, guid: 221e6b9e994d0b54da8e93a88b713a1f, type: 2}
 --- !u!1 &7138320360357503681
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,6 +310,7 @@ Transform:
   - {fileID: 7471606053143247921}
   - {fileID: 1441183541}
   - {fileID: 330921270}
+  - {fileID: 781587389}
   m_Father: {fileID: 7138320360357503680}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -321,19 +375,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11405216, guid: adb3eb1c35fcff14f89fba7b05c9d71c, type: 3}
       propertyPath: m_EntranceProcedureTypeName
-      value: Death.Test.Main.GameStart
+      value: Pangoo.ProcedurePreload
       objectReference: {fileID: 0}
     - target: {fileID: 11405216, guid: adb3eb1c35fcff14f89fba7b05c9d71c, type: 3}
       propertyPath: m_AvailableProcedureTypeNames.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 11405216, guid: adb3eb1c35fcff14f89fba7b05c9d71c, type: 3}
       propertyPath: m_AvailableProcedureTypeNames.Array.data[0]
-      value: Death.Test.Main.GameStart
+      value: GameMain.ProcedureIdle
       objectReference: {fileID: 0}
     - target: {fileID: 11405216, guid: adb3eb1c35fcff14f89fba7b05c9d71c, type: 3}
       propertyPath: m_AvailableProcedureTypeNames.Array.data[1]
-      value: Death.Test.Main.Gaming
+      value: Pangoo.ProcedurePreload
       objectReference: {fileID: 0}
     - target: {fileID: 11405216, guid: adb3eb1c35fcff14f89fba7b05c9d71c, type: 3}
       propertyPath: m_AvailableProcedureTypeNames.Array.data[2]
@@ -354,7 +408,8 @@ PrefabInstance:
     - target: {fileID: 11413340, guid: adb3eb1c35fcff14f89fba7b05c9d71c, type: 3}
       propertyPath: m_AudioMixer
       value: 
-      objectReference: {fileID: 24100000, guid: 05c040e6f3f4ec749badf2d5d2805829, type: 2}
+      objectReference: {fileID: 24100000, guid: 05c040e6f3f4ec749badf2d5d2805829,
+        type: 2}
     - target: {fileID: 11413340, guid: adb3eb1c35fcff14f89fba7b05c9d71c, type: 3}
       propertyPath: m_SoundGroups.Array.size
       value: 1
@@ -399,6 +454,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: adb3eb1c35fcff14f89fba7b05c9d71c, type: 3}
 --- !u!4 &7138320360090574110 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 433714, guid: adb3eb1c35fcff14f89fba7b05c9d71c, type: 3}
+  m_CorrespondingSourceObject: {fileID: 433714, guid: adb3eb1c35fcff14f89fba7b05c9d71c,
+    type: 3}
   m_PrefabInstance: {fileID: 7138320360090731308}
   m_PrefabAsset: {fileID: 0}

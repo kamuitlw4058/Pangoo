@@ -36,13 +36,14 @@ namespace Pangoo
             });
         }
 
-        public static IEnumerable GetAllScenes(string prefix)
+        public static IEnumerable<string> GetAllScenes(string prefix)
         {
             IEnumerable<string> assets = AssetDatabase.FindAssets("t:Scene");
             if (!string.IsNullOrEmpty(prefix))
             {
                 assets = assets.Where(x => AssetDatabase.GUIDToAssetPath(x).StartsWith(prefix));
             }
+            
             return assets.Select(x =>
             {
                 var path = AssetDatabase.GUIDToAssetPath(x);

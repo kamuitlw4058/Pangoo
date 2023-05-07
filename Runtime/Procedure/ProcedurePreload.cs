@@ -62,7 +62,7 @@ namespace Pangoo
             if(ResourceInited){
                 
                 if(packageConfig != null){
-                    if(!string.IsNullOrEmpty(packageConfig.DefaultJumpScene)){
+                    if(!string.IsNullOrEmpty(packageConfig.DefaultJumpScene) && packageConfig.DefaultJumpScene != ConstString.NULL){
                         PangooEntry.PangooScene.LoadScene(packageConfig.GetDefaultJumpScene());
                     }
 
