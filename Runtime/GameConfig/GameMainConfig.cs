@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Pangoo;
 using UnityEngine;
 using Sirenix.OdinInspector;
 #if UNITY_EDITOR
@@ -26,15 +26,20 @@ namespace Pangoo
 
         public string GetDefaultJumpScene()
         {
-            return $"{SceneBaseDir}/{DefaultJumpScene}";
+            return $"{SceneBaseDir}/{DefaultJumpScene}.unity";
         }
 
 
        [ValueDropdown("GetProcedureType")]
         public string EntryProcedure;
 
-        public UiConfigInfoTable.UiConfigInfoRow LogoUI;
+        [ShowInInspector]
+        [LabelText("初始化前Logo")]
+        public List<LogoEntry> LogoEntries;
 
+        public delegate Type GetTypeFunc(string name);
+
+        public GetTypeFunc GetTypeHandler;
 #if UNITY_EDITOR
 
         public bool InitUnloadScene = true;
@@ -55,5 +60,19 @@ namespace Pangoo
             return GameSupportEditorUtility.GetAllScenes(SceneBaseDir);
         }
 #endif
+    }
+    [Serializable]
+    public class LogoEntry{
+        [ValueDropdown("GetUILogicTypes")]
+        [ShowInInspector]
+        public string LogoUIType;
+        public UiConfigInfoTable.UiConfigInfoRow LogoUIConfig;
+            #if UNITY_EDITOR
+        private IEnumerable GetUILogicTypes(){
+            var uiTypes = GameSupportEditorUtility.GetTypeNames<UILogicBase>().ToList();
+            uiTypes.Insert(0,null);
+            return uiTypes;
+        }
+        #endif
     }
 }

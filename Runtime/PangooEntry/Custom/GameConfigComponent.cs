@@ -77,6 +77,7 @@ namespace Pangoo
 
         public GameMainConfig GetGameMainConfig()
         {
+            // if(m_GameMainConfig != null && m_GameMainConfig.GetType)
             return m_GameMainConfig;
         }
 

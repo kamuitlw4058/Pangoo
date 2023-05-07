@@ -3,7 +3,7 @@ using GameFramework;
 using GameFramework.Sound;
 using UnityEngine;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
-
+using UnityGameFramework.Runtime;
 
 namespace Pangoo
 {
@@ -16,16 +16,21 @@ namespace Pangoo
             base.OnEnter(procedureOwner);
             Application.targetFrameRate = -1;
             PangooEntry.Debugger.ActiveWindow = false;
+            Log.Info($"Entery ProcedurePreload");
+
 
             packageConfig = PangooEntry.GameConfig.GetGameMainConfig();
-            if(packageConfig != null && packageConfig.LogoUI != null){
-                var LogoUI = packageConfig.LogoUI;
-                if(!string.IsNullOrEmpty(LogoUI.PackageName) 
-                && !string.IsNullOrEmpty(LogoUI.ComponentName) 
-                && !string.IsNullOrEmpty(LogoUI.Name)){
-                    //  PangooEntry.FGUI.OpenResourceUI()
+            if(packageConfig != null && packageConfig.LogoEntries != null
+            && packageConfig.LogoEntries.Count > 0){
+                var LogEntries = packageConfig.LogoEntries;
+                var LogEntiry = LogEntries[0];
+                if(!string.IsNullOrEmpty(LogEntiry.LogoUIConfig.PackageName) 
+                && !string.IsNullOrEmpty(LogEntiry.LogoUIConfig.ComponentName) 
+                && !string.IsNullOrEmpty(LogEntiry.LogoUIConfig.Name)
+                && !string.IsNullOrEmpty(LogEntiry.LogoUIType)){
+                    Type type = TypeUtility.GetRuntimeType(LogEntiry.LogoUIType);
+                    PangooEntry.FGUI.OpenResourceUI(type,LogEntiry.LogoUIConfig);
                 }
-               
             }
 
             if (!PangooEntry.Base.EditorResourceMode)
@@ -54,28 +59,23 @@ namespace Pangoo
 
         protected override void OnUpdate(ProcedureOwner procedureOwner, float elapseSeconds, float realElapseSeconds)
         {
+            if(ResourceInited){
+                
+                if(packageConfig != null){
+                    if(!string.IsNullOrEmpty(packageConfig.DefaultJumpScene)){
+                        PangooEntry.PangooScene.LoadScene(packageConfig.GetDefaultJumpScene());
+                    }
 
-            if (PangooEntry.GameConfig.IsLoaded && ResourceInited)
-            {
-                PangooEntry.ExcelTable.LoadExcelTable(ExcelTableLoadTable);
-                var config = PangooEntry.GameConfig.GetGameMainConfig();
-                if(!string.IsNullOrEmpty( config.EntryProcedure)){
-                    Type procedureType = Utility.Assembly.GetType( config.EntryProcedure);
-                    ChangeState(procedureOwner,procedureType);
+
+                    if(!string.IsNullOrEmpty( packageConfig.EntryProcedure)){
+                        Type procedureType = Utility.Assembly.GetType( packageConfig.EntryProcedure);
+                        ChangeState(procedureOwner,procedureType);
+                    }
                 }
             }
+
         }
 
-
-        void PlayAudio()
-        {
-            var path = "Assets/GameMain/StreamRes/Sound/Audio/test.mp3";
-            var id = PangooEntry.Sound.PlaySound(path, "Default", new PlaySoundParams()
-            {
-                Loop = true
-            });
-            Debug.Log($"Init After play sound:{id}");
-        }
 
         void OnInitResourcesComplete()
         {
@@ -83,9 +83,11 @@ namespace Pangoo
             // Debug.Log($"Init Resources Finish:{PangooEntry.Resource.ApplicableGameVersion}, {PangooEntry.Resource.AssetCount}");
             PangooEntry.Event.Fire(this,ResourceInitCompleteEventArgs.Create());
             ResourceInited = true;
-            if(packageConfig == null){
-                PangooEntry.GameConfig.LoadAllConfig();
-            }
+
+
+            // if(packageConfig == null){
+            //     PangooEntry.GameConfig.LoadAllConfig();
+            // }
         }
     }
 }

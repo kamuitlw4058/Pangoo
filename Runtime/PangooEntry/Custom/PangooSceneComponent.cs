@@ -252,7 +252,8 @@ namespace Pangoo
             return m_SceneManager.HasScene(sceneAssetName);
         }
 
-        public void LoadScene(string sceneAssetName, bool active)
+
+        public void LoadScene(string sceneAssetName, bool active = false)
         {
             LoadScene(sceneAssetName, new SceneParams()
             {
@@ -295,7 +296,7 @@ namespace Pangoo
         /// <param name="sceneAssetName">场景资源名称。</param>
         /// <param name="priority">加载场景资源的优先级。</param>
         /// <param name="userData">用户自定义数据。</param>
-        public void LoadScene(string sceneAssetName, int priority, object userData)
+        private void LoadScene(string sceneAssetName, int priority, object userData)
         {
             if (string.IsNullOrEmpty(sceneAssetName))
             {
