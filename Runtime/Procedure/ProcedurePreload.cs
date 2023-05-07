@@ -7,7 +7,7 @@ using UnityGameFramework.Runtime;
 
 namespace Pangoo
 {
-    public class ProcedurePreload : ProcedureBase
+    public class ProcedurePreload : PangooProcedureBase
     {
         bool ResourceInited = false;
         GameMainConfig packageConfig;

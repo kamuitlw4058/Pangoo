@@ -1,6 +1,6 @@
 ﻿namespace Pangoo
 {
-    public abstract class ProcedureBase : GameFramework.Procedure.ProcedureBase
+    public abstract class PangooProcedureBase : GameFramework.Procedure.ProcedureBase
     {
 
     }
