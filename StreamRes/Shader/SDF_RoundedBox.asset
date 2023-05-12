@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: SDF_RoundedBox
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor\n// Available at the Unity
+    Asset Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=18912\n-1711;369;1638;748;2831.845;1042.085;2.437835;True;False\nNode;AmplifyShaderEditor.CommentaryNode;26;-976.204,360.4792;Inherit;False;494.844;265.4615;x
+    = visibility, z = softness, w = roundness;1;7;;1,1,1,1;0;0\nNode;AmplifyShaderEditor.CommentaryNode;1;-1267.945,-257.2532;Inherit;False;791.88;458.6078;;5;8;6;5;4;2;Input
+    Matrix;1,1,1,1;0;0\nNode;AmplifyShaderEditor.CommentaryNode;9;15.20703,-100.6066;Inherit;False;559.895;431.0529;;5;16;15;14;13;12;Rounded
+    Box SDF;1,1,1,1;0;0\nNode;AmplifyShaderEditor.FunctionInput;27;-903.9786,-196.3764;Inherit;False;Input;7;0;False;1;0;FLOAT4x4;0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;False;1;FLOAT4x4;0\nNode;AmplifyShaderEditor.RelayNode;25;47.38695,592.0176;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.SimpleMaxOpNode;17;354.9281,342.7149;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0.001;False;1;FLOAT;0\nNode;AmplifyShaderEditor.OneMinusNode;11;-367.0409,157.9404;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.SaturateNode;20;947.0068,293.2171;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;18;724.4617,285.4887;Inherit;False;Inverse
+    Lerp;-1;;24;09cbe79402f023141a4dc1fddd4c9511;0;3;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.NegateNode;16;417.1025,-44.83538;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.ScaleNode;14;65.53906,-50.60659;Inherit;False;2;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.DynamicAppendNode;13;65.20703,56.43937;Inherit;False;FLOAT3;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SimpleSubtractOpNode;12;78.40405,195.4462;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;8;-638.0649,-14.82461;Inherit;False;2;2;0;FLOAT4x4;0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;False;1;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.Matrix4X4Node;3;-1218.848,-202.3775;Inherit;False;Global;_SDF_RoundedBox;_SDF_RoundedBox;9;0;Create;True;0;0;0;False;0;False;1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;0;1;FLOAT4x4;0\nNode;AmplifyShaderEditor.DynamicAppendNode;6;-841.8309,8.979856;Inherit;False;FLOAT4;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;1;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.ComponentMaskNode;5;-1035.552,-12.89779;Inherit;False;True;True;True;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.RangedFloatNode;4;-1004.214,85.35464;Inherit;False;Constant;_Float0;Float
+    0;2;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.WorldPosInputsNode;2;-1217.945,-12.18411;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3\nNode;AmplifyShaderEditor.CustomExpressionNode;15;234.941,-44.17564;Inherit;False;$ 
+    float3 q = abs(p) - b@$  return length(max(q,0.0)) + min(max(q.x,max(q.y,q.z)),0.0)
+    - r@$;1;Create;3;True;p;FLOAT3;0,0,0;In;;Inherit;False;True;b;FLOAT3;0,0,0;In;;Inherit;False;True;r;FLOAT;0;In;;Inherit;False;Round
+    Box exact;True;False;0;;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;22;1091.007,396.7067;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.VectorFromMatrixNode;7;-799.2822,412.5945;Inherit;False;Row;3;1;0;FLOAT4x4;1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.RangedFloatNode;19;244.7692,444.7872;Inherit;False;Property;_softness;softness;1;0;Create;True;0;0;0;False;0;False;0;0.397;0;1;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;21;-410.4708,78.42139;Inherit;False;Property;_roundness;roundness;0;0;Create;True;0;0;0;False;0;False;0;0.459;0;1;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;10;-232.746,309.0344;Inherit;False;Constant;_Float1;Float
+    1;13;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;0;1229.79,306.5044;Inherit;False;True;-1;Output;0;False;1;0;FLOAT;0;False;1;FLOAT;0\nWireConnection;27;0;3;0\nWireConnection;25;0;7;1\nWireConnection;17;0;7;3\nWireConnection;11;0;7;4\nWireConnection;20;0;18;0\nWireConnection;18;2;17;0\nWireConnection;18;3;16;0\nWireConnection;16;0;15;0\nWireConnection;14;0;8;0\nWireConnection;13;0;11;0\nWireConnection;13;1;11;0\nWireConnection;13;2;11;0\nWireConnection;12;0;10;0\nWireConnection;12;1;11;0\nWireConnection;8;0;27;0\nWireConnection;8;1;6;0\nWireConnection;6;0;5;0\nWireConnection;6;3;4;0\nWireConnection;5;0;2;0\nWireConnection;15;0;14;0\nWireConnection;15;1;13;0\nWireConnection;15;2;12;0\nWireConnection;22;0;20;0\nWireConnection;22;1;25;0\nWireConnection;7;0;27;0\nWireConnection;0;0;22;0\nASEEND*/\n//CHKSM=FBFC0075DF06054E40A9B8B58C47ACABF74EF75B"
+  m_functionName: 
+  m_description: 
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_customEdited: 0
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 3
+  m_customNodeCategory: 
+  m_previewPosition: 0
+  m_hidden: 0
