@@ -42,6 +42,8 @@ public class SDFShaderEntity : MonoBehaviour
             Setup();
         }
     }
+    void FixedUpdate() {
+    }
 
     void Update()
     {
