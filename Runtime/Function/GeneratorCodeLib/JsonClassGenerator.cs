@@ -213,7 +213,7 @@ namespace Pangoo
                 }
             }
 
-            type.Fields = jsonFields.Select(x => new FieldInfo(this, x.Key, x.Value, UsePascalCase, fieldExamples[x.Key])).ToArray();
+            type.Fields = jsonFields.Select(x => new JsonClassGeneratorFieldInfo(this, x.Key, x.Value, UsePascalCase, fieldExamples[x.Key])).ToArray();
 
             //检查是否已有同名类，有则合并成员字段
             var exist = false;

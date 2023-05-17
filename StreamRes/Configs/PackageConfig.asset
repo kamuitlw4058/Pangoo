@@ -13,9 +13,6 @@ MonoBehaviour:
   m_Name: PackageConfig
   m_EditorClassIdentifier: 
   Lang: cn
-  SceneBaseDir: Assets/Scenes
-  DefaultJumpScene: GameInit
-  InitUnloadScene: 1
   PackageDir: Assets/Plugins/Pangoo
   StreamResDir: StreamRes
   ScriptsMainDir: Runtime

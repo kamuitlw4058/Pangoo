@@ -295,7 +295,7 @@ namespace Pangoo
         }
 
 
-        public IList<FieldInfo> Fields { get; internal set; }
+        public IList<JsonClassGeneratorFieldInfo> Fields { get; internal set; }
         public bool IsRoot { get; internal set; }
     }
 }

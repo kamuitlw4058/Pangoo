@@ -25,6 +25,7 @@ MonoBehaviour:
     JsonDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/Json/cn
     ExcelDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/Excel/cn
     ScriptableObjectDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/ScriptableObject
+    CSVDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/CSV
   ExcelList:
   - ExcelName: PangooEvents
     BaseNamespace: 
@@ -32,7 +33,7 @@ MonoBehaviour:
   - ExcelName: UiConfigInfo
     BaseNamespace: 
     LoadAtRuntime: 1
-  Headers:
+  UsingNamespace:
   - System
   - System.IO
   - System.Collections.Generic

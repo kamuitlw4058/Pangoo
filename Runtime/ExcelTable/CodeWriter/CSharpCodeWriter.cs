@@ -1,5 +1,4 @@
-﻿﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,7 +31,8 @@ namespace Pangoo
             {
                 case JsonTypeEnum.Anything: return "object";
                 case JsonTypeEnum.Array: return "List<" + GetTypeName(type.InternalType, config) + ">";
-                case JsonTypeEnum.Dictionary: return "Dictionary<string, " + GetTypeName(type.InternalType, config) + ">";
+                case JsonTypeEnum.Dictionary:
+                    return "Dictionary<string, " + GetTypeName(type.InternalType, config) + ">";
                 case JsonTypeEnum.Boolean: return "bool";
                 case JsonTypeEnum.Float: return "double";
                 case JsonTypeEnum.Integer: return "int";
@@ -56,6 +56,7 @@ namespace Pangoo
         {
             return config.ApplyObfuscationAttributes && !config.UsePascalCase;
         }
+
         private bool ShouldApplyNoPruneAttribute(IJsonClassGeneratorConfig config)
         {
             return config.ApplyObfuscationAttributes;
@@ -67,6 +68,7 @@ namespace Pangoo
             {
                 sw.WriteLine("// " + line);
             }
+
             sw.WriteLine();
             if (m_Headers != null)
             {
@@ -83,7 +85,6 @@ namespace Pangoo
 
         public void WriteFileEnd(IJsonClassGeneratorConfig config, TextWriter sw)
         {
-
         }
 
 
@@ -93,12 +94,75 @@ namespace Pangoo
             sw.WriteLine("namespace {0}", config.Namespace);
             sw.WriteLine("{");
             sw.WriteLine("     [Serializable]");
-            sw.WriteLine("    {0} partial class {1} : ExcelTableBase", "public", JsonClassGenerator.ToTitleCase(config.MainClass));
+            sw.WriteLine("    {0} partial class {1} : ExcelTableBase", "public",
+                JsonClassGenerator.ToTitleCase(config.MainClass));
             sw.WriteLine("    {");
         }
 
         public void WriteAdditionFunction(IJsonClassGeneratorConfig config, TextWriter sw)
         {
+            #region BuildCSV
+
+            string NameListString = "";
+            foreach (var str in m_ExcelData.NameList)
+            {
+                if (NameListString != "")
+                {
+                    NameListString += ",";
+                }
+
+                NameListString += str;
+            }
+
+            string cnNameListString = "";
+            foreach (var str in m_ExcelData.CnNameLst)
+            {
+                if (cnNameListString != "")
+                {
+                    cnNameListString += ",";
+                }
+
+                cnNameListString += str;
+            }
+
+            string typeNameListString = "";
+            foreach (var str in m_ExcelData.TypeList)
+            {
+                if (typeNameListString != "")
+                {
+                    typeNameListString += ",";
+                }
+
+                typeNameListString += str;
+            }
+
+            sw.WriteLine();
+            sw.WriteLine("        /// <summary> 获取表头 </summary>");
+            sw.WriteLine("        public override string[] GetHeadNames()");
+            sw.WriteLine("        {");
+            sw.WriteLine("            return new string[]{0};", "{\"" + NameListString + "\"}");
+            sw.WriteLine("        }");
+            sw.WriteLine();
+
+            sw.WriteLine();
+            sw.WriteLine("        /// <summary> 获取类型名 </summary>");
+            sw.WriteLine("        public override string[] GetTypeNames()");
+            sw.WriteLine("        {");
+            sw.WriteLine("            return new string[]{0};", "{\"" + typeNameListString + "\"}");
+            sw.WriteLine("        }");
+            sw.WriteLine();
+
+            sw.WriteLine();
+            sw.WriteLine("        /// <summary> 获取描述名 </summary>");
+            sw.WriteLine("        public override string[] GetDescNames()");
+            sw.WriteLine("        {");
+            sw.WriteLine("            return new string[]{0};", "{\"" + cnNameListString + "\"}");
+            sw.WriteLine("        }");
+            sw.WriteLine();
+
+            #endregion BuildCSV
+
+
             sw.WriteLine();
             sw.WriteLine("        /// <summary> 反射获取配置文件路径 </summary>");
             sw.WriteLine("        public static string DataFilePath()");
@@ -141,7 +205,6 @@ namespace Pangoo
         }
 
 
-
         private void WriteClassMembers(IJsonClassGeneratorConfig config, TextWriter sw, JsonType type, string prefix)
         {
             foreach (var field in type.Fields)
@@ -175,12 +238,12 @@ namespace Pangoo
                                 sw.WriteLine(prefix + "///      " + excelData.Desc);
                             }
                         }
+
                         sw.WriteLine(prefix + "/// </summary>");
 
                         sw.WriteLine(prefix + $"[TableTitleGroup(\"{excelData.CnName}\")]");
                         sw.WriteLine(prefix + "[HideLabel]");
                         sw.WriteLine(prefix + "[ShowInInspector]");
-
                     }
                     else
                     {
@@ -189,11 +252,10 @@ namespace Pangoo
                             sw.WriteLine(prefix + "[TableList( AlwaysExpanded = true)]");
                         }
                     }
-
                 }
+
                 if (config.UsePascalCase)
                 {
-
                     sw.WriteLine(prefix + "[JsonMember(\"{0}\")]", field.JsonMemberName);
                 }
 
@@ -201,23 +263,24 @@ namespace Pangoo
                 if (field.Type.Type == JsonTypeEnum.Array)
                 {
                     var RowsName = "Rows";
-                    if (config.ExamplesToType && field.Type.Type == JsonTypeEnum.String && field.JsonMemberName != "@export_path")
-                        sw.WriteLine(prefix + "public {0} {1} ;", GetTypeFromExample(field.GetExamplesText()), RowsName);
+                    if (config.ExamplesToType && field.Type.Type == JsonTypeEnum.String &&
+                        field.JsonMemberName != "@export_path")
+                        sw.WriteLine(prefix + "public {0} {1} ;", GetTypeFromExample(field.GetExamplesText()),
+                            RowsName);
                     else
                         sw.WriteLine(prefix + "public {0} {1} ;", field.Type.GetTypeName(), RowsName);
-
                 }
                 else
                 {
                     //使用模板Example值作为类型
                     //export_path不作为类型导出
-                    if (config.ExamplesToType && field.Type.Type == JsonTypeEnum.String && field.JsonMemberName != "@export_path")
-                        sw.WriteLine(prefix + "public {0} {1} ;", GetTypeFromExample(field.GetExamplesText()), field.MemberName);
+                    if (config.ExamplesToType && field.Type.Type == JsonTypeEnum.String &&
+                        field.JsonMemberName != "@export_path")
+                        sw.WriteLine(prefix + "public {0} {1} ;", GetTypeFromExample(field.GetExamplesText()),
+                            field.MemberName);
                     else
                         sw.WriteLine(prefix + "public {0} {1} ;", field.Type.GetTypeName(), field.MemberName);
                 }
-
-
             }
         }
 
