@@ -184,6 +184,28 @@ namespace Pangoo
                 sw.WriteLine("           SaveConfig();");
                 sw.WriteLine("       }");
                 sw.WriteLine();
+                
+                sw.WriteLine();
+                sw.WriteLine("       [Button(\"生成CSV文件\",30)]");
+                sw.WriteLine("        /// <summary> 生成CSV文件</summary>");
+                sw.WriteLine("        public override void BuildCSVFile()");
+                sw.WriteLine("        {");
+                sw.WriteLine("          base.VerifyCSVDirectory();");
+                sw.WriteLine("          base.CreateFile(Data.GetHeadNames(),this.name);");
+                sw.WriteLine("          base.AppendToFile(Data.GetTypeNames(),this.name);");
+                sw.WriteLine("          base.AppendToFile(Data.GetDescNames(),this.name);");
+                sw.WriteLine("          foreach (var item in Data.Rows)");
+                sw.WriteLine("          {");
+                sw.WriteLine("              string[] texts = new string[item.GetType().GetFields().Length];");
+                sw.WriteLine("              for (int i = 0; i < texts.Length; i++)");
+                sw.WriteLine("              {");
+                sw.WriteLine("                  texts[i] = item.GetType().GetFields()[i].GetValue(item).ToString();");
+                sw.WriteLine("              }");
+                sw.WriteLine("              base.AppendToFile(texts,this.name);");
+                sw.WriteLine("          }");
+                sw.WriteLine("        AssetDatabase.Refresh();");
+                sw.WriteLine("        }");
+                sw.WriteLine();
 
 
                 sw.WriteLine($"#endif");

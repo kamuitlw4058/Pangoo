@@ -72,6 +72,27 @@ namespace Pangoo
            SaveConfig();
        }
 
+
+       [Button("生成CSV文件",30)]
+        /// <summary> 生成CSV文件</summary>
+        public override void BuildCSVFile()
+        {
+          base.VerifyCSVDirectory();
+          base.CreateFile(Data.GetHeadNames(),this.name);
+          base.AppendToFile(Data.GetTypeNames(),this.name);
+          base.AppendToFile(Data.GetDescNames(),this.name);
+          foreach (var item in Data.Rows)
+          {
+              string[] texts = new string[item.GetType().GetFields().Length];
+              for (int i = 0; i < texts.Length; i++)
+              {
+                  texts[i] = item.GetType().GetFields()[i].GetValue(item).ToString();
+              }
+              base.AppendToFile(texts,this.name);
+          }
+        AssetDatabase.Refresh();
+        }
+
 #endif
     }
 }

@@ -8,10 +8,10 @@ using Newtonsoft.Json;
 
 namespace Pangoo
 {
-    public class FieldInfo
+    public class JsonClassGeneratorFieldInfo
     {
 
-        public FieldInfo(IJsonClassGeneratorConfig generator, string jsonMemberName, JsonType type, bool usePascalCase, IList<object> Examples)
+        public JsonClassGeneratorFieldInfo(IJsonClassGeneratorConfig generator, string jsonMemberName, JsonType type, bool usePascalCase, IList<object> Examples)
         {
             this.generator = generator;
             this.JsonMemberName = jsonMemberName;
@@ -73,14 +73,14 @@ namespace Pangoo
 
     }
 
-    public class FieldInfoComparer : IEqualityComparer<FieldInfo>
+    public class FieldInfoComparer : IEqualityComparer<JsonClassGeneratorFieldInfo>
     {
-        public bool Equals(FieldInfo x, FieldInfo y)
+        public bool Equals(JsonClassGeneratorFieldInfo x, JsonClassGeneratorFieldInfo y)
         {
             return x?.MemberName == y?.MemberName && x?.JsonMemberName == y?.JsonMemberName;
         }
 
-        public int GetHashCode(FieldInfo obj)
+        public int GetHashCode(JsonClassGeneratorFieldInfo obj)
         {
             var hashCode = obj.MemberName != null ? obj.MemberName.GetHashCode() : 0;
             hashCode = (hashCode * 397) ^ (obj.JsonMemberName != null ? obj.JsonMemberName.GetHashCode() : 0);

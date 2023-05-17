@@ -57,7 +57,7 @@ namespace Pangoo
 
             mStream = File.Open(excelFile, FileMode.Open, FileAccess.Read);
             IExcelDataReader mExcelReader = ExcelReaderFactory.CreateOpenXmlReader(mStream);
-            var mResultSet = mExcelReader.AsDataSet();
+            DataSet mResultSet = mExcelReader.AsDataSet();
 
             //Debug.Log("json 写入地址："+JsonPath);
             //判断Excel文件中是否存在数据表

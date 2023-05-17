@@ -114,6 +114,27 @@ namespace Pangoo
         public List<UiConfigInfoRow> Rows ;
 
 
+        /// <summary> 获取表头 </summary>
+        public override string[] GetHeadNames()
+        {
+            return new string[]{"Id,Name,PackageName,ComponentName,SortingOrder,BlurMask,IgnoreNotch,NeverClose,IgnoreStack,HidePause"};
+        }
+
+
+        /// <summary> 获取类型名 </summary>
+        public override string[] GetTypeNames()
+        {
+            return new string[]{"int,string,string,string,int,bool,bool,bool,bool,bool"};
+        }
+
+
+        /// <summary> 获取描述名 </summary>
+        public override string[] GetDescNames()
+        {
+            return new string[]{"编号,UI名,FGUI包名,组件名,排序索引,模糊背景,忽略刘海屏,从不关闭,不进入堆栈,隐藏上层界面"};
+        }
+
+
         /// <summary> 反射获取配置文件路径 </summary>
         public static string DataFilePath()
         {
