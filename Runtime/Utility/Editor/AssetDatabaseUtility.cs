@@ -81,7 +81,26 @@ namespace Pangoo
             }
             return items.ToList();
         }
-        
+        /// <summary>
+        /// 拼接字符串
+        /// </summary>
+        /// <param name="DirPath">字符串数组</param>
+        /// <param name="separator">分隔符号</param>
+        /// <returns></returns>
+        public static string CombiningStrings(string[]DirPath,string separator)
+        {
+            string tmpStr = "";
+            foreach (var str in DirPath)
+            {
+                if (tmpStr!="")
+                {
+                    tmpStr += separator;
+                }
+                
+                tmpStr += str;
+            }
+            return tmpStr;
+        }
         
 #endif
     }

@@ -218,7 +218,7 @@ namespace Pangoo
         }
 
 
-        [Button("生成SO")]
+        [Button("生成SO",30)]
         public void BuildOverviewSo()
         {
             InitDirInfo();
@@ -296,161 +296,14 @@ namespace Pangoo
         [Button("生成CSV文件",30)]
         public void BuildCSVFile()
         {
-            object subObj=null;
-            FieldInfo[] fieldInfos=new FieldInfo[]{};
-            int listCount=0;
             string[] dirPath = new string[] { PackConfig.PackageDir};
-            //寻找到所有继承ExcelTableOverview的SO
+            //寻找到所有继承ExcelTableOverview的SO,调用其自身的build方法
             foreach (ExcelTableOverview excelTableOverviewSo in AssetDatabaseUtility.FindAllExcelTableOverviewSO(dirPath))
             {
-                #region 旧方法
-                // GetGenericTypeDataFields(excelTableOverviewSo,ref subObj,ref fieldInfos,ref listCount);
-                // CreateFile(fieldInfos,excelTableOverviewSo.GetName());
-                //
-                // //写入数据
-                // for (int i = 0; i < listCount; i++)
-                // {
-                //     Debug.Log("长度:"+listCount);
-                //     object item = subObj.GetType().GetProperty("Item").GetValue(subObj, new object[] { i });
-                //     fieldInfos = item.GetType().GetFields();
-                //     List<string> texts = new List<string>();
-                //     foreach (FieldInfo fieldInfo in fieldInfos)
-                //     {
-                //         texts.Add(fieldInfo.GetValue(item).ToString());
-                //     }
-                //     AppendToFile(texts,excelTableOverviewSo.GetName());
-                // }
-                
-
-                #endregion
-                
                 excelTableOverviewSo.BuildCSVFile();
             }
         }
-        /// <summary>
-        /// 传入需要查询的SO对象，通过反射打印其List
-        /// </summary>
-        /// <param name="excelTableOverviewSO"></param>
-        public void GetGenericTypeDataFields(ExcelTableOverview excelTableOverviewSO,ref object subObj,ref FieldInfo[] fieldInfos,ref int listCount)
-        {
-            //获得SO中的Data类型
-            Type type = excelTableOverviewSO.GetDataType();
 
-            // 通过类实例的Type获取所有公共字段
-            FieldInfo[] infos = type.GetFields();   //各SO的Rows
-            
-            foreach (FieldInfo info in infos)
-            {
-                if (info != null)
-                {
-                    // 判断字段类型是否为泛型类型，如：
-                    // typeof(int).IsGenericType --> False
-                    // typeof(List<int>).IsGenericType --> True
-                    // typeof(Dictionary<int>).IsGenericType --> True
-                    if (info.FieldType.IsGenericType)
-                    {
-                        // 获取该泛型属性值，返回一个列表，如List<Man>；
-                        // 因为是反射返回的数据，无法直接转换为List使用，针对这种数据，反射机制对这种属性值提供了
-                        // “Count”列表长度、“Item”子元素等属性；
-                        var dataField = excelTableOverviewSO.GetType().GetField("Data").GetValue(excelTableOverviewSO);
-                        subObj = info.GetValue(dataField);
-                        
-                        if (subObj!=null)
-                        {
-                            // 获取列表List<Man>长度
-                            listCount = Convert.ToInt32(subObj.GetType().GetProperty("Count").GetValue(subObj, null));
-                            
-                            for (int i = 0; i < listCount; i++)
-                            {
-                                // 获取列表子元素，然后子元素其实也是一个类，然后递归调用当前方法获取类的所有公共属性
-                                object item = subObj.GetType().GetProperty("Item").GetValue(subObj, new object[] { i });
-                                fieldInfos = item.GetType().GetFields();
-                            }
-                            
-                        }
-                    }
-                }
-            }
-        }
-        /// <summary>
-        /// 创建文件
-        /// </summary>
-        /// <param name="fieldInfos">传入的字段数组</param>
-        /// <param name="fileName">传入的文件名</param>
-        private void CreateFile(FieldInfo[] fieldInfos,string fileName)
-        {
-            VerifyCSVDirectory();
-            GetHeaderString(fieldInfos);
-            using (StreamWriter sw = File.CreateText(DirInfo.CSVDir+"/"+PackConfig.Lang+"/"+fileName+".csv"))
-            {
-                string finalString = "";
-                foreach (string header in csvHeader)
-                {
-                    if (finalString != "")
-                    {
-                        finalString += csvSeparator;
-                    }
-                    finalString += header;
-                }
-                sw.WriteLine(finalString);
-                
-                finalString = "";
-                foreach (string headerType in csvHeaderType)
-                {
-                    if (finalString != "")
-                    {
-                        finalString += csvSeparator;
-                    }
-                    finalString += headerType;
-                }
-                sw.WriteLine(finalString);
-            }
-        }
-        private void AppendToFile(List<string> strings,string fileName)
-        {
-            using (StreamWriter sw = File.AppendText(DirInfo.CSVDir+"/"+PackConfig.Lang+"/"+fileName+".csv"))
-            {
-                string finalString = "";
-                foreach (string text in strings)
-                {
-                    if (finalString != "")
-                    {
-                        finalString += csvSeparator;
-                    }
-                    finalString += text;
-                }
-                sw.WriteLine(finalString);
-            }
-        }
-
-        /// <summary>
-        /// 验证文件夹
-        /// </summary>
-        private void VerifyCSVDirectory()
-        {
-            string directory = DirInfo.CSVDir+"/"+PackConfig.Lang;
-            Debug.Log(directory);
-            if (!Directory.Exists(directory))
-            {
-                Directory.CreateDirectory(directory);
-            }
-        }
-
-        private void GetHeaderString(FieldInfo[] fieldInfos)
-        {
-            List<string> headerText = new List<string>();
-            List<string> headerTypeText = new List<string>();
-            List<string> headerDescText = new List<string>();
-            foreach (var field in fieldInfos)
-            {
-                headerText.Add(field.Name);
-                headerTypeText.Add(field.FieldType.Name);
-                headerDescText.Add("");
-            }
-            csvHeader = headerText;
-            csvHeaderType = headerTypeText;
-        }
-        
 #endif
     }
 
