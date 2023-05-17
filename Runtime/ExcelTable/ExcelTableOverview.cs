@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 #if UNITY_EDITOR
 using System.IO;
+using System.Text;
 using UnityEditor;
 #endif
 
@@ -95,11 +96,13 @@ namespace Pangoo
         /// <param name="RowTextList">写入的行文本</param>
         private void WriteTextToStreamWriter(StreamWriter sw,List<string[]> RowTextList)
         {
+            StringBuilder sb = new StringBuilder();
             foreach (var tableHead in RowTextList)
             {
                 string finalString = AssetDatabaseUtility.CombiningStrings(tableHead,",");
-                sw.WriteLine(finalString);
+                sb.AppendLine(finalString);
             }
+            sw.Write(sb.ToString());
         }
 
 
