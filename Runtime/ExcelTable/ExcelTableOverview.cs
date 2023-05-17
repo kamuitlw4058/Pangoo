@@ -63,36 +63,43 @@ namespace Pangoo
             }
         }
 
-        public void CreateFile(string[] headStrings, string fileName)
+        public List<string[]> tableHeadList=new List<string[]>();
+        public List<string[]> tableRowDataList=new List<string[]>();
+        
+        /// <summary>
+        /// 创建含有表头的文件
+        /// </summary>
+        /// <param name="filePath">输出的文件路径</param>
+        /// <param name="tableHeadList">表头列表</param>
+        public void CreateTableHeadToFile(string filePath,List<string[]>tableHeadList)
         {
-            using (StreamWriter sw = File.CreateText(PackageDir+"/"+csvDirPath + "/" + fileName + ".csv"))
+            using (StreamWriter sw = File.CreateText(filePath))
             {
-                string finalString = "";
-                foreach (string header in headStrings)
-                {
-                    if (finalString != "")
-                    {
-                        finalString += ",";
-                    }
-                    finalString += header;
-                }
-                sw.WriteLine(finalString);
+                WriteTextToStreamWriter(sw,tableHeadList);
             }
         }
-        
-        public void AppendToFile(string[] strings,string fileName)
+        /// <summary>
+        /// 追加数据到文件
+        /// </summary>
+        /// <param name="filePath">追加的文件路径</param>
+        /// <param name="tableRowDataList">每行数据</param>
+        public void AppendTableDataToFile(string filePath,List<string[]> tableRowDataList)
         {
-            using (StreamWriter sw = File.AppendText(PackageDir+"/"+csvDirPath + "/" + fileName + ".csv"))
+            using (StreamWriter sw = File.AppendText(filePath))
             {
-                string finalString = "";
-                foreach (string text in strings)
-                {
-                    if (finalString != "")
-                    {
-                        finalString += ",";
-                    }
-                    finalString += text;
-                }
+                WriteTextToStreamWriter(sw,tableRowDataList);
+            }
+        }
+        /// <summary>
+        /// 向文件流写入文本
+        /// </summary>
+        /// <param name="sw">指定文件流</param>
+        /// <param name="RowTextList">写入的行文本</param>
+        private void WriteTextToStreamWriter(StreamWriter sw,List<string[]> RowTextList)
+        {
+            foreach (var tableHead in RowTextList)
+            {
+                string finalString = AssetDatabaseUtility.CombiningStrings(tableHead,",");
                 sw.WriteLine(finalString);
             }
         }
