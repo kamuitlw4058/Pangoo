@@ -105,7 +105,7 @@ public class SDFShaderEntity : MonoBehaviour
                 break;
         }
 
-        if(materials == null || materials.Count > 0){
+        if(materials != null &&  materials.Count > 0){
             foreach(var material in materials){
                 material.EnableKeyword(EnableKeyword);
                 material.DisableKeyword(DisableKeyword);
