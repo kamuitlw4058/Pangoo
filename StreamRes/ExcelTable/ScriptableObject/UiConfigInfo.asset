@@ -25,13 +25,3 @@ MonoBehaviour:
       NeverClose: 0
       IgnoreStack: 0
       HidePause: 0
-    - Id: 0
-      Name: 123
-      PackageName: 123
-      ComponentName: 123
-      SortingOrder: 0
-      BlurMask: 0
-      IgnoreNotch: 0
-      NeverClose: 0
-      IgnoreStack: 0
-      HidePause: 0
