@@ -51,12 +51,10 @@ namespace Pangoo
         }
         
         /// <summary>
-        /// 验证文件夹
+        /// 验证CSV文件夹
         /// </summary>
-        public void VerifyCSVDirectory()
+        public void VerifyCSVDirectory(string directory)
         {
-            string directory = PackageDir+"/"+csvDirPath;
-            Debug.Log(directory);
             if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);

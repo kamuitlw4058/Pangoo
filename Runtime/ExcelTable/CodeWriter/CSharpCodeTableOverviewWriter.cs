@@ -197,7 +197,7 @@ namespace Pangoo
                 sw.WriteLine("          tableHeadList.Add(Data.GetHeadNames());");
                 sw.WriteLine("          tableHeadList.Add(Data.GetTypeNames());");
                 sw.WriteLine("          tableHeadList.Add(Data.GetDescNames());");
-                sw.WriteLine("          base.VerifyCSVDirectory();");
+                sw.WriteLine("          base.VerifyCSVDirectory(PackageDir+\"/\"+csvDirPath);");
                 sw.WriteLine("          base.CreateTableHeadToFile(outCSVPath, tableHeadList);");
                 sw.WriteLine("          foreach (var item in Data.Rows)");
                 sw.WriteLine("          {");

@@ -84,7 +84,7 @@ namespace Pangoo
           tableHeadList.Add(Data.GetHeadNames());
           tableHeadList.Add(Data.GetTypeNames());
           tableHeadList.Add(Data.GetDescNames());
-          base.VerifyCSVDirectory();
+          base.VerifyCSVDirectory(PackageDir+"/"+csvDirPath);
           base.CreateTableHeadToFile(outCSVPath, tableHeadList);
           foreach (var item in Data.Rows)
           {
