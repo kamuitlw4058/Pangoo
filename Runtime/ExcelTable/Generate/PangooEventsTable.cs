@@ -51,6 +51,27 @@ namespace Pangoo
         public List<PangooEventsRow> Rows ;
 
 
+        /// <summary> 获取表头 </summary>
+        public override string[] GetHeadNames()
+        {
+            return new string[]{"Namesapce,EventName,desc"};
+        }
+
+
+        /// <summary> 获取类型名 </summary>
+        public override string[] GetTypeNames()
+        {
+            return new string[]{"string,string,string"};
+        }
+
+
+        /// <summary> 获取描述名 </summary>
+        public override string[] GetDescNames()
+        {
+            return new string[]{"事件的命名空间,事件名称,描述"};
+        }
+
+
         /// <summary> 反射获取配置文件路径 </summary>
         public static string DataFilePath()
         {
