@@ -3,6 +3,7 @@ using UnityEngine;
 using LitJson;
 using System;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using System.IO;
 using System.Text;
@@ -51,6 +52,19 @@ namespace Pangoo
             
         }
         
+        public  void BuildCSVFile(ExcelTableBase Data)
+        {
+            string[] dirPaths = new string[] { PackageDir, csvDirPath };
+            string CSVDirPath = AssetDatabaseUtility.CombiningStrings(dirPaths, "/");
+            string outCSVFilePath = CSVDirPath+ "/" + this.name + ".csv";
+
+            VerifyCSVDirectory(CSVDirPath);
+            CreateTableHeadToFile(outCSVFilePath,Data.GetTableHeadList());
+            AppendTableDataToFile(outCSVFilePath,Data.GetTableRowDataList());
+            
+            AssetDatabase.Refresh();
+        }
+        
         /// <summary>
         /// 验证CSV文件夹
         /// </summary>
@@ -62,15 +76,12 @@ namespace Pangoo
             }
         }
 
-        public List<string[]> tableHeadList=new List<string[]>();
-        public List<string[]> tableRowDataList=new List<string[]>();
-        
         /// <summary>
         /// 创建含有表头的文件
         /// </summary>
         /// <param name="filePath">输出的文件路径</param>
         /// <param name="tableHeadList">表头列表</param>
-        public void CreateTableHeadToFile(string filePath,List<string[]>tableHeadList)
+        public void CreateTableHeadToFile(string filePath,List<string[]> tableHeadList)
         {
             using (StreamWriter sw = File.CreateText(filePath))
             {

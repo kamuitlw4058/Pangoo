@@ -41,6 +41,7 @@ namespace Pangoo
             [TableTitleGroup("描述")]
             [HideLabel]
             [ShowInInspector]
+            [Multiline]
             [JsonMember("desc")]
             public string Desc ;
         }
@@ -54,21 +55,38 @@ namespace Pangoo
         /// <summary> 获取表头 </summary>
         public override string[] GetHeadNames()
         {
-            return new string[]{"Namesapce,EventName,desc"};
+            return new string[]{"Namesapce","EventName","desc"};
         }
 
 
         /// <summary> 获取类型名 </summary>
         public override string[] GetTypeNames()
         {
-            return new string[]{"string,string,string"};
+            return new string[]{"string","string","string"};
         }
 
 
         /// <summary> 获取描述名 </summary>
         public override string[] GetDescNames()
         {
-            return new string[]{"事件的命名空间,事件名称,描述"};
+            return new string[]{"事件的命名空间","事件名称","描述"};
+        }
+
+
+        /// <summary> 获取描述名 </summary>
+        public override List<string[]> GetTableRowDataList()
+        {
+            List<string[]> tmpRowDataList = new List<string[]>();
+            foreach (var item in Rows)
+            {
+                string[] texts = new string[item.GetType().GetFields().Length];
+                for (int i = 0; i < texts.Length; i++)
+                {
+                  texts[i] = item.GetType().GetFields()[i].GetValue(item).ToString();
+                }
+                tmpRowDataList.Add(texts);
+            }
+            return tmpRowDataList;
         }
 
 
