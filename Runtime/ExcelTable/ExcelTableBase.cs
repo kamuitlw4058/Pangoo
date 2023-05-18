@@ -7,7 +7,6 @@ namespace Pangoo
 {
     public abstract class ExcelTableBase
     {
-
         public virtual void CustomInit()
         {
 
@@ -37,10 +36,24 @@ namespace Pangoo
         {
             
         }
-
+        
         public virtual string GetFieldDesc(string field)
         {
             return field;
+        }
+
+        public virtual List<string[]> GetTableHeadList()
+        {
+            List<string[]> tableHeadList = new List<string[]>();
+            tableHeadList.Add(GetHeadNames());
+            tableHeadList.Add(GetTypeNames());
+            tableHeadList.Add(GetDescNames());
+            
+            return tableHeadList;
+        }
+        public virtual List<string[]> GetTableRowDataList()
+        {
+            return null;
         }
     }
 

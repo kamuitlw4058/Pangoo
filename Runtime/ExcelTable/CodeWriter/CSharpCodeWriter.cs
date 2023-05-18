@@ -108,7 +108,7 @@ namespace Pangoo
             {
                 if (NameListString != "")
                 {
-                    NameListString += ",";
+                    NameListString += "\",\"";
                 }
 
                 NameListString += str;
@@ -119,7 +119,7 @@ namespace Pangoo
             {
                 if (cnNameListString != "")
                 {
-                    cnNameListString += ",";
+                    cnNameListString += "\",\"";
                 }
 
                 cnNameListString += str;
@@ -130,7 +130,7 @@ namespace Pangoo
             {
                 if (typeNameListString != "")
                 {
-                    typeNameListString += ",";
+                    typeNameListString += "\",\"";
                 }
 
                 typeNameListString += str;
@@ -157,6 +157,24 @@ namespace Pangoo
             sw.WriteLine("        public override string[] GetDescNames()");
             sw.WriteLine("        {");
             sw.WriteLine("            return new string[]{0};", "{\"" + cnNameListString + "\"}");
+            sw.WriteLine("        }");
+            sw.WriteLine();
+            
+            sw.WriteLine();
+            sw.WriteLine("        /// <summary> 获取描述名 </summary>");
+            sw.WriteLine("        public override List<string[]> GetTableRowDataList()");
+            sw.WriteLine("        {");
+            sw.WriteLine("            List<string[]> tmpRowDataList = new List<string[]>();");
+            sw.WriteLine("            foreach (var item in Rows)");
+            sw.WriteLine("            {");
+            sw.WriteLine("                string[] texts = new string[item.GetType().GetFields().Length];");
+            sw.WriteLine("                for (int i = 0; i < texts.Length; i++)");
+            sw.WriteLine("                {");
+            sw.WriteLine("                  texts[i] = item.GetType().GetFields()[i].GetValue(item).ToString();");
+            sw.WriteLine("                }");
+            sw.WriteLine("                tmpRowDataList.Add(texts);");
+            sw.WriteLine("            }");
+            sw.WriteLine("            return tmpRowDataList;");
             sw.WriteLine("        }");
             sw.WriteLine();
 

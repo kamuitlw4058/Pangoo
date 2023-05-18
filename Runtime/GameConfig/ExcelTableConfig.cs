@@ -68,12 +68,6 @@ namespace Pangoo
             "UnityEngine",
             "Sirenix.OdinInspector",
         };
-        //CSV表头
-        private List<string> csvHeader;
-        [ShowInInspector]
-        private List<string> csvHeaderType;
-        private List<string> csvHeaderDesc;
-        private string csvSeparator = ",";
 
         void InitDir(PackageConfig config, ref ExcelDirInfo entry)
         {

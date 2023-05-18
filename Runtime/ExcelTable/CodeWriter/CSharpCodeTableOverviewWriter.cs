@@ -190,26 +190,7 @@ namespace Pangoo
                 sw.WriteLine("        /// <summary> 生成CSV文件</summary>");
                 sw.WriteLine("        public override void BuildCSVFile()");
                 sw.WriteLine("        {");
-                sw.WriteLine("          string[] CSVDirPath = new string[] { PackageDir, csvDirPath };");
-                sw.WriteLine("          string outCSVPath = AssetDatabaseUtility.CombiningStrings(CSVDirPath, \"/\") + \"/\" + this.name + \".csv\";");
-                sw.WriteLine("          tableHeadList = new List<string[]>();");
-                sw.WriteLine("          tableRowDataList = new List<string[]>();");
-                sw.WriteLine("          tableHeadList.Add(Data.GetHeadNames());");
-                sw.WriteLine("          tableHeadList.Add(Data.GetTypeNames());");
-                sw.WriteLine("          tableHeadList.Add(Data.GetDescNames());");
-                sw.WriteLine("          base.VerifyCSVDirectory(PackageDir+\"/\"+csvDirPath);");
-                sw.WriteLine("          base.CreateTableHeadToFile(outCSVPath, tableHeadList);");
-                sw.WriteLine("          foreach (var item in Data.Rows)");
-                sw.WriteLine("          {");
-                sw.WriteLine("              string[] texts = new string[item.GetType().GetFields().Length];");
-                sw.WriteLine("              for (int i = 0; i < texts.Length; i++)");
-                sw.WriteLine("              {");
-                sw.WriteLine("                  texts[i] = item.GetType().GetFields()[i].GetValue(item).ToString();");
-                sw.WriteLine("              }");
-                sw.WriteLine("              tableRowDataList.Add(texts);");
-                sw.WriteLine("          }");
-                sw.WriteLine("        base.AppendTableDataToFile(outCSVPath, tableRowDataList);");
-                sw.WriteLine("        AssetDatabase.Refresh();");
+                sw.WriteLine("          BuildCSVFile(Data);");
                 sw.WriteLine("        }");
                 sw.WriteLine();
 
