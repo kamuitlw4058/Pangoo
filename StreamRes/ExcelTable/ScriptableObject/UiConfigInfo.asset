@@ -52,26 +52,6 @@ MonoBehaviour:
       SortingOrder: 0
       BlurMask: 0
       IgnoreNotch: 0
-      NeverClose: 1
-      IgnoreStack: 1
-      HidePause: 0
-    - Id: 44
-      Name: 
-      PackageName: 
-      ComponentName: 
-      SortingOrder: 5
-      BlurMask: 0
-      IgnoreNotch: 0
-      NeverClose: 0
-      IgnoreStack: 0
-      HidePause: 0
-    - Id: 4
-      Name: 
-      PackageName: 
-      ComponentName: 
-      SortingOrder: 5
-      BlurMask: 0
-      IgnoreNotch: 0
       NeverClose: 0
       IgnoreStack: 0
       HidePause: 0

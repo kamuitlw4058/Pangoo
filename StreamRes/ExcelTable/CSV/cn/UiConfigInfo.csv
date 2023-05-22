@@ -4,7 +4,4 @@ int,string,string,string,int,bool,bool,bool,bool,bool
 0,a,b,c,0,False,False,False,False,False
 1,y,u,i,1,False,False,False,False,False
 2,,,,0,True,True,False,False,False
-3,,,,0,False,False,True,True,False
-44,,,,5,False,False,False,False,False
-4,,,,5,False,False,False,False,False
-0,,,,0,False,False,False,False,False
+3,,,,0,False,False,False,False,False
