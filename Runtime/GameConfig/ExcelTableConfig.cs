@@ -177,38 +177,8 @@ namespace Pangoo
                 var classBaseName = JsonClassGenerator.ToTitleCase($"{entry.ExcelName}");
                 var className = JsonClassGenerator.ToTitleCase($"{entry.ExcelName}Table");
                 ExcelTableData ExcelData = ExcelTableData.Parser(excelPath, classBaseName);
-                var json = DataTableDataGenerator.BuildTableDataJson(ExcelData);
-                var jsonPath = Path.Join(DirInfo.JsonDir, $"{className}.json").Replace("\\", "/");
-                if (json != null)
-                {
 
-                    using (FileStream fileStream = new FileStream(jsonPath, FileMode.Create, FileAccess.Write))
-                    {
-                        using (TextWriter textWriter = new StreamWriter(fileStream, Encoding.UTF8))
-                        {
-                            textWriter.Write(json);
-                        }
-                    }
-                }
-                
-                var codeJson = DataTableCodeGenerator.BuildTableCodeJson(ExcelData);
-                if (codeJson != null)
-                {
-                    Debug.Log($"Build Class:{className}");
-                    var codePath = Path.Join(DirInfo.ScriptGenerateDir, $"{className}.cs");
-                    JsonClassGenerator.GeneratorCodeString(codeJson, Namespace, new CSharpCodeWriter(UsingNamespace, ExcelData), className, codePath, jsonPath);
-
-                    var codeCustomPath = Path.Join(DirInfo.ScriptCustomDir, $"{className}.Custom.cs");
-                    if (!File.Exists(codeCustomPath))
-                    {
-                        JsonClassGenerator.GeneratorCodeString("{}", Namespace, new CSharpCodeCustomWriter(UsingNamespace, ExcelData), className, codeCustomPath);
-                    }
-
-                    var overviewPath = Path.Join(DirInfo.ScriptOverviewDir, $"{className}Overview.cs");
-                    JsonClassGenerator.GeneratorCodeString("{}", Namespace, new CSharpCodeTableOverviewWriter(UsingNamespace, ExcelData,DirInfo.PackageDir, DirInfo.JsonRelativeDir), className, overviewPath);
-
-                }
-
+                GeneratorCode(ExcelData,className);
             }
             AssetDatabase.Refresh();
         }
@@ -225,38 +195,8 @@ namespace Pangoo
                 var classBaseName = JsonClassGenerator.ToTitleCase($"{entry.name}");
                 var className = JsonClassGenerator.ToTitleCase($"{entry.name}Table");
                 ExcelTableData ExcelData = ExcelTableData.ParserCSV(csvFilePath, classBaseName);
-                
-                var json = DataTableDataGenerator.BuildCSVTableDataJson(ExcelData);
-                var jsonPath = Path.Join(DirInfo.JsonDir, $"{className}.json").Replace("\\", "/");
-                if (json != null)
-                {
 
-                    using (FileStream fileStream = new FileStream(jsonPath, FileMode.Create, FileAccess.Write))
-                    {
-                        using (TextWriter textWriter = new StreamWriter(fileStream, Encoding.UTF8))
-                        {
-                            textWriter.Write(json);
-                        }
-                    }
-                }
-                
-                var codeJson = DataTableCodeGenerator.BuildTableCodeJson(ExcelData);
-                if (codeJson != null)
-                {
-                    Debug.Log($"Build Class:{className}");
-                    var codePath = Path.Join(DirInfo.ScriptGenerateDir, $"{className}.cs");
-                    JsonClassGenerator.GeneratorCodeString(codeJson, Namespace, new CSharpCodeWriter(UsingNamespace, ExcelData), className, codePath, jsonPath);
-
-                    var codeCustomPath = Path.Join(DirInfo.ScriptCustomDir, $"{className}.Custom.cs");
-                    if (!File.Exists(codeCustomPath))
-                    {
-                        JsonClassGenerator.GeneratorCodeString("{}", Namespace, new CSharpCodeCustomWriter(UsingNamespace, ExcelData), className, codeCustomPath);
-                    }
-
-                    var overviewPath = Path.Join(DirInfo.ScriptOverviewDir, $"{className}Overview.cs");
-                    JsonClassGenerator.GeneratorCodeString("{}", Namespace, new CSharpCodeTableOverviewWriter(UsingNamespace, ExcelData,DirInfo.PackageDir, DirInfo.JsonRelativeDir), className, overviewPath);
-
-                }
+                GeneratorCode(ExcelData,className);
             }
             AssetDatabase.Refresh();
         }
@@ -265,7 +205,7 @@ namespace Pangoo
         public void BuildOverviewSo()
         {
             InitDirInfo();
-            foreach (var excelEntry in ExcelList)
+            foreach (ExcelEntry excelEntry in ExcelList)
             {
                 var className = JsonClassGenerator.ToTitleCase($"{excelEntry.ExcelName}Table");
                 var classNamesapce = string.IsNullOrEmpty(excelEntry.BaseNamespace) ? Namespace : excelEntry.BaseNamespace;
@@ -349,6 +289,13 @@ namespace Pangoo
             System.Diagnostics.Process.Start("explorer.exe", Path.GetFullPath(filePath));
         }
         
+        [Button("打开CSV文件夹",30)]
+        public void OpenCSVFileDir()
+        {
+            var filePath = DirInfo.CSVDir;
+            System.Diagnostics.Process.Start("explorer.exe", Path.GetFullPath(filePath));
+        }
+        
         [Button("定位SO文件夹",30)]
         public void OpenSODir()
         {
@@ -368,6 +315,44 @@ namespace Pangoo
             foreach (ExcelTableOverview excelTableOverviewSo in AssetDatabaseUtility.FindAsset<ExcelTableOverview>(dirPath))
             {
                 excelTableOverviewSo.BuildCSVFile();
+            }
+        }
+        /// <summary>
+        /// 根据ExcelData数据生成代码
+        /// </summary>
+        /// <param name="ExcelData">传入的数据</param>
+        /// <param name="className">生成的脚本名</param>
+        public void GeneratorCode(ExcelTableData ExcelData,string className)
+        {
+            var json = DataTableDataGenerator.BuildCSVTableDataJson(ExcelData);
+            var jsonPath = Path.Join(DirInfo.JsonDir, $"{className}.json").Replace("\\", "/");
+            
+            if (json != null)
+            {
+                using (FileStream fileStream = new FileStream(jsonPath, FileMode.Create, FileAccess.Write))
+                {
+                    using (TextWriter textWriter = new StreamWriter(fileStream, Encoding.UTF8))
+                    {
+                        textWriter.Write(json);
+                    }
+                }
+            }
+                
+            var codeJson = DataTableCodeGenerator.BuildTableCodeJson(ExcelData);
+            if (codeJson != null)
+            {
+                Debug.Log($"Build Class:{className}");
+                var codePath = Path.Join(DirInfo.ScriptGenerateDir, $"{className}.cs");
+                JsonClassGenerator.GeneratorCodeString(codeJson, Namespace, new CSharpCodeWriter(UsingNamespace, ExcelData), className, codePath, jsonPath);
+
+                var codeCustomPath = Path.Join(DirInfo.ScriptCustomDir, $"{className}.Custom.cs");
+                if (!File.Exists(codeCustomPath))
+                {
+                    JsonClassGenerator.GeneratorCodeString("{}", Namespace, new CSharpCodeCustomWriter(UsingNamespace, ExcelData), className, codeCustomPath);
+                }
+
+                var overviewPath = Path.Join(DirInfo.ScriptOverviewDir, $"{className}Overview.cs");
+                JsonClassGenerator.GeneratorCodeString("{}", Namespace, new CSharpCodeTableOverviewWriter(UsingNamespace, ExcelData,DirInfo.PackageDir, DirInfo.JsonRelativeDir), className, overviewPath);
             }
         }
 
