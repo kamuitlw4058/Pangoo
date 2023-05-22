@@ -8,6 +8,7 @@ using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Object = System.Object;
 
 #if UNITY_EDITOR
 using System.Reflection;
@@ -56,6 +57,9 @@ namespace Pangoo
 
         [TableList]
         public List<ExcelEntry> ExcelList = new List<ExcelEntry>();
+        
+        [AssetList(AutoPopulate = true,Path = "/Plugins/Pangoo/StreamRes/ExcelTable/CSV")]
+        public List<TextAsset> CSVFileList;
 
         [FormerlySerializedAs("Headers")]
         public List<string> UsingNamespace = new List<string>()
@@ -172,7 +176,7 @@ namespace Pangoo
                 Debug.Log($"Start Build:{excelPath}");
                 var classBaseName = JsonClassGenerator.ToTitleCase($"{entry.ExcelName}");
                 var className = JsonClassGenerator.ToTitleCase($"{entry.ExcelName}Table");
-                var ExcelData = ExcelTableData.Parser(excelPath, classBaseName);
+                ExcelTableData ExcelData = ExcelTableData.Parser(excelPath, classBaseName);
                 var json = DataTableDataGenerator.BuildTableDataJson(ExcelData);
                 var jsonPath = Path.Join(DirInfo.JsonDir, $"{className}.json").Replace("\\", "/");
                 if (json != null)
@@ -186,12 +190,10 @@ namespace Pangoo
                         }
                     }
                 }
-
-
+                
                 var codeJson = DataTableCodeGenerator.BuildTableCodeJson(ExcelData);
                 if (codeJson != null)
                 {
-
                     Debug.Log($"Build Class:{className}");
                     var codePath = Path.Join(DirInfo.ScriptGenerateDir, $"{className}.cs");
                     JsonClassGenerator.GeneratorCodeString(codeJson, Namespace, new CSharpCodeWriter(UsingNamespace, ExcelData), className, codePath, jsonPath);
@@ -211,6 +213,53 @@ namespace Pangoo
             AssetDatabase.Refresh();
         }
 
+        [Button("CSV生成CSVTable代码", 30)]
+        public void CSVBuildCSVTableCode()
+        {
+            InitDirInfo();
+            foreach (var entry in CSVFileList)
+            {
+                var csvFilePath = Path.Join(DirInfo.CSVDir,PackConfig.Lang, $"{entry.name}.csv").Replace("\\", "/");
+                Debug.Log($"Start Build:{csvFilePath}");
+                
+                var classBaseName = JsonClassGenerator.ToTitleCase($"{entry.name}");
+                var className = JsonClassGenerator.ToTitleCase($"{entry.name}Table");
+                ExcelTableData ExcelData = ExcelTableData.ParserCSV(csvFilePath, classBaseName);
+                
+                var json = DataTableDataGenerator.BuildCSVTableDataJson(ExcelData);
+                var jsonPath = Path.Join(DirInfo.JsonDir, $"{className}.json").Replace("\\", "/");
+                if (json != null)
+                {
+
+                    using (FileStream fileStream = new FileStream(jsonPath, FileMode.Create, FileAccess.Write))
+                    {
+                        using (TextWriter textWriter = new StreamWriter(fileStream, Encoding.UTF8))
+                        {
+                            textWriter.Write(json);
+                        }
+                    }
+                }
+                
+                var codeJson = DataTableCodeGenerator.BuildTableCodeJson(ExcelData);
+                if (codeJson != null)
+                {
+                    Debug.Log($"Build Class:{className}");
+                    var codePath = Path.Join(DirInfo.ScriptGenerateDir, $"{className}.cs");
+                    JsonClassGenerator.GeneratorCodeString(codeJson, Namespace, new CSharpCodeWriter(UsingNamespace, ExcelData), className, codePath, jsonPath);
+
+                    var codeCustomPath = Path.Join(DirInfo.ScriptCustomDir, $"{className}.Custom.cs");
+                    if (!File.Exists(codeCustomPath))
+                    {
+                        JsonClassGenerator.GeneratorCodeString("{}", Namespace, new CSharpCodeCustomWriter(UsingNamespace, ExcelData), className, codeCustomPath);
+                    }
+
+                    var overviewPath = Path.Join(DirInfo.ScriptOverviewDir, $"{className}Overview.cs");
+                    JsonClassGenerator.GeneratorCodeString("{}", Namespace, new CSharpCodeTableOverviewWriter(UsingNamespace, ExcelData,DirInfo.PackageDir, DirInfo.JsonRelativeDir), className, overviewPath);
+
+                }
+            }
+            AssetDatabase.Refresh();
+        }
 
         [Button("生成SO",30)]
         public void BuildOverviewSo()
@@ -292,7 +341,8 @@ namespace Pangoo
         {
             string[] dirPath = new string[] { PackConfig.PackageDir};
             //寻找到所有继承ExcelTableOverview的SO,调用其自身的build方法
-            foreach (ExcelTableOverview excelTableOverviewSo in AssetDatabaseUtility.FindAllExcelTableOverviewSO(dirPath))
+            //foreach (ExcelTableOverview excelTableOverviewSo in AssetDatabaseUtility.FindAllExcelTableOverviewSO(dirPath))
+            foreach (ExcelTableOverview excelTableOverviewSo in AssetDatabaseUtility.FindAsset<ExcelTableOverview>(dirPath))
             {
                 excelTableOverviewSo.BuildCSVFile();
             }
@@ -334,6 +384,27 @@ namespace Pangoo
     public class ExcelEntry
     {
         public string ExcelName;
+
+        [ValueDropdown("GetNamespaces")]
+        public string BaseNamespace;
+
+
+        public bool LoadAtRuntime = true;
+
+#if UNITY_EDITOR
+        IEnumerable GetNamespaces()
+        {
+            return GameSupportEditorUtility.GetNamespaces();
+
+        }
+
+#endif
+    }
+    
+    [Serializable]
+    public class CSVEntry
+    {
+        public string CSVName;
 
         [ValueDropdown("GetNamespaces")]
         public string BaseNamespace;

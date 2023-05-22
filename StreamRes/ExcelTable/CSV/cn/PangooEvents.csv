@@ -1,7 +1,5 @@
 Namesapce,EventName,desc
 string,string,string
 事件的命名空间,事件名称,描述
-Pangoo,ResourceInitComplete,"abc,/
-资源组件,初始化
-123\"
-Pangoo,EventTrigger,条件触发事件，用来出发外部定义事件
+Pangoo,ResourceInitComplete,资源组件初始化
+Pangoo,EventTrigger,条件触发事件用来出发外部定义事件

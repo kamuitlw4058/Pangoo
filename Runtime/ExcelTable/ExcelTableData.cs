@@ -37,6 +37,7 @@ namespace Pangoo
         public List<string> TypeList;
         public List<string> NameList;
         public List<string> CnNameLst;
+        public List<List<string>> result;
 
         Dictionary<string, ExcelTableColInfo> ColInfnDict;
 
@@ -125,6 +126,63 @@ namespace Pangoo
                 ClassBaseName = className,
             };
         }
+        
+        public static ExcelTableData ParserCSV(string csvFile, string className, int headCount = 3)
+        {
 
+            //默认读取第一个数据表
+            List<List<string>> result = CSVHelper.ParseCSV(File.ReadAllText(csvFile));
+            
+
+            //读取数据表行数和列数
+            int rowCount = result.Count;       //行
+            int colCount = result[0].Count;    //列
+
+            List<string> typesLst = new List<string>();
+            List<string> namesLst = new List<string>();
+            List<string> cnNameLst = new List<string>();
+            
+            Dictionary<string, ExcelTableColInfo> colInfoDict = new Dictionary<string, ExcelTableColInfo>();
+
+            namesLst = result[0];
+            typesLst = result[1];
+            cnNameLst = result[2];
+            
+            for (int i = 0; i < colCount; i++)
+            {
+                string name = namesLst[i].ToString();
+                string type = typesLst[i].ToString();
+                string cnName = cnNameLst[i].ToString();
+                
+                if (colInfoDict.ContainsKey(name))
+                {
+                    throw new Exception($"ExcelTableData 文件:{csvFile} Cols:{colCount} 有重名列:{name}");
+                }
+                colInfoDict.Add(name, new ExcelTableColInfo()
+                {
+                    Name = name,
+                    Type = type,
+                    CnName = cnName,
+                    Desc = string.Empty,
+                });
+                Debug.Log(namesLst[i]);
+            }
+            
+
+
+            return new ExcelTableData()
+            {
+                //DataTable = mSheet,
+                Rows = rowCount,
+                Cols = colCount,
+                TypeList = typesLst,
+                NameList = namesLst,
+                CnNameLst = cnNameLst,
+                ColInfnDict = colInfoDict,
+                HeadCount = headCount,
+                ClassBaseName = className,
+                result = result,
+            };
+        }
     }
 }

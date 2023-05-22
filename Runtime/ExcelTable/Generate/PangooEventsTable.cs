@@ -41,7 +41,6 @@ namespace Pangoo
             [TableTitleGroup("描述")]
             [HideLabel]
             [ShowInInspector]
-            [Multiline]
             [JsonMember("desc")]
             public string Desc ;
         }
