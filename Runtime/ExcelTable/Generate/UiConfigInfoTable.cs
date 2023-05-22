@@ -144,7 +144,15 @@ namespace Pangoo
                 string[] texts = new string[item.GetType().GetFields().Length];
                 for (int i = 0; i < texts.Length; i++)
                 {
-                  texts[i] = item.GetType().GetFields()[i].GetValue(item).ToString();
+                    if (item.GetType().GetFields()[i].GetValue(item)!=null)
+                    {
+                        texts[i] = item.GetType().GetFields()[i].GetValue(item).ToString();
+                    }
+                    else
+                    {
+                        texts[i] = "";
+                    }
+
                 }
                 tmpRowDataList.Add(texts);
             }

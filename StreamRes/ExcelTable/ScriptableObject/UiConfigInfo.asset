@@ -25,3 +25,53 @@ MonoBehaviour:
       NeverClose: 0
       IgnoreStack: 0
       HidePause: 0
+    - Id: 1
+      Name: y
+      PackageName: u
+      ComponentName: i
+      SortingOrder: 1
+      BlurMask: 0
+      IgnoreNotch: 0
+      NeverClose: 0
+      IgnoreStack: 0
+      HidePause: 0
+    - Id: 2
+      Name: 
+      PackageName: 
+      ComponentName: 
+      SortingOrder: 0
+      BlurMask: 1
+      IgnoreNotch: 1
+      NeverClose: 0
+      IgnoreStack: 0
+      HidePause: 0
+    - Id: 3
+      Name: 
+      PackageName: 
+      ComponentName: 
+      SortingOrder: 0
+      BlurMask: 0
+      IgnoreNotch: 0
+      NeverClose: 1
+      IgnoreStack: 1
+      HidePause: 0
+    - Id: 44
+      Name: 
+      PackageName: 
+      ComponentName: 
+      SortingOrder: 5
+      BlurMask: 0
+      IgnoreNotch: 0
+      NeverClose: 0
+      IgnoreStack: 0
+      HidePause: 0
+    - Id: 4
+      Name: 
+      PackageName: 
+      ComponentName: 
+      SortingOrder: 5
+      BlurMask: 0
+      IgnoreNotch: 0
+      NeverClose: 0
+      IgnoreStack: 0
+      HidePause: 0
