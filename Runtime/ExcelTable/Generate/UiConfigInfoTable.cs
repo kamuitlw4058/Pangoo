@@ -133,7 +133,7 @@ namespace Pangoo
         {
             return new string[]{"编号","UI名","FGUI包名","组件名","排序索引","模糊背景","忽略刘海屏","从不关闭","不进入堆栈","隐藏上层界面"};
         }
-        
+
 
         /// <summary> 获取描述名 </summary>
         public override List<string[]> GetTableRowDataList()
@@ -144,7 +144,7 @@ namespace Pangoo
                 string[] texts = new string[item.GetType().GetFields().Length];
                 for (int i = 0; i < texts.Length; i++)
                 {
-                    texts[i] = item.GetType().GetFields()[i].GetValue(item) != null ? item.GetType().GetFields()[i].GetValue(item)?.ToString() : "";
+                  texts[i] = item.GetType().GetFields()[i].GetValue(item) != null ? item.GetType().GetFields()[i].GetValue(item)?.ToString() : "";
                 }
                 tmpRowDataList.Add(texts);
             }
