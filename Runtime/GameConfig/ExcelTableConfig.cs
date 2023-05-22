@@ -261,7 +261,7 @@ namespace Pangoo
             AssetDatabase.Refresh();
         }
 
-        [Button("生成SO",30)]
+        [Button("Excel生成SO",30)]
         public void BuildOverviewSo()
         {
             InitDirInfo();
@@ -284,7 +284,30 @@ namespace Pangoo
 
             AssetDatabase.Refresh();
         }
+        
+        [Button("CSV生成SO",30)]
+        public void CSVBuildOverviewSo()
+        {
+            InitDirInfo();
+            foreach (TextAsset excelEntry in CSVFileList)
+            {
+                var className = JsonClassGenerator.ToTitleCase($"{excelEntry.name}Table");
+                var classNamesapce = Namespace;
+                var so = ScriptableObject.CreateInstance($"{classNamesapce}.{className}Overview") as ExcelTableOverview;
+                var path = Path.Join(DirInfo.ScriptableObjectDir, $"{excelEntry.name}.asset");
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+                so.Namespace = Namespace;
+                so.PackageDir = PackConfig.PackageDir;
+                so.csvDirPath ="StreamRes/ExcelTable/CSV/"+PackConfig.Lang;
+                so.LoadFromJson();
+                AssetDatabase.CreateAsset(so, path);
+            }
 
+            AssetDatabase.Refresh();
+        }
 
         [Button("从Excel生成Json", 30)]
         public void ReloadFromExcel(){
