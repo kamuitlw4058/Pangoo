@@ -23,7 +23,6 @@ using UnityGameFramework.Runtime;
 
 namespace Pangoo
 {
-
     /// <summary>
     /// FGUI组件。
     /// </summary>
@@ -603,5 +602,6 @@ namespace Pangoo
         public UILogicBase UILogic;
 
         public object UserData;
-    #endif
+    }
+#endif
 }
