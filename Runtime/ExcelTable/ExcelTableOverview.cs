@@ -54,8 +54,7 @@ namespace Pangoo
         
         public  void BuildCSVFile(ExcelTableBase Data)
         {
-            string[] dirPaths = new string[] { PackageDir, csvDirPath };
-            string CSVDirPath = AssetDatabaseUtility.CombiningStrings(dirPaths, "/");
+            string CSVDirPath = Path.Join(PackageDir,csvDirPath);
             string outCSVFilePath = CSVDirPath+ "/" + this.name + ".csv";
 
             VerifyCSVDirectory(CSVDirPath);
