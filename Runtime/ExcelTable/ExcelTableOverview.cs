@@ -47,6 +47,33 @@ namespace Pangoo
         }
         
         
+        
+
+
+#if UNITY_EDITOR
+
+
+        public virtual void LoadFromJson()
+        {
+
+        }
+
+        public virtual void SaveJson()
+        {
+        }
+
+        public virtual void SaveExcel()
+        {
+            
+        }
+
+        public virtual void LoadCSVFile()
+        {
+            
+        }
+
+        
+        
         public virtual void BuildCSVFile()
         {
             
@@ -113,24 +140,6 @@ namespace Pangoo
                 sb.AppendLine(finalString);
             }
             sw.Write(sb.ToString());
-        }
-
-
-#if UNITY_EDITOR
-
-
-        public virtual void LoadFromJson()
-        {
-
-        }
-
-        public virtual void SaveJson()
-        {
-        }
-
-        public virtual void SaveExcel()
-        {
-            
         }
 #endif
     }

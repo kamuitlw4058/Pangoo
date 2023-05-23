@@ -72,7 +72,7 @@ namespace Pangoo
         }
 
 
-        /// <summary> 获取描述名 </summary>
+        /// <summary> 获取表的每行数据 </summary>
         public override List<string[]> GetTableRowDataList()
         {
             List<string[]> tmpRowDataList = new List<string[]>();
@@ -87,6 +87,23 @@ namespace Pangoo
                 tmpRowDataList.Add(texts);
             }
             return tmpRowDataList;
+        }
+        /// <summary> 从CSV文件重新构建数据 </summary>
+        public virtual void LoadCSVFile(string csvFilePath)
+        {
+            Rows=new ();
+            var result = CSVHelper.ParseCSV(File.ReadAllText(csvFilePath));
+            for (int i = GetTableHeadList().Count; i < result.Count; i++)
+            {
+               PangooEventsRow  eventsRow = new PangooEventsRow();
+                var eventRowFieldInfos = eventsRow.GetType().GetFields();
+                for (int j = 0; j < eventRowFieldInfos.Length; j++)
+                {
+                       var value = StringConvert.ToValue(eventRowFieldInfos[j].FieldType, result[i][j].ToString());
+                       eventRowFieldInfos[j].SetValue(eventsRow,value);
+                }
+                Rows.Add(eventsRow);
+            }
         }
 
 

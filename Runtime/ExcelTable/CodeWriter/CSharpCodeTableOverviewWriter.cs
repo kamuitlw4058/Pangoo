@@ -169,7 +169,7 @@ namespace Pangoo
                 sw.WriteLine($"          Data =  JsonMapper.ToObject<{m_ExcelData.ClassName}>(json);");
                 sw.WriteLine("       }");
                 sw.WriteLine();
-
+                
                 sw.WriteLine();
                 sw.WriteLine("       [Button(\"生成Json\",30)]");
                 sw.WriteLine("       public override void SaveJson()");
@@ -183,6 +183,18 @@ namespace Pangoo
                 sw.WriteLine("           }");
                 sw.WriteLine("           SaveConfig();");
                 sw.WriteLine("       }");
+                sw.WriteLine();
+                
+                sw.WriteLine();
+                sw.WriteLine("       [Button(\"从CSV文件重构数据\",30)]");
+                sw.WriteLine("        /// <summary> 加载CSV文件</summary>");
+                sw.WriteLine("        public override void LoadCSVFile()");
+                sw.WriteLine("        {");
+                //sw.WriteLine("          Data = new ();");
+                sw.WriteLine("          string CSVDirPath = Path.Join(PackageDir,csvDirPath);");
+                sw.WriteLine("          string csvFile=CSVDirPath+ \"/\" + this.name + \".csv\";");
+                sw.WriteLine("          Data.LoadCSVFile(csvFile);");
+                sw.WriteLine("        }");
                 sw.WriteLine();
                 
                 sw.WriteLine();

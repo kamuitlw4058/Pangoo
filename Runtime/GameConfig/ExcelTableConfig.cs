@@ -231,9 +231,9 @@ namespace Pangoo
             InitDirInfo();
             foreach (TextAsset excelEntry in CSVFileList)
             {
-                var className = JsonClassGenerator.ToTitleCase($"{excelEntry.name}Table");
+                var className = ($"{excelEntry.name}Table");
                 var classNamesapce = Namespace;
-                var so = ScriptableObject.CreateInstance($"{classNamesapce}.{className}Overview") as ExcelTableOverview;
+                ExcelTableOverview so = ScriptableObject.CreateInstance($"{classNamesapce}.{className}Overview") as ExcelTableOverview;
                 var path = Path.Join(DirInfo.ScriptableObjectDir, $"{excelEntry.name}.asset");
                 if (File.Exists(path))
                 {
@@ -242,10 +242,9 @@ namespace Pangoo
                 so.Namespace = Namespace;
                 so.PackageDir = PackConfig.PackageDir;
                 so.csvDirPath ="StreamRes/ExcelTable/CSV/"+PackConfig.Lang;
-                so.LoadFromJson();
                 AssetDatabase.CreateAsset(so, path);
+                so.LoadCSVFile();
             }
-
             AssetDatabase.Refresh();
         }
 

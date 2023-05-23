@@ -14,10 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   csvDirPath: StreamRes/ExcelTable/CSV/cn
   Data:
-    Rows:
-    - Namesapce: Pangoo
-      EventName: ResourceInitComplete
-      Desc: "\u8D44\u6E90\u7EC4\u4EF6\u521D\u59CB\u5316"
-    - Namesapce: Pangoo
-      EventName: EventTrigger
-      Desc: "\u6761\u4EF6\u89E6\u53D1\u4E8B\u4EF6\u7528\u6765\u51FA\u53D1\u5916\u90E8\u5B9A\u4E49\u4E8B\u4EF6"
+    Rows: []
