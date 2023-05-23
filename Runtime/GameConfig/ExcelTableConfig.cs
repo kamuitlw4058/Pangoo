@@ -243,9 +243,9 @@ namespace Pangoo
                 so.PackageDir = PackConfig.PackageDir;
                 so.csvDirPath ="StreamRes/ExcelTable/CSV/"+PackConfig.Lang;
                 AssetDatabase.CreateAsset(so, path);
-                AssetDatabase.Refresh();
                 so.LoadCSVFile();
             }
+            AssetDatabase.Refresh();
         }
 
         [Button("从Excel生成Json", 30)]
