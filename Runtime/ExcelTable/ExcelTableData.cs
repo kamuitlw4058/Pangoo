@@ -127,10 +127,18 @@ namespace Pangoo
             };
         }
         
+        /// <summary>
+        /// 解析CSV文件
+        /// </summary>
+        /// <param name="csvFile">要解析的CSV文件</param>
+        /// <param name="className">类名</param>
+        /// <param name="headCount">表头行数</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public static ExcelTableData ParserCSV(string csvFile, string className, int headCount = 3)
         {
 
-            //默认读取第一个数据表
+            //解析后的数据
             List<List<string>> result = CSVHelper.ParseCSV(File.ReadAllText(csvFile));
             
 
@@ -165,7 +173,6 @@ namespace Pangoo
                     CnName = cnName,
                     Desc = string.Empty,
                 });
-                Debug.Log(namesLst[i]);
             }
             
 

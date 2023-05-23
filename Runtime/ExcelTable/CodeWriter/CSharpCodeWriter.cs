@@ -161,7 +161,7 @@ namespace Pangoo
             sw.WriteLine();
             
             sw.WriteLine();
-            sw.WriteLine("        /// <summary> 获取描述名 </summary>");
+            sw.WriteLine("        /// <summary> 获取表的每行数据 </summary>");
             sw.WriteLine("        public override List<string[]> GetTableRowDataList()");
             sw.WriteLine("        {");
             sw.WriteLine("            List<string[]> tmpRowDataList = new List<string[]>();");
@@ -176,6 +176,24 @@ namespace Pangoo
             sw.WriteLine("                tmpRowDataList.Add(texts);");
             sw.WriteLine("            }");
             sw.WriteLine("            return tmpRowDataList;");
+            sw.WriteLine("        }");
+            
+            sw.WriteLine("        /// <summary> 从CSV文件重新构建数据 </summary>");
+            sw.WriteLine("        public virtual void LoadCSVFile(string csvFilePath)");
+            sw.WriteLine("        {");
+            sw.WriteLine("            Rows=new ();");
+            sw.WriteLine("            var result = CSVHelper.ParseCSV(File.ReadAllText(csvFilePath));");
+            sw.WriteLine("            for (int i = GetTableHeadList().Count; i < result.Count; i++)");
+            sw.WriteLine("            {");
+            sw.WriteLine($"               {m_ExcelData.ClassBaseName}Row  eventsRow = new {m_ExcelData.ClassBaseName}Row();");
+            sw.WriteLine("                var eventRowFieldInfos = eventsRow.GetType().GetFields();");
+            sw.WriteLine("                for (int j = 0; j < eventRowFieldInfos.Length; j++)");
+            sw.WriteLine("                {");
+            sw.WriteLine("                       var value = StringConvert.ToValue(eventRowFieldInfos[j].FieldType, result[i][j].ToString());");
+            sw.WriteLine("                       eventRowFieldInfos[j].SetValue(eventsRow,value);");
+            sw.WriteLine("                }");
+            sw.WriteLine("                Rows.Add(eventsRow);");
+            sw.WriteLine("            }");
             sw.WriteLine("        }");
             sw.WriteLine();
 

@@ -4,7 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-public class CSVHelper : MonoBehaviour
+public class CSVHelper
 {
     #region Made By furukazu , Thanks furukazu
         // flag for processing a CSV

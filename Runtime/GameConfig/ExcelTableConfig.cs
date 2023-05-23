@@ -231,9 +231,9 @@ namespace Pangoo
             InitDirInfo();
             foreach (TextAsset excelEntry in CSVFileList)
             {
-                var className = JsonClassGenerator.ToTitleCase($"{excelEntry.name}Table");
+                var className = ($"{excelEntry.name}Table");
                 var classNamesapce = Namespace;
-                var so = ScriptableObject.CreateInstance($"{classNamesapce}.{className}Overview") as ExcelTableOverview;
+                ExcelTableOverview so = ScriptableObject.CreateInstance($"{classNamesapce}.{className}Overview") as ExcelTableOverview;
                 var path = Path.Join(DirInfo.ScriptableObjectDir, $"{excelEntry.name}.asset");
                 if (File.Exists(path))
                 {
@@ -242,11 +242,10 @@ namespace Pangoo
                 so.Namespace = Namespace;
                 so.PackageDir = PackConfig.PackageDir;
                 so.csvDirPath ="StreamRes/ExcelTable/CSV/"+PackConfig.Lang;
-                so.LoadFromJson();
                 AssetDatabase.CreateAsset(so, path);
+                AssetDatabase.Refresh();
+                so.LoadCSVFile();
             }
-
-            AssetDatabase.Refresh();
         }
 
         [Button("从Excel生成Json", 30)]
@@ -327,16 +326,16 @@ namespace Pangoo
             var json = DataTableDataGenerator.BuildCSVTableDataJson(ExcelData);
             var jsonPath = Path.Join(DirInfo.JsonDir, $"{className}.json").Replace("\\", "/");
             
-            // if (json != null)
-            // {
-            //     using (FileStream fileStream = new FileStream(jsonPath, FileMode.Create, FileAccess.Write))
-            //     {
-            //         using (TextWriter textWriter = new StreamWriter(fileStream, Encoding.UTF8))
-            //         {
-            //             textWriter.Write(json);
-            //         }
-            //     }
-            // }
+            if (json != null)
+            {
+                using (FileStream fileStream = new FileStream(jsonPath, FileMode.Create, FileAccess.Write))
+                {
+                    using (TextWriter textWriter = new StreamWriter(fileStream, Encoding.UTF8))
+                    {
+                        textWriter.Write(json);
+                    }
+                }
+            }
                 
             var codeJson = DataTableCodeGenerator.BuildTableCodeJson(ExcelData);
             if (codeJson != null)
