@@ -327,16 +327,16 @@ namespace Pangoo
             var json = DataTableDataGenerator.BuildCSVTableDataJson(ExcelData);
             var jsonPath = Path.Join(DirInfo.JsonDir, $"{className}.json").Replace("\\", "/");
             
-            if (json != null)
-            {
-                using (FileStream fileStream = new FileStream(jsonPath, FileMode.Create, FileAccess.Write))
-                {
-                    using (TextWriter textWriter = new StreamWriter(fileStream, Encoding.UTF8))
-                    {
-                        textWriter.Write(json);
-                    }
-                }
-            }
+            // if (json != null)
+            // {
+            //     using (FileStream fileStream = new FileStream(jsonPath, FileMode.Create, FileAccess.Write))
+            //     {
+            //         using (TextWriter textWriter = new StreamWriter(fileStream, Encoding.UTF8))
+            //         {
+            //             textWriter.Write(json);
+            //         }
+            //     }
+            // }
                 
             var codeJson = DataTableCodeGenerator.BuildTableCodeJson(ExcelData);
             if (codeJson != null)
