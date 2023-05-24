@@ -8,6 +8,7 @@
 using GameFramework;
 using UnityEngine;
 using UnityGameFramework.Runtime;
+using Sirenix.OdinInspector;
 
 namespace Pangoo
 {
@@ -16,6 +17,7 @@ namespace Pangoo
         [SerializeField]
         private EntityData m_EntityData = null;
 
+        [ShowInInspector]
         public int Id
         {
             get
