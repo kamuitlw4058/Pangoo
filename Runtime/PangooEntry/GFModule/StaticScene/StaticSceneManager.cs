@@ -1,37 +1,35 @@
 using GameFramework;
 using GameFramework.Event;
-using UnityGameFramework.Runtime;
+// using UnityGameFramework.Runtime;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
-using Sirenix.OdinInspector;
+// using Sirenix.OdinInspector;
 
 namespace Pangoo
 {
     [Serializable]
-     public class StaticSceneManager : IReference
+    public class StaticSceneManager : GameFrameworkModule,IStaticSceneManager
     {
-        // private Dictionary<int, Action<Entity>> dicCallback;
-        // private Dictionary<int, Entity> dicSerial2Entity;
-
-        // private List<int> tempList;
-
-        // public object Owner
-        // {
-        //     get;
-        //     private set;
-        // }
         EntityLoader Loader = null;
 
-        [ShowInInspector]
+        Dictionary<int,EntityStaticSceneData> m_StaticSceneDataDict;
 
-        Dictionary<int,EntityStaticSceneData> StaticSceneDataDict;
+        Dictionary<int,int> m_EnterSceneDict;
+        Dictionary<int,EntityStaticScene> m_LoadedStaticSceneDict;
+        List<int> m_LoadingScene;
 
-        Dictionary<int,int> EnterSceneDict;
-        Dictionary<int,EntityStaticScene> StaticSceneDict;
-        List<int> LoadingScene;
+        public Dictionary<int,EntityStaticScene>LoadedStaticSceneDict{
+            get{
+                return m_LoadedStaticSceneDict;
+            }
+        }
 
-        
+        public List<int> LoadingScene {
+            get{
+                return m_LoadingScene;
+            }
+        }
+
         EntityStaticSceneData CreateData(int id){
               var info = new EntityInfo{
                     Id = id,
@@ -61,11 +59,11 @@ namespace Pangoo
 
         public StaticSceneManager()
         {
-            EnterSceneDict = new Dictionary<int, int>();
-            LoadingScene = new List<int>();
-            StaticSceneDict = new Dictionary<int, EntityStaticScene>();
-            Loader = EntityLoader.Create(this);
-            StaticSceneDataDict = new Dictionary<int, EntityStaticSceneData>();
+            m_EnterSceneDict = new Dictionary<int, int>();
+            m_LoadingScene = new List<int>();
+            m_LoadedStaticSceneDict = new Dictionary<int, EntityStaticScene>();
+            // Loader = EntityLoader.Create(this);
+            m_StaticSceneDataDict = new Dictionary<int, EntityStaticSceneData>();
             for(int i =1; i<=4;i ++){
                 var info = new EntityInfo{
                     Id = i,
@@ -91,78 +89,76 @@ namespace Pangoo
                         break;
                 }
                 var data = EntityStaticSceneData.Create(info,loadIds,this);
-                StaticSceneDataDict.Add(i,data);
+                m_StaticSceneDataDict.Add(i,data);
             }
 
         }
 
         public List<int> GetLoadIds(int id){
              EntityStaticSceneData data;
-            if(!StaticSceneDataDict.TryGetValue(id,out data)){
+            if(!m_StaticSceneDataDict.TryGetValue(id,out data)){
                 return new List<int>();
             }
             return data.LoadIds;
         }
 
         public void  ShowStaticScene(int id){
-            // Debug.Log($"Show Static Scene:{id}");
-            EntityStaticSceneData data = CreateData(id);
-            EntityStaticScene scene;
+            if(Loader == null){
+                Loader = EntityLoader.Create(this);
+            }
 
-            if(StaticSceneDict.TryGetValue(id,out scene)){
+            EntityStaticScene scene;
+            if(m_LoadedStaticSceneDict.TryGetValue(id,out scene)){
                 return;
             }
        
-
-            if(LoadingScene.Contains(id)){
+            if(m_LoadingScene.Contains(id)){
                 return;
             }else{
-                LoadingScene.Add(id);
+                EntityStaticSceneData data = CreateData(id);
+                m_LoadingScene.Add(id);
                 Loader.ShowEntity(EnumEntity.StaticScene,
                     (o)=>{
-                        if(LoadingScene.Contains(id)){
-                            LoadingScene.Remove(id);
+                        if(m_LoadingScene.Contains(id)){
+                            m_LoadingScene.Remove(id);
                         }
-                        StaticSceneDict.Add(id, o.Logic as EntityStaticScene);   
+                        m_LoadedStaticSceneDict.Add(id, o.Logic as EntityStaticScene);   
                     },
                     data.Info,
                     data);
             }
-
-  
         }
 
         public void EnterScene(int id){
             int count;
-            if(!EnterSceneDict.TryGetValue(id,out count)){
-                EnterSceneDict.Add(id,1);
+            if(!m_EnterSceneDict.TryGetValue(id,out count)){
+                m_EnterSceneDict.Add(id,1);
             }else{
-                EnterSceneDict[id] = count +1;
+                m_EnterSceneDict[id] = count +1;
             }
         }
 
         public void ExitScene(int id){
             int count;
-            if(EnterSceneDict.TryGetValue(id,out count)){
+            if(m_EnterSceneDict.TryGetValue(id,out count)){
                 count -=1;
                 if(count ==0){
-                    EnterSceneDict.Remove(id);
+                    m_EnterSceneDict.Remove(id);
                 }else{
-                    EnterSceneDict[id] = count;
+                    m_EnterSceneDict[id] = count;
                 }
             }
         }
 
-
-        public void OnUpdate( float elapseSeconds, float realElapseSeconds){
-            if(EnterSceneDict.Count == 0){
+        public override void Update( float elapseSeconds, float realElapseSeconds){
+            if(m_EnterSceneDict.Count == 0){
                 return;
             }
 
             List<int> needLoadIds = new List<int>();
-            foreach(var enterScene in  EnterSceneDict){
+            foreach(var enterScene in  m_EnterSceneDict){
                 EntityStaticScene scene;
-                if(StaticSceneDict.TryGetValue(enterScene.Key,out scene)){
+                if(m_LoadedStaticSceneDict.TryGetValue(enterScene.Key,out scene)){
                     foreach(var id in scene.StaticSceneData.LoadIds){
                         if(!needLoadIds.Contains(id)){
                             needLoadIds.Add(id);
@@ -177,10 +173,10 @@ namespace Pangoo
             }
 
             List<int> removeScene = new List<int>();
-            foreach(var item in  StaticSceneDict){
-                if(!needLoadIds.Contains(item.Value.Info.Id) && !EnterSceneDict.ContainsKey(item.Value.Info.Id)){
+            foreach(var item in  m_LoadedStaticSceneDict){
+                if(!needLoadIds.Contains(item.Value.Info.Id) && !m_EnterSceneDict.ContainsKey(item.Value.Info.Id)){
                     if(Loader.GetEntity(item.Value.Id)){
-                        Debug.Log($"Hide Entity:{item.Value.Id},{item.Key}");
+                        // Debug.Log($"Hide Entity:{item.Value.Id},{item.Key}");
                         Loader.HideEntity(item.Value.Id);  
                     }
                    
@@ -189,20 +185,24 @@ namespace Pangoo
             }
 
             foreach(var id in removeScene){
-                StaticSceneDict.Remove(id);
+                m_LoadedStaticSceneDict.Remove(id);
             }
 
         }
 
-        public static StaticSceneManager Create(object owner)
-        {
-            StaticSceneManager val = ReferencePool.Acquire<StaticSceneManager>();
-            // entityLoader.Owner = owner;
-            // PangooEntry.Event.Subscribe(ShowEntitySuccessEventArgs.EventId, entityLoader.OnShowEntitySuccess);
-            // PangooEntry.Event.Subscribe(ShowEntityFailureEventArgs.EventId, entityLoader.OnShowEntityFail);
-
-            return val;
+        public override void Shutdown(){
+            
         }
+
+        // public static StaticSceneManager Create(object owner)
+        // {
+        //     StaticSceneManager val = ReferencePool.Acquire<StaticSceneManager>();
+        //     // entityLoader.Owner = owner;
+        //     // PangooEntry.Event.Subscribe(ShowEntitySuccessEventArgs.EventId, entityLoader.OnShowEntitySuccess);
+        //     // PangooEntry.Event.Subscribe(ShowEntityFailureEventArgs.EventId, entityLoader.OnShowEntityFail);
+
+        //     return val;
+        // }
 
         public void Clear()
         {
@@ -212,5 +212,6 @@ namespace Pangoo
             // PangooEntry.Event.Unsubscribe(ShowEntitySuccessEventArgs.EventId, OnShowEntitySuccess);
             // PangooEntry.Event.Unsubscribe(ShowEntityFailureEventArgs.EventId, OnShowEntityFail);
         }
+
     }
 }
