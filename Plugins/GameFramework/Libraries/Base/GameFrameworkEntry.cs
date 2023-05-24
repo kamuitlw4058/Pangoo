@@ -60,13 +60,13 @@ namespace GameFramework
                 throw new GameFrameworkException(Utility.Text.Format("You must get module by interface, but '{0}' is not.", interfaceType.FullName));
             }
 
-            if (!interfaceType.FullName.StartsWith("GameFramework.", StringComparison.Ordinal))
-            {
-                throw new GameFrameworkException(Utility.Text.Format("You must get a Game Framework module, but '{0}' is not.", interfaceType.FullName));
-            }
+            // if (!interfaceType.FullName.StartsWith("GameFramework.", StringComparison.Ordinal))
+            // {
+            //     throw new GameFrameworkException(Utility.Text.Format("You must get a Game Framework module, but '{0}' is not.", interfaceType.FullName));
+            // }
 
             string moduleName = Utility.Text.Format("{0}.{1}", interfaceType.Namespace, interfaceType.Name.Substring(1));
-            Type moduleType = Type.GetType(moduleName);
+            Type moduleType = Utility.Assembly.GetType(moduleName);
             if (moduleType == null)
             {
                 throw new GameFrameworkException(Utility.Text.Format("Can not find Game Framework module type '{0}'.", moduleName));
