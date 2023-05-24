@@ -142,7 +142,7 @@ namespace GameFramework.WebRequest
         /// </summary>
         /// <param name="elapseSeconds">逻辑流逝时间，以秒为单位。</param>
         /// <param name="realElapseSeconds">真实流逝时间，以秒为单位。</param>
-        internal override void Update(float elapseSeconds, float realElapseSeconds)
+        public override void Update(float elapseSeconds, float realElapseSeconds)
         {
             m_TaskPool.Update(elapseSeconds, realElapseSeconds);
         }
@@ -150,7 +150,7 @@ namespace GameFramework.WebRequest
         /// <summary>
         /// 关闭并清理 Web 请求管理器。
         /// </summary>
-        internal override void Shutdown()
+        public override void Shutdown()
         {
             m_TaskPool.Shutdown();
         }

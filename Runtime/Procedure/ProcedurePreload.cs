@@ -1,6 +1,8 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using GameFramework.Event;
+using GameFramework;
 using UnityGameFramework.Runtime;
 
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
@@ -12,6 +14,9 @@ namespace Pangoo
     public class ProcedurePreload : PangooProcedureBase
     {
         // private DataBase[] datas;
+
+         GameMainConfig packageConfig;
+
 
         private Dictionary<string, bool> m_LoadedFlag = new Dictionary<string, bool>();
 
@@ -28,6 +33,8 @@ namespace Pangoo
             PangooEntry.Event.Subscribe(LoadConfigFailureEventArgs.EventId, OnLoadConfigFailure);
             PangooEntry.Event.Subscribe(LoadDictionarySuccessEventArgs.EventId, OnLoadDictionarySuccess);
             PangooEntry.Event.Subscribe(LoadDictionaryFailureEventArgs.EventId, OnLoadDictionaryFailure);
+
+             packageConfig = PangooEntry.GameConfig.GetGameMainConfig();
 
             // GameFramework.Data.Data[] _datas = GameEntry.Data.GetAllData();
 
@@ -51,11 +58,11 @@ namespace Pangoo
         {
             base.OnUpdate(procedureOwner, elapseSeconds, realElapseSeconds);
 
-            foreach (var item in m_LoadedFlag)
-            {
-                if (!item.Value)
-                    return;
-            }
+            // foreach (var item in m_LoadedFlag)
+            // {
+            //     if (!item.Value)
+            //         return;
+            // }
 
             // if (datas == null)
             //     return;
@@ -69,6 +76,19 @@ namespace Pangoo
             SetComponents();
             // procedureOwner.SetData<VarInt32>(Constant.ProcedureData.NextSceneId, GameEntry.Config.GetInt("Scene.Menu"));
             // ChangeState<ProcedureLoadingScene>(procedureOwner);
+
+
+                if(packageConfig != null){
+                    // if(!string.IsNullOrEmpty(packageConfig.DefaultJumpScene) && packageConfig.DefaultJumpScene != ConstString.NULL){
+                    //     PangooEntry.PangooScene.LoadScene(packageConfig.GetDefaultJumpScene());
+                    // }
+
+
+                    if(!string.IsNullOrEmpty( packageConfig.EntryProcedure)){
+                        Type procedureType = Utility.Assembly.GetType( packageConfig.EntryProcedure);
+                        ChangeState(procedureOwner,procedureType);
+                    }
+                }
         }
 
 

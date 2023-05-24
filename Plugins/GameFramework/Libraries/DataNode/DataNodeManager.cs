@@ -44,14 +44,14 @@ namespace GameFramework.DataNode
         /// </summary>
         /// <param name="elapseSeconds">逻辑流逝时间，以秒为单位。</param>
         /// <param name="realElapseSeconds">真实流逝时间，以秒为单位。</param>
-        internal override void Update(float elapseSeconds, float realElapseSeconds)
+        public override void Update(float elapseSeconds, float realElapseSeconds)
         {
         }
 
         /// <summary>
         /// 关闭并清理数据结点管理器。
         /// </summary>
-        internal override void Shutdown()
+        public override void Shutdown()
         {
             ReferencePool.Release(m_Root);
             m_Root = null;
