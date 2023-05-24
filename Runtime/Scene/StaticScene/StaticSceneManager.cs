@@ -96,32 +96,6 @@ namespace Pangoo
 
         }
 
-        public void PrintDebug(){
-            // Debug.Log($"Enter PrintDebug");
-            // foreach(var id in EnterSceneList){
-            //     Debug.Log($"Enter Id:{id}");
-            // }
-
-            // List<int> needLoadIds = new List<int>();
-            // foreach(var enterScene in  EnterSceneList){
-            //     var ids = GetLoadIds(enterScene);
-            //     foreach(var id in ids){
-            //         if(!needLoadIds.Contains(id)){
-            //             needLoadIds.Add(id);
-            //         }
-            //     }
-            // }
-
-            // foreach(var id in needLoadIds){
-            //     Debug.Log($"NeedLoad Ids:{id}");
-            // }
-
-            // foreach(var scene in StaticSceneDict){
-
-            //     Debug.Log($"SceneDict Ids:{scene.Value.Info.Id}");
-            // }
-        }
-
         public List<int> GetLoadIds(int id){
              EntityStaticSceneData data;
             if(!StaticSceneDataDict.TryGetValue(id,out data)){

@@ -71,16 +71,12 @@ namespace Pangoo{
         }
 
         private void OnTriggerEnter(Collider other) {
-            // Debug.Log($"Trigger Enter:{Id},{StaticSceneData},{Manager}");
             Manager.EnterScene(StaticSceneData.Info.Id);
-            Manager.PrintDebug();
         }
 
 
         private void OnTriggerExit(Collider other) {
-            // Debug.Log($"Trigger Exit:{Id},{StaticSceneData.Info.Id}");;
             Manager.ExitScene(StaticSceneData.Info.Id);
-            Manager.PrintDebug();
         }
 
 
