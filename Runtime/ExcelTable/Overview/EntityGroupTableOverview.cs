@@ -73,23 +73,6 @@ namespace Pangoo
        }
 
 
-       [Button("从CSV文件重构数据",30)]
-        /// <summary> 加载CSV文件</summary>
-        public override void LoadCSVFile()
-        {
-          string CSVDirPath = Path.Join(PackageDir,csvDirPath);
-          string csvFile=CSVDirPath+ "/" + this.name + ".csv";
-          Data.LoadCSVFile(csvFile);
-        }
-
-
-       [Button("生成CSV文件",30)]
-        /// <summary> 生成CSV文件</summary>
-        public override void BuildCSVFile()
-        {
-          BuildCSVFile(Data);
-        }
-
 #endif
     }
 }
