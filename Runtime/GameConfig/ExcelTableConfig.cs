@@ -55,8 +55,8 @@ namespace Pangoo
 
         public ExcelDirInfo DirInfo = null;
 
-        [TableList]
-        public List<ExcelEntry> ExcelList = new List<ExcelEntry>();
+        // [TableList]
+        // public List<ExcelEntry> ExcelList = new List<ExcelEntry>();
 
         [AssetList(Path = "/Plugins/Pangoo/StreamRes/ExcelTable/Excel/cn")]
         public List<DefaultAsset> ExcelFileList;
@@ -152,12 +152,12 @@ namespace Pangoo
         public void ExcelBuildOverviewSo()
         {
             InitDirInfo();
-            foreach (ExcelEntry excelEntry in ExcelList)
+            foreach (DefaultAsset excelEntry in ExcelFileList)
             {
-                var className = ($"{excelEntry.ExcelName}Table");
-                var classNamesapce = string.IsNullOrEmpty(excelEntry.BaseNamespace) ? Namespace : excelEntry.BaseNamespace;
+                var className = ($"{excelEntry.name}Table");
+                var classNamesapce =Namespace;
                 ExcelTableOverview so = ScriptableObject.CreateInstance($"{classNamesapce}.{className}Overview") as ExcelTableOverview;
-                var path = Path.Join(DirInfo.ScriptableObjectDir, $"{excelEntry.ExcelName}.asset");
+                var path = Path.Join(DirInfo.ScriptableObjectDir, $"{excelEntry.name}.asset");
                 if (File.Exists(path))
                 {
                     File.Delete(path);
