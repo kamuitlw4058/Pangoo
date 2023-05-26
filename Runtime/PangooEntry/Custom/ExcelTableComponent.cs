@@ -35,6 +35,7 @@ namespace Pangoo
         [ShowInInspector]
         Dictionary<Type, bool> m_ExcelTableLoadStatusDic = new Dictionary<Type, bool>();
 
+        [ShowInInspector]
         public bool IsLoaded { get; private set; }
 
 
@@ -76,6 +77,9 @@ namespace Pangoo
                     }
                     table.CustomInit();
                 }
+                
+            }else{
+                    Debug.Log("Load ExcelTable Without Overview");
             }
 
             // foreach (var assemblyName in AssemblyNames)

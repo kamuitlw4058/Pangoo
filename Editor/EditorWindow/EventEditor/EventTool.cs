@@ -88,7 +88,10 @@ namespace Pangoo.Editor
         [Button("生成代码")]
         void Build(){
             foreach(var PangooEvent in EventList){
-                JsonClassGenerator.GeneratorCodeString("{}",PangooEvent.NameSpace,new CSharpEventCodeWriter(Headers),PangooEvent.EventClassName,PangooEvent.ScriptPath);
+                if(!File.Exists(PangooEvent.ScriptPath) || PangooEvent.Overwrite){
+                    JsonClassGenerator.GeneratorCodeString("{}",PangooEvent.NameSpace,new CSharpEventCodeWriter(Headers),PangooEvent.EventClassName,PangooEvent.ScriptPath);
+                }
+                
             }
             AssetDatabase.Refresh();
         }
@@ -104,6 +107,10 @@ namespace Pangoo.Editor
 
             [HideInInspector]
             public string ScriptPath;
+
+            [TableTitleGroup("强制重写")]
+            [HideLabel]
+            public bool Overwrite;
 
 
             [HideInInspector]

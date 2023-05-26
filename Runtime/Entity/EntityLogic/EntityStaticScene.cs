@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityGameFramework.Runtime;
 using Sirenix.OdinInspector;
 using GameFramework;
+using Pangoo.Service;
 
 namespace Pangoo{
     public  class EntityStaticScene : EntityBase
@@ -11,25 +12,17 @@ namespace Pangoo{
         [ShowInInspector]
         public EntityInfo Info{
             get{
-                if(StaticSceneData != null){
-                    return StaticSceneData.Info;
+                if(SceneData != null){
+                    return SceneData.EntityInfo;
                 }
                 return null;
             }
         }
 
-        [ShowInInspector]
-        public EntityStaticSceneData StaticSceneData;
+        [SerializeField] Collider EnterCollider;
 
         [ShowInInspector]
-        StaticSceneManager Manager{
-            get{
-                if(StaticSceneData != null){
-                    return StaticSceneData.Manager;
-                }
-                return null;
-            }
-        }
+        public EntityStaticSceneData SceneData;
 
         protected override void OnInit(object userData)
         {
@@ -41,46 +34,28 @@ namespace Pangoo{
         {
             base.OnShow(userData);
 
-            StaticSceneData = userData as EntityStaticSceneData;
-            if (StaticSceneData == null)
+            SceneData = userData as EntityStaticSceneData;
+            if (SceneData == null)
             {
                 Log.Error("Entity data is invalid.");
                 return;
             }
 
-            Name =  Utility.Text.Format("{0}[{1}]",StaticSceneData.Info.Name,Id);
-
+            Name =  Utility.Text.Format("{0}[{1}]",SceneData.EntityInfo.AssetName,Id);
         }
 
-        
-
-        public  void ShowScene(){
-            foreach(var child in transform.Children()){
-                child.gameObject.SetActive(true);
-            }
-        }
-        public void HideScene(){
-            foreach(var child in transform.Children()){
-                child.gameObject.SetActive(false);
-            }
-        }
-
-        protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
-        {
-            base.OnUpdate(elapseSeconds, realElapseSeconds);
-        }
 
         private void OnTriggerEnter(Collider other) {
-            Manager.EnterScene(StaticSceneData.Info.Id);
+            EnterCollider = other;
+            EventHelper.Fire(this,EnterStaticSceneEventArgs.Create(SceneData.AssetPathId));
         }
 
 
         private void OnTriggerExit(Collider other) {
-            Manager.ExitScene(StaticSceneData.Info.Id);
+            EnterCollider = null;
+            EventHelper.Fire(this,ExitStaticSceneEventArgs.Create(SceneData.AssetPathId));
         }
 
-
-   
 
     }
 }

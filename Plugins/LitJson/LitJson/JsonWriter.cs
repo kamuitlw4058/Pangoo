@@ -139,7 +139,7 @@ namespace LitJson
                 case Condition.InObject:
                     if (!context.InObject || context.ExpectingValue)
                         throw new JsonException(
-                            "Can't close an object here");
+                            $"Can't close an object here. InObject:{context.InObject} ExpectingValue:{context.ExpectingValue}");
                     break;
 
                 case Condition.NotAProperty:
