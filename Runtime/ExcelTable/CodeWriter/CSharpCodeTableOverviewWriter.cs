@@ -23,7 +23,7 @@ namespace Pangoo
         // string m_PackageDir;
         
 
-        public CSharpCodeTableOverviewWriter(List<string> headers, ExcelTableData excelData,string packageDir, string jsonDir)
+        public CSharpCodeTableOverviewWriter(List<string> headers, ExcelTableData excelData)
         {
             m_Headers = headers;
             m_ExcelData = excelData;

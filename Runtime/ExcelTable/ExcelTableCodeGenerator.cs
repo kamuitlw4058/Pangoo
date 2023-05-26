@@ -39,7 +39,7 @@ namespace Pangoo
 
         public static string BuildCodeJson(string excelFile, string name, int headCount = 3)
         {
-            var ExcelData = ExcelTableData.Parser(excelFile, name, headCount);
+            var ExcelData = ExcelTableData.ParserEPPlus(excelFile, name, headCount);
 
             StringBuilder sb = new StringBuilder();
             JsonWriter writer = new JsonWriter(sb);

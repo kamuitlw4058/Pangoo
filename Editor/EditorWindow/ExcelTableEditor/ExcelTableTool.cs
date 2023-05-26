@@ -73,9 +73,21 @@ namespace Pangoo.Editor
             [ShowInInspector]
             public string Namespace => Config.Namespace;
             
-            [LabelText("ExcelList")]
-            [AssetList(AutoPopulate = true, Path = "/Plugins/Pangoo/StreamRes/ExcelTable/Excel/cn")]
-            public List<DefaultAsset> ExcelFileList;
+            [ShowInInspector]
+            [TableList]
+            public List<ExcelEntry> ExcelList
+            {
+                get
+                {
+                    return Config.ExcelList;
+                }
+                set
+                {
+                    Config.ExcelList = value;
+                }
+
+            }
+            
             [HideInInspector]
             public ExcelTableConfig Config;
         }

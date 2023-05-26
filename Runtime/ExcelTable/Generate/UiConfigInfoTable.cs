@@ -4,10 +4,10 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using LitJson;
-using OfficeOpenXml;
 using Pangoo;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using OfficeOpenXml;
 
 namespace Pangoo
 {
@@ -145,8 +145,8 @@ namespace Pangoo
                 string[] texts = new string[item.GetType().GetFields().Length];
                 for (int i = 0; i < texts.Length; i++)
                 {
-                  object valueText = item.GetType().GetFields()[i].GetValue(item);
-                  texts[i] = valueText != null ?valueText.ToString(): "";
+                   object valueText = item.GetType().GetFields()[i].GetValue(item);
+                  texts[i] = valueText != null ?valueText.ToString(): String.Empty;
                 }
                 tmpRowDataList.Add(texts);
             }
@@ -157,20 +157,18 @@ namespace Pangoo
         {
             Rows=new ();
             var fileInfo = new FileInfo(excelFilePath);
-            using (ExcelPackage excelPackage=new ExcelPackage(fileInfo))
+            ExcelPackage excelPackage = new ExcelPackage(fileInfo);
+            ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets[1];
+            for (int i = 3; i < worksheet.Dimension.Rows; i++)
             {
-                ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets[1];
-                for (int i = 3; i < worksheet.Dimension.Rows; i++)
-                {
-                    UiConfigInfoRow  eventsRow = new UiConfigInfoRow();
-                    var eventRowFieldInfos = eventsRow.GetType().GetFields();
-                    for (int j = 0; j < worksheet.Dimension.Columns; j++)
-                    {
-                        var value = StringConvert.ToValue(eventRowFieldInfos[j].FieldType, worksheet.Cells[i+1,j+1].Value.ToString());  //将字符串解析成指定类型
-                        eventRowFieldInfos[j].SetValue(eventsRow,value);
-                    }
-                    Rows.Add(eventsRow);
-                }
+                UiConfigInfoRow  eventsRow = new UiConfigInfoRow();
+                 var eventRowFieldInfos = eventsRow.GetType().GetFields();
+                 for (int j = 0; j < worksheet.Dimension.Columns; j++)
+                 {
+                       var value = StringConvert.ToValue(eventRowFieldInfos[j].FieldType, worksheet.Cells[i+1,j+1].Value.ToString());  //将字符串解析成指定类型
+                       eventRowFieldInfos[j].SetValue(eventsRow,value);
+                 }
+                 Rows.Add(eventsRow);
             }
         }
 
@@ -178,7 +176,7 @@ namespace Pangoo
         /// <summary> 反射获取配置文件路径 </summary>
         public static string DataFilePath()
         {
-            return "Assets/Plugins/Pangoo/StreamRes/ExcelTable/Json/cn/UiConfigInfoTable.json";
+            return "";
         }
 
     }

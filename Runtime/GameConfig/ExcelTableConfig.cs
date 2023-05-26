@@ -55,13 +55,10 @@ namespace Pangoo
 
         public ExcelDirInfo DirInfo = null;
 
-        // [TableList]
-        // public List<ExcelEntry> ExcelList = new List<ExcelEntry>();
+        [TableList]
+         public List<ExcelEntry> ExcelList = new List<ExcelEntry>();
+         
         
-        [LabelText("ExcelList")]
-        [AssetList(Path = "/Plugins/Pangoo/StreamRes/ExcelTable/Excel/cn")]
-        public List<DefaultAsset> ExcelFileList;
-
         [FormerlySerializedAs("Headers")]
         public List<string> UsingNamespace = new List<string>()
         {
@@ -72,6 +69,7 @@ namespace Pangoo
             "Pangoo",
             "UnityEngine",
             "Sirenix.OdinInspector",
+            "OfficeOpenXml",
         };
 
         void InitDir(PackageConfig config, ref ExcelDirInfo entry)
@@ -128,19 +126,55 @@ namespace Pangoo
 
         }
 #if UNITY_EDITOR
+        [Button("刷新Excel列表", 30)]
+        void Refresh()
+        {
+            if (PackConfig == null)
+            {
+                Debug.LogError("Load Config Failed!");
+                return;
+            }
+
+            InitDirInfo();
+            ExcelList.Clear();
+            DirInfo.NameSpace = PackConfig.MainNamespace;
+            var files = Directory.GetFiles(DirInfo.ExcelDir, "*.xlsx");
+            foreach (var filePath in files)
+            {
+                var regularFilePath = filePath.Replace("\\", "/");
+                var fileName = Path.GetFileNameWithoutExtension(regularFilePath);
+                if (!fileName.StartsWith("~"))
+                {
+                    if (ExcelList.Find(o => o.ExcelName == fileName) == null)
+                    {
+                        ExcelList.Add(new ExcelEntry()
+                        {
+                            ExcelName = fileName,
+                            BaseNamespace = string.Empty,
+                        });
+                    }
+
+                }
+            }
+        }
 
         [FoldoutGroup("生成文件或SO")]
         [Button("Excel生成Table代码", 30)]
         public void ExcelBuildTableCode()
         {
             InitDirInfo();
-            foreach (var entry in ExcelFileList)
+            foreach (var entry in ExcelList)
             {
-                var excelFilePath = Path.Join(DirInfo.ExcelDir, $"{entry.name}.xlsx").Replace("\\", "/");
+                if (!string.IsNullOrEmpty(entry.BaseNamespace) && entry.BaseNamespace != Namespace)
+                {
+                    continue;
+                }
+                
+                var excelFilePath = Path.Join(DirInfo.ExcelDir, $"{entry.ExcelName}.xlsx").Replace("\\", "/");
                 Debug.Log($"Start Build:{excelFilePath}");
                 
-                var classBaseName = JsonClassGenerator.ToTitleCase($"{entry.name}");
-                var className = JsonClassGenerator.ToTitleCase($"{entry.name}Table");
+                var classBaseName = JsonClassGenerator.ToTitleCase($"{entry.ExcelName}");
+                var className = JsonClassGenerator.ToTitleCase($"{entry.ExcelName}Table");
                 ExcelTableData ExcelData = ExcelTableData.ParserEPPlus(excelFilePath, classBaseName);
 
                 GeneratorCode(ExcelData,className);
@@ -153,12 +187,12 @@ namespace Pangoo
         public void ExcelBuildOverviewSo()
         {
             InitDirInfo();
-            foreach (DefaultAsset excelEntry in ExcelFileList)
+            foreach (ExcelEntry excelEntry in ExcelList)
             {
-                var className = ($"{excelEntry.name}Table");
-                var classNamesapce =Namespace;
+                var className = ($"{excelEntry.ExcelName}Table");
+                var classNamesapce = string.IsNullOrEmpty(excelEntry.BaseNamespace) ? Namespace : excelEntry.BaseNamespace;
                 ExcelTableOverview so = ScriptableObject.CreateInstance($"{classNamesapce}.{className}Overview") as ExcelTableOverview;
-                var path = Path.Join(DirInfo.ScriptableObjectDir, $"{excelEntry.name}.asset");
+                var path = Path.Join(DirInfo.ScriptableObjectDir, $"{excelEntry.ExcelName}.asset");
                 if (File.Exists(path))
                 {
                     File.Delete(path);
@@ -169,6 +203,7 @@ namespace Pangoo
                 AssetDatabase.CreateAsset(so, path);
                 AssetDatabase.SaveAssets();
                 so.LoadExcelFile();
+                AssetDatabase.Refresh();
                 Debug.Log($"创建SO成功：{path}");
             }
         }
@@ -211,15 +246,16 @@ namespace Pangoo
             var codeJson = DataTableCodeGenerator.BuildTableCodeJson(ExcelData);
             if (codeJson != null)
             {
-                Debug.Log($"Build Class:{className}");
-
+                var codePath = Path.Join(DirInfo.ScriptGenerateDir, $"{className}.cs");
+                JsonClassGenerator.GeneratorCodeString(codeJson, Namespace, new CSharpCodeWriter(UsingNamespace, ExcelData), className, codePath);
                 var codeCustomPath = Path.Join(DirInfo.ScriptCustomDir, $"{className}.Custom.cs");
                 if (!File.Exists(codeCustomPath))
                 {
                     JsonClassGenerator.GeneratorCodeString("{}", Namespace, new CSharpCodeCustomWriter(UsingNamespace, ExcelData), className, codeCustomPath);
                 }
                 var overviewPath = Path.Join(DirInfo.ScriptOverviewDir, $"{className}Overview.cs");
-                JsonClassGenerator.GeneratorCodeString("{}", Namespace, new CSharpCodeTableOverviewWriter(UsingNamespace, ExcelData,DirInfo.PackageDir, DirInfo.JsonRelativeDir), className, overviewPath);
+                JsonClassGenerator.GeneratorCodeString("{}", Namespace, new CSharpCodeTableOverviewWriter(UsingNamespace, ExcelData), className, overviewPath);
+                Debug.Log($"Build Class:{className}");
             }
         }
 
