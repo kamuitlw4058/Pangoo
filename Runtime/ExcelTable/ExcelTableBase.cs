@@ -1,7 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using OfficeOpenXml;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using System.IO;
+using Object = UnityEngine.Object;
 
 namespace Pangoo
 {
@@ -54,6 +58,39 @@ namespace Pangoo
         public virtual List<string[]> GetTableRowDataList()
         {
             return null;
+        }
+
+        public void tmpRowDataListAdd(List<string[]> tmpRowDataList,object item)
+        {
+            string[] texts = new string[item.GetType().GetFields().Length];
+            for (int i = 0; i < texts.Length; i++)
+            {
+                object valueText = item.GetType().GetFields()[i].GetValue(item);
+                texts[i] = valueText != null ?valueText.ToString(): string.Empty;
+            }
+            tmpRowDataList.Add(texts);
+        }
+        
+        public virtual List<T> LoadExcelFile<T>(string excelFilePath)where T:new()
+        {
+            var Rows = new List<T>();
+            var fileInfo = new FileInfo(excelFilePath);
+            ExcelPackage excelPackage = new ExcelPackage(fileInfo);
+            ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets[1];
+            for (int i = 3; i < worksheet.Dimension.Rows; i++)
+            {
+                T  eventsRow = new T();
+                var eventRowFieldInfos = eventsRow.GetType().GetFields();
+                for (int j = 0; j < worksheet.Dimension.Columns; j++)
+                {
+                    var cellValue = worksheet.Cells[i + 1, j + 1].Value;
+                    var value = StringConvert.ToValue(eventRowFieldInfos[j].FieldType, cellValue!=null ? cellValue.ToString() : string.Empty);  //将字符串解析成指定类型
+                    eventRowFieldInfos[j].SetValue(eventsRow,value);
+                }
+                Rows.Add(eventsRow);
+            }
+
+            return Rows;
         }
     }
 

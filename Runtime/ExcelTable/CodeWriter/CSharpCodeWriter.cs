@@ -167,13 +167,7 @@ namespace Pangoo
             sw.WriteLine("            List<string[]> tmpRowDataList = new List<string[]>();");
             sw.WriteLine("            foreach (var item in Rows)");
             sw.WriteLine("            {");
-            sw.WriteLine("                string[] texts = new string[item.GetType().GetFields().Length];");
-            sw.WriteLine("                for (int i = 0; i < texts.Length; i++)");
-            sw.WriteLine("                {");
-            sw.WriteLine("                   object valueText = item.GetType().GetFields()[i].GetValue(item);");
-            sw.WriteLine(@"                  texts[i] = valueText != null ?valueText.ToString(): String.Empty;");
-            sw.WriteLine("                }");
-            sw.WriteLine("                tmpRowDataList.Add(texts);");
+            sw.WriteLine("                tmpRowDataListAdd(tmpRowDataList,item);");
             sw.WriteLine("            }");
             sw.WriteLine("            return tmpRowDataList;");
             sw.WriteLine("        }");
@@ -181,21 +175,7 @@ namespace Pangoo
             sw.WriteLine("        /// <summary> 从Excel文件重新构建数据 </summary>");
             sw.WriteLine("        public virtual void LoadExcelFile(string excelFilePath)");
             sw.WriteLine("        {");
-            sw.WriteLine("            Rows=new ();");
-            sw.WriteLine("            var fileInfo = new FileInfo(excelFilePath);");
-            sw.WriteLine("            ExcelPackage excelPackage = new ExcelPackage(fileInfo);");
-            sw.WriteLine("            ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets[1];");
-            sw.WriteLine("            for (int i = 3; i < worksheet.Dimension.Rows; i++)");
-            sw.WriteLine("            {");
-            sw.WriteLine($"                {m_ExcelData.ClassBaseName}Row  eventsRow = new {m_ExcelData.ClassBaseName}Row();");
-            sw.WriteLine("                 var eventRowFieldInfos = eventsRow.GetType().GetFields();");
-            sw.WriteLine("                 for (int j = 0; j < worksheet.Dimension.Columns; j++)");
-            sw.WriteLine("                 {");
-            sw.WriteLine("                       var value = StringConvert.ToValue(eventRowFieldInfos[j].FieldType, worksheet.Cells[i+1,j+1].Value.ToString());  //将字符串解析成指定类型");
-            sw.WriteLine("                       eventRowFieldInfos[j].SetValue(eventsRow,value);");
-            sw.WriteLine("                 }");
-            sw.WriteLine("                 Rows.Add(eventsRow);");
-            sw.WriteLine("            }");
+            sw.WriteLine($"          Rows = LoadExcelFile<{m_ExcelData.ClassBaseName}Row>(excelFilePath);");
             sw.WriteLine("        }");
             sw.WriteLine();
 
