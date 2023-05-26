@@ -79,34 +79,14 @@ namespace Pangoo
             List<string[]> tmpRowDataList = new List<string[]>();
             foreach (var item in Rows)
             {
-                string[] texts = new string[item.GetType().GetFields().Length];
-                for (int i = 0; i < texts.Length; i++)
-                {
-                   object valueText = item.GetType().GetFields()[i].GetValue(item);
-                  texts[i] = valueText != null ?valueText.ToString(): String.Empty;
-                }
-                tmpRowDataList.Add(texts);
+                tmpRowDataListAdd(tmpRowDataList,item);
             }
             return tmpRowDataList;
         }
         /// <summary> 从Excel文件重新构建数据 </summary>
         public virtual void LoadExcelFile(string excelFilePath)
         {
-            Rows=new ();
-            var fileInfo = new FileInfo(excelFilePath);
-            ExcelPackage excelPackage = new ExcelPackage(fileInfo);
-            ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets[1];
-            for (int i = 3; i < worksheet.Dimension.Rows; i++)
-            {
-                PangooEventsRow  eventsRow = new PangooEventsRow();
-                 var eventRowFieldInfos = eventsRow.GetType().GetFields();
-                 for (int j = 0; j < worksheet.Dimension.Columns; j++)
-                 {
-                       var value = StringConvert.ToValue(eventRowFieldInfos[j].FieldType, worksheet.Cells[i+1,j+1].Value.ToString());  //将字符串解析成指定类型
-                       eventRowFieldInfos[j].SetValue(eventsRow,value);
-                 }
-                 Rows.Add(eventsRow);
-            }
+          Rows = LoadExcelFile<PangooEventsRow>(excelFilePath);
         }
 
 
