@@ -57,9 +57,9 @@ namespace Pangoo
 
         [TableList]
         public List<ExcelEntry> ExcelList = new List<ExcelEntry>();
-        
-        [AssetList(AutoPopulate = true,Path = "/Plugins/Pangoo/StreamRes/ExcelTable/CSV")]
-        public List<TextAsset> CSVFileList;
+
+        [AssetList(Path = "/Plugins/Pangoo/StreamRes/ExcelTable/Excel/cn")]
+        public List<DefaultAsset> ExcelFileList;
 
         [FormerlySerializedAs("Headers")]
         public List<string> UsingNamespace = new List<string>()
@@ -90,7 +90,6 @@ namespace Pangoo
             DirectoryUtility.ExistsOrCreate(scriptGenerateDir);
             DirectoryUtility.ExistsOrCreate(scriptCustomDir);
             DirectoryUtility.ExistsOrCreate(scriptOverviewDir);
-
 
             DirectoryUtility.ExistsOrCreate(streamResDir);
             DirectoryUtility.ExistsOrCreate(jsonDir);
@@ -129,87 +128,35 @@ namespace Pangoo
         }
 #if UNITY_EDITOR
 
-        [Button("刷新Excel列表", 30)]
-        void Refresh()
-        {
-            if (PackConfig == null)
-            {
-                Debug.LogError("Load Config Failed!");
-                return;
-            }
-
-            InitDirInfo();
-            DirInfo.NameSpace = PackConfig.MainNamespace;
-            var files = Directory.GetFiles(DirInfo.ExcelDir, "*.xlsx");
-            foreach (var filePath in files)
-            {
-                var regularFilePath = filePath.Replace("\\", "/");
-                var fileName = Path.GetFileNameWithoutExtension(regularFilePath);
-                if (!fileName.StartsWith("~"))
-                {
-                    if (ExcelList.Find(o => o.ExcelName == fileName) == null)
-                    {
-                        ExcelList.Add(new ExcelEntry()
-                        {
-                            ExcelName = fileName,
-                            BaseNamespace = string.Empty,
-                        });
-                    }
-
-                }
-            }
-        }
-
-
-        [Button("生成ExcelTable代码", 30)]
-        public void Build()
+        [FoldoutGroup("生成文件或SO")]
+        [Button("Excel生成Table代码", 30)]
+        public void ExcelBuildTableCode()
         {
             InitDirInfo();
-            foreach (var entry in ExcelList)
+            foreach (var entry in ExcelFileList)
             {
-                if (!string.IsNullOrEmpty(entry.BaseNamespace) && entry.BaseNamespace != Namespace)
-                {
-                    continue;
-                }
-
-                var excelPath = Path.Join(DirInfo.ExcelDir, $"{entry.ExcelName}.xlsx").Replace("\\", "/");
-                Debug.Log($"Start Build:{excelPath}");
-                var classBaseName = JsonClassGenerator.ToTitleCase($"{entry.ExcelName}");
-                var className = JsonClassGenerator.ToTitleCase($"{entry.ExcelName}Table");
-                ExcelTableData ExcelData = ExcelTableData.Parser(excelPath, classBaseName);
-
-                GeneratorCode(ExcelData,className);
-            }
-            AssetDatabase.Refresh();
-        }
-
-        [Button("CSV生成CSVTable代码", 30)]
-        public void CSVBuildCSVTableCode()
-        {
-            InitDirInfo();
-            foreach (var entry in CSVFileList)
-            {
-                var csvFilePath = Path.Join(DirInfo.CSVDir,PackConfig.Lang, $"{entry.name}.csv").Replace("\\", "/");
-                Debug.Log($"Start Build:{csvFilePath}");
+                var excelFilePath = Path.Join(DirInfo.ExcelDir, $"{entry.name}.xlsx").Replace("\\", "/");
+                Debug.Log($"Start Build:{excelFilePath}");
                 
                 var classBaseName = JsonClassGenerator.ToTitleCase($"{entry.name}");
                 var className = JsonClassGenerator.ToTitleCase($"{entry.name}Table");
-                ExcelTableData ExcelData = ExcelTableData.ParserCSV(csvFilePath, classBaseName);
+                ExcelTableData ExcelData = ExcelTableData.ParserEPPlus(excelFilePath, classBaseName);
 
                 GeneratorCode(ExcelData,className);
             }
             AssetDatabase.Refresh();
         }
-
+        
+        [FoldoutGroup("生成文件或SO")]
         [Button("Excel生成SO",30)]
-        public void BuildOverviewSo()
+        public void ExcelBuildOverviewSo()
         {
             InitDirInfo();
             foreach (ExcelEntry excelEntry in ExcelList)
             {
-                var className = JsonClassGenerator.ToTitleCase($"{excelEntry.ExcelName}Table");
+                var className = ($"{excelEntry.ExcelName}Table");
                 var classNamesapce = string.IsNullOrEmpty(excelEntry.BaseNamespace) ? Namespace : excelEntry.BaseNamespace;
-                var so = ScriptableObject.CreateInstance($"{classNamesapce}.{className}Overview") as ExcelTableOverview;
+                ExcelTableOverview so = ScriptableObject.CreateInstance($"{classNamesapce}.{className}Overview") as ExcelTableOverview;
                 var path = Path.Join(DirInfo.ScriptableObjectDir, $"{excelEntry.ExcelName}.asset");
                 if (File.Exists(path))
                 {
@@ -217,69 +164,25 @@ namespace Pangoo
                 }
                 so.Namespace = Namespace;
                 so.PackageDir = PackConfig.PackageDir;
-                so.csvDirPath ="StreamRes/ExcelTable/CSV/"+PackConfig.Lang;
-                so.LoadFromJson();
+                so.ExcelDirPath ="StreamRes/ExcelTable/Excel/"+PackConfig.Lang;
                 AssetDatabase.CreateAsset(so, path);
+                AssetDatabase.SaveAssets();
+                so.LoadExcelFile();
             }
-
-            AssetDatabase.Refresh();
         }
         
-        [Button("CSV生成SO",30)]
-        public void CSVBuildOverviewSo()
+        [FoldoutGroup("生成文件或SO")]
+        [Button("生成Excel文件",30)]
+        public void BuildExcelFile()
         {
-            InitDirInfo();
-            foreach (TextAsset excelEntry in CSVFileList)
+            string[] dirPath = new string[] { PackConfig.PackageDir};
+            foreach (ExcelTableOverview excelTableOverviewSo in AssetDatabaseUtility.FindAsset<ExcelTableOverview>(dirPath))
             {
-                var className = ($"{excelEntry.name}Table");
-                var classNamesapce = Namespace;
-                ExcelTableOverview so = ScriptableObject.CreateInstance($"{classNamesapce}.{className}Overview") as ExcelTableOverview;
-                var path = Path.Join(DirInfo.ScriptableObjectDir, $"{excelEntry.name}.asset");
-                if (File.Exists(path))
-                {
-                    File.Delete(path);
-                }
-                so.Namespace = Namespace;
-                so.PackageDir = PackConfig.PackageDir;
-                so.csvDirPath ="StreamRes/ExcelTable/CSV/"+PackConfig.Lang;
-                AssetDatabase.CreateAsset(so, path);
-                AssetDatabase.Refresh();
-                so.LoadCSVFile();
+                excelTableOverviewSo.BuildExcelFile();
             }
         }
-
-        [Button("从Excel生成Json", 30)]
-        public void ReloadFromExcel(){
-            InitDirInfo();
-            foreach (var entry in ExcelList)
-            {
-                // if (!string.IsNullOrEmpty(entry.BaseNamespace) && entry.BaseNamespace != Namespace)
-                // {
-                //     continue;
-                // }
-
-                var excelPath = Path.Join(DirInfo.ExcelDir, $"{entry.ExcelName}.xlsx").Replace("\\", "/");
-                Debug.Log($"Start Build:{excelPath}");
-                var classBaseName = JsonClassGenerator.ToTitleCase($"{entry.ExcelName}");
-                var className = JsonClassGenerator.ToTitleCase($"{entry.ExcelName}Table");
-                var ExcelData = ExcelTableData.Parser(excelPath, classBaseName);
-                var json = DataTableDataGenerator.BuildTableDataJson(ExcelData);
-                var jsonPath = Path.Join(DirInfo.JsonDir, $"{className}.json").Replace("\\", "/");
-                Debug.Log($"Wrte json at:{jsonPath}");
-                if (json != null)
-                {
-
-                    using (FileStream fileStream = new FileStream(jsonPath, FileMode.Create, FileAccess.Write))
-                    {
-                        using (TextWriter textWriter = new StreamWriter(fileStream, Encoding.UTF8))
-                        {
-                            textWriter.Write(json);
-                        }
-                    }
-                }
-
-        }}
-
+        
+        [FoldoutGroup("打开或定位文件夹")]
         [Button("打开Excel文件夹",30)]
         public void OpenExcelFileDir()
         {
@@ -287,14 +190,7 @@ namespace Pangoo
             //EditorUtility.RevealInFinder(filePath);
             System.Diagnostics.Process.Start("explorer.exe", Path.GetFullPath(filePath));
         }
-        
-        [Button("打开CSV文件夹",30)]
-        public void OpenCSVFileDir()
-        {
-            var filePath = DirInfo.CSVDir;
-            System.Diagnostics.Process.Start("explorer.exe", Path.GetFullPath(filePath));
-        }
-        
+        [FoldoutGroup("打开或定位文件夹")]
         [Button("定位SO文件夹",30)]
         public void OpenSODir()
         {
@@ -303,19 +199,6 @@ namespace Pangoo
             Selection.activeObject = obj;
         }
         
-        
-        
-        [Button("生成CSV文件",30)]
-        public void BuildCSVFile()
-        {
-            string[] dirPath = new string[] { PackConfig.PackageDir};
-            //寻找到所有继承ExcelTableOverview的SO,调用其自身的build方法
-            //foreach (ExcelTableOverview excelTableOverviewSo in AssetDatabaseUtility.FindAllExcelTableOverviewSO(dirPath))
-            foreach (ExcelTableOverview excelTableOverviewSo in AssetDatabaseUtility.FindAsset<ExcelTableOverview>(dirPath))
-            {
-                excelTableOverviewSo.BuildCSVFile();
-            }
-        }
         /// <summary>
         /// 根据ExcelData数据生成代码
         /// </summary>
@@ -323,33 +206,16 @@ namespace Pangoo
         /// <param name="className">生成的脚本名</param>
         public void GeneratorCode(ExcelTableData ExcelData,string className)
         {
-            var json = DataTableDataGenerator.BuildCSVTableDataJson(ExcelData);
-            var jsonPath = Path.Join(DirInfo.JsonDir, $"{className}.json").Replace("\\", "/");
-            
-            if (json != null)
-            {
-                using (FileStream fileStream = new FileStream(jsonPath, FileMode.Create, FileAccess.Write))
-                {
-                    using (TextWriter textWriter = new StreamWriter(fileStream, Encoding.UTF8))
-                    {
-                        textWriter.Write(json);
-                    }
-                }
-            }
-                
             var codeJson = DataTableCodeGenerator.BuildTableCodeJson(ExcelData);
             if (codeJson != null)
             {
                 Debug.Log($"Build Class:{className}");
-                var codePath = Path.Join(DirInfo.ScriptGenerateDir, $"{className}.cs");
-                JsonClassGenerator.GeneratorCodeString(codeJson, Namespace, new CSharpCodeWriter(UsingNamespace, ExcelData), className, codePath, jsonPath);
 
                 var codeCustomPath = Path.Join(DirInfo.ScriptCustomDir, $"{className}.Custom.cs");
                 if (!File.Exists(codeCustomPath))
                 {
                     JsonClassGenerator.GeneratorCodeString("{}", Namespace, new CSharpCodeCustomWriter(UsingNamespace, ExcelData), className, codeCustomPath);
                 }
-
                 var overviewPath = Path.Join(DirInfo.ScriptOverviewDir, $"{className}Overview.cs");
                 JsonClassGenerator.GeneratorCodeString("{}", Namespace, new CSharpCodeTableOverviewWriter(UsingNamespace, ExcelData,DirInfo.PackageDir, DirInfo.JsonRelativeDir), className, overviewPath);
             }
@@ -382,8 +248,6 @@ namespace Pangoo
         public string ExcelDir;
 
         public string ScriptableObjectDir;
-        [FolderPath]
-        public string CSVDir;
 
     }
 

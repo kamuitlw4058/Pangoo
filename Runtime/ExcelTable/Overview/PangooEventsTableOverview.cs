@@ -51,43 +51,22 @@ namespace Pangoo
 
 #if UNITY_EDITOR
 
-       [Button("从Json重构",30)]
-       public override void LoadFromJson()
-       {
-          var path = $"{PackageDir}/StreamRes/ExcelTable/Json/cn/{GetJsonPath()}.json";
-          string json = File.ReadAllText(path);
-          Data =  JsonMapper.ToObject<PangooEventsTable>(json);
-       }
-
-
-       [Button("生成Json",30)]
-       public override void SaveJson()
-       {
-          var path = $"{PackageDir}/StreamRes/ExcelTable/Json/cn/{GetJsonPath()}.json";
-          var json = JsonMapper.ToJson(Data);
-          using (var sw = new StreamWriter(path))
-           {
-              sw.WriteLine(json);
-           }
-           SaveConfig();
-       }
-
-
-       [Button("从CSV文件重构数据",30)]
-        /// <summary> 加载CSV文件</summary>
-        public override void LoadCSVFile()
+       [Button("从Excel文件重构数据",30)]
+        /// <summary> 加载Excel文件</summary>
+        public override void LoadExcelFile()
         {
-          string CSVDirPath = Path.Join(PackageDir,csvDirPath);
-          string csvFile=CSVDirPath+ "/" + this.name + ".csv";
-          Data.LoadCSVFile(csvFile);
+          Data=new();
+          string excelDirPath = Path.Join(PackageDir,ExcelDirPath);
+          string excelFile=excelDirPath+ "/" + this.name + ".xlsx";
+          Data.LoadExcelFile(excelFile);
         }
 
 
-       [Button("生成CSV文件",30)]
-        /// <summary> 生成CSV文件</summary>
-        public override void BuildCSVFile()
+       [Button("生成Excel文件",30)]
+        /// <summary> 生成Excel文件</summary>
+        public override void BuildExcelFile()
         {
-          BuildCSVFile(Data);
+          BuildExcelFile(Data);
         }
 
 #endif

@@ -19,19 +19,16 @@ namespace Pangoo
 
         ExcelTableData m_ExcelData;
 
-        string m_JsonDir;
-        string m_PackageDir;
-
-
-
+        // string m_JsonDir;
+        // string m_PackageDir;
+        
 
         public CSharpCodeTableOverviewWriter(List<string> headers, ExcelTableData excelData,string packageDir, string jsonDir)
         {
             m_Headers = headers;
             m_ExcelData = excelData;
-            m_PackageDir = packageDir;
-
-            m_JsonDir = jsonDir;
+            // m_PackageDir = packageDir;
+            // m_JsonDir = jsonDir;
         }
 
         public string GetTypeName(JsonType type, IJsonClassGeneratorConfig config)
@@ -104,7 +101,7 @@ namespace Pangoo
             sw.WriteLine("namespace {0}", config.Namespace);
             sw.WriteLine("{");
             // sw.WriteLine($"   [CreateAssetMenu(fileName = \"{config.MainClass}Overview\", menuName = \"Pangoo/ExcelTable/{config.MainClass}Overview\", order = 0)]");
-            sw.WriteLine("    {0} partial class {1}Overview : ExcelTableOverview", "public", JsonClassGenerator.ToTitleCase(config.MainClass));
+            sw.WriteLine($"    public partial class {JsonClassGenerator.ToTitleCase(config.MainClass)}Overview : ExcelTableOverview");
             sw.WriteLine("    {");
         }
 
@@ -159,50 +156,50 @@ namespace Pangoo
 
                 sw.WriteLine($"#if UNITY_EDITOR");
 
-                sw.WriteLine();
-                sw.WriteLine("       [Button(\"从Json重构\",30)]");
-                sw.WriteLine("       public override void LoadFromJson()");
-                sw.WriteLine("       {");
-                sw.Write(    "          var path = $\"{PackageDir}/" + $"{m_JsonDir}");
-                sw.WriteLine("/{GetJsonPath()}.json\";");
-                sw.WriteLine($"          string json = File.ReadAllText(path);");
-                sw.WriteLine($"          Data =  JsonMapper.ToObject<{m_ExcelData.ClassName}>(json);");
-                sw.WriteLine("       }");
-                sw.WriteLine();
+                // sw.WriteLine();
+                // sw.WriteLine("       [Button(\"从Json重构\",30)]");
+                // sw.WriteLine("       public override void LoadFromJson()");
+                // sw.WriteLine("       {");
+                // sw.Write(    "          var path = $\"{PackageDir}/" + $"{m_JsonDir}");
+                // sw.WriteLine("/{GetJsonPath()}.json\";");
+                // sw.WriteLine($"          string json = File.ReadAllText(path);");
+                // sw.WriteLine($"          Data =  JsonMapper.ToObject<{m_ExcelData.ClassName}>(json);");
+                // sw.WriteLine("       }");
+                // sw.WriteLine();
+                //
+                // sw.WriteLine();
+                // sw.WriteLine("       [Button(\"生成Json\",30)]");
+                // sw.WriteLine("       public override void SaveJson()");
+                // sw.WriteLine("       {");
+                // sw.Write(    "          var path = $\"{PackageDir}/" + $"{m_JsonDir}");
+                // sw.WriteLine(           "/{GetJsonPath()}.json\";");
+                // sw.WriteLine("          var json = JsonMapper.ToJson(Data);");
+                // sw.WriteLine("          using (var sw = new StreamWriter(path))");
+                // sw.WriteLine("           {");
+                // sw.WriteLine("              sw.WriteLine(json);");
+                // sw.WriteLine("           }");
+                // sw.WriteLine("           SaveConfig();");
+                // sw.WriteLine("       }");
+                // sw.WriteLine();
                 
                 sw.WriteLine();
-                sw.WriteLine("       [Button(\"生成Json\",30)]");
-                sw.WriteLine("       public override void SaveJson()");
-                sw.WriteLine("       {");
-                sw.Write(    "          var path = $\"{PackageDir}/" + $"{m_JsonDir}");
-                sw.WriteLine(           "/{GetJsonPath()}.json\";");
-                sw.WriteLine("          var json = JsonMapper.ToJson(Data);");
-                sw.WriteLine("          using (var sw = new StreamWriter(path))");
-                sw.WriteLine("           {");
-                sw.WriteLine("              sw.WriteLine(json);");
-                sw.WriteLine("           }");
-                sw.WriteLine("           SaveConfig();");
-                sw.WriteLine("       }");
-                sw.WriteLine();
-                
-                sw.WriteLine();
-                sw.WriteLine("       [Button(\"从CSV文件重构数据\",30)]");
-                sw.WriteLine("        /// <summary> 加载CSV文件</summary>");
+                sw.WriteLine("       [Button(\"从Excel文件重构数据\",30)]");
+                sw.WriteLine("        /// <summary> 加载Excel文件</summary>");
                 sw.WriteLine("        public override void LoadCSVFile()");
                 sw.WriteLine("        {");
-                //sw.WriteLine("          Data = new ();");
-                sw.WriteLine("          string CSVDirPath = Path.Join(PackageDir,csvDirPath);");
-                sw.WriteLine("          string csvFile=CSVDirPath+ \"/\" + this.name + \".csv\";");
-                sw.WriteLine("          Data.LoadCSVFile(csvFile);");
+                sw.WriteLine("          Data=new();");
+                sw.WriteLine("          string excelDirPath = Path.Join(PackageDir,csvDirPath);");
+                sw.WriteLine("          string excelFile=excelDirPath+ \"/\" + this.name + \".xlsx\";");
+                sw.WriteLine("          Data.LoadExcelFile(excelFile);");
                 sw.WriteLine("        }");
                 sw.WriteLine();
                 
                 sw.WriteLine();
-                sw.WriteLine("       [Button(\"生成CSV文件\",30)]");
-                sw.WriteLine("        /// <summary> 生成CSV文件</summary>");
-                sw.WriteLine("        public override void BuildCSVFile()");
+                sw.WriteLine("       [Button(\"生成Excel文件\",30)]");
+                sw.WriteLine("        /// <summary> 生成Excel文件</summary>");
+                sw.WriteLine("        public override void BuildExcelFile()");
                 sw.WriteLine("        {");
-                sw.WriteLine("          BuildCSVFile(Data);");
+                sw.WriteLine("          BuildExcelFile(Data);");
                 sw.WriteLine("        }");
                 sw.WriteLine();
 

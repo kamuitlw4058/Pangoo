@@ -12,6 +12,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bda31610a7452b24e82224f761758096, type: 3}
   m_Name: UiConfigInfo
   m_EditorClassIdentifier: 
-  csvDirPath: StreamRes/ExcelTable/CSV/cn
+  ExcelDirPath: StreamRes/ExcelTable/Excel/cn
   Data:
-    Rows: []
+    Rows:
+    - Id: 0
+      Name: 
+      PackageName: 
+      ComponentName: 
+      SortingOrder: 0
+      BlurMask: 1
+      IgnoreNotch: 1
+      NeverClose: 0
+      IgnoreStack: 0
+      HidePause: 0
+    - Id: 1
+      Name: 
+      PackageName: 
+      ComponentName: 
+      SortingOrder: 0
+      BlurMask: 0
+      IgnoreNotch: 0
+      NeverClose: 1
+      IgnoreStack: 1
+      HidePause: 0
+    - Id: 2
+      Name: 
+      PackageName: 
+      ComponentName: 
+      SortingOrder: 0
+      BlurMask: 0
+      IgnoreNotch: 1
+      NeverClose: 0
+      IgnoreStack: 0
+      HidePause: 0

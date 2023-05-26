@@ -8,6 +8,7 @@ using UnityEngine.Serialization;
 using System.IO;
 using System.Text;
 using UnityEditor;
+using OfficeOpenXml;
 #endif
 
 namespace Pangoo
@@ -17,8 +18,8 @@ namespace Pangoo
         [ShowInInspector]
         [FolderPath]
         public  string PackageDir {get;set;}
-        [FolderPath(ParentFolder = "$PackageDir")]
-        public string csvDirPath;
+        [FormerlySerializedAs("csvDirPath")] [FolderPath(ParentFolder = "$PackageDir")]
+        public string ExcelDirPath;
         [ShowInInspector]
         public string Namespace { get; set; }
 
@@ -67,28 +68,30 @@ namespace Pangoo
             
         }
 
-        public virtual void LoadCSVFile()
+        public virtual void LoadExcelFile()
         {
             
         }
 
         
         
-        public virtual void BuildCSVFile()
+        public virtual void BuildExcelFile()
         {
             
         }
         
-        public  void BuildCSVFile(ExcelTableBase Data)
+        public  void BuildExcelFile(ExcelTableBase Data)
         {
-            string CSVDirPath = Path.Join(PackageDir,csvDirPath);
-            string outCSVFilePath = CSVDirPath+ "/" + this.name + ".csv";
+            string excelDirPath = Path.Join(PackageDir,ExcelDirPath);
+            string outExcelFilePath = excelDirPath+ "/" + this.name + ".xlsx";
+            string sheetName = "Sheet1";
 
-            VerifyCSVDirectory(CSVDirPath);
-            CreateTableHeadToFile(outCSVFilePath,Data.GetTableHeadList());
-            AppendTableDataToFile(outCSVFilePath,Data.GetTableRowDataList());
+            VerifyCSVDirectory(excelDirPath);
+            CreateTableHeadToFile(outExcelFilePath,Data.GetTableHeadList(),sheetName);
+            AppendTableDataToFile(outExcelFilePath,Data.GetTableRowDataList(),sheetName);
             
             AssetDatabase.Refresh();
+            Debug.Log($"Excel文件创建成功:{outExcelFilePath}");
         }
         
         /// <summary>
@@ -107,24 +110,20 @@ namespace Pangoo
         /// </summary>
         /// <param name="filePath">输出的文件路径</param>
         /// <param name="tableHeadList">表头列表</param>
-        public void CreateTableHeadToFile(string filePath,List<string[]> tableHeadList)
+        public void CreateTableHeadToFile(string filePath,List<string[]> tableHeadList,string sheetName)
         {
-            using (StreamWriter sw = File.CreateText(filePath))
-            {
-                WriteTextToStreamWriter(sw,tableHeadList);
-            }
+            //-------------------------------
+            WriteTextToExcel(filePath,tableHeadList,sheetName,true);
         }
         /// <summary>
         /// 追加数据到文件
         /// </summary>
         /// <param name="filePath">追加的文件路径</param>
         /// <param name="tableRowDataList">每行数据</param>
-        public void AppendTableDataToFile(string filePath,List<string[]> tableRowDataList)
+        public void AppendTableDataToFile(string filePath,List<string[]> tableRowDataList,string sheetName)
         {
-            using (StreamWriter sw = File.AppendText(filePath))
-            {
-                WriteTextToStreamWriter(sw,tableRowDataList);
-            }
+            //--------------------------------
+            WriteTextToExcel(filePath,tableRowDataList,sheetName);
         }
         /// <summary>
         /// 向文件流写入文本
@@ -140,6 +139,47 @@ namespace Pangoo
                 sb.AppendLine(finalString);
             }
             sw.Write(sb.ToString());
+        }
+
+        private void WriteTextToExcel(string filePath,List<string[]> RowTextList,string sheetName,bool isCreate=false)
+        {
+            var fileInfo = new FileInfo(filePath);
+            using (ExcelPackage excelPackage=new ExcelPackage(fileInfo))
+            {
+                //添加一张表格
+                ExcelWorksheet worksheet;
+                if (isCreate)
+                {
+                    try
+                    {
+                        worksheet = excelPackage.Workbook.Worksheets.Add(sheetName);
+                    }
+                    catch (Exception e)
+                    {
+                        worksheet = excelPackage.Workbook.Worksheets[sheetName];
+                    }
+                }
+                else
+                {
+                    worksheet = excelPackage.Workbook.Worksheets[sheetName];
+                }
+                
+                for (int row = 0; row < RowTextList.Count; row++)
+                {
+                    for (int col = 0; col < RowTextList[row].Length; col++)
+                    {
+                        if (isCreate)
+                        {
+                            worksheet.Cells[row+1, col+1].Value = RowTextList[row][col];
+                        }
+                        else
+                        {
+                            worksheet.Cells[row+4, col+1].Value = RowTextList[row][col];
+                        }
+                    }
+                }
+                excelPackage.Save();//写入后保存表格
+            }
         }
 #endif
     }

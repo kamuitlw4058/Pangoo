@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using GameFramework.Resource;
 using LitJson;
@@ -56,7 +57,7 @@ namespace Pangoo
                 return;
             }
             List<Type> typeList = new List<Type>();
-
+            //m_ExcelTableDic = new Dictionary<Type, ExcelTableBase>();
             if (useOverview)
             {
                 foreach (var overview in TableOverviews)
@@ -108,8 +109,7 @@ namespace Pangoo
 
         }
         ResourceComponent ResouceCom;
-
-
+        
         protected void Start()
         {
             ResouceCom = UnityGameFramework.Runtime.GameEntry.GetComponent<ResourceComponent>();
@@ -117,6 +117,10 @@ namespace Pangoo
             {
             }
         }
+
+#if UNITY_EDITOR
+        
+#endif
 
         public void Load(Type tableType, ExcelTableLoadCompleteCallback callback = null)
         {

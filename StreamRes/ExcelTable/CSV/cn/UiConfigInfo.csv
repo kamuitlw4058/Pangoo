@@ -1,7 +1,0 @@
-Id,Name,PackageName,ComponentName,SortingOrder,BlurMask,IgnoreNotch,NeverClose,IgnoreStack,HidePause
-int,string,string,string,int,bool,bool,bool,bool,bool
-编号,UI名,FGUI包名,组件名,排序索引,模糊背景,忽略刘海屏,从不关闭,不进入堆栈,隐藏上层界面
-0,a,b,c,0,False,False,True,True,True
-1,y,u,i,1,True,True,False,False,False
-2,,,,0,True,True,False,False,False
-3,,,,0,False,False,False,False,False
