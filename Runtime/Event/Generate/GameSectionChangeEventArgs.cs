@@ -22,15 +22,19 @@ namespace Pangoo
 
         public override int Id => EventId;
 
+        public int GameSectionId;
 
-        public static GameSectionChangeEventArgs Create()
+
+        public static GameSectionChangeEventArgs Create(int gameSectionId)
         {
             var args = ReferencePool.Acquire<GameSectionChangeEventArgs>();
+            args.GameSectionId = gameSectionId;
               return args;
         }
 
 
         public override void Clear(){
+            GameSectionId = 0;
         }
 
 

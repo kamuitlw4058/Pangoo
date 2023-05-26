@@ -19,6 +19,8 @@ namespace Pangoo{
             }
         }
 
+        [SerializeField] Collider EnterCollider;
+
         [ShowInInspector]
         public EntityStaticSceneData SceneData;
 
@@ -44,11 +46,13 @@ namespace Pangoo{
 
 
         private void OnTriggerEnter(Collider other) {
+            EnterCollider = other;
             EventHelper.Fire(this,EnterStaticSceneEventArgs.Create(SceneData.AssetPathId));
         }
 
 
         private void OnTriggerExit(Collider other) {
+            EnterCollider = null;
             EventHelper.Fire(this,ExitStaticSceneEventArgs.Create(SceneData.AssetPathId));
         }
 

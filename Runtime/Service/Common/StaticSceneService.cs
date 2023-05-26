@@ -5,6 +5,7 @@ using GameFramework;
 using System;
 using UnityGameFramework.Runtime;
 using System.Linq;
+using Sirenix.OdinInspector;
 
 namespace Pangoo.Service
 {
@@ -16,21 +17,33 @@ namespace Pangoo.Service
 
         EntityLoader Loader = null;
 
+        [ShowInInspector]
         Dictionary<int,int> m_EnterAssetCountDict;
 
+        [ShowInInspector]
         Dictionary<int,EntityStaticScene> m_LoadedSceneAssetDict;
+
+        [ShowInInspector]
         List<int> m_LoadingAssetIds;
+
+
+        [ShowInInspector]
 
         Dictionary<int,StaticSceneInfo> m_SectionSceneInfos;
 
+        [ShowInInspector]
         List<int> m_HoldStaticSceneIds;
 
+        [ShowInInspector]
         Dictionary<int,int> NeedLoadDict;
 
         public bool AutoLoad {get;set;}
 
 
         public bool AutoRelease {get;set;}
+
+
+        public Tuple<int,int> m_SectionChange;
 
        
 
@@ -78,17 +91,34 @@ namespace Pangoo.Service
             m_HoldStaticSceneIds.AddRange(ids);
         }
 
+        public void SetGameSectionChange(Tuple<int,int> value){
+            m_SectionChange = value;
+        }
+
+
+
         public void EnterSceneAsset(int assetPathId){
             int count;
+
+            Log.Debug($"EnterSceneAsset:{assetPathId} {m_EnterAssetCountDict.Count}");
             if(!m_EnterAssetCountDict.TryGetValue(assetPathId,out count)){
                 m_EnterAssetCountDict.Add(assetPathId,1);
             }else{
                 m_EnterAssetCountDict[assetPathId] = count +1;
             }
+
+            StaticSceneInfo staticSceneInfo;
+            if(m_SectionSceneInfos.TryGetValue(assetPathId,out staticSceneInfo)){
+                if(staticSceneInfo.Id == m_SectionChange.Item1){
+                    EventHelper.Fire(this,GameSectionChangeEventArgs.Create(m_SectionChange.Item2));
+                }
+            }
+
         }
 
         public void ExitSceneAsset(int assetPathId){
             int count;
+            Log.Debug($"ExitSceneAsset:{assetPathId},{m_EnterAssetCountDict.Count}");
             if(m_EnterAssetCountDict.TryGetValue(assetPathId,out count)){
                 count -=1;
                 if(count <= 0){

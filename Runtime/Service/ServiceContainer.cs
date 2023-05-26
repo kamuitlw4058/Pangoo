@@ -1,11 +1,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector;
+
 
 namespace Pangoo.Service
 {
+    [Serializable]
     public class ServiceContainer : IServiceContainer
     {
+        [ShowInInspector]
+        private List<ServiceBase> ServerList{
+            get{
+                return m_AllServices.Values.ToList();
+            }
+        }
+
+      
         private readonly Dictionary<Type, ServiceBase> m_AllServices = new Dictionary<Type, ServiceBase>();
 
         public ServiceBase[] GetAllServices()

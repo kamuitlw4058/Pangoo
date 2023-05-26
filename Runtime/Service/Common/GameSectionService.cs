@@ -15,22 +15,25 @@ namespace Pangoo.Service
 
         GameSectionTable m_GameSectionTable;
 
-        EventHelper m_EventHelper;
 
-        int  CurrentId =1;
+        public  int  CurrentId =1;
 
-        int LatestId =-1;
+        public int LatestId =-1;
 
 
         public override void DoAwake(IServiceContainer services){
+            base.DoAwake(services);
             m_StaticSceneService = services.GetService<StaticSceneService>();
             m_ExcelTableService = services.GetService<ExcelTableService>();
-            m_EventHelper = EventHelper.Create(this);
-            m_EventHelper.Subscribe(GameSectionChangeEventArgs.EventId, OnGameSectionChangeEvent);
+            EventHelper.Subscribe(GameSectionChangeEventArgs.EventId,OnGameSectionChangeEvent);
+            
         }
 
         void OnGameSectionChangeEvent(object sender,GameFrameworkEventArgs e){
-
+            var args = e as GameSectionChangeEventArgs;
+            if(args.GameSectionId != 0){
+                CurrentId = args.GameSectionId;
+            }
         }
 
         public override void DoStart(){
@@ -40,15 +43,26 @@ namespace Pangoo.Service
 
         void UpdateStaticScene(bool isStart = false){
             if(CurrentId != LatestId){
+                 LatestId = CurrentId;
                 var  GameSection = m_GameSectionTable.GetGameSectionRow(CurrentId);
                 m_StaticSceneService.SetHoldSceneId(GameSection.KeepSceneIds.ToListInt());
                 m_StaticSceneService.SetSectionIds(GameSection.DynamicSceneIds.ToListInt());
+                Tuple<int,int > sectionChange = new Tuple<int, int>(0,0);
+                if(!string.IsNullOrEmpty(GameSection.SectionJumpByScene)){
+                   var itemList = GameSection.SectionJumpByScene.ToListInt("#");
+                   if(itemList.Count ==2){
+                        sectionChange = new Tuple<int, int>(itemList[0],itemList[1]);
+                   }
+                }
+                m_StaticSceneService.SetGameSectionChange(sectionChange);
+
                 var ids = GameSection.FirstDynamicSceneIds.ToListInt();
                 if(isStart){
                     foreach( var id in ids){
                         m_StaticSceneService.ShowStaticScene(id);
                     }
                 }
+               
                   Log.Info($"Update Static Scene:{GameSection.Id} KeepSceneIds:{GameSection.KeepSceneIds} DynamicSceneIds:{GameSection.DynamicSceneIds}");
             }
         }
@@ -57,15 +71,6 @@ namespace Pangoo.Service
         {
             UpdateStaticScene();
         }
-        
-        public override void DoDestroy(){
-            
-            if(m_EventHelper != null){
-                m_EventHelper.UnSubscribeAll();
-                ReferencePool.Release(m_EventHelper);
-            }
-        }
-        
 
         
     }

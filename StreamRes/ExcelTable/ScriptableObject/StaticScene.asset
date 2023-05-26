@@ -41,7 +41,12 @@ MonoBehaviour:
       EntityGroupId: 1
       LoadSceneIds: 
     - Id: 10005
-      Name: "\u66FF\u6362\u5BA2\u5385"
+      Name: "\u7AE0\u82822\u623F\u95F43"
+      AssetPathId: 10003
+      EntityGroupId: 1
+      LoadSceneIds: 10006
+    - Id: 10006
+      Name: "\u7AE0\u82822\u623F\u95F44"
       AssetPathId: 10005
       EntityGroupId: 1
-      LoadSceneIds: 10004
+      LoadSceneIds: 10005

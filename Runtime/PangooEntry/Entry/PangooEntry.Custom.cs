@@ -22,6 +22,8 @@ namespace Pangoo
 
         public static PlayerComponent Player{get;private set;}
 
+        public static ServiceComponent Service {get ;set;}
+
 
 
         private static void InitCustomComponents()
@@ -35,6 +37,8 @@ namespace Pangoo
             FGUI = UnityGameFramework.Runtime.GameEntry.GetComponent<FGUIComponent>();
 
             Player = UnityGameFramework.Runtime.GameEntry.GetComponent<PlayerComponent>();
+
+            Service = UnityGameFramework.Runtime.GameEntry.GetComponent<ServiceComponent>();
 
 
         }
