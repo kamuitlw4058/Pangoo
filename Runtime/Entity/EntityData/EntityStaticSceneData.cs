@@ -4,45 +4,42 @@ using System.Collections.Generic;
 using GameFramework;
 using UnityEngine;
 using UnityGameFramework.Runtime;
+using Pangoo.Service;
 
 namespace Pangoo
 {
     [Serializable]
     public class EntityStaticSceneData : EntityData
     {
-        public EntityInfo Info;
+        // public EntityInfo Info;
+        
+        public EntityInfo EntityInfo;
 
-        public List<int> LoadIds;
+        public int AssetPathId{
+            get{
+                return EntityInfo.AssetPathId;
+            }
+        }
 
-        public StaticSceneManager Manager;
+        public StaticSceneService Service;
         public EntityStaticSceneData() : base()
         {
         }
 
-        public static EntityStaticSceneData Create(EntityInfo Info, List<int> LoadIds,StaticSceneManager manager, object userData = null)
+        public static EntityStaticSceneData Create(EntityInfo Info, StaticSceneService service, object userData = null)
         {
             EntityStaticSceneData entityData = ReferencePool.Acquire<EntityStaticSceneData>();
-            entityData.LoadIds = LoadIds;
-            entityData.Info = Info;
-            entityData.Manager = manager;
+            entityData.EntityInfo = Info;
+            entityData.Service = service;
             entityData.UserData = userData;
             return entityData;
         }
 
-        // public static EntityStaticSceneData Create(EnemyData enemyData, LevelPath levelPath, Vector3 position, Quaternion rotation, object userData = null)
-        // {
-        //     EntityDataEnemy entityData = ReferencePool.Acquire<EntityStaticSceneData>();
-        //     entityData.EnemyData = enemyData;
-        //     entityData.LevelPath = levelPath;
-        //     entityData.Position = position;
-        //     entityData.Rotation = rotation;
-        //     return entityData;
-        // }
-
         public override void Clear()
         {
             base.Clear();
-            // EnemyData = null;
+            Service = null;
+            EntityInfo = null;
         }
     }
 }

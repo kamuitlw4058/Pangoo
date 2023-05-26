@@ -32,6 +32,15 @@ namespace Pangoo
             private set;
         }
 
+         EventHelper m_EventHelper;
+
+        public EventHelper EventHelper{
+                get{
+                        return m_EventHelper;
+                }
+        }
+
+
 #if UNITY_2017_3_OR_NEWER
         protected override void OnInit(object userData)
 #else
@@ -70,6 +79,7 @@ namespace Pangoo
             CachedTransform.localPosition = m_EntityData.Position;
             CachedTransform.localRotation = m_EntityData.Rotation;
             CachedTransform.localScale = Vector3.one;
+            m_EventHelper = EventHelper.Create(this);
         }
 
 #if UNITY_2017_3_OR_NEWER
@@ -79,6 +89,10 @@ namespace Pangoo
 #endif
         {
             base.OnHide(isShutdown, userData);
+            if(m_EventHelper != null){
+                m_EventHelper.UnSubscribeAll();
+                ReferencePool.Release(m_EventHelper);
+            }
 
             ReferencePool.Release(m_EntityData);
         }

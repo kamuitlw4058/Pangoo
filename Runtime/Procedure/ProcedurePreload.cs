@@ -36,6 +36,8 @@ namespace Pangoo
 
              packageConfig = PangooEntry.GameConfig.GetGameMainConfig();
 
+             PangooEntry.ExcelTable.LoadExcelTable();
+
             // GameFramework.Data.Data[] _datas = GameEntry.Data.GetAllData();
 
             // datas = new DataBase[_datas.Length];
