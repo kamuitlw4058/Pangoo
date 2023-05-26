@@ -57,7 +57,8 @@ namespace Pangoo
 
         // [TableList]
         // public List<ExcelEntry> ExcelList = new List<ExcelEntry>();
-
+        
+        [LabelText("ExcelList")]
         [AssetList(Path = "/Plugins/Pangoo/StreamRes/ExcelTable/Excel/cn")]
         public List<DefaultAsset> ExcelFileList;
 
@@ -168,6 +169,7 @@ namespace Pangoo
                 AssetDatabase.CreateAsset(so, path);
                 AssetDatabase.SaveAssets();
                 so.LoadExcelFile();
+                Debug.Log($"创建SO成功：{path}");
             }
         }
         

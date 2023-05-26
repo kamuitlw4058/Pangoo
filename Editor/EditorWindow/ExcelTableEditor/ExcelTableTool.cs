@@ -42,7 +42,7 @@ namespace Pangoo.Editor
         }
 
 
-        [Button("生成CSVTable代码")]
+        [Button("Excel生成Table代码")]
         void Build()
         {
             foreach (var excelTableConfig in ExcelTableConfigs)
@@ -51,7 +51,7 @@ namespace Pangoo.Editor
             }
         }
 
-        [Button("CSV生成SO")]
+        [Button("Excel生成SO")]
         void BuildOverviewSo()
         {
             foreach (var excelTableConfigWrapper in ExcelTableConfigs)
@@ -72,24 +72,10 @@ namespace Pangoo.Editor
 
             [ShowInInspector]
             public string Namespace => Config.Namespace;
-
-            // [ShowInInspector]
-            // [TableList]
-            // public List<ExcelEntry> ExcelList
-            // {
-            //     get
-            //     {
-            //         return Config.ExcelList;
-            //     }
-            //     set
-            //     {
-            //         Config.ExcelList = value;
-            //     }
-            //
-            // }
             
-            [AssetList(AutoPopulate = true, Path = "/Plugins/Pangoo/StreamRes/ExcelTable/CSV")]
-            public List<TextAsset> CSVFileList;
+            [LabelText("ExcelList")]
+            [AssetList(AutoPopulate = true, Path = "/Plugins/Pangoo/StreamRes/ExcelTable/Excel/cn")]
+            public List<DefaultAsset> ExcelFileList;
             [HideInInspector]
             public ExcelTableConfig Config;
         }
