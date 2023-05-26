@@ -7,14 +7,22 @@ using LitJson;
 using Pangoo;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using System.Xml.Serialization;
 
 namespace Pangoo
 {
     public partial class StaticSceneTable 
     {
-
+        [NonSerialized]
+        [XmlIgnore]
         Dictionary<int,StaticSceneInfo> m_Dict= null;
+
+        [NonSerialized]
+        [XmlIgnore]
         AssetPathTable m_AssetPathTable = null;
+
+        [NonSerialized]
+        [XmlIgnore]
         EntityGroupTable m_EntityGroupTable = null;
 
         /// <summary> 用户处理 </summary>
@@ -35,17 +43,14 @@ namespace Pangoo
             m_Dict.Clear();
             foreach(var row in Rows){
                 var assetPath =  m_AssetPathTable.GetAssetPathRow(row.AssetPathId);
-                // var group = m_EntityGroupTable.GetEntityGroupRow(row.)
-                // m_Dict.Add(row.Id,new StaticSceneInfo(row,assetPath));
+                var group = m_EntityGroupTable.GetEntityGroupRow(row.EntityGroupId);
+                m_Dict.Add(row.Id,StaticSceneInfo.Create(row,group,assetPath));
             }
         }
 
         public StaticSceneInfo GetStaticSceneInfo(int id){
-            StaticSceneInfo row;
-            if(m_Dict.TryGetValue(id,out row)){
-                return row;
-            }
-            return null;
+            // Debug.Log($"this:{this.GetHashCode()}");
+            return m_Dict[id];
         }
 
 public override void Merge(ExcelTableBase val){

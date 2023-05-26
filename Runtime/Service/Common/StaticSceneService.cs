@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using GameFramework;
 using System;
+using UnityGameFramework.Runtime;
+using System.Linq;
 
 namespace Pangoo.Service
 {
@@ -40,6 +42,7 @@ namespace Pangoo.Service
             m_SectionSceneInfos = new Dictionary<int, StaticSceneInfo>();
             m_ExcelTableService = services.GetService<ExcelTableService>();
             m_LoadedSceneAssetDict = new Dictionary<int, EntityStaticScene>();
+            m_EnterAssetCountDict = new Dictionary<int, int>();
             AutoLoad = true;
             AutoRelease= true;
             EventHelper.Subscribe(EnterStaticSceneEventArgs.EventId,OnEnterStaticSceneEven);
@@ -107,6 +110,8 @@ namespace Pangoo.Service
             if(m_LoadedSceneAssetDict.ContainsKey(AssetPathId)){
                 return;
             }
+
+             Log.Info($"ShowStaticScene:{id}");
        
 
             // 这边有一个假设，同一个时间不会反复加载不同的章节下的同一个场景。
@@ -136,11 +141,16 @@ namespace Pangoo.Service
                 if(m_SectionSceneInfos.TryGetValue(enterAssetId,out sceneInfo)){
                     foreach(var id in sceneInfo.LoadSceneIds){
                         if(!NeedLoadDict.ContainsKey(id)){
-                            NeedLoadDict.Add(id,sceneInfo.AssetPathId);
+                            var loadSceneInfo = m_StaticSceneTable.GetStaticSceneInfo(id);
+                            NeedLoadDict.Add(id,loadSceneInfo.AssetPathId);
                         }
+                    }
+                    if(!NeedLoadDict.ContainsKey(sceneInfo.Id)){
+                        NeedLoadDict.Add(sceneInfo.Id,sceneInfo.AssetPathId);
                     }
                 }
             }
+
 
             //章节服务会设置常驻的场景ID。用来打开该场景下通用的设置。
             foreach(var keepSceneId in m_HoldStaticSceneIds){
@@ -150,7 +160,7 @@ namespace Pangoo.Service
                     }
             }
 
- 
+             Log.Info($"UpdateNeedLoadIds:{NeedLoadDict.Keys.ToList().ToItemString()} EnterSceneId:{m_EnterAssetCountDict.Keys.ToList().ToItemString()}");
         }
 
         public void UpdateAutoLoad(){
@@ -168,6 +178,7 @@ namespace Pangoo.Service
                     if(!NeedLoadDict.ContainsValue(item.Key) && !m_EnterAssetCountDict.ContainsKey(item.Key)){
                         if(Loader.GetEntity(item.Value.Id)){
                             Loader.HideEntity(item.Value.Id);  
+                            Log.Info($"HideEntity:{item.Key}");
                         }
                         removeScene.Add(item.Key);
                     }
@@ -180,6 +191,9 @@ namespace Pangoo.Service
 
         }
 
+        public void DumpStr(){
+             Log.Info("load :{}");
+        }
 
         public override void DoUpdate(float elapseSeconds, float realElapseSeconds){
             if(m_EnterAssetCountDict.Count == 0){
@@ -189,6 +203,8 @@ namespace Pangoo.Service
             UpdateNeedLoadDict();
             UpdateAutoLoad();
             UpdateAutoRelease();
+
+           
 
 
 

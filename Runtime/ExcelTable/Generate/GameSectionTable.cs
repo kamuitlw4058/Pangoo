@@ -61,6 +61,15 @@ namespace Pangoo
             [ShowInInspector]
             [JsonMember("SectionJumpByScene")]
             public string SectionJumpByScene ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("进入章节默认加载的场景")]
+            [HideLabel]
+            [ShowInInspector]
+            [JsonMember("FirstDynamicSceneIds")]
+            public string FirstDynamicSceneIds ;
         }
 
 
@@ -72,21 +81,21 @@ namespace Pangoo
         /// <summary> 获取表头 </summary>
         public override string[] GetHeadNames()
         {
-            return new string[]{"Id","Name","DynamicSceneIds","KeepSceneIds","SectionJumpByScene"};
+            return new string[]{"Id","Name","DynamicSceneIds","KeepSceneIds","SectionJumpByScene","FirstDynamicSceneIds"};
         }
 
 
         /// <summary> 获取类型名 </summary>
         public override string[] GetTypeNames()
         {
-            return new string[]{"int","string","string","string","string"};
+            return new string[]{"int","string","string","string","string","string"};
         }
 
 
         /// <summary> 获取描述名 </summary>
         public override string[] GetDescNames()
         {
-            return new string[]{"编号","名字","动态加载场景","持续加载场景","章节跳转的场景"};
+            return new string[]{"编号","名字","动态加载场景","持续加载场景","章节跳转的场景","进入章节默认加载的场景"};
         }
 
 

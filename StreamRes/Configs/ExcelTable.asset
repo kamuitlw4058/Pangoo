@@ -27,22 +27,22 @@ MonoBehaviour:
     ScriptableObjectDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/ScriptableObject
     CSVDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/CSV
   ExcelList:
-  - ExcelName: PangooEvents
-    BaseNamespace: 
-    LoadAtRuntime: 1
-  - ExcelName: UiConfigInfo
-    BaseNamespace: 
-    LoadAtRuntime: 1
   - ExcelName: StaticScene
     BaseNamespace: 
     LoadAtRuntime: 1
-  - ExcelName: GameSection
+  - ExcelName: AssetPath
     BaseNamespace: 
     LoadAtRuntime: 1
   - ExcelName: EntityGroup
     BaseNamespace: 
     LoadAtRuntime: 1
-  - ExcelName: AssetPath
+  - ExcelName: GameSection
+    BaseNamespace: 
+    LoadAtRuntime: 1
+  - ExcelName: PangooEvents
+    BaseNamespace: 
+    LoadAtRuntime: 1
+  - ExcelName: UiConfigInfo
     BaseNamespace: 
     LoadAtRuntime: 1
   CSVFileList:

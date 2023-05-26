@@ -1,5 +1,3 @@
-// 本文件使用工具自动生成，请勿进行手动修改！
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,12 +6,14 @@ using LitJson;
 using Pangoo;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using System.Xml.Serialization;
 
 namespace Pangoo
 {
     public partial class UiConfigInfoTable
     {
-
+        [NonSerialized]
+        [XmlIgnore]
         Dictionary<string, UiConfigInfoRow> m_Dictionary;
 
         /// <summary> 用户处理 </summary>

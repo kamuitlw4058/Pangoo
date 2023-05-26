@@ -46,7 +46,7 @@ namespace Pangoo
             }
         }
 
-        public EntityInfo Create(AssetPathTable.AssetPathRow assetPath,EntityGroupTable.EntityGroupRow entityGroup){
+        public static EntityInfo Create(AssetPathTable.AssetPathRow assetPath,EntityGroupTable.EntityGroupRow entityGroup){
             var info = ReferencePool.Acquire<EntityInfo>();
             info.AssetPathRow = assetPath;
             info.EntityGroupRow = entityGroup;

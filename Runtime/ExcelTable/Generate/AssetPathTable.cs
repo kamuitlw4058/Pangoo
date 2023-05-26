@@ -58,10 +58,10 @@ namespace Pangoo
         /// <summary>
         /// Desc: 
         /// </summary>
-        [TableTitleGroup("资源路径")]
         [HideLabel]
         [ShowInInspector]
         [JsonMember("AssetPath")]
+        [TableList]
         public List<AssetPathRow> Rows ;
 
 

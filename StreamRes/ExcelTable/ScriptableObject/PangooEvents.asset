@@ -21,12 +21,3 @@ MonoBehaviour:
     - Namesapce: Pangoo
       EventName: EventTrigger
       Desc: "\u6761\u4EF6\u89E6\u53D1\u4E8B\u4EF6\u7528\u6765\u51FA\u53D1\u5916\u90E8\u5B9A\u4E49\u4E8B\u4EF6"
-    - Namesapce: Pangoo
-      EventName: GameSectionChange
-      Desc: "\u6539\u53D8\u6E38\u620F\u7AE0\u8282"
-    - Namesapce: Pangoo
-      EventName: EnterStaticScene
-      Desc: "\u8FDB\u5165\u9759\u6001\u573A\u666F"
-    - Namesapce: Pangoo
-      EventName: ExitStaticScene
-      Desc: "\u9000\u51FA\u9759\u6001\u573A\u666F"

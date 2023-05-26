@@ -53,13 +53,5 @@ namespace Pangoo{
         }
 
 
-        protected override void OnHide(bool isShutdown, object userData){
-
-            ReferencePool.Release(SceneData);
-            base.OnHide(isShutdown,userData);
-        }
-
-   
-
     }
 }
