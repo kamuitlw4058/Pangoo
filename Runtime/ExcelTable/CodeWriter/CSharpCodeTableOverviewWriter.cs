@@ -185,10 +185,10 @@ namespace Pangoo
                 sw.WriteLine();
                 sw.WriteLine("       [Button(\"从Excel文件重构数据\",30)]");
                 sw.WriteLine("        /// <summary> 加载Excel文件</summary>");
-                sw.WriteLine("        public override void LoadCSVFile()");
+                sw.WriteLine("        public override void LoadExcelFile()");
                 sw.WriteLine("        {");
                 sw.WriteLine("          Data=new();");
-                sw.WriteLine("          string excelDirPath = Path.Join(PackageDir,csvDirPath);");
+                sw.WriteLine("          string excelDirPath = Path.Join(PackageDir,ExcelDirPath);");
                 sw.WriteLine("          string excelFile=excelDirPath+ \"/\" + this.name + \".xlsx\";");
                 sw.WriteLine("          Data.LoadExcelFile(excelFile);");
                 sw.WriteLine("        }");

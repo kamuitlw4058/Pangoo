@@ -183,11 +183,10 @@ namespace Pangoo
             sw.WriteLine("        {");
             sw.WriteLine("            Rows=new ();");
             sw.WriteLine("            var fileInfo = new FileInfo(excelFilePath);");
-            sw.WriteLine("            using (ExcelPackage excelPackage=new ExcelPackage(fileInfo)");
+            sw.WriteLine("            ExcelPackage excelPackage = new ExcelPackage(fileInfo);");
+            sw.WriteLine("            ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets[1];");
+            sw.WriteLine("            for (int i = 3; i < worksheet.Dimension.Rows; i++)");
             sw.WriteLine("            {");
-            sw.WriteLine("               ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets[1];");
-            sw.WriteLine("               for (int i = 3; i < worksheet.Dimension.Rows; i++)");
-            sw.WriteLine("               {");
             sw.WriteLine($"                {m_ExcelData.ClassBaseName}Row  eventsRow = new {m_ExcelData.ClassBaseName}Row();");
             sw.WriteLine("                 var eventRowFieldInfos = eventsRow.GetType().GetFields();");
             sw.WriteLine("                 for (int j = 0; j < worksheet.Dimension.Columns; j++)");
