@@ -35,11 +35,11 @@ namespace Pangoo
                     {
                         //读取第1行数据作为表头字段
                         string field = excelData.NameList[j].ToString();
-                        string type = excelData.TypeList[j].ToString().ToLower();
-
+                        string type = excelData.TypeList[j].ToString().ToLower().Trim();
                         if (!string.IsNullOrEmpty(field))
                         {
                             writer.WritePropertyName(field);
+                              Debug.Log($"write property:{field} type:{type}");
                             switch (type)
                             {
                                 case "int":
@@ -78,11 +78,15 @@ namespace Pangoo
                                         writer.Write(Convert.ToDouble(excelData.DataTable.Rows[i][j]));
                                     }
                                     break;
+                                default:
+                                    Debug.Log($"Unknown Type:{type} class:{excelData.ClassBaseName}");
+                                    break;
                             }
 
                         }
 
                     }
+                    Debug.Log($"class:{excelData.ClassBaseName},Line:{i},Cols:{excelData.Cols}");
                     writer.WriteObjectEnd();
                 }
             }

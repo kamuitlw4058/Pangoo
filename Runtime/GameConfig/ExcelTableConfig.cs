@@ -169,16 +169,15 @@ namespace Pangoo
             {
                 if (!string.IsNullOrEmpty(entry.BaseNamespace) && entry.BaseNamespace != Namespace)
                 {
-                    continue;
-                }
+                        }
 
                 var excelPath = Path.Join(DirInfo.ExcelDir, $"{entry.ExcelName}.xlsx").Replace("\\", "/");
                 Debug.Log($"Start Build:{excelPath}");
                 var classBaseName = JsonClassGenerator.ToTitleCase($"{entry.ExcelName}");
                 var className = JsonClassGenerator.ToTitleCase($"{entry.ExcelName}Table");
                 ExcelTableData ExcelData = ExcelTableData.Parser(excelPath, classBaseName);
-
-                GeneratorCode(ExcelData,className);
+                var json = DataTableDataGenerator.BuildTableDataJson(ExcelData);
+                GeneratorCode(ExcelData,className,json);
             }
             AssetDatabase.Refresh();
         }
@@ -195,8 +194,8 @@ namespace Pangoo
                 var classBaseName = JsonClassGenerator.ToTitleCase($"{entry.name}");
                 var className = JsonClassGenerator.ToTitleCase($"{entry.name}Table");
                 ExcelTableData ExcelData = ExcelTableData.ParserCSV(csvFilePath, classBaseName);
-
-                GeneratorCode(ExcelData,className);
+                 var json = DataTableDataGenerator.BuildCSVTableDataJson(ExcelData);
+                GeneratorCode(ExcelData,className,json);
             }
             AssetDatabase.Refresh();
         }
@@ -321,9 +320,9 @@ namespace Pangoo
         /// </summary>
         /// <param name="ExcelData">传入的数据</param>
         /// <param name="className">生成的脚本名</param>
-        public void GeneratorCode(ExcelTableData ExcelData,string className)
+        public void GeneratorCode(ExcelTableData ExcelData,string className,string json)
         {
-            var json = DataTableDataGenerator.BuildCSVTableDataJson(ExcelData);
+           
             var jsonPath = Path.Join(DirInfo.JsonDir, $"{className}.json").Replace("\\", "/");
             
             if (json != null)

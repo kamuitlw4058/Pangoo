@@ -338,6 +338,7 @@ namespace Pangoo
                 case "double":
                 case "DateTime":
                 case "LFloat":
+                case "float":
                     break;
                 default:
                     throw new NotSupportedException("not support type from example: " + result);

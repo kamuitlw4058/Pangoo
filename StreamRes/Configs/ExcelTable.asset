@@ -33,9 +33,22 @@ MonoBehaviour:
   - ExcelName: UiConfigInfo
     BaseNamespace: 
     LoadAtRuntime: 1
+  - ExcelName: StaticScene
+    BaseNamespace: 
+    LoadAtRuntime: 1
+  - ExcelName: GameSection
+    BaseNamespace: 
+    LoadAtRuntime: 1
+  - ExcelName: EntityGroup
+    BaseNamespace: 
+    LoadAtRuntime: 1
+  - ExcelName: AssetPath
+    BaseNamespace: 
+    LoadAtRuntime: 1
   CSVFileList:
   - {fileID: 4900000, guid: dfe5b213a64af654d8c7d31e35f6e162, type: 3}
   - {fileID: 4900000, guid: 1eabb82fec4d6dd439faa4402ba6ce67, type: 3}
+  - {fileID: 4900000, guid: 3d3ac8e2af1401746b27106e3eda9b02, type: 3}
   UsingNamespace:
   - System
   - System.IO

@@ -96,9 +96,9 @@ namespace Pangoo
                 {
                     throw new Exception($"ExcelTableData 文件:{excelFile} ColsIndex:{i} 名字或者类型为空:{name},{type}");
                 }
-                namesLst.Add(name);
-                typesLst.Add(type);
-                cnNameLst.Add(mSheet.Rows[2][i].ToString());
+                namesLst.Add(name.Trim());
+                typesLst.Add(type.Trim());
+                cnNameLst.Add(mSheet.Rows[2][i].ToString().Trim());
                 descList.Add(string.Empty);
                 if (colInfoDict.ContainsKey(name))
                 {

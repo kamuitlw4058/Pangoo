@@ -1,0 +1,7 @@
+Id,AssetPath,Desc
+int,string,string
+资源ID,资源路径,资源描述
+10001,Assets/Plugins/Pangoo/StreamRes/Prefab/Demo/Room1.prefab,测试房间1
+10002,Assets/Plugins/Pangoo/StreamRes/Prefab/Demo/Room2.prefab,测试房间2
+10003,Assets/Plugins/Pangoo/StreamRes/Prefab/Demo/Room3.prefab,测试房间3
+10004,Assets/Plugins/Pangoo/StreamRes/Prefab/Demo/Room4.prefab,测试房间4

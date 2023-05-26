@@ -14,4 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   csvDirPath: StreamRes/ExcelTable/CSV/cn
   Data:
-    Rows: []
+    Rows:
+    - Id: 0
+      Name: a
+      PackageName: b
+      ComponentName: c
+      SortingOrder: 0
+      BlurMask: 0
+      IgnoreNotch: 0
+      NeverClose: 0
+      IgnoreStack: 0
+      HidePause: 0

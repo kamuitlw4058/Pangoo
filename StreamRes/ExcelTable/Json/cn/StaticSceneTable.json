@@ -1,0 +1,1 @@
+﻿{"StaticScene":[{"Id":1,"Name":"小芳房间","AssetPathId":10001,"EntityGroupId":1,"LoadSceneIds":"10002"},{"Id":2,"Name":"客厅","AssetPathId":10002,"EntityGroupId":1,"LoadSceneIds":"10001|10002|10003|10004"},{"Id":3,"Name":"老李房间","AssetPathId":10003,"EntityGroupId":1,"LoadSceneIds":"10002"},{"Id":4,"Name":"测试房间1","AssetPathId":10004,"EntityGroupId":1,"LoadSceneIds":"10004"}]}
