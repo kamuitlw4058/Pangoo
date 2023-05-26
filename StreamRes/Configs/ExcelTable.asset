@@ -25,17 +25,9 @@ MonoBehaviour:
     JsonDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/Json/cn
     ExcelDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/Excel/cn
     ScriptableObjectDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/ScriptableObject
-    CSVDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/CSV
-  ExcelList:
-  - ExcelName: PangooEvents
-    BaseNamespace: 
-    LoadAtRuntime: 1
-  - ExcelName: UiConfigInfo
-    BaseNamespace: 
-    LoadAtRuntime: 1
-  CSVFileList:
-  - {fileID: 4900000, guid: dfe5b213a64af654d8c7d31e35f6e162, type: 3}
-  - {fileID: 4900000, guid: 1eabb82fec4d6dd439faa4402ba6ce67, type: 3}
+  ExcelFileList:
+  - {fileID: 102900000, guid: 0b8ae63894519e8498cb4cb037fc4938, type: 3}
+  - {fileID: 102900000, guid: 950c3b455690da548bc772a536f3421f, type: 3}
   UsingNamespace:
   - System
   - System.IO

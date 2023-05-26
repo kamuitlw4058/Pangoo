@@ -90,7 +90,7 @@ namespace Pangoo
             writer.WriteObjectEnd();
             return sb.ToString();
         }
-        public static string BuildCSVTableDataJson(ExcelTableData excelData)
+        public static string BuildExcelTableDataJson(ExcelTableData excelData)
         {
 
             StringBuilder sb = new StringBuilder();
@@ -101,7 +101,7 @@ namespace Pangoo
             //读取数据
             for (int i = excelData.HeadCount; i < excelData.Rows; i++)
             {
-                if (!string.IsNullOrEmpty(excelData.result[i][0].ToString()))
+                if (!string.IsNullOrEmpty(excelData.DataTable.Rows[i][0].ToString()))
                 {
                     //Debug.Log(mSheet.Rows[i][0].ToString());
                     //准备一个字典存储每一行的数据
@@ -120,7 +120,7 @@ namespace Pangoo
                             switch (type)
                             {
                                 case "int":
-                                    var valStr = excelData.result[i][j].ToString();
+                                    var valStr = excelData.DataTable.Rows[i][j].ToString();
                                     if (string.IsNullOrEmpty(valStr))
                                     {
                                         writer.Write(0);
@@ -132,27 +132,27 @@ namespace Pangoo
                                     }
                                     break;
                                 case "string":
-                                    writer.Write(Convert.ToString(excelData.result[i][j]));
+                                    writer.Write(Convert.ToString(excelData.DataTable.Rows[i][j]));
                                     break;
                                 case "bool":
-                                    if (string.IsNullOrEmpty(excelData.result[i][j].ToString()))
+                                    if (string.IsNullOrEmpty(excelData.DataTable.Rows[i][j].ToString()))
                                     {
                                         writer.Write(false);
                                     }
                                     else
                                     {
-                                        writer.Write(Convert.ToBoolean(excelData.result[i][j]));
+                                        writer.Write(Convert.ToBoolean(excelData.DataTable.Rows[i][j]));
                                     }
                                     break;
                                 case "float":
                                 case "double":
-                                    if (string.IsNullOrEmpty(excelData.result[i][j].ToString()))
+                                    if (string.IsNullOrEmpty(excelData.DataTable.Rows[i][j].ToString()))
                                     {
                                         writer.Write(0.0f);
                                     }
                                     else
                                     {
-                                        writer.Write(Convert.ToDouble(excelData.result[i][j]));
+                                        writer.Write(Convert.ToDouble(excelData.DataTable.Rows[i][j]));
                                     }
                                     break;
                             }

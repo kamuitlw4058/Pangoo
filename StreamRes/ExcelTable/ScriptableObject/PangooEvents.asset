@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07d78b9e90794e6469ab55f7b701a775, type: 3}
   m_Name: PangooEvents
   m_EditorClassIdentifier: 
-  csvDirPath: StreamRes/ExcelTable/CSV/cn
+  ExcelDirPath: StreamRes/ExcelTable/Excel/cn
   Data:
     Rows: []
