@@ -1,16 +1,17 @@
 // 本文件使用工具自动生成，请勿进行手动修改！
 
 using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Collections.Generic;
 using LitJson;
 using Pangoo;
-using Sirenix.OdinInspector;
 using UnityEngine;
+using Sirenix.OdinInspector;
+using OfficeOpenXml;
 
 namespace Pangoo
 {
-    public partial class PangooEventsTable
+    public partial class PangooEventsTable 
     {
 
 
@@ -19,11 +20,10 @@ namespace Pangoo
         {
         }
 
-        public override void Merge(ExcelTableBase val)
-        {
-            var table = val as PangooEventsTable;
-            Rows.AddRange(table.Rows);
-        }
+public override void Merge(ExcelTableBase val){
+ var table = val as PangooEventsTable;
+ Rows.AddRange(table.Rows);
+}
     }
 }
 

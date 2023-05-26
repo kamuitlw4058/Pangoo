@@ -107,8 +107,8 @@ namespace Pangoo
                 }
                 colInfoDict.Add(name, new ExcelTableColInfo()
                 {
-                    Name = mSheet.Rows[0][i].ToString(),
-                    Type = mSheet.Rows[1][i].ToString(),
+                    Name = name,
+                    Type = type,
                     CnName = mSheet.Rows[2][i].ToString(),
                     Desc = string.Empty,
                 });
@@ -138,6 +138,8 @@ namespace Pangoo
         /// <exception cref="Exception"></exception>
         public static ExcelTableData ParserEPPlus(string excelFile, string className, int headCount = 3)
         {
+            
+            
             FileInfo existingFile = new FileInfo(excelFile);
             ExcelPackage package = new ExcelPackage(existingFile);
 
@@ -182,8 +184,8 @@ namespace Pangoo
                 }
                 
                 namesLst.Add(name);
-                typesLst.Add(name);
-                cnNameLst.Add(name);
+                typesLst.Add(type);
+                cnNameLst.Add(cnName);
                 
                 if (colInfoDict.ContainsKey(name))
                 {

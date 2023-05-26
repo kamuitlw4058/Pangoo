@@ -171,7 +171,7 @@ namespace Pangoo
             sw.WriteLine("                for (int i = 0; i < texts.Length; i++)");
             sw.WriteLine("                {");
             sw.WriteLine("                   object valueText = item.GetType().GetFields()[i].GetValue(item);");
-            sw.WriteLine(@"                  texts[i] = valueText != null ?valueText.ToString(): "";");
+            sw.WriteLine(@"                  texts[i] = valueText != null ?valueText.ToString(): String.Empty;");
             sw.WriteLine("                }");
             sw.WriteLine("                tmpRowDataList.Add(texts);");
             sw.WriteLine("            }");
