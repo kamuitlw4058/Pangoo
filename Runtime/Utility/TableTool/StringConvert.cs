@@ -7,6 +7,8 @@ using Object = System.Object;
 
 public class StringConvert
 {
+
+    #if UNITY_EDITOR
     public static Object ToValue(Type type, string str, bool multi=false)
     {
         object obj = null;
@@ -89,6 +91,9 @@ public class StringConvert
 
         return obj;
     }
+    #endif
+
+    
     public static string ClearEndEmpty(string s)
     {
         return s.TrimEnd(new char[] { ' ', '\r', '\n' });

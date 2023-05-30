@@ -58,6 +58,32 @@ public class BuildTextureTools //扩展编辑器要继承EditorWindow
             AssetDatabase.Refresh();//更新，要不然在Unity当中不会看到生成的图片（在win的文件管理器中可以看到）
         }
     }
+
+    private Texture2D BlitTexture(Texture2D r,Texture2D g,Texture2D b,Texture2D a, float textureType, float gamma=0.45f,int size = 2048){
+        mat.SetTexture("_R", r);//给Shader的属性赋值
+        mat.SetTexture("_G", g);
+        mat.SetTexture("_B", b);
+        mat.SetTexture("_A", a);
+        mat.SetFloat("_Gamma",gamma);
+        mat.SetFloat("_TextureType",textureType);
+        RenderTexture tempRT = new RenderTexture(size, size, 32, RenderTextureFormat.ARGB32);//生成纹理，分辨率可以自己改为1024的，也可以自己在编辑器上做出多个可供选择的分辨率，容易实现
+        tempRT.Create();
+        Texture2D temp2 = new Texture2D(tempRT.width, tempRT.height, TextureFormat.ARGB32, false);
+        Graphics.Blit(temp2, tempRT, mat);//将temp2纹理的值通过mat赋值到tempRT，核心的代码，可以好好看看对这个方法的解释
+        RenderTexture prev = RenderTexture.active;
+        RenderTexture.active = tempRT;//设置当前active的纹理
+ 
+        Texture2D output = new Texture2D(tempRT.width, tempRT.height, TextureFormat.ARGB32, false);//创建一个RGBA格式的纹理
+        output.ReadPixels(new Rect(0, 0, tempRT.width, tempRT.height), 0, 0);//读取当前active的纹理            
+        output.Apply();//apply将改变写入
+        RenderTexture.active = prev;
+ 
+        return output;
+    }
+
+    // private Texture2D GenerateHdrpTexture(){
+
+    // }
  
     private Texture2D GenerageTexture()
     {
@@ -68,6 +94,10 @@ public class BuildTextureTools //扩展编辑器要继承EditorWindow
                 mat.SetTexture("_B", detailmask);
                 mat.SetTexture("_A", smoothness);
                 mat.SetFloat("_Gamma",0.45f);
+                break;
+            case TextureConvertType.HDRP2Builtin:
+                mat.SetTexture("_R",mask);
+
                 break;
         }
  
@@ -96,9 +126,13 @@ public class BuildTextureTools //扩展编辑器要继承EditorWindow
     [BoxGroup("预览")]
     private Texture2D metallicPreview, occlusionPreview, detailmaskPreview, smoothnessPreview;// 拆解Hdrp纹理
 
+    
+    public static void HdrpMaskToTexures(){
+
+    }
 
 
-    static void _CheckSolidColor(Texture texture)
+    public static bool CheckSolidColor(Texture texture)
     {
             bool isSolidColor = true;
             RenderTexture _rt;
@@ -129,14 +163,8 @@ public class BuildTextureTools //扩展编辑器要继承EditorWindow
                 Graphics.Blit(currentTexture, _rt);
             // }
             //进行泊松分布采样判断
-            isSolidColor = IsSolidColor(_rt, rtWidth, rtHeight);
+            return  IsSolidColor(_rt, rtWidth, rtHeight);
         // }
- 
-        if (isSolidColor)
-        {
-            Debug.Log("该纹理是纯色纹理:"+texture.name);
-        }
- 
     }
  
  
