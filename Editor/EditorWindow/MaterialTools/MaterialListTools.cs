@@ -75,7 +75,7 @@ namespace Pangoo.Editor
                     entry.normalTex = GetTexture(material,MaterialTextureType.N);
                     entry.heightTex =  GetTexture(material,MaterialTextureType.HT);
                     entry.maskTex =  GetTexture(material,MaterialTextureType.MASK);
-                    var path = AssetDatabase.GetAssetPath(entry.mainTex);
+                    var path = AssetDatabase.GetAssetPath(material);
                     if(path != null){
                         Debug.Log($"path:{path}");
                         var index = path.LastIndexOf('/');
@@ -90,8 +90,6 @@ namespace Pangoo.Editor
                             }
                             
                         }
-                        // entry.dir =  System.IO.Path.GetDirectoryName(path);
-                        //  entry.name = System.IO.Path.GetFileName(path);
                     }
                     path = AssetDatabase.GetAssetPath(material);
                     entry.path = path;
@@ -112,6 +110,22 @@ namespace Pangoo.Editor
             }).ToList();
             Refresh();
         }
+
+        [SerializeField] Shader BuiltinStrand;
+  
+        [Button("从Hdrp转化到Builtin")]
+        void Convert2Builtin(){
+            BuiltinStrand = Shader.Find("Standard");
+            foreach( var material in m_ShowListMaterals){
+                if(material.shader.name == "HDRP/Lit"){
+                    material.material.shader = BuiltinStrand;
+                    material.material.mainTexture = material.mainTex;
+                    material.material.SetTexture("_BumpMap",material.normalTex);
+                    material.material.SetTexture("_MetallicGlossMap",material.maskTex);
+                    material.material.SetTexture("_ParallaxMap",material.heightTex);
+                }
+            }
+        }   
 
 
         private  IEnumerable GetTotalShaders()

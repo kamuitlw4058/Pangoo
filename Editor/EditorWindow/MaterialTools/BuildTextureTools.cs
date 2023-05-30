@@ -4,6 +4,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Pangoo;
  
 public class BuildTextureTools //扩展编辑器要继承EditorWindow
 {
@@ -59,17 +60,18 @@ public class BuildTextureTools //扩展编辑器要继承EditorWindow
         }
     }
 
-    private Texture2D BlitTexture(Texture2D r,Texture2D g,Texture2D b,Texture2D a, float textureType, float gamma=0.45f,int size = 2048){
-        mat.SetTexture("_R", r);//给Shader的属性赋值
-        mat.SetTexture("_G", g);
-        mat.SetTexture("_B", b);
-        mat.SetTexture("_A", a);
-        mat.SetFloat("_Gamma",gamma);
-        mat.SetFloat("_TextureType",textureType);
+    private static Texture2D BlitTexture(Texture2D r,Texture2D g,Texture2D b,Texture2D a, float textureType, float gamma=0.45f,int size = 2048){
+        var blitMat = new Material(Shader.Find("Hidden/MaskMap"));//根据MaskMap这个Shader创建材质
+        blitMat.SetTexture("_R", r);//给Shader的属性赋值
+        blitMat.SetTexture("_G", g);
+        blitMat.SetTexture("_B", b);
+        blitMat.SetTexture("_A", a);
+        blitMat.SetFloat("_Gamma",gamma);
+        blitMat.SetFloat("_TextureType",textureType);
         RenderTexture tempRT = new RenderTexture(size, size, 32, RenderTextureFormat.ARGB32);//生成纹理，分辨率可以自己改为1024的，也可以自己在编辑器上做出多个可供选择的分辨率，容易实现
         tempRT.Create();
         Texture2D temp2 = new Texture2D(tempRT.width, tempRT.height, TextureFormat.ARGB32, false);
-        Graphics.Blit(temp2, tempRT, mat);//将temp2纹理的值通过mat赋值到tempRT，核心的代码，可以好好看看对这个方法的解释
+        Graphics.Blit(temp2, tempRT, blitMat);//将temp2纹理的值通过mat赋值到tempRT，核心的代码，可以好好看看对这个方法的解释
         RenderTexture prev = RenderTexture.active;
         RenderTexture.active = tempRT;//设置当前active的纹理
  
@@ -81,7 +83,57 @@ public class BuildTextureTools //扩展编辑器要继承EditorWindow
         return output;
     }
 
-    // private Texture2D GenerateHdrpTexture(){
+    // public static Texture2D  GenerateBuiltinTextureFromHdrpMask(string dir,string name, Texture2D maskMap,float textureType, bool overrideTex = false){
+    //     if(maskMap == null){
+    //         return null;
+    //     }
+
+    //     string textureTypeStr = "";
+    //     switch(textureType){
+    //         case 1:
+    //             textureTypeStr = "MT";
+    //             break;
+    //         case 2:
+    //             textureTypeStr = "AO";
+    //             break;       
+    //         case 3:
+    //             textureTypeStr = "DM";
+    //             break;
+    //         case 4:
+    //             textureTypeStr = "R";
+    //             break;   
+    //     }
+
+
+    //      var metallicTexPath = $"{dir}/{name}_MASK_{textureTypeStr}.png";
+    //      Texture2D metallicTex;
+    //     if(!File.Exists(metallicTexPath)){
+    //         metallicTex = BlitTexture(maskMap,maskMap,maskMap,maskMap,textureType,1);
+    //         if(!CheckSolidColor(metallicTex)){
+    //             File.WriteAllBytes(metallicTexPath,metallicTex.EncodeToPNG());
+    //         }
+    //     }else{
+    //         metallicTex = AssetUtility.GetAssetByPath<Texture2D>(metallicTexPath);
+    //     }
+    //     return metallicTex;
+    //     // var metallicTex = BlitTexture(maskMap,maskMap,maskMap,maskMap,textureType,1);
+    //     // if(!CheckSolidColor(metallicTex)){
+    //     //     var metallicTexPath = $"{dir}/{name}_MASK_MT.png";
+    //     //     if(!File.Exists(metallicTexPath)){
+    //     //         File.WriteAllBytes(metallicTexPath,metallicTex.EncodeToPNG());
+    //     //     }else{
+    //     //         metallicTex = AssetUtility.GetAssetByPath<Texture2D>(metallicTexPath);
+    //     //     }
+    //     // }
+
+    //     // var occlusionTex = BlitTexture(maskMap,maskMap,maskMap,maskMap,2,1);
+    //     // var detailTex = BlitTexture(maskMap,maskMap,maskMap,maskMap,3,1);
+    //     // var smoothnessTex = BlitTexture(maskMap,maskMap,maskMap,maskMap,4,1);
+
+
+    //     // AssetDatabase.Refresh();
+
+
 
     // }
  
@@ -126,10 +178,6 @@ public class BuildTextureTools //扩展编辑器要继承EditorWindow
     [BoxGroup("预览")]
     private Texture2D metallicPreview, occlusionPreview, detailmaskPreview, smoothnessPreview;// 拆解Hdrp纹理
 
-    
-    public static void HdrpMaskToTexures(){
-
-    }
 
 
     public static bool CheckSolidColor(Texture texture)
