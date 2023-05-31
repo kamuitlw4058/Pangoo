@@ -2,8 +2,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
@@ -20,7 +20,7 @@ namespace Pangoo.Editor
 
         // List 《Shader
 
-        [SerializeField][TableList(AlwaysExpanded = true,ShowPaging =true )] List<MaterialEntry> m_ShowListMaterals;
+        [SerializeField][TableList(AlwaysExpanded = true, ShowPaging = true)] List<MaterialEntry> m_ShowListMaterals;
 
         public MaterialListTools()
         {
@@ -29,8 +29,10 @@ namespace Pangoo.Editor
             RefreshTotal();
         }
 
-        public string GetHdrpLitPropertyName(MaterialTextureType type){
-            switch(type){
+        public string GetHdrpLitPropertyName(MaterialTextureType type)
+        {
+            switch (type)
+            {
                 case MaterialTextureType.BC:
                     return "_BaseColorMap";
                 case MaterialTextureType.N:
@@ -46,8 +48,10 @@ namespace Pangoo.Editor
         }
 
 
-        public string GetPropertyName(Shader shader,MaterialTextureType type){
-            switch(shader.name){
+        public string GetPropertyName(Shader shader, MaterialTextureType type)
+        {
+            switch (shader.name)
+            {
                 case "HDRP/Lit":
                     return GetHdrpLitPropertyName(type);
 
@@ -56,44 +60,54 @@ namespace Pangoo.Editor
         }
 
 
-        public Texture GetTexture(Material material,MaterialTextureType type){
-            if(material.HasProperty(GetPropertyName(material.shader,type))){
-                return  material.GetTexture(GetPropertyName(material.shader,type));
+        public Texture GetTexture(Material material, MaterialTextureType type)
+        {
+            if (material.HasProperty(GetPropertyName(material.shader, type)))
+            {
+                return material.GetTexture(GetPropertyName(material.shader, type));
             }
             return null;
         }
 
 
-        void Refresh(){
-           m_ShowListMaterals.Clear();
-            foreach(var material in  m_TotalListMaterals){
-                if(ShaderFilterList== null || ShaderFilterList.Count ==0 ||  ShaderFilterList.Contains(material.shader)){
+        void Refresh()
+        {
+            m_ShowListMaterals.Clear();
+            foreach (var material in m_TotalListMaterals)
+            {
+                if (ShaderFilterList == null || ShaderFilterList.Count == 0 || ShaderFilterList.Contains(material.shader))
+                {
                     var entry = new MaterialEntry();
                     entry.material = material;
                     entry.shader = material.shader;
-                    entry.mainTex = GetTexture(material,MaterialTextureType.BC);
-                    entry.normalTex = GetTexture(material,MaterialTextureType.N);
-                    entry.heightTex =  GetTexture(material,MaterialTextureType.HT);
-                    entry.maskTex =  GetTexture(material,MaterialTextureType.MASK);
+                    entry.mainTex = GetTexture(material, MaterialTextureType.BC);
+                    entry.normalTex = GetTexture(material, MaterialTextureType.N);
+                    entry.heightTex = GetTexture(material, MaterialTextureType.HT);
+                    entry.maskTex = GetTexture(material, MaterialTextureType.MASK);
                     var path = AssetDatabase.GetAssetPath(material);
-                    if(path != null){
+                    if (path != null)
+                    {
                         Debug.Log($"path:{path}");
                         var index = path.LastIndexOf('/');
-                        if(index > 0){
-                            entry.dir =  path.Substring(0,index + 1);
-                            var name = path.Substring(index +1);
+                        if (index > 0)
+                        {
+                            entry.dir = path.Substring(0, index + 1);
+                            var name = path.Substring(index + 1);
                             var namePointIndex = name.LastIndexOf('.');
-                            if(namePointIndex > 0){
-                                entry.name = name.Substring(0,namePointIndex);
-                            }else{
-                                 entry.name = name;
+                            if (namePointIndex > 0)
+                            {
+                                entry.name = name.Substring(0, namePointIndex);
                             }
-                            
+                            else
+                            {
+                                entry.name = name;
+                            }
+
                         }
                     }
                     path = AssetDatabase.GetAssetPath(material);
                     entry.path = path;
- 
+
 
                     AssetDatabase.GetAssetPath(entry.mainTex);
                     m_ShowListMaterals.Add(entry);
@@ -102,40 +116,46 @@ namespace Pangoo.Editor
         }
 
         [Button("刷新所有材质")]
-        void RefreshTotal(){
-            m_TotalListMaterals =  AssetUtility.GetAssetListByPath<Material>("Assets");
-            m_TotalListMaterals = m_TotalListMaterals.Where( o=> {
+        void RefreshTotal()
+        {
+            m_TotalListMaterals = AssetUtility.GetAssetListByPath<Material>("Assets");
+            m_TotalListMaterals = m_TotalListMaterals.Where(o =>
+            {
                 var extension = AssetUtility.GetAssetFileExtension(o);
-                return  extension.ToLower() != "fbx";
+                return extension.ToLower() != "fbx";
             }).ToList();
             Refresh();
         }
 
         [SerializeField] Shader BuiltinStrand;
-  
+
         [Button("从Hdrp转化到Builtin")]
-        void Convert2Builtin(){
-            BuiltinStrand = Shader.Find("Standard");
-            foreach( var material in m_ShowListMaterals){
-                if(material.shader.name == "HDRP/Lit"){
-                    material.material.shader = BuiltinStrand;
-                    material.material.mainTexture = material.mainTex;
-                    material.material.SetTexture("_BumpMap",material.normalTex);
-                    material.material.SetTexture("_MetallicGlossMap",material.maskTex);
-                    material.material.SetTexture("_ParallaxMap",material.heightTex);
-                }
-            }
-        }   
-
-
-        private  IEnumerable GetTotalShaders()
+        void Convert2Builtin()
         {
-            return m_TotalListMaterals.Select(o=> o.shader);
+            if (BuiltinStrand == null)
+            {
+                BuiltinStrand = Shader.Find("Standard");
+            }
+            foreach (var material in m_ShowListMaterals)
+            {
+                material.material.shader = BuiltinStrand;
+                material.material.mainTexture = material.mainTex;
+                material.material.SetTexture("_BumpMap", material.normalTex);
+                material.material.SetTexture("_MetallicGlossMap", material.maskTex);
+                material.material.SetTexture("_ParallaxMap", material.heightTex);
+            }
+        }
+
+
+        private IEnumerable GetTotalShaders()
+        {
+            return m_TotalListMaterals.Select(o => o.shader);
         }
 
         [Serializable]
-        
-        public class MaterialEntry{
+
+        public class MaterialEntry
+        {
             public Material material;
 
             public Shader shader;
@@ -147,7 +167,7 @@ namespace Pangoo.Editor
             public Texture heightTex;
 
 
-            public  Texture maskTex;
+            public Texture maskTex;
 
             public string dir;
 
@@ -157,7 +177,8 @@ namespace Pangoo.Editor
         }
 
 
-        public enum MaterialTextureType{
+        public enum MaterialTextureType
+        {
             None,
             BC,
             N,
