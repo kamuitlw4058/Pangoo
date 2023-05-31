@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 using Object = System.Object;
 
@@ -56,7 +58,9 @@ public class StringConvert
             float value = 0f;
             float.TryParse(str, out value);
             obj = value;
-        }else if (typeof(Sprite).Equals(type))
+        }
+#if UNITY_EDITOR
+        else if (typeof(Sprite).Equals(type))
         {
             string fileNameSprite = str.Replace("(UnityEngine.Sprite)",string.Empty).Trim();
             string[] guids = AssetDatabase.FindAssets(fileNameSprite);
@@ -88,7 +92,7 @@ public class StringConvert
             AudioClip audioClip= AssetDatabase.LoadAssetAtPath(path, typeof(AudioClip)) as AudioClip;
             obj = audioClip;
         }
-
+#endif
         return obj;
     }
     #endif
