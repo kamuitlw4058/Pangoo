@@ -4,7 +4,11 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+#if UNITY_EDITOR
 using OfficeOpenXml;
+
+
 using System.IO;
  
  
@@ -82,3 +86,4 @@ namespace Pangoo
         }
     }
 }
+#endif

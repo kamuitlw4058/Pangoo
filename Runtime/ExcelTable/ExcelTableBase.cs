@@ -1,7 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
+#if UNITY_EDITOR
 using OfficeOpenXml;
+#endif
+
 using Sirenix.OdinInspector;
 using UnityEngine;
 using System.IO;
@@ -70,7 +74,8 @@ namespace Pangoo
             }
             tmpRowDataList.Add(texts);
         }
-        
+
+#if UNITY_EDITOR
         public virtual List<T> LoadExcelFile<T>(string excelFilePath)where T:new()
         {
             var Rows = new List<T>();
@@ -92,6 +97,7 @@ namespace Pangoo
 
             return Rows;
         }
+#endif
     }
 
 }

@@ -69,7 +69,6 @@ namespace Pangoo
             "Pangoo",
             "UnityEngine",
             "Sirenix.OdinInspector",
-            "OfficeOpenXml",
         };
 
         void InitDir(PackageConfig config, ref ExcelDirInfo entry)

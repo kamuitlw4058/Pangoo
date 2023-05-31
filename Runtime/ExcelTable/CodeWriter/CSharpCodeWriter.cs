@@ -172,11 +172,13 @@ namespace Pangoo
             sw.WriteLine("            return tmpRowDataList;");
             sw.WriteLine("        }");
             
+            sw.WriteLine($"#if UNITY_EDITOR");
             sw.WriteLine("        /// <summary> 从Excel文件重新构建数据 </summary>");
             sw.WriteLine("        public virtual void LoadExcelFile(string excelFilePath)");
             sw.WriteLine("        {");
             sw.WriteLine($"          Rows = LoadExcelFile<{m_ExcelData.ClassBaseName}Row>(excelFilePath);");
             sw.WriteLine("        }");
+            sw.WriteLine($"#endif");
             sw.WriteLine();
 
             #endregion BuildCSV

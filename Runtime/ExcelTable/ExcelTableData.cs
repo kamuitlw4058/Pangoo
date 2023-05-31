@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+
+#if UNITY_EDITOR
 using Excel;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing;
-using UnityEngine;
+#endif
 
 
 namespace Pangoo
@@ -52,7 +53,7 @@ namespace Pangoo
             return null;
         }
 
-
+#if UNITY_EDITOR
         public static ExcelTableData Parser(string excelFile, string className, int headCount = 3)
         {
             FileStream mStream;
@@ -127,6 +128,7 @@ namespace Pangoo
                 ClassBaseName = className,
             };
         }
+
 
         /// <summary>
         /// 使用EEplus解析Excel文件
@@ -213,5 +215,6 @@ namespace Pangoo
                 ClassBaseName = className,
             };
         }
+#endif
     }
 }
