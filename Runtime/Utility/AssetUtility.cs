@@ -1,4 +1,6 @@
 #if UNITY_EDITOR
+using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -21,6 +23,57 @@ namespace Pangoo
             }
             return null;
         }
+
+        public static List<T> GetAssetListByPath<T>(string[] paths) where T : UnityEngine.Object
+        {
+            var items = AssetDatabase.FindAssets($"t:{typeof(T).Name}",paths)
+           .Select(x => AssetDatabase.GUIDToAssetPath(x))
+           .Select(x => AssetDatabase.LoadAssetAtPath<T>(x));
+            return items.ToList();
+        }
+
+
+        public static List<T> GetAssetListByPath<T>(string path) where T : UnityEngine.Object
+        {
+
+            return GetAssetListByPath<T>(new string[]{path});
+        }
+
+
+        public static string GetAssetDir(UnityEngine.Object obj){
+            var path = AssetDatabase.GetAssetPath(obj);
+            var index = path.LastIndexOf('/');
+            if(index > 0){
+                return path.Substring(0,index + 1);
+            }
+
+            return null;
+        }
+
+
+        public static string GetAssetFullFileName(UnityEngine.Object obj){
+            var path = AssetDatabase.GetAssetPath(obj);
+            var index = path.LastIndexOf('/');
+            if(index > 0){
+                return path.Substring(index + 1);
+            }
+
+            return null;
+        }
+
+
+        public static string GetAssetFileExtension(UnityEngine.Object obj){
+            var path = AssetDatabase.GetAssetPath(obj);
+            var index = path.LastIndexOf('.');
+            if(index > 0){
+                return path.Substring(index + 1);
+            }
+
+            return null;
+        }
+
+
+
 #endif
 
 
