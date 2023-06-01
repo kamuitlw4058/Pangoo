@@ -14,6 +14,7 @@ Shader "Pangoo/RandomDissolve" {
         _MaxBorderX("Max Border X", Float) = 0.5  //可从程序传入
         _DistanceEffect("Distance Effect", Range(0.0, 1.0)) = 0.5
         [HDR]_Color("Color",Color) = (1,1,1,1)
+        _AlphaFactor("AlphaFactor",Float) = 1 
     }
 
     SubShader
@@ -60,6 +61,7 @@ Shader "Pangoo/RandomDissolve" {
             float _MinBorderX;
             float _MaxBorderX;
             float _DistanceEffect;
+            float _AlphaFactor;
             
 
             v2f vert (appdata v)
@@ -94,7 +96,7 @@ Shader "Pangoo/RandomDissolve" {
                 float degree = saturate((cutout - _Threshold) / _EdgeLength);
                 fixed4 edgeColor = tex2D(_RampTex, float2(degree, degree)) * _Color;
                 fixed4 finalColor = lerp(edgeColor, col, degree);
-                return fixed4(finalColor.rgb, col.a);
+                return fixed4(finalColor.rgb, col.a * _AlphaFactor);
             }
             ENDCG
 
