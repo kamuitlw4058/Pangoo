@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28dc50086158399438357a9e8b64031a, type: 3}
   m_Name: AssetPath
   m_EditorClassIdentifier: 
-  csvDirPath: StreamRes/ExcelTable/CSV/cn
+  ExcelDirPath: StreamRes/ExcelTable/Excel/cn
   Data:
     Rows:
     - Id: 10001
@@ -31,11 +31,7 @@ MonoBehaviour:
       Name: "\u6D4B\u8BD5\u623F\u95F44"
       AssetPath: Assets/Plugins/Pangoo/StreamRes/Prefab/Demo/Room4.prefab
       Desc: "\u6D4B\u8BD5\u623F\u95F44"
-    - Id: 20001
-      Name: "\u623F\u9876"
-      AssetPath: Assets/Plugins/Pangoo/StreamRes/Prefab/Demo/Roof1.prefab
-      Desc: "\u623F\u9876"
-    - Id: 10005
-      Name: "\u66FF\u6362\u623F\u95F42"
-      AssetPath: Assets/Plugins/Pangoo/StreamRes/Prefab/Demo/Room5.prefab
-      Desc: "\u66FF\u6362\u623F\u95F42"
+    - Id: 12312
+      Name: 33
+      AssetPath: 
+      Desc: 
