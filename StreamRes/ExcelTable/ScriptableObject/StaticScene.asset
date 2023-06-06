@@ -12,41 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 856f2e919adddec4885f264dc2f12a5a, type: 3}
   m_Name: StaticScene
   m_EditorClassIdentifier: 
-  csvDirPath: StreamRes/ExcelTable/CSV/cn
+  ExcelDirPath: StreamRes/ExcelTable/Excel/cn
   Data:
-    Rows:
-    - Id: 10001
-      Name: "\u5C0F\u82B3\u623F\u95F4"
-      AssetPathId: 10001
-      EntityGroupId: 1
-      LoadSceneIds: 10002
-    - Id: 10002
-      Name: "\u5BA2\u5385"
-      AssetPathId: 10002
-      EntityGroupId: 1
-      LoadSceneIds: 10001|10002|10003|10004
-    - Id: 10003
-      Name: "\u8001\u674E\u623F\u95F4"
-      AssetPathId: 10003
-      EntityGroupId: 1
-      LoadSceneIds: 10002
-    - Id: 10004
-      Name: "\u6D4B\u8BD5\u623F\u95F41"
-      AssetPathId: 10004
-      EntityGroupId: 1
-      LoadSceneIds: 10002
-    - Id: 20001
-      Name: "\u623F\u9876"
-      AssetPathId: 20001
-      EntityGroupId: 1
-      LoadSceneIds: 
-    - Id: 10005
-      Name: "\u7AE0\u82822\u623F\u95F43"
-      AssetPathId: 10003
-      EntityGroupId: 1
-      LoadSceneIds: 10006
-    - Id: 10006
-      Name: "\u7AE0\u82822\u623F\u95F44"
-      AssetPathId: 10005
-      EntityGroupId: 1
-      LoadSceneIds: 10005
+    Rows: []
