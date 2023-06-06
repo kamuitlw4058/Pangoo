@@ -118,6 +118,9 @@ namespace Pangoo
             // LoadDictionary("Default");
 
             // PangooEntry.Data.PreLoadAllData();
+#if ENABLE_FGUI
+            PangooEntry.FGUI.SetUiConfigTable(PangooEntry.ExcelTable.GetExcelTable<UiConfigInfoTable>());
+#endif
         }
 
         private void SetComponents()

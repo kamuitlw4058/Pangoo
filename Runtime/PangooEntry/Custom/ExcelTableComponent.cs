@@ -63,6 +63,7 @@ namespace Pangoo
             {
                 foreach (var overview in TableOverviews)
                 {
+                    Debug.Log(overview);
                     var type = overview.GetDataType();
                     var table = overview.GetExcelTableBase();
                     if (m_ExcelTableDic.ContainsKey(type))

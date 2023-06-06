@@ -1,7 +1,9 @@
 using System;
+using FairyGUI;
 using UnityGameFramework.Runtime;
 using GameFramework.Resource;
 using GameFramework;
+using UnityEngine;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
 namespace Pangoo
@@ -45,7 +47,9 @@ namespace Pangoo
             }
         }
 
-
+        private GComponent view;
+        private string fguiPath;
+        private Type type;
         void Splash(){
     #if ENABLE_FGUI
                 var packageConfig = PangooEntry.GameConfig.GetGameMainConfig();
@@ -58,17 +62,19 @@ namespace Pangoo
                     && !string.IsNullOrEmpty(LogEntiry.LogoUIConfig.Name)
                     && !string.IsNullOrEmpty(LogEntiry.LogoUIType)){
                         
-                        Type type = Utility.Assembly.GetType(LogEntiry.LogoUIType);
+                        type = Utility.Assembly.GetType(LogEntiry.LogoUIType);
                         PangooEntry.FGUI.OpenResourceUI(type,LogEntiry.LogoUIConfig);
                     }
                 }
-    #endif
+#endif
         }
 
 
 
         protected override void OnLeave(ProcedureOwner procedureOwner, bool isShutdown)
         {
+            //view.Dispose();
+            PangooEntry.FGUI.CloseUI(type);
             base.OnLeave(procedureOwner, isShutdown);
         }
 

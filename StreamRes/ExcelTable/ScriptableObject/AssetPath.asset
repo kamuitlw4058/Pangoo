@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28dc50086158399438357a9e8b64031a, type: 3}
   m_Name: AssetPath
   m_EditorClassIdentifier: 
-  csvDirPath: StreamRes/ExcelTable/CSV/cn
+  ExcelDirPath: StreamRes/ExcelTable/CSV/cn
   Data:
     Rows:
     - Id: 10001
