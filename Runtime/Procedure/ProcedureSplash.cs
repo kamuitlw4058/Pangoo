@@ -1,5 +1,7 @@
 using System;
+#if ENABLE_FGUI
 using FairyGUI;
+#endif
 using UnityGameFramework.Runtime;
 using GameFramework.Resource;
 using GameFramework;
@@ -47,7 +49,10 @@ namespace Pangoo
             }
         }
 
+    #if ENABLE_FGUI
+
         private GComponent view;
+    #endif
         private string fguiPath;
         private Type type;
         void Splash(){
@@ -70,11 +75,12 @@ namespace Pangoo
         }
 
 
-
         protected override void OnLeave(ProcedureOwner procedureOwner, bool isShutdown)
         {
             //view.Dispose();
+           #if ENABLE_FGUI
             PangooEntry.FGUI.CloseUI(type);
+            #endif
             base.OnLeave(procedureOwner, isShutdown);
         }
 
