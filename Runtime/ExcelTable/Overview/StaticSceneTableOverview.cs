@@ -7,8 +7,9 @@ using LitJson;
 using Pangoo;
 using UnityEngine;
 using Sirenix.OdinInspector;
-using OfficeOpenXml;
+
 #if UNITY_EDITOR
+using OfficeOpenXml;
 using UnityEditor;
 #endif
 

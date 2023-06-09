@@ -7,7 +7,6 @@ using LitJson;
 using Pangoo;
 using UnityEngine;
 using Sirenix.OdinInspector;
-using OfficeOpenXml;
 
 namespace Pangoo
 {
@@ -113,7 +112,9 @@ namespace Pangoo
         /// <summary> 从Excel文件重新构建数据 </summary>
         public virtual void LoadExcelFile(string excelFilePath)
         {
-          Rows = LoadExcelFile<EntityGroupRow>(excelFilePath);
+#if UNITY_EDITOR
+            Rows = LoadExcelFile<EntityGroupRow>(excelFilePath);
+#endif
         }
 
 
