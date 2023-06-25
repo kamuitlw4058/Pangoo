@@ -854,9 +854,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8663490640570254930}
-  - component: {fileID: 3676145103763384663}
-  - component: {fileID: 7737719797495281516}
-  - component: {fileID: 7911813773699895599}
   m_Layer: 0
   m_Name: Roof1
   m_TagString: Untagged
@@ -885,45 +882,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &3676145103763384663
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7401346728885585193}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5.3622456, y: 3.7113106, z: 7.4416747}
-  m_Center: {x: -4.31322, y: 1.3556553, z: 1.2940567}
---- !u!65 &7737719797495281516
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7401346728885585193}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 10.083041, y: 3.4933612, z: 2.7223377}
-  m_Center: {x: 3.2089314, y: 1.2466806, z: 3.7710595}
---- !u!65 &7911813773699895599
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7401346728885585193}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.3450804, y: 3.3597984, z: 5.25551}
-  m_Center: {x: 6.958323, y: 1.1798992, z: -0.016446352}
 --- !u!1 &8033850688385192829
 GameObject:
   m_ObjectHideFlags: 0

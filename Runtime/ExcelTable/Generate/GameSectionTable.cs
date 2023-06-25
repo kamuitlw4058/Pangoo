@@ -7,7 +7,6 @@ using LitJson;
 using Pangoo;
 using UnityEngine;
 using Sirenix.OdinInspector;
-using OfficeOpenXml;
 
 namespace Pangoo
 {
@@ -110,11 +109,13 @@ namespace Pangoo
             }
             return tmpRowDataList;
         }
+#if UNITY_EDITOR
         /// <summary> 从Excel文件重新构建数据 </summary>
         public virtual void LoadExcelFile(string excelFilePath)
         {
           Rows = LoadExcelFile<GameSectionRow>(excelFilePath);
         }
+#endif
 
 
         /// <summary> 反射获取配置文件路径 </summary>

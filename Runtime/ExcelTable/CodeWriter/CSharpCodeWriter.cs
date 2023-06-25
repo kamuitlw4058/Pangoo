@@ -323,6 +323,7 @@ namespace Pangoo
                 case "DateTime":
                 case "LFloat":
                 case "float":
+                case "object":
                     break;
                 default:
                     throw new NotSupportedException("not support type from example: " + result);

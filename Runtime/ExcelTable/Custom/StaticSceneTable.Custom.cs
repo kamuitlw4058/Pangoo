@@ -45,6 +45,7 @@ namespace Pangoo
                 var assetPath =  m_AssetPathTable.GetAssetPathRow(row.AssetPathId);
                 var group = m_EntityGroupTable.GetEntityGroupRow(row.EntityGroupId);
                 m_Dict.Add(row.Id,StaticSceneInfo.Create(row,group,assetPath));
+                Debug.Log($"当前字典的ID:{row.Id}");
             }
         }
 

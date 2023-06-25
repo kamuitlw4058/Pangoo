@@ -9,9 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28dc50086158399438357a9e8b64031a, type: 3}
-  m_Name: AssetPath
+  m_Script: {fileID: 11500000, guid: 9e2876467cc034c4190f4aa23ba87804, type: 3}
+  m_Name: GlobalData
   m_EditorClassIdentifier: 
   ExcelDirPath: StreamRes/ExcelTable/Excel/cn
   Data:
-    Rows: []
+    Rows:
+    - ID: 1000
+      Key: Cube0.Light.Enable
+      Type: bool
+      Value: True
+    - ID: 1001
+      Key: Cube0.Light.Inset
+      Type: float
+      Value: 10

@@ -15,7 +15,7 @@ MonoBehaviour:
   ExcelDirPath: StreamRes/ExcelTable/Excel/cn
   Data:
     Rows:
-    - Id: 0
+    - Id: 10001
       Name: Logo
       PackageName: MJ2
       ComponentName: Logo
@@ -26,7 +26,7 @@ MonoBehaviour:
       IgnoreStack: 0
       HidePause: 0
     - Id: 1
-      Name: UI_MainMenu
+      Name: MainMenu
       PackageName: MainMenu
       ComponentName: MainMenu
       SortingOrder: 0
@@ -36,9 +36,9 @@ MonoBehaviour:
       IgnoreStack: 0
       HidePause: 0
     - Id: 2
-      Name: 
-      PackageName: 
-      ComponentName: 
+      Name: 1
+      PackageName: 2
+      ComponentName: 3
       SortingOrder: 0
       BlurMask: 0
       IgnoreNotch: 1
