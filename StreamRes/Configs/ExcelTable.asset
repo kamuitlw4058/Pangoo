@@ -44,6 +44,15 @@ MonoBehaviour:
   - ExcelName: UiConfigInfo
     BaseNamespace: 
     LoadAtRuntime: 1
+  - ExcelName: GlobalData
+    BaseNamespace: 
+    LoadAtRuntime: 1
+  - ExcelName: SaveLoad
+    BaseNamespace: 
+    LoadAtRuntime: 1
+  - ExcelName: RuntimeData
+    BaseNamespace: 
+    LoadAtRuntime: 1
   UsingNamespace:
   - System
   - System.IO

@@ -10,6 +10,9 @@ namespace Pangoo.Service
             RegisterService( new ExcelTableService());
             RegisterService( new StaticSceneService());
             RegisterService( new GameSectionService());
+            RegisterService(new GlobalDataService());
+            RegisterService(new SaveLoadService());
+            RegisterService(new RuntimeDataService());
         }
 
         public void DoAwake(){

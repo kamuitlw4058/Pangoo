@@ -21,3 +21,9 @@ MonoBehaviour:
       InstanceCapacity: 10000
       InstanceExpireTime: 0
       InstancePriority: 0
+    - Id: 2
+      Name: 
+      InstanceAutoReleaseInterval: 0
+      InstanceCapacity: 0
+      InstanceExpireTime: 0
+      InstancePriority: 0

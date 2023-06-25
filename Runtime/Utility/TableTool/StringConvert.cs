@@ -94,6 +94,36 @@ public class StringConvert
         return obj;
     }
 
+    public static Object ToValue(string typeStr,string valueStr)
+    {
+        var obj = ToValue(ToType(typeStr),valueStr);
+        return obj;
+    }
+    
+    public static Type ToType(string str)
+    {
+        if (str=="string"||str=="String")
+        {
+            return typeof(string);
+        }
+        else if (str=="bool"||str=="Bool")
+        {
+            return typeof(bool);
+        }
+        else if (str=="int"||str=="Int")
+        {
+            return typeof(int);
+        }
+        else if (str=="float"||str=="Float")
+        {
+            return typeof(float);
+        }
+        else
+        {
+            Debug.LogError("这个字符串没有支持的类型可转换");
+        }
+        return null;
+    }
 
     public static string ClearEndEmpty(string s)
     {

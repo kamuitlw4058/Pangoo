@@ -109,6 +109,7 @@ namespace Pangoo
             }
             return tmpRowDataList;
         }
+#if UNITY_EDITOR
         /// <summary> 从Excel文件重新构建数据 </summary>
         public virtual void LoadExcelFile(string excelFilePath)
         {
@@ -116,6 +117,7 @@ namespace Pangoo
             Rows = LoadExcelFile<EntityGroupRow>(excelFilePath);
 #endif
         }
+#endif
 
 
         /// <summary> 反射获取配置文件路径 </summary>
