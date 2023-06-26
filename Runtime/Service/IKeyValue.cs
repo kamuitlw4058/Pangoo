@@ -6,7 +6,7 @@ namespace Pangoo.Service
 {
     public interface IKeyValue
     {
-        public T Get<T>(string key);
+        public T? Get<T>(string key);
         public void Set<T>(string key,T value);
     }
 }
