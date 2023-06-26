@@ -17,36 +17,35 @@ namespace Pangoo
 
         public override void DoAwake(IServiceContainer services)
         {
+            base.DoAwake(services);
             globalDataService = services.GetService<GlobalDataService>();
             saveLoadService = services.GetService<SaveLoadService>();
             runtimeDataService = services.GetService<RuntimeDataService>();
-            base.DoAwake(services);
+
         }
-        [CanBeNull]
-        public T Get<T>(string key)
+
+        public bool TryGet<T>(string key, out T outValue)
         {
-            T value = runtimeDataService.Get<T>(key);
-            if (value==null)
+            if (!runtimeDataService.TryGet<T>(key,out outValue))
             {
-                value = saveLoadService.Get<T>(key);
-                if (value==null)
+                if (!saveLoadService.TryGet<T>(key,out outValue))
                 {
-                    value = globalDataService.Get<T>(key);
-                    if (value==null)
+                    if (!globalDataService.TryGet<T>(key,out outValue))
                     {
                         Debug.LogError("默认配置表中没有这个键:"+key);
-                        return value;
+                        return false;
                     }
                 }
-        
-                runtimeDataService.Set<T>(key,value);
+                runtimeDataService.Set<T>(key,(T)outValue);
             }
-            return value;
+            return true;
         }
 
         public void Set<T>(string key, T value)
         {
-            
+            runtimeDataService.Set<T>(key,value);
+            //TODO:添加条件约束添加SaveLoad数据的节点
+            //saveLoadService.Set<T>(key,value);
         }
     }
 }

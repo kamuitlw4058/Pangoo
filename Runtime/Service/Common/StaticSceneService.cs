@@ -190,7 +190,7 @@ namespace Pangoo.Service
                     }
             }
 
-             Log.Info($"UpdateNeedLoadIds:{NeedLoadDict.Keys.ToList().ToItemString()} EnterSceneId:{m_EnterAssetCountDict.Keys.ToList().ToItemString()}");
+            // Log.Info($"UpdateNeedLoadIds:{NeedLoadDict.Keys.ToList().ToItemString()} EnterSceneId:{m_EnterAssetCountDict.Keys.ToList().ToItemString()}");
         }
 
         public void UpdateAutoLoad(){

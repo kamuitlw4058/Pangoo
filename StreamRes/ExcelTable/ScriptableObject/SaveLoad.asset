@@ -21,7 +21,7 @@ MonoBehaviour:
       FloatKey: cube0_Transform_Position.y
       FloatValue: 10.2
     - ID: 2
-      IntKey: Cube0.Light.Inset
-      IntValue: 10
-      FloatKey: 
-      FloatValue: 0
+      IntKey: 
+      IntValue: 0
+      FloatKey: Cube0.Light.Inset
+      FloatValue: 10

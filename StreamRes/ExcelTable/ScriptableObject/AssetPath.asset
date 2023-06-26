@@ -14,4 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ExcelDirPath: StreamRes/ExcelTable/Excel/cn
   Data:
-    Rows: []
+    Rows:
+    - Id: 10001
+      Name: "\u6D4B\u8BD5\u623F\u95F41"
+      AssetPath: Assets/Plugins/Pangoo/StreamRes/Prefab/Demo/Room1.prefab
+      Desc: "\u6D4B\u8BD5\u623F\u95F41"
+    - Id: 10002
+      Name: "\u6D4B\u8BD5\u623F\u95F42"
+      AssetPath: Assets/Plugins/Pangoo/StreamRes/Prefab/Demo/Room2.prefab
+      Desc: "\u6D4B\u8BD5\u623F\u95F42"
+    - Id: 10003
+      Name: "\u6D4B\u8BD5\u623F\u95F43"
+      AssetPath: Assets/Plugins/Pangoo/StreamRes/Prefab/Demo/Room3.prefab
+      Desc: "\u6D4B\u8BD5\u623F\u95F43"
+    - Id: 10004
+      Name: "\u6D4B\u8BD5\u623F\u95F44"
+      AssetPath: Assets/Plugins/Pangoo/StreamRes/Prefab/Demo/Room4.prefab
+      Desc: "\u6D4B\u8BD5\u623F\u95F44"
+    - Id: 20001
+      Name: "\u6D4B\u8BD5\u623F\u95F45"
+      AssetPath: Assets/Plugins/Pangoo/StreamRes/Prefab/Demo/Room1.prefab
+      Desc: "\u6D4B\u8BD5\u623F\u95F45"
