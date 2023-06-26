@@ -20,7 +20,6 @@ namespace Pangoo.Service
                 
                 var value = StringConvert.ToValue(typeStr, valueStr);
                 m_KeyValueDict.Add(m_GlobalDataTable.Rows[i].Key,value);
-                Debug.Log("查看字典"+m_KeyValueDict[m_GlobalDataTable.Rows[i].Key].GetType());
             }
         }
     }

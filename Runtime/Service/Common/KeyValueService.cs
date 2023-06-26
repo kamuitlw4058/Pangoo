@@ -6,6 +6,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using Pangoo.Service;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.UIElements;
 using UnityGameFramework.Runtime;
 
 namespace Pangoo
@@ -21,7 +22,6 @@ namespace Pangoo
             m_KeyValueDict  = new Dictionary<string, object>();
             m_ExcelTableService = services.GetService<ExcelTableService>();
         }
-        [CanBeNull]
         public virtual T Get<T>(string key)
         {
             object value = null;
@@ -31,7 +31,25 @@ namespace Pangoo
                 Debug.LogError($"获取的value值0：{value}");
                 return (T)value;
             }
+
             return (T)value;
+        }
+
+
+        public virtual bool TryGet<T>(string key, out T outValue)
+        {
+            outValue = default;
+            if (m_KeyValueDict.ContainsKey(key))
+            {
+                outValue = (T)m_KeyValueDict[key];
+                return true;
+            }
+            return false;
+        }
+
+        public virtual float?  GetFloat(string key)
+        {
+            return Get<float?>(key);
         }
 
         public virtual void Set<T>(string key, T value)

@@ -23,3 +23,11 @@ MonoBehaviour:
       Key: Cube0.Light.Inset
       Type: float
       Value: 10
+    - ID: 1002
+      Key: Cube0.Light.Range
+      Type: float
+      Value: 10.5
+    - ID: 1003
+      Key: Cube0.Light.Type
+      Type: int
+      Value: 0

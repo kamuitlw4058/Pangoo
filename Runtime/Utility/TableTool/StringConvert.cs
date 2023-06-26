@@ -99,7 +99,7 @@ public class StringConvert
         var obj = ToValue(ToType(typeStr),valueStr);
         return obj;
     }
-    
+
     public static Type ToType(string str)
     {
         if (str=="string"||str=="String")

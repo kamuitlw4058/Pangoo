@@ -12,11 +12,10 @@ namespace Pangoo.Service
             RegisterService( new ExcelTableService());
             RegisterService( new StaticSceneService());
             RegisterService( new GameSectionService());
-            //RegisterService(new KeyValueService());
             RegisterService(new GlobalDataService());
             RegisterService(new SaveLoadService());
             RegisterService(new RuntimeDataService());
-            RegisterService(dataContainerService = new DataContainerService());
+            RegisterService(new DataContainerService());
             
         }
 
@@ -42,21 +41,12 @@ namespace Pangoo.Service
                 service.DoStart();
             }
         }
-        public float obj;
+        public int obj;
         public int testObj;
         public void DoUpdate(float elapseSeconds, float realElapseSeconds)
         {
             foreach(var service in GetAllServices()){
                 service.DoUpdate(elapseSeconds,realElapseSeconds);
-            }
-            
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                obj=dataContainerService.Get<float>("Cube0.Light.Inset");
-                //testObj = dataContainerService.Get<int>("123");
-                
-                Debug.LogError($"obj:{obj}");
-                //Debug.LogError($"testObj:{testObj}");
             }
         }
     }

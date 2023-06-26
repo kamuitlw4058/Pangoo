@@ -24,7 +24,7 @@ namespace Pangoo.Service
 
                 key = m_SaveLoadTable.Rows[i].FloatKey;
                 var floatValue = m_SaveLoadTable.Rows[i].FloatValue;
-                if (key != "" && floatValue != null)
+                if (key != "")
                 {
                     m_KeyValueDict.Add(key, floatValue);
                 }

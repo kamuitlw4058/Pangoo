@@ -23,32 +23,29 @@ namespace Pangoo
             runtimeDataService = services.GetService<RuntimeDataService>();
 
         }
-        public T? Get<T>(string key)
+
+        public bool TryGet<T>(string key, out T outValue)
         {
-            object value = runtimeDataService.Get<T>(key);
-            
-            if (value==null)
+            if (!runtimeDataService.TryGet<T>(key,out outValue))
             {
-                value = saveLoadService.Get<T>(key);
-                if (value==null)
+                if (!saveLoadService.TryGet<T>(key,out outValue))
                 {
-                    value = globalDataService.Get<T>(key);
-                    Debug.LogError($"获取的value值0：{value}");
-                    if (value==null)
+                    if (!globalDataService.TryGet<T>(key,out outValue))
                     {
                         Debug.LogError("默认配置表中没有这个键:"+key);
-                        return default;
+                        return false;
                     }
                 }
-                runtimeDataService.Set<T>(key,(T)value);
+                runtimeDataService.Set<T>(key,(T)outValue);
             }
-            Debug.LogError($"获取的value值1：{value}");
-            return (T)value;
+            return true;
         }
 
         public void Set<T>(string key, T value)
         {
-            
+            runtimeDataService.Set<T>(key,value);
+            //TODO:添加条件约束添加SaveLoad数据的节点
+            //saveLoadService.Set<T>(key,value);
         }
     }
 }
