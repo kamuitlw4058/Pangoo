@@ -2,7 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+
+#if UNITY_EDITOR
 using Excel;
+#endif
+
 using UnityEngine;
 
 
@@ -50,8 +54,8 @@ namespace Pangoo
             }
             return null;
         }
-
-
+        
+#if UNITY_EDITOR
         public static ExcelTableData Parser(string excelFile, string className, int headCount = 3)
         {
             FileStream mStream;
@@ -191,5 +195,6 @@ namespace Pangoo
                 result = result,
             };
         }
+        #endif
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Text;
-using Excel;
 using LitJson;
 using UnityEditor;
 using UnityEngine;
@@ -13,6 +12,8 @@ namespace Pangoo
 {
     public static class DataTableCodeGenerator
     {
+#if UNITY_EDITOR
+        
         public static string BuildTableCodeJson(ExcelTableData ExcelData, int headCount = 3)
         {
 
@@ -89,6 +90,6 @@ namespace Pangoo
 
             return sb.ToString();
         }
-
+#endif
     }
 }
