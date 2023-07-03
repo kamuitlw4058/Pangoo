@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 856f2e919adddec4885f264dc2f12a5a, type: 3}
   m_Name: StaticScene
   m_EditorClassIdentifier: 
-  csvDirPath: StreamRes/ExcelTable/CSV/cn
+  ExcelDirPath: StreamRes/ExcelTable/Excel/cn
   Data:
     Rows:
     - Id: 10001
@@ -34,19 +34,9 @@ MonoBehaviour:
       Name: "\u6D4B\u8BD5\u623F\u95F41"
       AssetPathId: 10004
       EntityGroupId: 1
-      LoadSceneIds: 10002
+      LoadSceneIds: 10004
     - Id: 20001
-      Name: "\u623F\u9876"
+      Name: "\u6D4B\u8BD5\u623F\u95F42"
       AssetPathId: 20001
       EntityGroupId: 1
-      LoadSceneIds: 
-    - Id: 10005
-      Name: "\u7AE0\u82822\u623F\u95F43"
-      AssetPathId: 10003
-      EntityGroupId: 1
-      LoadSceneIds: 10006
-    - Id: 10006
-      Name: "\u7AE0\u82822\u623F\u95F44"
-      AssetPathId: 10005
-      EntityGroupId: 1
-      LoadSceneIds: 10005
+      LoadSceneIds: 20001

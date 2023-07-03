@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e2876467cc034c4190f4aa23ba87804, type: 3}
+  m_Name: GlobalData
+  m_EditorClassIdentifier: 
+  ExcelDirPath: StreamRes/ExcelTable/Excel/cn
+  Data:
+    Rows:
+    - ID: 1000
+      Key: Cube0.Light.Enable
+      Type: bool
+      Value: True
+    - ID: 1001
+      Key: Cube0.Light.Inset
+      Type: float
+      Value: 10
+    - ID: 1002
+      Key: Cube0.Light.Range
+      Type: float
+      Value: 10.5
+    - ID: 1003
+      Key: Cube0.Light.Type
+      Type: int
+      Value: 0

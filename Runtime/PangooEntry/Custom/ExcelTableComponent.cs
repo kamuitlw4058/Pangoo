@@ -63,6 +63,7 @@ namespace Pangoo
             {
                 foreach (var overview in TableOverviews)
                 {
+                    Debug.Log(overview);
                     var type = overview.GetDataType();
                     var table = overview.GetExcelTableBase();
                     if (m_ExcelTableDic.ContainsKey(type))
@@ -75,6 +76,7 @@ namespace Pangoo
                     {
                         m_ExcelTableDic.Add(type, table);
                     }
+                    Debug.Log($"当前使用的数据SO名字：{overview.name}");
                     table.CustomInit();
                 }
                 

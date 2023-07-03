@@ -1,15 +1,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Pangoo.Service
 {
     public class TestServiceContainer : ServiceContainer,ILifeCycle
     {
+        public DataContainerService dataContainerService;
         public TestServiceContainer(){
             RegisterService( new ExcelTableService());
             RegisterService( new StaticSceneService());
             RegisterService( new GameSectionService());
+            RegisterService(new GlobalDataService());
+            RegisterService(new SaveLoadService());
+            RegisterService(new RuntimeDataService());
+            RegisterService(new DataContainerService());
+            
         }
 
         public void DoAwake(){
@@ -34,7 +41,8 @@ namespace Pangoo.Service
                 service.DoStart();
             }
         }
-
+        public int obj;
+        public int testObj;
         public void DoUpdate(float elapseSeconds, float realElapseSeconds)
         {
             foreach(var service in GetAllServices()){

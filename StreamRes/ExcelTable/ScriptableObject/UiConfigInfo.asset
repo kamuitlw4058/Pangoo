@@ -14,4 +14,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ExcelDirPath: StreamRes/ExcelTable/Excel/cn
   Data:
-    Rows: []
+    Rows:
+    - Id: 10001
+      Name: Logo
+      PackageName: MJ2
+      ComponentName: Logo
+      SortingOrder: 0
+      BlurMask: 1
+      IgnoreNotch: 1
+      NeverClose: 0
+      IgnoreStack: 0
+      HidePause: 0
+    - Id: 1
+      Name: MainMenu
+      PackageName: MainMenu
+      ComponentName: MainMenu
+      SortingOrder: 0
+      BlurMask: 0
+      IgnoreNotch: 0
+      NeverClose: 0
+      IgnoreStack: 0
+      HidePause: 0
+    - Id: 2
+      Name: 1
+      PackageName: 2
+      ComponentName: 3
+      SortingOrder: 0
+      BlurMask: 0
+      IgnoreNotch: 1
+      NeverClose: 0
+      IgnoreStack: 0
+      HidePause: 0
+    - Id: 3
+      Name: 2
+      PackageName: 1
+      ComponentName: 
+      SortingOrder: 0
+      BlurMask: 0
+      IgnoreNotch: 0
+      NeverClose: 0
+      IgnoreStack: 0
+      HidePause: 0

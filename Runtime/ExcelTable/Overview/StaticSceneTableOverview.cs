@@ -7,7 +7,9 @@ using LitJson;
 using Pangoo;
 using UnityEngine;
 using Sirenix.OdinInspector;
+
 #if UNITY_EDITOR
+using OfficeOpenXml;
 using UnityEditor;
 #endif
 
@@ -51,28 +53,23 @@ namespace Pangoo
 
 #if UNITY_EDITOR
 
-       [Button("从Json重构",30)]
-       public override void LoadFromJson()
-       {
-          var path = $"{PackageDir}/StreamRes/ExcelTable/Json/cn/{GetJsonPath()}.json";
-          string json = File.ReadAllText(path);
-          Data =  JsonMapper.ToObject<StaticSceneTable>(json);
-       }
+       [Button("从Excel文件重构数据",30)]
+        /// <summary> 加载Excel文件</summary>
+        public override void LoadExcelFile()
+        {
+          Data=new();
+          string excelDirPath = Path.Join(PackageDir,ExcelDirPath);
+          string excelFile=excelDirPath+ "/" + this.name + ".xlsx";
+          Data.LoadExcelFile(excelFile);
+        }
 
 
-       [Button("生成Json",30)]
-       public override void SaveJson()
-       {
-          var path = $"{PackageDir}/StreamRes/ExcelTable/Json/cn/{GetJsonPath()}.json";
-          var json = JsonMapper.ToJson(Data);
-          using (var sw = new StreamWriter(path))
-           {
-              sw.WriteLine(json);
-           }
-           SaveConfig();
-       }
-
-
+       [Button("生成Excel文件",30)]
+        /// <summary> 生成Excel文件</summary>
+        public override void BuildExcelFile()
+        {
+          BuildExcelFile(Data);
+        }
 
 #endif
     }

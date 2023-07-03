@@ -96,39 +96,25 @@ namespace Pangoo
             List<string[]> tmpRowDataList = new List<string[]>();
             foreach (var item in Rows)
             {
-                string[] texts = new string[item.GetType().GetFields().Length];
-                for (int i = 0; i < texts.Length; i++)
-                {
-                  string valueText = item.GetType().GetFields()[i].GetValue(item).ToString();
-                  texts[i] = item.GetType().GetFields()[i].GetValue(item) != null ?valueText: "";
-                }
-                tmpRowDataList.Add(texts);
+                tmpRowDataListAdd(tmpRowDataList,item);
             }
             return tmpRowDataList;
         }
-        /// <summary> 从CSV文件重新构建数据 </summary>
-        public virtual void LoadCSVFile(string csvFilePath)
+#if UNITY_EDITOR
+        /// <summary> 从Excel文件重新构建数据 </summary>
+        public virtual void LoadExcelFile(string excelFilePath)
         {
-            Rows=new ();
-            var result = CSVHelper.ParseCSV(File.ReadAllText(csvFilePath));
-            for (int i = GetTableHeadList().Count; i < result.Count; i++)
-            {
-               StaticSceneRow  eventsRow = new StaticSceneRow();
-                var eventRowFieldInfos = eventsRow.GetType().GetFields();
-                for (int j = 0; j < eventRowFieldInfos.Length; j++)
-                {
-                       var value = StringConvert.ToValue(eventRowFieldInfos[j].FieldType, result[i][j].ToString());
-                       eventRowFieldInfos[j].SetValue(eventsRow,value);
-                }
-                Rows.Add(eventsRow);
-            }
+#if UNITY_EDITOR
+            Rows = LoadExcelFile<StaticSceneRow>(excelFilePath);
+#endif
         }
+#endif
 
 
         /// <summary> 反射获取配置文件路径 </summary>
         public static string DataFilePath()
         {
-            return "Assets/Plugins/Pangoo/StreamRes/ExcelTable/Json/cn/StaticSceneTable.json";
+            return "";
         }
 
     }

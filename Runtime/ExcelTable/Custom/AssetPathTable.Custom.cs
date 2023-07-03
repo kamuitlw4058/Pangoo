@@ -33,7 +33,6 @@ namespace Pangoo
         }
 
         public AssetPathRow GetAssetPathRow(int id){
-            Debug.Log($"Rows:{Rows.Count} {this.GetHashCode()}");
             return m_Dict[id];
 
         }
