@@ -19,6 +19,9 @@ namespace Pangoo
         }
 
 
+        public static string GetPath(this GameObject go){
 
+           return go.transform.GetPath();
+        }
     }
 }
