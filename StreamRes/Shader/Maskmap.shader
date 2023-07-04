@@ -7,6 +7,7 @@ Shader "Hidden/MaskMap"
         _G("G", 2D) = "black"{}
         _B("B",2D) = "black"{}
         _A("A",2D) = "black"{}
+        _ToSmoothness("ToSmoothness",float) = 1
         _Gamma("Gamma",float) = 0.45
         _TextureType("TextureType",float) = 0
     }
@@ -41,6 +42,7 @@ Shader "Hidden/MaskMap"
             sampler2D _G;
             sampler2D _B;
             sampler2D _A;
+            float _ToSmoothness;
             float _Gamma;
             float _TextureType;
  
@@ -60,7 +62,12 @@ Shader "Hidden/MaskMap"
                     col.r = tex2D(_R, i.uv).r;
                     col.g = tex2D(_G, i.uv).g;
                     col.b = tex2D(_B, i.uv).b;
-                    col.a = tex2D(_A, i.uv).g;      
+                    if(_ToSmoothness == 1){
+                        col.a = 1- tex2D(_A, i.uv).g;      
+                    }else{
+                        col.a =  tex2D(_A, i.uv).g;      
+                    }
+                    
                 }else if(_TextureType == 1){
                     col.r = tex2D(_R, i.uv).r;
                     col.g = tex2D(_G, i.uv).r;

@@ -19,6 +19,11 @@ public class BuildTextureTools //扩展编辑器要继承EditorWindow
     private Texture2D metallic, occlusion, detailmask, smoothness;//四个纹理字段
 
 
+    public bool R2S = true;
+
+    public bool GammaChange = false;
+
+
     [SerializeField]
     [InlineEditor(InlineEditorModes.LargePreview)]
     [OnValueChanged("BuildPreivew")]
@@ -60,12 +65,15 @@ public class BuildTextureTools //扩展编辑器要继承EditorWindow
         }
     }
 
-    private static Texture2D BlitTexture(Texture2D r,Texture2D g,Texture2D b,Texture2D a, float textureType, float gamma=0.45f,int size = 2048){
+    private static Texture2D BlitTexture(Texture2D r,Texture2D g,Texture2D b,Texture2D a, float textureType, bool r2s, float gamma=0.45f,int size = 2048){
         var blitMat = new Material(Shader.Find("Hidden/MaskMap"));//根据MaskMap这个Shader创建材质
         blitMat.SetTexture("_R", r);//给Shader的属性赋值
         blitMat.SetTexture("_G", g);
         blitMat.SetTexture("_B", b);
         blitMat.SetTexture("_A", a);
+        if(r2s){
+            blitMat.SetFloat("_ToSmoothness",gamma);
+        }
         blitMat.SetFloat("_Gamma",gamma);
         blitMat.SetFloat("_TextureType",textureType);
         RenderTexture tempRT = new RenderTexture(size, size, 32, RenderTextureFormat.ARGB32);//生成纹理，分辨率可以自己改为1024的，也可以自己在编辑器上做出多个可供选择的分辨率，容易实现
@@ -145,7 +153,16 @@ public class BuildTextureTools //扩展编辑器要继承EditorWindow
                 mat.SetTexture("_G", occlusion);
                 mat.SetTexture("_B", detailmask);
                 mat.SetTexture("_A", smoothness);
-                mat.SetFloat("_Gamma",0.45f);
+                if(R2S){
+                     mat.SetFloat("_ToSmoothness",1f);
+                }else{
+                    mat.SetFloat("_ToSmoothness",0f);
+                }
+                if(GammaChange){
+                     mat.SetFloat("_Gamma",0.45f);
+                }else{
+                    mat.SetFloat("_Gamma",1f);
+                }
                 break;
             case TextureConvertType.HDRP2Builtin:
                 mat.SetTexture("_R",mask);
