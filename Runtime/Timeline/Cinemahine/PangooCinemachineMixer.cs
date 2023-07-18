@@ -192,7 +192,9 @@ namespace Pangoo.Timeline
 
             if (mBrain == null)
             {
-                mBrain = Transform.FindObjectOfType<CinemachineBrain>();
+
+                var playerGo = GameObject.FindGameObjectWithTag("Player");
+                mBrain = playerGo.GetComponent<CinemachineBrain>();
             }
             if (mBrain == null)
                 return;
