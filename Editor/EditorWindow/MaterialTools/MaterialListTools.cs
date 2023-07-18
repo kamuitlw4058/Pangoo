@@ -16,7 +16,7 @@ namespace Pangoo.Editor
 
 
         [ValueDropdown("GetTotalShaders", IsUniqueList = true, DropdownTitle = "Select Scene Object", DrawDropdownForListElements = false, ExcludeExistingValuesInList = true)]
-        [SerializeField][OnValueChanged("Refresh")] List<Shader> ShaderFilterList;
+        [SerializeField][OnValueChanged("RefreshShowList")] List<Shader> ShaderFilterList;
 
         // List 《Shader
 
@@ -27,6 +27,7 @@ namespace Pangoo.Editor
             m_ShowListMaterals = new List<MaterialEntry>();
             ShaderFilterList = new List<Shader>();
             RefreshTotal();
+            RefreshShowList();
         }
 
         public string GetHdrpLitPropertyName(MaterialTextureType type)
@@ -70,7 +71,7 @@ namespace Pangoo.Editor
         }
 
 
-        void Refresh()
+        void RefreshShowList()
         {
             m_ShowListMaterals.Clear();
             foreach (var material in m_TotalListMaterals)
@@ -87,7 +88,7 @@ namespace Pangoo.Editor
                     var path = AssetDatabase.GetAssetPath(material);
                     if (path != null)
                     {
-                        Debug.Log($"path:{path}");
+                        // Debug.Log($"path:{path}");
                         var index = path.LastIndexOf('/');
                         if (index > 0)
                         {
@@ -124,7 +125,7 @@ namespace Pangoo.Editor
                 var extension = AssetUtility.GetAssetFileExtension(o);
                 return extension.ToLower() != "fbx";
             }).ToList();
-            Refresh();
+        
         }
 
         [SerializeField] Shader BuiltinStrand;
@@ -145,6 +146,43 @@ namespace Pangoo.Editor
                 material.material.SetTexture("_ParallaxMap", material.heightTex);
             }
         }
+
+        [Button("从Hdrp_Lit转化到Hdrp默认Lit")]
+        void ConvertHdrpLit2DefaultLit()
+        {
+            if (BuiltinStrand == null)
+            {
+                BuiltinStrand = Shader.Find("Standard");
+            }
+            RefreshTotal();
+
+            var Hdrp_Lit = Shader.Find("Shader Graphs/Hdrp_Lit");
+
+            if(Hdrp_Lit != null &&  !ShaderFilterList.Contains(Hdrp_Lit)){
+                ShaderFilterList.Clear();
+                ShaderFilterList.Add(Hdrp_Lit);
+            }
+
+            RefreshShowList();
+            foreach(var material in m_ShowListMaterals){
+                var mt = material.material.GetTexture("_MT") as Texture2D;
+                var ao = material.material.GetTexture("_AO") as Texture2D;
+                var rs = material.material.GetTexture("_R") as Texture2D;
+                
+                var maskTex = BuildTextureTools.BlitHdrpMaskTexture(mt,ao,null,rs,IsRoughness:true);
+                var path = AssetDatabase.GetAssetPath(material.material);
+                if(path != null && path != string.Empty){
+                    var builtPath = $"{Path.GetDirectoryName(path)}\\{Path.GetFileNameWithoutExtension(path)}_Mask.png";
+                    Debug.Log($"builtPath：{builtPath}");
+                     File.WriteAllBytes(builtPath,maskTex.EncodeToPNG());//将纹理保存为png格式，也可以是jpg、exr等格式
+                }
+            }
+
+
+ 
+        }
+
+
 
 
         private IEnumerable GetTotalShaders()

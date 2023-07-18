@@ -14,14 +14,21 @@ public class BuildTextureTools //扩展编辑器要继承EditorWindow
     [InlineEditor(InlineEditorModes.LargePreview)]
     [OnValueChanged("BuildPreivew")]
     [BoxGroup("输入")]
-    [ShowIf("textureConvertType", TextureConvertType.Builtin2HDRP)]
+    [ShowIf("textureConvertType", TextureConvertType.Single2HDRPMask)]
     // [DrawWithUnity]
     private Texture2D metallic, occlusion, detailmask, smoothness;//四个纹理字段
+
+    
+    public Texture2D[] Texture2Ds{
+        get{
+            return new Texture2D[]{metallic, occlusion, detailmask, smoothness};
+        }
+    }
 
 
     public bool R2S = true;
 
-    public bool GammaChange = false;
+    public bool GammaChange = true;
 
 
     [SerializeField]
@@ -31,7 +38,6 @@ public class BuildTextureTools //扩展编辑器要继承EditorWindow
     [ShowIf("textureConvertType", TextureConvertType.HDRP2Builtin)]
     // [DrawWithUnity]
     private Texture2D mask;//四个纹理字段
-
 
 
     private Material mat;//带有Shader的材质
@@ -56,30 +62,61 @@ public class BuildTextureTools //扩展编辑器要继承EditorWindow
         preview = GenerageTexture();
     }
 
+    string GetTexturePath(){
+        foreach(var texture in Texture2Ds){
+            var path = AssetDatabase.GetAssetPath(texture);
+            if(path != null && path != string.Empty){
+                return Path.GetDirectoryName(path);
+            }
+        }
+
+        return Application.dataPath;
+    }
+
+    string GetTextureName(){
+         foreach(var texture in Texture2Ds){
+           var path = AssetDatabase.GetAssetPath(texture);
+            if(path != null && path != string.Empty){
+                return $"{Path.GetFileNameWithoutExtension(path)}_Mask";
+            }
+         }
+
+        return  "texture.png";
+    }
+
     [Button("生成纹理")]
     private void BuildTexture(){
         if(preview != null){
-            string savePath = EditorUtility.SaveFilePanel("Save", Application.dataPath, "texture.png", "png");
+           
+            string savePath = EditorUtility.SaveFilePanel("Save", GetTexturePath(), GetTextureName(), "png");
             File.WriteAllBytes(savePath,preview.EncodeToPNG());//将纹理保存为png格式，也可以是jpg、exr等格式
             AssetDatabase.Refresh();//更新，要不然在Unity当中不会看到生成的图片（在win的文件管理器中可以看到）
         }
     }
 
-    private static Texture2D BlitTexture(Texture2D r,Texture2D g,Texture2D b,Texture2D a, float textureType, bool r2s, float gamma=0.45f,int size = 2048){
-        var blitMat = new Material(Shader.Find("Hidden/MaskMap"));//根据MaskMap这个Shader创建材质
-        blitMat.SetTexture("_R", r);//给Shader的属性赋值
-        blitMat.SetTexture("_G", g);
-        blitMat.SetTexture("_B", b);
-        blitMat.SetTexture("_A", a);
-        if(r2s){
-            blitMat.SetFloat("_ToSmoothness",gamma);
+    public static Texture2D BlitHdrpMaskTexture(Texture2D metallic,Texture2D occlusion,Texture2D detailmask,Texture2D smoothness,int size = 2048, bool IsRoughness = true,bool gammaAdjust = true){
+        var tempMat = new Material(Shader.Find("Hidden/MaskMap"));//根据MaskMap这个Shader创建材质
+        tempMat.hideFlags = HideFlags.HideAndDontSave;//材质不保存
+
+        tempMat.SetTexture("_R", metallic);//给Shader的属性赋值
+        tempMat.SetTexture("_G", occlusion);
+        tempMat.SetTexture("_B", detailmask);
+        tempMat.SetTexture("_A", smoothness);
+        if(IsRoughness){
+                tempMat.SetFloat("_ToSmoothness",1f);
+        }else{
+            tempMat.SetFloat("_ToSmoothness",0f);
         }
-        blitMat.SetFloat("_Gamma",gamma);
-        blitMat.SetFloat("_TextureType",textureType);
+        if(gammaAdjust){
+                tempMat.SetFloat("_Gamma",0.45f);
+        }else{
+            tempMat.SetFloat("_Gamma",1f);
+        }
+
         RenderTexture tempRT = new RenderTexture(size, size, 32, RenderTextureFormat.ARGB32);//生成纹理，分辨率可以自己改为1024的，也可以自己在编辑器上做出多个可供选择的分辨率，容易实现
         tempRT.Create();
         Texture2D temp2 = new Texture2D(tempRT.width, tempRT.height, TextureFormat.ARGB32, false);
-        Graphics.Blit(temp2, tempRT, blitMat);//将temp2纹理的值通过mat赋值到tempRT，核心的代码，可以好好看看对这个方法的解释
+        Graphics.Blit(temp2, tempRT, tempMat);//将temp2纹理的值通过mat赋值到tempRT，核心的代码，可以好好看看对这个方法的解释
         RenderTexture prev = RenderTexture.active;
         RenderTexture.active = tempRT;//设置当前active的纹理
  
@@ -91,84 +128,17 @@ public class BuildTextureTools //扩展编辑器要继承EditorWindow
         return output;
     }
 
-    // public static Texture2D  GenerateBuiltinTextureFromHdrpMask(string dir,string name, Texture2D maskMap,float textureType, bool overrideTex = false){
-    //     if(maskMap == null){
-    //         return null;
-    //     }
-
-    //     string textureTypeStr = "";
-    //     switch(textureType){
-    //         case 1:
-    //             textureTypeStr = "MT";
-    //             break;
-    //         case 2:
-    //             textureTypeStr = "AO";
-    //             break;       
-    //         case 3:
-    //             textureTypeStr = "DM";
-    //             break;
-    //         case 4:
-    //             textureTypeStr = "R";
-    //             break;   
-    //     }
 
 
-    //      var metallicTexPath = $"{dir}/{name}_MASK_{textureTypeStr}.png";
-    //      Texture2D metallicTex;
-    //     if(!File.Exists(metallicTexPath)){
-    //         metallicTex = BlitTexture(maskMap,maskMap,maskMap,maskMap,textureType,1);
-    //         if(!CheckSolidColor(metallicTex)){
-    //             File.WriteAllBytes(metallicTexPath,metallicTex.EncodeToPNG());
-    //         }
-    //     }else{
-    //         metallicTex = AssetUtility.GetAssetByPath<Texture2D>(metallicTexPath);
-    //     }
-    //     return metallicTex;
-    //     // var metallicTex = BlitTexture(maskMap,maskMap,maskMap,maskMap,textureType,1);
-    //     // if(!CheckSolidColor(metallicTex)){
-    //     //     var metallicTexPath = $"{dir}/{name}_MASK_MT.png";
-    //     //     if(!File.Exists(metallicTexPath)){
-    //     //         File.WriteAllBytes(metallicTexPath,metallicTex.EncodeToPNG());
-    //     //     }else{
-    //     //         metallicTex = AssetUtility.GetAssetByPath<Texture2D>(metallicTexPath);
-    //     //     }
-    //     // }
-
-    //     // var occlusionTex = BlitTexture(maskMap,maskMap,maskMap,maskMap,2,1);
-    //     // var detailTex = BlitTexture(maskMap,maskMap,maskMap,maskMap,3,1);
-    //     // var smoothnessTex = BlitTexture(maskMap,maskMap,maskMap,maskMap,4,1);
-
-
-    //     // AssetDatabase.Refresh();
-
-
-
-    // }
- 
     private Texture2D GenerageTexture()
     {
         switch(textureConvertType){
-            case TextureConvertType.Builtin2HDRP:
-                mat.SetTexture("_R", metallic);//给Shader的属性赋值
-                mat.SetTexture("_G", occlusion);
-                mat.SetTexture("_B", detailmask);
-                mat.SetTexture("_A", smoothness);
-                if(R2S){
-                     mat.SetFloat("_ToSmoothness",1f);
-                }else{
-                    mat.SetFloat("_ToSmoothness",0f);
-                }
-                if(GammaChange){
-                     mat.SetFloat("_Gamma",0.45f);
-                }else{
-                    mat.SetFloat("_Gamma",1f);
-                }
-                break;
+            case TextureConvertType.Single2HDRPMask:
+                return BlitHdrpMaskTexture(metallic,occlusion,detailmask,smoothness,IsRoughness:R2S,gammaAdjust:GammaChange);
             case TextureConvertType.HDRP2Builtin:
-                mat.SetTexture("_R",mask);
-
                 break;
         }
+
  
         RenderTexture tempRT = new RenderTexture(2048, 2048, 32, RenderTextureFormat.ARGB32);//生成纹理，分辨率可以自己改为1024的，也可以自己在编辑器上做出多个可供选择的分辨率，容易实现
         tempRT.Create();
@@ -186,7 +156,7 @@ public class BuildTextureTools //扩展编辑器要继承EditorWindow
     }
  
  
-    [SerializeField][InlineEditor(InlineEditorModes.LargePreview)][BoxGroup("预览")] [ShowIf("textureConvertType", TextureConvertType.Builtin2HDRP)] private Texture2D preview = null;
+    [SerializeField][InlineEditor(InlineEditorModes.LargePreview)][BoxGroup("预览")] [ShowIf("textureConvertType", TextureConvertType.Single2HDRPMask)] private Texture2D preview = null;
 
     
     [SerializeField]
@@ -328,7 +298,7 @@ public class BuildTextureTools //扩展编辑器要继承EditorWindow
     }
 
     public enum TextureConvertType{
-        Builtin2HDRP,
+        Single2HDRPMask,
         HDRP2Builtin,
     }
 }
