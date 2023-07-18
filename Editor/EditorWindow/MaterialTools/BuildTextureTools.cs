@@ -25,10 +25,8 @@ public class BuildTextureTools //扩展编辑器要继承EditorWindow
         }
     }
 
-
-    public bool R2S = true;
-
-    public bool GammaChange = true;
+    [OnValueChanged("BuildPreivew")]
+    public bool IsRoughness = true;
 
 
     [SerializeField]
@@ -94,15 +92,17 @@ public class BuildTextureTools //扩展编辑器要继承EditorWindow
         }
     }
 
-    public static Texture2D BlitHdrpMaskTexture(Texture2D metallic,Texture2D occlusion,Texture2D detailmask,Texture2D smoothness,int size = 2048, bool IsRoughness = true,bool gammaAdjust = true){
+    public static Texture2D BlitHdrpMaskTexture(Texture2D metallic,Texture2D occlusion,Texture2D detailmask,Texture2D smoothness,int size = 2048, bool isRoughness = true,bool gammaAdjust = true){
         var tempMat = new Material(Shader.Find("Hidden/MaskMap"));//根据MaskMap这个Shader创建材质
         tempMat.hideFlags = HideFlags.HideAndDontSave;//材质不保存
+
+        tempMat.SetFloat("_TextureType",0);
 
         tempMat.SetTexture("_R", metallic);//给Shader的属性赋值
         tempMat.SetTexture("_G", occlusion);
         tempMat.SetTexture("_B", detailmask);
         tempMat.SetTexture("_A", smoothness);
-        if(IsRoughness){
+        if(isRoughness){
                 tempMat.SetFloat("_ToSmoothness",1f);
         }else{
             tempMat.SetFloat("_ToSmoothness",0f);
@@ -113,14 +113,14 @@ public class BuildTextureTools //扩展编辑器要继承EditorWindow
             tempMat.SetFloat("_Gamma",1f);
         }
 
-        RenderTexture tempRT = new RenderTexture(size, size, 32, RenderTextureFormat.ARGB32);//生成纹理，分辨率可以自己改为1024的，也可以自己在编辑器上做出多个可供选择的分辨率，容易实现
+        RenderTexture tempRT = new RenderTexture(size, size, 32, RenderTextureFormat.ARGB32,RenderTextureReadWrite.Linear);//生成纹理，分辨率可以自己改为1024的，也可以自己在编辑器上做出多个可供选择的分辨率，容易实现
         tempRT.Create();
-        Texture2D temp2 = new Texture2D(tempRT.width, tempRT.height, TextureFormat.ARGB32, false);
-        Graphics.Blit(temp2, tempRT, tempMat);//将temp2纹理的值通过mat赋值到tempRT，核心的代码，可以好好看看对这个方法的解释
+        // Texture2D temp2 = new Texture2D(tempRT.width, tempRT.height, TextureFormat.ARGB32, false);
+        Texture2D output = new Texture2D(tempRT.width, tempRT.height, TextureFormat.ARGB32,false,true);//创建一个RGBA格式的纹理
+        Graphics.Blit(output, tempRT, tempMat);//将temp2纹理的值通过mat赋值到tempRT，核心的代码，可以好好看看对这个方法的解释
         RenderTexture prev = RenderTexture.active;
         RenderTexture.active = tempRT;//设置当前active的纹理
  
-        Texture2D output = new Texture2D(tempRT.width, tempRT.height, TextureFormat.ARGB32, false);//创建一个RGBA格式的纹理
         output.ReadPixels(new Rect(0, 0, tempRT.width, tempRT.height), 0, 0);//读取当前active的纹理            
         output.Apply();//apply将改变写入
         RenderTexture.active = prev;
@@ -134,25 +134,13 @@ public class BuildTextureTools //扩展编辑器要继承EditorWindow
     {
         switch(textureConvertType){
             case TextureConvertType.Single2HDRPMask:
-                return BlitHdrpMaskTexture(metallic,occlusion,detailmask,smoothness,IsRoughness:R2S,gammaAdjust:GammaChange);
+                return BlitHdrpMaskTexture(metallic,occlusion,detailmask,smoothness,isRoughness:IsRoughness);
             case TextureConvertType.HDRP2Builtin:
-                break;
+                return null;
+            default:
+                return null;
         }
 
- 
-        RenderTexture tempRT = new RenderTexture(2048, 2048, 32, RenderTextureFormat.ARGB32);//生成纹理，分辨率可以自己改为1024的，也可以自己在编辑器上做出多个可供选择的分辨率，容易实现
-        tempRT.Create();
-        Texture2D temp2 = new Texture2D(tempRT.width, tempRT.height, TextureFormat.ARGB32, false);
-        Graphics.Blit(temp2, tempRT, mat);//将temp2纹理的值通过mat赋值到tempRT，核心的代码，可以好好看看对这个方法的解释
-        RenderTexture prev = RenderTexture.active;
-        RenderTexture.active = tempRT;//设置当前active的纹理
- 
-        Texture2D output = new Texture2D(tempRT.width, tempRT.height, TextureFormat.ARGB32, false);//创建一个RGBA格式的纹理
-        output.ReadPixels(new Rect(0, 0, tempRT.width, tempRT.height), 0, 0);//读取当前active的纹理            
-        output.Apply();//apply将改变写入
-        RenderTexture.active = prev;
- 
-        return output;
     }
  
  

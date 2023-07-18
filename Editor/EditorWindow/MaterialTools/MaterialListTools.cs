@@ -169,7 +169,7 @@ namespace Pangoo.Editor
                 var ao = material.material.GetTexture("_AO") as Texture2D;
                 var rs = material.material.GetTexture("_R") as Texture2D;
                 
-                var maskTex = BuildTextureTools.BlitHdrpMaskTexture(mt,ao,null,rs,IsRoughness:true);
+                var maskTex = BuildTextureTools.BlitHdrpMaskTexture(mt,ao,null,rs,isRoughness:true);
                 var path = AssetDatabase.GetAssetPath(material.material);
                 if(path != null && path != string.Empty){
                     var builtPath = $"{Path.GetDirectoryName(path)}\\{Path.GetFileNameWithoutExtension(path)}_Mask.png";
