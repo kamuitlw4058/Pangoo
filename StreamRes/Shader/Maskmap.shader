@@ -59,37 +59,31 @@ Shader "Hidden/MaskMap"
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv);
                 if(_TextureType == 0){
+                    //全部通道使用Red通道。避免调有些纹理没有A通道。
+                    col.r = tex2D(_R, i.uv).r;
+                    col.g = tex2D(_G, i.uv).r;
+                    col.b = tex2D(_B, i.uv).r;
+                    if(_ToSmoothness == 1){
+                        col.a = 1- tex2D(_A, i.uv).r;      
+                    }else{
+                        col.a =  tex2D(_A, i.uv).r;      
+                    }
+                    
+                }else if(_TextureType == 1){
+
                     col.r = tex2D(_R, i.uv).r;
                     col.g = tex2D(_G, i.uv).g;
                     col.b = tex2D(_B, i.uv).b;
                     if(_ToSmoothness == 1){
-                        col.a = 1- tex2D(_A, i.uv).g;      
+                        col.a = 1- tex2D(_A, i.uv).a;      
                     }else{
-                        col.a =  tex2D(_A, i.uv).g;      
+                        col.a =  tex2D(_A, i.uv).a;      
                     }
-                    
-                }else if(_TextureType == 1){
-                    col.r = tex2D(_R, i.uv).r;
-                    col.g = tex2D(_G, i.uv).r;
-                    col.b = tex2D(_B, i.uv).r;
-                    col.a = 1;
-                }else if(_TextureType == 2){
-                    col.r = tex2D(_R, i.uv).g;
-                    col.g = tex2D(_G, i.uv).g;
-                    col.b = tex2D(_B, i.uv).g;
-                    col.a = 1;
-                }else if(_TextureType == 3){
-                    col.r = tex2D(_R, i.uv).b;
-                    col.g = tex2D(_G, i.uv).b;
-                    col.b = tex2D(_B, i.uv).b;
-                    col.a = 1;
-                }else if(_TextureType == 4){
-                    col.r = tex2D(_R, i.uv).a;
-                    col.g = tex2D(_G, i.uv).a;
-                    col.b = tex2D(_B, i.uv).a;
-                    col.a = 1;
                 }
           
+                col.r = pow(col.r, _Gamma);
+                col.g = pow(col.g, _Gamma);
+                col.b = pow(col.b, _Gamma);
                 col.a = pow(col.a, _Gamma);      //线性空间会对a通道做gamma校正，要自己校正         
                 return col;
             }
