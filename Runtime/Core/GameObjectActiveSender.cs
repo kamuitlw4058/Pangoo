@@ -12,7 +12,7 @@ namespace Pangoo{
         public bool Active;
 
         private void OnEnable() {
-            PangooEntry.Event.Fire( this,GameObejctActiveEventArgs.Create(ConditionString,Active));
+            PangooEntry.Event.Fire( this.gameObject,GameObejctActiveEventArgs.Create(ConditionString,Active));
         }
 
     }

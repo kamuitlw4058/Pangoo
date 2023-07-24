@@ -12,6 +12,10 @@ namespace Pangoo{
         public GameObject TargetGameObject;
         public bool Subscribed;
         public int EventCount;
+        public int ValidEventCount;
+        public bool objActive;
+        public GameObject LastSender;
+
         private void OnEnable() {
             //PangooEntry.Event.Subscribe(EventTriggerEventArgs.EventId,OnEventTrigger);
         }
@@ -31,8 +35,11 @@ namespace Pangoo{
             var args = e as GameObejctActiveEventArgs;
             if(ConditionString.Equals(args.ConditionString)){
                 TargetGameObject?.SetActive(args.Active);
-                EventCount += 1;
+                ValidEventCount += 1;
+                objActive = args.Active;
+                LastSender = sender as GameObject;
             }
+            EventCount += 1;
         }
 
         private void OnDisable() {

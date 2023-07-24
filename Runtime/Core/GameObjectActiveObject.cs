@@ -11,12 +11,12 @@ namespace Pangoo{
         public string ConditionString;
 
         private void OnEnable() {
-            PangooEntry.Event.Fire( this,GameObejctActiveEventArgs.Create(ConditionString,true));
+            PangooEntry.Event.Fire( this.gameObject,GameObejctActiveEventArgs.Create(ConditionString,true));
         }
 
         private void OnDisable()
         {
-            PangooEntry.Event.Fire(this, GameObejctActiveEventArgs.Create(ConditionString, false));
+            PangooEntry.Event.Fire(this.gameObject, GameObejctActiveEventArgs.Create(ConditionString, false));
         }
     }
 }
