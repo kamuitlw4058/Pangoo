@@ -29,7 +29,13 @@ namespace Pangoo.Editor
             var tree = new OdinMenuTree(false);
             tree.Config.DrawSearchToolbar = true;
             tree.Config.AutoScrollOnSelectionChanged = false;
-            var tool = new ModelExporter();
+            var exporter = AssetDatabaseUtility.FindAssetFirst<ModelExporter>();
+            if(exporter == null){
+                exporter = ScriptableObject.CreateInstance<ModelExporter>();
+                AssetDatabase.CreateAsset(exporter,"Assets/test.asset");
+            }
+
+            var tool = exporter;
             tree.Add("模型导出工具", tool);
 
             return tree;

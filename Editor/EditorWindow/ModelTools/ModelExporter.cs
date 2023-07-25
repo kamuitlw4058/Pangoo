@@ -3,44 +3,23 @@ using Pangoo;
 using UnityEngine;
 using UnityEditor;
 using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
+using System;
 
 namespace Pangoo.Editor
 {
-    public class ModelExporter
+    public class ModelExporter:ScriptableObject
     {
-        const string BasePath = "Assets/ArtSync";
+       
+     
+         private static OdinEditorWindow m_CreateWindow;
 
-        [Sirenix.OdinInspector.FilePath(AbsolutePath =true,Extensions = "fbx",UseBackslashes =true)]
-        [OnValueChanged("OnModelPathChange")]
-        public string ModelPath;
-
-        public string CurrentPath =  Directory.GetCurrentDirectory();
-
-
-
-        [PreviewField]
-        public Object ModelObject;
-
-        void OnModelPathChange(){
-            if(!Directory.Exists(BasePath)){
-                Directory.CreateDirectory(BasePath);
-            }
-        //    if(ModelPath.Length < )
-
-            if(!string.IsNullOrEmpty(ModelPath)){
-                
-                ModelObject = AssetDatabaseUtility.LoadAssetAtPath<Object>(ModelPath);
-                
-            }   
+        [Button("导出本地模型", ButtonSizes.Large)]
+        public void ShowCreateWindow()
+        {
+            m_CreateWindow = OdinEditorWindow.InspectObject(new ModelImportLocal());
         }
 
-        bool IsPathInProject(string path){
-            if(path.Length < CurrentPath.Length){
-                
-            }
-
-            return true;
-        }
 
 
     }
