@@ -88,8 +88,8 @@ public class BuildTextureTools //扩展编辑器要继承EditorWindow
            
             string savePath = EditorUtility.SaveFilePanel("Save", GetTexturePath(), GetTextureName(), "png");
             File.WriteAllBytes(savePath,preview.EncodeToPNG());//将纹理保存为png格式，也可以是jpg、exr等格式
-            TextureImporter textureImporter = AssetImporter.GetAtPath(savePath) as TextureImporter;
-            textureImporter.sRGBTexture = false;
+            // TextureImporter textureImporter = AssetImporter.GetAtPath(savePath) as TextureImporter;
+            // textureImporter.sRGBTexture = false;
 
 
             AssetDatabase.Refresh();//更新，要不然在Unity当中不会看到生成的图片（在win的文件管理器中可以看到）
