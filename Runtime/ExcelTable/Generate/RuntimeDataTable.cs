@@ -18,7 +18,7 @@ namespace Pangoo
         {
 
             /// <summary>
-            // /// Desc: 
+            /// Desc: 
             /// </summary>
             [TableTitleGroup("键")]
             [HideLabel]
