@@ -12,18 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce3bbcded195197469c9ea331cdc5fd2, type: 3}
   m_Name: EntityGroup
   m_EditorClassIdentifier: 
-  ExcelDirPath: StreamRes/ExcelTable/Excel/cn
   Data:
-    Rows:
-    - Id: 1
-      Name: StiatcScene
-      InstanceAutoReleaseInterval: 0
-      InstanceCapacity: 10000
-      InstanceExpireTime: 0
-      InstancePriority: 0
-    - Id: 2
-      Name: 
-      InstanceAutoReleaseInterval: 0
-      InstanceCapacity: 0
-      InstanceExpireTime: 0
-      InstancePriority: 0
+    Rows: []

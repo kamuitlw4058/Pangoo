@@ -22,6 +22,7 @@ namespace Pangoo
     public class ExcelTableConfig : GameConfigBase
     {
         const string ModuleName = "ExcelTable";
+        
 
         public PackageConfig PackConfig;
         [ShowInInspector]
@@ -69,6 +70,7 @@ namespace Pangoo
             "Pangoo",
             "UnityEngine",
             "Sirenix.OdinInspector",
+            "System.Xml.Serialization"
         };
 
         void InitDir(PackageConfig config, ref ExcelDirInfo entry)
@@ -79,9 +81,9 @@ namespace Pangoo
             var scriptOverviewDir = Path.Join(scriptDir, "Overview").Replace("\\", "/");
             var streamResDir = Path.Join(config.PackageDir, config.StreamResDir, ModuleName).Replace("\\", "/");
             var moduleRelativeDir = Path.Join( config.StreamResDir, ModuleName).Replace("\\", "/");
-            var jsonRelativeDir = Path.Join(moduleRelativeDir, "Json",Lang).Replace("\\", "/");
-            var jsonDir = Path.Join(streamResDir, "Json", Lang).Replace("\\", "/");
-            var excelDir = Path.Join(streamResDir, "Excel", Lang).Replace("\\", "/");
+            var jsonRelativeDir = Path.Join(moduleRelativeDir, "Json").Replace("\\", "/");
+            var jsonDir = Path.Join(streamResDir, "Json").Replace("\\", "/");
+            var excelDir = Path.Join(streamResDir, "Excel").Replace("\\", "/");
             var scriptableObjectDir = Path.Join(streamResDir, "ScriptableObject").Replace("\\", "/");
 
             DirectoryUtility.ExistsOrCreate(scriptDir);
@@ -194,12 +196,12 @@ namespace Pangoo
                 var path = Path.Join(DirInfo.ScriptableObjectDir, $"{excelEntry.ExcelName}.asset");
                 if (File.Exists(path))
                 {
-                    File.Delete(path);
+                    so = AssetDatabaseUtility.LoadAssetAtPath<ExcelTableOverview>(path);
+                    // File.Delete(path);
+                }else{
+                    AssetDatabase.CreateAsset(so, path);
                 }
-                so.Namespace = Namespace;
-                so.PackageDir = PackConfig.PackageDir;
-                so.ExcelDirPath ="StreamRes/ExcelTable/Excel/"+PackConfig.Lang;
-                AssetDatabase.CreateAsset(so, path);
+                so.Config = PackConfig;
                 AssetDatabase.SaveAssets();
                 so.LoadExcelFile();
                 AssetDatabase.Refresh();
@@ -247,13 +249,19 @@ namespace Pangoo
             {
                 var codePath = Path.Join(DirInfo.ScriptGenerateDir, $"{className}.cs");
                 JsonClassGenerator.GeneratorCodeString(codeJson, Namespace, new CSharpCodeWriter(UsingNamespace, ExcelData), className, codePath);
+                AssetDatabase.ImportAsset(codePath);
+
                 var codeCustomPath = Path.Join(DirInfo.ScriptCustomDir, $"{className}.Custom.cs");
                 if (!File.Exists(codeCustomPath))
                 {
                     JsonClassGenerator.GeneratorCodeString("{}", Namespace, new CSharpCodeCustomWriter(UsingNamespace, ExcelData), className, codeCustomPath);
+                    AssetDatabase.ImportAsset(codeCustomPath);
                 }
+
                 var overviewPath = Path.Join(DirInfo.ScriptOverviewDir, $"{className}Overview.cs");
                 JsonClassGenerator.GeneratorCodeString("{}", Namespace, new CSharpCodeTableOverviewWriter(UsingNamespace, ExcelData), className, overviewPath);
+                AssetDatabase.ImportAsset(overviewPath);
+
                 Debug.Log($"Build Class:{className}");
             }
         }

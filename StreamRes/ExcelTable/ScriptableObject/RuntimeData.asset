@@ -12,16 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3b164ad793dcc34d8b4e89b6588cf4b, type: 3}
   m_Name: RuntimeData
   m_EditorClassIdentifier: 
-  ExcelDirPath: StreamRes/ExcelTable/Excel/cn
   Data:
-    Rows:
-    - ID: 1
-      IntKey: Cube0_Transform_Position.x
-      IntValue: 10
-      FloatKey: cube0_Transform_Position.y
-      FloatValue: 10.2
-    - ID: 2
-      IntKey: Cube0.Light.Inset
-      IntValue: 10
-      FloatKey: 
-      FloatValue: 0
+    Rows: []

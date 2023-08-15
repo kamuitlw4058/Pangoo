@@ -62,10 +62,10 @@ namespace Pangoo
 
         public void WriteFileStart(IJsonClassGeneratorConfig config, TextWriter sw)
         {
-            foreach (var line in JsonClassGenerator.FileHeader)
-            {
-                sw.WriteLine("// " + line);
-            }
+            // foreach (var line in JsonClassGenerator.FileHeader)
+            // {
+            //     sw.WriteLine("// " + line);
+            // }
             sw.WriteLine();
             if (m_Headers != null)
             {
@@ -105,10 +105,10 @@ namespace Pangoo
             sw.WriteLine();
 
 
-            sw.WriteLine("public override void Merge(ExcelTableBase val){");
-            sw.WriteLine($" var table = val as {config.MainClass};");
-            sw.WriteLine($" Rows.AddRange(table.Rows);");
-            sw.WriteLine("}");
+            // sw.WriteLine("public override void Merge(ExcelTableBase val){");
+            // sw.WriteLine($" var table = val as {config.MainClass};");
+            // sw.WriteLine($" Rows.AddRange(table.Rows);");
+            // sw.WriteLine("}");
         }
         public void WriteMainClassEnd(IJsonClassGeneratorConfig config, TextWriter sw)
         {

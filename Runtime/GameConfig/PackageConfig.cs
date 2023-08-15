@@ -26,8 +26,8 @@ namespace Pangoo
 
         public string MainNamespace;
 
-        [ValueDropdown("GetAllEventsOverview")]
-        public List<PangooEventsTableOverview> EventOverviews;
+        // [ValueDropdown("GetAllEventsOverview")]
+        // public List<PangooEventsTableOverview> EventOverviews;
  
 
 #if UNITY_EDITOR

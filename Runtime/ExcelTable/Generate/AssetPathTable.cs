@@ -1,38 +1,29 @@
 // 本文件使用工具自动生成，请勿进行手动修改！
 
 using System;
-using System.IO;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using LitJson;
-using Pangoo;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Pangoo;
 
 namespace Pangoo
 {
-     [Serializable]
+    [Serializable]
     public partial class AssetPathTable : ExcelTableBase
     {
         [Serializable]
-        public partial class AssetPathRow
+        public partial class AssetPathRow : ExcelRowBase
         {
-
-            /// <summary>
-            /// Desc: 
-            /// </summary>
-            [TableTitleGroup("资源ID")]
-            [HideLabel]
-            [ShowInInspector]
-            [JsonMember("Id")]
-            public int Id ;
 
             /// <summary>
             /// Desc: 
             /// </summary>
             [TableTitleGroup("资源名称")]
             [HideLabel]
-            [ShowInInspector]
             [JsonMember("Name")]
+            [ExcelTableCol("Name","Name","string", "资源名称",2)]
             public string Name ;
 
             /// <summary>
@@ -40,8 +31,8 @@ namespace Pangoo
             /// </summary>
             [TableTitleGroup("资源路径")]
             [HideLabel]
-            [ShowInInspector]
             [JsonMember("AssetPath")]
+            [ExcelTableCol("AssetPath","AssetPath","string", "资源路径",3)]
             public string AssetPath ;
 
             /// <summary>
@@ -49,60 +40,53 @@ namespace Pangoo
             /// </summary>
             [TableTitleGroup("资源描述")]
             [HideLabel]
-            [ShowInInspector]
             [JsonMember("Desc")]
+            [ExcelTableCol("Desc","Desc","string", "资源描述",4)]
             public string Desc ;
         }
 
 
-        /// <summary>
-        /// Desc: 
-        /// </summary>
-        [TableTitleGroup("资源路径")]
-        [HideLabel]
-        [ShowInInspector]
-        [JsonMember("AssetPath")]
-        public List<AssetPathRow> Rows ;
+        [TableList]
+        public List<AssetPathRow> Rows = new();
 
-
-        /// <summary> 获取表头 </summary>
-        public override string[] GetHeadNames()
-        {
-            return new string[]{"Id","Name","AssetPath","Desc"};
+        public override List<ExcelRowBase> BaseRows{
+          get{
+              List<ExcelRowBase> ret = new List<ExcelRowBase>();
+              ret.AddRange(Rows);
+              return ret;
+          }
         }
 
+        [NonSerialized]
+        [XmlIgnore]
+        public Dictionary<int,AssetPathRow> Dict = new ();
 
-        /// <summary> 获取类型名 </summary>
-        public override string[] GetTypeNames()
-        {
-            return new string[]{"int","string","string","string"};
+        public override void Init(){
+          Dict.Clear();
+          foreach(var row in Rows){
+              Dict.Add(row.Id,row);
+          }
+          CustomInit();
         }
 
-
-        /// <summary> 获取描述名 </summary>
-        public override string[] GetDescNames()
-        {
-            return new string[]{"资源ID","资源名称","资源路径","资源描述"};
+        public override void Merge(ExcelTableBase val){
+          var table = val as AssetPathTable;
+          Rows.AddRange(table.Rows);
         }
 
+        public AssetPathRow GetRowById(int row_id){
+          AssetPathRow row;
+          if(Dict.TryGetValue(row_id,out row)){
+              return row;
+          }
+          return null;
+         }
 
-        /// <summary> 获取表的每行数据 </summary>
-        public override List<string[]> GetTableRowDataList()
-        {
-            List<string[]> tmpRowDataList = new List<string[]>();
-            foreach (var item in Rows)
-            {
-                tmpRowDataListAdd(tmpRowDataList,item);
-            }
-            return tmpRowDataList;
-        }
 #if UNITY_EDITOR
         /// <summary> 从Excel文件重新构建数据 </summary>
         public virtual void LoadExcelFile(string excelFilePath)
         {
-#if UNITY_EDITOR
-            Rows = LoadExcelFile<AssetPathRow>(excelFilePath);
-#endif
+          Rows = LoadExcelFile<AssetPathRow>(excelFilePath);
         }
 #endif
 

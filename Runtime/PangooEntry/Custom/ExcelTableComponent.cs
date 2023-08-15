@@ -77,7 +77,7 @@ namespace Pangoo
                         m_ExcelTableDic.Add(type, table);
                     }
                     Debug.Log($"当前使用的数据SO名字：{overview.name}");
-                    table.CustomInit();
+                    table.Init();
                 }
                 
             }else{

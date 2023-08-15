@@ -54,10 +54,7 @@ namespace Pangoo
             return m_Dict[id];
         }
 
-public override void Merge(ExcelTableBase val){
- var table = val as StaticSceneTable;
- Rows.AddRange(table.Rows);
-}
+
     }
 }
 

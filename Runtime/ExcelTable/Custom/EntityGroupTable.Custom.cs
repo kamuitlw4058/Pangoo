@@ -13,37 +13,17 @@ namespace Pangoo
 {
     public partial class EntityGroupTable 
     {
-        [NonSerialized]
-        [XmlIgnore]
-        public Dictionary<int,EntityGroupRow> m_Dict;
-        public void InitDict(){
-            if(m_Dict == null){
-                m_Dict = new Dictionary<int, EntityGroupRow>();
-                foreach(var row in Rows){
-                    m_Dict.Add(row.Id,row);
-                }
-            }
-        }
 
         /// <summary> 用户处理 </summary>
         public override void CustomInit()
         {
-            InitDict();
-            m_Dict.Clear();
-            foreach(var row in Rows){
-                m_Dict.Add(row.Id,row);
-            }
+
         }
 
         public EntityGroupRow GetEntityGroupRow(int id){
-            InitDict();
-            return m_Dict[id];
+            return GetRowById(id);
         }
 
-public override void Merge(ExcelTableBase val){
- var table = val as EntityGroupTable;
- Rows.AddRange(table.Rows);
-}
     }
 }
 

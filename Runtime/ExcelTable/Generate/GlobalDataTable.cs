@@ -1,38 +1,29 @@
 // 本文件使用工具自动生成，请勿进行手动修改！
 
 using System;
-using System.IO;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using LitJson;
-using Pangoo;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Pangoo;
 
 namespace Pangoo
 {
-     [Serializable]
+    [Serializable]
     public partial class GlobalDataTable : ExcelTableBase
     {
         [Serializable]
-        public partial class GlobalDataRow
+        public partial class GlobalDataRow : ExcelRowBase
         {
-
-            /// <summary>
-            /// Desc: 
-            /// </summary>
-            [TableTitleGroup("编号")]
-            [HideLabel]
-            [ShowInInspector]
-            [JsonMember("ID")]
-            public int ID ;
 
             /// <summary>
             /// Desc: 
             /// </summary>
             [TableTitleGroup("键")]
             [HideLabel]
-            [ShowInInspector]
             [JsonMember("Key")]
+            [ExcelTableCol("Key","Key","string", "键",2)]
             public string Key ;
 
             /// <summary>
@@ -40,8 +31,8 @@ namespace Pangoo
             /// </summary>
             [TableTitleGroup("类型")]
             [HideLabel]
-            [ShowInInspector]
             [JsonMember("Type")]
+            [ExcelTableCol("Type","Type","string", "类型",3)]
             public string Type ;
 
             /// <summary>
@@ -49,48 +40,48 @@ namespace Pangoo
             /// </summary>
             [TableTitleGroup("值")]
             [HideLabel]
-            [ShowInInspector]
             [JsonMember("Value")]
+            [ExcelTableCol("Value","Value","string", "值",4)]
             public string Value ;
         }
 
 
-        [TableList( AlwaysExpanded = true)]
-        [JsonMember("GlobalData")]
-        public List<GlobalDataRow> Rows ;
+        [TableList]
+        public List<GlobalDataRow> Rows = new();
 
-
-        /// <summary> 获取表头 </summary>
-        public override string[] GetHeadNames()
-        {
-            return new string[]{"ID","Key","Type","Value"};
+        public override List<ExcelRowBase> BaseRows{
+          get{
+              List<ExcelRowBase> ret = new List<ExcelRowBase>();
+              ret.AddRange(Rows);
+              return ret;
+          }
         }
 
+        [NonSerialized]
+        [XmlIgnore]
+        public Dictionary<int,GlobalDataRow> Dict = new ();
 
-        /// <summary> 获取类型名 </summary>
-        public override string[] GetTypeNames()
-        {
-            return new string[]{"int","string","string","string"};
+        public override void Init(){
+          Dict.Clear();
+          foreach(var row in Rows){
+              Dict.Add(row.Id,row);
+          }
+          CustomInit();
         }
 
-
-        /// <summary> 获取描述名 </summary>
-        public override string[] GetDescNames()
-        {
-            return new string[]{"编号","键","类型","值"};
+        public override void Merge(ExcelTableBase val){
+          var table = val as GlobalDataTable;
+          Rows.AddRange(table.Rows);
         }
 
+        public GlobalDataRow GetRowById(int row_id){
+          GlobalDataRow row;
+          if(Dict.TryGetValue(row_id,out row)){
+              return row;
+          }
+          return null;
+         }
 
-        /// <summary> 获取表的每行数据 </summary>
-        public override List<string[]> GetTableRowDataList()
-        {
-            List<string[]> tmpRowDataList = new List<string[]>();
-            foreach (var item in Rows)
-            {
-                tmpRowDataListAdd(tmpRowDataList,item);
-            }
-            return tmpRowDataList;
-        }
 #if UNITY_EDITOR
         /// <summary> 从Excel文件重新构建数据 </summary>
         public virtual void LoadExcelFile(string excelFilePath)

@@ -1,38 +1,29 @@
 // 本文件使用工具自动生成，请勿进行手动修改！
 
 using System;
-using System.IO;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using LitJson;
-using Pangoo;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Pangoo;
 
 namespace Pangoo
 {
-     [Serializable]
+    [Serializable]
     public partial class EntityGroupTable : ExcelTableBase
     {
         [Serializable]
-        public partial class EntityGroupRow
+        public partial class EntityGroupRow : ExcelRowBase
         {
-
-            /// <summary>
-            /// Desc: 
-            /// </summary>
-            [TableTitleGroup("编号")]
-            [HideLabel]
-            [ShowInInspector]
-            [JsonMember("Id")]
-            public int Id ;
 
             /// <summary>
             /// Desc: 
             /// </summary>
             [TableTitleGroup("组名字")]
             [HideLabel]
-            [ShowInInspector]
             [JsonMember("Name")]
+            [ExcelTableCol("Name","Name","string", "组名字",2)]
             public string Name ;
 
             /// <summary>
@@ -40,8 +31,8 @@ namespace Pangoo
             /// </summary>
             [TableTitleGroup("自动释放可释放对象的间隔秒数")]
             [HideLabel]
-            [ShowInInspector]
             [JsonMember("InstanceAutoReleaseInterval")]
+            [ExcelTableCol("InstanceAutoReleaseInterval","InstanceAutoReleaseInterval","double", "自动释放可释放对象的间隔秒数",3)]
             public double InstanceAutoReleaseInterval ;
 
             /// <summary>
@@ -49,8 +40,8 @@ namespace Pangoo
             /// </summary>
             [TableTitleGroup("实例对象池的容量")]
             [HideLabel]
-            [ShowInInspector]
             [JsonMember("InstanceCapacity")]
+            [ExcelTableCol("InstanceCapacity","InstanceCapacity","int", "实例对象池的容量",4)]
             public int InstanceCapacity ;
 
             /// <summary>
@@ -58,8 +49,8 @@ namespace Pangoo
             /// </summary>
             [TableTitleGroup("对象池对象过期秒数")]
             [HideLabel]
-            [ShowInInspector]
             [JsonMember("InstanceExpireTime")]
+            [ExcelTableCol("InstanceExpireTime","InstanceExpireTime","double", "对象池对象过期秒数",5)]
             public double InstanceExpireTime ;
 
             /// <summary>
@@ -67,55 +58,53 @@ namespace Pangoo
             /// </summary>
             [TableTitleGroup("实体组实例对象池的优先级")]
             [HideLabel]
-            [ShowInInspector]
             [JsonMember("InstancePriority")]
+            [ExcelTableCol("InstancePriority","InstancePriority","int", "实体组实例对象池的优先级",6)]
             public int InstancePriority ;
         }
 
 
-        [TableList( AlwaysExpanded = true)]
-        [JsonMember("EntityGroup")]
-        public List<EntityGroupRow> Rows ;
+        [TableList]
+        public List<EntityGroupRow> Rows = new();
 
-
-        /// <summary> 获取表头 </summary>
-        public override string[] GetHeadNames()
-        {
-            return new string[]{"Id","Name","InstanceAutoReleaseInterval","InstanceCapacity","InstanceExpireTime","InstancePriority"};
+        public override List<ExcelRowBase> BaseRows{
+          get{
+              List<ExcelRowBase> ret = new List<ExcelRowBase>();
+              ret.AddRange(Rows);
+              return ret;
+          }
         }
 
+        [NonSerialized]
+        [XmlIgnore]
+        public Dictionary<int,EntityGroupRow> Dict = new ();
 
-        /// <summary> 获取类型名 </summary>
-        public override string[] GetTypeNames()
-        {
-            return new string[]{"int","string","double","int","double","int"};
+        public override void Init(){
+          Dict.Clear();
+          foreach(var row in Rows){
+              Dict.Add(row.Id,row);
+          }
+          CustomInit();
         }
 
-
-        /// <summary> 获取描述名 </summary>
-        public override string[] GetDescNames()
-        {
-            return new string[]{"编号","组名字","自动释放可释放对象的间隔秒数","实例对象池的容量","对象池对象过期秒数","实体组实例对象池的优先级"};
+        public override void Merge(ExcelTableBase val){
+          var table = val as EntityGroupTable;
+          Rows.AddRange(table.Rows);
         }
 
+        public EntityGroupRow GetRowById(int row_id){
+          EntityGroupRow row;
+          if(Dict.TryGetValue(row_id,out row)){
+              return row;
+          }
+          return null;
+         }
 
-        /// <summary> 获取表的每行数据 </summary>
-        public override List<string[]> GetTableRowDataList()
-        {
-            List<string[]> tmpRowDataList = new List<string[]>();
-            foreach (var item in Rows)
-            {
-                tmpRowDataListAdd(tmpRowDataList,item);
-            }
-            return tmpRowDataList;
-        }
 #if UNITY_EDITOR
         /// <summary> 从Excel文件重新构建数据 </summary>
         public virtual void LoadExcelFile(string excelFilePath)
         {
-#if UNITY_EDITOR
-            Rows = LoadExcelFile<EntityGroupRow>(excelFilePath);
-#endif
+          Rows = LoadExcelFile<EntityGroupRow>(excelFilePath);
         }
 #endif
 

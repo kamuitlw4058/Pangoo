@@ -25,6 +25,7 @@ namespace Pangoo
             });
         }
 
+
         public static IEnumerable GetAllSceneDirs()
         {
             List<string> paths = new List<string>();
@@ -34,6 +35,7 @@ namespace Pangoo
                 var path = AssetDatabase.GUIDToAssetPath(x);
                 return Path.GetDirectoryName(path).Replace("\\", "/");
             });
+            
         }
 
         public static IEnumerable<string> GetAllScenes(string prefix)
@@ -59,8 +61,9 @@ namespace Pangoo
 
         public static IEnumerable GetAllEventsOverview()
         {
-            var datas = AssetDatabaseUtility.FindAsset<PangooEventsTableOverview>();
-            return datas;
+            // var datas = AssetDatabaseUtility.FindAsset<PangooEventsTableOverview>();
+            // return datas;
+            return null;
         }
 
         public static IEnumerable<string> GetTypeNames<T>(){

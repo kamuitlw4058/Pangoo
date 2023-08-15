@@ -21,21 +21,30 @@ MonoBehaviour:
     ScriptCustomDir: Assets/Plugins/Pangoo/Runtime/ExcelTable/Custom
     ScriptOverviewDir: Assets/Plugins/Pangoo/Runtime/ExcelTable/Overview
     StreamResDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable
-    JsonRelativeDir: StreamRes/ExcelTable/Json/cn
-    JsonDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/Json/cn
-    ExcelDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/Excel/cn
+    JsonRelativeDir: StreamRes/ExcelTable/Json
+    JsonDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/Json
+    ExcelDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/Excel
     ScriptableObjectDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/ScriptableObject
   ExcelList:
   - ExcelName: AssetPath
-    BaseNamespace: 
+    BaseNamespace: Pangoo
     LoadAtRuntime: 1
   - ExcelName: EntityGroup
-    BaseNamespace: 
+    BaseNamespace: Pangoo
     LoadAtRuntime: 1
   - ExcelName: GameSection
-    BaseNamespace: 
+    BaseNamespace: Pangoo
+    LoadAtRuntime: 1
+  - ExcelName: GlobalData
+    BaseNamespace: Pangoo
     LoadAtRuntime: 1
   - ExcelName: PangooEvents
+    BaseNamespace: Pangoo
+    LoadAtRuntime: 1
+  - ExcelName: RuntimeData
+    BaseNamespace: Pangoo
+    LoadAtRuntime: 1
+  - ExcelName: SaveLoad
     BaseNamespace: 
     LoadAtRuntime: 1
   - ExcelName: StaticScene
@@ -44,20 +53,11 @@ MonoBehaviour:
   - ExcelName: UiConfigInfo
     BaseNamespace: 
     LoadAtRuntime: 1
-  - ExcelName: GlobalData
-    BaseNamespace: 
-    LoadAtRuntime: 1
-  - ExcelName: SaveLoad
-    BaseNamespace: 
-    LoadAtRuntime: 1
-  - ExcelName: RuntimeData
-    BaseNamespace: 
-    LoadAtRuntime: 1
   UsingNamespace:
   - System
-  - System.IO
   - System.Collections.Generic
+  - System.Xml.Serialization
   - LitJson
-  - Pangoo
   - UnityEngine
   - Sirenix.OdinInspector
+  - Pangoo

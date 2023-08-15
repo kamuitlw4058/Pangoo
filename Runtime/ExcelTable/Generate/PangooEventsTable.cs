@@ -1,20 +1,20 @@
 // 本文件使用工具自动生成，请勿进行手动修改！
 
 using System;
-using System.IO;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using LitJson;
-using Pangoo;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Pangoo;
 
 namespace Pangoo
 {
-     [Serializable]
+    [Serializable]
     public partial class PangooEventsTable : ExcelTableBase
     {
         [Serializable]
-        public partial class PangooEventsRow
+        public partial class PangooEventsRow : ExcelRowBase
         {
 
             /// <summary>
@@ -22,8 +22,8 @@ namespace Pangoo
             /// </summary>
             [TableTitleGroup("事件的命名空间")]
             [HideLabel]
-            [ShowInInspector]
             [JsonMember("Namesapce")]
+            [ExcelTableCol("Namesapce","Namesapce","string", "事件的命名空间",1)]
             public string Namesapce ;
 
             /// <summary>
@@ -31,8 +31,8 @@ namespace Pangoo
             /// </summary>
             [TableTitleGroup("事件名称")]
             [HideLabel]
-            [ShowInInspector]
             [JsonMember("EventName")]
+            [ExcelTableCol("EventName","EventName","string", "事件名称",2)]
             public string EventName ;
 
             /// <summary>
@@ -40,48 +40,48 @@ namespace Pangoo
             /// </summary>
             [TableTitleGroup("描述")]
             [HideLabel]
-            [ShowInInspector]
             [JsonMember("desc")]
+            [ExcelTableCol("Desc","desc","string", "描述",3)]
             public string Desc ;
         }
 
 
-        [TableList( AlwaysExpanded = true)]
-        [JsonMember("PangooEvents")]
-        public List<PangooEventsRow> Rows ;
+        [TableList]
+        public List<PangooEventsRow> Rows = new();
 
-
-        /// <summary> 获取表头 </summary>
-        public override string[] GetHeadNames()
-        {
-            return new string[]{"Namesapce","EventName","desc"};
+        public override List<ExcelRowBase> BaseRows{
+          get{
+              List<ExcelRowBase> ret = new List<ExcelRowBase>();
+              ret.AddRange(Rows);
+              return ret;
+          }
         }
 
+        [NonSerialized]
+        [XmlIgnore]
+        public Dictionary<int,PangooEventsRow> Dict = new ();
 
-        /// <summary> 获取类型名 </summary>
-        public override string[] GetTypeNames()
-        {
-            return new string[]{"string","string","string"};
+        public override void Init(){
+          Dict.Clear();
+          foreach(var row in Rows){
+              Dict.Add(row.Id,row);
+          }
+          CustomInit();
         }
 
-
-        /// <summary> 获取描述名 </summary>
-        public override string[] GetDescNames()
-        {
-            return new string[]{"事件的命名空间","事件名称","描述"};
+        public override void Merge(ExcelTableBase val){
+          var table = val as PangooEventsTable;
+          Rows.AddRange(table.Rows);
         }
 
+        public PangooEventsRow GetRowById(int row_id){
+          PangooEventsRow row;
+          if(Dict.TryGetValue(row_id,out row)){
+              return row;
+          }
+          return null;
+         }
 
-        /// <summary> 获取表的每行数据 </summary>
-        public override List<string[]> GetTableRowDataList()
-        {
-            List<string[]> tmpRowDataList = new List<string[]>();
-            foreach (var item in Rows)
-            {
-                tmpRowDataListAdd(tmpRowDataList,item);
-            }
-            return tmpRowDataList;
-        }
 #if UNITY_EDITOR
         /// <summary> 从Excel文件重新构建数据 </summary>
         public virtual void LoadExcelFile(string excelFilePath)

@@ -19,10 +19,7 @@ namespace Pangoo
         {
         }
 
-public override void Merge(ExcelTableBase val){
- var table = val as GlobalDataTable;
- Rows.AddRange(table.Rows);
-}
+
     }
 }
 

@@ -22,12 +22,6 @@ namespace Pangoo
             });
         }
 
-        public override void Merge(ExcelTableBase val)
-        {
-            var table = val as UiConfigInfoTable;
-            Rows.AddRange(table.Rows);
-        }
-        
         public UiConfigInfoRow GetConfigByType(string typeName)
         {
             UiConfigInfoRow row;

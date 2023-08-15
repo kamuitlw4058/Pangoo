@@ -19,10 +19,7 @@ namespace Pangoo
         {
         }
 
-public override void Merge(ExcelTableBase val){
- var table = val as PangooEventsTable;
- Rows.AddRange(table.Rows);
-}
+
     }
 }
 

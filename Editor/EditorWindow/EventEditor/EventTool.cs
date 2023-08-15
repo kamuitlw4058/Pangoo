@@ -61,27 +61,27 @@ namespace Pangoo.Editor
                 DirectoryUtility.ExistsOrCreate(scriptDir);
                 DirectoryUtility.ExistsOrCreate(scriptGenerateDir);
 
-                foreach (PangooEventsTableOverview overview in config.EventOverviews)
-                {
-                    if (overview == null)
-                    {
-                        continue;
-                    }
-                    foreach(var data in overview.Data.Rows){
-                            var className = $"{data.EventName}EventArgs";
-                            EventList.Add(new EventEntry
-                        {
-                            NameSpace = config.MainNamespace,
-                            EventName = data.EventName,
-                            EventClassName = className,
-                            Overview = overview,
-                            ScriptPath = $"{scriptGenerateDir}/{className}.cs",
+            //     foreach (PangooEventsTableOverview overview in config.EventOverviews)
+            //     {
+            //         if (overview == null)
+            //         {
+            //             continue;
+            //         }
+            //         foreach(var data in overview.Data.Rows){
+            //                 var className = $"{data.EventName}EventArgs";
+            //                 EventList.Add(new EventEntry
+            //             {
+            //                 NameSpace = config.MainNamespace,
+            //                 EventName = data.EventName,
+            //                 EventClassName = className,
+            //                 Overview = overview,
+            //                 ScriptPath = $"{scriptGenerateDir}/{className}.cs",
 
                             
-                        });
-                    }
+            //             });
+            //         }
 
-                }
+            //     }
             }
         }
         
@@ -113,8 +113,8 @@ namespace Pangoo.Editor
             public bool Overwrite;
 
 
-            [HideInInspector]
-            public PangooEventsTableOverview Overview;
+            // [HideInInspector]
+            // public PangooEventsTableOverview Overview;
 
 
         }

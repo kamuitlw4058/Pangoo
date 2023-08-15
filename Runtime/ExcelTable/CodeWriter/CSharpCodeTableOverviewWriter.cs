@@ -108,7 +108,7 @@ namespace Pangoo
         public void WriteAdditionFunction(IJsonClassGeneratorConfig config, TextWriter sw)
         {
             sw.WriteLine();
-            sw.WriteLine("         [TableList(IsReadOnly = true, AlwaysExpanded = true)]");
+            // sw.WriteLine("         [TableList(IsReadOnly = true, AlwaysExpanded = true)]");
             if (m_ExcelData.ClassName != null)
             {
                 sw.WriteLine($"       public {m_ExcelData.ClassName} Data;");
@@ -128,12 +128,12 @@ namespace Pangoo
                 sw.WriteLine("       }");
                 sw.WriteLine();
 
-                sw.WriteLine();
-                sw.WriteLine("       public override int GetRowCount()");
-                sw.WriteLine("       {");
-                sw.WriteLine("           return Data != null ? Data.Rows.Count : 0;");
-                sw.WriteLine("       }");
-                sw.WriteLine();
+                // sw.WriteLine();
+                // sw.WriteLine("       public override int GetRowCount()");
+                // sw.WriteLine("       {");
+                // sw.WriteLine("           return Data != null ? Data.Rows.Count : 0;");
+                // sw.WriteLine("       }");
+                // sw.WriteLine();
 
 
                 sw.WriteLine();
@@ -188,20 +188,18 @@ namespace Pangoo
                 sw.WriteLine("        public override void LoadExcelFile()");
                 sw.WriteLine("        {");
                 sw.WriteLine("          Data=new();");
-                sw.WriteLine("          string excelDirPath = Path.Join(PackageDir,ExcelDirPath);");
-                sw.WriteLine("          string excelFile=excelDirPath+ \"/\" + this.name + \".xlsx\";");
-                sw.WriteLine("          Data.LoadExcelFile(excelFile);");
+                sw.WriteLine("          Data.LoadExcelFile(ExcelPath);");
                 sw.WriteLine("        }");
                 sw.WriteLine();
                 
-                sw.WriteLine();
-                sw.WriteLine("       [Button(\"生成Excel文件\",30)]");
-                sw.WriteLine("        /// <summary> 生成Excel文件</summary>");
-                sw.WriteLine("        public override void BuildExcelFile()");
-                sw.WriteLine("        {");
-                sw.WriteLine("          BuildExcelFile(Data);");
-                sw.WriteLine("        }");
-                sw.WriteLine();
+                // sw.WriteLine();
+                // sw.WriteLine("       [Button(\"生成Excel文件\",30)]");
+                // sw.WriteLine("        /// <summary> 生成Excel文件</summary>");
+                // sw.WriteLine("        public override void BuildExcelFile()");
+                // sw.WriteLine("        {");
+                // sw.WriteLine("          BuildExcelFile(Data);");
+                // sw.WriteLine("        }");
+                // sw.WriteLine();
 
 
                 sw.WriteLine($"#endif");

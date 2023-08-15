@@ -12,18 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07d78b9e90794e6469ab55f7b701a775, type: 3}
   m_Name: PangooEvents
   m_EditorClassIdentifier: 
-  ExcelDirPath: StreamRes/ExcelTable/Excel/cn
   Data:
     Rows:
-    - Namesapce: Pangoo
+    - Id: 1
+      Namesapce: Pangoo
       EventName: ResourceInitComplete
       Desc: "\u8D44\u6E90\u7EC4\u4EF6\u521D\u59CB\u5316"
-    - Namesapce: Pangoo
+    - Id: 2
+      Namesapce: Pangoo
       EventName: EventTrigger
       Desc: "\u6761\u4EF6\u89E6\u53D1\u4E8B\u4EF6\u7528\u6765\u51FA\u53D1\u5916\u90E8\u5B9A\u4E49\u4E8B\u4EF6"
-    - Namesapce: 1
+    - Id: 3
+      Namesapce: 1
       EventName: 2
       Desc: 4
-    - Namesapce: 2
+    - Id: 4
+      Namesapce: 2
       EventName: 3
       Desc: 4

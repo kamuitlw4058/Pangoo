@@ -1,38 +1,29 @@
 // 本文件使用工具自动生成，请勿进行手动修改！
 
 using System;
-using System.IO;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using LitJson;
-using Pangoo;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Pangoo;
 
 namespace Pangoo
 {
-     [Serializable]
+    [Serializable]
     public partial class SaveLoadTable : ExcelTableBase
     {
         [Serializable]
-        public partial class SaveLoadRow
+        public partial class SaveLoadRow : ExcelRowBase
         {
-
-            /// <summary>
-            /// Desc: 
-            /// </summary>
-            [TableTitleGroup("编号")]
-            [HideLabel]
-            [ShowInInspector]
-            [JsonMember("ID")]
-            public int ID ;
 
             /// <summary>
             /// Desc: 
             /// </summary>
             [TableTitleGroup("Int类型的键")]
             [HideLabel]
-            [ShowInInspector]
             [JsonMember("int_key")]
+            [ExcelTableCol("IntKey","int_key","string", "Int类型的键",2)]
             public string IntKey ;
 
             /// <summary>
@@ -40,8 +31,8 @@ namespace Pangoo
             /// </summary>
             [TableTitleGroup("Int类型的值")]
             [HideLabel]
-            [ShowInInspector]
             [JsonMember("int_value")]
+            [ExcelTableCol("IntValue","int_value","int", "Int类型的值",3)]
             public int IntValue ;
 
             /// <summary>
@@ -49,8 +40,8 @@ namespace Pangoo
             /// </summary>
             [TableTitleGroup("Flaot类型的键")]
             [HideLabel]
-            [ShowInInspector]
             [JsonMember("float_key")]
+            [ExcelTableCol("FloatKey","float_key","string", "Flaot类型的键",4)]
             public string FloatKey ;
 
             /// <summary>
@@ -58,48 +49,48 @@ namespace Pangoo
             /// </summary>
             [TableTitleGroup("Float类型的值")]
             [HideLabel]
-            [ShowInInspector]
             [JsonMember("float_value")]
+            [ExcelTableCol("FloatValue","float_value","float", "Float类型的值",5)]
             public float FloatValue ;
         }
 
 
-        [TableList( AlwaysExpanded = true)]
-        [JsonMember("SaveLoad")]
-        public List<SaveLoadRow> Rows ;
+        [TableList]
+        public List<SaveLoadRow> Rows = new();
 
-
-        /// <summary> 获取表头 </summary>
-        public override string[] GetHeadNames()
-        {
-            return new string[]{"ID","int_key","int_value","float_key","float_value"};
+        public override List<ExcelRowBase> BaseRows{
+          get{
+              List<ExcelRowBase> ret = new List<ExcelRowBase>();
+              ret.AddRange(Rows);
+              return ret;
+          }
         }
 
+        [NonSerialized]
+        [XmlIgnore]
+        public Dictionary<int,SaveLoadRow> Dict = new ();
 
-        /// <summary> 获取类型名 </summary>
-        public override string[] GetTypeNames()
-        {
-            return new string[]{"int","string","int","string","float"};
+        public override void Init(){
+          Dict.Clear();
+          foreach(var row in Rows){
+              Dict.Add(row.Id,row);
+          }
+          CustomInit();
         }
 
-
-        /// <summary> 获取描述名 </summary>
-        public override string[] GetDescNames()
-        {
-            return new string[]{"编号","Int类型的键","Int类型的值","Flaot类型的键","Float类型的值"};
+        public override void Merge(ExcelTableBase val){
+          var table = val as SaveLoadTable;
+          Rows.AddRange(table.Rows);
         }
 
+        public SaveLoadRow GetRowById(int row_id){
+          SaveLoadRow row;
+          if(Dict.TryGetValue(row_id,out row)){
+              return row;
+          }
+          return null;
+         }
 
-        /// <summary> 获取表的每行数据 </summary>
-        public override List<string[]> GetTableRowDataList()
-        {
-            List<string[]> tmpRowDataList = new List<string[]>();
-            foreach (var item in Rows)
-            {
-                tmpRowDataListAdd(tmpRowDataList,item);
-            }
-            return tmpRowDataList;
-        }
 #if UNITY_EDITOR
         /// <summary> 从Excel文件重新构建数据 </summary>
         public virtual void LoadExcelFile(string excelFilePath)

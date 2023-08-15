@@ -93,7 +93,7 @@ namespace Pangoo
             sw.WriteLine();
             sw.WriteLine("namespace {0}", config.Namespace);
             sw.WriteLine("{");
-            sw.WriteLine("     [Serializable]");
+            sw.WriteLine("    [Serializable]");
             sw.WriteLine("    {0} partial class {1} : ExcelTableBase", "public",
                 JsonClassGenerator.ToTitleCase(config.MainClass));
             sw.WriteLine("    {");
@@ -101,76 +101,68 @@ namespace Pangoo
 
         public void WriteAdditionFunction(IJsonClassGeneratorConfig config, TextWriter sw)
         {
-            #region BuildCSV
 
-            string NameListString = "";
-            foreach (var str in m_ExcelData.NameList)
-            {
-                if (NameListString != "")
-                {
-                    NameListString += "\",\"";
-                }
-
-                NameListString += str;
-            }
-
-            string cnNameListString = "";
-            foreach (var str in m_ExcelData.CnNameLst)
-            {
-                if (cnNameListString != "")
-                {
-                    cnNameListString += "\",\"";
-                }
-
-                cnNameListString += str;
-            }
-
-            string typeNameListString = "";
-            foreach (var str in m_ExcelData.TypeList)
-            {
-                if (typeNameListString != "")
-                {
-                    typeNameListString += "\",\"";
-                }
-
-                typeNameListString += str;
-            }
+            sw.WriteLine($"        [TableList]");
+            sw.WriteLine($"        public List<{m_ExcelData.ClassBaseName}Row> Rows = new();");
 
             sw.WriteLine();
-            sw.WriteLine("        /// <summary> 获取表头 </summary>");
-            sw.WriteLine("        public override string[] GetHeadNames()");
-            sw.WriteLine("        {");
-            sw.WriteLine("            return new string[]{0};", "{\"" + NameListString + "\"}");
+
+            sw.WriteLine("        public override List<ExcelRowBase> BaseRows{");
+            sw.WriteLine("          get{");
+            sw.WriteLine("              List<ExcelRowBase> ret = new List<ExcelRowBase>();");
+            sw.WriteLine("              ret.AddRange(Rows);");
+            sw.WriteLine("              return ret;");
+            sw.WriteLine("          }");
             sw.WriteLine("        }");
-            sw.WriteLine();
 
             sw.WriteLine();
-            sw.WriteLine("        /// <summary> 获取类型名 </summary>");
-            sw.WriteLine("        public override string[] GetTypeNames()");
-            sw.WriteLine("        {");
-            sw.WriteLine("            return new string[]{0};", "{\"" + typeNameListString + "\"}");
-            sw.WriteLine("        }");
-            sw.WriteLine();
+
+            // sw.WriteLine("        public override int RowCount{");
+            // sw.WriteLine("          get{");
+            // sw.WriteLine("              return Rows.Count;");
+            // sw.WriteLine("          }");
+            // sw.WriteLine("        }");
+
+            // sw.WriteLine();
+
+            sw.WriteLine("        [NonSerialized]");
+            sw.WriteLine("        [XmlIgnore]");
+            sw.WriteLine($"        public Dictionary<int,{m_ExcelData.ClassBaseName}Row> Dict = new ();");
 
             sw.WriteLine();
-            sw.WriteLine("        /// <summary> 获取描述名 </summary>");
-            sw.WriteLine("        public override string[] GetDescNames()");
-            sw.WriteLine("        {");
-            sw.WriteLine("            return new string[]{0};", "{\"" + cnNameListString + "\"}");
+
+            sw.WriteLine("        public override void Init(){");
+            sw.WriteLine("          Dict.Clear();");
+            sw.WriteLine("          foreach(var row in Rows){");
+            sw.WriteLine("              Dict.Add(row.Id,row);");
+            sw.WriteLine("          }");
+            sw.WriteLine("          CustomInit();");
             sw.WriteLine("        }");
+
             sw.WriteLine();
-            
-            sw.WriteLine();
-            sw.WriteLine("        /// <summary> 获取表的每行数据 </summary>");
-            sw.WriteLine("        public override List<string[]> GetTableRowDataList()");
-            sw.WriteLine("        {");
-            sw.WriteLine("            List<string[]> tmpRowDataList = new List<string[]>();");
-            sw.WriteLine("            foreach (var item in Rows)");
-            sw.WriteLine("            {");
-            sw.WriteLine("                tmpRowDataListAdd(tmpRowDataList,item);");
-            sw.WriteLine("            }");
-            sw.WriteLine("            return tmpRowDataList;");
+
+            sw.WriteLine("        public override void Merge(ExcelTableBase val){");
+            sw.WriteLine($"          var table = val as {m_ExcelData.ClassBaseName}Table;");
+            sw.WriteLine("          Rows.AddRange(table.Rows);");
+            // sw.WriteLine("          Init();");
             sw.WriteLine("        }");
+
+
+            sw.WriteLine();
+
+
+            sw.WriteLine($"        public {m_ExcelData.ClassBaseName}Row GetRowById(int row_id)" + "{");
+            sw.WriteLine($"          {m_ExcelData.ClassBaseName}Row row;");
+            sw.WriteLine("          if(Dict.TryGetValue(row_id,out row)){");
+            sw.WriteLine("              return row;");
+            sw.WriteLine("          }");
+            sw.WriteLine("          return null;");
+            sw.WriteLine("         }");
+
+            sw.WriteLine();
+
+
+
             
             sw.WriteLine($"#if UNITY_EDITOR");
             sw.WriteLine("        /// <summary> 从Excel文件重新构建数据 </summary>");
@@ -181,7 +173,6 @@ namespace Pangoo
             sw.WriteLine($"#endif");
             sw.WriteLine();
 
-            #endregion BuildCSV
 
 
             sw.WriteLine();
@@ -211,7 +202,7 @@ namespace Pangoo
                     sw.WriteLine("        " + NoPruneAttribute);
 
                 sw.WriteLine("        [Serializable]");
-                sw.WriteLine("        {0} partial class {1}", visibility, type.AssignedName);
+                sw.WriteLine("        {0} partial class {1} : ExcelRowBase", visibility, type.AssignedName);
                 sw.WriteLine("        {");
             }
 
@@ -230,6 +221,15 @@ namespace Pangoo
         {
             foreach (var field in type.Fields)
             {
+                if (field.Type.Type == JsonTypeEnum.Array)
+                {
+                    continue;
+                }
+
+                if(field.MemberName == "Id"){
+                    continue;
+                }
+
                 if (config.UsePascalCase || config.ExamplesInDocumentation)
                     sw.WriteLine();
 
@@ -264,7 +264,7 @@ namespace Pangoo
 
                         sw.WriteLine(prefix + $"[TableTitleGroup(\"{excelData.CnName}\")]");
                         sw.WriteLine(prefix + "[HideLabel]");
-                        sw.WriteLine(prefix + "[ShowInInspector]");
+                        // sw.WriteLine(prefix + "[ShowInInspector]");
                     }
                     else
                     {
@@ -278,6 +278,8 @@ namespace Pangoo
                 if (config.UsePascalCase)
                 {
                     sw.WriteLine(prefix + "[JsonMember(\"{0}\")]", field.JsonMemberName);
+                    var col_index =  m_ExcelData.NameList.IndexOf(field.JsonMemberName);
+                    sw.WriteLine(prefix + $"[ExcelTableCol(\"{field.MemberName}\",\"{field.JsonMemberName}\",\"{m_ExcelData.TypeList[col_index]}\", \"{m_ExcelData.CnNameLst[col_index]}\",{col_index +1})]");
                 }
 
                 //这边设定Array只有数据所以直接给数据的名字。

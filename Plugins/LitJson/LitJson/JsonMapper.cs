@@ -27,7 +27,7 @@ using Object = System.Object;
 
 namespace LitJson
 {
-    internal struct PropertyMetadata
+    public struct PropertyMetadata
     {
         public MemberInfo Info;
         public bool IsField;
@@ -35,7 +35,7 @@ namespace LitJson
     }
 
 
-    internal struct ArrayMetadata
+    public struct ArrayMetadata
     {
         private Type element_type;
         private bool is_array;
@@ -69,7 +69,7 @@ namespace LitJson
     }
 
 
-    internal struct ObjectMetadata
+    public struct ObjectMetadata
     {
         private Type element_type;
         private bool is_dictionary;
@@ -235,7 +235,15 @@ namespace LitJson
             }
         }
 
-        private static void AddObjectMetadata(Type type)
+        public static ObjectMetadata GetObjectMetadata(Type type){
+            ObjectMetadata ret;
+            if(object_metadata.TryGetValue(type, out ret)){
+                return ret;
+            }
+            return default(ObjectMetadata);
+        }
+
+        public static void AddObjectMetadata(Type type)
         {
             if (object_metadata.ContainsKey(type))
                 return;

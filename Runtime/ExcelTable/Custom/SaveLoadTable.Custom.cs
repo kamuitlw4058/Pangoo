@@ -19,10 +19,6 @@ namespace Pangoo
         {
         }
 
-public override void Merge(ExcelTableBase val){
- var table = val as SaveLoadTable;
- Rows.AddRange(table.Rows);
-}
     }
 }
 
