@@ -126,7 +126,17 @@ namespace Pangoo
                 sw.WriteLine("       {");
                 sw.WriteLine("           return Data.GetType();");
                 sw.WriteLine("       }");
+
+
                 sw.WriteLine();
+                sw.WriteLine("       public override ExcelTableBase Table{");
+                sw.WriteLine("          get{");
+                sw.WriteLine("           return Data;");
+                sw.WriteLine("          }");
+                sw.WriteLine("       }");
+
+
+
 
                 // sw.WriteLine();
                 // sw.WriteLine("       public override int GetRowCount()");

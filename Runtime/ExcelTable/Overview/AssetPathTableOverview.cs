@@ -30,6 +30,11 @@ namespace Pangoo
            return Data.GetType();
        }
 
+       public override ExcelTableBase Table{
+          get{
+           return Data;
+          }
+       }
 
        public override string GetJsonPath()
        {
