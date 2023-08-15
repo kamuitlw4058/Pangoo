@@ -18,40 +18,31 @@ namespace Pangoo
         {
 
             /// <summary>
-            /// Desc: 
+            // /// Desc: 
             /// </summary>
-            [TableTitleGroup("Int类型的键")]
+            [TableTitleGroup("键")]
             [HideLabel]
-            [JsonMember("int_key")]
-            [ExcelTableCol("IntKey","int_key","string", "Int类型的键",2)]
-            public string IntKey ;
+            [JsonMember("Key")]
+            [ExcelTableCol("Key","Key","string", "键",2)]
+            public string Key ;
 
             /// <summary>
             /// Desc: 
             /// </summary>
-            [TableTitleGroup("Int类型的值")]
+            [TableTitleGroup("类型")]
             [HideLabel]
-            [JsonMember("int_value")]
-            [ExcelTableCol("IntValue","int_value","int", "Int类型的值",3)]
-            public int IntValue ;
+            [JsonMember("Type")]
+            [ExcelTableCol("Type","Type","string", "类型",3)]
+            public string Type ;
 
             /// <summary>
             /// Desc: 
             /// </summary>
-            [TableTitleGroup("Flaot类型的键")]
+            [TableTitleGroup("值")]
             [HideLabel]
-            [JsonMember("float_key")]
-            [ExcelTableCol("FloatKey","float_key","string", "Flaot类型的键",4)]
-            public string FloatKey ;
-
-            /// <summary>
-            /// Desc: 
-            /// </summary>
-            [TableTitleGroup("Float类型的值")]
-            [HideLabel]
-            [JsonMember("float_value")]
-            [ExcelTableCol("FloatValue","float_value","float", "Float类型的值",5)]
-            public float FloatValue ;
+            [JsonMember("Value")]
+            [ExcelTableCol("Value","Value","string", "值",4)]
+            public string Value ;
         }
 
 
