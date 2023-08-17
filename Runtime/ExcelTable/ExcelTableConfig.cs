@@ -191,22 +191,24 @@ namespace Pangoo
             foreach (ExcelEntry excelEntry in ExcelList)
             {
                 var className = ($"{excelEntry.ExcelName}Table");
+                // Debug.Log($"尝试创建:{className}");
                 var classNamesapce = string.IsNullOrEmpty(excelEntry.BaseNamespace) ? Namespace : excelEntry.BaseNamespace;
-                ExcelTableOverview so = ScriptableObject.CreateInstance($"{classNamesapce}.{className}Overview") as ExcelTableOverview;
-                var path = Path.Join(DirInfo.ScriptableObjectDir, $"{excelEntry.ExcelName}.asset");
+                ExcelTableOverview so;
+                var path = PathUtility.Join(DirInfo.ScriptableObjectDir, $"{excelEntry.ExcelName}.asset");
                 if (File.Exists(path))
                 {
                     so = AssetDatabaseUtility.LoadAssetAtPath<ExcelTableOverview>(path);
-                    // File.Delete(path);
                 }else{
+                    so = ScriptableObject.CreateInstance($"{classNamesapce}.{className}Overview") as ExcelTableOverview;
                     AssetDatabase.CreateAsset(so, path);
                 }
                 so.Config = PackConfig;
-                AssetDatabase.SaveAssets();
-                so.LoadExcelFile();
-                AssetDatabase.Refresh();
+                so.LoadExcelFile(false);
                 Debug.Log($"创建SO成功：{path}");
             }
+
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
         
         [FoldoutGroup("生成文件或SO")]

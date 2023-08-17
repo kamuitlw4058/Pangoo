@@ -146,6 +146,7 @@ namespace Pangoo
             }
 
             var hasId = headDict.ContainsValue("Id");
+            Debug.Log($"Load Excel Rows:{worksheet.Dimension.Rows}");
 
             for (int row = 3; row < worksheet.Dimension.Rows; row++)
             {   
@@ -209,8 +210,10 @@ namespace Pangoo
 
         public  void BuildExcelFile(string path,string sheetName = "Sheet1")
         {
+             Debug.Log($"Build Excel path:{path}");
             var rowsList = GetTableHeadList();
             rowsList.AddRange(GetTableRowDataList());
+            Debug.Log($"Build Excel Rows:{rowsList.Count}");
             WriteTextToExcel(path,sheetName,rowsList);
             AssetDatabase.ImportAsset(path);
         }
@@ -229,9 +232,9 @@ namespace Pangoo
                 catch (Exception e)
                 {
                     worksheet = excelPackage.Workbook.Worksheets[sheetName];
+                    worksheet.Cells.Clear();
                 }
 
-                
                 for (int row = 0; row < RowsList.Count; row++)
                 {
                     for (int col = 0; col < RowsList[row].Length; col++)

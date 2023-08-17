@@ -13,15 +13,15 @@ using UnityEditor;
 
 namespace Pangoo
 {
-    public partial class PangooEventsTableOverview : ExcelTableOverview
+    public partial class VolumeTableOverview : ExcelTableOverview
     {
 
 
-       public PangooEventsTable Data;
+       public VolumeTable Data;
 
        public override ExcelTableBase GetExcelTableBase()
        {
-           return CopyUtility.Clone<PangooEventsTable>(Data);
+           return CopyUtility.Clone<VolumeTable>(Data);
        }
 
 
@@ -38,13 +38,13 @@ namespace Pangoo
 
        public override string GetJsonPath()
        {
-           return "PangooEventsTable";
+           return "VolumeTable";
        }
 
 
        public override string GetName()
        {
-           return "PangooEvents";
+           return "Volume";
        }
 
 #if UNITY_EDITOR

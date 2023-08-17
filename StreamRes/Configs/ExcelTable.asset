@@ -27,22 +27,25 @@ MonoBehaviour:
     ScriptableObjectDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/ScriptableObject
   ExcelList:
   - ExcelName: AssetPath
-    BaseNamespace: Pangoo
+    BaseNamespace: 
     LoadAtRuntime: 1
   - ExcelName: EntityGroup
-    BaseNamespace: Pangoo
+    BaseNamespace: 
     LoadAtRuntime: 1
   - ExcelName: GameSection
-    BaseNamespace: Pangoo
+    BaseNamespace: 
     LoadAtRuntime: 1
   - ExcelName: GlobalData
-    BaseNamespace: Pangoo
+    BaseNamespace: 
+    LoadAtRuntime: 1
+  - ExcelName: ItemsConfig
+    BaseNamespace: 
     LoadAtRuntime: 1
   - ExcelName: PangooEvents
-    BaseNamespace: Pangoo
+    BaseNamespace: 
     LoadAtRuntime: 1
   - ExcelName: RuntimeData
-    BaseNamespace: Pangoo
+    BaseNamespace: 
     LoadAtRuntime: 1
   - ExcelName: SaveLoad
     BaseNamespace: 
@@ -51,6 +54,9 @@ MonoBehaviour:
     BaseNamespace: 
     LoadAtRuntime: 1
   - ExcelName: UiConfigInfo
+    BaseNamespace: 
+    LoadAtRuntime: 1
+  - ExcelName: Volume
     BaseNamespace: 
     LoadAtRuntime: 1
   UsingNamespace:

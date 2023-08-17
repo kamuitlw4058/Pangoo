@@ -49,12 +49,16 @@ namespace Pangoo
 
 #if UNITY_EDITOR
 
-       [Button("从Excel文件重构数据",30)]
         /// <summary> 加载Excel文件</summary>
-        public override void LoadExcelFile()
+        public override void LoadExcelFile(bool save = true)
         {
-          Data=new();
-          Data.LoadExcelFile(ExcelPath);
+           if(Data == null){
+              Data=new();
+           }
+           Data.LoadExcelFile(ExcelPath);
+           if(save){
+              SaveConfig();
+           }
         }
 
 #endif

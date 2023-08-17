@@ -81,9 +81,26 @@ namespace Pangoo
         {
             
         }
-
-        public virtual void LoadExcelFile()
+        
+        [Button("从Excel文件重构数据",30)]
+        public void LoadExcelFile()
         {
+            LoadExcelFile(true);
+        }
+
+
+        public virtual void LoadExcelFile(bool save = true)
+        {
+        }
+
+        
+        [Button("选择Excel资源",30)]
+        public void SelectExcelFile()
+        {
+            UnityEngine.Object obj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(ExcelPath);
+            if(obj != null){
+                 Selection.activeObject = obj;
+            }
         }
 
         
@@ -95,7 +112,7 @@ namespace Pangoo
 
         public string ExcelPath{
             get{
-                string excelDirPath = Path.Join(Config.PackageDir,ExcelDirPath);
+                string excelDirPath = PathUtility.Join(Config.PackageDir,ExcelDirPath);
                 return  excelDirPath+ "/" + this.name + ".xlsx";
             }
         }

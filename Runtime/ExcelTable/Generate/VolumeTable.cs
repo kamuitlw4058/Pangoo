@@ -11,20 +11,11 @@ using Pangoo;
 namespace Pangoo
 {
     [Serializable]
-    public partial class ItemsConfigTable : ExcelTableBase
+    public partial class VolumeTable : ExcelTableBase
     {
         [Serializable]
-        public partial class ItemsConfigRow : ExcelRowBase
+        public partial class VolumeRow : ExcelRowBase
         {
-
-            /// <summary>
-            /// Desc: 
-            /// </summary>
-            [TableTitleGroup("编号")]
-            [HideLabel]
-            [JsonMember("ID")]
-            [ExcelTableCol("ID","ID","int", "编号",1)]
-            public int ID ;
 
             /// <summary>
             /// Desc: 
@@ -38,43 +29,25 @@ namespace Pangoo
             /// <summary>
             /// Desc: 
             /// </summary>
-            [TableTitleGroup("能否拾取")]
+            [TableTitleGroup("中文名")]
             [HideLabel]
-            [JsonMember("CanPickup")]
-            [ExcelTableCol("CanPickup","CanPickup","bool", "能否拾取",3)]
-            public bool CanPickup ;
+            [JsonMember("NameCn")]
+            [ExcelTableCol("NameCn","NameCn","string", "中文名",3)]
+            public string NameCn ;
 
             /// <summary>
             /// Desc: 
             /// </summary>
-            [TableTitleGroup("X轴坐标")]
+            [TableTitleGroup("相关描述")]
             [HideLabel]
-            [JsonMember("PosX")]
-            [ExcelTableCol("PosX","PosX","float", "X轴坐标",4)]
-            public float PosX ;
-
-            /// <summary>
-            /// Desc: 
-            /// </summary>
-            [TableTitleGroup("Y轴坐标")]
-            [HideLabel]
-            [JsonMember("PosY")]
-            [ExcelTableCol("PosY","PosY","float", "Y轴坐标",5)]
-            public float PosY ;
-
-            /// <summary>
-            /// Desc: 
-            /// </summary>
-            [TableTitleGroup("Z轴坐标")]
-            [HideLabel]
-            [JsonMember("PosZ")]
-            [ExcelTableCol("PosZ","PosZ","float", "Z轴坐标",6)]
-            public float PosZ ;
+            [JsonMember("Desc")]
+            [ExcelTableCol("Desc","Desc","string", "相关描述",4)]
+            public string Desc ;
         }
 
 
         [TableList]
-        public List<ItemsConfigRow> Rows = new();
+        public List<VolumeRow> Rows = new();
 
         public override List<ExcelRowBase> BaseRows{
           get{
@@ -86,7 +59,7 @@ namespace Pangoo
 
         [NonSerialized]
         [XmlIgnore]
-        public Dictionary<int,ItemsConfigRow> Dict = new ();
+        public Dictionary<int,VolumeRow> Dict = new ();
 
         public override void Init(){
           Dict.Clear();
@@ -97,12 +70,12 @@ namespace Pangoo
         }
 
         public override void Merge(ExcelTableBase val){
-          var table = val as ItemsConfigTable;
+          var table = val as VolumeTable;
           Rows.AddRange(table.Rows);
         }
 
-        public ItemsConfigRow GetRowById(int row_id){
-          ItemsConfigRow row;
+        public VolumeRow GetRowById(int row_id){
+          VolumeRow row;
           if(Dict.TryGetValue(row_id,out row)){
               return row;
           }
@@ -113,7 +86,7 @@ namespace Pangoo
         /// <summary> 从Excel文件重新构建数据 </summary>
         public virtual void LoadExcelFile(string excelFilePath)
         {
-          Rows = LoadExcelFile<ItemsConfigRow>(excelFilePath);
+          Rows = LoadExcelFile<VolumeRow>(excelFilePath);
         }
 #endif
 
