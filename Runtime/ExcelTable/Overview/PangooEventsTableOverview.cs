@@ -58,6 +58,8 @@ namespace Pangoo
            Data.LoadExcelFile(ExcelPath);
            if(save){
               SaveConfig();
+           } else {
+               EditorUtility.SetDirty(this);
            }
         }
 

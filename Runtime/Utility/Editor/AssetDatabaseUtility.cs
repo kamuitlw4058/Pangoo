@@ -66,7 +66,14 @@ namespace Pangoo
             }
             return tmpStr;
         }
-        
+
+
+        public static void DeleteAsset(UnityEngine.Object Obj){
+            var path = AssetDatabase.GetAssetPath(Obj);
+            if(!string.IsNullOrEmpty(path)){
+                AssetDatabase.DeleteAsset(path);
+            }
+        }
 #endif
     }
 }

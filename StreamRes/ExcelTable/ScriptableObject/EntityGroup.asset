@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce3bbcded195197469c9ea331cdc5fd2, type: 3}
   m_Name: EntityGroup
   m_EditorClassIdentifier: 
+  Config: {fileID: 11400000, guid: b28e25bda078ea84aa67d9488e039e49, type: 2}
   Data:
     Rows:
     - Id: 1

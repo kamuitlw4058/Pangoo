@@ -5,6 +5,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 using UnityGameFramework.Runtime;
 
 
@@ -65,6 +66,31 @@ namespace Pangoo
             // return datas;
             return null;
         }
+
+        public static IEnumerable GetAllVolumeOverview(){
+            var overviews = AssetDatabaseUtility.FindAsset<VolumeTableOverview>();
+            var ret = new ValueDropdownList<VolumeTableOverview>();
+            foreach(var overview in overviews){
+                ret.Add(overview.Config.MainNamespace, overview);
+            }
+
+            return ret;
+        }
+
+        public static bool CheckVolumeId(int id){
+            var overviews = AssetDatabaseUtility.FindAsset<VolumeTableOverview>();
+            foreach(var overview in overviews){
+                foreach(var row in overview.Data.Rows){
+                    if(row.Id == id){
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+
 
         public static IEnumerable<string> GetTypeNames<T>(){
             return TypeUtility.GetRuntimeTypeNames(typeof(T));

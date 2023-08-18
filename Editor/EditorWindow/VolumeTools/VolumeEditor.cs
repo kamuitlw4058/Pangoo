@@ -69,7 +69,6 @@ namespace Pangoo.Editor
         protected override void OnEnable() {
             m_VolumeComponent = Transform.FindFirstObjectByType<VolumeComponent>();
             m_GameMainConfig = AssetDatabaseUtility.FindAssetFirst<GameMainConfig>();
-        
         }
 
         [Button("CreateVolume")]

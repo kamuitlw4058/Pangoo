@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3b164ad793dcc34d8b4e89b6588cf4b, type: 3}
   m_Name: RuntimeData
   m_EditorClassIdentifier: 
+  Config: {fileID: 11400000, guid: b28e25bda078ea84aa67d9488e039e49, type: 2}
   Data:
     Rows:
     - Id: 1
-      Key: 
-      Type: 
-      Value: 
+      Key: Cube0_Transform_Position.x
+      Type: float
+      Value: 0
     - Id: 2
-      Key: 
-      Type: 
-      Value: 
+      Key: Cube0.Light.Inset
+      Type: float
+      Value: 0

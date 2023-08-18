@@ -75,7 +75,13 @@ namespace Pangoo
 
 
 #endif
+        public static string GetVolumeProfile(string packageDir,string name){
+            return $"{packageDir}/StreamRes/Volume/{name}.asset";
+        }
 
+        public static string GetVolumePrefab(string packageDir,string name){
+            return $"{packageDir}/StreamRes/Prefab/Volume/{name}.prefab";
+        }
 
         public static string GetPrefab()
         {

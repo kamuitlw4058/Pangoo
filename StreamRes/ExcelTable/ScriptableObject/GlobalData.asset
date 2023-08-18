@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e2876467cc034c4190f4aa23ba87804, type: 3}
   m_Name: GlobalData
   m_EditorClassIdentifier: 
+  Config: {fileID: 11400000, guid: b28e25bda078ea84aa67d9488e039e49, type: 2}
   Data:
     Rows:
     - Id: 1000

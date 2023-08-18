@@ -203,6 +203,8 @@ namespace Pangoo
                 sw.WriteLine("           Data.LoadExcelFile(ExcelPath);");
                 sw.WriteLine("           if(save){");
                 sw.WriteLine("              SaveConfig();");
+                sw.WriteLine("           } else {");
+                sw.WriteLine("               EditorUtility.SetDirty(this);");
                 sw.WriteLine("           }");
                 sw.WriteLine("        }");
                 sw.WriteLine();

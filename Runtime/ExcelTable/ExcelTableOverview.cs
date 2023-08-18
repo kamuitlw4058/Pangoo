@@ -14,14 +14,17 @@ namespace Pangoo
     public abstract class ExcelTableOverview : GameConfigBase
     {
         [ShowInInspector]
-        public  PackageConfig Config {get;set;}
+        public  PackageConfig Config;
 
 
         public const string ExcelDirPath =  "StreamRes/ExcelTable/Excel";
         [ShowInInspector]
         public string Namespace {
             get{
-                return Config.MainNamespace;
+                if(Config != null){
+                    return Config.MainNamespace;
+                }
+                return null;
             }
         }
 
@@ -81,7 +84,7 @@ namespace Pangoo
         {
             
         }
-        
+
         [Button("从Excel文件重构数据",30)]
         public void LoadExcelFile()
         {

@@ -12,9 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9d1c92f385b58a4e993a22b8a927bbe, type: 3}
   m_Name: Volume
   m_EditorClassIdentifier: 
+  Config: {fileID: 11400000, guid: b28e25bda078ea84aa67d9488e039e49, type: 2}
   Data:
-    Rows:
-    - Id: 3
-      Name: 
-      NameCn: 
-      Desc: 
+    Rows: []
