@@ -9,14 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9d1c92f385b58a4e993a22b8a927bbe, type: 3}
-  m_Name: Volume
+  m_Script: {fileID: 11500000, guid: 7f5b233539090fa41a300824e07d9bb9, type: 3}
+  m_Name: DynamicObject
   m_EditorClassIdentifier: 
   Config: {fileID: 11400000, guid: b28e25bda078ea84aa67d9488e039e49, type: 2}
   Data:
     Priority: 0
     Rows:
-    - Id: 1
-      Name: asdf
-      NameCn: g
-      Desc: 23
+    - Id: 100001
+      Name: "\u65E5\u5386"
+      AssetPathId: 100001

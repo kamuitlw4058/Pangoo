@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Config: {fileID: 11400000, guid: b28e25bda078ea84aa67d9488e039e49, type: 2}
   Data:
+    Priority: 0
     Rows:
     - Id: 1
       Key: Cube0_Transform_Position.x

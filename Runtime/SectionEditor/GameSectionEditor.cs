@@ -56,7 +56,10 @@ namespace Pangoo.Editor{
 
         private void OnDestroy() {
             DestroyImmediate(m_StaticSceneEditor);
-            DestroyImmediate(gameObject);
+            UnityEditor.EditorApplication.delayCall += () =>
+            {
+                DestroyImmediate(gameObject);
+            };
         }
 
 

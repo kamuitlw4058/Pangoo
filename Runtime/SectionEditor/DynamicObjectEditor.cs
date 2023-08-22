@@ -10,7 +10,7 @@ namespace Pangoo.Editor{
 
     [ExecuteInEditMode]
     [DisallowMultipleComponent]
-    public class StaticSceneEditor : MonoBehaviour
+    public class DynamicObjectEditor : MonoBehaviour
     {
         [ValueDropdown("GetSectionList")]
         [OnValueChanged("OnSectionChange")]
@@ -67,7 +67,6 @@ namespace Pangoo.Editor{
                 var staticScene = GameSupportEditorUtility.GetStaticSceneRowById(id);
                 var assetPathRow = GameSupportEditorUtility.GetAssetPathRowById(staticScene.AssetPathId);
                 var assetPackage = GameSupportEditorUtility.GetAssetPackageById(assetPathRow.AssetPackageId);
-                Debug.Log($"Try Create Prefab:{staticScene},{assetPathRow},{assetPackage}");
                 var assetPath =  AssetUtility.GetStaticScene(assetPackage.AssetPackagePath,assetPathRow.AssetPath);
                 // Debug.Log($"AssetPath:{assetPath}");
                 var asset = AssetDatabaseUtility.LoadAssetAtPath<GameObject>(assetPath);

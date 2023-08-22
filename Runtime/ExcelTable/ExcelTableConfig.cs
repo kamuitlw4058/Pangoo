@@ -163,11 +163,14 @@ namespace Pangoo
         [Button("Excel生成Table代码", 30)]
         public void ExcelBuildTableCode()
         {
+            Debug.Log($"Start ExcelBuildTableCode");
             InitDirInfo();
+            Debug.Log($"Start Iter ExcelList!");
             foreach (var entry in ExcelList)
             {
-                if (!string.IsNullOrEmpty(entry.BaseNamespace) && entry.BaseNamespace != Namespace)
+                if (!string.IsNullOrEmpty(entry.BaseNamespace) && entry.BaseNamespace != Namespace && Namespace != "Pangoo")
                 {
+                    Debug.Log($"entry :{entry.ExcelName} skip");
                     continue;
                 }
                 
@@ -251,18 +254,18 @@ namespace Pangoo
             {
                 var codePath = Path.Join(DirInfo.ScriptGenerateDir, $"{className}.cs");
                 JsonClassGenerator.GeneratorCodeString(codeJson, Namespace, new CSharpCodeWriter(UsingNamespace, ExcelData), className, codePath);
-                AssetDatabase.ImportAsset(codePath);
+                // AssetDatabase.ImportAsset(codePath);
 
                 var codeCustomPath = Path.Join(DirInfo.ScriptCustomDir, $"{className}.Custom.cs");
                 if (!File.Exists(codeCustomPath))
                 {
                     JsonClassGenerator.GeneratorCodeString("{}", Namespace, new CSharpCodeCustomWriter(UsingNamespace, ExcelData), className, codeCustomPath);
-                    AssetDatabase.ImportAsset(codeCustomPath);
+                    // AssetDatabase.ImportAsset(codeCustomPath);
                 }
 
                 var overviewPath = Path.Join(DirInfo.ScriptOverviewDir, $"{className}Overview.cs");
                 JsonClassGenerator.GeneratorCodeString("{}", Namespace, new CSharpCodeTableOverviewWriter(UsingNamespace, ExcelData), className, overviewPath);
-                AssetDatabase.ImportAsset(overviewPath);
+                // AssetDatabase.ImportAsset(overviewPath);
 
                 Debug.Log($"Build Class:{className}");
             }
