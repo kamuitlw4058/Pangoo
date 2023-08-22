@@ -106,6 +106,10 @@ namespace Pangoo
             return $"{packageDir}/StreamRes/Scenes/{name}.unity";
         }
 
+        public static string GetStaticScene(string packageDir,string name){
+             return $"{packageDir}/StreamRes/Prefab/Scene/{name}";
+        }
+
         public static string GetPrefab()
         {
             return GetStreamRes("Prefab");

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Config: {fileID: 11400000, guid: b28e25bda078ea84aa67d9488e039e49, type: 2}
   Data:
+    Priority: 0
     Rows:
     - Id: 10001
       Name: "\u6D4B\u8BD5\u623F\u95F41"
@@ -39,9 +40,15 @@ MonoBehaviour:
       AssetPackageId: 1
       AssetPath: Room4.prefab
       Desc: "\u6D4B\u8BD5\u623F\u95F44"
+    - Id: 10005
+      Name: "\u6D4B\u8BD5\u623F\u95F45"
+      AssetType: Scene
+      AssetPackageId: 1
+      AssetPath: Room5.prefab
+      Desc: 
     - Id: 20001
       Name: "\u6D4B\u8BD5\u623F\u95F45"
       AssetType: Scene
       AssetPackageId: 1
-      AssetPath: Room1.prefab
+      AssetPath: Roof1.prefab
       Desc: "\u6D4B\u8BD5\u623F\u95F45"

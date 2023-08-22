@@ -226,8 +226,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameInfoItems:
-  - Enable: 0
-    GameInfoTypeName: 
+  - Enable: 1
+    GameInfoTypeName: Pangoo.AssetPathInfo
+  - Enable: 1
+    GameInfoTypeName: Pangoo.StaticSceneInfo
 --- !u!1 &7138320360357503681
 GameObject:
   m_ObjectHideFlags: 0

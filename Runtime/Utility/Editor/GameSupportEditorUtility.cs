@@ -55,6 +55,74 @@ namespace Pangoo
             });
         }
 
+        public static IEnumerable GetGameSectionOverview(){
+            return AssetDatabaseUtility.FindAsset<GameSectionTableOverview>();
+        }
+
+        
+        public static IEnumerable GetGameSectionIds(){
+            var overviews = AssetDatabaseUtility.FindAsset<GameSectionTableOverview>();
+            var ret = new ValueDropdownList<int>();
+            foreach(var overview in overviews){
+                foreach(var row in overview.Data.Rows){
+                    ret.Add($"{row.Id}-{row.Name}", row.Id);
+                }
+            }
+            return ret;
+        }
+
+
+        public static GameSectionTable.GameSectionRow GetGameSectionRowById(int id){
+            var overviews = AssetDatabaseUtility.FindAsset<GameSectionTableOverview>();
+            foreach(var overview in overviews){
+                foreach(var row in overview.Data.Rows){
+                   if(row.Id == id){
+                    return row;
+                   }
+                }
+            }
+            return null;
+        }
+
+        public static StaticSceneTable.StaticSceneRow GetStaticSceneRowById(int id){
+            var overviews = AssetDatabaseUtility.FindAsset<StaticSceneTableOverview>();
+            foreach(var overview in overviews){
+                foreach(var row in overview.Data.Rows){
+                   if(row.Id == id){
+                    return row;
+                   }
+                }
+            }
+            return null;
+        }
+
+        public static AssetPathTable.AssetPathRow GetAssetPathRowById(int id){
+            var overviews = AssetDatabaseUtility.FindAsset<AssetPathTableOverview>();
+            foreach(var overview in overviews){
+                foreach(var row in overview.Data.Rows){
+                   if(row.Id == id){
+                    return row;
+                   }
+                }
+            }
+            return null;
+        }
+
+
+        public static AssetPackageTable.AssetPackageRow GetAssetPackageById(int id){
+            var overviews = AssetDatabaseUtility.FindAsset<AssetPackageTableOverview>();
+            foreach(var overview in overviews){
+                foreach(var row in overview.Data.Rows){
+                   if(row.Id == id){
+                    return row;
+                   }
+                }
+            }
+            return null;
+        }
+
+
+
         public static IEnumerable GetAllExcelOverview()
         {
             var datas = AssetDatabaseUtility.FindAsset<ExcelTableOverview>();
@@ -77,6 +145,8 @@ namespace Pangoo
 
             return ret;
         }
+
+   
 
         public static IEnumerable GetVolumeRow(){
             var overviews = AssetDatabaseUtility.FindAsset<VolumeTableOverview>();
@@ -117,6 +187,7 @@ namespace Pangoo
 
             return true;
         }
+
 
         public static IEnumerable GetGameInfoItem(){
             var infos = Utility.Assembly.GetTypes(typeof(BaseInfo));

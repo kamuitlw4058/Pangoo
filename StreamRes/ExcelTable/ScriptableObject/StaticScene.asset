@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Config: {fileID: 11400000, guid: b28e25bda078ea84aa67d9488e039e49, type: 2}
   Data:
+    Priority: 0
     Rows:
     - Id: 10001
       Name: "\u5C0F\u82B3\u623F\u95F4"
@@ -40,3 +41,8 @@ MonoBehaviour:
       AssetPathId: 20001
       EntityGroupId: 1
       LoadSceneIds: 20001
+    - Id: 10005
+      Name: "\u65B0\u5EFA\u573A\u666F"
+      AssetPathId: 10005
+      EntityGroupId: 1
+      LoadSceneIds: 10004
