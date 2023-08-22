@@ -63,7 +63,6 @@ namespace Pangoo
             {
                 foreach (var overview in TableOverviews)
                 {
-                    Debug.Log(overview);
                     var type = overview.GetDataType();
                     var table = overview.GetExcelTableBase();
                     if (m_ExcelTableDic.ContainsKey(type))
@@ -71,13 +70,20 @@ namespace Pangoo
                         var origTable = m_ExcelTableDic[type];
                         origTable.Merge(table);
                         table = origTable;
+                        origTable.AddPackagePath(overview.Config.PackageDir,table.Ids);
                     }
                     else
                     {
+                        table.AddPackagePath(overview.Config.PackageDir,table.Ids);
                         m_ExcelTableDic.Add(type, table);
                     }
-                    Debug.Log($"当前使用的数据SO名字：{overview.name}");
                     table.Init();
+                    Debug.Log($"当前使用的数据SO名字：{overview.name}");
+
+                }
+
+                foreach( var kv in m_ExcelTableDic){
+                    kv.Value.CustomInit();
                 }
                 
             }else{

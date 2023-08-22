@@ -49,6 +49,22 @@ namespace GameFramework
                 return results.ToArray();
             }
 
+            public static Type[] GetTypes(Type typeBase){
+                List<System.Type> typeList = new List<System.Type>();
+                foreach (System.Reflection.Assembly assembly in s_Assemblies)
+                {
+                    foreach(var assemblyType in assembly.GetTypes()){
+                        if (assemblyType.IsClass && !assemblyType.IsAbstract && typeBase.IsAssignableFrom(assemblyType))
+                        {
+                            typeList.Add(assemblyType);
+                        }
+                    }
+                }
+
+                // typeList.Sort();
+                return typeList.ToArray();
+            }
+
             /// <summary>
             /// 获取已加载的程序集中的所有类型。
             /// </summary>

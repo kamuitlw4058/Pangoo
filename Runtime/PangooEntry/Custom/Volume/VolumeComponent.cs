@@ -5,12 +5,10 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using GameFramework;
 using GameFramework.Entity;
-using GameFramework.Resource;
-using GameFramework.Scene;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -89,23 +87,23 @@ namespace Pangoo
         }
 
 #if UNITY_EDITOR
+        [Button("Apply")]
+        public void ApplyVolume([ValueDropdown("GetVolumeRow")]int id){
+            if(id == 0){
+                return;
+            }
 
-        [Button("CreateVolume")]
-        public void CreateVolume(){
-            var go = new GameObject("Volume");
-            go.transform.parent = this.transform;
-            go.transform.localPosition = Vector3.zero;
-            var volume = go.AddComponent<Volume>();
-            volume.isGlobal = true;
-            volume.weight = 1;
-
-            // PrefabUtility
+            
         }
 
         [Button("test")]
         public void Test(){
             
         }        
+
+        public IEnumerable GetVolumeRow(){
+            return GameSupportEditorUtility.GetVolumeRow();
+        }
 
 #endif
     }

@@ -72,15 +72,38 @@ namespace Pangoo
             return null;
         }
 
+        public static string GetExcelTable(string packageDir){
+            return $"{packageDir}/StreamRes/ExcelTable";
+        }
+
+        public static string GetExcelTableOverview(string packageDir){
+            return   $"{GetExcelTable(packageDir)}/ScriptableObject";
+        }
+
+        public static string GetAssetPathOverview(string packageDir){
+
+            return $"{GetExcelTableOverview(packageDir)}/AssetPath.asset";
+
+        }
 
 
 #endif
+        public static string GetVolumeProfileDir(string packageDir){
+            return $"{packageDir}/StreamRes/Volume";
+        }
         public static string GetVolumeProfile(string packageDir,string name){
-            return $"{packageDir}/StreamRes/Volume/{name}.asset";
+            return $"{GetVolumeProfileDir(packageDir)}/{name}.asset";
+        }
+        public static string GetVolumePrefabDir(string packageDir){
+            return $"{packageDir}/StreamRes/Prefab/Volume";
         }
 
         public static string GetVolumePrefab(string packageDir,string name){
-            return $"{packageDir}/StreamRes/Prefab/Volume/{name}.prefab";
+            return $"{GetVolumePrefabDir(packageDir)}/{name}.prefab";
+        }
+
+        public static string GetScene(string packageDir,string name){
+            return $"{packageDir}/StreamRes/Scenes/{name}.unity";
         }
 
         public static string GetPrefab()

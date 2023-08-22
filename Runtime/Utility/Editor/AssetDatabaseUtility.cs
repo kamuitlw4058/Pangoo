@@ -13,14 +13,15 @@ namespace Pangoo
     public static class AssetDatabaseUtility
     {
 #if UNITY_EDITOR
-        public static T LoadAssetAtPath<T>(string path) where T : Object
+        public static T LoadAssetAtPath<T>(string path="Assets") where T : Object
         {
-#if UNITY_5
+#if UNITY_5_3_OR_NEWER
             return AssetDatabase.LoadAssetAtPath<T>(path);
 #else
             return (T)AssetDatabase.LoadAssetAtPath(path, typeof(T));
 #endif
         }
+
 
         public static IEnumerable<T> FindAsset<T>(string[] dirPath=null) where T : Object
         {

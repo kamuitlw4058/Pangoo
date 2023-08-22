@@ -131,7 +131,7 @@ namespace Pangoo
                 }
             }
 
-            typeList.Sort();
+            // typeList.Sort();
             return typeList.ToArray();
         }
 

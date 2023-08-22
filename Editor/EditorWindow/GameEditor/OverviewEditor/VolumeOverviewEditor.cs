@@ -84,18 +84,23 @@ namespace Pangoo.Editor
 
             VolumeTableOverview m_Overview;
 
-            [ReadOnly]
-            public  VolumeProfile m_VolumeProfile;
+
             public VolumeWrapper(VolumeTableOverview overview, VolumeTable.VolumeRow row){
                 m_Row = row;
                 m_Overview = overview;
 
                 var path = AssetUtility.GetVolumeProfile(m_Overview.Config.PackageDir,Name);
                 m_VolumeProfile = AssetDatabaseUtility.LoadAssetAtPath<VolumeProfile>(path);
+
+                var prefab_path = AssetUtility.GetVolumePrefab(m_Overview.Config.PackageDir,Name);
+                m_Prefab = AssetDatabaseUtility.LoadAssetAtPath<GameObject>(prefab_path);
+
             }
 
             [ShowInInspector]
             [TableColumnWidth(60,resizable:false)]
+            [TableTitleGroup("命令空间")]
+            [HideLabel]
             public string Namespace{
                 get{
                     return m_Overview.Config.MainNamespace;
@@ -132,11 +137,7 @@ namespace Pangoo.Editor
             public string Desc
             {
                 get { return m_Row.Desc; }
-                set
-                {
-                    // m_TimelineInfo.TimelineName = value;
-                    // EditorUtility.SetDirty(m_UnityTimelineInfo);
-                }
+
             }
 
 
@@ -179,10 +180,24 @@ namespace Pangoo.Editor
             [Button("应用")]
             [TableColumnWidth(60,resizable:false)]
             public void Apply(){
-                var senceVolumes = GameObject.FindObjectsByType<Volume>(FindObjectsSortMode.None);
 
-
+                GameMainConfigEditorUtility.SwitchDefaultScene();
+                m_VolumeComponent = GameObject.FindObjectOfType<VolumeComponent>();
+                GameObject instance = PrefabUtility.InstantiatePrefab(m_Prefab) as GameObject;
+                if(m_VolumeComponent != null){
+                    instance.transform.parent = m_VolumeComponent.transform;
+                }
+                instance.transform.localPosition = Vector3.zero;
             }
+            [ReadOnly]
+            [TableTitleGroup("配置文件")]
+            [HideLabel]
+            public  VolumeProfile m_VolumeProfile;
+
+            [ReadOnly]
+            [TableTitleGroup("预制体")]
+            [HideLabel]
+            public GameObject m_Prefab;
 
         }
 
@@ -190,8 +205,9 @@ namespace Pangoo.Editor
         private static void ConfirmCreate(VolumeTableOverview overview, int id, string name ,string name_cn,string desc)
         {
             var packageDir = overview.Config.PackageDir;
-            var volume_dir_path = PathUtility.Join(packageDir,"StreamRes/Volume");
-            var prefab_dir_path = PathUtility.Join(packageDir,"StreamRes/Prefab/Volume");
+            var volume_dir_path = AssetUtility.GetVolumeProfileDir(packageDir);
+            var prefab_dir_path = AssetUtility.GetVolumePrefabDir(packageDir);
+            
             // var volumePath = $"{PackageDir}";
             DirectoryUtility.ExistsOrCreate(volume_dir_path);
             DirectoryUtility.ExistsOrCreate(prefab_dir_path);
@@ -281,6 +297,11 @@ namespace Pangoo.Editor
 
                 if(!GameSupportEditorUtility.CheckVolumeId(Id)){
                     EditorUtility.DisplayDialog("错误", "VolumeId已经存在", "确定");
+                    return;  
+                }
+
+                if(!GameSupportEditorUtility.CheckVolumeDupName(Name)){
+                    EditorUtility.DisplayDialog("错误", "Volume Name已经存在", "确定");
                     return;  
                 }
 

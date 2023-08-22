@@ -29,10 +29,28 @@ namespace Pangoo
             /// <summary>
             /// Desc: 
             /// </summary>
+            [TableTitleGroup("资源类型")]
+            [HideLabel]
+            [JsonMember("AssetType")]
+            [ExcelTableCol("AssetType","AssetType","string", "资源类型",3)]
+            public string AssetType ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("资源包Id")]
+            [HideLabel]
+            [JsonMember("AssetPackageId")]
+            [ExcelTableCol("AssetPackageId","AssetPackageId","int", "资源包Id",4)]
+            public int AssetPackageId ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
             [TableTitleGroup("资源路径")]
             [HideLabel]
             [JsonMember("AssetPath")]
-            [ExcelTableCol("AssetPath","AssetPath","string", "资源路径",3)]
+            [ExcelTableCol("AssetPath","AssetPath","string", "资源路径",5)]
             public string AssetPath ;
 
             /// <summary>
@@ -41,7 +59,7 @@ namespace Pangoo
             [TableTitleGroup("资源描述")]
             [HideLabel]
             [JsonMember("Desc")]
-            [ExcelTableCol("Desc","Desc","string", "资源描述",4)]
+            [ExcelTableCol("Desc","Desc","string", "资源描述",6)]
             public string Desc ;
         }
 
@@ -66,7 +84,6 @@ namespace Pangoo
           foreach(var row in Rows){
               Dict.Add(row.Id,row);
           }
-          CustomInit();
         }
 
         public override void Merge(ExcelTableBase val){

@@ -14,4 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Config: {fileID: 11400000, guid: b28e25bda078ea84aa67d9488e039e49, type: 2}
   Data:
-    Rows: []
+    Rows:
+    - Id: 1
+      Name: asdf
+      NameCn: g
+      Desc: 23

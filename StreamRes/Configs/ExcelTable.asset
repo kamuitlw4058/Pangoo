@@ -26,6 +26,9 @@ MonoBehaviour:
     ExcelDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/Excel
     ScriptableObjectDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/ScriptableObject
   ExcelList:
+  - ExcelName: AssetPackage
+    BaseNamespace: 
+    LoadAtRuntime: 1
   - ExcelName: AssetPath
     BaseNamespace: 
     LoadAtRuntime: 1

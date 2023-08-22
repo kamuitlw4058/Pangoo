@@ -7,7 +7,8 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityGameFramework.Runtime;
-
+using GameFramework;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 
 namespace Pangoo
 {
@@ -77,6 +78,20 @@ namespace Pangoo
             return ret;
         }
 
+        public static IEnumerable GetVolumeRow(){
+            var overviews = AssetDatabaseUtility.FindAsset<VolumeTableOverview>();
+            var ret = new ValueDropdownList<int>();
+            foreach(var overview in overviews){
+                foreach(var row in overview.Data.Rows){
+                    ret.Add($"{row.Id}-{row.Name}", row.Id);
+                }
+                
+            }
+            return ret;
+        }
+
+
+
         public static bool CheckVolumeId(int id){
             var overviews = AssetDatabaseUtility.FindAsset<VolumeTableOverview>();
             foreach(var overview in overviews){
@@ -90,6 +105,28 @@ namespace Pangoo
             return true;
         }
 
+        public static bool CheckVolumeDupName(string name){
+            var overviews = AssetDatabaseUtility.FindAsset<VolumeTableOverview>();
+            foreach(var overview in overviews){
+                foreach(var row in overview.Data.Rows){
+                    if(row.Name == name){
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        public static IEnumerable GetGameInfoItem(){
+            var infos = Utility.Assembly.GetTypes(typeof(BaseInfo));
+            var ret = new ValueDropdownList<string>();
+            foreach(var info in infos){
+                ret.Add(info.FullName);
+            }
+
+            return ret;
+        }
 
 
         public static IEnumerable<string> GetTypeNames<T>(){
