@@ -9,9 +9,9 @@ namespace Pangoo
 {
     public class DataContainerService : ServiceBase,IKeyValue
     {
-        public GlobalDataService globalDataService;
-        public SaveLoadService saveLoadService;
-        public RuntimeDataService runtimeDataService;
+        public GlobalDataService globalDataService=new GlobalDataService();
+        public SaveLoadService saveLoadService=new SaveLoadService();
+        public RuntimeDataService runtimeDataService=new RuntimeDataService();
 
         public override void DoAwake(IServiceContainer services)
         {
@@ -19,8 +19,6 @@ namespace Pangoo
             globalDataService = services.GetService<GlobalDataService>();
             saveLoadService = services.GetService<SaveLoadService>();
             runtimeDataService = services.GetService<RuntimeDataService>();
-            
-
         }
 
         public bool TryGet<T>(string key, out T outValue)

@@ -53,6 +53,9 @@ MonoBehaviour:
   - ExcelName: UiConfigInfo
     BaseNamespace: 
     LoadAtRuntime: 1
+  - ExcelName: ItemsConfig
+    BaseNamespace: 
+    LoadAtRuntime: 1
   UsingNamespace:
   - System
   - System.Collections.Generic

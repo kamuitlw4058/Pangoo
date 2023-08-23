@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data:
     Rows:
-    - Id: 1
-      Key: 
-      Type: 
-      Value: 
-    - Id: 2
-      Key: 
-      Type: 
-      Value: 
+    - Id: 10001
+      Key: "Item_xxx\u7684\u76F8\u7247_CanPickup"
+      Type: System.Boolean
+      Value: True
+    - Id: 10002
+      Key: "Item_yyy\u7684\u76F8\u7247_CanPickup"
+      Type: System.Boolean
+      Value: False

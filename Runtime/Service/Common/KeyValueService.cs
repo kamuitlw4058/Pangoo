@@ -12,7 +12,7 @@ namespace Pangoo
     public class KeyValueService : ServiceBase,IKeyValue
     {
         [ShowInInspector]
-        protected Dictionary<string, object> m_KeyValueDict;
+        protected Dictionary<string, object> m_KeyValueDict=new Dictionary<string, object>();
         protected ExcelTableService m_ExcelTableService;
 
         public override void DoAwake(IServiceContainer services)

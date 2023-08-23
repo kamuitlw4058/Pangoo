@@ -13,6 +13,8 @@ public class RuntimeDataComponent : GameFrameworkComponent
     [InlineEditor()]
     public RuntimeDataTableOverview runtimeDataSO;
 
+    [ShowInInspector]
+    public DataContainerService DataContainerService = new DataContainerService();
     private void Start()
     {
         Merage();
@@ -40,5 +42,15 @@ public class RuntimeDataComponent : GameFrameworkComponent
                     
             }
         });
+    }
+
+    [Button("初始化字典")]
+    public void InitRuntimeDict()
+    {
+        for (int i = 0; i < runtimeDataSO.Data.Rows.Count; i++)
+        {
+            Type t = Type.GetType(runtimeDataSO.Data.Rows[i].Type);
+            DataContainerService.Set(runtimeDataSO.Data.Rows[i].Key,runtimeDataSO.Data.Rows[i].Value);
+        }
     }
 }
