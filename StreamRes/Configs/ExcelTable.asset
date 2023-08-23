@@ -26,51 +26,58 @@ MonoBehaviour:
     ExcelDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/Excel
     ScriptableObjectDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/ScriptableObject
   ExcelList:
-  - ExcelName: AssetPackage
-    BaseNamespace: Pangoo
-    LoadAtRuntime: 1
-  - ExcelName: AssetPath
-    BaseNamespace: Pangoo
-    LoadAtRuntime: 1
-  - ExcelName: DynamicObject
-    BaseNamespace: Pangoo
-    LoadAtRuntime: 1
-  - ExcelName: EntityGroup
-    BaseNamespace: Pangoo
-    LoadAtRuntime: 1
-  - ExcelName: GameSection
-    BaseNamespace: Pangoo
-    LoadAtRuntime: 1
-  - ExcelName: GlobalData
-    BaseNamespace: Pangoo
-    LoadAtRuntime: 1
-  - ExcelName: ItemsConfig
-    BaseNamespace: Pangoo
-    LoadAtRuntime: 1
-  - ExcelName: PangooEvents
-    BaseNamespace: Pangoo
-    LoadAtRuntime: 1
-  - ExcelName: RuntimeData
-    BaseNamespace: Pangoo
-    LoadAtRuntime: 1
-  - ExcelName: SaveLoad
-    BaseNamespace: Pangoo
-    LoadAtRuntime: 1
-  - ExcelName: StaticScene
-    BaseNamespace: Pangoo
-    LoadAtRuntime: 1
-  - ExcelName: UiConfigInfo
-    BaseNamespace: Pangoo
-    LoadAtRuntime: 1
-  - ExcelName: Volume
-    BaseNamespace: Pangoo
-    LoadAtRuntime: 1
-  - ExcelName: ItemsConfig
+  - Build: 1
+    ExcelName: AssetPackage
     BaseNamespace: 
-    LoadAtRuntime: 1
-  - ExcelName: ItemsConfig
+    Named: 1
+  - Build: 1
+    ExcelName: AssetPath
     BaseNamespace: 
-    LoadAtRuntime: 1
+    Named: 0
+  - Build: 1
+    ExcelName: DynamicObject
+    BaseNamespace: 
+    Named: 1
+  - Build: 1
+    ExcelName: EntityGroup
+    BaseNamespace: 
+    Named: 1
+  - Build: 1
+    ExcelName: GameSection
+    BaseNamespace: 
+    Named: 0
+  - Build: 1
+    ExcelName: GlobalData
+    BaseNamespace: 
+    Named: 0
+  - Build: 1
+    ExcelName: ItemsConfig
+    BaseNamespace: 
+    Named: 0
+  - Build: 1
+    ExcelName: PangooEvents
+    BaseNamespace: 
+    Named: 0
+  - Build: 1
+    ExcelName: RuntimeData
+    BaseNamespace: 
+    Named: 0
+  - Build: 1
+    ExcelName: SaveLoad
+    BaseNamespace: 
+    Named: 0
+  - Build: 1
+    ExcelName: StaticScene
+    BaseNamespace: 
+    Named: 0
+  - Build: 1
+    ExcelName: UiConfigInfo
+    BaseNamespace: 
+    Named: 1
+  - Build: 1
+    ExcelName: Volume
+    BaseNamespace: 
+    Named: 1
   UsingNamespace:
   - System
   - System.Collections.Generic

@@ -181,7 +181,7 @@ namespace Pangoo
                 var className = JsonClassGenerator.ToTitleCase($"{entry.ExcelName}Table");
                 ExcelTableData ExcelData = ExcelTableData.ParserEPPlus(excelFilePath, classBaseName);
 
-                GeneratorCode(ExcelData,className);
+                GeneratorCode(ExcelData,className,entry.Named);
             }
             AssetDatabase.Refresh();
         }
@@ -218,8 +218,7 @@ namespace Pangoo
         [Button("生成Excel文件",30)]
         public void BuildExcelFile()
         {
-            string[] dirPath = new string[] { PackConfig.PackageDir};
-            foreach (ExcelTableOverview excelTableOverviewSo in AssetDatabaseUtility.FindAsset<ExcelTableOverview>(dirPath))
+            foreach (ExcelTableOverview excelTableOverviewSo in AssetDatabaseUtility.FindAsset<ExcelTableOverview>(PackConfig.PackageDir))
             {
                 excelTableOverviewSo.BuildExcelFile();
             }
@@ -247,13 +246,13 @@ namespace Pangoo
         /// </summary>
         /// <param name="ExcelData">传入的数据</param>
         /// <param name="className">生成的脚本名</param>
-        public void GeneratorCode(ExcelTableData ExcelData,string className)
+        public void GeneratorCode(ExcelTableData ExcelData,string className,bool named)
         {
             var codeJson = DataTableCodeGenerator.BuildTableCodeJson(ExcelData);
             if (codeJson != null)
             {
                 var codePath = Path.Join(DirInfo.ScriptGenerateDir, $"{className}.cs");
-                JsonClassGenerator.GeneratorCodeString(codeJson, Namespace, new CSharpCodeWriter(UsingNamespace, ExcelData), className, codePath);
+                JsonClassGenerator.GeneratorCodeString(codeJson, Namespace, new CSharpCodeWriter(UsingNamespace, ExcelData,named), className, codePath);
                 // AssetDatabase.ImportAsset(codePath);
 
                 var codeCustomPath = Path.Join(DirInfo.ScriptCustomDir, $"{className}.Custom.cs");
@@ -304,13 +303,18 @@ namespace Pangoo
     [Serializable]
     public class ExcelEntry
     {
+        [TableTitleGroup("操作")]
+        [HideLabel]
+        [TableColumnWidth(60,resizable:false)]
+        public bool Build = true;
+
         public string ExcelName;
 
         [ValueDropdown("GetNamespaces")]
         public string BaseNamespace;
 
-
-        public bool LoadAtRuntime = true;
+        [TableColumnWidth(60,resizable:false)]
+        public bool Named = false;
 
 #if UNITY_EDITOR
         IEnumerable GetNamespaces()

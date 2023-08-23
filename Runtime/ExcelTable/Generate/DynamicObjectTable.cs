@@ -14,17 +14,8 @@ namespace Pangoo
     public partial class DynamicObjectTable : ExcelTableBase
     {
         [Serializable]
-        public partial class DynamicObjectRow : ExcelRowBase
+        public partial class DynamicObjectRow : ExcelNamedRowBase
         {
-
-            /// <summary>
-            /// Desc: 
-            /// </summary>
-            [TableTitleGroup("名字")]
-            [HideLabel]
-            [JsonMember("Name")]
-            [ExcelTableCol("Name","Name","string", "名字",2)]
-            public string Name ;
 
             /// <summary>
             /// Desc: 
@@ -34,6 +25,33 @@ namespace Pangoo
             [JsonMember("AssetPathId")]
             [ExcelTableCol("AssetPathId","AssetPathId","int", "资源路径",3)]
             public int AssetPathId ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("中文名")]
+            [HideLabel]
+            [JsonMember("NameCn")]
+            [ExcelTableCol("NameCn","NameCn","string", "中文名",4)]
+            public string NameCn ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("位置")]
+            [HideLabel]
+            [JsonMember("Position")]
+            [ExcelTableCol("Position","Position","string", "位置",5)]
+            public string Position ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("旋转")]
+            [HideLabel]
+            [JsonMember("Rotation")]
+            [ExcelTableCol("Rotation","Rotation","string", "旋转",6)]
+            public string Rotation ;
         }
 
 
@@ -43,6 +61,14 @@ namespace Pangoo
         public override List<ExcelRowBase> BaseRows{
           get{
               List<ExcelRowBase> ret = new List<ExcelRowBase>();
+              ret.AddRange(Rows);
+              return ret;
+          }
+        }
+
+        public override List<ExcelNamedRowBase> NamedBaseRows{
+          get{
+              List<ExcelNamedRowBase> ret = new List<ExcelNamedRowBase>();
               ret.AddRange(Rows);
               return ret;
           }

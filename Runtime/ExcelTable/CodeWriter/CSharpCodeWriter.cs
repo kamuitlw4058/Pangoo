@@ -17,12 +17,14 @@ namespace Pangoo
 
         List<string> m_Headers;
         ExcelTableData m_ExcelData;
+        bool m_Named;
 
 
-        public CSharpCodeWriter(List<string> headers, ExcelTableData excelData)
+        public CSharpCodeWriter(List<string> headers, ExcelTableData excelData,bool named)
         {
             m_Headers = headers;
             m_ExcelData = excelData;
+            m_Named = named;
         }
 
         public string GetTypeName(JsonType type, IJsonClassGeneratorConfig config)
@@ -106,7 +108,6 @@ namespace Pangoo
             sw.WriteLine($"        public List<{m_ExcelData.ClassBaseName}Row> Rows = new();");
 
             sw.WriteLine();
-
             sw.WriteLine("        public override List<ExcelRowBase> BaseRows{");
             sw.WriteLine("          get{");
             sw.WriteLine("              List<ExcelRowBase> ret = new List<ExcelRowBase>();");
@@ -115,7 +116,17 @@ namespace Pangoo
             sw.WriteLine("          }");
             sw.WriteLine("        }");
 
+
             sw.WriteLine();
+            if(m_Named){
+                sw.WriteLine("        public override List<ExcelNamedRowBase> NamedBaseRows{");
+                sw.WriteLine("          get{");
+                sw.WriteLine("              List<ExcelNamedRowBase> ret = new List<ExcelNamedRowBase>();");
+                sw.WriteLine("              ret.AddRange(Rows);");
+                sw.WriteLine("              return ret;");
+                sw.WriteLine("          }");
+                sw.WriteLine("        }");
+            }
 
             // sw.WriteLine("        public override int RowCount{");
             // sw.WriteLine("          get{");
@@ -124,7 +135,7 @@ namespace Pangoo
             // sw.WriteLine("        }");
 
             // sw.WriteLine();
-
+            sw.WriteLine();
             sw.WriteLine("        [NonSerialized]");
             sw.WriteLine("        [XmlIgnore]");
             sw.WriteLine($"        public Dictionary<int,{m_ExcelData.ClassBaseName}Row> Dict = new ();");
@@ -202,7 +213,12 @@ namespace Pangoo
                     sw.WriteLine("        " + NoPruneAttribute);
 
                 sw.WriteLine("        [Serializable]");
-                sw.WriteLine("        {0} partial class {1} : ExcelRowBase", visibility, type.AssignedName);
+                if(m_Named){
+                    sw.WriteLine("        {0} partial class {1} : ExcelNamedRowBase", visibility, type.AssignedName);
+                }else{
+                    sw.WriteLine("        {0} partial class {1} : ExcelRowBase", visibility, type.AssignedName);
+                }
+                
                 sw.WriteLine("        {");
             }
 
@@ -227,6 +243,10 @@ namespace Pangoo
                 }
 
                 if(field.MemberName == "Id"){
+                    continue;
+                }
+
+                if(m_Named &&  field.MemberName == "Name"){
                     continue;
                 }
 

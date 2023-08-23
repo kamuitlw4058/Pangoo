@@ -14,17 +14,8 @@ namespace Pangoo
     public partial class UiConfigInfoTable : ExcelTableBase
     {
         [Serializable]
-        public partial class UiConfigInfoRow : ExcelRowBase
+        public partial class UiConfigInfoRow : ExcelNamedRowBase
         {
-
-            /// <summary>
-            /// Desc: 
-            /// </summary>
-            [TableTitleGroup("UI名")]
-            [HideLabel]
-            [JsonMember("Name")]
-            [ExcelTableCol("Name","Name","string", "UI名",2)]
-            public string Name ;
 
             /// <summary>
             /// Desc: 
@@ -106,6 +97,14 @@ namespace Pangoo
         public override List<ExcelRowBase> BaseRows{
           get{
               List<ExcelRowBase> ret = new List<ExcelRowBase>();
+              ret.AddRange(Rows);
+              return ret;
+          }
+        }
+
+        public override List<ExcelNamedRowBase> NamedBaseRows{
+          get{
+              List<ExcelNamedRowBase> ret = new List<ExcelNamedRowBase>();
               ret.AddRange(Rows);
               return ret;
           }

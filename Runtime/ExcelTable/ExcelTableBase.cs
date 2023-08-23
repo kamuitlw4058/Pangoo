@@ -28,6 +28,12 @@ namespace Pangoo
             }
         }
 
+        public virtual List<ExcelNamedRowBase> NamedBaseRows{
+            get{
+                return null;
+            }
+        }
+
         private Dictionary<string,List<int>> PackagePathDict = new Dictionary<string, List<int>>();
 
         public List<int> Ids{

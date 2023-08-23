@@ -75,6 +75,7 @@ namespace Pangoo
           }
         }
 
+
         [NonSerialized]
         [XmlIgnore]
         public Dictionary<int,AssetPathRow> Dict = new ();

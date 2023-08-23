@@ -14,17 +14,8 @@ namespace Pangoo
     public partial class AssetPackageTable : ExcelTableBase
     {
         [Serializable]
-        public partial class AssetPackageRow : ExcelRowBase
+        public partial class AssetPackageRow : ExcelNamedRowBase
         {
-
-            /// <summary>
-            /// Desc: 
-            /// </summary>
-            [TableTitleGroup("资源名称")]
-            [HideLabel]
-            [JsonMember("Name")]
-            [ExcelTableCol("Name","Name","string", "资源名称",2)]
-            public string Name ;
 
             /// <summary>
             /// Desc: 
@@ -52,6 +43,14 @@ namespace Pangoo
         public override List<ExcelRowBase> BaseRows{
           get{
               List<ExcelRowBase> ret = new List<ExcelRowBase>();
+              ret.AddRange(Rows);
+              return ret;
+          }
+        }
+
+        public override List<ExcelNamedRowBase> NamedBaseRows{
+          get{
+              List<ExcelNamedRowBase> ret = new List<ExcelNamedRowBase>();
               ret.AddRange(Rows);
               return ret;
           }

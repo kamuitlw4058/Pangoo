@@ -8,7 +8,7 @@ namespace Pangoo
             [TableTitleGroup("Id")]
             [HideLabel]
             [JsonMember("Id")]
-            [ExcelTableCol("Id","Id","int","Id",0)]
+            [ExcelTableCol("Id","Id","int","Id",-1)]
             public int Id ;
     }
 

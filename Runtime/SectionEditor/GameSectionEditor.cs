@@ -19,10 +19,12 @@ namespace Pangoo.Editor{
 
 
         StaticSceneEditor m_StaticSceneEditor;
+        DynamicObjectEditor m_DynamicObjectEditor;
 
 
         public void UpdateSection(){
             m_StaticSceneEditor.SetSection(Section);
+            m_DynamicObjectEditor.SetSection(Section);
         }
 
         void UpdateGameObjectName(){
@@ -44,8 +46,19 @@ namespace Pangoo.Editor{
             if(m_StaticSceneEditor == null){
                 var go = new GameObject();
                 go.transform.parent = transform;
+                go.ResetTransfrom();
                 m_StaticSceneEditor = go.GetOrAddComponent<StaticSceneEditor>();
             }
+
+            m_DynamicObjectEditor = GetComponentInChildren<DynamicObjectEditor>();
+            if(m_DynamicObjectEditor == null){
+                var go = new GameObject();
+                go.transform.parent = transform;
+                go.ResetTransfrom();
+                m_DynamicObjectEditor = go.GetOrAddComponent<DynamicObjectEditor>();
+            }
+
+
 
             OnSectionChange();
         }
@@ -55,11 +68,16 @@ namespace Pangoo.Editor{
         }
 
         private void OnDestroy() {
-            DestroyImmediate(m_StaticSceneEditor);
+            // DestroyImmediate(m_StaticSceneEditor);
             UnityEditor.EditorApplication.delayCall += () =>
             {
                 DestroyImmediate(gameObject);
             };
+        }
+
+        void Update(){
+            gameObject.ResetTransfrom();
+
         }
 
 

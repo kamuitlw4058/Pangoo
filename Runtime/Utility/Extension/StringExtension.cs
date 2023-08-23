@@ -17,11 +17,22 @@ namespace Pangoo
 
         public static int[] ToArrInt(this string str,string split="|"){
             var strs= str.Split(split);
-            int[] ret = new int[strs.Length];
+            List<int> ret = new List<int>();
+            // int[] ret = new int[strs.Length];
             for(int i =0; i < strs.Length;i++){
-                ret[i] = int.Parse(strs[i]);
+                if(int.TryParse(strs[i],out int value)){
+                    ret.Add(value);
+                    // ret[i] = int.Parse(strs[i]);
+                }
             }
-            return ret;
+            return ret.ToArray();
+        }
+
+        public static bool IsNullOrWhiteSpace(this string str){
+            if(string.IsNullOrWhiteSpace(str)){
+                return true;
+            }
+            return false;
         }
 
     }

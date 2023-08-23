@@ -66,6 +66,7 @@ namespace Pangoo
           }
         }
 
+
         [NonSerialized]
         [XmlIgnore]
         public Dictionary<int,StaticSceneRow> Dict = new ();

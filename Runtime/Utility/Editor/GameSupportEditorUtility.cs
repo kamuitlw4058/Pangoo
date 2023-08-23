@@ -84,6 +84,18 @@ namespace Pangoo
             return null;
         }
 
+        public static DynamicObjectTable.DynamicObjectRow GetDynamicObjectRow(int id){
+            var overviews = AssetDatabaseUtility.FindAsset<DynamicObjectTableOverview>();
+            foreach(var overview in overviews){
+                foreach(var row in overview.Data.Rows){
+                   if(row.Id == id){
+                    return row;
+                   }
+                }
+            }
+            return null;
+        }
+
         public static StaticSceneTable.StaticSceneRow GetStaticSceneRowById(int id){
             var overviews = AssetDatabaseUtility.FindAsset<StaticSceneTableOverview>();
             foreach(var overview in overviews){
@@ -175,6 +187,19 @@ namespace Pangoo
             return true;
         }
 
+        public static bool ExistsExcelTableOverviewId<T>(int id,string packageDir = null) where T: ExcelTableOverview
+        {
+            var overviews = AssetDatabaseUtility.FindAsset<T>(packageDir);
+            foreach(var overview in overviews){
+                foreach(var row in overview.Table.BaseRows){
+                    if(row.Id == id){
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
         public static bool CheckVolumeDupName(string name){
             var overviews = AssetDatabaseUtility.FindAsset<VolumeTableOverview>();
             foreach(var overview in overviews){
@@ -209,9 +234,14 @@ namespace Pangoo
         }
 
 
-        public static IEnumerable GetAllPackageConfig()
+        public static IEnumerable GetPackageConfig()
         {
             var datas = AssetDatabaseUtility.FindAsset<PackageConfig>();
+            var ret = new ValueDropdownList<PackageConfig>();
+            foreach(var data in datas){
+                ret.Add(data.MainNamespace,data);
+            }
+
             return datas;
         }
 

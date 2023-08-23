@@ -84,6 +84,7 @@ namespace Pangoo
           }
         }
 
+
         [NonSerialized]
         [XmlIgnore]
         public Dictionary<int,GameSectionRow> Dict = new ();

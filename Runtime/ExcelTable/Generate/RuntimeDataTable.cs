@@ -57,6 +57,7 @@ namespace Pangoo
           }
         }
 
+
         [NonSerialized]
         [XmlIgnore]
         public Dictionary<int,RuntimeDataRow> Dict = new ();

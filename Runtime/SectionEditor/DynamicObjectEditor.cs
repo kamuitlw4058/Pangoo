@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
+using Pangoo;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 
 namespace Pangoo.Editor{
 
@@ -12,6 +15,7 @@ namespace Pangoo.Editor{
     [DisallowMultipleComponent]
     public class DynamicObjectEditor : MonoBehaviour
     {
+        [ReadOnly]
         [ValueDropdown("GetSectionList")]
         [OnValueChanged("OnSectionChange")]
         public int Section;
@@ -20,64 +24,71 @@ namespace Pangoo.Editor{
         public GameSectionTable.GameSectionRow SectionRow;
 
         [ReadOnly]
-        public  List<int> SceneIds;
+        public  List<int> DynamicObjectIds;
+
 
         [ReadOnly]
-        public List<GameObject> Scenes;
-
+        public  List<GameObject> Prefabs;
         public IEnumerable GetSectionList(){
             return GameSupportEditorUtility.GetGameSectionIds();
         }
 
-        public void ClearScene(){
-            if(Scenes != null){
+        private  OdinEditorWindow m_CreateWindow;
+
+        public void ClearPrefabs(){
+            if(Prefabs != null){
                
-                foreach(var scene in Scenes){
+                foreach(var go in Prefabs){
                     try{
-                        DestroyImmediate(scene);
+                        DestroyImmediate(go);
                     }
                     catch{
                     }
                 }
-                Scenes.Clear();
+                Prefabs.Clear();
             }
         }
 
         public void UpdateSection(){
-            if(SceneIds == null){
-                SceneIds = new List<int>();
+            if(DynamicObjectIds == null){
+                DynamicObjectIds = new List<int>();
             }
 
-            if(Scenes == null){
-                Scenes = new List<GameObject>();
+            if(Prefabs == null){
+                Prefabs = new List<GameObject>();
             }
-            ClearScene();
+
+            ClearPrefabs();
             if(Section == 0){
                 return;
             }
 
-            
-
-            SceneIds.Clear();
+            DynamicObjectIds.Clear();
             SectionRow = GameSupportEditorUtility.GetGameSectionRowById(Section);
-            SceneIds.AddRange(SectionRow.DynamicSceneIds.ToArrInt());
-            SceneIds.AddRange(SectionRow.KeepSceneIds.ToArrInt());
+            DynamicObjectIds.AddRange(SectionRow.DynamicObjectIds.ToArrInt());
+            // SceneIds.AddRange(SectionRow.KeepSceneIds.ToArrInt());
 
-            foreach(var id in SceneIds){
-                var staticScene = GameSupportEditorUtility.GetStaticSceneRowById(id);
-                var assetPathRow = GameSupportEditorUtility.GetAssetPathRowById(staticScene.AssetPathId);
+            foreach(var id in DynamicObjectIds){
+                var dynamicObjectRow = GameSupportEditorUtility.GetDynamicObjectRow(id);
+                if(dynamicObjectRow == null){
+                    Debug.LogError($"动态物体:{id} 没有对应的配置相关配置。请检查！！");
+                    continue;
+                }
+                
+                var assetPathRow = GameSupportEditorUtility.GetAssetPathRowById(dynamicObjectRow.AssetPathId);
                 var assetPackage = GameSupportEditorUtility.GetAssetPackageById(assetPathRow.AssetPackageId);
-                var assetPath =  AssetUtility.GetStaticScene(assetPackage.AssetPackagePath,assetPathRow.AssetPath);
+                var assetPath =  AssetUtility.GetAssetPath(assetPackage.AssetPackagePath,assetPathRow.AssetType, assetPathRow.AssetPath);
                 // Debug.Log($"AssetPath:{assetPath}");
                 var asset = AssetDatabaseUtility.LoadAssetAtPath<GameObject>(assetPath);
                 var go = PrefabUtility.InstantiatePrefab(asset) as GameObject;
                 go.transform.parent = transform;
-                Scenes.Add(go);
+                go.ResetTransfrom();
+                Prefabs.Add(go);
             }
         }
 
         void UpdateGameObjectName(){
-            name = "$Static Scene";
+            name = "///DynamicObject";
             
             if(Section != 0){
                 name = $"{name}-Section:{Section}";
@@ -99,16 +110,126 @@ namespace Pangoo.Editor{
         }
 
         private void OnDestroy() {
-            ClearScene();
+            // ClearScene();
         }
 
         private void Update(){
             UpdateGameObjectName();
+            gameObject.ResetTransfrom();
+
         }
 
         public void SetSection(int id){
             Section = id;
             OnSectionChange();
+        }
+
+        [Button("新建")]
+        public void BuildNewObject(){
+             m_CreateWindow = OdinEditorWindow.InspectObject(new DynamicObjectCreateWindow(this));
+            
+            // m_CreateWindow = OdinEditorWindow.InspectObject(new VolumeCreateWindow());
+            // var go = new GameObject();
+            // go.transform.parent = transform;
+            // var helper = go.AddComponent<DynamicObjectEditorHelper>();
+            // helper.DynamicObjectId = 0;
+            // Prefabs.Add(go);
+        }
+
+        public void ConfirmCreate(PackageConfig space,int id,string name,string name_cn,GameObject prefab){
+            DynamicObjectTableOverview overview = AssetDatabaseUtility.FindAssetFirst<DynamicObjectTableOverview>(space.PackageDir);
+            Debug.Log($"overview:{overview}, overview.{overview.Config.PackageDir}");
+
+
+             var row = new DynamicObjectTable.DynamicObjectRow();
+            row.Id = id;
+            row.Name = name;
+            row.NameCn = name_cn;
+            // row.AssetPathId = desc;
+            overview.Data.Rows.Add(row);
+
+        }
+
+
+        public class DynamicObjectCreateWindow{
+            
+            [ValueDropdown("GetPackageConfig", ExpandAllMenuItems = true)]
+            public PackageConfig Namespace;
+
+
+            public IEnumerable GetPackageConfig(){
+                return GameSupportEditorUtility.GetPackageConfig();
+            }
+
+
+            public int Id = 0;
+
+            [LabelText("名字")]
+            public string Name = "";
+
+            [LabelText("中文名")]
+            public string NameCn = "";
+
+            
+            [LabelText("美术资源")]
+            [AssetsOnly]
+            [AssetSelector]
+            public GameObject ArtPrefab;
+
+
+
+
+            DynamicObjectEditor m_Editor;
+
+            public DynamicObjectCreateWindow(DynamicObjectEditor editor){
+                m_Editor = editor;
+            }
+
+        
+
+
+            public DynamicObjectCreateWindow(){
+            }
+
+            [Button("新建", ButtonSizes.Large)]
+            public void Create(){
+
+                if ( Id == 0 || Name.IsNullOrWhiteSpace() || ArtPrefab == null)
+                {
+                    EditorUtility.DisplayDialog("错误", "Id, Name, 命名空间必须填写", "确定");
+                    // GUIUtility.ExitGUI();
+                    return;
+                }
+
+
+                if(StringUtility.ContainsChinese(Name)){
+                    EditorUtility.DisplayDialog("错误", "Name不能包含中文", "确定");
+                    // GUIUtility.ExitGUI();
+                    return;
+                }
+
+                if(StringUtility.IsOnlyDigit(Name)){
+                    EditorUtility.DisplayDialog("错误", "Name不能全是数字", "确定");
+                    return;
+                }
+
+                if(char.IsDigit(Name[0])){
+                    EditorUtility.DisplayDialog("错误", "Name开头不能是数字", "确定");
+                    return;
+                }
+
+                if(!GameSupportEditorUtility.ExistsExcelTableOverviewId<DynamicObjectTableOverview>(Id)){
+                    EditorUtility.DisplayDialog("错误", "Id已经存在", "确定");
+                    return;  
+                }
+
+                if(!GameSupportEditorUtility.CheckVolumeDupName(Name)){
+                    EditorUtility.DisplayDialog("错误", "Volume Name已经存在", "确定");
+                    return;  
+                }
+
+                m_Editor.ConfirmCreate(Namespace,Id, Name,NameCn,ArtPrefab);
+            }
         }
 
     }

@@ -14,17 +14,8 @@ namespace Pangoo
     public partial class EntityGroupTable : ExcelTableBase
     {
         [Serializable]
-        public partial class EntityGroupRow : ExcelRowBase
+        public partial class EntityGroupRow : ExcelNamedRowBase
         {
-
-            /// <summary>
-            /// Desc: 
-            /// </summary>
-            [TableTitleGroup("组名字")]
-            [HideLabel]
-            [JsonMember("Name")]
-            [ExcelTableCol("Name","Name","string", "组名字",2)]
-            public string Name ;
 
             /// <summary>
             /// Desc: 
@@ -70,6 +61,14 @@ namespace Pangoo
         public override List<ExcelRowBase> BaseRows{
           get{
               List<ExcelRowBase> ret = new List<ExcelRowBase>();
+              ret.AddRange(Rows);
+              return ret;
+          }
+        }
+
+        public override List<ExcelNamedRowBase> NamedBaseRows{
+          get{
+              List<ExcelNamedRowBase> ret = new List<ExcelNamedRowBase>();
               ret.AddRange(Rows);
               return ret;
           }

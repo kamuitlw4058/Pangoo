@@ -23,16 +23,26 @@ namespace Pangoo
         }
 
 
-        public static IEnumerable<T> FindAsset<T>(string[] dirPath=null) where T : Object
+        public static IEnumerable<T> FindAsset<T>(string[] dirPath) where T : Object
         {
             return AssetDatabase.FindAssets($"t:{typeof(T).Name}",dirPath)
             .Select(x => AssetDatabase.GUIDToAssetPath(x))
             .Select(x => AssetDatabase.LoadAssetAtPath<T>(x));
         }
 
+        public static IEnumerable<T> FindAsset<T>(string path = null) where T : Object
+        {
+            string[] searchFolder= null;
+            if(path != null){
+                searchFolder =new string[]{path};
+            }
+
+            return FindAsset<T>(searchFolder);
+        }
+
         public static T FindAssetFirst<T>(string path = null) where T : Object
         {
-            var items = FindAsset<T>();
+            var items = FindAsset<T>(path);
             if (items.Count() > 0)
             {
                 return items.First();

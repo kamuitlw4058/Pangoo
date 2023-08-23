@@ -12,6 +12,7 @@ namespace Pangoo.Editor{
     [DisallowMultipleComponent]
     public class StaticSceneEditor : MonoBehaviour
     {
+        [ReadOnly]
         [ValueDropdown("GetSectionList")]
         [OnValueChanged("OnSectionChange")]
         public int Section;
@@ -73,6 +74,7 @@ namespace Pangoo.Editor{
                 var asset = AssetDatabaseUtility.LoadAssetAtPath<GameObject>(assetPath);
                 var go = PrefabUtility.InstantiatePrefab(asset) as GameObject;
                 go.transform.parent = transform;
+                go.ResetTransfrom();
                 Scenes.Add(go);
             }
         }
@@ -105,6 +107,7 @@ namespace Pangoo.Editor{
 
         private void Update(){
             UpdateGameObjectName();
+            gameObject.ResetTransfrom();
         }
 
         public void SetSection(int id){

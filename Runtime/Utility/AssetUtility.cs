@@ -106,6 +106,15 @@ namespace Pangoo
             return $"{packageDir}/StreamRes/Scenes/{name}.unity";
         }
 
+        public static string GetDynamicObject(string packageDir,string name){
+             return $"{packageDir}/StreamRes/Prefab/DynamicObject/{name}";
+        }
+
+        public static string GetAssetPath(string packageDir, string assetType, string name){
+             return $"{packageDir}/StreamRes/Prefab/{assetType}/{name}";
+        }
+
+
         public static string GetStaticScene(string packageDir,string name){
              return $"{packageDir}/StreamRes/Prefab/Scene/{name}";
         }
