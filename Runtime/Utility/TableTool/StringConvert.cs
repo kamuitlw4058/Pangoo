@@ -63,9 +63,18 @@ public class StringConvert
             float x = 0f;
             float y = 0f;
             float z = 0f;
-            float.TryParse(posValue[0],out x);
-            float.TryParse(posValue[1],out y);
-            float.TryParse(posValue[2],out z);
+
+            try
+            {
+                float.TryParse(posValue[0],out x);
+                float.TryParse(posValue[1],out y);
+                float.TryParse(posValue[2],out z);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("表中值不满足3位，请检查数据是否正确");
+                throw;
+            }
             Vector3 value = new Vector3(x,y,z);
             obj = value;
         }
