@@ -8,7 +8,6 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityGameFramework.Runtime;
 using GameFramework;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 
 namespace Pangoo
 {
