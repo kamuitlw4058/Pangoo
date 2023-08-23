@@ -57,6 +57,18 @@ public class StringConvert
             float.TryParse(str, out value);
             obj = value;
         }
+        else if (typeof(Vector3).Equals(type))
+        {
+            string[] posValue = str.Split(",");
+            float x = 0f;
+            float y = 0f;
+            float z = 0f;
+            float.TryParse(posValue[0],out x);
+            float.TryParse(posValue[1],out y);
+            float.TryParse(posValue[2],out z);
+            Vector3 value = new Vector3(x,y,z);
+            obj = value;
+        }
 #if UNITY_EDITOR
         else if (typeof(Sprite).Equals(type))
         {

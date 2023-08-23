@@ -35,14 +35,14 @@ namespace Pangoo.Editor
                 case JsonTypeEnum.Integer: return "int";
                 case JsonTypeEnum.Long: return "long";
                 case JsonTypeEnum.Date: return "DateTime";
-                case JsonTypeEnum.Vector3 : return "vector3";
+                case JsonTypeEnum.Vector3 : return "Vector3";
                 case JsonTypeEnum.NonConstrained: return "object";
                 case JsonTypeEnum.NullableBoolean: return "bool?";
                 case JsonTypeEnum.NullableFloat: return "double?";
                 case JsonTypeEnum.NullableInteger: return "int?";
                 case JsonTypeEnum.NullableLong: return "long?";
                 case JsonTypeEnum.NullableDate: return "DateTime?";
-                case JsonTypeEnum.NullableVector3: return "vector3?";
+                case JsonTypeEnum.NullableVector3: return "Vector3?";
                 case JsonTypeEnum.NullableSomething: return "object";
                 case JsonTypeEnum.Object: return type.AssignedName;
                 case JsonTypeEnum.String: return "string";
