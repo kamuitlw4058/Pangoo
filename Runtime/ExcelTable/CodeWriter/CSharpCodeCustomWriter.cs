@@ -43,9 +43,11 @@ namespace Pangoo
                 case JsonTypeEnum.NullableInteger: return "int?";
                 case JsonTypeEnum.NullableLong: return "long?";
                 case JsonTypeEnum.NullableDate: return "DateTime?";
+                case JsonTypeEnum.NullableVector3: return "vector3?";
                 case JsonTypeEnum.NullableSomething: return "object";
                 case JsonTypeEnum.Object: return type.AssignedName;
                 case JsonTypeEnum.String: return "string";
+                case JsonTypeEnum.Vector3 : return "vector3";
                 default: throw new System.NotSupportedException("Unsupported json type");
             }
         }
