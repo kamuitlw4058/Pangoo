@@ -121,19 +121,6 @@ namespace Pangoo
         }
 
 
-        // public static AssetPackageTable.AssetPackageRow GetAssetPackageById(int id){
-        //     var overviews = AssetDatabaseUtility.FindAsset<AssetPackageTableOverview>();
-        //     foreach(var overview in overviews){
-        //         foreach(var row in overview.Data.Rows){
-        //            if(row.Id == id){
-        //             return row;
-        //            }
-        //         }
-        //     }
-        //     return null;
-        // }
-
-
 
         public static IEnumerable GetAllExcelOverview()
         {

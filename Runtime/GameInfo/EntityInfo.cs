@@ -35,8 +35,7 @@ namespace Pangoo
         {
             get
             {
-                //TODO:
-                return $"{AssetPathRow.AssetPackageDir}/{AssetPathRow.AssetType}/{AssetPathRow.AssetPath}";
+                return AssetPathRow.ToPrefabPath();
             }
         }
 

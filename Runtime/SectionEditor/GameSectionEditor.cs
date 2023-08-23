@@ -18,6 +18,9 @@ namespace Pangoo.Editor{
 
 
 
+        [ReadOnly]
+        public GameSectionTable.GameSectionRow SectionRow;
+
         StaticSceneEditor m_StaticSceneEditor;
         DynamicObjectEditor m_DynamicObjectEditor;
 
@@ -42,6 +45,8 @@ namespace Pangoo.Editor{
         }  
 
         private void OnEnable() {
+            SectionRow = GameSupportEditorUtility.GetGameSectionRowById(Section);
+
             m_StaticSceneEditor = GetComponentInChildren<StaticSceneEditor>();
             if(m_StaticSceneEditor == null){
                 var go = new GameObject();

@@ -16,7 +16,8 @@ namespace Pangoo.Editor{
     [DisallowMultipleComponent]
     public class DynamicObjectEditor : MonoBehaviour
     {
-        public string AssetTypeName = "DynamicObject";
+        public const string AssetTypeName = "DynamicObject";
+        public const int AssetPathIdBase = 100000;
         [ReadOnly]
         [ValueDropdown("GetSectionList")]
         [OnValueChanged("OnSectionChange")]
@@ -79,9 +80,15 @@ namespace Pangoo.Editor{
                 
                 var assetPathRow = GameSupportEditorUtility.GetAssetPathRowById(dynamicObjectRow.AssetPathId);
                 // var assetPackage = GameSupportEditorUtility.GetAssetPackageById(assetPathRow.AssetPackageId);
-                var assetPath =  AssetUtility.GetAssetPath("",assetPathRow.AssetType, assetPathRow.AssetPath);
                 // Debug.Log($"AssetPath:{assetPath}");
-                var asset = AssetDatabaseUtility.LoadAssetAtPath<GameObject>(assetPath);
+                if(assetPathRow == null){
+                    Debug.LogError($"动态物体:{id} 资源路径无效。请检查！！");
+                    continue;
+                }
+
+                // Debug.Log($"assetPathRow:{assetPathRow}");
+                // Debug.Log($"assetPathRow:{assetPathRow.ToPrefabPath()}");
+                var asset = AssetDatabaseUtility.LoadAssetAtPath<GameObject>(assetPathRow.ToPrefabPath());
                 var go = PrefabUtility.InstantiatePrefab(asset) as GameObject;
                 go.transform.parent = transform;
                 go.ResetTransfrom();
@@ -139,45 +146,59 @@ namespace Pangoo.Editor{
         }
 
         public void ConfirmCreate(PackageConfig space,int id,string name,string name_cn,GameObject prefab){
+            GameSectionTableOverview gameSectionTableOverview = AssetDatabaseUtility.FindAssetFirst<GameSectionTableOverview>(space.PackageDir);
             DynamicObjectTableOverview overview = AssetDatabaseUtility.FindAssetFirst<DynamicObjectTableOverview>(space.PackageDir);
             Debug.Log($"overview:{overview}, overview.{overview.Config.PackageDir}");
             AssetPathTableOverview assetPathTableOverview = AssetDatabaseUtility.FindAssetFirst<AssetPathTableOverview>(space.PackageDir);
             // assetPackageTableOverview.GetAssetPackageIdByConfig
 
+            var gameSectionRow = gameSectionTableOverview.Data.GetEditorRow(Section);
 
 
 
+            var prefab_name = $"{id}_{name}";
+            var prefab_file_name = $"{prefab_name}.prefab";
+
+            var assetPathId =  AssetPathIdBase + id;
+
+            var assetPathRow = new AssetPathTable.AssetPathRow();
+            assetPathRow.Id = assetPathId;
+            assetPathRow.AssetPackageDir = space.PackageDir;
+            assetPathRow.AssetPath = prefab_file_name;
+            assetPathRow.AssetType = AssetTypeName;
+            assetPathTableOverview.Data.Rows.Add(assetPathRow);
+
+            EditorUtility.SetDirty(assetPathTableOverview);
 
 
-
-
-             var row = new DynamicObjectTable.DynamicObjectRow();
+            var row = new DynamicObjectTable.DynamicObjectRow();
             row.Id = id;
             row.Name = name;
             row.NameCn = name_cn;
-            // row.AssetPathId = desc;
+            row.AssetPathId = assetPathId;
             overview.Data.Rows.Add(row);
 
-            var prefab_name = $"{id}_{name}";
-             var prefab_file_path = AssetUtility.GetPrefabPath(space.PackageDir,AssetTypeName,prefab_name);
 
-            var assetPathRow = new AssetPathTable.AssetPathRow();
-            assetPathRow.Id = id;
-            assetPathRow.AssetPackageDir = space.PackageDir;
-            assetPathRow.AssetPath = prefab_file_path;
-            assetPathRow.AssetType = AssetTypeName;
 
             var go = new GameObject(prefab_name);
-            go.transform.localPosition = Vector3.zero;
+            go.transform.parent = transform;
+            go.ResetTransfrom();
 
             var prefab_go = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
             prefab_go.transform.parent = go.transform;
             prefab_go.ResetTransfrom(false);
 
-            // 设置GameObject作为预制体
+          
+            gameSectionRow.AddDynamicObjectId(id);
+            EditorUtility.SetDirty(gameSectionTableOverview);
+
+            Debug.Log($"assetPathRow:{assetPathRow.ToPrefabPath()}");
+
            
             // string prefabPath = "Assets/Prefabs/MyPrefab.prefab";
-            PrefabUtility.SaveAsPrefabAsset(go, prefab_file_path);
+            PrefabUtility.SaveAsPrefabAsset(go, assetPathRow.ToPrefabPath());
+
+            GameObject.DestroyImmediate(go);
 
         }
 
@@ -225,9 +246,9 @@ namespace Pangoo.Editor{
             [Button("新建", ButtonSizes.Large)]
             public void Create(){
 
-                if ( Id == 0 || Name.IsNullOrWhiteSpace() || ArtPrefab == null)
+                if (Namespace == null ||   Id == 0 || Name.IsNullOrWhiteSpace() || ArtPrefab == null)
                 {
-                    EditorUtility.DisplayDialog("错误", "Id, Name, 命名空间必须填写", "确定");
+                    EditorUtility.DisplayDialog("错误", "Id, Name, 命名空间,ArtPrefab  必须填写", "确定");
                     // GUIUtility.ExitGUI();
                     return;
                 }

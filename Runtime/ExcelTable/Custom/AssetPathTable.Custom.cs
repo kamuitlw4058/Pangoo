@@ -9,7 +9,6 @@ namespace Pangoo
     public partial class AssetPathTable 
     {
 
-
         /// <summary> 用户处理 </summary>
         public override void CustomInit()
         {
@@ -20,6 +19,7 @@ namespace Pangoo
             return GetRowById(id);
 
         }
+
 
     }
 }

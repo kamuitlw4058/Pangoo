@@ -67,10 +67,9 @@ namespace Pangoo.Editor{
             foreach(var id in SceneIds){
                 var staticScene = GameSupportEditorUtility.GetStaticSceneRowById(id);
                 var assetPathRow = GameSupportEditorUtility.GetAssetPathRowById(staticScene.AssetPathId);
-                Debug.Log($"Try Create Prefab:{staticScene},{assetPathRow}");
-                var assetPath =  AssetUtility.GetAssetPath(assetPathRow.AssetPackageDir,assetPathRow.AssetPath,assetPathRow.AssetPath);
+                // Debug.Log($"Try Create Prefab:{staticScene},{assetPathRow.ToPrefabPath()}");
                 // Debug.Log($"AssetPath:{assetPath}");
-                var asset = AssetDatabaseUtility.LoadAssetAtPath<GameObject>(assetPath);
+                var asset = AssetDatabaseUtility.LoadAssetAtPath<GameObject>(assetPathRow.ToPrefabPath());
                 var go = PrefabUtility.InstantiatePrefab(asset) as GameObject;
                 go.transform.parent = transform;
                 go.ResetTransfrom();

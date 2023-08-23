@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3b164ad793dcc34d8b4e89b6588cf4b, type: 3}
   m_Name: RuntimeData
   m_EditorClassIdentifier: 
+  Config: {fileID: 11400000, guid: b28e25bda078ea84aa67d9488e039e49, type: 2}
   Data:
+    Priority: 0
     Rows:
-    - Id: 10001
-      Key: "Item_xxx\u7684\u76F8\u7247_CanPickup"
-      Type: System.Boolean
-      Value: True
-    - Id: 10002
-      Key: "Item_yyy\u7684\u76F8\u7247_CanPickup"
-      Type: System.Boolean
-      Value: False
+    - Id: 1
+      Key: Cube0_Transform_Position.x
+      Type: float
+      Value: 0
+    - Id: 2
+      Key: Cube0.Light.Inset
+      Type: float
+      Value: 0

@@ -24,6 +24,17 @@ namespace Pangoo
             return GetRowById(id);
         }
 
+        #if UNITY_EDITOR
+        public GameSectionRow GetEditorRow(int id){
+            foreach(var row in Rows){
+                if(row.Id == id){
+                    return row;
+                }
+            }
+            return null;            
+        }
+        #endif
+
     }
 }
 
