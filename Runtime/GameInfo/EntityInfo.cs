@@ -12,6 +12,7 @@ namespace Pangoo
 
         public AssetPathTable.AssetPathRow AssetPathRow;
         public EntityGroupTable.EntityGroupRow EntityGroupRow;
+        public AssetPackageTable.AssetPackageRow AssetPackageRow;
 
 
 
@@ -35,7 +36,7 @@ namespace Pangoo
         {
             get
             {
-                return AssetPathRow.AssetPath;
+                return $"{AssetPackageRow.AssetPackagePath}/{AssetPathRow.AssetType}/{AssetPathRow.AssetPath}";
             }
         }
 
@@ -46,8 +47,9 @@ namespace Pangoo
             }
         }
 
-        public static EntityInfo Create(AssetPathTable.AssetPathRow assetPath,EntityGroupTable.EntityGroupRow entityGroup){
+        public static EntityInfo Create(AssetPackageTable.AssetPackageRow assetPackage,AssetPathTable.AssetPathRow assetPath, EntityGroupTable.EntityGroupRow entityGroup){
             var info = ReferencePool.Acquire<EntityInfo>();
+            info.AssetPackageRow = assetPackage;
             info.AssetPathRow = assetPath;
             info.EntityGroupRow = entityGroup;
             return info;

@@ -84,7 +84,6 @@ namespace Pangoo
           foreach(var row in Rows){
               Dict.Add(row.Id,row);
           }
-          CustomInit();
         }
 
         public override void Merge(ExcelTableBase val){

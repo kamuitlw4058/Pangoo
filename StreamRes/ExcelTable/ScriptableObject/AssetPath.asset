@@ -12,25 +12,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28dc50086158399438357a9e8b64031a, type: 3}
   m_Name: AssetPath
   m_EditorClassIdentifier: 
+  Config: {fileID: 11400000, guid: b28e25bda078ea84aa67d9488e039e49, type: 2}
   Data:
+    Priority: 0
     Rows:
     - Id: 10001
       Name: "\u6D4B\u8BD5\u623F\u95F41"
-      AssetPath: Assets/Plugins/Pangoo/StreamRes/Prefab/Demo/Room1.prefab
+      AssetType: Scene
+      AssetPackageId: 1
+      AssetPath: Room1.prefab
       Desc: "\u6D4B\u8BD5\u623F\u95F41"
     - Id: 10002
       Name: "\u6D4B\u8BD5\u623F\u95F42"
-      AssetPath: Assets/Plugins/Pangoo/StreamRes/Prefab/Demo/Room2.prefab
+      AssetType: Scene
+      AssetPackageId: 1
+      AssetPath: Room2.prefab
       Desc: "\u6D4B\u8BD5\u623F\u95F42"
     - Id: 10003
       Name: "\u6D4B\u8BD5\u623F\u95F43"
-      AssetPath: Assets/Plugins/Pangoo/StreamRes/Prefab/Demo/Room3.prefab
+      AssetType: Scene
+      AssetPackageId: 1
+      AssetPath: Room3.prefab
       Desc: "\u6D4B\u8BD5\u623F\u95F43"
     - Id: 10004
       Name: "\u6D4B\u8BD5\u623F\u95F44"
-      AssetPath: Assets/Plugins/Pangoo/StreamRes/Prefab/Demo/Room4.prefab
+      AssetType: Scene
+      AssetPackageId: 1
+      AssetPath: Room4.prefab
       Desc: "\u6D4B\u8BD5\u623F\u95F44"
     - Id: 20001
+      Name: "\u623F\u9876"
+      AssetType: Scene
+      AssetPackageId: 1
+      AssetPath: Roof1.prefab
+      Desc: "\u623F\u9876"
+    - Id: 100001
+      Name: "\u65E5\u5386"
+      AssetType: DynamicObject
+      AssetPackageId: 1
+      AssetPath: 117002_Calendar.prefab
+      Desc: 
+    - Id: 10005
       Name: "\u6D4B\u8BD5\u623F\u95F45"
-      AssetPath: Assets/Plugins/Pangoo/StreamRes/Prefab/Demo/Room1.prefab
+      AssetType: Scene
+      AssetPackageId: 1
+      AssetPath: Room5.prefab
       Desc: "\u6D4B\u8BD5\u623F\u95F45"

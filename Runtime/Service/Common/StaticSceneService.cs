@@ -13,7 +13,15 @@ namespace Pangoo.Service
     {
         ExcelTableService m_ExcelTableService;
 
-        StaticSceneTable m_StaticSceneTable;
+        GameInfoService m_GameInfoService;
+
+         EntityGroupTable m_EntityGroupTable;
+        
+        EntityGroupTable.EntityGroupRow m_EntityGroupRow;
+
+        // StaticSceneTable m_StaticSceneTable;
+
+        StaticSceneInfo m_StaticSceneInfo;
 
         EntityLoader Loader = null;
 
@@ -29,7 +37,7 @@ namespace Pangoo.Service
 
         [ShowInInspector]
 
-        Dictionary<int,StaticSceneInfo> m_SectionSceneInfos;
+        Dictionary<int,StaticSceneInfo.StaticSceneInfoRow> m_SectionSceneInfos;
 
         [ShowInInspector]
         List<int> m_HoldStaticSceneIds;
@@ -52,10 +60,14 @@ namespace Pangoo.Service
             m_LoadingAssetIds = new List<int>();
             m_HoldStaticSceneIds = new List<int>();
             NeedLoadDict = new Dictionary<int, int>();
-            m_SectionSceneInfos = new Dictionary<int, StaticSceneInfo>();
+            m_SectionSceneInfos = new Dictionary<int, StaticSceneInfo.StaticSceneInfoRow>();
+
             m_ExcelTableService = services.GetService<ExcelTableService>();
+            m_GameInfoService = services.GetService<GameInfoService>(); 
+
             m_LoadedSceneAssetDict = new Dictionary<int, EntityStaticScene>();
             m_EnterAssetCountDict = new Dictionary<int, int>();
+
             AutoLoad = true;
             AutoRelease= true;
             EventHelper.Subscribe(EnterStaticSceneEventArgs.EventId,OnEnterStaticSceneEven);
@@ -73,15 +85,16 @@ namespace Pangoo.Service
         }
 
         public override void DoStart(){
-            m_StaticSceneTable = m_ExcelTableService.GetExcelTable<StaticSceneTable>();
-
-
+            // m_StaticSceneTable = m_ExcelTableService.GetExcelTable<StaticSceneTable>();
+            m_StaticSceneInfo = m_GameInfoService.GetGameInfo<StaticSceneInfo>();
+            m_EntityGroupTable = m_ExcelTableService.GetExcelTable<EntityGroupTable>();
+            m_EntityGroupRow = m_EntityGroupTable.GetRowById(1);
         }
 
         public void SetSectionIds(List<int> ids){
             m_SectionSceneInfos.Clear();
             foreach(var id in ids){
-                var sceneInfo = m_StaticSceneTable.GetStaticSceneInfo(id);
+                var sceneInfo = m_StaticSceneInfo.GetRowById(id);
                 m_SectionSceneInfos.Add(sceneInfo.AssetPathId,sceneInfo);
             }
         }
@@ -107,7 +120,7 @@ namespace Pangoo.Service
                 m_EnterAssetCountDict[assetPathId] = count +1;
             }
 
-            StaticSceneInfo staticSceneInfo;
+            StaticSceneInfo.StaticSceneInfoRow staticSceneInfo;
             if(m_SectionSceneInfos.TryGetValue(assetPathId,out staticSceneInfo)){
                 if(staticSceneInfo.Id == m_SectionChange.Item1){
                     EventHelper.Fire(this,GameSectionChangeEventArgs.Create(m_SectionChange.Item2));
@@ -135,7 +148,7 @@ namespace Pangoo.Service
             }
 
             //通过路径ID去判断是否被加载。用来在不同的章节下用了不用的静态场景ID,但是使用不同的加载Ids
-            var sceneInfo = m_StaticSceneTable.GetStaticSceneInfo(id);
+            var sceneInfo = m_StaticSceneInfo.GetRowById(id);
             var AssetPathId = sceneInfo.AssetPathId;
             if(m_LoadedSceneAssetDict.ContainsKey(AssetPathId)){
                 return;
@@ -148,7 +161,7 @@ namespace Pangoo.Service
             if(m_LoadingAssetIds.Contains(AssetPathId)){
                 return;
             }else{
-                EntityStaticSceneData data = EntityStaticSceneData.Create(sceneInfo.EntityInfo,this);
+                EntityStaticSceneData data = EntityStaticSceneData.Create(sceneInfo.CreateEntityInfo(m_EntityGroupRow),this);
                 m_LoadingAssetIds.Add(AssetPathId);
                 Loader.ShowEntity(EnumEntity.StaticScene,
                     (o)=>{
@@ -167,11 +180,11 @@ namespace Pangoo.Service
             
             // 玩家进入对应的场景后。对应场景有相应的场景加载要求。
             foreach(var enterAssetId in  m_EnterAssetCountDict.Keys){
-                StaticSceneInfo sceneInfo;
+                StaticSceneInfo.StaticSceneInfoRow sceneInfo;
                 if(m_SectionSceneInfos.TryGetValue(enterAssetId,out sceneInfo)){
                     foreach(var id in sceneInfo.LoadSceneIds){
                         if(!NeedLoadDict.ContainsKey(id)){
-                            var loadSceneInfo = m_StaticSceneTable.GetStaticSceneInfo(id);
+                            var loadSceneInfo = m_StaticSceneInfo.GetRowById(id);
                             NeedLoadDict.Add(id,loadSceneInfo.AssetPathId);
                         }
                     }
@@ -184,7 +197,7 @@ namespace Pangoo.Service
 
             //章节服务会设置常驻的场景ID。用来打开该场景下通用的设置。
             foreach(var keepSceneId in m_HoldStaticSceneIds){
-                StaticSceneInfo sceneInfo = m_StaticSceneTable.GetStaticSceneInfo(keepSceneId);
+                StaticSceneInfo.StaticSceneInfoRow sceneInfo = m_StaticSceneInfo.GetRowById(keepSceneId);
                     if(!NeedLoadDict.ContainsKey(sceneInfo.Id)){
                         NeedLoadDict.Add(sceneInfo.Id,sceneInfo.AssetPathId);
                     }

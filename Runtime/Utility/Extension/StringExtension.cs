@@ -15,5 +15,14 @@ namespace Pangoo
             return s.Split(split).Select(o=> int.Parse(o)).ToList();
         }
 
+        public static int[] ToArrInt(this string str,string split="|"){
+            var strs= str.Split(split);
+            int[] ret = new int[strs.Length];
+            for(int i =0; i < strs.Length;i++){
+                ret[i] = int.Parse(strs[i]);
+            }
+            return ret;
+        }
+
     }
 }

@@ -12,5 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a25cd6043cd9da44dbbbe9f072fc8e90, type: 3}
   m_Name: SaveLoad
   m_EditorClassIdentifier: 
+  Config: {fileID: 11400000, guid: b28e25bda078ea84aa67d9488e039e49, type: 2}
   Data:
-    Rows: []
+    Priority: 0
+    Rows:
+    - Id: 1
+      IntKey: Cube0_Transform_Position.x
+      IntValue: 10
+      FloatKey: cube0_Transform_Position.y
+      FloatValue: 10.2
+    - Id: 2
+      IntKey: 
+      IntValue: 0
+      FloatKey: Cube0.Light.Inset
+      FloatValue: 10

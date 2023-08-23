@@ -193,15 +193,27 @@ namespace Pangoo
                 // sw.WriteLine();
                 
                 sw.WriteLine();
-                sw.WriteLine("       [Button(\"从Excel文件重构数据\",30)]");
+                // sw.WriteLine("       [Button(\"从Excel文件重构数据\",30)]");
                 sw.WriteLine("        /// <summary> 加载Excel文件</summary>");
-                sw.WriteLine("        public override void LoadExcelFile()");
+                sw.WriteLine("        public override void LoadExcelFile(bool save = true)");
                 sw.WriteLine("        {");
-                sw.WriteLine("          Data=new();");
-                sw.WriteLine("          Data.LoadExcelFile(ExcelPath);");
+                sw.WriteLine("           if(Data == null){");
+                sw.WriteLine("              Data=new();");
+                sw.WriteLine("           }");
+                sw.WriteLine("           Data.LoadExcelFile(ExcelPath);");
+                sw.WriteLine("           if(save){");
+                sw.WriteLine("              SaveConfig();");
+                sw.WriteLine("           } else {");
+                sw.WriteLine("               EditorUtility.SetDirty(this);");
+                sw.WriteLine("           }");
                 sw.WriteLine("        }");
                 sw.WriteLine();
                 
+        //                   if(Data == null){
+        //     Data=new();
+        //   }
+        //   Data.LoadExcelFile(ExcelPath);
+        //   SaveConfig();
                 // sw.WriteLine();
                 // sw.WriteLine("       [Button(\"生成Excel文件\",30)]");
                 // sw.WriteLine("        /// <summary> 生成Excel文件</summary>");

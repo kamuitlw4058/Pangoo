@@ -7,78 +7,46 @@ using GameFramework;
 
 namespace Pangoo
 {   
-    public class StaticSceneInfo:IReference
+    public partial class StaticSceneInfo:BaseInfo
     {
 
-        public StaticSceneTable.StaticSceneRow StaticSceneRow;
-        public AssetPathTable.AssetPathRow AssetPathRow;
+        Dictionary<int,StaticSceneInfoRow> Dict = new Dictionary<int, StaticSceneInfoRow>();
 
-        public EntityGroupTable.EntityGroupRow EntityGroupRow;
+        AssetPathTable m_AssetPathTable;
+        AssetPackageTable m_AssetPackageTable;
+        StaticSceneTable m_StaticSceneTable;
+        EntityGroupTable m_EntityGroupTable;
+        protected override void OnInit(){
+            m_AssetPathTable = PangooEntry.ExcelTable.GetExcelTable<AssetPathTable>();
+            m_AssetPackageTable = PangooEntry.ExcelTable.GetExcelTable<AssetPackageTable>();
+            m_StaticSceneTable = PangooEntry.ExcelTable.GetExcelTable<StaticSceneTable>();
+            m_EntityGroupTable = PangooEntry.ExcelTable.GetExcelTable<EntityGroupTable>();
+            foreach(var staticScene in m_StaticSceneTable.Rows){
+                var assetPath=  m_AssetPathTable.GetRowById(staticScene.AssetPathId);
+                var assetPackage = m_AssetPackageTable.GetRowById(assetPath.AssetPackageId);
+                var entityGroup = m_EntityGroupTable.GetRowById(staticScene.EntityGroupId);
+                Dict.Add(staticScene.Id,new StaticSceneInfoRow(staticScene,assetPath,assetPackage,entityGroup));
+            }
 
+        }
 
-        EntityInfo m_EntityInfo;
-
-        // StaticSceneTable.
-
-        List<int> m_LoadSceneIds = null;
-
-        public int Id{
-            get{
-                return StaticSceneRow.Id;
+        protected override void OnShutdown(){
+            foreach(var kv in Dict){
+                kv.Value.Remove();
             }
         }
 
-        public string Name{
-            get{
-                return StaticSceneRow.Name;
+
+        public StaticSceneInfoRow GetRowById(int id){
+            StaticSceneInfoRow ret;
+            if(Dict.TryGetValue(id,out ret)){
+                return ret;
             }
+
+            return null;
         }
 
-        public EntityInfo EntityInfo{
-            get{
-                if(m_EntityInfo == null){
-                    m_EntityInfo = EntityInfo.Create(AssetPathRow,EntityGroupRow);
-                }
 
-                return m_EntityInfo;
-            }
-        }
 
-        public List<int> LoadSceneIds{
-            get{
-                if(m_LoadSceneIds == null){
-                    m_LoadSceneIds = StaticSceneRow.LoadSceneIds.Split("|").Select(row => int.Parse(row)).ToList();
-                }
-                return m_LoadSceneIds;
-            }
-        }
-
-        public int AssetPathId{
-            get{
-                return AssetPathRow.Id;
-            }
-        }
-
-        public static StaticSceneInfo Create(StaticSceneTable.StaticSceneRow staticScene, EntityGroupTable.EntityGroupRow entityGroup, AssetPathTable.AssetPathRow assetPath){
-            var info = ReferencePool.Acquire<StaticSceneInfo>();
-            info.EntityGroupRow = entityGroup;
-            info.StaticSceneRow = staticScene;
-            info.AssetPathRow = assetPath;
-            return info;
-            
-        }
-
-        public void Clear(){
-            if(m_EntityInfo != null){
-                ReferencePool.Release(m_EntityInfo);
-            }
-            EntityGroupRow = null;
-            StaticSceneRow = null;
-            AssetPathRow = null;
-        }
-
-        
-
- 
     }
 }

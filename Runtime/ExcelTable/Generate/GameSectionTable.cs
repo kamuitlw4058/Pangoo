@@ -61,6 +61,15 @@ namespace Pangoo
             [JsonMember("FirstDynamicSceneIds")]
             [ExcelTableCol("FirstDynamicSceneIds","FirstDynamicSceneIds","string", "进入章节默认加载的场景",6)]
             public string FirstDynamicSceneIds ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("动态物体")]
+            [HideLabel]
+            [JsonMember("DynamicObjectIds")]
+            [ExcelTableCol("DynamicObjectIds","DynamicObjectIds","string", "动态物体",7)]
+            public string DynamicObjectIds ;
         }
 
 
@@ -84,7 +93,6 @@ namespace Pangoo
           foreach(var row in Rows){
               Dict.Add(row.Id,row);
           }
-          CustomInit();
         }
 
         public override void Merge(ExcelTableBase val){

@@ -136,7 +136,7 @@ namespace Pangoo
             sw.WriteLine("          foreach(var row in Rows){");
             sw.WriteLine("              Dict.Add(row.Id,row);");
             sw.WriteLine("          }");
-            sw.WriteLine("          CustomInit();");
+            // sw.WriteLine("          CustomInit();");
             sw.WriteLine("        }");
 
             sw.WriteLine();
