@@ -12,26 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 225227f085ae4684f8582ffd0c3d0de8, type: 3}
   m_Name: ItemsConfig
   m_EditorClassIdentifier: 
+  Config: {fileID: 11400000, guid: b28e25bda078ea84aa67d9488e039e49, type: 2}
   Data:
+    Priority: 0
     Rows:
     - Id: 1
       ID: 10001
       Name: "xxx\u7684\u76F8\u7247"
       CanPickup: 1
-      PosX: 0
+      Pos: {x: 10, y: 0, z: 10}
       PosY: 0
       PosZ: 0
     - Id: 2
       ID: 10002
       Name: "yyy\u7684\u76F8\u7247"
-      CanPickup: 0
-      PosX: 0
-      PosY: 0
-      PosZ: 0
-    - Id: 3
-      ID: 10003
-      Name: "zzz\u7684\u76F8\u7247"
-      CanPickup: 0
-      PosX: 0
+      CanPickup: 1
+      Pos: {x: 2, y: 2, z: 2}
       PosY: 0
       PosZ: 0
