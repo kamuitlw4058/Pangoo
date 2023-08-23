@@ -8,6 +8,7 @@ using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using Pangoo;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using UnityEditor.VersionControl;
 
 namespace Pangoo.Editor{
 
@@ -15,6 +16,7 @@ namespace Pangoo.Editor{
     [DisallowMultipleComponent]
     public class DynamicObjectEditor : MonoBehaviour
     {
+        public string AssetTypeName = "DynamicObject";
         [ReadOnly]
         [ValueDropdown("GetSectionList")]
         [OnValueChanged("OnSectionChange")]
@@ -76,8 +78,8 @@ namespace Pangoo.Editor{
                 }
                 
                 var assetPathRow = GameSupportEditorUtility.GetAssetPathRowById(dynamicObjectRow.AssetPathId);
-                var assetPackage = GameSupportEditorUtility.GetAssetPackageById(assetPathRow.AssetPackageId);
-                var assetPath =  AssetUtility.GetAssetPath(assetPackage.AssetPackagePath,assetPathRow.AssetType, assetPathRow.AssetPath);
+                // var assetPackage = GameSupportEditorUtility.GetAssetPackageById(assetPathRow.AssetPackageId);
+                var assetPath =  AssetUtility.GetAssetPath("",assetPathRow.AssetType, assetPathRow.AssetPath);
                 // Debug.Log($"AssetPath:{assetPath}");
                 var asset = AssetDatabaseUtility.LoadAssetAtPath<GameObject>(assetPath);
                 var go = PrefabUtility.InstantiatePrefab(asset) as GameObject;
@@ -139,6 +141,14 @@ namespace Pangoo.Editor{
         public void ConfirmCreate(PackageConfig space,int id,string name,string name_cn,GameObject prefab){
             DynamicObjectTableOverview overview = AssetDatabaseUtility.FindAssetFirst<DynamicObjectTableOverview>(space.PackageDir);
             Debug.Log($"overview:{overview}, overview.{overview.Config.PackageDir}");
+            AssetPathTableOverview assetPathTableOverview = AssetDatabaseUtility.FindAssetFirst<AssetPathTableOverview>(space.PackageDir);
+            // assetPackageTableOverview.GetAssetPackageIdByConfig
+
+
+
+
+
+
 
 
              var row = new DynamicObjectTable.DynamicObjectRow();
@@ -147,6 +157,27 @@ namespace Pangoo.Editor{
             row.NameCn = name_cn;
             // row.AssetPathId = desc;
             overview.Data.Rows.Add(row);
+
+            var prefab_name = $"{id}_{name}";
+             var prefab_file_path = AssetUtility.GetPrefabPath(space.PackageDir,AssetTypeName,prefab_name);
+
+            var assetPathRow = new AssetPathTable.AssetPathRow();
+            assetPathRow.Id = id;
+            assetPathRow.AssetPackageDir = space.PackageDir;
+            assetPathRow.AssetPath = prefab_file_path;
+            assetPathRow.AssetType = AssetTypeName;
+
+            var go = new GameObject(prefab_name);
+            go.transform.localPosition = Vector3.zero;
+
+            var prefab_go = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+            prefab_go.transform.parent = go.transform;
+            prefab_go.ResetTransfrom(false);
+
+            // 设置GameObject作为预制体
+           
+            // string prefabPath = "Assets/Prefabs/MyPrefab.prefab";
+            PrefabUtility.SaveAsPrefabAsset(go, prefab_file_path);
 
         }
 
@@ -223,8 +254,8 @@ namespace Pangoo.Editor{
                     return;  
                 }
 
-                if(!GameSupportEditorUtility.CheckVolumeDupName(Name)){
-                    EditorUtility.DisplayDialog("错误", "Volume Name已经存在", "确定");
+                if(!GameSupportEditorUtility.ExistsExcelTableOverviewName<DynamicObjectTableOverview>(Name)){
+                    EditorUtility.DisplayDialog("错误", "Name已经存在", "确定");
                     return;  
                 }
 

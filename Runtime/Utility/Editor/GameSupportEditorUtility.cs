@@ -121,17 +121,17 @@ namespace Pangoo
         }
 
 
-        public static AssetPackageTable.AssetPackageRow GetAssetPackageById(int id){
-            var overviews = AssetDatabaseUtility.FindAsset<AssetPackageTableOverview>();
-            foreach(var overview in overviews){
-                foreach(var row in overview.Data.Rows){
-                   if(row.Id == id){
-                    return row;
-                   }
-                }
-            }
-            return null;
-        }
+        // public static AssetPackageTable.AssetPackageRow GetAssetPackageById(int id){
+        //     var overviews = AssetDatabaseUtility.FindAsset<AssetPackageTableOverview>();
+        //     foreach(var overview in overviews){
+        //         foreach(var row in overview.Data.Rows){
+        //            if(row.Id == id){
+        //             return row;
+        //            }
+        //         }
+        //     }
+        //     return null;
+        // }
 
 
 
@@ -197,6 +197,25 @@ namespace Pangoo
                     }
                 }
             }
+            return true;
+        }
+
+        public static bool ExistsExcelTableOverviewName<T>(string name,string packageDir = null) where T:ExcelTableOverview
+        {
+            var overviews = AssetDatabaseUtility.FindAsset<T>(packageDir);
+            foreach(var overview in overviews){
+                var rows = overview.Table.NamedBaseRows;
+                if(rows == null){
+                    return false;
+                }
+
+                foreach(var row in rows){
+                    if(row.Name == name){
+                        return false;
+                    }
+                }
+            }
+
             return true;
         }
 

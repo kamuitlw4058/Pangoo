@@ -14,12 +14,12 @@ namespace Pangoo
         Dictionary<int,AssetPathInfoRow> Dict = new Dictionary<int, AssetPathInfoRow>();
 
         AssetPathTable m_AssetPathTable;
-        AssetPackageTable m_AssetPackageTable;
+        // AssetPackageTable m_AssetPackageTable;
         protected override void OnInit(){
             m_AssetPathTable = PangooEntry.ExcelTable.GetExcelTable<AssetPathTable>();
 
             foreach(var row in m_AssetPathTable.Rows){
-                Dict.Add(row.Id, new AssetPathInfoRow(row,m_AssetPackageTable.GetRowById(row.AssetPackageId)));
+                Dict.Add(row.Id, new AssetPathInfoRow(row));
             }
         }
 

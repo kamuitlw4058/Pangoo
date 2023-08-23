@@ -10,12 +10,13 @@ namespace Pangoo
     {
         public class AssetPathInfoRow{
             AssetPathTable.AssetPathRow m_AssetPathRow;
-            AssetPackageTable.AssetPackageRow m_AssetPackageRow;
+            // AssetPackageTable.AssetPackageRow m_AssetPackageRow;
 
-            public AssetPathInfoRow(AssetPathTable.AssetPathRow assetPathRow, AssetPackageTable.AssetPackageRow assetPackageRow)
+            public AssetPathInfoRow(AssetPathTable.AssetPathRow assetPathRow)
+            // public AssetPathInfoRow(AssetPathTable.AssetPathRow assetPathRow, AssetPackageTable.AssetPackageRow assetPackageRow)
             {
                 this.m_AssetPathRow = assetPathRow;
-                this.m_AssetPackageRow = assetPackageRow;
+                // this.m_AssetPackageRow = assetPackageRow;
             }
         }
     }

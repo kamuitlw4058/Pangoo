@@ -29,20 +29,20 @@ namespace Pangoo
             /// <summary>
             /// Desc: 
             /// </summary>
-            [TableTitleGroup("资源类型")]
+            [TableTitleGroup("资源包Id")]
             [HideLabel]
-            [JsonMember("AssetType")]
-            [ExcelTableCol("AssetType","AssetType","string", "资源类型",3)]
-            public string AssetType ;
+            [JsonMember("AssetPackageDir")]
+            [ExcelTableCol("AssetPackageDir","AssetPackageDir","string", "资源包Id",3)]
+            public string AssetPackageDir ;
 
             /// <summary>
             /// Desc: 
             /// </summary>
-            [TableTitleGroup("资源包Id")]
+            [TableTitleGroup("资源类型")]
             [HideLabel]
-            [JsonMember("AssetPackageId")]
-            [ExcelTableCol("AssetPackageId","AssetPackageId","int", "资源包Id",4)]
-            public int AssetPackageId ;
+            [JsonMember("AssetType")]
+            [ExcelTableCol("AssetType","AssetType","string", "资源类型",4)]
+            public string AssetType ;
 
             /// <summary>
             /// Desc: 

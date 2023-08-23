@@ -27,10 +27,6 @@ MonoBehaviour:
     ScriptableObjectDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/ScriptableObject
   ExcelList:
   - Build: 1
-    ExcelName: AssetPackage
-    BaseNamespace: 
-    Named: 1
-  - Build: 1
     ExcelName: AssetPath
     BaseNamespace: 
     Named: 0

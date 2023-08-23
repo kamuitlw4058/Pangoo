@@ -18,10 +18,13 @@ namespace Pangoo
             return component;
         }
 
-        public static void ResetTransfrom(this GameObject origin){
+        public static void ResetTransfrom(this GameObject origin,bool apply_scale= true){
             origin.transform.localPosition = Vector3.zero;
             origin.transform.localRotation = Quaternion.Euler(Vector3.zero);
-            origin.transform.localScale = Vector3.one;
+            if(apply_scale){
+                origin.transform.localScale = Vector3.one;
+            }
+            
 
         }
 
