@@ -16,5 +16,6 @@ namespace Pangoo
         void WriteMainClassStart(IJsonClassGeneratorConfig config, TextWriter sw);
         void WriteMainClassEnd(IJsonClassGeneratorConfig config, TextWriter sw);
         void WriteAdditionFunction(IJsonClassGeneratorConfig config, TextWriter sw);
+        void WriteClassMembers(IJsonClassGeneratorConfig config, TextWriter sw, JsonType type, string prefix);
     }
 }

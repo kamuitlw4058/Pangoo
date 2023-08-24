@@ -10,7 +10,7 @@ using UnityEditor;
 #endif
 
 namespace Pangoo{
-
+#if UNITY_EDITOR
     public class DirectoryUtility
     {
         public static void ExistsOrCreate(string path)
@@ -72,4 +72,5 @@ namespace Pangoo{
 
         }
     }
+#endif
 }

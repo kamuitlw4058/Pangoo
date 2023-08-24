@@ -47,29 +47,11 @@ namespace Pangoo
             /// <summary>
             /// Desc: 
             /// </summary>
-            [TableTitleGroup("X轴坐标")]
+            [TableTitleGroup("位置坐标")]
             [HideLabel]
-            [JsonMember("PosX")]
-            [ExcelTableCol("PosX","PosX","float", "X轴坐标",4)]
-            public float PosX ;
-
-            /// <summary>
-            /// Desc: 
-            /// </summary>
-            [TableTitleGroup("Y轴坐标")]
-            [HideLabel]
-            [JsonMember("PosY")]
-            [ExcelTableCol("PosY","PosY","float", "Y轴坐标",5)]
-            public float PosY ;
-
-            /// <summary>
-            /// Desc: 
-            /// </summary>
-            [TableTitleGroup("Z轴坐标")]
-            [HideLabel]
-            [JsonMember("PosZ")]
-            [ExcelTableCol("PosZ","PosZ","float", "Z轴坐标",6)]
-            public float PosZ ;
+            [JsonMember("Pos")]
+            [ExcelTableCol("Pos","Pos","Vector3", "位置坐标",4)]
+            public Vector3 Pos ;
         }
 
 

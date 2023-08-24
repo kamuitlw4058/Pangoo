@@ -123,6 +123,7 @@ namespace Pangoo
                 case JsonTypeEnum.NullableFloat:
                 case JsonTypeEnum.NullableDate:
                 case JsonTypeEnum.String:
+                case JsonTypeEnum.Vector3:
                     return "JValue";
                 case JsonTypeEnum.Array:
                     return "JArray";
@@ -226,6 +227,14 @@ namespace Pangoo
                     if (IsNull(type2)) return type1;
                     if (type2 == JsonTypeEnum.Date) return type1;
                     break;
+                case JsonTypeEnum.Vector3:
+                    if (IsNull(type2)) return JsonTypeEnum.NullableVector3;
+                    if (type2 == JsonTypeEnum.Vector3) return type1;
+                    break;
+                case JsonTypeEnum.NullableVector3:
+                    if (IsNull(type2)) return type1;
+                    if (type2 == JsonTypeEnum.Vector3) return type1;
+                    break;
                 case JsonTypeEnum.NullableSomething:
                     if (IsNull(type2)) return type1;
                     if (type2 == JsonTypeEnum.String) return JsonTypeEnum.String;
@@ -236,6 +245,7 @@ namespace Pangoo
                     if (type2 == JsonTypeEnum.Date) return JsonTypeEnum.NullableDate;
                     if (type2 == JsonTypeEnum.Array) return JsonTypeEnum.Array;
                     if (type2 == JsonTypeEnum.Object) return JsonTypeEnum.Object;
+                    if (type2 == JsonTypeEnum.Vector3) return JsonTypeEnum.Vector3;
                     break;
                 case JsonTypeEnum.Object:
                     if (IsNull(type2)) return type1;

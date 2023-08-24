@@ -1,5 +1,4 @@
-﻿﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,20 +7,13 @@ using Newtonsoft.Json;
 
 namespace Pangoo
 {
-    public class CSharpCodeTableOverviewWriter : ICodeWriter
+    public class CSharpCodeTableOverviewWriter : CsharpCodeWriterBase
     {
-        public string FileExtension => ".cs";
-
-        private const string NoRenameAttribute = "[Obfuscation(Feature = \"renaming\", Exclude = true)]";
-        private const string NoPruneAttribute = "[Obfuscation(Feature = \"trigger\", Exclude = false)]";
-
-        List<string> m_Headers;
-
         ExcelTableData m_ExcelData;
 
         // string m_JsonDir;
         // string m_PackageDir;
-        
+
 
         public CSharpCodeTableOverviewWriter(List<string> headers, ExcelTableData excelData)
         {
@@ -31,47 +23,25 @@ namespace Pangoo
             // m_JsonDir = jsonDir;
         }
 
-        public string GetTypeName(JsonType type, IJsonClassGeneratorConfig config)
+
+        public override void WriteMainClassStart(IJsonClassGeneratorConfig config, TextWriter sw)
         {
-            switch (type.Type)
-            {
-                case JsonTypeEnum.Anything: return "object";
-                case JsonTypeEnum.Array: return "List<" + GetTypeName(type.InternalType, config) + ">";
-                case JsonTypeEnum.Dictionary: return "Dictionary<string, " + GetTypeName(type.InternalType, config) + ">";
-                case JsonTypeEnum.Boolean: return "bool";
-                case JsonTypeEnum.Float: return "double";
-                case JsonTypeEnum.Integer: return "int";
-                case JsonTypeEnum.Long: return "long";
-                case JsonTypeEnum.Date: return "DateTime";
-                case JsonTypeEnum.NonConstrained: return "object";
-                case JsonTypeEnum.NullableBoolean: return "bool?";
-                case JsonTypeEnum.NullableFloat: return "double?";
-                case JsonTypeEnum.NullableInteger: return "int?";
-                case JsonTypeEnum.NullableLong: return "long?";
-                case JsonTypeEnum.NullableDate: return "DateTime?";
-                case JsonTypeEnum.NullableSomething: return "object";
-                case JsonTypeEnum.Object: return type.AssignedName;
-                case JsonTypeEnum.String: return "string";
-                default: throw new System.NotSupportedException("Unsupported json type");
-            }
+            sw.WriteLine();
+            sw.WriteLine("namespace {0}", config.Namespace);
+            sw.WriteLine("{");
+            // sw.WriteLine($"   [CreateAssetMenu(fileName = \"{config.MainClass}Overview\", menuName = \"Pangoo/ExcelTable/{config.MainClass}Overview\", order = 0)]");
+            sw.WriteLine(
+                $"    public partial class {JsonClassGenerator.ToTitleCase(config.MainClass)}Overview : ExcelTableOverview");
+            sw.WriteLine("    {");
         }
 
-
-        private bool ShouldApplyNoRenamingAttribute(IJsonClassGeneratorConfig config)
-        {
-            return config.ApplyObfuscationAttributes && !config.UsePascalCase;
-        }
-        private bool ShouldApplyNoPruneAttribute(IJsonClassGeneratorConfig config)
-        {
-            return config.ApplyObfuscationAttributes;
-        }
-
-        public void WriteFileStart(IJsonClassGeneratorConfig config, TextWriter sw)
+        public override void WriteFileStart(IJsonClassGeneratorConfig config, TextWriter sw)
         {
             foreach (var line in JsonClassGenerator.FileHeader)
             {
                 sw.WriteLine("// " + line);
             }
+
             sw.WriteLine();
             if (m_Headers != null)
             {
@@ -80,6 +50,7 @@ namespace Pangoo
                     sw.WriteLine($"using {header};");
                 }
             }
+
             sw.WriteLine($"#if UNITY_EDITOR");
             sw.WriteLine($"using UnityEditor;");
             sw.WriteLine($"#endif");
@@ -89,23 +60,7 @@ namespace Pangoo
                 sw.WriteLine("using System.Reflection;");
         }
 
-        public void WriteFileEnd(IJsonClassGeneratorConfig config, TextWriter sw)
-        {
-
-        }
-
-
-        public void WriteMainClassStart(IJsonClassGeneratorConfig config, TextWriter sw)
-        {
-            sw.WriteLine();
-            sw.WriteLine("namespace {0}", config.Namespace);
-            sw.WriteLine("{");
-            // sw.WriteLine($"   [CreateAssetMenu(fileName = \"{config.MainClass}Overview\", menuName = \"Pangoo/ExcelTable/{config.MainClass}Overview\", order = 0)]");
-            sw.WriteLine($"    public partial class {JsonClassGenerator.ToTitleCase(config.MainClass)}Overview : ExcelTableOverview");
-            sw.WriteLine("    {");
-        }
-
-        public void WriteAdditionFunction(IJsonClassGeneratorConfig config, TextWriter sw)
+        public override void WriteAdditionFunction(IJsonClassGeneratorConfig config, TextWriter sw)
         {
             sw.WriteLine();
             // sw.WriteLine("         [TableList(IsReadOnly = true, AlwaysExpanded = true)]");
@@ -136,8 +91,6 @@ namespace Pangoo
                 sw.WriteLine("       }");
 
 
-
-
                 // sw.WriteLine();
                 // sw.WriteLine("       public override int GetRowCount()");
                 // sw.WriteLine("       {");
@@ -160,8 +113,6 @@ namespace Pangoo
                 sw.WriteLine($"           return \"{m_ExcelData.ClassBaseName}\";");
                 sw.WriteLine("       }");
                 sw.WriteLine();
-
-
 
 
                 sw.WriteLine($"#if UNITY_EDITOR");
@@ -191,7 +142,7 @@ namespace Pangoo
                 // sw.WriteLine("           SaveConfig();");
                 // sw.WriteLine("       }");
                 // sw.WriteLine();
-                
+
                 sw.WriteLine();
                 // sw.WriteLine("       [Button(\"从Excel文件重构数据\",30)]");
                 sw.WriteLine("        /// <summary> 加载Excel文件</summary>");
@@ -208,12 +159,12 @@ namespace Pangoo
                 sw.WriteLine("           }");
                 sw.WriteLine("        }");
                 sw.WriteLine();
-                
-        //                   if(Data == null){
-        //     Data=new();
-        //   }
-        //   Data.LoadExcelFile(ExcelPath);
-        //   SaveConfig();
+
+                //                   if(Data == null){
+                //     Data=new();
+                //   }
+                //   Data.LoadExcelFile(ExcelPath);
+                //   SaveConfig();
                 // sw.WriteLine();
                 // sw.WriteLine("       [Button(\"生成Excel文件\",30)]");
                 // sw.WriteLine("        /// <summary> 生成Excel文件</summary>");
@@ -225,46 +176,12 @@ namespace Pangoo
 
 
                 sw.WriteLine($"#endif");
-
             }
-
-
-
-        }
-
-        public void WriteMainClassEnd(IJsonClassGeneratorConfig config, TextWriter sw)
-        {
-            sw.WriteLine("    }");
-            sw.WriteLine("}");
-        }
-
-        public void WriteClass(IJsonClassGeneratorConfig config, TextWriter sw, JsonType type)
-        {
-            var visibility = "public";
-
-            if (!type.IsRoot)
-            {
-                if (ShouldApplyNoRenamingAttribute(config))
-                    sw.WriteLine("        " + NoRenameAttribute);
-                if (ShouldApplyNoPruneAttribute(config))
-                    sw.WriteLine("        " + NoPruneAttribute);
-                sw.WriteLine("        {0} partial class {1}", visibility, type.AssignedName);
-                sw.WriteLine("        {");
-            }
-
-            var prefix = !type.IsRoot ? "            " : "        ";
-
-            WriteClassMembers(config, sw, type, prefix);
-
-            if (!type.IsRoot)
-                sw.WriteLine("        }");
-
-            sw.WriteLine();
         }
 
 
-
-        private void WriteClassMembers(IJsonClassGeneratorConfig config, TextWriter sw, JsonType type, string prefix)
+        public override void WriteClassMembers(IJsonClassGeneratorConfig config, TextWriter sw, JsonType type,
+            string prefix)
         {
             foreach (var field in type.Fields)
             {
@@ -281,7 +198,6 @@ namespace Pangoo
 
                 if (config.UsePascalCase)
                 {
-
                     sw.WriteLine(prefix + "[JsonMember(\"{0}\")]", field.JsonMemberName);
                 }
 
@@ -290,39 +206,14 @@ namespace Pangoo
 
                 //使用模板Example值作为类型
                 //export_path不作为类型导出
-                if (config.ExamplesToType && field.Type.Type == JsonTypeEnum.String && field.JsonMemberName != "@export_path")
-                    sw.WriteLine(prefix + "public {0} {1} {{ get; private set; }}", GetTypeFromExample(field.GetExamplesText()), field.MemberName);
+                if (config.ExamplesToType && field.Type.Type == JsonTypeEnum.String &&
+                    field.JsonMemberName != "@export_path")
+                    sw.WriteLine(prefix + "public {0} {1} {{ get; private set; }}",
+                        GetTypeFromExample(field.GetExamplesText()), field.MemberName);
                 else
-                    sw.WriteLine(prefix + "public {0} {1} {{ get; private set; }}", field.Type.GetTypeName(), field.MemberName);
+                    sw.WriteLine(prefix + "public {0} {1} {{ get; private set; }}", field.Type.GetTypeName(),
+                        field.MemberName);
             }
-        }
-
-        private string GetTypeFromExample(string example)
-        {
-            var result = example;
-            result = result.Replace("\"", string.Empty);
-
-            var isList = result.StartsWith("list|");
-            if (isList)
-                result = result.Substring(5);
-
-            switch (result)
-            {
-                case "string":
-                case "int":
-                case "bool":
-                case "double":
-                case "DateTime":
-                case "LFloat":
-                    break;
-                default:
-                    throw new NotSupportedException("not support type from example: " + result);
-            }
-
-            if (isList)
-                result = $"List<{result}>";
-
-            return result;
         }
     }
 }

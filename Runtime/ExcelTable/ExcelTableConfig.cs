@@ -73,6 +73,24 @@ namespace Pangoo
             "System.Xml.Serialization"
         };
 
+
+#if UNITY_EDITOR
+        void InitDirInfo()
+        {
+            if (PackConfig == null)
+            {
+                Debug.LogError("Load Config Failed!");
+                return;
+            }
+
+            if (DirInfo == null)
+            {
+                DirInfo = new ExcelDirInfo();
+            }
+            InitDir(PackConfig, ref DirInfo);
+
+        }
+        
         void InitDir(PackageConfig config, ref ExcelDirInfo entry)
         {
             var scriptDir = Path.Join(config.PackageDir, config.ScriptsMainDir, ModuleName).Replace("\\", "/");
@@ -110,23 +128,7 @@ namespace Pangoo
             entry.ScriptableObjectDir = scriptableObjectDir;
 
         }
-
-        void InitDirInfo()
-        {
-            if (PackConfig == null)
-            {
-                Debug.LogError("Load Config Failed!");
-                return;
-            }
-
-            if (DirInfo == null)
-            {
-                DirInfo = new ExcelDirInfo();
-            }
-            InitDir(PackConfig, ref DirInfo);
-
-        }
-#if UNITY_EDITOR
+        
         [Button("刷新Excel列表", 30)]
         void Refresh()
         {

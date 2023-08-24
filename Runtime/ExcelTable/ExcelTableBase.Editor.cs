@@ -17,10 +17,11 @@ using Object = UnityEngine.Object;
 
 namespace Pangoo
 {
-   public abstract partial class ExcelTableBase
+#if UNITY_EDITOR
+    public abstract partial class ExcelTableBase
     {
 
-#if UNITY_EDITOR
+
 
         public Type  GetRowType(){
             Type ret  = null;

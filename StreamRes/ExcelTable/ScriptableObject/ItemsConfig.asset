@@ -20,13 +20,13 @@ MonoBehaviour:
       ID: 10001
       Name: "xxx\u7684\u76F8\u7247"
       CanPickup: 1
-      PosX: 0
+      Pos: {x: 10, y: 0, z: 10}
       PosY: 0
       PosZ: 0
     - Id: 2
       ID: 10002
       Name: "yyy\u7684\u76F8\u7247"
       CanPickup: 1
-      PosX: 0
+      Pos: {x: 2, y: 2, z: 2}
       PosY: 0
       PosZ: 0
