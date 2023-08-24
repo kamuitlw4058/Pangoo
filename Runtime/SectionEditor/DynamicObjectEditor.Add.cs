@@ -13,13 +13,11 @@ using Pangoo;
 namespace Pangoo.Editor{
     public partial class DynamicObjectEditor : MonoBehaviour
     {
-        
-
         private  OdinEditorWindow m_AddDynamicObjectWindow;
 
         [Button("添加")]
         public void AddDynamicObject(){
-             m_CreateDynamicObjectWindow = OdinEditorWindow.InspectObject(new DynamicObjectAddWindow(this,DynamicObjectIds));
+             m_AddDynamicObjectWindow = OdinEditorWindow.InspectObject(new DynamicObjectAddWindow(this,DynamicObjectIds));
         }
 
         public void ConfirmAdd(int id){
@@ -31,14 +29,11 @@ namespace Pangoo.Editor{
                 return;
             }
 
-
             gameSectionRow.AddDynamicObjectId(id);
             EditorUtility.SetDirty(gameSectionTableOverview);
-
             OnSectionChange();
-
             AssetDatabase.SaveAssets();
-           
+            m_AddDynamicObjectWindow.Close();
 
         }
 

@@ -14,8 +14,8 @@ namespace Pangoo.Editor{
         
         private  OdinEditorWindow m_CreateDynamicObjectWindow;
 
-        [Button("新建")]
-        public void BuildNewObject(){
+        [Button("创建新的动态物体")]
+        public void BuildDynamicObject(){
              m_CreateDynamicObjectWindow = OdinEditorWindow.InspectObject(new DynamicObjectCreateWindow(this));
         }
 
@@ -26,7 +26,7 @@ namespace Pangoo.Editor{
             AssetPathTableOverview assetPathTableOverview = AssetDatabaseUtility.FindAssetFirst<AssetPathTableOverview>(space.PackageDir);
             // assetPackageTableOverview.GetAssetPackageIdByConfig
 
-            var gameSectionRow = gameSectionTableOverview.Data.GetEditorRow(Section);
+            var gameSectionRow = gameSectionTableOverview.Data.GetRowById(Section);
 
 
 
@@ -62,11 +62,11 @@ namespace Pangoo.Editor{
             go.ResetTransfrom();
 
             helper.DynamicObjectId = id;
+            helper.ArtPrefab = prefab;
 
             var prefab_go = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
             prefab_go.transform.parent = go.transform;
             prefab_go.ResetTransfrom(false);
-
           
             gameSectionRow.AddDynamicObjectId(id);
             EditorUtility.SetDirty(gameSectionTableOverview);
