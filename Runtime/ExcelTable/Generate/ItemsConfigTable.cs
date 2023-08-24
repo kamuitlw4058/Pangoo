@@ -102,11 +102,15 @@ namespace Pangoo
         }
 
         public ItemsConfigRow GetRowById(int row_id){
+          #if UNITY_EDITOR
+          return GetRowById<ItemsConfigRow>(row_id);
+          #else
           ItemsConfigRow row;
           if(Dict.TryGetValue(row_id,out row)){
               return row;
           }
           return null;
+          #endif
          }
 
 #if UNITY_EDITOR

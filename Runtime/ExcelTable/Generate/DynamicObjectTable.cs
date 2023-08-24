@@ -91,11 +91,15 @@ namespace Pangoo
         }
 
         public DynamicObjectRow GetRowById(int row_id){
+          #if UNITY_EDITOR
+          return GetRowById<DynamicObjectRow>(row_id);
+          #else
           DynamicObjectRow row;
           if(Dict.TryGetValue(row_id,out row)){
               return row;
           }
           return null;
+          #endif
          }
 
 #if UNITY_EDITOR

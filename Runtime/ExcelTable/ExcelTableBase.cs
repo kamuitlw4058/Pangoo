@@ -62,6 +62,16 @@ namespace Pangoo
             return null;
         }
 
+        public T GetRowById<T>(int id) where T:ExcelRowBase
+        {
+            foreach(var row in BaseRows){
+                if(row.Id == id){
+                    return (T)row;
+                }
+            }
+            return null;
+        }
+
 
         public virtual void CustomInit()
         {

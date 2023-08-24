@@ -93,11 +93,15 @@ namespace Pangoo
         }
 
         public AssetPathRow GetRowById(int row_id){
+          #if UNITY_EDITOR
+          return GetRowById<AssetPathRow>(row_id);
+          #else
           AssetPathRow row;
           if(Dict.TryGetValue(row_id,out row)){
               return row;
           }
           return null;
+          #endif
          }
 
 #if UNITY_EDITOR

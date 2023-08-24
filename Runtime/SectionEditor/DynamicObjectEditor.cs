@@ -5,51 +5,44 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor;
 using Pangoo;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
-using UnityEditor.VersionControl;
+using System;
 
 namespace Pangoo.Editor{
 
     [ExecuteInEditMode]
     [DisallowMultipleComponent]
-    public class DynamicObjectEditor : MonoBehaviour
+    public partial class DynamicObjectEditor : MonoBehaviour
     {
-        public const string AssetTypeName = "DynamicObject";
-        public const int AssetPathIdBase = 100000;
+       public const string DynamicObjectAssetTypeName = "DynamicObject";
+        public const int DynamicObjectAssetPathIdBase = 100000;
+
         [ReadOnly]
         [ValueDropdown("GetSectionList")]
         [OnValueChanged("OnSectionChange")]
         public int Section;
 
-        [ReadOnly]
-        public GameSectionTable.GameSectionRow SectionRow;
+        private GameSectionTable.GameSectionRow SectionRow;
 
-        [ReadOnly]
-        public  List<int> DynamicObjectIds;
+        private  List<int> DynamicObjectIds;
 
-
-        [ReadOnly]
-        public  List<GameObject> Prefabs;
+        [TableList(AlwaysExpanded =true)]
+        public List<DynamicObjectWrapper> DyncObjectList = new List<DynamicObjectWrapper>();
         public IEnumerable GetSectionList(){
             return GameSupportEditorUtility.GetGameSectionIds();
         }
 
-        private  OdinEditorWindow m_CreateWindow;
+
 
         public void ClearPrefabs(){
-            if(Prefabs != null){
-               
-                foreach(var go in Prefabs){
-                    try{
-                        DestroyImmediate(go);
-                    }
-                    catch{
-                    }
+            foreach(var objects in DyncObjectList){
+                try{
+                    DestroyImmediate(objects.Go);
                 }
-                Prefabs.Clear();
+                catch{
+                }
             }
+            DyncObjectList.Clear();
         }
 
         public void UpdateSection(){
@@ -57,19 +50,18 @@ namespace Pangoo.Editor{
                 DynamicObjectIds = new List<int>();
             }
 
-            if(Prefabs == null){
-                Prefabs = new List<GameObject>();
+            ClearPrefabs();
+            foreach(var go in transform.Children()){
+                DestroyImmediate(go.gameObject);
             }
 
-            ClearPrefabs();
             if(Section == 0){
                 return;
             }
 
             DynamicObjectIds.Clear();
-            SectionRow = GameSupportEditorUtility.GetGameSectionRowById(Section);
+            SectionRow = GameSupportEditorUtility.GetExcelTableRowWithOverviewById<GameSectionTableOverview,GameSectionTable.GameSectionRow>(Section);
             DynamicObjectIds.AddRange(SectionRow.DynamicObjectIds.ToArrInt());
-            // SceneIds.AddRange(SectionRow.KeepSceneIds.ToArrInt());
 
             foreach(var id in DynamicObjectIds){
                 var dynamicObjectRow = GameSupportEditorUtility.GetDynamicObjectRow(id);
@@ -79,20 +71,16 @@ namespace Pangoo.Editor{
                 }
                 
                 var assetPathRow = GameSupportEditorUtility.GetAssetPathRowById(dynamicObjectRow.AssetPathId);
-                // var assetPackage = GameSupportEditorUtility.GetAssetPackageById(assetPathRow.AssetPackageId);
-                // Debug.Log($"AssetPath:{assetPath}");
                 if(assetPathRow == null){
                     Debug.LogError($"动态物体:{id} 资源路径无效。请检查！！");
                     continue;
                 }
 
-                // Debug.Log($"assetPathRow:{assetPathRow}");
-                // Debug.Log($"assetPathRow:{assetPathRow.ToPrefabPath()}");
                 var asset = AssetDatabaseUtility.LoadAssetAtPath<GameObject>(assetPathRow.ToPrefabPath());
                 var go = PrefabUtility.InstantiatePrefab(asset) as GameObject;
                 go.transform.parent = transform;
                 go.ResetTransfrom();
-                Prefabs.Add(go);
+                DyncObjectList.Add(new DynamicObjectWrapper(this,SectionRow,dynamicObjectRow,go));
             }
         }
 
@@ -133,157 +121,66 @@ namespace Pangoo.Editor{
             OnSectionChange();
         }
 
-        [Button("新建")]
-        public void BuildNewObject(){
-             m_CreateWindow = OdinEditorWindow.InspectObject(new DynamicObjectCreateWindow(this));
-            
-            // m_CreateWindow = OdinEditorWindow.InspectObject(new VolumeCreateWindow());
-            // var go = new GameObject();
-            // go.transform.parent = transform;
-            // var helper = go.AddComponent<DynamicObjectEditorHelper>();
-            // helper.DynamicObjectId = 0;
-            // Prefabs.Add(go);
-        }
-
-        public void ConfirmCreate(PackageConfig space,int id,string name,string name_cn,GameObject prefab){
-            GameSectionTableOverview gameSectionTableOverview = AssetDatabaseUtility.FindAssetFirst<GameSectionTableOverview>(space.PackageDir);
-            DynamicObjectTableOverview overview = AssetDatabaseUtility.FindAssetFirst<DynamicObjectTableOverview>(space.PackageDir);
-            Debug.Log($"overview:{overview}, overview.{overview.Config.PackageDir}");
-            AssetPathTableOverview assetPathTableOverview = AssetDatabaseUtility.FindAssetFirst<AssetPathTableOverview>(space.PackageDir);
-            // assetPackageTableOverview.GetAssetPackageIdByConfig
-
-            var gameSectionRow = gameSectionTableOverview.Data.GetEditorRow(Section);
-
-
-
-            var prefab_name = $"{id}_{name}";
-            var prefab_file_name = $"{prefab_name}.prefab";
-
-            var assetPathId =  AssetPathIdBase + id;
-
-            var assetPathRow = new AssetPathTable.AssetPathRow();
-            assetPathRow.Id = assetPathId;
-            assetPathRow.AssetPackageDir = space.PackageDir;
-            assetPathRow.AssetPath = prefab_file_name;
-            assetPathRow.AssetType = AssetTypeName;
-            assetPathTableOverview.Data.Rows.Add(assetPathRow);
-
-            EditorUtility.SetDirty(assetPathTableOverview);
-
-
-            var row = new DynamicObjectTable.DynamicObjectRow();
-            row.Id = id;
-            row.Name = name;
-            row.NameCn = name_cn;
-            row.AssetPathId = assetPathId;
-            overview.Data.Rows.Add(row);
-
-
-
-            var go = new GameObject(prefab_name);
-            go.transform.parent = transform;
-            go.ResetTransfrom();
-
-            var prefab_go = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
-            prefab_go.transform.parent = go.transform;
-            prefab_go.ResetTransfrom(false);
-
-          
-            gameSectionRow.AddDynamicObjectId(id);
-            EditorUtility.SetDirty(gameSectionTableOverview);
-
-            Debug.Log($"assetPathRow:{assetPathRow.ToPrefabPath()}");
-
-           
-            // string prefabPath = "Assets/Prefabs/MyPrefab.prefab";
-            PrefabUtility.SaveAsPrefabAsset(go, assetPathRow.ToPrefabPath());
-
-            GameObject.DestroyImmediate(go);
-
-        }
-
-
-        public class DynamicObjectCreateWindow{
-            
-            [ValueDropdown("GetPackageConfig", ExpandAllMenuItems = true)]
-            public PackageConfig Namespace;
-
-
-            public IEnumerable GetPackageConfig(){
-                return GameSupportEditorUtility.GetPackageConfig();
+        [Serializable]
+        public class DynamicObjectWrapper{
+            [ShowInInspector]
+            [TableTitleGroup("Id",Order =1)]
+            [HideLabel]
+            public int Id{
+                get{
+                    return m_Row.Id;
+                }
             }
 
 
-            public int Id = 0;
-
-            [LabelText("名字")]
-            public string Name = "";
-
-            [LabelText("中文名")]
-            public string NameCn = "";
-
-            
-            [LabelText("美术资源")]
-            [AssetsOnly]
-            [AssetSelector]
-            public GameObject ArtPrefab;
-
-
-
-
+            DynamicObjectTable.DynamicObjectRow m_Row;
+            GameSectionTable.GameSectionRow m_SectionRow;
             DynamicObjectEditor m_Editor;
 
-            public DynamicObjectCreateWindow(DynamicObjectEditor editor){
+
+            GameObject m_Go;
+
+
+            [ReadOnly]
+            [TableTitleGroup("对象",Order =2)]
+            [HideLabel]
+            [ShowInInspector]
+            public GameObject Go{
+                get{
+                    return m_Go;
+                }
+
+            }
+
+            public DynamicObjectWrapper(DynamicObjectEditor editor, GameSectionTable.GameSectionRow SectionRow, DynamicObjectTable.DynamicObjectRow row,GameObject go){
+                m_SectionRow = SectionRow;
+                m_Row = row;
+                m_Go = go;
                 m_Editor = editor;
             }
 
-        
 
-
-            public DynamicObjectCreateWindow(){
+            [Button("删除引用")]
+            [TableTitleGroup("删除",Order =3)]
+            [TableColumnWidth(120,resizable:false)]
+            public void Remove(){
+                // var dynamicObjectRow = GameSupportEditorUtility.GetDynamicObjectRow(Id);
+                // var assetPathRow = GameSupportEditorUtility.GetAssetPathRowById(dynamicObjectRow.AssetPathId);
+                var overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<GameSectionTableOverview>(m_SectionRow.Id);
+                if(overview == null){
+                    Debug.LogError($"No Found overview:{m_SectionRow.Id}");
+                    return;
+                }
+                m_SectionRow.RemoveDynamicObjectId(Id);
+                m_Editor.OnSectionChange();
+                EditorUtility.SetDirty(overview);
+                AssetDatabase.SaveAssets();
+                
             }
 
-            [Button("新建", ButtonSizes.Large)]
-            public void Create(){
-
-                if (Namespace == null ||   Id == 0 || Name.IsNullOrWhiteSpace() || ArtPrefab == null)
-                {
-                    EditorUtility.DisplayDialog("错误", "Id, Name, 命名空间,ArtPrefab  必须填写", "确定");
-                    // GUIUtility.ExitGUI();
-                    return;
-                }
-
-
-                if(StringUtility.ContainsChinese(Name)){
-                    EditorUtility.DisplayDialog("错误", "Name不能包含中文", "确定");
-                    // GUIUtility.ExitGUI();
-                    return;
-                }
-
-                if(StringUtility.IsOnlyDigit(Name)){
-                    EditorUtility.DisplayDialog("错误", "Name不能全是数字", "确定");
-                    return;
-                }
-
-                if(char.IsDigit(Name[0])){
-                    EditorUtility.DisplayDialog("错误", "Name开头不能是数字", "确定");
-                    return;
-                }
-
-                if(!GameSupportEditorUtility.ExistsExcelTableOverviewId<DynamicObjectTableOverview>(Id)){
-                    EditorUtility.DisplayDialog("错误", "Id已经存在", "确定");
-                    return;  
-                }
-
-                if(!GameSupportEditorUtility.ExistsExcelTableOverviewName<DynamicObjectTableOverview>(Name)){
-                    EditorUtility.DisplayDialog("错误", "Name已经存在", "确定");
-                    return;  
-                }
-
-                m_Editor.ConfirmCreate(Namespace,Id, Name,NameCn,ArtPrefab);
-            }
         }
 
+       
     }
 }
 #endif

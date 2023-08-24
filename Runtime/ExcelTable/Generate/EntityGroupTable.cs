@@ -91,11 +91,15 @@ namespace Pangoo
         }
 
         public EntityGroupRow GetRowById(int row_id){
+          #if UNITY_EDITOR
+          return GetRowById<EntityGroupRow>(row_id);
+          #else
           EntityGroupRow row;
           if(Dict.TryGetValue(row_id,out row)){
               return row;
           }
           return null;
+          #endif
          }
 
 #if UNITY_EDITOR

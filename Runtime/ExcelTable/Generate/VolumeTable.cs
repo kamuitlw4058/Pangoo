@@ -73,11 +73,15 @@ namespace Pangoo
         }
 
         public VolumeRow GetRowById(int row_id){
+          #if UNITY_EDITOR
+          return GetRowById<VolumeRow>(row_id);
+          #else
           VolumeRow row;
           if(Dict.TryGetValue(row_id,out row)){
               return row;
           }
           return null;
+          #endif
          }
 
 #if UNITY_EDITOR

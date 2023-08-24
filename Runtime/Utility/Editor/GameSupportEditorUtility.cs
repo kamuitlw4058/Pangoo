@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 using UnityGameFramework.Runtime;
 using GameFramework;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 
 namespace Pangoo
 {
@@ -96,6 +97,32 @@ namespace Pangoo
             return null;
         }
 
+        public static T GetExcelTableOverviewByRowId<T>(int id) where T:ExcelTableOverview
+        {
+            var overviews = AssetDatabaseUtility.FindAsset<T>();
+            foreach(var overview in overviews){
+                foreach(var row in overview.Table.BaseRows){
+                   if(row.Id == id){
+                    return overview;
+                   }
+                }
+            }
+            return null;
+        }
+
+        public static R GetExcelTableRowWithOverviewById<T,R>(int id) where T:ExcelTableOverview where R:ExcelRowBase
+        {
+            var overviews = AssetDatabaseUtility.FindAsset<T>();
+            foreach(var overview in overviews){
+                foreach(var row in overview.Table.BaseRows){
+                   if(row.Id == id){
+                    return (R)row;
+                   }
+                }
+            }
+            return null;
+        }
+
         public static StaticSceneTable.StaticSceneRow GetStaticSceneRowById(int id){
             var overviews = AssetDatabaseUtility.FindAsset<StaticSceneTableOverview>();
             foreach(var overview in overviews){
@@ -173,6 +200,46 @@ namespace Pangoo
 
             return true;
         }
+        public static List<int> GetExcelTableOverviewIds<T>(List<int> ids = null,string packageDir = null) where T: ExcelTableOverview
+        {
+            List<int> ret = new List<int>();
+            var overviews = AssetDatabaseUtility.FindAsset<T>(packageDir);
+            foreach(var overview in overviews){
+                foreach(var row in overview.Table.BaseRows){
+                    if(ids == null){
+                        ret.Add(row.Id);
+                    }else{
+                        if(!ids.Contains(row.Id)){
+                            ret.Add(row.Id);
+                        }
+                    }
+                }
+            }
+            return ret;
+        }
+
+        public static IEnumerable GetExcelTableOverviewNamedIds<T>(List<int> ids = null,string packageDir = null) where T: ExcelTableOverview
+        {
+            var ret = new ValueDropdownList<int>();
+            var overviews = AssetDatabaseUtility.FindAsset<T>(packageDir);
+            foreach(var overview in overviews){
+                var namedRows = overview.Table.NamedBaseRows;
+                if(namedRows == null){
+                    continue;
+                }
+                foreach(var row in namedRows){
+                    if(ids == null){
+                        ret.Add($"{row.Id}-{row.Name}",row.Id);
+                    }else{
+                        if(!ids.Contains(row.Id)){
+                           ret.Add($"{row.Id}-{row.Name}",row.Id);
+                        }
+                    }
+                }
+            }
+            return ret;
+        }
+
 
         public static bool ExistsExcelTableOverviewId<T>(int id,string packageDir = null) where T: ExcelTableOverview
         {
@@ -237,6 +304,29 @@ namespace Pangoo
 
         public static IEnumerable<System.Type> GetTypes<T>(){
             return TypeUtility.GetRuntimeTypes(typeof(T));
+        }
+
+        public static string[] GetPakcageDirs(){
+            var packages= AssetDatabaseUtility.FindAsset<PackageConfig>().ToArray();
+            string[] ret = new string[packages.Length];
+            for(int i = 0;i < packages.Length;i++){
+                ret[i] = packages[i].PackageDir;
+            }
+            return ret;
+        }
+
+        public static IEnumerable GetPrefabs(string assetType)
+        {
+            var packageDirs =  GetPakcageDirs();
+            var ret = new ValueDropdownList<GameObject>();
+            for(int i = 0;i < packageDirs.Length;i++){
+                var datas = AssetDatabaseUtility.FindAsset<GameObject>(AssetUtility.GetPrefabDir(packageDirs[i],assetType));
+                foreach(var data in datas){
+                    ret.Add(data.name,data);
+                }
+            }
+
+            return ret;
         }
 
 

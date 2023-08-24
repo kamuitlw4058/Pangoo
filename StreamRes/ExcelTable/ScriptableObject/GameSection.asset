@@ -22,7 +22,7 @@ MonoBehaviour:
       KeepSceneIds: 20001
       SectionJumpByScene: ' 10004#2'
       FirstDynamicSceneIds: 10001
-      DynamicObjectIds: 6
+      DynamicObjectIds: 2
     - Id: 2
       Name: "\u5207\u6362\u7AE0\u8282"
       DynamicSceneIds: 10004|10005

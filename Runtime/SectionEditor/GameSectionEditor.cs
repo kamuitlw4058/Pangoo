@@ -5,13 +5,15 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
 
 namespace Pangoo.Editor{
 
     [ExecuteInEditMode]
     [DisallowMultipleComponent]
-    public class GameSectionEditor : MonoBehaviour
+    public partial class GameSectionEditor : MonoBehaviour
     {
+
         [ValueDropdown("GetSectionList")]
         [OnValueChanged("OnSectionChange")]
         public int Section;
@@ -89,6 +91,8 @@ namespace Pangoo.Editor{
         public IEnumerable GetSectionList(){
             return GameSupportEditorUtility.GetGameSectionIds();
         }
+
+
     }
 }
 #endif

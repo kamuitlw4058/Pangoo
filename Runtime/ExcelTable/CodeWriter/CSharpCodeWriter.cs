@@ -163,15 +163,35 @@ namespace Pangoo
 
 
             sw.WriteLine($"        public {m_ExcelData.ClassBaseName}Row GetRowById(int row_id)" + "{");
+            sw.WriteLine("          #if UNITY_EDITOR");
+            sw.WriteLine($"          return GetRowById<{m_ExcelData.ClassBaseName}Row>(row_id);");
+            sw.WriteLine("          #else");
             sw.WriteLine($"          {m_ExcelData.ClassBaseName}Row row;");
             sw.WriteLine("          if(Dict.TryGetValue(row_id,out row)){");
             sw.WriteLine("              return row;");
             sw.WriteLine("          }");
             sw.WriteLine("          return null;");
+            sw.WriteLine("          #endif");
             sw.WriteLine("         }");
 
             sw.WriteLine();
 
+
+//             #if UNITY_EDITOR
+//             foreach(var row in Rows){
+//                 if(row.Id == row_id){
+//                     return row;
+//                 }
+//             }
+//             return null;
+// #else
+//           GameSectionRow row;
+
+//           if(Dict.TryGetValue(row_id,out row)){
+//               return row;
+//           }
+//          return null;
+// #endif
 
 
             

@@ -115,9 +115,13 @@ namespace Pangoo
         }
 
         public static string GetPrefabPath(string packageDir, string assetType, string name){
-             return $"{packageDir}/StreamRes/Prefab/{assetType}/{name}.prefab";
+             return $"{GetPrefabDir(packageDir,assetType)}/{name}.prefab";
         }
 
+        public static string GetPrefabDir(string packageDir, string assetType)
+        {
+            return $"{packageDir}/StreamRes/Prefab/{assetType}";
+        }
 
 
         public static string GetStaticScene(string packageDir,string name){

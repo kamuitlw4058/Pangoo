@@ -15,14 +15,30 @@ namespace Pangoo
         // }
 
         public static List<int> GetDynamicObjectIdList(this GameSectionTable.GameSectionRow row){
+            if(row == null || row.DynamicObjectIds.IsNullOrWhiteSpace()){
+                return new List<int>();
+            }
             return row.DynamicObjectIds.ToListInt();
         }
 
          
 
         public static void AddDynamicObjectId(this GameSectionTable.GameSectionRow row,int id){
+            if(row == null){
+                Debug.LogError(Utility.Text.Format("row is null.{0}",row));
+                return;
+            }
             var list = row.GetDynamicObjectIdList();
             list.Add(id);
+            row.DynamicObjectIds =  list.ToItemString();
+        }
+
+
+        public static void RemoveDynamicObjectId(this GameSectionTable.GameSectionRow row,int id){
+            var list = row.GetDynamicObjectIdList();
+            if(list.Contains(id)){
+                list.Remove(id);
+            }
             row.DynamicObjectIds =  list.ToItemString();
         }
 

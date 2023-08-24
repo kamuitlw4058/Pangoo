@@ -84,11 +84,15 @@ namespace Pangoo
         }
 
         public StaticSceneRow GetRowById(int row_id){
+          #if UNITY_EDITOR
+          return GetRowById<StaticSceneRow>(row_id);
+          #else
           StaticSceneRow row;
           if(Dict.TryGetValue(row_id,out row)){
               return row;
           }
           return null;
+          #endif
          }
 
 #if UNITY_EDITOR

@@ -15,4 +15,16 @@ MonoBehaviour:
   Config: {fileID: 11400000, guid: b28e25bda078ea84aa67d9488e039e49, type: 2}
   Data:
     Priority: 0
-    Rows: []
+    Rows:
+    - Id: 1
+      Name: test
+      AssetPathId: 100001
+      NameCn: test
+      Position: 
+      Rotation: 
+    - Id: 2
+      Name: Calendar
+      AssetPathId: 100002
+      NameCn: "\u65E5\u5386"
+      Position: 
+      Rotation: 

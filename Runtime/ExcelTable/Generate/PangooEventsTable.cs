@@ -75,11 +75,15 @@ namespace Pangoo
         }
 
         public PangooEventsRow GetRowById(int row_id){
+          #if UNITY_EDITOR
+          return GetRowById<PangooEventsRow>(row_id);
+          #else
           PangooEventsRow row;
           if(Dict.TryGetValue(row_id,out row)){
               return row;
           }
           return null;
+          #endif
          }
 
 #if UNITY_EDITOR

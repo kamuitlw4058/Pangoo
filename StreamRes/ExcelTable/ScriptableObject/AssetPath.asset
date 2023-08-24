@@ -46,15 +46,21 @@ MonoBehaviour:
       AssetType: Scene
       AssetPath: Roof1.prefab
       Desc: "\u623F\u9876"
-    - Id: 100001
-      Name: "\u65E5\u5386"
-      AssetPackageDir: Assets/Plugins/Pangoo
-      AssetType: DynamicObject
-      AssetPath: 117002_Calendar.prefab
-      Desc: 
     - Id: 10005
       Name: "\u6D4B\u8BD5\u623F\u95F45"
       AssetPackageDir: Assets/Plugins/Pangoo
       AssetType: Scene
       AssetPath: Room5.prefab
       Desc: "\u6D4B\u8BD5\u623F\u95F45"
+    - Id: 100001
+      Name: test
+      AssetPackageDir: Assets/Plugins/Pangoo
+      AssetType: DynamicObject
+      AssetPath: 1_test.prefab
+      Desc: 
+    - Id: 100002
+      Name: Calendar
+      AssetPackageDir: Assets/Plugins/Pangoo
+      AssetType: DynamicObject
+      AssetPath: Calendar.prefab
+      Desc: 

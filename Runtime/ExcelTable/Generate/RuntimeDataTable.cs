@@ -75,11 +75,15 @@ namespace Pangoo
         }
 
         public RuntimeDataRow GetRowById(int row_id){
+          #if UNITY_EDITOR
+          return GetRowById<RuntimeDataRow>(row_id);
+          #else
           RuntimeDataRow row;
           if(Dict.TryGetValue(row_id,out row)){
               return row;
           }
           return null;
+          #endif
          }
 
 #if UNITY_EDITOR

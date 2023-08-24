@@ -127,11 +127,15 @@ namespace Pangoo
         }
 
         public UiConfigInfoRow GetRowById(int row_id){
+          #if UNITY_EDITOR
+          return GetRowById<UiConfigInfoRow>(row_id);
+          #else
           UiConfigInfoRow row;
           if(Dict.TryGetValue(row_id,out row)){
               return row;
           }
           return null;
+          #endif
          }
 
 #if UNITY_EDITOR

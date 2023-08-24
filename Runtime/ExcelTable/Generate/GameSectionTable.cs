@@ -102,11 +102,15 @@ namespace Pangoo
         }
 
         public GameSectionRow GetRowById(int row_id){
+          #if UNITY_EDITOR
+          return GetRowById<GameSectionRow>(row_id);
+          #else
           GameSectionRow row;
           if(Dict.TryGetValue(row_id,out row)){
               return row;
           }
           return null;
+          #endif
          }
 
 #if UNITY_EDITOR

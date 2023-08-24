@@ -84,11 +84,15 @@ namespace Pangoo
         }
 
         public SaveLoadRow GetRowById(int row_id){
+          #if UNITY_EDITOR
+          return GetRowById<SaveLoadRow>(row_id);
+          #else
           SaveLoadRow row;
           if(Dict.TryGetValue(row_id,out row)){
               return row;
           }
           return null;
+          #endif
          }
 
 #if UNITY_EDITOR

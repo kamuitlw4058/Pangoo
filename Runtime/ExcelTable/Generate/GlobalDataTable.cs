@@ -75,11 +75,15 @@ namespace Pangoo
         }
 
         public GlobalDataRow GetRowById(int row_id){
+          #if UNITY_EDITOR
+          return GetRowById<GlobalDataRow>(row_id);
+          #else
           GlobalDataRow row;
           if(Dict.TryGetValue(row_id,out row)){
               return row;
           }
           return null;
+          #endif
          }
 
 #if UNITY_EDITOR
