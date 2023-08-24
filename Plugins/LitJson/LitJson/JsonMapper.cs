@@ -14,6 +14,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -24,6 +25,8 @@ using ILRuntime.CLR.Method;
 using ILRuntime.CLR.Utils;
 #endif
 using Object = System.Object;
+
+using UnityEngine;
 
 namespace LitJson
 {

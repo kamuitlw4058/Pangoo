@@ -27,7 +27,8 @@ namespace Pangoo
             Type ret  = null;
             var nestedTypes = this.GetType().GetNestedTypes();
             foreach(var nested in nestedTypes){
-                if(nested.BaseType == typeof(ExcelRowBase)){
+                if(nested.BaseType == typeof(ExcelRowBase)
+                || nested.BaseType == typeof(ExcelNamedRowBase) ){
                     ret = nested;
                     JsonMapper.AddObjectMetadata(nested);
                     break;
