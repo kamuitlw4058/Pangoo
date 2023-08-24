@@ -73,7 +73,6 @@ public class StringConvert
             catch (Exception e)
             {
                 Console.WriteLine("表中值不满足3位，请检查数据是否正确");
-                throw;
             }
             Vector3 value = new Vector3(x,y,z);
             obj = value;
