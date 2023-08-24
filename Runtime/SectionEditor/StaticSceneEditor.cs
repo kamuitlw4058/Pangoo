@@ -27,7 +27,7 @@ namespace Pangoo.Editor{
         public List<GameObject> Scenes;
 
         public IEnumerable GetSectionList(){
-            return GameSupportEditorUtility.GetGameSectionIds();
+            return GameSupportEditorUtility.GetExcelTableOverviewIds<GameSectionTableOverview>();
         }
 
         public void ClearScene(){

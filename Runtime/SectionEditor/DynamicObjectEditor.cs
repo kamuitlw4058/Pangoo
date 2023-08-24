@@ -29,7 +29,7 @@ namespace Pangoo.Editor{
         [TableList(AlwaysExpanded =true)]
         public List<DynamicObjectWrapper> DyncObjectList = new List<DynamicObjectWrapper>();
         public IEnumerable GetSectionList(){
-            return GameSupportEditorUtility.GetGameSectionIds();
+            return GameSupportEditorUtility.GetExcelTableOverviewIds<GameSectionTableOverview>();
         }
 
 

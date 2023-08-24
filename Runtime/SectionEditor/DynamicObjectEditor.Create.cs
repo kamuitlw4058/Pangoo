@@ -19,11 +19,13 @@ namespace Pangoo.Editor{
              m_CreateDynamicObjectWindow = OdinEditorWindow.InspectObject(new DynamicObjectCreateWindow(this));
         }
 
-        public void ConfirmCreate(PackageConfig space,int id,string name,string name_cn,GameObject prefab){
-            GameSectionTableOverview gameSectionTableOverview = AssetDatabaseUtility.FindAssetFirst<GameSectionTableOverview>(space.PackageDir);
-            DynamicObjectTableOverview overview = AssetDatabaseUtility.FindAssetFirst<DynamicObjectTableOverview>(space.PackageDir);
+        public void ConfirmCreate(int id,string name,string name_cn,GameObject prefab){
+            
+            PackageConfig pakcageConfig =  GameSupportEditorUtility.GetPakcageConfigByOverviewRowId<GameSectionTableOverview>(Section);
+            GameSectionTableOverview gameSectionTableOverview = AssetDatabaseUtility.FindAssetFirst<GameSectionTableOverview>(pakcageConfig.PackageDir);
+            DynamicObjectTableOverview overview = AssetDatabaseUtility.FindAssetFirst<DynamicObjectTableOverview>(pakcageConfig.PackageDir);
             Debug.Log($"overview:{overview}, overview.{overview.Config.PackageDir}");
-            AssetPathTableOverview assetPathTableOverview = AssetDatabaseUtility.FindAssetFirst<AssetPathTableOverview>(space.PackageDir);
+            AssetPathTableOverview assetPathTableOverview = AssetDatabaseUtility.FindAssetFirst<AssetPathTableOverview>(pakcageConfig.PackageDir);
             // assetPackageTableOverview.GetAssetPackageIdByConfig
 
             var gameSectionRow = gameSectionTableOverview.Data.GetRowById(Section);
@@ -37,7 +39,7 @@ namespace Pangoo.Editor{
 
             var assetPathRow = new AssetPathTable.AssetPathRow();
             assetPathRow.Id = assetPathId;
-            assetPathRow.AssetPackageDir = space.PackageDir;
+            assetPathRow.AssetPackageDir = pakcageConfig.PackageDir;
             assetPathRow.AssetPath = prefab_file_name;
             assetPathRow.AssetType = DynamicObjectAssetTypeName;
             assetPathRow.Name = name;
@@ -51,6 +53,9 @@ namespace Pangoo.Editor{
             row.Name = name;
             row.NameCn = name_cn;
             row.AssetPathId = assetPathId;
+            if(prefab != null){
+                row.PrefabName = prefab.name;
+            }
             overview.Data.Rows.Add(row);
             EditorUtility.SetDirty(overview);
 
@@ -85,16 +90,23 @@ namespace Pangoo.Editor{
 
         public class DynamicObjectCreateWindow{
             
-            [ValueDropdown("GetPackageConfig", ExpandAllMenuItems = true)]
-            public PackageConfig Namespace;
+            public int Id = 0;
 
+           [EnumToggleButtons]
+            public DynamicObjectType ObjectType;
 
-            public IEnumerable GetPackageConfig(){
-                return GameSupportEditorUtility.GetPackageConfig();
+            public enum DynamicObjectType{
+                Normal,
+                Trigger,
             }
 
 
-            public int Id = 0;
+            IEnumerable GetDynamicObjectTypeEnum(){
+                return new string[]{
+                    "Normal",
+                    "Trigger",
+                };
+            }
 
             [LabelText("名字")]
             public string Name = "";
@@ -106,9 +118,8 @@ namespace Pangoo.Editor{
             [LabelText("美术资源")]
             [AssetsOnly]
             [AssetSelector]
+            [ShowIf("ObjectType", DynamicObjectType.Normal)]
             public GameObject ArtPrefab;
-
-
 
 
             DynamicObjectEditor m_Editor;
@@ -124,7 +135,7 @@ namespace Pangoo.Editor{
             [Button("新建", ButtonSizes.Large)]
             public void Create(){
 
-                if (Namespace == null ||   Id == 0 || Name.IsNullOrWhiteSpace() || ArtPrefab == null)
+                if ( Id == 0 || Name.IsNullOrWhiteSpace() || ArtPrefab == null)
                 {
                     EditorUtility.DisplayDialog("错误", "Id, Name, 命名空间,ArtPrefab  必须填写", "确定");
                     // GUIUtility.ExitGUI();
@@ -158,7 +169,7 @@ namespace Pangoo.Editor{
                     return;  
                 }
 
-                m_Editor.ConfirmCreate(Namespace,Id, Name,NameCn,ArtPrefab);
+                m_Editor.ConfirmCreate(Id, Name,NameCn,ArtPrefab);
             }
         }
     }

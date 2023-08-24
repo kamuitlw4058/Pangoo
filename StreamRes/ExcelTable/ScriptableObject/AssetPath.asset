@@ -64,3 +64,15 @@ MonoBehaviour:
       AssetType: DynamicObject
       AssetPath: Calendar.prefab
       Desc: 
+    - Id: 100003
+      Name: Calendar2
+      AssetPackageDir: Assets/Plugins/Pangoo
+      AssetType: DynamicObject
+      AssetPath: Calendar2.prefab
+      Desc: 
+    - Id: 100004
+      Name: Calendar3
+      AssetPackageDir: Assets/Plugins/Pangoo
+      AssetType: DynamicObject
+      AssetPath: Calendar3.prefab
+      Desc: 

@@ -12,7 +12,7 @@ using GameFramework;
 namespace Pangoo
 {
 
-    public static class GameSupportEditorUtility
+    public static partial class GameSupportEditorUtility
     {
 #if UNITY_EDITOR
         public static IEnumerable GetAssembly()
@@ -54,46 +54,22 @@ namespace Pangoo
             });
         }
 
-        public static IEnumerable GetGameSectionOverview(){
-            return AssetDatabaseUtility.FindAsset<GameSectionTableOverview>();
-        }
 
         
-        public static IEnumerable GetGameSectionIds(){
-            var overviews = AssetDatabaseUtility.FindAsset<GameSectionTableOverview>();
-            var ret = new ValueDropdownList<int>();
-            foreach(var overview in overviews){
-                foreach(var row in overview.Data.Rows){
-                    ret.Add($"{row.Id}-{row.Name}", row.Id);
-                }
-            }
-            return ret;
-        }
 
-
-        public static GameSectionTable.GameSectionRow GetGameSectionRowById(int id){
-            var overviews = AssetDatabaseUtility.FindAsset<GameSectionTableOverview>();
+        public static PackageConfig GetPakcageConfigByOverviewRowId<T>(int id) where T:ExcelTableOverview
+        {
+            var overviews = AssetDatabaseUtility.FindAsset<T>();
             foreach(var overview in overviews){
-                foreach(var row in overview.Data.Rows){
+                foreach(var row in overview.Table.BaseRows){
                    if(row.Id == id){
-                    return row;
+                    return overview.Config;
                    }
                 }
             }
             return null;
         }
 
-        public static DynamicObjectTable.DynamicObjectRow GetDynamicObjectRow(int id){
-            var overviews = AssetDatabaseUtility.FindAsset<DynamicObjectTableOverview>();
-            foreach(var overview in overviews){
-                foreach(var row in overview.Data.Rows){
-                   if(row.Id == id){
-                    return row;
-                   }
-                }
-            }
-            return null;
-        }
 
         public static T GetExcelTableOverviewByRowId<T>(int id) where T:ExcelTableOverview
         {
@@ -115,30 +91,6 @@ namespace Pangoo
                 foreach(var row in overview.Table.BaseRows){
                    if(row.Id == id){
                     return (R)row;
-                   }
-                }
-            }
-            return null;
-        }
-
-        public static StaticSceneTable.StaticSceneRow GetStaticSceneRowById(int id){
-            var overviews = AssetDatabaseUtility.FindAsset<StaticSceneTableOverview>();
-            foreach(var overview in overviews){
-                foreach(var row in overview.Data.Rows){
-                   if(row.Id == id){
-                    return row;
-                   }
-                }
-            }
-            return null;
-        }
-
-        public static AssetPathTable.AssetPathRow GetAssetPathRowById(int id){
-            var overviews = AssetDatabaseUtility.FindAsset<AssetPathTableOverview>();
-            foreach(var overview in overviews){
-                foreach(var row in overview.Data.Rows){
-                   if(row.Id == id){
-                    return row;
                    }
                 }
             }
@@ -191,78 +143,6 @@ namespace Pangoo
             foreach(var overview in overviews){
                 foreach(var row in overview.Data.Rows){
                     if(row.Id == id){
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-        public static List<int> GetExcelTableOverviewIds<T>(List<int> ids = null,string packageDir = null) where T: ExcelTableOverview
-        {
-            List<int> ret = new List<int>();
-            var overviews = AssetDatabaseUtility.FindAsset<T>(packageDir);
-            foreach(var overview in overviews){
-                foreach(var row in overview.Table.BaseRows){
-                    if(ids == null){
-                        ret.Add(row.Id);
-                    }else{
-                        if(!ids.Contains(row.Id)){
-                            ret.Add(row.Id);
-                        }
-                    }
-                }
-            }
-            return ret;
-        }
-
-        public static IEnumerable GetExcelTableOverviewNamedIds<T>(List<int> ids = null,string packageDir = null) where T: ExcelTableOverview
-        {
-            var ret = new ValueDropdownList<int>();
-            var overviews = AssetDatabaseUtility.FindAsset<T>(packageDir);
-            foreach(var overview in overviews){
-                var namedRows = overview.Table.NamedBaseRows;
-                if(namedRows == null){
-                    continue;
-                }
-                foreach(var row in namedRows){
-                    if(ids == null){
-                        ret.Add($"{row.Id}-{row.Name}",row.Id);
-                    }else{
-                        if(!ids.Contains(row.Id)){
-                           ret.Add($"{row.Id}-{row.Name}",row.Id);
-                        }
-                    }
-                }
-            }
-            return ret;
-        }
-
-
-        public static bool ExistsExcelTableOverviewId<T>(int id,string packageDir = null) where T: ExcelTableOverview
-        {
-            var overviews = AssetDatabaseUtility.FindAsset<T>(packageDir);
-            foreach(var overview in overviews){
-                foreach(var row in overview.Table.BaseRows){
-                    if(row.Id == id){
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-
-        public static bool ExistsExcelTableOverviewName<T>(string name,string packageDir = null) where T:ExcelTableOverview
-        {
-            var overviews = AssetDatabaseUtility.FindAsset<T>(packageDir);
-            foreach(var overview in overviews){
-                var rows = overview.Table.NamedBaseRows;
-                if(rows == null){
-                    return false;
-                }
-
-                foreach(var row in rows){
-                    if(row.Name == name){
                         return false;
                     }
                 }

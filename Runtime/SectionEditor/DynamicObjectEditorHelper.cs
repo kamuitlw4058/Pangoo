@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
-
+using UnityEngine.PlayerLoop;
 
 namespace Pangoo.Editor{
 
@@ -14,29 +14,37 @@ namespace Pangoo.Editor{
     [DisallowMultipleComponent]
     public class DynamicObjectEditorHelper : MonoBehaviour
     {
+    [ReadOnly]
        public int DynamicObjectId;
+    [ReadOnly]
+       public DynamicObjectTable.DynamicObjectRow Row;
 
 
-
-        [AssetsOnly]
+    [ReadOnly]
+    [AssetsOnly]
        [AssetSelector(FlattenTreeView =false)]
-       [OnValueChanged("OnValueChanged")]
+    //    [OnValueChanged("OnValueChanged")]
        public GameObject ArtPrefab;
 
-        public void BuildPrefab(){
-            Debug.Log("");
-        }
 
-        void OnValueChanged(){
-            foreach(var trans in transform.Children()){
-                DestroyImmediate(trans);
-            }
+       void Start(){
+            Row = GameSupportEditorUtility.GetDynamicObjectRow(DynamicObjectId);
+       }
+        // void OnValueChanged(){
+        //     foreach(var trans in transform.Children()){
+        //         DestroyImmediate(trans);
+        //     }
 
-            if(ArtPrefab != null){
-               var go = PrefabUtility.InstantiatePrefab(ArtPrefab) as GameObject;
-                go.transform.parent = transform;
-                go.ResetTransfrom();
-            }
+        //     if(ArtPrefab != null){
+        //        var go = PrefabUtility.InstantiatePrefab(ArtPrefab) as GameObject;
+        //         go.transform.parent = transform;
+        //         go.ResetTransfrom();
+        //     }
+        // }
+
+        private void Update() {
+            Row.Position = transform.localPosition;
+            Row.Rotation = transform.localRotation.eulerAngles;
         }
 
     }

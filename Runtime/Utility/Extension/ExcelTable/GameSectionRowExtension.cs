@@ -10,9 +10,6 @@ namespace Pangoo
 
     public static class GameSectionRowExtension
     {
-        // public static string ToFullPath(this GameSectionRow.AssetPathRow row){
-        //     return Utility.Text.Format("{0}/StreamRes/Prefab/{1}/{2}",row.AssetPackageDir,row.AssetType,row.AssetPath);
-        // }
 
         public static List<int> GetDynamicObjectIdList(this GameSectionTable.GameSectionRow row){
             if(row == null || row.DynamicObjectIds.IsNullOrWhiteSpace()){
@@ -21,7 +18,6 @@ namespace Pangoo
             return row.DynamicObjectIds.ToListInt();
         }
 
-         
 
         public static void AddDynamicObjectId(this GameSectionTable.GameSectionRow row,int id){
             if(row == null){
@@ -30,6 +26,7 @@ namespace Pangoo
             }
             var list = row.GetDynamicObjectIdList();
             list.Add(id);
+            list.Sort();
             row.DynamicObjectIds =  list.ToItemString();
         }
 
@@ -39,6 +36,7 @@ namespace Pangoo
             if(list.Contains(id)){
                 list.Remove(id);
             }
+            list.Sort();
             row.DynamicObjectIds =  list.ToItemString();
         }
 

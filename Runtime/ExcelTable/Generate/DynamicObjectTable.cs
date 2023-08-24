@@ -41,8 +41,8 @@ namespace Pangoo
             [TableTitleGroup("位置")]
             [HideLabel]
             [JsonMember("Position")]
-            [ExcelTableCol("Position","Position","string", "位置",5)]
-            public string Position ;
+            [ExcelTableCol("Position","Position","Vector3", "位置",5)]
+            public Vector3 Position ;
 
             /// <summary>
             /// Desc: 
@@ -50,8 +50,26 @@ namespace Pangoo
             [TableTitleGroup("旋转")]
             [HideLabel]
             [JsonMember("Rotation")]
-            [ExcelTableCol("Rotation","Rotation","string", "旋转",6)]
-            public string Rotation ;
+            [ExcelTableCol("Rotation","Rotation","Vector3", "旋转",6)]
+            public Vector3 Rotation ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("动态对象类型")]
+            [HideLabel]
+            [JsonMember("DynamicObjectType")]
+            [ExcelTableCol("DynamicObjectType","DynamicObjectType","string", "动态对象类型",7)]
+            public string DynamicObjectType ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("子预制体名")]
+            [HideLabel]
+            [JsonMember("PrefabName")]
+            [ExcelTableCol("PrefabName","PrefabName","string", "子预制体名",8)]
+            public string PrefabName ;
         }
 
 

@@ -16,15 +16,19 @@ MonoBehaviour:
   Data:
     Priority: 0
     Rows:
-    - Id: 1
-      Name: test
-      AssetPathId: 100001
-      NameCn: test
-      Position: 
-      Rotation: 
     - Id: 2
       Name: Calendar
       AssetPathId: 100002
       NameCn: "\u65E5\u5386"
-      Position: 
-      Rotation: 
+      Position: {x: 0, y: 0, z: 0}
+      Rotation: {x: -0, y: 0, z: 0}
+      DynamicObjectType: 
+      PrefabName: 
+    - Id: 3
+      Name: Calendar2
+      AssetPathId: 100003
+      NameCn: test
+      Position: {x: 0, y: 0, z: 0}
+      Rotation: {x: -0, y: 0, z: 0}
+      DynamicObjectType: 
+      PrefabName: 
