@@ -79,7 +79,9 @@ namespace Pangoo.Editor{
                 var asset = AssetDatabaseUtility.LoadAssetAtPath<GameObject>(assetPathRow.ToPrefabPath());
                 var go = PrefabUtility.InstantiatePrefab(asset) as GameObject;
                 go.transform.parent = transform;
-                go.ResetTransfrom();
+                go.transform.localPosition = dynamicObjectRow.Position;
+                go.transform.localRotation = Quaternion.Euler(dynamicObjectRow.Rotation);
+                // go.ResetTransfrom();
                 DyncObjectList.Add(new DynamicObjectWrapper(this,SectionRow,dynamicObjectRow,go));
             }
         }

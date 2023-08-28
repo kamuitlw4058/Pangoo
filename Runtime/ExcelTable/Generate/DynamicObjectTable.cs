@@ -56,20 +56,11 @@ namespace Pangoo
             /// <summary>
             /// Desc: 
             /// </summary>
-            [TableTitleGroup("动态对象类型")]
+            [TableTitleGroup("触发事件Ids")]
             [HideLabel]
-            [JsonMember("DynamicObjectType")]
-            [ExcelTableCol("DynamicObjectType","DynamicObjectType","string", "动态对象类型",7)]
-            public string DynamicObjectType ;
-
-            /// <summary>
-            /// Desc: 
-            /// </summary>
-            [TableTitleGroup("子预制体名")]
-            [HideLabel]
-            [JsonMember("PrefabName")]
-            [ExcelTableCol("PrefabName","PrefabName","string", "子预制体名",8)]
-            public string PrefabName ;
+            [JsonMember("TriggerEventIds")]
+            [ExcelTableCol("TriggerEventIds","TriggerEventIds","string", "触发事件Ids",7)]
+            public string TriggerEventIds ;
         }
 
 

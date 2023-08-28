@@ -47,6 +47,10 @@ MonoBehaviour:
     BaseNamespace: 
     Named: 0
   - Build: 1
+    ExcelName: Instruction
+    BaseNamespace: 
+    Named: 0
+  - Build: 1
     ExcelName: ItemsConfig
     BaseNamespace: 
     Named: 0
@@ -64,6 +68,10 @@ MonoBehaviour:
     Named: 0
   - Build: 1
     ExcelName: StaticScene
+    BaseNamespace: 
+    Named: 0
+  - Build: 1
+    ExcelName: TriggerEvent
     BaseNamespace: 
     Named: 0
   - Build: 1

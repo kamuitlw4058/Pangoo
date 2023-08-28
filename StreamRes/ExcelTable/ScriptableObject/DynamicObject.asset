@@ -21,14 +21,6 @@ MonoBehaviour:
       AssetPathId: 100002
       NameCn: "\u65E5\u5386"
       Position: {x: 0, y: 0, z: 0}
-      Rotation: {x: -0, y: 0, z: 0}
-      DynamicObjectType: 
-      PrefabName: 
-    - Id: 3
-      Name: Calendar2
-      AssetPathId: 100003
-      NameCn: test
-      Position: {x: 0, y: 0, z: 0}
-      Rotation: {x: -0, y: 0, z: 0}
+      Rotation: {x: 0, y: 0, z: 0}
       DynamicObjectType: 
       PrefabName: 

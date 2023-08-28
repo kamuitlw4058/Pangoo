@@ -7,6 +7,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using UnityEngine.PlayerLoop;
+using UnityEngine.UI;
 
 namespace Pangoo.Editor{
 
@@ -43,6 +44,11 @@ namespace Pangoo.Editor{
         // }
 
         private void Update() {
+
+        }
+
+        [Button("SetTransfrom")]
+        public void SetTransfrom(){
             Row.Position = transform.localPosition;
             Row.Rotation = transform.localRotation.eulerAngles;
         }

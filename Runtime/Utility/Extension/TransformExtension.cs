@@ -5,22 +5,30 @@ namespace Pangoo
 {
     public static class TransformExtension
     {
-        public static IEnumerable<Transform> Children(this Transform t, bool includesDescendants = false)
-        {
-            var l = t.childCount;
-            for (var i = 0; i < l; ++i)
-            {
-                var child = t.GetChild(i);
-                yield return child;
-                if (includesDescendants)
-                {
-                    foreach (var descendant in child.Children(true))
-                    {
-                        yield return descendant;
-                    }
-                }
+        public static List<Transform> Children(this Transform t, bool includesDescendants = false){
+            List<Transform> ret = new List<Transform>();
+            for(int i =0;i < t.childCount;i ++){
+                ret.Add(t.GetChild(i));
             }
+            return ret;
         }
+
+        // public static IEnumerable<Transform> Children(this Transform t, bool includesDescendants = false)
+        // {
+        //     var l = t.childCount;
+        //     for (var i = 0; i < l; ++i)
+        //     {
+        //         var child = t.GetChild(i);
+        //         yield return child;
+        //         if (includesDescendants)
+        //         {
+        //             foreach (var descendant in child.Children(true))
+        //             {
+        //                 yield return descendant;
+        //             }
+        //         }
+        //     }
+        // }
 
 
         public static T GetOrAddComponent<T>(this Transform origin) where T : Component

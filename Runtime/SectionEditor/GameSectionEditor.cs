@@ -89,7 +89,7 @@ namespace Pangoo.Editor{
 
 
         public IEnumerable GetSectionList(){
-            return GameSupportEditorUtility.GetExcelTableOverviewIds<GameSectionTableOverview>();
+            return GameSupportEditorUtility.GetGameSectionIds(new List<int>{Section});
         }
 
 

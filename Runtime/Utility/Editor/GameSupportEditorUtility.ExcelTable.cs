@@ -90,6 +90,27 @@ namespace Pangoo
         }
 
 
+        public static IEnumerable GetGameSectionIds(List<int> ids = null){
+            var ret = new ValueDropdownList<int>();
+            var overviews = AssetDatabaseUtility.FindAsset<GameSectionTableOverview>();
+            foreach(var overview in overviews){
+                var namedRows = overview.Data.Rows;
+                 if(namedRows == null){
+                    continue;
+                }
+                foreach(var row in namedRows){
+                    if(ids == null){
+                        ret.Add($"{row.Id}-{row.Name}",row.Id);
+                    }else{
+                        if(!ids.Contains(row.Id)){
+                           ret.Add($"{row.Id}-{row.Name}",row.Id);
+                        }
+                    }
+                }
+            }
+            return ret;
+        }
+
         
         public static GameSectionTable.GameSectionRow GetGameSectionRowById(int id){
             return GetExcelTableRowWithOverviewById<GameSectionTableOverview,GameSectionTable.GameSectionRow>(id);

@@ -11,7 +11,7 @@ using Pangoo;
 namespace Pangoo.Editor{
     public partial class DynamicObjectEditor : MonoBehaviour
     {
-        
+        public const string SubModelName = "Model";
         private  OdinEditorWindow m_CreateDynamicObjectWindow;
 
         [Button("创建新的动态物体")]
@@ -53,9 +53,6 @@ namespace Pangoo.Editor{
             row.Name = name;
             row.NameCn = name_cn;
             row.AssetPathId = assetPathId;
-            if(prefab != null){
-                row.PrefabName = prefab.name;
-            }
             overview.Data.Rows.Add(row);
             EditorUtility.SetDirty(overview);
 
@@ -72,6 +69,7 @@ namespace Pangoo.Editor{
             var prefab_go = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
             prefab_go.transform.parent = go.transform;
             prefab_go.ResetTransfrom(false);
+            prefab_go.name = SubModelName;
           
             gameSectionRow.AddDynamicObjectId(id);
             EditorUtility.SetDirty(gameSectionTableOverview);
