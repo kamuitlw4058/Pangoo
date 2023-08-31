@@ -17,10 +17,9 @@ MonoBehaviour:
     Priority: 0
     Rows:
     - Id: 2
-      Name: Calendar
+      Name: tttt
       AssetPathId: 100002
-      NameCn: "\u65E5\u5386"
+      NameCn: adf
       Position: {x: 0, y: 0, z: 0}
       Rotation: {x: 0, y: 0, z: 0}
-      DynamicObjectType: 
-      PrefabName: 
+      TriggerEventIds: 1

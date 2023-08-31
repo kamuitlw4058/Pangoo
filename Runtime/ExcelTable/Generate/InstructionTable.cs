@@ -14,17 +14,8 @@ namespace Pangoo
     public partial class InstructionTable : ExcelTableBase
     {
         [Serializable]
-        public partial class InstructionRow : ExcelRowBase
+        public partial class InstructionRow : ExcelNamedRowBase
         {
-
-            /// <summary>
-            /// Desc: 
-            /// </summary>
-            [TableTitleGroup("Name")]
-            [HideLabel]
-            [JsonMember("Name")]
-            [ExcelTableCol("Name","Name","string", "Name",2)]
-            public string Name ;
 
             /// <summary>
             /// Desc: 
@@ -57,6 +48,13 @@ namespace Pangoo
           }
         }
 
+        public override List<ExcelNamedRowBase> NamedBaseRows{
+          get{
+              List<ExcelNamedRowBase> ret = new List<ExcelNamedRowBase>();
+              ret.AddRange(Rows);
+              return ret;
+          }
+        }
 
         [NonSerialized]
         [XmlIgnore]

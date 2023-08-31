@@ -63,11 +63,11 @@ namespace Pangoo
             foreach(var overview in overviews){
                 foreach(var row in overview.Table.BaseRows){
                     if(row.Id == id){
-                        return false;
+                        return true;
                     }
                 }
             }
-            return true;
+            return false;
         }
 
         public static bool ExistsExcelTableOverviewName<T>(string name,string packageDir = null) where T:ExcelTableOverview

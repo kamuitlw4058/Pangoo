@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityGameFramework.Runtime;
 using GameFramework;
+using Pangoo.Core.Common;
+using Pangoo.Core.VisualScripting;
+using System;
 
 namespace Pangoo
 {
@@ -55,7 +59,18 @@ namespace Pangoo
         }
 
 
-        
+        public static string GetPakcageDirByOverviewRowId<T>(int id) where T:ExcelTableOverview
+        {
+            var overviews = AssetDatabaseUtility.FindAsset<T>();
+            foreach(var overview in overviews){
+                foreach(var row in overview.Table.BaseRows){
+                   if(row.Id == id){
+                    return overview.Config.PackageDir;
+                   }
+                }
+            }
+            return null;
+        }
 
         public static PackageConfig GetPakcageConfigByOverviewRowId<T>(int id) where T:ExcelTableOverview
         {
@@ -226,6 +241,25 @@ namespace Pangoo
             var namespaces = assets.Select(x => x.MainNamespace).ToList();
             namespaces.Insert(0, "");
             return namespaces;
+        }
+
+        public static IEnumerable GetInstructionType(string currentTypeStr = null){
+            var types = Utility.Assembly.GetTypes(typeof(Instruction));
+            Type currentType = null;
+            if(currentTypeStr != null){
+                currentType = Utility.Assembly.GetType(currentTypeStr);
+            }
+           
+             ValueDropdownList<string> ret = new();
+             for(int i =0;i< types.Length;i ++){
+                var type = types[i];
+                if(type == currentType){
+                    continue;
+                }
+                var attr = type.GetCustomAttribute(typeof(CategoryAttribute));
+                ret.Add(attr.ToString(), types[i].ToString());
+             }
+            return ret;
         }
 #endif
     }

@@ -19,4 +19,5 @@ MonoBehaviour:
     - Id: 1
       Name: test
       TriggerType: OnInteract
-      InstructionList: 1
+      InstructionList: 2|6
+      Params: 

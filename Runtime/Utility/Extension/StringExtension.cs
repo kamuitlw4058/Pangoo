@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -80,6 +81,15 @@ namespace Pangoo
                 b / 255f,
                 a / 255f
             );
+        }
+
+        public static T ToEnum<T>(this string str)
+        {
+            if(str == null){
+                return default;
+            }
+            
+            return (T)Enum.Parse(typeof(T), str);
         }
 
     }
