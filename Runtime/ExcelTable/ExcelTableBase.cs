@@ -22,45 +22,19 @@ namespace Pangoo
     {
         public int Priority = 0;
 
-        public  virtual List<ExcelRowBase> BaseRows {
+        public  virtual IReadOnlyList<ExcelRowBase> BaseRows {
             get{
                 return null;
             }
         }
 
-        public virtual List<ExcelNamedRowBase> NamedBaseRows{
+        public virtual IReadOnlyList<ExcelNamedRowBase> NamedBaseRows{
             get{
                 return null;
             }
         }
 
-        private Dictionary<string,List<int>> PackagePathDict = new Dictionary<string, List<int>>();
 
-        public List<int> Ids{
-            get{
-                List<int> ret = new List<int>();
-                var tmpRows = BaseRows;
-                for(int i =0;i < tmpRows.Count;i ++){
-                    ret.Add(tmpRows[i].Id);
-                }
-                return ret;
-            }
-        }
-
-
-        public void AddPackagePath( string path,List<int> ids ){
-            PackagePathDict.Add(path,ids);
-        }
-
-        public string GetPackagePathById(int id){
-            foreach(var kv in PackagePathDict){
-                if(kv.Value.Contains(id)){
-                    return kv.Key;
-                }
-            }
-
-            return null;
-        }
 
         public T GetRowById<T>(int id) where T:ExcelRowBase
         {

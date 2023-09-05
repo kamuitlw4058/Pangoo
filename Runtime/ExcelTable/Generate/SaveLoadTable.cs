@@ -58,11 +58,9 @@ namespace Pangoo
         [TableList]
         public List<SaveLoadRow> Rows = new();
 
-        public override List<ExcelRowBase> BaseRows{
+        public override IReadOnlyList<ExcelRowBase> BaseRows{
           get{
-              List<ExcelRowBase> ret = new List<ExcelRowBase>();
-              ret.AddRange(Rows);
-              return ret;
+              return Rows;
           }
         }
 

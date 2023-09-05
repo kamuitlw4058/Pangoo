@@ -58,19 +58,15 @@ namespace Pangoo
         [TableList]
         public List<EntityGroupRow> Rows = new();
 
-        public override List<ExcelRowBase> BaseRows{
+        public override IReadOnlyList<ExcelRowBase> BaseRows{
           get{
-              List<ExcelRowBase> ret = new List<ExcelRowBase>();
-              ret.AddRange(Rows);
-              return ret;
+              return Rows;
           }
         }
 
-        public override List<ExcelNamedRowBase> NamedBaseRows{
+        public override IReadOnlyList<ExcelNamedRowBase> NamedBaseRows{
           get{
-              List<ExcelNamedRowBase> ret = new List<ExcelNamedRowBase>();
-              ret.AddRange(Rows);
-              return ret;
+              return Rows;
           }
         }
 

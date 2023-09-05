@@ -37,22 +37,22 @@ namespace Pangoo
             sw.WriteLine($"        public List<{m_ExcelData.ClassBaseName}Row> Rows = new();");
 
             sw.WriteLine();
-            sw.WriteLine("        public override List<ExcelRowBase> BaseRows{");
+            sw.WriteLine("        public override IReadOnlyList<ExcelRowBase> BaseRows{");
             sw.WriteLine("          get{");
-            sw.WriteLine("              List<ExcelRowBase> ret = new List<ExcelRowBase>();");
-            sw.WriteLine("              ret.AddRange(Rows);");
-            sw.WriteLine("              return ret;");
+            // sw.WriteLine("              List<ExcelRowBase> ret = new List<ExcelRowBase>();");
+            // sw.WriteLine("              ret.AddRange(Rows);");
+            sw.WriteLine("              return Rows;");
             sw.WriteLine("          }");
             sw.WriteLine("        }");
 
 
             sw.WriteLine();
             if(m_Named){
-                sw.WriteLine("        public override List<ExcelNamedRowBase> NamedBaseRows{");
+                sw.WriteLine("        public override IReadOnlyList<ExcelNamedRowBase> NamedBaseRows{");
                 sw.WriteLine("          get{");
-                sw.WriteLine("              List<ExcelNamedRowBase> ret = new List<ExcelNamedRowBase>();");
-                sw.WriteLine("              ret.AddRange(Rows);");
-                sw.WriteLine("              return ret;");
+                // sw.WriteLine("              List<ExcelNamedRowBase> ret = new List<ExcelNamedRowBase>();");
+                // sw.WriteLine("              ret.AddRange(Rows);");
+                sw.WriteLine("              return Rows;");
                 sw.WriteLine("          }");
                 sw.WriteLine("        }");
             }
