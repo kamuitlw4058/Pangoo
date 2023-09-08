@@ -70,11 +70,9 @@ namespace Pangoo
                         var origTable = m_ExcelTableDic[type];
                         origTable.Merge(table);
                         table = origTable;
-                        origTable.AddPackagePath(overview.Config.PackageDir,table.Ids);
                     }
                     else
                     {
-                        table.AddPackagePath(overview.Config.PackageDir,table.Ids);
                         m_ExcelTableDic.Add(type, table);
                     }
                     table.Init();

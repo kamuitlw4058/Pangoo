@@ -49,5 +49,26 @@ namespace Pangoo.Service
                 service.DoUpdate(elapseSeconds,realElapseSeconds);
             }
         }
+
+        public void DoEnable()
+        {
+          
+        }
+
+        public void DoFixedUpdate()
+        {
+           
+        }
+
+        public void DoDisable()
+        {
+            
+        }
+
+        public void DoDrawGizmos()
+        {
+           
+        }
+
     }
 }
