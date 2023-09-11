@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Pangoo.Service;
+using Sirenix.OdinInspector;
 
 namespace Pangoo.Core.Character
 {
@@ -9,6 +10,13 @@ namespace Pangoo.Core.Character
     public class PlayerService : CharacterBaseService
     {
 
+        public override int Priority
+        {
+            get
+            {
+                return 1;
+            }
+        }
 
         [SerializeField] protected bool m_IsControllable;
 
@@ -26,6 +34,9 @@ namespace Pangoo.Core.Character
             get => this.m_IsControllable;
             set => this.m_IsControllable = value;
         }
+
+        [ShowInInspector]
+        public Vector3 InputDirection { get; protected set; } = Vector3.zero;
 
     }
 

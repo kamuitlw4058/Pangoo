@@ -3,27 +3,38 @@ using Pangoo.Service;
 using Sirenix.OdinInspector;
 
 
-namespace Pangoo.Core.Character{
+namespace Pangoo.Core.Character
+{
 
     public class DriverCharacterController : DriverService
     {
-        [ShowInInspector,ReadOnly]
+        [ShowInInspector, ReadOnly]
         CharacterController m_Controller;
 
+        MotionActionService m_MotionActionSerice;
+
         [ShowInInspector]
-        public bool ControllerEnable{
-            get{
-                if(m_Controller == null){
+        public bool ControllerEnable
+        {
+            get
+            {
+                if (m_Controller == null)
+                {
                     return false;
                 }
                 return m_Controller.enabled;
             }
         }
+        public override void DoStart()
+        {
+            m_MotionActionSerice = Services.GetService<MotionActionService>();
+        }
+
 
         public override void DoAwake(IServiceContainer services)
         {
             base.DoAwake(services);
-            
+
             this.m_Controller = Character.gameObject.GetComponent<CharacterController>();
             if (this.m_Controller == null)
             {
@@ -35,12 +46,13 @@ namespace Pangoo.Core.Character{
 
         public override void DoUpdate(float elapseSeconds, float realElapseSeconds)
         {
-            Debug.Log($"Update Services:{Services}");
-            MoveDirection = Services.GetVariable<Vector3>("MoveDirection");
-            Debug.Log($"Update MoveDirection:{MoveDirection}");
+            // Debug.Log($"Update Services:{Services}");
+            // MoveDirection = Services.GetVariable<Vector3>("MoveDirection");
+            MoveDirection = m_MotionActionSerice.MoveDirection;
+            // Debug.Log($"Update MoveDirection:{MoveDirection}");
             // if (this.Character.IsDead) return;
             // if (this.m_Controller == null) return;
-            
+
             // this.UpdateProperties();
 
             // this.UpdateGravity(this.Character.Motion);
@@ -55,7 +67,7 @@ namespace Pangoo.Core.Character{
                 this.m_Controller.Move(MoveDirection);
             }
 
-            Services.SetVariable<Vector3>("MoveDirection",Vector3.zero);
+            Services.SetVariable<Vector3>("MoveDirection", Vector3.zero);
         }
 
         public override void DoDestroy()

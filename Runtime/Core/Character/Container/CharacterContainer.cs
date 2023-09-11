@@ -4,9 +4,9 @@ using Pangoo.Service;
 
 namespace Pangoo.Core.Character
 {
-    
+
     [Serializable]
-    public class CharacterContainer :LifeCycleServiceContainer
+    public class CharacterContainer : LifeCycleServiceContainer
     {
         [SerializeField] protected bool m_IsPlayer;
 
@@ -15,18 +15,24 @@ namespace Pangoo.Core.Character
         [SerializeField]
         GameObject m_GameObject;
 
-        public GameObject gameObject{
-            get{
+        public GameObject gameObject
+        {
+            get
+            {
                 return m_GameObject;
             }
-            private set{
+            private set
+            {
                 m_GameObject = value;
             }
         }
 
-        public Transform CachedTransfrom{
-            get{
-                if(m_CachedTransfrom == null){
+        public Transform CachedTransfrom
+        {
+            get
+            {
+                if (m_CachedTransfrom == null)
+                {
                     m_CachedTransfrom = m_GameObject.transform;
                 }
                 return m_CachedTransfrom;
@@ -50,13 +56,15 @@ namespace Pangoo.Core.Character
             }
         }
 
-        public CharacterContainer(GameObject gameObject){
+        public CharacterContainer(GameObject gameObject)
+        {
             m_GameObject = gameObject;
-            RegisterService( new DriverCharacterController());
-            RegisterService( new MotionActionService());
-            RegisterService( new MotionService());
+            RegisterService(new CharacterCameraService());
+            RegisterService(new DriverCharacterController());
+            RegisterService(new MotionActionService());
+            RegisterService(new PlayerDirectionalService());
         }
 
 
-            }
+    }
 }

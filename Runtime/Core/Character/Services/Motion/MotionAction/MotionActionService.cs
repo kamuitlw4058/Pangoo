@@ -1,5 +1,6 @@
 using System;
 using FairyGUI;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Pangoo.Core.Character
@@ -22,6 +23,7 @@ namespace Pangoo.Core.Character
             }
         }
 
+        [ShowInInspector]
         public Vector3 MoveDirection { get; set; }
 
 
@@ -33,11 +35,17 @@ namespace Pangoo.Core.Character
             }
         }
 
+        [ShowInInspector]
         public MotionActionBase CurrentAction { get; private set; }
 
 
         public override void DoUpdate(float elapseSeconds, float realElapseSeconds)
         {
+            if (this.CurrentAction != null)
+            {
+                Debug.Log($"this.CurrentAction:{this.CurrentAction}");
+            }
+            MoveDirection = Vector3.zero;
             this.CurrentAction?.Update();
 
             if (this.CurrentAction != null)
@@ -58,6 +66,7 @@ namespace Pangoo.Core.Character
             actionParams.Velocity = velocity;
             actionParams.UseSpace = space;
             if (!this.StartMotionAction<MotionToDirection>(priority, actionParams)) return;
+            Debug.Log($"MoveToDirection:{velocity}");
 
             // if (this.m_MotionData is MotionToDirection motion)
             // {

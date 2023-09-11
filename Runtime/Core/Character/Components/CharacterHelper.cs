@@ -57,6 +57,11 @@ namespace Pangoo.Core.Character
             characterContainer.Enable();
         }
 
+        private void Start()
+        {
+            characterContainer.Start();
+        }
+
         private void Update()
         {
             characterContainer?.Update(Time.deltaTime, Time.unscaledDeltaTime);

@@ -38,7 +38,7 @@ namespace Pangoo.Core.Character
 
         // public abstract MovementTypeEnum MovementType { get; protected set; }
 
-        public abstract bool IsRunning { get; protected set; }
+        public bool IsRunning { get; protected set; }
 
 
         protected Vector3 CalculateSpeed(Vector3 direction)
