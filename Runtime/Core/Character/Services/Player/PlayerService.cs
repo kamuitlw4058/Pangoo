@@ -10,6 +10,8 @@ namespace Pangoo.Core.Character
     public class PlayerService : CharacterBaseService
     {
 
+        CharacterPlayerTypeEnum m_CharacterPlayerType = CharacterPlayerTypeEnum.Directional;
+
         public override int Priority
         {
             get
@@ -22,10 +24,13 @@ namespace Pangoo.Core.Character
 
         // CONSTRUCTOR: ---------------------------------------------------------------------------
 
-        protected PlayerService()
+        public PlayerService(INestedService parent) : base(parent)
         {
             this.m_IsControllable = true;
         }
+
+        PlayerDirectionalService m_PlayerDirectionalService;
+
 
         // PROPERTIES: ----------------------------------------------------------------------------
 
@@ -36,7 +41,67 @@ namespace Pangoo.Core.Character
         }
 
         [ShowInInspector]
-        public Vector3 InputDirection { get; protected set; } = Vector3.zero;
+        public Vector3 InputDirection { get; set; } = Vector3.zero;
+
+
+
+        public CharacterPlayerTypeEnum CharacterPlayerType
+        {
+            get
+            {
+                return m_CharacterPlayerType;
+            }
+            set
+            {
+                ChangePlayerType(m_CharacterPlayerType, value);
+                m_CharacterPlayerType = value;
+            }
+        }
+
+
+        public void ChangePlayerType(CharacterPlayerTypeEnum oldType, CharacterPlayerTypeEnum newType, bool overwrite = false)
+        {
+            if (oldType == newType && !overwrite)
+            {
+                return;
+            }
+            switch (oldType)
+            {
+                case CharacterPlayerTypeEnum.Directional: RemoveDirectional(); break;
+            }
+
+            switch (newType)
+            {
+                case CharacterPlayerTypeEnum.Directional: AddDirectional(); break;
+            }
+        }
+
+        public void RemoveDirectional()
+        {
+            var service = GetService<PlayerDirectionalService>();
+            if (service != null)
+            {
+                RemoveService(service);
+            }
+        }
+
+        public void AddDirectional()
+        {
+            if (m_PlayerDirectionalService == null)
+            {
+                m_PlayerDirectionalService = new PlayerDirectionalService(this);
+                m_PlayerDirectionalService.Awake(this);
+            }
+            AddService(m_PlayerDirectionalService);
+        }
+
+        public override void DoStart()
+        {
+            ChangePlayerType(m_CharacterPlayerType, m_CharacterPlayerType, true);
+
+        }
+
+
 
     }
 

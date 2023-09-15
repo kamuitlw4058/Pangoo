@@ -43,7 +43,7 @@ namespace Pangoo.Core.Character
 
         protected Vector3 CalculateSpeed(Vector3 direction)
         {
-            direction = direction.normalized * Service.Info.LinearSpeed;
+            direction = direction.normalized * Service.Character.MotionInfo.LinearSpeed * Service.DeltaTime;
             return direction;
         }
 

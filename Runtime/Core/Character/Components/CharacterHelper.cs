@@ -20,7 +20,10 @@ namespace Pangoo.Core.Character
         [SerializeField]
         CharacterContainer characterContainer;
 
+        [SerializeField][HideInPlayMode] bool m_IsPlayer;
         [ShowInInspector, ReadOnly] bool IsInited;
+
+        [SerializeField][HideInPlayMode] MotionInfo m_MotionInfo;
 
         // [ShowInInspector] Vector3 MoveDirection{
         //     get{
@@ -40,7 +43,10 @@ namespace Pangoo.Core.Character
             }
             Debug.Log($"On Init:{characterContainer}");
             characterContainer = new CharacterContainer(gameObject);
-            characterContainer.Awake();
+            characterContainer.SetIsPlayer(m_IsPlayer);
+            characterContainer.SetMotionInfo(m_MotionInfo);
+            characterContainer.Awake(null);
+
             IsInited = true;
         }
 
@@ -64,7 +70,7 @@ namespace Pangoo.Core.Character
 
         private void Update()
         {
-            characterContainer?.Update(Time.deltaTime, Time.unscaledDeltaTime);
+            characterContainer?.Update();
         }
 
 
@@ -83,7 +89,7 @@ namespace Pangoo.Core.Character
         public void ForceAwake()
         {
             characterContainer = new CharacterContainer(gameObject);
-            characterContainer.Awake();
+            characterContainer.Awake(null);
             IsInited = true;
         }
         [Button("设置移动")]

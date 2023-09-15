@@ -14,13 +14,8 @@ namespace Pangoo.Core.Character
                 _ => Service.MoveDirection
             };
 
-
             IsRunning = false;
         }
 
-        // public MotionToDirection(MotionActionService service, MotionActionParams actionParams, int priority) : base(service, actionParams, priority)
-        // {
-
-        // }
     }
 }

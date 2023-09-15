@@ -8,7 +8,7 @@ namespace Pangoo.Core.Character
 {
 
     [Serializable]
-    public class PlayerDirectionalService : PlayerService
+    public class PlayerDirectionalService : CharacterBaseService
     {
         [SerializeReference]
         public InputValueVector2Base m_InputMove;
@@ -16,15 +16,29 @@ namespace Pangoo.Core.Character
         MotionActionService m_MotionActionService;
         CharacterCameraService m_CharacterCameraService;
 
+        PlayerService m_PlayerService;
 
-        public PlayerDirectionalService() : base()
+
+        [ShowInInspector]
+        public CharacterCameraService CameraService
+        {
+            get
+            {
+                return m_CharacterCameraService;
+            }
+        }
+
+
+
+        public PlayerDirectionalService(INestedService parent) : base(parent)
         {
             m_InputMove = InputValueVector2MotionPrimary.Create();
         }
 
-        public override void DoAwake(IServiceContainer services)
+        public override void DoAwake(INestedService parent)
         {
-            base.DoAwake(services);
+            base.DoAwake(parent);
+            m_PlayerService = parent as PlayerService;
             m_InputMove.OnAwake();
         }
 
@@ -44,27 +58,29 @@ namespace Pangoo.Core.Character
 
         public override void DoStart()
         {
-            m_MotionActionService = Services.GetService<MotionActionService>();
-            m_CharacterCameraService = Services.GetService<CharacterCameraService>();
+            m_MotionActionService = Character.GetService<MotionActionService>();
+            m_CharacterCameraService = Character.GetService<CharacterCameraService>();
+            // Debug.Log($"PlayerDirection Start! m_CharacterCameraService:{m_CharacterCameraService} Parent:{Parent}");
         }
 
-        public override void DoUpdate(float elapseSeconds, float realElapseSeconds)
+        public override void DoUpdate()
         {
-            base.DoUpdate(elapseSeconds, realElapseSeconds);
+            base.DoUpdate();
             this.m_InputMove.OnUpdate();
 
-            // this.InputDirection = Vector3.zero;
 
             if (!this.Character.IsPlayer) return;
-            Vector3 inputMovement = this.m_IsControllable
+            Vector3 inputMovement = m_PlayerService.IsControllable
                 ? this.m_InputMove.Read()
                 : Vector2.zero;
 
-            this.InputDirection = this.GetMoveDirection(inputMovement);
-            if (this.InputDirection != Vector3.zero)
+            if (inputMovement == Vector3.zero) return;
+
+            m_PlayerService.InputDirection = this.GetMoveDirection(inputMovement);
+            if (m_PlayerService.InputDirection != Vector3.zero)
             {
-                Debug.Log($"InputDirection:{this.InputDirection}");
-                m_MotionActionService?.MoveToDirection(this.InputDirection, Space.World, 0);
+                // Debug.Log($"InputDirection:{m_PlayerService.InputDirection}");
+                m_MotionActionService?.MoveToDirection(m_PlayerService.InputDirection, Space.World, 0);
             }
 
         }
@@ -72,15 +88,17 @@ namespace Pangoo.Core.Character
         protected virtual Vector3 GetMoveDirection(Vector3 input)
         {
             Vector3 direction = new Vector3(input.x, 0f, input.y);
+            // Debug.Log($"direction:{direction}");
 
             Vector3 moveDirection = m_CharacterCameraService.CameraTransform != null
                 ? m_CharacterCameraService.CameraTransform.TransformDirection(direction)
                 : Vector3.zero;
 
-            direction.Scale(new Vector3(1, 0, 1));
-            direction.Normalize();
+            moveDirection.Scale(new Vector3(1, 0, 1));
+            moveDirection.Normalize();
+            // Debug.Log($"end direction:{moveDirection}");
 
-            return direction;
+            return moveDirection;
         }
 
 

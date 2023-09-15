@@ -1,17 +1,30 @@
+using System;
 using UnityEngine;
 using Pangoo.Service;
 using Sirenix.OdinInspector;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 
 
 namespace Pangoo.Core.Character
 {
 
-    public class DriverCharacterController : DriverService
+    public class DriverCharacterController : CharacterBaseService
     {
+
+        public Vector3 MoveDirection { get; set; }
+
+        public DriverCharacterController(INestedService parent) : base(parent)
+        {
+
+        }
+
         [ShowInInspector, ReadOnly]
         CharacterController m_Controller;
 
         MotionActionService m_MotionActionSerice;
+
+
+        [NonSerialized] protected float m_VerticalSpeed;
 
         [ShowInInspector]
         public bool ControllerEnable
@@ -25,15 +38,17 @@ namespace Pangoo.Core.Character
                 return m_Controller.enabled;
             }
         }
+
+        public Vector3 ControllerMoveDirection;
         public override void DoStart()
         {
-            m_MotionActionSerice = Services.GetService<MotionActionService>();
+            m_MotionActionSerice = Parent.GetService<MotionActionService>();
         }
 
 
-        public override void DoAwake(IServiceContainer services)
+        public override void DoAwake(INestedService parent)
         {
-            base.DoAwake(services);
+            base.DoAwake(parent);
 
             this.m_Controller = Character.gameObject.GetComponent<CharacterController>();
             if (this.m_Controller == null)
@@ -44,35 +59,127 @@ namespace Pangoo.Core.Character
             }
         }
 
-        public override void DoUpdate(float elapseSeconds, float realElapseSeconds)
+        public override void DoUpdate()
         {
             // Debug.Log($"Update Services:{Services}");
             // MoveDirection = Services.GetVariable<Vector3>("MoveDirection");
-            MoveDirection = m_MotionActionSerice.MoveDirection;
+            MoveDirection = m_MotionActionSerice.MoveDirection * Character.MotionInfo.LinearSpeed * DeltaTime;
             // Debug.Log($"Update MoveDirection:{MoveDirection}");
             // if (this.Character.IsDead) return;
             // if (this.m_Controller == null) return;
 
             // this.UpdateProperties();
+            ControllerMoveDirection = Vector3.zero;
 
+            UpdateGravity();
             // this.UpdateGravity(this.Character.Motion);
             // this.UpdateJump(this.Character.Motion);
 
             // this.UpdateTranslation(this.Character.Motion);
             // this.m_Axonometry?.ProcessPosition(this, this.Transform.position);
 
-            if (this.m_Controller.enabled && MoveDirection != Vector3.zero)
+            if (this.m_Controller.enabled)
             {
-                Debug.Log($"Move MoveDirection:{MoveDirection}");
-                this.m_Controller.Move(MoveDirection);
+                ControllerMoveDirection = MoveDirection + new Vector3(0, m_VerticalSpeed, 0);
             }
 
-            Services.SetVariable<Vector3>("MoveDirection", Vector3.zero);
+            if (ControllerMoveDirection != Vector3.zero)
+            {
+                m_Controller.Move(ControllerMoveDirection);
+            }
+            // SetVariable<Vector3>("MoveDirection", Vector3.zero);
         }
+
+        protected void UpdateGravity()
+        {
+            // TODO 相关代码保留。这边是用来区分是在上升期还是下降期用不同的中立加速度
+            // float gravity = this.WorldMoveDirection.y >= 0f
+            //     ? Character.MotionInfo.GravityUpwards
+            //     : Character.MotionInfo.GravityDownwards;
+
+            float gravity = Character.MotionInfo.GravityDownwards;
+
+            // 额外的重力影响机制
+            // gravity *= this.GravityInfluence;
+
+            this.m_VerticalSpeed += gravity * this.Character.DeltaTime;
+
+            if (this.m_Controller.isGrounded)
+            {
+                // if (this.Character.Time - this.m_GroundTime > COYOTE_TIME &&
+                //     this.Character.Time.Frame - this.m_GroundFrame > COYOTE_FRAMES)
+                // {
+                //     this.Character.OnLand(this.m_VerticalSpeed);
+                // }
+
+                // this.m_GroundTime = this.Character.Time.Time;
+                // this.m_GroundFrame = this.Character.Time.Frame;
+
+                this.m_VerticalSpeed = Mathf.Max(
+                    this.m_VerticalSpeed, gravity
+                );
+            }
+
+            this.m_VerticalSpeed = Mathf.Max(
+                this.m_VerticalSpeed,
+                Character.MotionInfo.TerminalVelocity
+            );
+        }
+
+
+
+        private void JumpAndGravity()
+        {
+            // if (Grounded)
+            // {
+            //     // reset the fall timeout timer
+            //     _fallTimeoutDelta = FallTimeout;
+
+            //     // stop our velocity dropping infinitely when grounded
+            //     if (_verticalVelocity < 0.0f)
+            //     {
+            //         _verticalVelocity = -2f;
+            //     }
+
+            //     // Jump
+            //     if (_input.jump && _jumpTimeoutDelta <= 0.0f)
+            //     {
+            //         // the square root of H * -2 * G = how much velocity needed to reach desired height
+            //         _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+            //     }
+
+            //     // jump timeout
+            //     if (_jumpTimeoutDelta >= 0.0f)
+            //     {
+            //         _jumpTimeoutDelta -= Time.deltaTime;
+            //     }
+            // }
+            // else
+            // {
+            //     // reset the jump timeout timer
+            //     _jumpTimeoutDelta = JumpTimeout;
+
+            //     // fall timeout
+            //     if (_fallTimeoutDelta >= 0.0f)
+            //     {
+            //         _fallTimeoutDelta -= Time.deltaTime;
+            //     }
+
+            //     // if we are not grounded, do not jump
+            //     _input.jump = false;
+            // }
+
+            // // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
+            // if (_verticalVelocity < _terminalVelocity)
+            // {
+            //     _verticalVelocity += Gravity * Time.deltaTime;
+            // }
+        }
+
 
         public override void DoDestroy()
         {
-            Object.Destroy(this.m_Controller);
+            UnityEngine.Object.Destroy(this.m_Controller);
             base.DoDestroy();
         }
     }

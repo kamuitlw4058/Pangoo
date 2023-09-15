@@ -1,19 +1,41 @@
 using System;
 using UnityEngine;
 using Pangoo.Service;
+using Pangoo.Core.Common;
 
 namespace Pangoo.Core.Character
 {
 
     [Serializable]
-    public class CharacterContainer : LifeCycleServiceContainer
+    public class CharacterContainer : NestedServiceBase
     {
+        [SerializeField] TimeMode CharacterTime;
+
+        public override float DeltaTime => CharacterTime.DeltaTime;
+        public override float Time => CharacterTime.DeltaTime;
+
         [SerializeField] protected bool m_IsPlayer;
+
+        [SerializeField] MotionInfo m_MotionInfo;
+
 
         Transform m_CachedTransfrom;
 
         [SerializeField]
         GameObject m_GameObject;
+
+
+        public MotionInfo MotionInfo
+        {
+            get
+            {
+                return m_MotionInfo;
+            }
+            private set
+            {
+                m_MotionInfo = value;
+            }
+        }
 
         public GameObject gameObject
         {
@@ -56,13 +78,24 @@ namespace Pangoo.Core.Character
             }
         }
 
+        public void SetMotionInfo(MotionInfo motionInfo)
+        {
+            this.MotionInfo = motionInfo;
+        }
+
+        public void SetIsPlayer(bool val)
+        {
+            this.IsPlayer = val;
+        }
+
         public CharacterContainer(GameObject gameObject)
         {
             m_GameObject = gameObject;
-            RegisterService(new CharacterCameraService());
-            RegisterService(new DriverCharacterController());
-            RegisterService(new MotionActionService());
-            RegisterService(new PlayerDirectionalService());
+            AddService(new CharacterInputService(this));
+            AddService(new CharacterCameraService(this));
+            AddService(new DriverCharacterController(this));
+            AddService(new MotionActionService(this));
+            AddService(new PlayerService(this));
         }
 
 

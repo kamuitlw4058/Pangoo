@@ -7,7 +7,8 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 
-namespace Pangoo.Editor{
+namespace Pangoo.Editor
+{
 
     [ExecuteInEditMode]
     [DisallowMultipleComponent]
@@ -27,30 +28,36 @@ namespace Pangoo.Editor{
         DynamicObjectEditor m_DynamicObjectEditor;
 
 
-        public void UpdateSection(){
+        public void UpdateSection()
+        {
             m_StaticSceneEditor.SetSection(Section);
             m_DynamicObjectEditor.SetSection(Section);
         }
 
-        void UpdateGameObjectName(){
+        void UpdateGameObjectName()
+        {
             name = "//Section";
 
-            if(Section != 0){
+            if (Section != 0)
+            {
                 name = $"{name}:{Section}";
             }
 
         }
 
-        public void OnSectionChange(){
+        public void OnSectionChange()
+        {
             UpdateSection();
             UpdateGameObjectName();
-        }  
+        }
 
-        private void OnEnable() {
+        private void OnEnable()
+        {
             SectionRow = GameSupportEditorUtility.GetGameSectionRowById(Section);
 
             m_StaticSceneEditor = GetComponentInChildren<StaticSceneEditor>();
-            if(m_StaticSceneEditor == null){
+            if (m_StaticSceneEditor == null)
+            {
                 var go = new GameObject();
                 go.transform.parent = transform;
                 go.ResetTransfrom();
@@ -58,7 +65,8 @@ namespace Pangoo.Editor{
             }
 
             m_DynamicObjectEditor = GetComponentInChildren<DynamicObjectEditor>();
-            if(m_DynamicObjectEditor == null){
+            if (m_DynamicObjectEditor == null)
+            {
                 var go = new GameObject();
                 go.transform.parent = transform;
                 go.ResetTransfrom();
@@ -70,26 +78,34 @@ namespace Pangoo.Editor{
             OnSectionChange();
         }
 
-        private void OnDisable() {
+        private void OnDisable()
+        {
 
         }
 
-        private void OnDestroy() {
+        private void OnDestroy()
+        {
             // DestroyImmediate(m_StaticSceneEditor);
             UnityEditor.EditorApplication.delayCall += () =>
             {
-                DestroyImmediate(gameObject);
+                if (gameObject != null)
+                {
+                    DestroyImmediate(gameObject);
+                }
+
             };
         }
 
-        void Update(){
+        void Update()
+        {
             gameObject.ResetTransfrom();
 
         }
 
 
-        public IEnumerable GetSectionList(){
-            return GameSupportEditorUtility.GetGameSectionIds(new List<int>{Section});
+        public IEnumerable GetSectionList()
+        {
+            return GameSupportEditorUtility.GetGameSectionIds(new List<int> { Section });
         }
 
 

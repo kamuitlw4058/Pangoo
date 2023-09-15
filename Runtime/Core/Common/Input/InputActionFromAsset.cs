@@ -12,17 +12,17 @@ namespace Pangoo.Core.Common
     {
         // EXPOSED MEMBERS: -----------------------------------------------------------------------
 
-        [SerializeField] private InputActionAsset m_InputAsset;
+        [SerializeField] protected InputActionAsset m_InputAsset;
         [SerializeField]
         [ValueDropdown("ActionMapList")]
-        private string m_ActionMap;
+        protected string m_ActionMap;
         [SerializeField]
         [ValueDropdown("ActionList")]
-        private string m_Action;
+        protected string m_Action;
 
         // MEMBERS: -------------------------------------------------------------------------------
 
-        [NonSerialized] private InputAction m_InputAction;
+        [NonSerialized] protected InputAction m_InputAction;
 
         // PUBLIC METHODS: ------------------------------------------------------------------------
 
@@ -85,7 +85,7 @@ namespace Pangoo.Core.Common
             return ret;
         }
 
-        public IEnumerable ActionList()
+        public virtual IEnumerable ActionList()
         {
             if (m_InputAsset == null)
             {
@@ -101,12 +101,12 @@ namespace Pangoo.Core.Common
             var ret = new ValueDropdownList<string>();
 
             var actionMap = this.m_InputAsset.FindActionMap(m_ActionMap);
-
             foreach (var action in actionMap.actions)
             {
                 ret.Add(action.name);
             }
             return ret;
         }
+
     }
 }
