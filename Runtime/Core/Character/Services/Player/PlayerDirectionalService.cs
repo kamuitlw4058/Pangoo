@@ -10,9 +10,6 @@ namespace Pangoo.Core.Character
     [Serializable]
     public class PlayerDirectionalService : CharacterBaseService
     {
-        [SerializeReference]
-        public InputValueVector2Base m_InputMove;
-
         MotionActionService m_MotionActionService;
         CharacterCameraService m_CharacterCameraService;
 
@@ -32,29 +29,17 @@ namespace Pangoo.Core.Character
 
         public PlayerDirectionalService(INestedService parent) : base(parent)
         {
-            m_InputMove = InputValueVector2MotionPrimary.Create();
         }
 
         public override void DoAwake(INestedService parent)
         {
             base.DoAwake(parent);
             m_PlayerService = parent as PlayerService;
-            m_InputMove.OnAwake();
-        }
-
-        public override void DoDestroy()
-        {
-            m_InputMove.OnDestroy();
-            base.DoDestroy();
         }
 
 
-        public override void DoEnable()
-        {
-            base.DoEnable();
-            this.m_InputMove.Active = true;
 
-        }
+
 
         public override void DoStart()
         {
@@ -66,12 +51,11 @@ namespace Pangoo.Core.Character
         public override void DoUpdate()
         {
             base.DoUpdate();
-            this.m_InputMove.OnUpdate();
 
 
             if (!this.Character.IsPlayer) return;
             Vector3 inputMovement = m_PlayerService.IsControllable
-                ? this.m_InputMove.Read()
+                ? Character.CharacterInput.InputMove
                 : Vector2.zero;
 
             if (inputMovement == Vector3.zero) return;
@@ -100,17 +84,6 @@ namespace Pangoo.Core.Character
 
             return moveDirection;
         }
-
-
-        public override void DoDisable()
-        {
-            base.DoDisable();
-            this.m_InputMove.Active = true;
-
-            // this.Character.Motion?.MoveToDirection(Vector3.zero, Space.World, 0);
-        }
-
-
 
     }
 

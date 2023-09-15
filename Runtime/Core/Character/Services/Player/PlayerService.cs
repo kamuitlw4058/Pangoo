@@ -16,7 +16,7 @@ namespace Pangoo.Core.Character
         {
             get
             {
-                return 1;
+                return 2;
             }
         }
 

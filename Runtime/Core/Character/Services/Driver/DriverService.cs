@@ -22,7 +22,7 @@ namespace Pangoo.Core.Character
         {
             get
             {
-                return 3;
+                return 4;
             }
         }
 

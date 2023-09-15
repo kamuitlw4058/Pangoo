@@ -54,7 +54,7 @@ namespace Pangoo.Core.Character
         {
             get
             {
-                return 0;
+                return 1;
             }
         }
 

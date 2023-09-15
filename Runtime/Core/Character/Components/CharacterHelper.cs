@@ -25,15 +25,7 @@ namespace Pangoo.Core.Character
 
         [SerializeField][HideInPlayMode] MotionInfo m_MotionInfo;
 
-        // [ShowInInspector] Vector3 MoveDirection{
-        //     get{
-        //         if(characterContainer == null){
-        //             return Vector3.zero;
-        //         }
-        //         var val =characterContainer?.GetVariable<Vector3>("MoveDirection");
-        //         return val != null ? val.Value : Vector3.zero;
-        //     }
-        // }
+
 
         public void Init()
         {

@@ -88,14 +88,77 @@ namespace Pangoo.Core.Character
             this.IsPlayer = val;
         }
 
+        CharacterInputService m_CharacterInputService;
+
+        public CharacterInputService CharacterInput
+        {
+            get
+            {
+                return m_CharacterInputService;
+            }
+        }
+
+        CharacterCameraService m_CharacterCameraService;
+
+        public CharacterCameraService CharacterCamera
+        {
+            get
+            {
+                return m_CharacterCameraService;
+            }
+        }
+
+        DriverService m_DriverService;
+
+
+        public DriverService Driver
+        {
+            get
+            {
+                return m_DriverService;
+            }
+        }
+
+
+        MotionActionService m_MotionActionService;
+
+
+        public MotionActionService MotionAction
+        {
+            get
+            {
+                return m_MotionActionService;
+            }
+        }
+
+
+        PlayerService m_PlayerService;
+
+
+        public PlayerService PlayerService
+        {
+            get
+            {
+                return m_PlayerService;
+            }
+        }
+
+
+
         public CharacterContainer(GameObject gameObject)
         {
             m_GameObject = gameObject;
-            AddService(new CharacterInputService(this));
-            AddService(new CharacterCameraService(this));
-            AddService(new DriverCharacterController(this));
-            AddService(new MotionActionService(this));
-            AddService(new PlayerService(this));
+            m_CharacterInputService = new CharacterInputService(this);
+            m_CharacterCameraService = new CharacterCameraService(this);
+            m_DriverService = new DriverService(this);
+            m_MotionActionService = new MotionActionService(this);
+            m_PlayerService = new PlayerService(this);
+
+            AddService(m_CharacterInputService);
+            AddService(m_CharacterCameraService);
+            AddService(m_DriverService);
+            AddService(m_MotionActionService);
+            AddService(m_PlayerService);
         }
 
 

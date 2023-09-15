@@ -11,14 +11,6 @@ namespace Pangoo.Core.Character
     [Serializable]
     public class CharacterInputService : CharacterBaseService
     {
-        public override int Priority
-        {
-            get
-            {
-                return 0;
-            }
-        }
-
         [SerializeReference]
         public InputValueVector2Base m_InputMove = InputValueVector2MotionPrimary.Create();
 
@@ -55,8 +47,9 @@ namespace Pangoo.Core.Character
         {
         }
 
-        public override void DoStart()
+        public override void DoAwake(INestedService parent)
         {
+            base.DoAwake(parent);
             m_InputMove.OnAwake();
             m_InputRotation.OnAwake();
             m_InputInteraction.OnAwake();
@@ -70,9 +63,22 @@ namespace Pangoo.Core.Character
             InputRotation = m_InputRotation?.Read() ?? Vector2.zero;
 
             InputInteraction = m_InputInteraction?.WasPressedThisFrame() ?? false;
+            if (InputInteraction)
+            {
+                Debug.Log($"InputTineraction.Down");
+            }
 
             InputJump = m_InputJump?.WasPressedThisFrame() ?? false;
-            Debug.Log($"InputMove:{InputMove}, InputRotation:{InputRotation} InputInteraction:{InputInteraction} InputJump:{InputJump}");
+            // Debug.Log($"InputMove:{InputMove}, InputRotation:{InputRotation} InputInteraction:{InputInteraction} InputJump:{InputJump}");
+        }
+
+
+        public override void DoDestroy()
+        {
+            m_InputMove.OnDestroy();
+            m_InputRotation.OnDestroy();
+            m_InputInteraction.OnDestroy();
+            m_InputJump.OnDestroy();
         }
 
 

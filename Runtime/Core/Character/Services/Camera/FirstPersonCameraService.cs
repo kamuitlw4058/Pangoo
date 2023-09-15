@@ -15,15 +15,8 @@ namespace Pangoo.Core.Character
         private Vector2 m_AnglesTarget = new Vector2(0, 0f);
 
 
-
         private const float _threshold = 0.01f;
 
-        public InputValueVector2Base m_Input;
-
-
-        public float RotationSpeedX = 60;
-
-        public float RotationSpeedY = 60;
 
         private float m_VelocityX;
         private float m_VelocityY;
@@ -44,7 +37,6 @@ namespace Pangoo.Core.Character
 
         public FirstPersonCameraService(INestedService parent) : base(parent)
         {
-            m_Input = InputValueVector2MotionSecondary.Create();
         }
 
         public void SetRotation(Quaternion rotation)
@@ -102,7 +94,6 @@ namespace Pangoo.Core.Character
         public override void DoAwake(INestedService parent)
         {
             base.DoAwake(parent);
-            m_Input.OnAwake();
             // m_InputMove = InputValueVector2MotionPrimary.Create();
             m_VirtualCamera = Character.gameObject.GetComponentInChildren<CinemachineVirtualCamera>();
             if (m_VirtualCamera == null)
@@ -115,7 +106,6 @@ namespace Pangoo.Core.Character
 
         public override void DoUpdate()
         {
-            this.m_Input?.OnUpdate();
             CameraRotation();
         }
 
@@ -123,12 +113,12 @@ namespace Pangoo.Core.Character
         {
             // if there is an input
 
-            Vector2 deltaInput = this.m_Input.Read();
+            Vector2 deltaInput = Character.CharacterInput.InputRotation;
             // Debug.Log($"deltaInput:{deltaInput}");
 
             this.ComputeInput(new Vector2(
-                deltaInput.x * DeltaTime * RotationSpeedX,
-                deltaInput.y * DeltaTime * RotationSpeedY
+                deltaInput.x * DeltaTime * Character.MotionInfo.RotationSpeedX,
+                deltaInput.y * DeltaTime * Character.MotionInfo.RotationSpeedY
             ));
 
             this.ConstrainTargetAngles();
@@ -217,30 +207,6 @@ namespace Pangoo.Core.Character
             if (m_AnglesTarget.y >= 360f) m_AnglesTarget.y -= 360f;
         }
 
-        public override void DoDestroy()
-        {
-            m_Input.OnDestroy();
-            base.DoDestroy();
-        }
-
-        public override void DoEnable()
-        {
-            base.DoEnable();
-            m_Input.Active = true;
-        }
-        public override void DoDisable()
-        {
-            m_Input.Active = false;
-            base.DoDisable();
-        }
-
-        // private Vector3 GetTargetPosition(TShotType shotType)
-        // {
-        //     Character target = this.m_Target.Get<Character>(shotType.Args);
-        //     if (target == null) return this.m_LastTargetPosition;
-
-        //     return target.transform.position + this.m_Offset.Get(shotType.Args);
-        // }
 
         private void ComputeInput(Vector2 deltaInput)
         {

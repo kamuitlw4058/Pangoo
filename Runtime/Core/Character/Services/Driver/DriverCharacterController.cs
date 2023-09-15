@@ -21,7 +21,7 @@ namespace Pangoo.Core.Character
         [ShowInInspector, ReadOnly]
         CharacterController m_Controller;
 
-        MotionActionService m_MotionActionSerice;
+        MotionActionService m_MotionActionService;
 
 
         [NonSerialized] protected float m_VerticalSpeed;
@@ -42,7 +42,7 @@ namespace Pangoo.Core.Character
         public Vector3 ControllerMoveDirection;
         public override void DoStart()
         {
-            m_MotionActionSerice = Parent.GetService<MotionActionService>();
+            m_MotionActionService = Character.MotionAction;
         }
 
 
@@ -63,7 +63,7 @@ namespace Pangoo.Core.Character
         {
             // Debug.Log($"Update Services:{Services}");
             // MoveDirection = Services.GetVariable<Vector3>("MoveDirection");
-            MoveDirection = m_MotionActionSerice.MoveDirection * Character.MotionInfo.LinearSpeed * DeltaTime;
+            MoveDirection = m_MotionActionService.MoveDirection * Character.MotionInfo.LinearSpeed * DeltaTime;
             // Debug.Log($"Update MoveDirection:{MoveDirection}");
             // if (this.Character.IsDead) return;
             // if (this.m_Controller == null) return;
@@ -126,55 +126,6 @@ namespace Pangoo.Core.Character
             );
         }
 
-
-
-        private void JumpAndGravity()
-        {
-            // if (Grounded)
-            // {
-            //     // reset the fall timeout timer
-            //     _fallTimeoutDelta = FallTimeout;
-
-            //     // stop our velocity dropping infinitely when grounded
-            //     if (_verticalVelocity < 0.0f)
-            //     {
-            //         _verticalVelocity = -2f;
-            //     }
-
-            //     // Jump
-            //     if (_input.jump && _jumpTimeoutDelta <= 0.0f)
-            //     {
-            //         // the square root of H * -2 * G = how much velocity needed to reach desired height
-            //         _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
-            //     }
-
-            //     // jump timeout
-            //     if (_jumpTimeoutDelta >= 0.0f)
-            //     {
-            //         _jumpTimeoutDelta -= Time.deltaTime;
-            //     }
-            // }
-            // else
-            // {
-            //     // reset the jump timeout timer
-            //     _jumpTimeoutDelta = JumpTimeout;
-
-            //     // fall timeout
-            //     if (_fallTimeoutDelta >= 0.0f)
-            //     {
-            //         _fallTimeoutDelta -= Time.deltaTime;
-            //     }
-
-            //     // if we are not grounded, do not jump
-            //     _input.jump = false;
-            // }
-
-            // // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
-            // if (_verticalVelocity < _terminalVelocity)
-            // {
-            //     _verticalVelocity += Gravity * Time.deltaTime;
-            // }
-        }
 
 
         public override void DoDestroy()
