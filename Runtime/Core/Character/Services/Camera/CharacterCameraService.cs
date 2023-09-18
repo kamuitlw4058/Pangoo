@@ -3,7 +3,7 @@ using UnityEngine;
 using Pangoo.Service;
 using Sirenix.OdinInspector;
 using Cinemachine;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+
 
 namespace Pangoo.Core.Character
 {
