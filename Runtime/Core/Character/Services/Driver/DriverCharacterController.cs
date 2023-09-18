@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using Pangoo.Service;
 using Sirenix.OdinInspector;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 
 
 namespace Pangoo.Core.Character
