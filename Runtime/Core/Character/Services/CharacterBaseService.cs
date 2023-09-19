@@ -9,7 +9,7 @@ namespace Pangoo.Core.Character
     public class CharacterBaseService : NestedServiceBase
     {
 
-        public CharacterContainer Character { get; private set; }
+        public CharacterService Character { get; private set; }
 
 
         public override float Time => Character.Time;
@@ -37,9 +37,9 @@ namespace Pangoo.Core.Character
         {
             if (parent != null)
             {
-                if (parent is CharacterContainer)
+                if (parent is CharacterService)
                 {
-                    Character = parent as CharacterContainer;
+                    Character = parent as CharacterService;
                 }
 
                 if (parent is CharacterBaseService)

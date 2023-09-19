@@ -7,7 +7,7 @@ namespace Pangoo.Core.Character
 {
 
     [Serializable]
-    public class CharacterContainer : NestedServiceBase
+    public class CharacterService : NestedServiceBase
     {
         [SerializeField] TimeMode CharacterTime;
 
@@ -143,9 +143,20 @@ namespace Pangoo.Core.Character
             }
         }
 
+        InteractionService m_InteractionService;
+
+        public InteractionService InteractionService
+        {
+            get
+            {
+                return m_InteractionService;
+            }
+        }
 
 
-        public CharacterContainer(GameObject gameObject)
+
+
+        public CharacterService(GameObject gameObject)
         {
             m_GameObject = gameObject;
             m_CharacterInputService = new CharacterInputService(this);
@@ -153,12 +164,15 @@ namespace Pangoo.Core.Character
             m_DriverService = new DriverService(this);
             m_MotionActionService = new MotionActionService(this);
             m_PlayerService = new PlayerService(this);
+            m_InteractionService = new InteractionService(this);
+
 
             AddService(m_CharacterInputService);
             AddService(m_CharacterCameraService);
             AddService(m_DriverService);
             AddService(m_MotionActionService);
             AddService(m_PlayerService);
+            AddService(m_InteractionService);
         }
 
 

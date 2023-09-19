@@ -18,13 +18,12 @@ namespace Pangoo.Core.Character
     {
 
         [SerializeField]
-        CharacterContainer characterContainer;
+        CharacterService characterContainer;
 
         [SerializeField][HideInPlayMode] bool m_IsPlayer;
         [ShowInInspector, ReadOnly] bool IsInited;
 
         [SerializeField][HideInPlayMode] MotionInfo m_MotionInfo;
-
 
 
         public void Init()
@@ -34,7 +33,7 @@ namespace Pangoo.Core.Character
                 return;
             }
             Debug.Log($"On Init:{characterContainer}");
-            characterContainer = new CharacterContainer(gameObject);
+            characterContainer = new CharacterService(gameObject);
             characterContainer.SetIsPlayer(m_IsPlayer);
             characterContainer.SetMotionInfo(m_MotionInfo);
             characterContainer.Awake(null);
@@ -80,7 +79,7 @@ namespace Pangoo.Core.Character
         [Button("强制初始化")]
         public void ForceAwake()
         {
-            characterContainer = new CharacterContainer(gameObject);
+            characterContainer = new CharacterService(gameObject);
             characterContainer.Awake(null);
             IsInited = true;
         }
@@ -88,6 +87,11 @@ namespace Pangoo.Core.Character
         public void SetMotionDirection()
         {
             characterContainer?.SetVariable<Vector3>("MoveDirection", new Vector3(0, 1, 0));
+        }
+
+        void OnDrawGizmos()
+        {
+            characterContainer?.DrawGizmos();
         }
 
     }

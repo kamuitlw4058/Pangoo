@@ -24,6 +24,14 @@ namespace Pangoo.Core.Common
 
         [NonSerialized] private int m_UpdateFrame = -1;
 
+        public int Count
+        {
+            get
+            {
+                return m_Items?.Count ?? 0;
+            }
+        }
+
         // CONSTRUCTOR: ---------------------------------------------------------------------------
 
         public SpatialHash()

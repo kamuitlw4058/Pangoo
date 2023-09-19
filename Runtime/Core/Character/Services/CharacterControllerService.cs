@@ -16,7 +16,6 @@ namespace Pangoo.Core.Character
         }
 
 
-
         public T ServiceType
         {
             get
@@ -30,10 +29,16 @@ namespace Pangoo.Core.Character
             }
         }
 
-        public abstract void RemoveService(T val);
+        public virtual void RemoveService(T val)
+        {
+
+        }
 
 
-        public abstract void AddService(T val);
+        public virtual void AddService(T val)
+        {
+
+        }
 
 
         public virtual void ChangeServiceType(T oldType, T newType, bool overwrite = false)
