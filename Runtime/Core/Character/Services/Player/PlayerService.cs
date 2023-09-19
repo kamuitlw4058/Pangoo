@@ -90,7 +90,8 @@ namespace Pangoo.Core.Character
             if (m_PlayerDirectionalService == null)
             {
                 m_PlayerDirectionalService = new PlayerDirectionalService(this);
-                m_PlayerDirectionalService.Awake(this);
+                m_PlayerDirectionalService.Parent = this;
+                m_PlayerDirectionalService.Awake();
             }
             AddService(m_PlayerDirectionalService);
         }

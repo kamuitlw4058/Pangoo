@@ -83,7 +83,7 @@ namespace Pangoo.Core.Character
                     if (m_FirstPersonCameraService == null)
                     {
                         m_FirstPersonCameraService = new FirstPersonCameraService(this);
-                        m_FirstPersonCameraService.Awake(this);
+                        m_FirstPersonCameraService.Awake();
                     }
 
                     AddService(m_FirstPersonCameraService);

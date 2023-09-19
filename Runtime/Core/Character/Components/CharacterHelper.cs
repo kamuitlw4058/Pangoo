@@ -36,7 +36,7 @@ namespace Pangoo.Core.Character
             characterContainer = new CharacterService(gameObject);
             characterContainer.SetIsPlayer(m_IsPlayer);
             characterContainer.SetMotionInfo(m_MotionInfo);
-            characterContainer.Awake(null);
+            characterContainer.Awake();
 
             IsInited = true;
         }
@@ -80,7 +80,7 @@ namespace Pangoo.Core.Character
         public void ForceAwake()
         {
             characterContainer = new CharacterService(gameObject);
-            characterContainer.Awake(null);
+            characterContainer.Awake();
             IsInited = true;
         }
         [Button("设置移动")]

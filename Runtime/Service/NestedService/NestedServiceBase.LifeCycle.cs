@@ -16,9 +16,8 @@ namespace Pangoo.Service
         //     Awake(m_Parent);
         // }
 
-        public void Awake(INestedService parent)
+        public void Awake()
         {
-            m_Parent = parent;
             if (IsAwaked)
             {
                 return;
@@ -28,9 +27,9 @@ namespace Pangoo.Service
             m_EventHelper = EventHelper.Create(this);
             for (int i = 0; i < m_ChildernArray.Length; i++)
             {
-                m_ChildernArray[i].Awake(this);
+                m_ChildernArray[i].Awake();
             }
-            DoAwake(parent);
+            DoAwake();
         }
 
         public void Start()

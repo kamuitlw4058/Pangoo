@@ -52,7 +52,7 @@ namespace Pangoo.Core.Character
                     if (m_DriverCharacterController == null)
                     {
                         m_DriverCharacterController = new DriverCharacterController(this);
-                        m_DriverCharacterController.Awake(this);
+                        m_DriverCharacterController.Awake();
                     }
 
                     AddService(m_DriverCharacterController);

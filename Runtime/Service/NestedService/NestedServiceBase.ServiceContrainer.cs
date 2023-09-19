@@ -50,10 +50,11 @@ namespace Pangoo.Service
                     m_ChildernArray = childernList.ToArray();
                 }
             }
+            service.Parent = this;
 
             if (IsAwaked)
             {
-                service.Awake(this);
+                service.Awake();
             }
 
 

@@ -23,13 +23,17 @@ namespace Pangoo.Service
         public virtual float DeltaTime => UnityEngine.Time.deltaTime;
         public virtual float Time => UnityEngine.Time.time;
 
-        INestedService m_Parent;
+        protected INestedService m_Parent;
 
         public INestedService Parent
         {
             get
             {
                 return m_Parent;
+            }
+            set
+            {
+                m_Parent = value;
             }
         }
 

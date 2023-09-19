@@ -91,9 +91,8 @@ namespace Pangoo.Core.Character
 
         }
 
-        public override void DoAwake(INestedService parent)
+        public override void DoAwake()
         {
-            base.DoAwake(parent);
             // m_InputMove = InputValueVector2MotionPrimary.Create();
             m_VirtualCamera = Character.gameObject.GetComponentInChildren<CinemachineVirtualCamera>();
             if (m_VirtualCamera == null)

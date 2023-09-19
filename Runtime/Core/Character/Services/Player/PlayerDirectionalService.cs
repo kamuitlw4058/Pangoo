@@ -31,10 +31,9 @@ namespace Pangoo.Core.Character
         {
         }
 
-        public override void DoAwake(INestedService parent)
+        public override void DoAwake()
         {
-            base.DoAwake(parent);
-            m_PlayerService = parent as PlayerService;
+            m_PlayerService = Parent as PlayerService;
         }
 
 

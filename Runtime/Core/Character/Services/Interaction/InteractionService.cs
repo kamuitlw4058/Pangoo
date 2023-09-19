@@ -40,6 +40,16 @@ namespace Pangoo.Core.Character
             m_InteractionMode = new InteractionModeNearCharacter();
         }
 
+        // public bool IsInsideFrustum(Vector3 itemPosition)
+        // {
+        //     Vector3 screenPoint = Character.CharacterCamera.Camera..WorldToScreenPoint(itemPosition);
+
+        //     // 判断点是否在摄像机视锥内
+        //     return screenPoint.x > 0 && screenPoint.x < Screen.width &&
+        //                            screenPoint.y > 0 && screenPoint.y < Screen.height &&
+        //                            screenPoint.z > 0;
+        // }
+
         public override void DoUpdate()
         {
             SpatialHashInteractionItems.Find(

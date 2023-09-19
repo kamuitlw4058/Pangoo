@@ -2,58 +2,34 @@ using UnityEngine;
 using Pangoo.Service;
 using Sirenix.OdinInspector;
 using Pangoo.Core.Common;
+using Pangoo.Core.Service;
 
 namespace Pangoo.Core.Character
 {
 
-    public class CharacterBaseService : NestedServiceBase
+    public class CharacterBaseService : MonoSubService<CharacterService>
     {
 
-        public CharacterService Character { get; private set; }
-
-
-        public override float Time => Character.Time;
-
-        public override float DeltaTime => Character.DeltaTime;
-
-        public Transform Transform
+        public CharacterService Character
         {
             get
             {
-                if (Character != null)
-                {
-                    return Character.CachedTransfrom;
-                }
-                return null;
+                return Master;
             }
-        }
-
-        public CharacterBaseService(INestedService parent) : base(parent)
-        {
-            InitParent(parent);
-        }
-
-        public void InitParent(INestedService parent)
-        {
-            if (parent != null)
+            set
             {
-                if (parent is CharacterService)
-                {
-                    Character = parent as CharacterService;
-                }
-
-                if (parent is CharacterBaseService)
-                {
-                    Character = (parent as CharacterBaseService).Character;
-                }
+                Master = value;
             }
         }
 
 
-        public override void DoAwake(INestedService parent)
+
+        public CharacterBaseService(INestedService parent) : base()
         {
+            Parent = parent;
             InitParent(parent);
         }
+
     }
 
 }
