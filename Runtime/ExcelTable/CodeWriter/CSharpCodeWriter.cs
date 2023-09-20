@@ -12,7 +12,7 @@ namespace Pangoo
     {
         ExcelTableData m_ExcelData;
         bool m_Named;
-        public CSharpCodeWriter(List<string> headers, ExcelTableData excelData,bool named)
+        public CSharpCodeWriter(List<string> headers, ExcelTableData excelData, bool named)
         {
             m_Headers = headers;
             m_ExcelData = excelData;
@@ -47,7 +47,8 @@ namespace Pangoo
 
 
             sw.WriteLine();
-            if(m_Named){
+            if (m_Named)
+            {
                 sw.WriteLine("        public override IReadOnlyList<ExcelNamedRowBase> NamedBaseRows{");
                 sw.WriteLine("          get{");
                 // sw.WriteLine("              List<ExcelNamedRowBase> ret = new List<ExcelNamedRowBase>();");
@@ -89,6 +90,15 @@ namespace Pangoo
 
 
             sw.WriteLine();
+            sw.WriteLine("        #if UNITY_EDITOR");
+            sw.WriteLine("        public  override void RemoveId(int Id){");
+            sw.WriteLine($"          var row = GetRowById<{m_ExcelData.ClassBaseName}Row>(Id);");
+            sw.WriteLine("          if(row == null) return;");
+            sw.WriteLine("          Rows.Remove(row);");
+            sw.WriteLine("        }");
+            sw.WriteLine("        #endif");
+
+            sw.WriteLine();
 
 
             sw.WriteLine($"        public {m_ExcelData.ClassBaseName}Row GetRowById(int row_id)" + "{");
@@ -106,24 +116,24 @@ namespace Pangoo
             sw.WriteLine();
 
 
-//             #if UNITY_EDITOR
-//             foreach(var row in Rows){
-//                 if(row.Id == row_id){
-//                     return row;
-//                 }
-//             }
-//             return null;
-// #else
-//           GameSectionRow row;
+            //             #if UNITY_EDITOR
+            //             foreach(var row in Rows){
+            //                 if(row.Id == row_id){
+            //                     return row;
+            //                 }
+            //             }
+            //             return null;
+            // #else
+            //           GameSectionRow row;
 
-//           if(Dict.TryGetValue(row_id,out row)){
-//               return row;
-//           }
-//          return null;
-// #endif
+            //           if(Dict.TryGetValue(row_id,out row)){
+            //               return row;
+            //           }
+            //          return null;
+            // #endif
 
 
-            
+
             sw.WriteLine($"#if UNITY_EDITOR");
             sw.WriteLine("        /// <summary> 从Excel文件重新构建数据 </summary>");
             sw.WriteLine("        public virtual void LoadExcelFile(string excelFilePath)");
@@ -156,12 +166,15 @@ namespace Pangoo
                     sw.WriteLine("        " + NoPruneAttribute);
 
                 sw.WriteLine("        [Serializable]");
-                if(m_Named){
+                if (m_Named)
+                {
                     sw.WriteLine("        {0} partial class {1} : ExcelNamedRowBase", visibility, type.AssignedName);
-                }else{
+                }
+                else
+                {
                     sw.WriteLine("        {0} partial class {1} : ExcelRowBase", visibility, type.AssignedName);
                 }
-                
+
                 sw.WriteLine("        {");
             }
 
@@ -185,11 +198,13 @@ namespace Pangoo
                     continue;
                 }
 
-                if(field.MemberName == "Id"){
+                if (field.MemberName == "Id")
+                {
                     continue;
                 }
 
-                if(m_Named &&  field.MemberName == "Name"){
+                if (m_Named && field.MemberName == "Name")
+                {
                     continue;
                 }
 
@@ -241,8 +256,8 @@ namespace Pangoo
                 if (config.UsePascalCase)
                 {
                     sw.WriteLine(prefix + "[JsonMember(\"{0}\")]", field.JsonMemberName);
-                    var col_index =  m_ExcelData.NameList.IndexOf(field.JsonMemberName);
-                    sw.WriteLine(prefix + $"[ExcelTableCol(\"{field.MemberName}\",\"{field.JsonMemberName}\",\"{m_ExcelData.TypeList[col_index]}\", \"{m_ExcelData.CnNameLst[col_index]}\",{col_index +1})]");
+                    var col_index = m_ExcelData.NameList.IndexOf(field.JsonMemberName);
+                    sw.WriteLine(prefix + $"[ExcelTableCol(\"{field.MemberName}\",\"{field.JsonMemberName}\",\"{m_ExcelData.TypeList[col_index]}\", \"{m_ExcelData.CnNameLst[col_index]}\",{col_index + 1})]");
                 }
 
                 //这边设定Array只有数据所以直接给数据的名字。

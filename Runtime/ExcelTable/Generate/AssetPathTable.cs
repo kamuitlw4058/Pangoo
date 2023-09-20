@@ -14,17 +14,8 @@ namespace Pangoo
     public partial class AssetPathTable : ExcelTableBase
     {
         [Serializable]
-        public partial class AssetPathRow : ExcelRowBase
+        public partial class AssetPathRow : ExcelNamedRowBase
         {
-
-            /// <summary>
-            /// Desc: 
-            /// </summary>
-            [TableTitleGroup("资源名称")]
-            [HideLabel]
-            [JsonMember("Name")]
-            [ExcelTableCol("Name","Name","string", "资源名称",2)]
-            public string Name ;
 
             /// <summary>
             /// Desc: 
@@ -73,6 +64,11 @@ namespace Pangoo
           }
         }
 
+        public override IReadOnlyList<ExcelNamedRowBase> NamedBaseRows{
+          get{
+              return Rows;
+          }
+        }
 
         [NonSerialized]
         [XmlIgnore]
@@ -89,6 +85,14 @@ namespace Pangoo
           var table = val as AssetPathTable;
           Rows.AddRange(table.Rows);
         }
+
+        #if UNITY_EDITOR
+        public  override void RemoveId(int Id){
+          var row = GetRowById<AssetPathRow>(Id);
+          if(row == null) return;
+          Rows.Remove(row);
+        }
+        #endif
 
         public AssetPathRow GetRowById(int row_id){
           #if UNITY_EDITOR

@@ -6,11 +6,12 @@ using UnityEditor;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-namespace Pangoo.Editor{
+namespace Pangoo.Editor
+{
 
     [ExecuteInEditMode]
     [DisallowMultipleComponent]
-    public class StaticSceneEditor : MonoBehaviour
+    public partial class StaticSceneEditor : MonoBehaviour
     {
         [ReadOnly]
         [ValueDropdown("GetSectionList")]
@@ -21,50 +22,61 @@ namespace Pangoo.Editor{
         public GameSectionTable.GameSectionRow SectionRow;
 
         [ReadOnly]
-        public  List<int> SceneIds;
+        public List<int> SceneIds;
 
         [ReadOnly]
         public List<GameObject> Scenes;
 
-        public IEnumerable GetSectionList(){
+        public IEnumerable GetSectionList()
+        {
             return GameSupportEditorUtility.GetExcelTableOverviewIds<GameSectionTableOverview>();
         }
 
-        public void ClearScene(){
-            if(Scenes != null){
-               
-                foreach(var scene in Scenes){
-                    try{
+        public void ClearScene()
+        {
+            if (Scenes != null)
+            {
+
+                foreach (var scene in Scenes)
+                {
+                    try
+                    {
                         DestroyImmediate(scene);
                     }
-                    catch{
+                    catch
+                    {
                     }
                 }
                 Scenes.Clear();
             }
         }
 
-        public void UpdateSection(){
-            if(SceneIds == null){
+        public void UpdateSection()
+        {
+            if (SceneIds == null)
+            {
                 SceneIds = new List<int>();
             }
 
-            if(Scenes == null){
+            if (Scenes == null)
+            {
                 Scenes = new List<GameObject>();
             }
             ClearScene();
-            if(Section == 0){
+            if (Section == 0)
+            {
                 return;
             }
 
-            
+
 
             SceneIds.Clear();
             SectionRow = GameSupportEditorUtility.GetGameSectionRowById(Section);
             SceneIds.AddRange(SectionRow.DynamicSceneIds.ToArrInt());
             SceneIds.AddRange(SectionRow.KeepSceneIds.ToArrInt());
 
-            foreach(var id in SceneIds){
+            foreach (var id in SceneIds)
+            {
                 var staticScene = GameSupportEditorUtility.GetStaticSceneRowById(id);
                 var assetPathRow = GameSupportEditorUtility.GetAssetPathRowById(staticScene.AssetPathId);
                 // Debug.Log($"Try Create Prefab:{staticScene},{assetPathRow.ToPrefabPath()}");
@@ -77,38 +89,46 @@ namespace Pangoo.Editor{
             }
         }
 
-        void UpdateGameObjectName(){
+        void UpdateGameObjectName()
+        {
             name = "$Static Scene";
-            
-            if(Section != 0){
+
+            if (Section != 0)
+            {
                 name = $"{name}-Section:{Section}";
             }
 
         }
 
-        public void OnSectionChange(){
+        public void OnSectionChange()
+        {
             UpdateSection();
             UpdateGameObjectName();
-        }  
+        }
 
-        private void OnEnable() {
+        private void OnEnable()
+        {
             UpdateSection();
         }
 
-        private void OnDisable() {
+        private void OnDisable()
+        {
 
         }
 
-        private void OnDestroy() {
+        private void OnDestroy()
+        {
             ClearScene();
         }
 
-        private void Update(){
+        private void Update()
+        {
             UpdateGameObjectName();
             gameObject.ResetTransfrom();
         }
 
-        public void SetSection(int id){
+        public void SetSection(int id)
+        {
             Section = id;
             OnSectionChange();
         }

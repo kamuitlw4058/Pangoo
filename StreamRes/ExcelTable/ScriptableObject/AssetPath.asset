@@ -58,3 +58,39 @@ MonoBehaviour:
       AssetType: DynamicObject
       AssetPath: tttt.prefab
       Desc: 
+    - Id: 200001
+      Name: "\u65B0\u674E\u5B85\u5C0F\u82B3\u623F\u95F4"
+      AssetPackageDir: Assets/Plugins/Pangoo
+      AssetType: Scene
+      AssetPath: SS_2Floor_XiaoFang_XinLiZhai.prefab
+      Desc: 
+    - Id: 200002
+      Name: "\u65B0\u674E\u5B852\u697C\u5BA2\u5385"
+      AssetPackageDir: Assets/Plugins/Pangoo
+      AssetType: Scene
+      AssetPath: SS_2Floor_KeTing_XinLiZhai.prefab
+      Desc: 
+    - Id: 200003
+      Name: "\u65B0\u674E\u5B852\u697C\u8001\u674E"
+      AssetPackageDir: Assets/Plugins/Pangoo
+      AssetType: Scene
+      AssetPath: SS_2Floor_LaoLi_XinLiZhai.prefab
+      Desc: 
+    - Id: 200004
+      Name: "\u65B0\u674E\u5B852\u697C\u8D70\u5ECA"
+      AssetPackageDir: Assets/Plugins/Pangoo
+      AssetType: Scene
+      AssetPath: SS_2Floor_ZouLang_XinLiZhai.prefab
+      Desc: 
+    - Id: 200005
+      Name: "\u65B0\u674E\u5B852\u697C\u7F57\u7476\u623F\u95F4"
+      AssetPackageDir: Assets/Plugins/Pangoo
+      AssetType: Scene
+      AssetPath: SS_2Floor_LuoYao_XinLiZhai.prefab
+      Desc: 
+    - Id: 200006
+      Name: "\u65B0\u674E\u5B852\u697C\u5395\u6240"
+      AssetPackageDir: Assets/Plugins/Pangoo
+      AssetType: Scene
+      AssetPath: SS_2Floor_CeSuo_XinLiZhai.prefab
+      Desc: 

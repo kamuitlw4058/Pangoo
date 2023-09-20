@@ -18,28 +18,34 @@ using Object = UnityEngine.Object;
 namespace Pangoo
 {
     [Serializable]
-   public abstract partial class ExcelTableBase
+    public abstract partial class ExcelTableBase
     {
         public int Priority = 0;
 
-        public  virtual IReadOnlyList<ExcelRowBase> BaseRows {
-            get{
-                return null;
-            }
-        }
-
-        public virtual IReadOnlyList<ExcelNamedRowBase> NamedBaseRows{
-            get{
-                return null;
-            }
-        }
-
-
-
-        public T GetRowById<T>(int id) where T:ExcelRowBase
+        public virtual IReadOnlyList<ExcelRowBase> BaseRows
         {
-            foreach(var row in BaseRows){
-                if(row.Id == id){
+            get
+            {
+                return null;
+            }
+        }
+
+        public virtual IReadOnlyList<ExcelNamedRowBase> NamedBaseRows
+        {
+            get
+            {
+                return null;
+            }
+        }
+
+
+
+        public T GetRowById<T>(int id) where T : ExcelRowBase
+        {
+            foreach (var row in BaseRows)
+            {
+                if (row.Id == id)
+                {
                     return (T)row;
                 }
             }
@@ -52,7 +58,8 @@ namespace Pangoo
 
         }
 
-        public virtual void Init(){
+        public virtual void Init()
+        {
             CustomInit();
         }
 
@@ -61,6 +68,13 @@ namespace Pangoo
         {
 
         }
+
+#if UNITY_EDITOR
+        public virtual void RemoveId(int Id)
+        {
+
+        }
+#endif
     }
 
 }

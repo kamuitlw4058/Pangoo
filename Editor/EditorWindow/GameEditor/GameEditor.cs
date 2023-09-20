@@ -21,26 +21,50 @@ namespace Pangoo.Editor
             window.MenuWidth = 280;
         }
 
+        public string GetMenuItemKey(string model, int id, string name)
+        {
+            return $"AssetPath-{id}-{name}";
+
+        }
+
         protected override OdinMenuTree BuildMenuTree()
         {
             var tree = new OdinMenuTree(false);
             tree.Config.DrawSearchToolbar = true;
             tree.Config.AutoScrollOnSelectionChanged = false;
             // 
-            var overviews = AssetDatabaseUtility.FindAsset<VolumeTableOverview>().ToList(); 
+            var overviews = AssetDatabaseUtility.FindAsset<VolumeTableOverview>().ToList();
             tree.Add("Volume编辑", new VolumeOverviewEditor(overviews, this));
 
-            foreach( var overview in overviews){
-                foreach( var volumeRow in overview.Data.Rows){
-                    var volume_dir_path = PathUtility.Join(overview.Config.PackageDir,"StreamRes/Volume");
-                    var volume_file_path = PathUtility.Join(volume_dir_path,$"{volumeRow.Name}.asset");
+            foreach (var overview in overviews)
+            {
+                foreach (var volumeRow in overview.Data.Rows)
+                {
+                    var volume_dir_path = PathUtility.Join(overview.Config.PackageDir, "StreamRes/Volume");
+                    var volume_file_path = PathUtility.Join(volume_dir_path, $"{volumeRow.Name}.asset");
                     VolumeProfile volume_so = AssetDatabaseUtility.LoadAssetAtPath<VolumeProfile>(volume_file_path);
-                    Debug.Log(volume_so);
-                        var customMenuItem = new OdinMenuItem(tree,
-                        $"Volume-{volumeRow.Id}-{volumeRow.Name} ",volume_so );
-                    tree.AddMenuItemAtPath("Volume编辑", customMenuItem);  
+                    var customMenuItem = new OdinMenuItem(tree,
+                    $"Volume-{volumeRow.Id}-{volumeRow.Name} ", volume_so);
+                    tree.AddMenuItemAtPath("Volume编辑", customMenuItem);
                 }
             }
+
+            var assetPathOverviews = AssetDatabaseUtility.FindAsset<AssetPathTableOverview>().ToList();
+            var overviewEditor = new OverviewEditorBase<AssetPathTableOverview, ExcelTableRowTableWrapper<AssetPathTableOverview, AssetPathTable.AssetPathRow>, AssetPathTable.AssetPathRow>();
+            overviewEditor.Overviews = assetPathOverviews;
+            overviewEditor.Window = this;
+            overviewEditor.Model = "AssetPath";
+            overviewEditor.InitWrappers();
+            tree.Add("AssetPath编辑", overviewEditor);
+            Debug.Log($"AssetPath Wrapper Count:{overviewEditor.Wrappers.Count}");
+            foreach (var wrapper in overviewEditor.Wrappers)
+            {
+
+                var customMenuItem = new OdinMenuItem(tree, GetMenuItemKey("AssetPath", wrapper.Id, wrapper.Name)
+                , wrapper);
+                tree.AddMenuItemAtPath("AssetPath编辑", customMenuItem);
+            }
+
 
             return tree;
         }

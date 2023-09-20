@@ -77,6 +77,14 @@ namespace Pangoo
           Rows.AddRange(table.Rows);
         }
 
+        #if UNITY_EDITOR
+        public  override void RemoveId(int Id){
+          var row = GetRowById<TriggerEventRow>(Id);
+          if(row == null) return;
+          Rows.Remove(row);
+        }
+        #endif
+
         public TriggerEventRow GetRowById(int row_id){
           #if UNITY_EDITOR
           return GetRowById<TriggerEventRow>(row_id);

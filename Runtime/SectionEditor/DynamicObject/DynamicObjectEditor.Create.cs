@@ -8,20 +8,23 @@ using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using Pangoo;
 
-namespace Pangoo.Editor{
+namespace Pangoo.Editor
+{
     public partial class DynamicObjectEditor : MonoBehaviour
     {
         public const string SubModelName = "Model";
-        private  OdinEditorWindow m_CreateDynamicObjectWindow;
+        private OdinEditorWindow m_CreateDynamicObjectWindow;
 
-        [Button("创建新的动态物体",ButtonSizes.Large)]
-        public void BuildDynamicObject(){
-             m_CreateDynamicObjectWindow = OdinEditorWindow.InspectObject(new DynamicObjectCreateWindow(this));
+        [Button("创建新的动态物体", ButtonSizes.Large)]
+        public void BuildDynamicObject()
+        {
+            m_CreateDynamicObjectWindow = OdinEditorWindow.InspectObject(new DynamicObjectCreateWindow(this));
         }
 
-        public void ConfirmCreate(int id,string name,string name_cn,GameObject prefab){
-            
-            PackageConfig pakcageConfig =  GameSupportEditorUtility.GetPakcageConfigByOverviewRowId<GameSectionTableOverview>(Section);
+        public void ConfirmCreate(int id, string name, string name_cn, GameObject prefab)
+        {
+
+            PackageConfig pakcageConfig = GameSupportEditorUtility.GetPakcageConfigByOverviewRowId<GameSectionTableOverview>(Section);
             GameSectionTableOverview gameSectionTableOverview = AssetDatabaseUtility.FindAssetFirst<GameSectionTableOverview>(pakcageConfig.PackageDir);
             DynamicObjectTableOverview overview = AssetDatabaseUtility.FindAssetFirst<DynamicObjectTableOverview>(pakcageConfig.PackageDir);
             Debug.Log($"overview:{overview}, overview.{overview.Config.PackageDir}");
@@ -35,17 +38,17 @@ namespace Pangoo.Editor{
             var prefab_name = $"{name}";
             var prefab_file_name = $"{prefab_name}.prefab";
 
-            var assetPathId =  DynamicObjectAssetPathIdBase + id;
+            var assetPathId = ConstExcelTable.DynamicObjectAssetPathIdBase + id;
 
             var assetPathRow = new AssetPathTable.AssetPathRow();
             assetPathRow.Id = assetPathId;
             assetPathRow.AssetPackageDir = pakcageConfig.PackageDir;
             assetPathRow.AssetPath = prefab_file_name;
-            assetPathRow.AssetType = DynamicObjectAssetTypeName;
+            assetPathRow.AssetType = ConstExcelTable.DynamicObjectAssetTypeName;
             assetPathRow.Name = name;
             assetPathTableOverview.Data.Rows.Add(assetPathRow);
             EditorUtility.SetDirty(assetPathTableOverview);
-           
+
 
 
             var row = new DynamicObjectTable.DynamicObjectRow();
@@ -60,7 +63,7 @@ namespace Pangoo.Editor{
 
             var go = new GameObject(prefab_name);
             go.transform.parent = transform;
-            var helper =  go.AddComponent<DynamicObjectEditorHelper>();
+            var helper = go.AddComponent<DynamicObjectEditorHelper>();
             go.ResetTransfrom();
 
             helper.DynamicObjectId = id;
@@ -70,13 +73,13 @@ namespace Pangoo.Editor{
             prefab_go.transform.parent = go.transform;
             prefab_go.ResetTransfrom(false);
             prefab_go.name = SubModelName;
-          
+
             gameSectionRow.AddDynamicObjectId(id);
             EditorUtility.SetDirty(gameSectionTableOverview);
 
             // Debug.Log($"assetPathRow:{assetPathRow.ToPrefabPath()}");
 
-           
+
             // string prefabPath = "Assets/Prefabs/MyPrefab.prefab";
             PrefabUtility.SaveAsPrefabAsset(go, assetPathRow.ToPrefabPath());
 
@@ -86,8 +89,9 @@ namespace Pangoo.Editor{
         }
 
 
-        public class DynamicObjectCreateWindow{
-            
+        public class DynamicObjectCreateWindow
+        {
+
             public int Id = 0;
 
             [LabelText("名字")]
@@ -96,7 +100,7 @@ namespace Pangoo.Editor{
             [LabelText("中文名")]
             public string NameCn = "";
 
-            
+
             [LabelText("模型预制体")]
             [AssetsOnly]
             [AssetSelector]
@@ -105,18 +109,21 @@ namespace Pangoo.Editor{
 
             DynamicObjectEditor m_Editor;
 
-            public DynamicObjectCreateWindow(DynamicObjectEditor editor){
+            public DynamicObjectCreateWindow(DynamicObjectEditor editor)
+            {
                 m_Editor = editor;
             }
 
 
-            public DynamicObjectCreateWindow(){
+            public DynamicObjectCreateWindow()
+            {
             }
 
             [Button("新建", ButtonSizes.Large)]
-            public void Create(){
+            public void Create()
+            {
 
-                if ( Id == 0 || Name.IsNullOrWhiteSpace() || ArtPrefab == null)
+                if (Id == 0 || Name.IsNullOrWhiteSpace() || ArtPrefab == null)
                 {
                     EditorUtility.DisplayDialog("错误", "Id, Name, 命名空间,ArtPrefab  必须填写", "确定");
                     // GUIUtility.ExitGUI();
@@ -124,33 +131,38 @@ namespace Pangoo.Editor{
                 }
 
 
-                if(StringUtility.ContainsChinese(Name)){
+                if (StringUtility.ContainsChinese(Name))
+                {
                     EditorUtility.DisplayDialog("错误", "Name不能包含中文", "确定");
                     // GUIUtility.ExitGUI();
                     return;
                 }
 
-                if(StringUtility.IsOnlyDigit(Name)){
+                if (StringUtility.IsOnlyDigit(Name))
+                {
                     EditorUtility.DisplayDialog("错误", "Name不能全是数字", "确定");
                     return;
                 }
 
-                if(char.IsDigit(Name[0])){
+                if (char.IsDigit(Name[0]))
+                {
                     EditorUtility.DisplayDialog("错误", "Name开头不能是数字", "确定");
                     return;
                 }
 
-                if(!GameSupportEditorUtility.ExistsExcelTableOverviewId<DynamicObjectTableOverview>(Id)){
+                if (!GameSupportEditorUtility.ExistsExcelTableOverviewId<DynamicObjectTableOverview>(Id))
+                {
                     EditorUtility.DisplayDialog("错误", "Id已经存在", "确定");
-                    return;  
+                    return;
                 }
 
-                if(!GameSupportEditorUtility.ExistsExcelTableOverviewName<DynamicObjectTableOverview>(Name)){
+                if (!GameSupportEditorUtility.ExistsExcelTableOverviewName<DynamicObjectTableOverview>(Name))
+                {
                     EditorUtility.DisplayDialog("错误", "Name已经存在", "确定");
-                    return;  
+                    return;
                 }
 
-                m_Editor.ConfirmCreate(Id, Name,NameCn,ArtPrefab);
+                m_Editor.ConfirmCreate(Id, Name, NameCn, ArtPrefab);
             }
         }
     }

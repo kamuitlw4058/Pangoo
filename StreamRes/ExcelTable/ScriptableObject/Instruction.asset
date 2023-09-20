@@ -16,11 +16,7 @@ MonoBehaviour:
   Data:
     Priority: 0
     Rows:
-    - Id: 2
+    - Id: 1
       Name: test
-      InstructionType: Pangoo.Core.VisualScripting.InstructionCommonDebugText
-      Params: fasdfasdf
-    - Id: 6
-      Name: ChangeToSelfCamera
-      InstructionType: Pangoo.Core.VisualScripting.InstructionCameraChange
-      Params: SelfCamera
+      InstructionType: ActiveCamera
+      Params: '{}'

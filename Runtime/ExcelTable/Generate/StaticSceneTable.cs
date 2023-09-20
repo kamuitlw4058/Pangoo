@@ -14,17 +14,17 @@ namespace Pangoo
     public partial class StaticSceneTable : ExcelTableBase
     {
         [Serializable]
-        public partial class StaticSceneRow : ExcelRowBase
+        public partial class StaticSceneRow : ExcelNamedRowBase
         {
 
             /// <summary>
             /// Desc: 
             /// </summary>
-            [TableTitleGroup("名字")]
+            [TableTitleGroup("中文名")]
             [HideLabel]
-            [JsonMember("Name")]
-            [ExcelTableCol("Name","Name","string", "名字",2)]
-            public string Name ;
+            [JsonMember("NameCn")]
+            [ExcelTableCol("NameCn","NameCn","string", "中文名",3)]
+            public string NameCn ;
 
             /// <summary>
             /// Desc: 
@@ -32,7 +32,7 @@ namespace Pangoo
             [TableTitleGroup("资源路径")]
             [HideLabel]
             [JsonMember("AssetPathId")]
-            [ExcelTableCol("AssetPathId","AssetPathId","int", "资源路径",3)]
+            [ExcelTableCol("AssetPathId","AssetPathId","int", "资源路径",4)]
             public int AssetPathId ;
 
             /// <summary>
@@ -41,7 +41,7 @@ namespace Pangoo
             [TableTitleGroup("实体组")]
             [HideLabel]
             [JsonMember("EntityGroupId")]
-            [ExcelTableCol("EntityGroupId","EntityGroupId","int", "实体组",4)]
+            [ExcelTableCol("EntityGroupId","EntityGroupId","int", "实体组",5)]
             public int EntityGroupId ;
 
             /// <summary>
@@ -50,7 +50,7 @@ namespace Pangoo
             [TableTitleGroup("加载场景")]
             [HideLabel]
             [JsonMember("LoadSceneIds")]
-            [ExcelTableCol("LoadSceneIds","LoadSceneIds","string", "加载场景",5)]
+            [ExcelTableCol("LoadSceneIds","LoadSceneIds","string", "加载场景",6)]
             public string LoadSceneIds ;
         }
 
@@ -64,6 +64,11 @@ namespace Pangoo
           }
         }
 
+        public override IReadOnlyList<ExcelNamedRowBase> NamedBaseRows{
+          get{
+              return Rows;
+          }
+        }
 
         [NonSerialized]
         [XmlIgnore]
@@ -80,6 +85,14 @@ namespace Pangoo
           var table = val as StaticSceneTable;
           Rows.AddRange(table.Rows);
         }
+
+        #if UNITY_EDITOR
+        public  override void RemoveId(int Id){
+          var row = GetRowById<StaticSceneRow>(Id);
+          if(row == null) return;
+          Rows.Remove(row);
+        }
+        #endif
 
         public StaticSceneRow GetRowById(int row_id){
           #if UNITY_EDITOR

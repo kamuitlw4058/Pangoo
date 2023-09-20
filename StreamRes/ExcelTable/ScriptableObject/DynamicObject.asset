@@ -17,9 +17,9 @@ MonoBehaviour:
     Priority: 0
     Rows:
     - Id: 2
-      Name: tttt
+      Name: Calendar
       AssetPathId: 100002
-      NameCn: adf
+      NameCn: "\u65E5\u5386"
       Position: {x: 0, y: 0, z: 0}
       Rotation: {x: 0, y: 0, z: 0}
-      TriggerEventIds: 1
+      TriggerEventIds: 
