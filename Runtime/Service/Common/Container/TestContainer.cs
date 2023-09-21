@@ -5,39 +5,45 @@ using UnityEngine;
 
 namespace Pangoo.Service
 {
-    public class TestServiceContainer : ServiceContainer,ILifeCycle
+    public class TestServiceContainer : ServiceContainer, ILifeCycle
     {
         public DataContainerService dataContainerService;
-        public TestServiceContainer(){
-            RegisterService( new ExcelTableService());
-            RegisterService( new StaticSceneService());
-            RegisterService( new GameSectionService());
+        public TestServiceContainer()
+        {
+            RegisterService(new ExcelTableService());
+            RegisterService(new StaticSceneService());
+            RegisterService(new GameSectionService());
             RegisterService(new GlobalDataService());
             RegisterService(new SaveLoadService());
             RegisterService(new RuntimeDataService());
             RegisterService(new DataContainerService());
-            
+            RegisterService(new GameInfoService());
+
+
         }
 
-        public void DoAwake(){
+        public void DoAwake()
+        {
             DoAwake(this);
         }
 
         public void DoAwake(IServiceContainer services)
         {
-            foreach(var service in GetAllServices()){
+            foreach (var service in GetAllServices())
+            {
                 service.DoAwake(services);
             }
         }
 
         public void DoDestroy()
         {
-            
+
         }
 
         public void DoStart()
         {
-            foreach(var service in GetAllServices()){
+            foreach (var service in GetAllServices())
+            {
                 service.DoStart();
             }
         }
@@ -45,29 +51,30 @@ namespace Pangoo.Service
         public int testObj;
         public void DoUpdate(float elapseSeconds, float realElapseSeconds)
         {
-            foreach(var service in GetAllServices()){
-                service.DoUpdate(elapseSeconds,realElapseSeconds);
+            foreach (var service in GetAllServices())
+            {
+                service.DoUpdate(elapseSeconds, realElapseSeconds);
             }
         }
 
         public void DoEnable()
         {
-          
+
         }
 
         public void DoFixedUpdate()
         {
-           
+
         }
 
         public void DoDisable()
         {
-            
+
         }
 
         public void DoDrawGizmos()
         {
-           
+
         }
 
     }

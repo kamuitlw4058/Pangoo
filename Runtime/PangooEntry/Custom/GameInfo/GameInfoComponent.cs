@@ -12,7 +12,7 @@ namespace Pangoo
 {
     public class GameInfoComponent : GameFrameworkComponent
     {
-        Dictionary<Type,IInfo> Infos = new Dictionary<Type, IInfo>();
+        Dictionary<Type, IInfo> Infos = new Dictionary<Type, IInfo>();
 
         [TableList]
         public GameInfoItem[] GameInfoItems;
@@ -22,7 +22,8 @@ namespace Pangoo
         {
             for (int i = 0; i < GameInfoItems.Length; i++)
             {
-                if(!GameInfoItems[i].Enable){
+                if (!GameInfoItems[i].Enable)
+                {
                     continue;
                 }
 
@@ -42,7 +43,7 @@ namespace Pangoo
                 Infos.Add(procedureType, info);
             }
 
-            foreach(var kv in Infos)
+            foreach (var kv in Infos)
             {
                 kv.Value.Init();
             }
@@ -50,18 +51,18 @@ namespace Pangoo
 
         private void Start()
         {
-            
+
 
 
         }
 
-        public T GetGameInfo<T>() where T :BaseInfo
+        public T GetGameInfo<T>() where T : BaseInfo
         {
             if (Infos.TryGetValue(typeof(T), out var info))
             {
                 return (T)info;
             }
-            Log.Warning($"获取 GameInfo:{typeof(T).Name} 配置表失败！");
+            Log.Error($"获取 GameInfo:{typeof(T).Name} 配置表失败！");
             return null;
         }
 

@@ -27,10 +27,11 @@ namespace Pangoo
         //     return entityComponent.ShowEntity( entityId, typeof(T), path,groupName, userData);
         // }
 
-        public static int ShowEntity(this EntityComponent entityComponent,EnumEntity enumEntity,EntityInfo entityInfo , object userData = null)
+        public static int ShowEntity(this EntityComponent entityComponent, EnumEntity enumEntity, EntityInfo entityInfo, object userData = null)
         {
             // Data.EntityData entityData = GameEntry.Data.GetData<DataEntity>().GetEntityData(entityId);
-           
+
+
 
             if (entityInfo == null)
             {
@@ -39,21 +40,24 @@ namespace Pangoo
             }
 
             Type LogicType = null;
-             switch(enumEntity){
+            switch (enumEntity)
+            {
                 case EnumEntity.None:
                     return 0;
                 case EnumEntity.StaticScene:
                     LogicType = typeof(EntityStaticScene);
                     break;
 
-             }
+            }
 
-             if(LogicType == null){
+            if (LogicType == null)
+            {
                 return 0;
-             }
+            }
 
             // 真是的去创建实体。
             var serialId = entityComponent.GenerateSerialId();
+            Debug.Log($"entityComponent:{entityComponent} entityInfo:{entityInfo} entityInfo:{entityInfo.GroupName}");
             if (!entityComponent.HasEntityGroup(entityInfo.GroupName))
             {
                 // PoolParamData poolParamData = entityData.EntityGroupData.PoolParamData;

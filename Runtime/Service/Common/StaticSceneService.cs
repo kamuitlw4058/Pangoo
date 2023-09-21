@@ -5,6 +5,7 @@ using GameFramework;
 using System;
 using UnityGameFramework.Runtime;
 using System.Linq;
+using UnityEngine;
 using Sirenix.OdinInspector;
 
 namespace Pangoo.Service
@@ -15,8 +16,8 @@ namespace Pangoo.Service
 
         GameInfoService m_GameInfoService;
 
-         EntityGroupTable m_EntityGroupTable;
-        
+        EntityGroupTable m_EntityGroupTable;
+
         EntityGroupTable.EntityGroupRow m_EntityGroupRow;
 
         // StaticSceneTable m_StaticSceneTable;
@@ -26,10 +27,10 @@ namespace Pangoo.Service
         EntityLoader Loader = null;
 
         [ShowInInspector]
-        Dictionary<int,int> m_EnterAssetCountDict;
+        Dictionary<int, int> m_EnterAssetCountDict;
 
         [ShowInInspector]
-        Dictionary<int,EntityStaticScene> m_LoadedSceneAssetDict;
+        Dictionary<int, EntityStaticScene> m_LoadedSceneAssetDict;
 
         [ShowInInspector]
         List<int> m_LoadingAssetIds;
@@ -37,25 +38,26 @@ namespace Pangoo.Service
 
         [ShowInInspector]
 
-        Dictionary<int,StaticSceneInfo.StaticSceneInfoRow> m_SectionSceneInfos;
+        Dictionary<int, StaticSceneInfo.StaticSceneInfoRow> m_SectionSceneInfos;
 
         [ShowInInspector]
         List<int> m_HoldStaticSceneIds;
 
         [ShowInInspector]
-        Dictionary<int,int> NeedLoadDict;
+        Dictionary<int, int> NeedLoadDict;
 
-        public bool AutoLoad {get;set;}
-
-
-        public bool AutoRelease {get;set;}
+        public bool AutoLoad { get; set; }
 
 
-        public Tuple<int,int> m_SectionChange;
+        public bool AutoRelease { get; set; }
 
-       
 
-        public override void DoAwake(IServiceContainer services){
+        public Tuple<int, int> m_SectionChange;
+
+
+
+        public override void DoAwake(IServiceContainer services)
+        {
             base.DoAwake(services);
             m_LoadingAssetIds = new List<int>();
             m_HoldStaticSceneIds = new List<int>();
@@ -63,183 +65,231 @@ namespace Pangoo.Service
             m_SectionSceneInfos = new Dictionary<int, StaticSceneInfo.StaticSceneInfoRow>();
 
             m_ExcelTableService = services.GetService<ExcelTableService>();
-            m_GameInfoService = services.GetService<GameInfoService>(); 
+            m_GameInfoService = services.GetService<GameInfoService>();
 
             m_LoadedSceneAssetDict = new Dictionary<int, EntityStaticScene>();
             m_EnterAssetCountDict = new Dictionary<int, int>();
 
             AutoLoad = true;
-            AutoRelease= true;
-            EventHelper.Subscribe(EnterStaticSceneEventArgs.EventId,OnEnterStaticSceneEven);
-            EventHelper.Subscribe(ExitStaticSceneEventArgs.EventId,OnExitStaticSceneEven);
+            AutoRelease = true;
+            EventHelper.Subscribe(EnterStaticSceneEventArgs.EventId, OnEnterStaticSceneEven);
+            EventHelper.Subscribe(ExitStaticSceneEventArgs.EventId, OnExitStaticSceneEven);
         }
 
-        void OnEnterStaticSceneEven(object sender, GameFrameworkEventArgs e){
+        void OnEnterStaticSceneEven(object sender, GameFrameworkEventArgs e)
+        {
             var args = e as EnterStaticSceneEventArgs;
             EnterSceneAsset(args.AssetPathId);
         }
 
-        void OnExitStaticSceneEven(object sender, GameFrameworkEventArgs e){
+        void OnExitStaticSceneEven(object sender, GameFrameworkEventArgs e)
+        {
             var args = e as ExitStaticSceneEventArgs;
             ExitSceneAsset(args.AssetPathId);
         }
 
-        public override void DoStart(){
+        public override void DoStart()
+        {
+
             // m_StaticSceneTable = m_ExcelTableService.GetExcelTable<StaticSceneTable>();
             m_StaticSceneInfo = m_GameInfoService.GetGameInfo<StaticSceneInfo>();
             m_EntityGroupTable = m_ExcelTableService.GetExcelTable<EntityGroupTable>();
             m_EntityGroupRow = m_EntityGroupTable.GetRowById(1);
+            Debug.Log($"DoStart StaticSceneService :{m_EntityGroupRow} m_EntityGroupRow:{m_EntityGroupRow.Name}");
         }
 
-        public void SetSectionIds(List<int> ids){
+        public void SetSectionIds(List<int> ids)
+        {
             m_SectionSceneInfos.Clear();
-            foreach(var id in ids){
+            foreach (var id in ids)
+            {
                 var sceneInfo = m_StaticSceneInfo.GetRowById(id);
-                m_SectionSceneInfos.Add(sceneInfo.AssetPathId,sceneInfo);
+                m_SectionSceneInfos.Add(sceneInfo.AssetPathId, sceneInfo);
             }
         }
 
-        public void SetHoldSceneId(List<int> ids){
+        public void SetHoldSceneId(List<int> ids)
+        {
             m_HoldStaticSceneIds.Clear();
             m_HoldStaticSceneIds.AddRange(ids);
         }
 
-        public void SetGameSectionChange(Tuple<int,int> value){
+        public void SetGameSectionChange(Tuple<int, int> value)
+        {
             m_SectionChange = value;
         }
 
 
 
-        public void EnterSceneAsset(int assetPathId){
+        public void EnterSceneAsset(int assetPathId)
+        {
             int count;
 
             Log.Debug($"EnterSceneAsset:{assetPathId} {m_EnterAssetCountDict.Count}");
-            if(!m_EnterAssetCountDict.TryGetValue(assetPathId,out count)){
-                m_EnterAssetCountDict.Add(assetPathId,1);
-            }else{
-                m_EnterAssetCountDict[assetPathId] = count +1;
+            if (!m_EnterAssetCountDict.TryGetValue(assetPathId, out count))
+            {
+                m_EnterAssetCountDict.Add(assetPathId, 1);
+            }
+            else
+            {
+                m_EnterAssetCountDict[assetPathId] = count + 1;
             }
 
             StaticSceneInfo.StaticSceneInfoRow staticSceneInfo;
-            if(m_SectionSceneInfos.TryGetValue(assetPathId,out staticSceneInfo)){
-                if(staticSceneInfo.Id == m_SectionChange.Item1){
-                    EventHelper.Fire(this,GameSectionChangeEventArgs.Create(m_SectionChange.Item2));
+            if (m_SectionSceneInfos.TryGetValue(assetPathId, out staticSceneInfo))
+            {
+                if (staticSceneInfo.Id == m_SectionChange.Item1)
+                {
+                    EventHelper.Fire(this, GameSectionChangeEventArgs.Create(m_SectionChange.Item2));
                 }
             }
 
         }
 
-        public void ExitSceneAsset(int assetPathId){
+        public void ExitSceneAsset(int assetPathId)
+        {
             int count;
             Log.Debug($"ExitSceneAsset:{assetPathId},{m_EnterAssetCountDict.Count}");
-            if(m_EnterAssetCountDict.TryGetValue(assetPathId,out count)){
-                count -=1;
-                if(count <= 0){
+            if (m_EnterAssetCountDict.TryGetValue(assetPathId, out count))
+            {
+                count -= 1;
+                if (count <= 0)
+                {
                     m_EnterAssetCountDict.Remove(assetPathId);
-                }else{
+                }
+                else
+                {
                     m_EnterAssetCountDict[assetPathId] = count;
                 }
             }
         }
 
-        public void  ShowStaticScene(int id){
-            if(Loader == null){
+        public void ShowStaticScene(int id)
+        {
+            if (Loader == null)
+            {
                 Loader = EntityLoader.Create(this);
             }
 
             //通过路径ID去判断是否被加载。用来在不同的章节下用了不用的静态场景ID,但是使用不同的加载Ids
             var sceneInfo = m_StaticSceneInfo.GetRowById(id);
             var AssetPathId = sceneInfo.AssetPathId;
-            if(m_LoadedSceneAssetDict.ContainsKey(AssetPathId)){
+            if (m_LoadedSceneAssetDict.ContainsKey(AssetPathId))
+            {
                 return;
             }
 
-             Log.Info($"ShowStaticScene:{id}");
-       
+            Log.Info($"ShowStaticScene:{id}");
+
 
             // 这边有一个假设，同一个时间不会反复加载不同的章节下的同一个场景。
-            if(m_LoadingAssetIds.Contains(AssetPathId)){
+            if (m_LoadingAssetIds.Contains(AssetPathId))
+            {
                 return;
-            }else{
-                EntityStaticSceneData data = EntityStaticSceneData.Create(sceneInfo.CreateEntityInfo(m_EntityGroupRow),this);
+            }
+            else
+            {
+                EntityStaticSceneData data = EntityStaticSceneData.Create(sceneInfo.CreateEntityInfo(m_EntityGroupRow), this);
                 m_LoadingAssetIds.Add(AssetPathId);
                 Loader.ShowEntity(EnumEntity.StaticScene,
-                    (o)=>{
-                        if(m_LoadingAssetIds.Contains(AssetPathId)){
+                    (o) =>
+                    {
+                        if (m_LoadingAssetIds.Contains(AssetPathId))
+                        {
                             m_LoadingAssetIds.Remove(AssetPathId);
                         }
-                        m_LoadedSceneAssetDict.Add(AssetPathId,o.Logic as EntityStaticScene);   
+                        m_LoadedSceneAssetDict.Add(AssetPathId, o.Logic as EntityStaticScene);
                     },
                     data.EntityInfo,
                     data);
             }
         }
 
-        public void UpdateNeedLoadDict(){
+        public void UpdateNeedLoadDict()
+        {
             NeedLoadDict.Clear();
-            
+
             // 玩家进入对应的场景后。对应场景有相应的场景加载要求。
-            foreach(var enterAssetId in  m_EnterAssetCountDict.Keys){
+            foreach (var enterAssetId in m_EnterAssetCountDict.Keys)
+            {
                 StaticSceneInfo.StaticSceneInfoRow sceneInfo;
-                if(m_SectionSceneInfos.TryGetValue(enterAssetId,out sceneInfo)){
-                    foreach(var id in sceneInfo.LoadSceneIds){
-                        if(!NeedLoadDict.ContainsKey(id)){
+                if (m_SectionSceneInfos.TryGetValue(enterAssetId, out sceneInfo))
+                {
+                    foreach (var id in sceneInfo.LoadSceneIds)
+                    {
+                        if (!NeedLoadDict.ContainsKey(id))
+                        {
                             var loadSceneInfo = m_StaticSceneInfo.GetRowById(id);
-                            NeedLoadDict.Add(id,loadSceneInfo.AssetPathId);
+                            NeedLoadDict.Add(id, loadSceneInfo.AssetPathId);
                         }
                     }
-                    if(!NeedLoadDict.ContainsKey(sceneInfo.Id)){
-                        NeedLoadDict.Add(sceneInfo.Id,sceneInfo.AssetPathId);
+                    if (!NeedLoadDict.ContainsKey(sceneInfo.Id))
+                    {
+                        NeedLoadDict.Add(sceneInfo.Id, sceneInfo.AssetPathId);
                     }
                 }
             }
 
 
             //章节服务会设置常驻的场景ID。用来打开该场景下通用的设置。
-            foreach(var keepSceneId in m_HoldStaticSceneIds){
+            foreach (var keepSceneId in m_HoldStaticSceneIds)
+            {
                 StaticSceneInfo.StaticSceneInfoRow sceneInfo = m_StaticSceneInfo.GetRowById(keepSceneId);
-                    if(!NeedLoadDict.ContainsKey(sceneInfo.Id)){
-                        NeedLoadDict.Add(sceneInfo.Id,sceneInfo.AssetPathId);
-                    }
+                if (!NeedLoadDict.ContainsKey(sceneInfo.Id))
+                {
+                    NeedLoadDict.Add(sceneInfo.Id, sceneInfo.AssetPathId);
+                }
             }
 
             // Log.Info($"UpdateNeedLoadIds:{NeedLoadDict.Keys.ToList().ToItemString()} EnterSceneId:{m_EnterAssetCountDict.Keys.ToList().ToItemString()}");
         }
 
-        public void UpdateAutoLoad(){
-           if(AutoLoad){
-                foreach(var loadId in NeedLoadDict.Keys){
+        public void UpdateAutoLoad()
+        {
+            if (AutoLoad)
+            {
+                foreach (var loadId in NeedLoadDict.Keys)
+                {
                     ShowStaticScene(loadId);
                 }
             }
         }
 
-        public void UpdateAutoRelease(){
-            if(AutoRelease){
+        public void UpdateAutoRelease()
+        {
+            if (AutoRelease)
+            {
                 List<int> removeScene = new List<int>();
-                foreach(var item in  m_LoadedSceneAssetDict){
-                    if(!NeedLoadDict.ContainsValue(item.Key) && !m_EnterAssetCountDict.ContainsKey(item.Key)){
-                        if(Loader.GetEntity(item.Value.Id)){
-                            Loader.HideEntity(item.Value.Id);  
+                foreach (var item in m_LoadedSceneAssetDict)
+                {
+                    if (!NeedLoadDict.ContainsValue(item.Key) && !m_EnterAssetCountDict.ContainsKey(item.Key))
+                    {
+                        if (Loader.GetEntity(item.Value.Id))
+                        {
+                            Loader.HideEntity(item.Value.Id);
                             Log.Info($"HideEntity:{item.Key}");
                         }
                         removeScene.Add(item.Key);
                     }
                 }
 
-                foreach(var id in removeScene){
+                foreach (var id in removeScene)
+                {
                     m_LoadedSceneAssetDict.Remove(id);
                 }
             }
 
         }
 
-        public void DumpStr(){
-             Log.Info("load :{}");
+        public void DumpStr()
+        {
+            Log.Info("load :{}");
         }
 
-        public override void DoUpdate(float elapseSeconds, float realElapseSeconds){
-            if(m_EnterAssetCountDict.Count == 0){
+        public override void DoUpdate(float elapseSeconds, float realElapseSeconds)
+        {
+            if (m_EnterAssetCountDict.Count == 0)
+            {
                 return;
             }
 
@@ -247,12 +297,12 @@ namespace Pangoo.Service
             UpdateAutoLoad();
             UpdateAutoRelease();
 
-           
+
 
 
 
 
         }
-        
+
     }
 }
