@@ -47,10 +47,6 @@ namespace Pangoo.Core.Character
 
         public override void DoUpdate()
         {
-            if (this.CurrentAction != null)
-            {
-                Debug.Log($"this.CurrentAction:{this.CurrentAction}");
-            }
             MoveDirection = Vector3.zero;
             this.CurrentAction?.Update();
 

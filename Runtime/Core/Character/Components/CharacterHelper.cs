@@ -21,7 +21,7 @@ namespace Pangoo.Core.Character
         CharacterService characterContainer;
 
         [SerializeField][HideInPlayMode] bool m_IsPlayer;
-        [ShowInInspector, ReadOnly] bool IsInited;
+        [ShowInInspector] bool IsInited;
 
         [SerializeField][HideInPlayMode] MotionInfo m_MotionInfo;
 

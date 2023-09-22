@@ -25,9 +25,12 @@ namespace Pangoo.Service
 
             IsAwaked = true;
             m_EventHelper = EventHelper.Create(this);
-            for (int i = 0; i < m_ChildernArray.Length; i++)
+            if (m_ChildernArray != null)
             {
-                m_ChildernArray[i].Awake();
+                for (int i = 0; i < m_ChildernArray.Length; i++)
+                {
+                    m_ChildernArray[i].Awake();
+                }
             }
             DoAwake();
         }

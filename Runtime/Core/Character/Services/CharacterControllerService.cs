@@ -8,11 +8,11 @@ namespace Pangoo.Core.Character
 
     public abstract class CharacterControllerService<T> : CharacterBaseService where T : Enum
     {
+        [SerializeField]
         protected T m_ServiceType = default(T);
 
         public CharacterControllerService(INestedService parent) : base(parent)
         {
-
         }
 
 
