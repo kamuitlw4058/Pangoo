@@ -17,9 +17,9 @@ MonoBehaviour:
     Priority: 0
     Rows:
     - Id: 2
-      Name: Calendar
-      AssetPathId: 100002
-      NameCn: "\u65E5\u5386"
+      Name: DianZiSuo
+      AssetPathId: 100001
+      NameCn: "\u7535\u5B50\u9501"
       Position: {x: 0, y: 0, z: 0}
       Rotation: {x: 0, y: 0, z: 0}
       TriggerEventIds: 

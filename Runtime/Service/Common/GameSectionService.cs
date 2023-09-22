@@ -11,8 +11,11 @@ namespace Pangoo.Service
 {
     public class GameSectionService : ServiceBase
     {
+        public override int Priority => 10;
+
         ExcelTableService m_ExcelTableService;
         StaticSceneService m_StaticSceneService;
+        DynamicObjectService m_DynamicObjectService;
 
         GameSectionTable m_GameSectionTable;
 
@@ -27,6 +30,8 @@ namespace Pangoo.Service
             base.DoAwake(services);
             m_StaticSceneService = services.GetService<StaticSceneService>();
             m_ExcelTableService = services.GetService<ExcelTableService>();
+            m_DynamicObjectService = services.GetService<DynamicObjectService>();
+
             EventHelper.Subscribe(GameSectionChangeEventArgs.EventId, OnGameSectionChangeEvent);
 
         }
@@ -73,6 +78,12 @@ namespace Pangoo.Service
                     {
                         m_StaticSceneService.ShowStaticScene(id);
                     }
+                }
+
+                var doIds = GameSection.DynamicObjectIds.ToListInt();
+                foreach (var doId in doIds)
+                {
+                    m_DynamicObjectService.ShowDynamicObject(doId);
                 }
 
                 Log.Info($"Update Static Scene:{GameSection.Id} KeepSceneIds:{GameSection.KeepSceneIds} DynamicSceneIds:{GameSection.DynamicSceneIds}");

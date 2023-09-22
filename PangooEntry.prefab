@@ -292,6 +292,8 @@ MonoBehaviour:
     GameInfoTypeName: Pangoo.AssetPathInfo
   - Enable: 1
     GameInfoTypeName: Pangoo.StaticSceneInfo
+  - Enable: 1
+    GameInfoTypeName: Pangoo.DynamicObjectInfo
 --- !u!1 &7138320360357503681
 GameObject:
   m_ObjectHideFlags: 0

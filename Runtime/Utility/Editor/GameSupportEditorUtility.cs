@@ -40,7 +40,7 @@ namespace Pangoo
                 var path = AssetDatabase.GUIDToAssetPath(x);
                 return Path.GetDirectoryName(path).Replace("\\", "/");
             });
-            
+
         }
 
         public static IEnumerable<string> GetAllScenes(string prefix)
@@ -50,7 +50,7 @@ namespace Pangoo
             {
                 assets = assets.Where(x => AssetDatabase.GUIDToAssetPath(x).StartsWith(prefix));
             }
-            
+
             return assets.Select(x =>
             {
                 var path = AssetDatabase.GUIDToAssetPath(x);
@@ -59,54 +59,66 @@ namespace Pangoo
         }
 
 
-        public static string GetPakcageDirByOverviewRowId<T>(int id) where T:ExcelTableOverview
+        public static string GetPakcageDirByOverviewRowId<T>(int id) where T : ExcelTableOverview
         {
             var overviews = AssetDatabaseUtility.FindAsset<T>();
-            foreach(var overview in overviews){
-                foreach(var row in overview.Table.BaseRows){
-                   if(row.Id == id){
-                    return overview.Config.PackageDir;
-                   }
+            foreach (var overview in overviews)
+            {
+                foreach (var row in overview.Table.BaseRows)
+                {
+                    if (row.Id == id)
+                    {
+                        return overview.Config.PackageDir;
+                    }
                 }
             }
             return null;
         }
 
-        public static PackageConfig GetPakcageConfigByOverviewRowId<T>(int id) where T:ExcelTableOverview
+        public static PackageConfig GetPakcageConfigByOverviewRowId<T>(int id) where T : ExcelTableOverview
         {
             var overviews = AssetDatabaseUtility.FindAsset<T>();
-            foreach(var overview in overviews){
-                foreach(var row in overview.Table.BaseRows){
-                   if(row.Id == id){
-                    return overview.Config;
-                   }
+            foreach (var overview in overviews)
+            {
+                foreach (var row in overview.Table.BaseRows)
+                {
+                    if (row.Id == id)
+                    {
+                        return overview.Config;
+                    }
                 }
             }
             return null;
         }
 
 
-        public static T GetExcelTableOverviewByRowId<T>(int id) where T:ExcelTableOverview
+        public static T GetExcelTableOverviewByRowId<T>(int id) where T : ExcelTableOverview
         {
             var overviews = AssetDatabaseUtility.FindAsset<T>();
-            foreach(var overview in overviews){
-                foreach(var row in overview.Table.BaseRows){
-                   if(row.Id == id){
-                    return overview;
-                   }
+            foreach (var overview in overviews)
+            {
+                foreach (var row in overview.Table.BaseRows)
+                {
+                    if (row.Id == id)
+                    {
+                        return overview;
+                    }
                 }
             }
             return null;
         }
 
-        public static R GetExcelTableRowWithOverviewById<T,R>(int id) where T:ExcelTableOverview where R:ExcelRowBase
+        public static R GetExcelTableRowWithOverviewById<T, R>(int id) where T : ExcelTableOverview where R : ExcelRowBase
         {
             var overviews = AssetDatabaseUtility.FindAsset<T>();
-            foreach(var overview in overviews){
-                foreach(var row in overview.Table.BaseRows){
-                   if(row.Id == id){
-                    return (R)row;
-                   }
+            foreach (var overview in overviews)
+            {
+                foreach (var row in overview.Table.BaseRows)
+                {
+                    if (row.Id == id)
+                    {
+                        return (R)row;
+                    }
                 }
             }
             return null;
@@ -127,37 +139,46 @@ namespace Pangoo
             return null;
         }
 
-        public static IEnumerable GetAllVolumeOverview(){
+        public static IEnumerable GetAllVolumeOverview()
+        {
             var overviews = AssetDatabaseUtility.FindAsset<VolumeTableOverview>();
             var ret = new ValueDropdownList<VolumeTableOverview>();
-            foreach(var overview in overviews){
+            foreach (var overview in overviews)
+            {
                 ret.Add(overview.Config.MainNamespace, overview);
             }
 
             return ret;
         }
 
-   
 
-        public static IEnumerable GetVolumeRow(){
+
+        public static IEnumerable GetVolumeRow()
+        {
             var overviews = AssetDatabaseUtility.FindAsset<VolumeTableOverview>();
             var ret = new ValueDropdownList<int>();
-            foreach(var overview in overviews){
-                foreach(var row in overview.Data.Rows){
+            foreach (var overview in overviews)
+            {
+                foreach (var row in overview.Data.Rows)
+                {
                     ret.Add($"{row.Id}-{row.Name}", row.Id);
                 }
-                
+
             }
             return ret;
         }
 
 
 
-        public static bool CheckVolumeId(int id){
+        public static bool CheckVolumeId(int id)
+        {
             var overviews = AssetDatabaseUtility.FindAsset<VolumeTableOverview>();
-            foreach(var overview in overviews){
-                foreach(var row in overview.Data.Rows){
-                    if(row.Id == id){
+            foreach (var overview in overviews)
+            {
+                foreach (var row in overview.Data.Rows)
+                {
+                    if (row.Id == id)
+                    {
                         return false;
                     }
                 }
@@ -166,11 +187,15 @@ namespace Pangoo
             return true;
         }
 
-        public static bool CheckVolumeDupName(string name){
+        public static bool CheckVolumeDupName(string name)
+        {
             var overviews = AssetDatabaseUtility.FindAsset<VolumeTableOverview>();
-            foreach(var overview in overviews){
-                foreach(var row in overview.Data.Rows){
-                    if(row.Name == name){
+            foreach (var overview in overviews)
+            {
+                foreach (var row in overview.Data.Rows)
+                {
+                    if (row.Name == name)
+                    {
                         return false;
                     }
                 }
@@ -180,10 +205,12 @@ namespace Pangoo
         }
 
 
-        public static IEnumerable GetGameInfoItem(){
+        public static IEnumerable GetGameInfoItem()
+        {
             var infos = Utility.Assembly.GetTypes(typeof(BaseInfo));
             var ret = new ValueDropdownList<string>();
-            foreach(var info in infos){
+            foreach (var info in infos)
+            {
                 ret.Add(info.FullName);
             }
 
@@ -191,18 +218,22 @@ namespace Pangoo
         }
 
 
-        public static IEnumerable<string> GetTypeNames<T>(){
+        public static IEnumerable<string> GetTypeNames<T>()
+        {
             return TypeUtility.GetRuntimeTypeNames(typeof(T));
         }
 
-        public static IEnumerable<System.Type> GetTypes<T>(){
+        public static IEnumerable<System.Type> GetTypes<T>()
+        {
             return TypeUtility.GetRuntimeTypes(typeof(T));
         }
 
-        public static string[] GetPakcageDirs(){
-            var packages= AssetDatabaseUtility.FindAsset<PackageConfig>().ToArray();
+        public static string[] GetPakcageDirs()
+        {
+            var packages = AssetDatabaseUtility.FindAsset<PackageConfig>().ToArray();
             string[] ret = new string[packages.Length];
-            for(int i = 0;i < packages.Length;i++){
+            for (int i = 0; i < packages.Length; i++)
+            {
                 ret[i] = packages[i].PackageDir;
             }
             return ret;
@@ -210,12 +241,14 @@ namespace Pangoo
 
         public static IEnumerable GetPrefabs(string assetType)
         {
-            var packageDirs =  GetPakcageDirs();
+            var packageDirs = GetPakcageDirs();
             var ret = new ValueDropdownList<GameObject>();
-            for(int i = 0;i < packageDirs.Length;i++){
-                var datas = AssetDatabaseUtility.FindAsset<GameObject>(AssetUtility.GetPrefabDir(packageDirs[i],assetType));
-                foreach(var data in datas){
-                    ret.Add(data.name,data);
+            for (int i = 0; i < packageDirs.Length; i++)
+            {
+                var datas = AssetDatabaseUtility.FindAsset<GameObject>(AssetUtility.GetPrefabDir(packageDirs[i], assetType));
+                foreach (var data in datas)
+                {
+                    ret.Add(data.name, data);
                 }
             }
 
@@ -227,8 +260,9 @@ namespace Pangoo
         {
             var datas = AssetDatabaseUtility.FindAsset<PackageConfig>();
             var ret = new ValueDropdownList<PackageConfig>();
-            foreach(var data in datas){
-                ret.Add(data.MainNamespace,data);
+            foreach (var data in datas)
+            {
+                ret.Add(data.MainNamespace, data);
             }
 
             return datas;
@@ -243,22 +277,26 @@ namespace Pangoo
             return namespaces;
         }
 
-        public static IEnumerable GetInstructionType(string currentTypeStr = null){
+        public static IEnumerable GetInstructionType(string currentTypeStr = null)
+        {
             var types = Utility.Assembly.GetTypes(typeof(Instruction));
             Type currentType = null;
-            if(currentTypeStr != null){
+            if (currentTypeStr != null)
+            {
                 currentType = Utility.Assembly.GetType(currentTypeStr);
             }
-           
-             ValueDropdownList<string> ret = new();
-             for(int i =0;i< types.Length;i ++){
+
+            ValueDropdownList<string> ret = new();
+            for (int i = 0; i < types.Length; i++)
+            {
                 var type = types[i];
-                if(type == currentType){
+                if (type == currentType)
+                {
                     continue;
                 }
                 var attr = type.GetCustomAttribute(typeof(CategoryAttribute));
                 ret.Add(attr.ToString(), types[i].ToString());
-             }
+            }
             return ret;
         }
 #endif

@@ -27,20 +27,20 @@ namespace Pangoo
                     continue;
                 }
 
-                Type procedureType = TypeUtility.GetRuntimeType(GameInfoItems[i].GameInfoTypeName);
-                if (procedureType == null)
+                Type infoType = TypeUtility.GetRuntimeType(GameInfoItems[i].GameInfoTypeName);
+                if (infoType == null)
                 {
                     Log.Error("Can not find data type '{0}'.", GameInfoItems[i].GameInfoTypeName);
                     return;
                 }
 
-                var info = (IInfo)Activator.CreateInstance(procedureType);
+                var info = (IInfo)Activator.CreateInstance(infoType);
                 if (info == null)
                 {
                     Log.Error("Can not create data instance '{0}'.", GameInfoItems[i].GameInfoTypeName);
                     return;
                 }
-                Infos.Add(procedureType, info);
+                Infos.Add(infoType, info);
             }
 
             foreach (var kv in Infos)

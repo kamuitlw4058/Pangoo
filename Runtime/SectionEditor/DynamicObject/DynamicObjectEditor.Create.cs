@@ -15,40 +15,24 @@ namespace Pangoo.Editor
         public const string SubModelName = "Model";
         private OdinEditorWindow m_CreateDynamicObjectWindow;
 
+
+        private static OdinEditorWindow m_CreateAssetPathWindow;
+
         [Button("创建新的动态物体", ButtonSizes.Large)]
         public void BuildDynamicObject()
         {
             m_CreateDynamicObjectWindow = OdinEditorWindow.InspectObject(new DynamicObjectCreateWindow(this));
         }
 
-        public void ConfirmCreate(int id, string name, string name_cn, GameObject prefab)
+        public void ConfirmCreate(int id, int assetPathId, string name, string name_cn)
         {
 
             PackageConfig pakcageConfig = GameSupportEditorUtility.GetPakcageConfigByOverviewRowId<GameSectionTableOverview>(Section);
             GameSectionTableOverview gameSectionTableOverview = AssetDatabaseUtility.FindAssetFirst<GameSectionTableOverview>(pakcageConfig.PackageDir);
             DynamicObjectTableOverview overview = AssetDatabaseUtility.FindAssetFirst<DynamicObjectTableOverview>(pakcageConfig.PackageDir);
             Debug.Log($"overview:{overview}, overview.{overview.Config.PackageDir}");
-            AssetPathTableOverview assetPathTableOverview = AssetDatabaseUtility.FindAssetFirst<AssetPathTableOverview>(pakcageConfig.PackageDir);
-            // assetPackageTableOverview.GetAssetPackageIdByConfig
 
             var gameSectionRow = gameSectionTableOverview.Data.GetRowById(Section);
-
-
-
-            var prefab_name = $"{name}";
-            var prefab_file_name = $"{prefab_name}.prefab";
-
-            var assetPathId = ConstExcelTable.DynamicObjectAssetPathIdBase + id;
-
-            var assetPathRow = new AssetPathTable.AssetPathRow();
-            assetPathRow.Id = assetPathId;
-            assetPathRow.AssetPackageDir = pakcageConfig.PackageDir;
-            assetPathRow.AssetPath = prefab_file_name;
-            assetPathRow.AssetType = ConstExcelTable.DynamicObjectAssetTypeName;
-            assetPathRow.Name = name;
-            assetPathTableOverview.Data.Rows.Add(assetPathRow);
-            EditorUtility.SetDirty(assetPathTableOverview);
-
 
 
             var row = new DynamicObjectTable.DynamicObjectRow();
@@ -60,30 +44,9 @@ namespace Pangoo.Editor
             EditorUtility.SetDirty(overview);
 
 
-
-            var go = new GameObject(prefab_name);
-            go.transform.parent = transform;
-            var helper = go.AddComponent<DynamicObjectEditorHelper>();
-            go.ResetTransfrom();
-
-            helper.DynamicObjectId = id;
-            helper.Model = prefab;
-
-            var prefab_go = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
-            prefab_go.transform.parent = go.transform;
-            prefab_go.ResetTransfrom(false);
-            prefab_go.name = SubModelName;
-
             gameSectionRow.AddDynamicObjectId(id);
             EditorUtility.SetDirty(gameSectionTableOverview);
 
-            // Debug.Log($"assetPathRow:{assetPathRow.ToPrefabPath()}");
-
-
-            // string prefabPath = "Assets/Prefabs/MyPrefab.prefab";
-            PrefabUtility.SaveAsPrefabAsset(go, assetPathRow.ToPrefabPath());
-
-            GameObject.DestroyImmediate(go);
             AssetDatabase.SaveAssets();
             OnSectionChange();
         }
@@ -101,10 +64,29 @@ namespace Pangoo.Editor
             public string NameCn = "";
 
 
-            [LabelText("模型预制体")]
-            [AssetsOnly]
-            [AssetSelector]
-            public GameObject ArtPrefab;
+            [LabelText("资源ID")]
+            [ValueDropdown("AssetPathIdValueDropdown")]
+            [InlineButton("ShowCreateAssetPath", SdfIconType.Plus, Label = "")]
+            public int AssetPathId;
+
+
+            public IEnumerable AssetPathIdValueDropdown()
+            {
+                return GameSupportEditorUtility.GetAssetPathIds(ids: new List<int> { AssetPathId }, assetTypes: new List<string> { "DynamicObject" });
+            }
+
+            public void ShowCreateAssetPath()
+            {
+                PackageConfig config = GameSupportEditorUtility.GetPakcageConfigByOverviewRowId<GameSectionTableOverview>(m_Editor.Section);
+                var window = new AssetPathWrapper(config, Id, ConstExcelTable.DynamicObjectAssetTypeName, Name, ConstExcelTable.PrefabType, AfterCreateAsset);
+                m_CreateAssetPathWindow = OdinEditorWindow.InspectObject(window);
+            }
+
+            public void AfterCreateAsset(int id)
+            {
+                AssetPathId = id;
+                m_CreateAssetPathWindow.Close();
+            }
 
 
             DynamicObjectEditor m_Editor;
@@ -123,7 +105,7 @@ namespace Pangoo.Editor
             public void Create()
             {
 
-                if (Id == 0 || Name.IsNullOrWhiteSpace() || ArtPrefab == null)
+                if (Id == 0 || Name.IsNullOrWhiteSpace())
                 {
                     EditorUtility.DisplayDialog("错误", "Id, Name, 命名空间,ArtPrefab  必须填写", "确定");
                     // GUIUtility.ExitGUI();
@@ -162,7 +144,7 @@ namespace Pangoo.Editor
                     return;
                 }
 
-                m_Editor.ConfirmCreate(Id, Name, NameCn, ArtPrefab);
+                m_Editor.ConfirmCreate(Id, AssetPathId, Name, NameCn);
             }
         }
     }

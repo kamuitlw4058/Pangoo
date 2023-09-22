@@ -96,6 +96,9 @@ namespace Pangoo.Editor
                 go.transform.parent = transform;
                 go.transform.localPosition = dynamicObjectRow.Position;
                 go.transform.localRotation = Quaternion.Euler(dynamicObjectRow.Rotation);
+                var helper = go.AddComponent<DynamicObjectEditorHelper>();
+                helper.DynamicObjectId = id;
+
                 // go.ResetTransfrom();
                 DyncObjectList.Add(new GameSectionDynamicObjectWrapper(this, SectionRow, dynamicObjectRow, go));
             }

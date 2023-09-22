@@ -18,6 +18,7 @@ namespace Pangoo.Service
             RegisterService(new RuntimeDataService());
             RegisterService(new DataContainerService());
             RegisterService(new GameInfoService());
+            RegisterService(new DynamicObjectService());
 
 
         }

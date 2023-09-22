@@ -47,6 +47,9 @@ namespace Pangoo
                 case EnumEntity.StaticScene:
                     LogicType = typeof(EntityStaticScene);
                     break;
+                case EnumEntity.DynamicObject:
+                    LogicType = typeof(EntityDynamicObject);
+                    break;
 
             }
 
