@@ -177,12 +177,15 @@ namespace Pangoo.Core.Character
             Debug.Log($"m_VirtualCamera:{m_VirtualCamera} Character:{Character}");
             Debug.Log($"Character:{Character.CachedTransfrom}");
             m_VirtualCamera.Follow = Character.CachedTransfrom;
+            m_VirtualCamera.DestroyCinemachineComponent<CinemachineComposer>();
             var transposer = m_VirtualCamera.AddCinemachineComponent<CinemachineTransposer>();
             transposer.m_BindingMode = CinemachineTransposer.BindingMode.LockToTarget;
             transposer.m_FollowOffset = Vector3.zero;
             transposer.m_XDamping = 0;
             transposer.m_YawDamping = 0;
+            transposer.m_YDamping = 0;
             transposer.m_ZDamping = 0;
+
         }
 
         private float GetRotationDamp(float current, float target, ref float velocity,

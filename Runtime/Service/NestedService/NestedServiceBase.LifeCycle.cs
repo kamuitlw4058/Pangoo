@@ -38,9 +38,12 @@ namespace Pangoo.Service
         public void Start()
         {
             IsStarted = true;
-            for (int i = 0; i < m_ChildernArray.Length; i++)
+            if (m_ChildernArray != null)
             {
-                m_ChildernArray[i].Start();
+                for (int i = 0; i < m_ChildernArray.Length; i++)
+                {
+                    m_ChildernArray[i].Start();
+                }
             }
             DoStart();
 
@@ -48,9 +51,12 @@ namespace Pangoo.Service
 
         public void Update()
         {
-            for (int i = 0; i < m_ChildernArray.Length; i++)
+            if (m_ChildernArray != null)
             {
-                m_ChildernArray[i].Update();
+                for (int i = 0; i < m_ChildernArray.Length; i++)
+                {
+                    m_ChildernArray[i].Update();
+                }
             }
 
             DoUpdate();
@@ -59,9 +65,13 @@ namespace Pangoo.Service
 
         public void Destroy()
         {
-            for (int i = 0; i < m_ChildernArray.Length; i++)
+            if (m_ChildernArray != null)
             {
-                m_ChildernArray[i].Destroy();
+
+                for (int i = 0; i < m_ChildernArray.Length; i++)
+                {
+                    m_ChildernArray[i].Destroy();
+                }
             }
 
             DoDestroy();
@@ -76,37 +86,50 @@ namespace Pangoo.Service
 
         public void Enable()
         {
-            for (int i = 0; i < m_ChildernArray.Length; i++)
+            if (m_ChildernArray != null)
             {
-                m_ChildernArray[i].Enable();
+                for (int i = 0; i < m_ChildernArray.Length; i++)
+                {
+                    m_ChildernArray[i].Enable();
+                }
             }
             DoEnable();
         }
 
         public void Disable()
         {
-            for (int i = 0; i < m_ChildernArray.Length; i++)
+            if (m_ChildernArray != null)
             {
-                m_ChildernArray[i].Disable();
+                for (int i = 0; i < m_ChildernArray.Length; i++)
+                {
+                    m_ChildernArray[i].Disable();
+                }
             }
             DoDisable();
         }
 
         public void FixedUpdate()
         {
-            for (int i = 0; i < m_ChildernArray.Length; i++)
+            if (m_ChildernArray != null)
             {
-                m_ChildernArray[i].FixedUpdate();
+                for (int i = 0; i < m_ChildernArray.Length; i++)
+                {
+                    m_ChildernArray[i].FixedUpdate();
+                }
             }
             DoFixedUpdate();
         }
 
         public void DrawGizmos()
         {
-            for (int i = 0; i < m_ChildernArray.Length; i++)
+            if (m_ChildernArray != null)
             {
-                m_ChildernArray[i].DrawGizmos();
+                for (int i = 0; i < m_ChildernArray.Length; i++)
+                {
+                    m_ChildernArray[i].DrawGizmos();
+                }
             }
+
             DoDrawGizmos();
         }
     }

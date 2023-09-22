@@ -15,7 +15,7 @@ namespace Pangoo
     {
         // private DataBase[] datas;
 
-         GameMainConfig packageConfig;
+        GameMainConfig packageConfig;
 
 
         private Dictionary<string, bool> m_LoadedFlag = new Dictionary<string, bool>();
@@ -34,9 +34,11 @@ namespace Pangoo
             PangooEntry.Event.Subscribe(LoadDictionarySuccessEventArgs.EventId, OnLoadDictionarySuccess);
             PangooEntry.Event.Subscribe(LoadDictionaryFailureEventArgs.EventId, OnLoadDictionaryFailure);
 
-             packageConfig = PangooEntry.GameConfig.GetGameMainConfig();
+            packageConfig = PangooEntry.GameConfig.GetGameMainConfig();
 
-             PangooEntry.ExcelTable.LoadExcelTable();
+            PangooEntry.ExcelTable.LoadExcelTable();
+            PangooEntry.GameInfo.Init();
+
 
             // GameFramework.Data.Data[] _datas = GameEntry.Data.GetAllData();
 
@@ -80,17 +82,19 @@ namespace Pangoo
             // ChangeState<ProcedureLoadingScene>(procedureOwner);
 
 
-                if(packageConfig != null){
-                    // if(!string.IsNullOrEmpty(packageConfig.DefaultJumpScene) && packageConfig.DefaultJumpScene != ConstString.NULL){
-                    //     PangooEntry.PangooScene.LoadScene(packageConfig.GetDefaultJumpScene());
-                    // }
+            if (packageConfig != null)
+            {
+                // if(!string.IsNullOrEmpty(packageConfig.DefaultJumpScene) && packageConfig.DefaultJumpScene != ConstString.NULL){
+                //     PangooEntry.PangooScene.LoadScene(packageConfig.GetDefaultJumpScene());
+                // }
 
 
-                    if(!string.IsNullOrEmpty( packageConfig.EntryProcedure)){
-                        Type procedureType = Utility.Assembly.GetType( packageConfig.EntryProcedure);
-                        ChangeState(procedureOwner,procedureType);
-                    }
+                if (!string.IsNullOrEmpty(packageConfig.EntryProcedure))
+                {
+                    Type procedureType = Utility.Assembly.GetType(packageConfig.EntryProcedure);
+                    ChangeState(procedureOwner, procedureType);
                 }
+            }
         }
 
 

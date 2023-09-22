@@ -150,7 +150,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 189215931}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.31, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -516,8 +516,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1376713558}
-  m_LocalRotation: {x: -0.26650304, y: 0.2980939, z: -0.08749126, w: -0.91239333}
-  m_LocalPosition: {x: -0.39823365, y: 6.006755, z: -11.931569}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.23, y: 1.88, z: -0.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -713,13 +713,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterContainer:
-    m_ChildernArray:
-    - rid: 4257720721778671642
-    - rid: 4257720721778671643
-    - rid: 4257720721778671644
-    - rid: 4257720721778671645
-    - rid: 4257720721778671646
-    - rid: 4257720721778671647
     MonoTimeMode:
       m_UpdateTime: 0
     m_GameObject: {fileID: 1410615123}
@@ -749,50 +742,30 @@ MonoBehaviour:
       DashCooldown: 0
       InteractionRadius: 0
   m_IsPlayer: 1
-  references:
-    version: 2
-    RefIds:
-    - rid: 4257720721778671642
-      type: {class: CharacterInputService, ns: Pangoo.Core.Character, asm: Pangoo}
-      data:
-        m_ChildernArray: []
-        m_InputMove:
-          rid: 4257720721778671648
-        m_InputRotation:
-          rid: 4257720721778671649
-        m_InputJump:
-          rid: 4257720721778671650
-        m_InputInteraction:
-          rid: 4257720721778671651
-    - rid: 4257720721778671643
-      type: {class: InteractionService, ns: Pangoo.Core.Character, asm: Pangoo}
-      data:
-        m_ChildernArray: []
-    - rid: 4257720721778671644
-      type: {class: CharacterCameraService, ns: Pangoo.Core.Character, asm: Pangoo}
-      data:
-        m_ChildernArray: []
-    - rid: 4257720721778671645
-      type: {class: PlayerService, ns: Pangoo.Core.Character, asm: Pangoo}
-      data:
-        m_ChildernArray: []
-        m_IsControllable: 1
-    - rid: 4257720721778671646
-      type: {class: MotionActionService, ns: Pangoo.Core.Character, asm: Pangoo}
-      data:
-        m_ChildernArray: []
-    - rid: 4257720721778671647
-      type: {class: DriverService, ns: Pangoo.Core.Character, asm: Pangoo}
-      data:
-        m_ChildernArray: []
-    - rid: 4257720721778671648
-      type: {class: InputValueVector2MotionPrimary, ns: Pangoo.Core.Common, asm: Pangoo}
-    - rid: 4257720721778671649
-      type: {class: InputValueVector2MotionSecondary, ns: Pangoo.Core.Common, asm: Pangoo}
-    - rid: 4257720721778671650
-      type: {class: InputButtonJump, ns: Pangoo.Core.Common, asm: Pangoo}
-    - rid: 4257720721778671651
-      type: {class: InputButtonInteraction, ns: Pangoo.Core.Common, asm: Pangoo}
+  m_MotionInfo:
+    LinearSpeed: 4
+    AngularSpeed: 0
+    RotationSpeedX: 80
+    RotationSpeedY: 80
+    Mass: 0
+    Height: 0
+    Radius: 0
+    UseAcceleration: 0
+    Acceleration: 0
+    Deceleration: 0
+    CanJump: 0
+    AirJumps: 0
+    IsJumping: 0
+    IsJumpingForce: 0
+    GravityUpwards: 0
+    GravityDownwards: -9.8
+    TerminalVelocity: -54
+    JumpForce: 0
+    JumpCooldown: 0
+    DashInSuccession: 0
+    DashInAir: 0
+    DashCooldown: 0
+    InteractionRadius: 2
 --- !u!4 &1410615125
 Transform:
   m_ObjectHideFlags: 0
@@ -801,7 +774,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1410615123}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.39, y: 1.88, z: -4.39}
+  m_LocalPosition: {x: -2.23, y: 1.88, z: -0.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -905,6 +878,80 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &1567971605
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1667610867727266057, guid: 13ede1b60dab30e4099b3b3e531aaa62,
+        type: 3}
+      propertyPath: m_Name
+      value: SS_2Floor_XiaoFang_XinLiZhai
+      objectReference: {fileID: 0}
+    - target: {fileID: 1667610867727266057, guid: 13ede1b60dab30e4099b3b3e531aaa62,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6762165518317728763, guid: 13ede1b60dab30e4099b3b3e531aaa62,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6762165518317728763, guid: 13ede1b60dab30e4099b3b3e531aaa62,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6762165518317728763, guid: 13ede1b60dab30e4099b3b3e531aaa62,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6762165518317728763, guid: 13ede1b60dab30e4099b3b3e531aaa62,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6762165518317728763, guid: 13ede1b60dab30e4099b3b3e531aaa62,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6762165518317728763, guid: 13ede1b60dab30e4099b3b3e531aaa62,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6762165518317728763, guid: 13ede1b60dab30e4099b3b3e531aaa62,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6762165518317728763, guid: 13ede1b60dab30e4099b3b3e531aaa62,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6762165518317728763, guid: 13ede1b60dab30e4099b3b3e531aaa62,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6762165518317728763, guid: 13ede1b60dab30e4099b3b3e531aaa62,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6762165518317728763, guid: 13ede1b60dab30e4099b3b3e531aaa62,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 13ede1b60dab30e4099b3b3e531aaa62, type: 3}
 --- !u!1 &1804153663
 GameObject:
   m_ObjectHideFlags: 0
@@ -929,8 +976,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1804153663}
-  m_LocalRotation: {x: -0.26650304, y: 0.2980939, z: -0.08749126, w: -0.91239333}
-  m_LocalPosition: {x: 2.9917665, y: 4.1267548, z: -7.541569}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

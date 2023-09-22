@@ -12,6 +12,7 @@ namespace Pangoo.Service
     {
 
         [SerializeReference]
+        [field: NonSerialized]
         [HideIf("@this.m_ChildernArray.Length == 0")]
         private INestedService[] m_ChildernArray = new INestedService[0];
         private readonly Dictionary<Type, INestedService> m_ChildernDict = new Dictionary<Type, INestedService>();

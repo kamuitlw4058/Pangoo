@@ -18,10 +18,11 @@ namespace Pangoo.Core.Character
     {
 
         [SerializeField]
+        [HideInEditorMode]
         CharacterService characterContainer;
 
         [SerializeField][HideInPlayMode] bool m_IsPlayer;
-        [ShowInInspector] bool IsInited;
+        [ShowInInspector][HideInEditorMode] bool IsInited;
 
         [SerializeField][HideInPlayMode] MotionInfo m_MotionInfo;
 
@@ -76,13 +77,6 @@ namespace Pangoo.Core.Character
 
         }
 
-        [Button("强制初始化")]
-        public void ForceAwake()
-        {
-            characterContainer = new CharacterService(gameObject);
-            characterContainer.Awake();
-            IsInited = true;
-        }
         [Button("设置移动")]
         public void SetMotionDirection()
         {
