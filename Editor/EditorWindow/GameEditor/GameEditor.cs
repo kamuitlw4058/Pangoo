@@ -21,13 +21,12 @@ namespace Pangoo.Editor
             window.MenuWidth = 280;
         }
 
-
         void InitOverviews<TOverview, TRowDetailWrapper, TTableRowWrapper, TNewRowWrapper, TRow>(OdinMenuTree tree, string menuMainKey)
-    where TOverview : ExcelTableOverview
-    where TRowDetailWrapper : ExcelTableRowDetailWrapper<TOverview, TRow>, new()
-    where TTableRowWrapper : ExcelTableTableRowWrapper<TOverview, TRow>, new()
-    where TNewRowWrapper : ExcelTableRowNewWrapper<TOverview, TRow>, new()
-    where TRow : ExcelNamedRowBase, new()
+            where TOverview : ExcelTableOverview
+            where TRowDetailWrapper : ExcelTableRowDetailWrapper<TOverview, TRow>, new()
+            where TTableRowWrapper : ExcelTableTableRowWrapper<TOverview, TRow>, new()
+            where TNewRowWrapper : ExcelTableRowNewWrapper<TOverview, TRow>, new()
+            where TRow : ExcelNamedRowBase, new()
         {
             var overviews = AssetDatabaseUtility.FindAsset<TOverview>().ToList();
             var overviewEditor = new OverviewEditorBase<TOverview, TRowDetailWrapper, TTableRowWrapper, TNewRowWrapper, TRow>();
@@ -36,7 +35,7 @@ namespace Pangoo.Editor
             overviewEditor.MenuKey = menuMainKey;
             overviewEditor.InitWrappers();
             tree.Add(menuMainKey, overviewEditor);
-            Debug.Log($"{menuMainKey} Wrapper Count:{overviewEditor.Wrappers.Count}");
+            // Debug.Log($"{menuMainKey} Wrapper Count:{overviewEditor.Wrappers.Count}");
             foreach (var wrapper in overviewEditor.Wrappers)
             {
 
@@ -51,7 +50,6 @@ namespace Pangoo.Editor
             where TOverview : ExcelTableOverview
             where TRowDetailWrapper : ExcelTableRowDetailWrapper<TOverview, TRow>, new()
             where TTableRowWrapper : ExcelTableTableRowWrapper<TOverview, TRow>, new()
-            // where TNewRowWrapper : ExcelTableRowNewWrapper<TOverview, TRow>, new()
              where TRow : ExcelNamedRowBase, new()
         {
             InitOverviews<TOverview, TRowDetailWrapper, TTableRowWrapper, ExcelTableRowNewWrapper<TOverview, TRow>, TRow>(tree, menuMainKey);
@@ -87,8 +85,8 @@ namespace Pangoo.Editor
             //         tree.AddMenuItemAtPath("Volume编辑", customMenuItem);
             //     }
             // }
-
-            InitCommonOverviews<AssetPathTableOverview, AssetPathDetailWrapper, ExcelTableTableRowWrapper<AssetPathTableOverview, AssetPathTable.AssetPathRow>, AssetPathTable.AssetPathRow>(tree, "AssetPath");
+            InitOverviews<AssetPathTableOverview, AssetPathDetailWrapper, ExcelTableTableRowWrapper<AssetPathTableOverview, AssetPathTable.AssetPathRow>, AssetPathNewWrapper, AssetPathTable.AssetPathRow>(tree, "AssetPath");
+            // InitCommonOverviews<AssetPathTableOverview, AssetPathDetailWrapper, ExcelTableTableRowWrapper<AssetPathTableOverview, AssetPathTable.AssetPathRow>, AssetPathTable.AssetPathRow>(tree, "AssetPath");
             InitCommonOverviews<StaticSceneTableOverview, StaticSceneDetailWrapper, ExcelTableTableRowWrapper<StaticSceneTableOverview, StaticSceneTable.StaticSceneRow>, StaticSceneTable.StaticSceneRow>(tree, "StaticScene");
             InitCommonOverviews<DynamicObjectTableOverview, DynamicObjectDetailWrapper, ExcelTableTableRowWrapper<DynamicObjectTableOverview, DynamicObjectTable.DynamicObjectRow>, DynamicObjectTable.DynamicObjectRow>(tree, "DynamicObject");
             InitCommonOverviews<TriggerEventTableOverview, TriggerDetailWrapper, ExcelTableTableRowWrapper<TriggerEventTableOverview, TriggerEventTable.TriggerEventRow>, TriggerEventTable.TriggerEventRow>(tree, "Trigger");

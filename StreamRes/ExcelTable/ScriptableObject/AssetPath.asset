@@ -16,12 +16,6 @@ MonoBehaviour:
   Data:
     Priority: 0
     Rows:
-    - Id: 10002
-      Name: "\u6D4B\u8BD5\u623F\u95F42"
-      AssetPackageDir: Assets/Plugins/Pangoo
-      AssetType: Scene
-      AssetPath: Room2.prefab
-      Desc: "\u6D4B\u8BD5\u623F\u95F42"
     - Id: 10003
       Name: "\u6D4B\u8BD5\u623F\u95F43"
       AssetPackageDir: Assets/Plugins/Pangoo

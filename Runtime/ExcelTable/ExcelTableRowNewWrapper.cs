@@ -2,6 +2,7 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using System;
 
 #if UNITY_EDITOR
 
@@ -15,6 +16,8 @@ namespace Pangoo
     {
 
 #if UNITY_EDITOR
+        public Action<int> AfterCreate;
+
         public override bool CanNameChange
         {
             get
@@ -115,7 +118,7 @@ namespace Pangoo
         }
 
         [Button("新建")]
-        public void NewRow()
+        public virtual void Create()
         {
             Debug.Log($"m_Row:{m_Row.Id} id exists:{CheckExistsId()}");
         }

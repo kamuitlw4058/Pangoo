@@ -118,7 +118,9 @@ namespace Pangoo.Editor
             //                 PackageConfig config = GameSupportEditorUtility.GetPakcageConfigByOverviewRowId<GameSectionTableOverview>(m_Editor.Section);
             // var window = new AssetPathWrapper(config, Id, ConstExcelTable.DynamicObjectAssetTypeName, Name, ConstExcelTable.PrefabType, AfterCreateAsset);
             //                 m_CreateAssetPathWindow = OdinEditorWindow.InspectObject(window);
-            m_CreateWindow = OdinEditorWindow.InspectObject(new TNewRowWrapper());
+            var newType = new TNewRowWrapper();
+            Debug.Log($"typeof:{newType.GetType()}");
+            OdinEditorWindow.InspectObject(newType);
         }
 
 
