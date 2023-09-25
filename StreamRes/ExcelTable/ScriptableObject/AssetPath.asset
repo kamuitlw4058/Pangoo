@@ -16,12 +16,6 @@ MonoBehaviour:
   Data:
     Priority: 0
     Rows:
-    - Id: 10001
-      Name: "\u6D4B\u8BD5\u623F\u95F41"
-      AssetPackageDir: Assets/Plugins/Pangoo
-      AssetType: Scene
-      AssetPath: Room1.prefab
-      Desc: "\u6D4B\u8BD5\u623F\u95F41"
     - Id: 10002
       Name: "\u6D4B\u8BD5\u623F\u95F42"
       AssetPackageDir: Assets/Plugins/Pangoo
@@ -53,7 +47,7 @@ MonoBehaviour:
       AssetPath: Room5.prefab
       Desc: "\u6D4B\u8BD5\u623F\u95F45"
     - Id: 200001
-      Name: "\u65B0\u674E\u5B85\u5C0F\u82B3\u623F\u95F4"
+      Name: "\u65B0\u674E\u5B852\u697C\u5C0F\u82B3\u623F\u95F4"
       AssetPackageDir: Assets/Plugins/Pangoo
       AssetType: Scene
       AssetPath: SS_2Floor_XiaoFang_XinLiZhai.prefab

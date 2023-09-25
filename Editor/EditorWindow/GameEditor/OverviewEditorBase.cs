@@ -9,22 +9,14 @@ using System;
 
 namespace Pangoo.Editor
 {
-    public class OverviewEditorBase<TOverview, TTableWrapper, TRow> where TOverview : ExcelTableOverview where TTableWrapper : ExcelTableRowTableWrapper<TOverview, TRow>, new() where TRow : ExcelNamedRowBase
+    public class OverviewEditorBase<TOverview, TRowDetailWrapper, TTableRowWrapper, TRow>
+            where TOverview : ExcelTableOverview
+            where TRowDetailWrapper : ExcelTableRowDetailWrapper<TOverview, TRow>, new()
+            where TTableRowWrapper : ExcelTableTableRowWrapper<TOverview, TRow>, new()
+            where TRow : ExcelNamedRowBase
     {
-        string m_Model;
 
-        public string Model
-        {
-            get
-            {
-                return m_Model;
-            }
-            set
-            {
-                m_Model = value;
-            }
-
-        }
+        public string MenuKey { get; set; }
 
         List<TOverview> m_Overviews;
 
@@ -42,10 +34,10 @@ namespace Pangoo.Editor
 
         [TableList(IsReadOnly = true, AlwaysExpanded = true), ShowInInspector]
 
-        private readonly List<TTableWrapper> m_AllWrappers = new List<TTableWrapper>();
+        private readonly List<TTableRowWrapper> m_AllWrappers = new List<TTableRowWrapper>();
 
 
-        public List<TTableWrapper> Wrappers
+        public List<TTableRowWrapper> Wrappers
         {
             get
             {
@@ -74,10 +66,14 @@ namespace Pangoo.Editor
 
                 m_AllWrappers.AddRange(overview.Table.NamedBaseRows.Select(x =>
                 {
-                    var wrapper = new TTableWrapper();
+                    var wrapper = new TTableRowWrapper();
                     wrapper.Overview = overview;
                     wrapper.Row = x as TRow;
                     wrapper.Window = m_Window;
+                    var detailWrapper = new TRowDetailWrapper();
+                    detailWrapper.Overview = overview;
+                    detailWrapper.Row = x as TRow;
+                    wrapper.DetailWrapper = detailWrapper;
                     wrapper.OnRemove += OnWrapperRemove;
                     return wrapper;
                 }).ToList());
@@ -85,7 +81,7 @@ namespace Pangoo.Editor
 
         }
 
-        TTableWrapper GetWrapperId(int id)
+        TTableRowWrapper GetWrapperId(int id)
         {
             foreach (var wrapper in m_AllWrappers)
             {
@@ -96,10 +92,6 @@ namespace Pangoo.Editor
             }
             return null;
         }
-        public string GetMenuItemKey(string model, int id, string name)
-        {
-            return $"{model}-{id}-{name}";
-        }
 
         private void OnWrapperRemove(int id)
         {
@@ -107,7 +99,7 @@ namespace Pangoo.Editor
             if (wrapper != null)
             {
                 m_AllWrappers.Remove(wrapper);
-                var item = Window?.MenuTree.GetMenuItem(GetMenuItemKey(Model, wrapper.Id, wrapper.Name));
+                var item = Window?.MenuTree.GetMenuItem(GameEditorUtility.GetMenuItemKey(MenuKey, wrapper.Id, wrapper.Name));
                 if (item != null)
                 {
                     Window?.MenuTree.MenuItems.Remove(item);

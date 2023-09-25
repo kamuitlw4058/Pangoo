@@ -21,11 +21,47 @@ namespace Pangoo.Editor
         [ReadOnly]
         public GameSectionTable.GameSectionRow SectionRow;
 
-        [ReadOnly]
-        public List<int> SceneIds;
+        [LabelText("动态场景IDs")]
+        [ValueDropdown("StaticSceneIdValueDropdown", IsUniqueList = true)]
+
+        [OnValueChanged("OnDynamicSceneIdsChanged")]
+        [ListDrawerSettings(Expanded = true)]
+
+
+        public List<int> DynamicSceneIds = new List<int>();
+
+
+        public void OnDynamicSceneIdsChanged()
+        {
+            Debug.Log($"OnDynamicSceneIdsChanged");
+            var overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<GameSectionTableOverview>(Section);
+            SectionRow.DynamicObjectIds = DynamicSceneIds.ToListString();
+            EditorUtility.SetDirty(overview);
+        }
+
+
+
+
+        [LabelText("保持场景IDs")]
+        [ValueDropdown("StaticSceneIdValueDropdown")]
+
+        public List<int> KeepSceneIds = new List<int>();
+
+
+        public IEnumerable StaticSceneIdValueDropdown()
+        {
+            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<StaticSceneTableOverview>();
+        }
+
+
+
 
         [ReadOnly]
-        public List<GameObject> Scenes;
+        public List<GameObject> DynamicScenes;
+
+
+        [ReadOnly]
+        public List<GameObject> KeepScenes;
 
         public IEnumerable GetSectionList()
         {
@@ -34,10 +70,10 @@ namespace Pangoo.Editor
 
         public void ClearScene()
         {
-            if (Scenes != null)
+            if (DynamicScenes != null)
             {
 
-                foreach (var scene in Scenes)
+                foreach (var scene in DynamicScenes)
                 {
                     try
                     {
@@ -47,37 +83,59 @@ namespace Pangoo.Editor
                     {
                     }
                 }
-                Scenes.Clear();
+                DynamicScenes.Clear();
+            }
+
+            if (KeepScenes != null)
+            {
+                foreach (var scene in KeepScenes)
+                {
+                    try
+                    {
+                        DestroyImmediate(scene);
+                    }
+                    catch
+                    {
+                    }
+                }
+                KeepScenes.Clear();
             }
         }
 
-        public void UpdateSection()
+        public void UpdateBase()
         {
-            if (SceneIds == null)
+            if (DynamicSceneIds == null)
             {
-                SceneIds = new List<int>();
+                DynamicSceneIds = new List<int>();
             }
 
-            if (Scenes == null)
+            if (KeepSceneIds == null)
             {
-                Scenes = new List<GameObject>();
-            }
-            ClearScene();
-            if (Section == 0)
-            {
-                return;
+                KeepSceneIds = new List<int>();
             }
 
+            if (DynamicScenes == null)
+            {
+                DynamicScenes = new List<GameObject>();
+            }
 
+            if (KeepScenes == null)
+            {
+                KeepScenes = new List<GameObject>();
+            }
+        }
 
-            SceneIds.Clear();
-            SectionRow = GameSupportEditorUtility.GetGameSectionRowById(Section);
-            SceneIds.AddRange(SectionRow.DynamicSceneIds.ToArrInt());
-            SceneIds.AddRange(SectionRow.KeepSceneIds.ToArrInt());
-
-            foreach (var id in SceneIds)
+        public void UpdateScene(List<int> ids, List<GameObject> gameObjects)
+        {
+            foreach (var id in ids)
             {
                 var staticScene = GameSupportEditorUtility.GetStaticSceneRowById(id);
+                if (staticScene == null)
+                {
+                    Debug.LogError($"staticScene Id:{id} is null");
+                    continue;
+                }
+
                 var assetPathRow = GameSupportEditorUtility.GetAssetPathRowById(staticScene.AssetPathId);
                 // Debug.Log($"Try Create Prefab:{staticScene},{assetPathRow.ToPrefabPath()}");
                 // Debug.Log($"AssetPath:{assetPath}");
@@ -85,8 +143,29 @@ namespace Pangoo.Editor
                 var go = PrefabUtility.InstantiatePrefab(asset) as GameObject;
                 go.transform.parent = transform;
                 go.ResetTransfrom();
-                Scenes.Add(go);
+                gameObjects.Add(go);
             }
+        }
+
+
+        public void UpdateSection()
+        {
+            UpdateBase();
+            ClearScene();
+            if (Section == 0)
+            {
+                return;
+            }
+
+            DynamicSceneIds.Clear();
+            KeepSceneIds.Clear();
+
+            SectionRow = GameSupportEditorUtility.GetGameSectionRowById(Section);
+            DynamicSceneIds.AddRange(SectionRow.DynamicSceneIds.ToArrInt());
+            KeepSceneIds.AddRange(SectionRow.KeepSceneIds.ToArrInt());
+
+            UpdateScene(DynamicSceneIds, DynamicScenes);
+            UpdateScene(KeepSceneIds, KeepScenes);
         }
 
         void UpdateGameObjectName()
@@ -113,7 +192,7 @@ namespace Pangoo.Editor
 
         private void OnDisable()
         {
-
+            ClearScene();
         }
 
         private void OnDestroy()

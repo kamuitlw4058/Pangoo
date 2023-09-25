@@ -19,7 +19,7 @@ MonoBehaviour:
     - Id: 1
       Name: "\u6E38\u620F\u521D\u59CB"
       DynamicSceneIds: 1|2|3|4|5|6
-      KeepSceneIds: 20001
+      KeepSceneIds: 21000
       SectionJumpByScene: ' 10004#2'
       FirstDynamicSceneIds: 1
       DynamicObjectIds: 2

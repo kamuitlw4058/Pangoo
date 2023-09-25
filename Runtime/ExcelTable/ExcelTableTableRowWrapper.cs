@@ -13,7 +13,7 @@ using Sirenix.OdinInspector.Editor;
 
 namespace Pangoo
 {
-    public class ExcelTableRowTableWrapper<TOverview, TRow> where TOverview : ExcelTableOverview where TRow : ExcelNamedRowBase
+    public class ExcelTableTableRowWrapper<TOverview, TRow> where TOverview : ExcelTableOverview where TRow : ExcelNamedRowBase
     {
         [field: NonSerialized]
         public Action<int> OnRemove;
@@ -46,10 +46,20 @@ namespace Pangoo
             }
         }
 
+        ExcelTableRowDetailWrapper<TOverview, TRow> m_DetailWrapper;
 
 
-
-
+        public ExcelTableRowDetailWrapper<TOverview, TRow> DetailWrapper
+        {
+            get
+            {
+                return m_DetailWrapper;
+            }
+            set
+            {
+                m_DetailWrapper = value;
+            }
+        }
 
 
 
@@ -110,7 +120,7 @@ namespace Pangoo
         // [ShowIf("@this.ShowEditor")]
         public void Editor()
         {
-            m_MenuWindow?.TrySelectMenuItemWithObject(this);
+            m_MenuWindow?.TrySelectMenuItemWithObject(DetailWrapper);
         }
 
 

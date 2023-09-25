@@ -11,7 +11,7 @@ using UnityEngine.UIElements;
 
 namespace Pangoo.Editor
 {
-    public class AssetPathOverviewEditor
+    public class VolumeOverviewEditor
     {
         public const string TagName = "GlobalVolume";
 
@@ -35,7 +35,7 @@ namespace Pangoo.Editor
         [ShowInInspector]
         public List<Volume> m_Volumes;
 
-        public AssetPathOverviewEditor(List<VolumeTableOverview> overviews, OdinMenuEditorWindow window)
+        public VolumeOverviewEditor(List<VolumeTableOverview> overviews, OdinMenuEditorWindow window)
         {
             m_Overviews = overviews;
             foreach (var overview in m_Overviews)
@@ -44,7 +44,7 @@ namespace Pangoo.Editor
             }
             // m_AllWrappers = rows.Select(x => new VolumeWrapper(x)).ToList();
             m_Window = window;
-            EditorApplication.hierarchyChanged += OnHierarchyChanged;
+            // EditorApplication.hierarchyChanged += OnHierarchyChanged;
             m_Volumes = GameObject.FindObjectsByType<Volume>(FindObjectsSortMode.None).ToList();
             foreach (var volume in m_Volumes)
             {
@@ -55,8 +55,9 @@ namespace Pangoo.Editor
             }
         }
 
-        ~AssetPathOverviewEditor()
+        ~VolumeOverviewEditor()
         {
+            EditorApplication.hierarchyChanged -= OnHierarchyChanged;
         }
 
         private void OnHierarchyChanged()

@@ -9,16 +9,17 @@ using Sirenix.OdinInspector.Editor;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
-namespace Pangoo.Editor{
+namespace Pangoo.Editor
+{
 
     [ExecuteInEditMode]
     [DisallowMultipleComponent]
     public class DynamicObjectEditorHelper : MonoBehaviour
     {
-      [ReadOnly]
-       public int DynamicObjectId;
+        [ReadOnly]
+        public int DynamicObjectId;
 
-       DynamicObjectTable.DynamicObjectRow Row;
+        DynamicObjectTable.DynamicObjectRow Row;
 
 
         [ShowInInspector]
@@ -28,23 +29,27 @@ namespace Pangoo.Editor{
 
 
 
-        [ReadOnly][SerializeField]
+        [ReadOnly]
+        [SerializeField]
         public GameObject Model;
 
 
 
-       void Start(){
+        void Start()
+        {
             Row = GameSupportEditorUtility.GetDynamicObjectRow(DynamicObjectId);
             Model = GameObject.Find("Model");
-            m_Wrapper = new DynamicObjectWrapper(Row,gameObject);
-       }
+            m_Wrapper = new DynamicObjectWrapper(Row, gameObject);
+        }
 
-        private void Update() {
+        private void Update()
+        {
             m_Wrapper.OnUpdate();
         }
 
         [Button("SetTransfrom")]
-        public void SetTransfrom(){
+        public void SetTransfrom()
+        {
             Row.Position = transform.localPosition;
             Row.Rotation = transform.localRotation.eulerAngles;
         }
