@@ -13,38 +13,11 @@ using Sirenix.OdinInspector.Editor;
 
 namespace Pangoo
 {
-    public class ExcelTableTableRowWrapper<TOverview, TRow> where TOverview : ExcelTableOverview where TRow : ExcelNamedRowBase
+    public class ExcelTableTableRowWrapper<TOverview, TRow> : ExcelTableOverviewRowWrapper<TOverview, TRow> where TOverview : ExcelTableOverview where TRow : ExcelNamedRowBase
     {
         [field: NonSerialized]
         public Action<int> OnRemove;
 
-        TOverview m_Overview;
-
-        public TOverview Overview
-        {
-            get
-            {
-                return m_Overview;
-            }
-            set
-            {
-                m_Overview = value;
-            }
-        }
-
-        TRow m_Row;
-
-        public TRow Row
-        {
-            get
-            {
-                return m_Row;
-            }
-            set
-            {
-                m_Row = value;
-            }
-        }
 
         ExcelTableRowDetailWrapper<TOverview, TRow> m_DetailWrapper;
 
@@ -61,37 +34,25 @@ namespace Pangoo
             }
         }
 
-
-
-        public void Init()
-        {
-
-        }
-
-        [ShowInInspector]
-        [TableColumnWidth(60, resizable: false)]
-        [TableTitleGroup("命名空间")]
-        [HideLabel]
-        public string Namespace
+        [ReadOnly]
+        public override int Id
         {
             get
             {
-                return m_Overview.Config.MainNamespace;
+                return base.Id;
             }
         }
 
-        [ShowInInspector]
-        [TableColumnWidth(60, resizable: false)]
-        public int Id
+
+        [ReadOnly]
+        public override string Name
         {
-            get { return m_Row?.Id ?? 0; }
+            get
+            {
+                return base.Name;
+            }
         }
 
-        [ShowInInspector]
-        public string Name
-        {
-            get { return m_Row?.Name ?? null; }
-        }
 
 #if UNITY_EDITOR
         // public bool ShowEditor { get; set; }
@@ -140,6 +101,8 @@ namespace Pangoo
 
         }
 #endif
+
+
 
 
     }

@@ -22,14 +22,15 @@ namespace Pangoo.Editor
         }
 
 
-        void InitOverviews<TOverview, TRowDetailWrapper, TTableRowWrapper, TRow>(OdinMenuTree tree, string menuMainKey)
-            where TOverview : ExcelTableOverview
-            where TRowDetailWrapper : ExcelTableRowDetailWrapper<TOverview, TRow>, new()
-            where TTableRowWrapper : ExcelTableTableRowWrapper<TOverview, TRow>, new()
-            where TRow : ExcelNamedRowBase
+        void InitOverviews<TOverview, TRowDetailWrapper, TTableRowWrapper, TNewRowWrapper, TRow>(OdinMenuTree tree, string menuMainKey)
+    where TOverview : ExcelTableOverview
+    where TRowDetailWrapper : ExcelTableRowDetailWrapper<TOverview, TRow>, new()
+    where TTableRowWrapper : ExcelTableTableRowWrapper<TOverview, TRow>, new()
+    where TNewRowWrapper : ExcelTableRowNewWrapper<TOverview, TRow>, new()
+    where TRow : ExcelNamedRowBase, new()
         {
             var overviews = AssetDatabaseUtility.FindAsset<TOverview>().ToList();
-            var overviewEditor = new OverviewEditorBase<TOverview, TRowDetailWrapper, TTableRowWrapper, TRow>();
+            var overviewEditor = new OverviewEditorBase<TOverview, TRowDetailWrapper, TTableRowWrapper, TNewRowWrapper, TRow>();
             overviewEditor.Overviews = overviews;
             overviewEditor.Window = this;
             overviewEditor.MenuKey = menuMainKey;
@@ -45,11 +46,22 @@ namespace Pangoo.Editor
             }
         }
 
+
+        void InitCommonOverviews<TOverview, TRowDetailWrapper, TTableRowWrapper, TRow>(OdinMenuTree tree, string menuMainKey)
+            where TOverview : ExcelTableOverview
+            where TRowDetailWrapper : ExcelTableRowDetailWrapper<TOverview, TRow>, new()
+            where TTableRowWrapper : ExcelTableTableRowWrapper<TOverview, TRow>, new()
+            // where TNewRowWrapper : ExcelTableRowNewWrapper<TOverview, TRow>, new()
+             where TRow : ExcelNamedRowBase, new()
+        {
+            InitOverviews<TOverview, TRowDetailWrapper, TTableRowWrapper, ExcelTableRowNewWrapper<TOverview, TRow>, TRow>(tree, menuMainKey);
+        }
+
         void InitBaseOverviews<TOverview, TRow>(OdinMenuTree tree, string menuMainKey)
                     where TOverview : ExcelTableOverview
-                    where TRow : ExcelNamedRowBase
+                    where TRow : ExcelNamedRowBase, new()
         {
-            InitOverviews<TOverview, ExcelTableRowDetailWrapper<TOverview, TRow>, ExcelTableTableRowWrapper<TOverview, TRow>, TRow>(tree, menuMainKey);
+            InitCommonOverviews<TOverview, ExcelTableRowDetailWrapper<TOverview, TRow>, ExcelTableTableRowWrapper<TOverview, TRow>, TRow>(tree, menuMainKey);
         }
 
 
@@ -76,9 +88,12 @@ namespace Pangoo.Editor
             //     }
             // }
 
-            InitOverviews<AssetPathTableOverview, AssetPathDetailWrapper, ExcelTableTableRowWrapper<AssetPathTableOverview, AssetPathTable.AssetPathRow>, AssetPathTable.AssetPathRow>(tree, "AssetPath");
-            InitOverviews<StaticSceneTableOverview, StaticSceneDetailWrapper, ExcelTableTableRowWrapper<StaticSceneTableOverview, StaticSceneTable.StaticSceneRow>, StaticSceneTable.StaticSceneRow>(tree, "StaticScene");
-            InitBaseOverviews<DynamicObjectTableOverview, DynamicObjectTable.DynamicObjectRow>(tree, "DynamicObject");
+            InitCommonOverviews<AssetPathTableOverview, AssetPathDetailWrapper, ExcelTableTableRowWrapper<AssetPathTableOverview, AssetPathTable.AssetPathRow>, AssetPathTable.AssetPathRow>(tree, "AssetPath");
+            InitCommonOverviews<StaticSceneTableOverview, StaticSceneDetailWrapper, ExcelTableTableRowWrapper<StaticSceneTableOverview, StaticSceneTable.StaticSceneRow>, StaticSceneTable.StaticSceneRow>(tree, "StaticScene");
+            InitCommonOverviews<DynamicObjectTableOverview, DynamicObjectDetailWrapper, ExcelTableTableRowWrapper<DynamicObjectTableOverview, DynamicObjectTable.DynamicObjectRow>, DynamicObjectTable.DynamicObjectRow>(tree, "DynamicObject");
+            InitCommonOverviews<TriggerEventTableOverview, TriggerDetailWrapper, ExcelTableTableRowWrapper<TriggerEventTableOverview, TriggerEventTable.TriggerEventRow>, TriggerEventTable.TriggerEventRow>(tree, "Trigger");
+            InitCommonOverviews<InstructionTableOverview, InstructionDetailWrapper, ExcelTableTableRowWrapper<InstructionTableOverview, InstructionTable.InstructionRow>, InstructionTable.InstructionRow>(tree, "Instruction");
+
             return tree;
         }
     }

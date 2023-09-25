@@ -11,12 +11,31 @@ using UnityEngine.UIElements;
 
 namespace Pangoo.Editor
 {
-    public class StaticSceneDetailWrapper : ExcelTableRowDetailWrapper<StaticSceneTableOverview, StaticSceneTable.StaticSceneRow>
+    public class DynamicObjectDetailWrapper : ExcelTableRowDetailWrapper<DynamicObjectTableOverview, DynamicObjectTable.DynamicObjectRow>
     {
+        [ShowInInspector]
+        [PropertyOrder(1)]
+        public Vector3 Postion
+        {
+            get
+            {
+                return Row?.Position ?? Vector3.zero;
+            }
+        }
+
+        [ShowInInspector]
+        [PropertyOrder(2)]
+        public Vector3 Rotation
+        {
+            get
+            {
+                return Row?.Rotation ?? Vector3.zero;
+            }
+        }
 
         [LabelText("资源ID")]
         [ValueDropdown("AssetPathIdValueDropdown")]
-        [PropertyOrder(0)]
+        [PropertyOrder(3)]
         [ShowInInspector]
         // [InlineButton("ShowCreateAssetPath", SdfIconType.Plus, Label = "")]
         public int AssetPathId
@@ -38,42 +57,42 @@ namespace Pangoo.Editor
 
         public IEnumerable AssetPathIdValueDropdown()
         {
-            return GameSupportEditorUtility.GetAssetPathIds(ids: new List<int> { AssetPathId }, assetTypes: new List<string> { "Scene" });
+            return GameSupportEditorUtility.GetAssetPathIds(assetTypes: new List<string> { "DynamicObject" });
         }
 
 
-        [LabelText("加载场景Ids")]
-        [ValueDropdown("StaticSceneIdValueDropdown", IsUniqueList = true)]
+
+        [LabelText("触发器Ids")]
+        [ValueDropdown("TriggerIdValueDropdown", IsUniqueList = true)]
 
         // [OnValueChanged("OnDynamicSceneIdsChanged")]
         [ListDrawerSettings(Expanded = true)]
 
         [ShowInInspector]
-        [PropertyOrder(1)]
-        public int[] LoadSceneIds
+        [PropertyOrder(4)]
+        public int[] TriggerIds
         {
             get
             {
-                return Row?.LoadSceneIds?.ToArrInt() ?? new int[0];
+                return Row?.TriggerEventIds?.ToArrInt() ?? new int[0];
             }
             set
             {
 
                 if (Row != null && Overview != null)
                 {
-                    Row.LoadSceneIds = value.ToList().ToListString();
+                    Row.TriggerEventIds = value.ToList().ToListString();
                     Save();
                 }
 
             }
         }
 
-
-
-        public IEnumerable StaticSceneIdValueDropdown()
+        public IEnumerable TriggerIdValueDropdown()
         {
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<StaticSceneTableOverview>();
+            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<TriggerEventTableOverview>();
         }
+
 
 
     }

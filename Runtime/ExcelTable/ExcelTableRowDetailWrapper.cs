@@ -13,70 +13,24 @@ using Sirenix.OdinInspector.Editor;
 
 namespace Pangoo
 {
-    public class ExcelTableRowDetailWrapper<TOverview, TRow> where TOverview : ExcelTableOverview where TRow : ExcelNamedRowBase
+    public class ExcelTableRowDetailWrapper<TOverview, TRow> : ExcelTableOverviewRowWrapper<TOverview, TRow> where TOverview : ExcelTableOverview where TRow : ExcelNamedRowBase
     {
         [field: NonSerialized]
         public Action<int> OnRemove;
 
-        TOverview m_Overview;
-
-        public TOverview Overview
+        [ReadOnly]
+        public override int Id
         {
             get
             {
-                return m_Overview;
-            }
-            set
-            {
-                m_Overview = value;
+                return base.Id;
             }
         }
 
-        TRow m_Row;
-
-        public TRow Row
-        {
-            get
-            {
-                return m_Row;
-            }
-            set
-            {
-                m_Row = value;
-            }
-        }
-
-
-
-        public void Init()
-        {
-
-        }
-
-        [ShowInInspector]
-        [TableColumnWidth(60, resizable: false)]
-        [TableTitleGroup("命名空间")]
-        [PropertyOrder(-3)]
-        [HideLabel]
-        public string Namespace
-        {
-            get
-            {
-                return m_Overview.Config.MainNamespace;
-            }
-        }
-
-        [ShowInInspector]
-        [TableColumnWidth(60, resizable: false)]
-        [PropertyOrder(-2)]
-        public int Id
-        {
-            get { return m_Row?.Id ?? 0; }
-        }
 
         [ShowInInspector]
         [PropertyOrder(-1)]
-        public string Name
+        public override string Name
         {
             get { return m_Row?.Name ?? null; }
             set
@@ -84,11 +38,7 @@ namespace Pangoo
                 if (m_Row != null && m_Overview != null)
                 {
                     m_Row.Name = value;
-#if UNITY_EDITOR
-                    EditorUtility.SetDirty(m_Overview);
-                    AssetDatabase.SaveAssets();
-#endif
-
+                    Save();
                 }
             }
         }

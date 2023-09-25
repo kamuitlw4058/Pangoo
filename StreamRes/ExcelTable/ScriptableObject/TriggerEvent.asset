@@ -17,7 +17,7 @@ MonoBehaviour:
     Priority: 0
     Rows:
     - Id: 1
-      Name: test
+      Name: "\u8C03\u8BD5"
       TriggerType: OnInteract
       InstructionList: 1
       Params: 

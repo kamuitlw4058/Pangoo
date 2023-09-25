@@ -15,6 +15,16 @@ namespace Pangoo
     public static partial class GameSupportEditorUtility
     {
 #if UNITY_EDITOR
+        public static IEnumerable GetExcelTableOverview<T>() where T : ExcelTableOverview
+        {
+            var ret = new ValueDropdownList<T>();
+            var overviews = AssetDatabaseUtility.FindAsset<T>();
+            foreach (var overview in overviews)
+            {
+                ret.Add(overview.Config.MainNamespace, overview);
+            }
+            return ret;
+        }
 
         public static List<int> GetExcelTableOverviewIds<T>(List<int> ids = null, string packageDir = null) where T : ExcelTableOverview
         {
@@ -145,12 +155,12 @@ namespace Pangoo
                 {
                     if (row.Name == name)
                     {
-                        return false;
+                        return true;
                     }
                 }
             }
 
-            return true;
+            return false;
         }
 
 

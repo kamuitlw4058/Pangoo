@@ -9,14 +9,18 @@ using System;
 
 namespace Pangoo.Editor
 {
-    public class OverviewEditorBase<TOverview, TRowDetailWrapper, TTableRowWrapper, TRow>
+    public class OverviewEditorBase<TOverview, TRowDetailWrapper, TTableRowWrapper, TNewRowWrapper, TRow>
             where TOverview : ExcelTableOverview
             where TRowDetailWrapper : ExcelTableRowDetailWrapper<TOverview, TRow>, new()
             where TTableRowWrapper : ExcelTableTableRowWrapper<TOverview, TRow>, new()
-            where TRow : ExcelNamedRowBase
+            where TNewRowWrapper : ExcelTableRowNewWrapper<TOverview, TRow>, new()
+            where TRow : ExcelNamedRowBase, new()
     {
 
-        public string MenuKey { get; set; }
+        private static OdinEditorWindow m_CreateWindow;
+
+        public string MenuKey
+        { get; set; }
 
         List<TOverview> m_Overviews;
 
@@ -106,6 +110,15 @@ namespace Pangoo.Editor
                 }
 
             }
+        }
+
+        [Button("新建行")]
+        public void NewRow()
+        {
+            //                 PackageConfig config = GameSupportEditorUtility.GetPakcageConfigByOverviewRowId<GameSectionTableOverview>(m_Editor.Section);
+            // var window = new AssetPathWrapper(config, Id, ConstExcelTable.DynamicObjectAssetTypeName, Name, ConstExcelTable.PrefabType, AfterCreateAsset);
+            //                 m_CreateAssetPathWindow = OdinEditorWindow.InspectObject(window);
+            m_CreateWindow = OdinEditorWindow.InspectObject(new TNewRowWrapper());
         }
 
 
