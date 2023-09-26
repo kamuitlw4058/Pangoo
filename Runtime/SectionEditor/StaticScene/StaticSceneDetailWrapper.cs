@@ -8,9 +8,11 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
+using System;
 
-namespace Pangoo.Editor
+namespace Pangoo
 {
+    [Serializable]
     public class StaticSceneDetailWrapper : ExcelTableRowDetailWrapper<StaticSceneTableOverview, StaticSceneTable.StaticSceneRow>
     {
 

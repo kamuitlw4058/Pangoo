@@ -10,7 +10,7 @@ using Pangoo;
 
 namespace Pangoo.Editor
 {
-    public partial class StaticSceneEditor : MonoBehaviour
+    public partial class GameSceneStaticSceneEditor : MonoBehaviour
     {
         public const string SubModelName = "Model";
         private OdinEditorWindow m_CreateRowWindow;
@@ -41,7 +41,7 @@ namespace Pangoo.Editor
 
 
             AssetDatabase.SaveAssets();
-            OnSectionChange();
+            //OnSectionChange();
         }
 
 
@@ -90,11 +90,11 @@ namespace Pangoo.Editor
 
 
 
-            StaticSceneEditor m_Editor;
+            GameSceneStaticSceneEditor m_Editor;
 
 
 
-            public StaticSceneCreateWindow(StaticSceneEditor editor)
+            public StaticSceneCreateWindow(GameSceneStaticSceneEditor editor)
             {
                 m_Editor = editor;
             }

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using System;
+using Sirenix.Utilities;
+
 
 #if UNITY_EDITOR
 
@@ -53,6 +55,7 @@ namespace Pangoo
                     if (Row.AssetType == null || Row.AssetType == string.Empty)
                     {
                         Row.AssetType = ConstExcelTable.DynamicObjectAssetTypeName;
+                        Row.Id = GetAssetTypeBaseId(Row.AssetType);
                     }
                 }
 
@@ -63,7 +66,76 @@ namespace Pangoo
                 if (Row != null)
                 {
                     Row.AssetType = value;
+                    Row.Id = GetAssetTypeBaseId(value);
                 }
+            }
+        }
+        string m_FileType;
+
+        [ValueDropdown("OnFileTypeDropdown")]
+        [ShowInInspector]
+        public string FileType
+        {
+            get
+            {
+                if (m_FileType.IsNullOrWhiteSpace())
+                {
+                    m_FileType = "prefab";
+                }
+
+                return m_FileType;
+            }
+            set
+            {
+                m_FileType = value;
+                UpdateAssetPath();
+            }
+        }
+
+        public void UpdateAssetPath()
+        {
+            Row.AssetPath = $"{m_AssetName}.{m_FileType}";
+        }
+
+
+        IEnumerable OnFileTypeDropdown()
+        {
+            var ret = new ValueDropdownList<string>();
+            ret.Add("prefab");
+            return ret;
+        }
+
+        // [ShowInInspector]
+        // public string PackageDir
+        // {
+        //     get
+        //     {
+        //         if (Row == null && Overview == null)
+        //         {
+        //             return string.Empty;
+        //         }
+        //         if (Row.AssetPackageDir.IsNullOrWhitespace())
+        //         {
+        //             Row.AssetPackageDir = Overview.Config.PackageDir;
+        //         }
+
+        //         return Row.AssetPackageDir;
+        //     }
+        // }
+
+
+
+        [ShowInInspector]
+        public string FullPath
+        {
+            get
+            {
+                if (Row == null)
+                {
+                    return string.Empty;
+                }
+
+                return AssetUtility.GetAssetPath(Overview.Config.PackageDir, Row.AssetType, Row.AssetPath);
             }
         }
 
@@ -74,8 +146,21 @@ namespace Pangoo
             ret.Add(ConstExcelTable.StaticSceneAssetTypeName);
             return ret;
         }
+        string m_AssetName;
 
-        public string NameCn;
+        [ShowInInspector]
+        public string AssetName
+        {
+            get
+            {
+                return m_AssetName;
+            }
+            set
+            {
+                m_AssetName = value;
+                UpdateAssetPath();
+            }
+        }
 
 
 
@@ -87,12 +172,7 @@ namespace Pangoo
 
         void OnModelPrefabChanged()
         {
-            Name = GetPrefixByAssetType(AssetType) + ModelPrefab.name;
-        }
-
-        public string FileType
-        {
-            get; set;
+            AssetName = GetPrefixByAssetType(AssetType) + ModelPrefab.name;
         }
 
         public static AssetPathNewWrapper Create(AssetPathTableOverview overview, int id = 0, string assetType = "", string name = "", string fileType = "", Action<int> afterCreateAsset = null)
@@ -149,7 +229,7 @@ namespace Pangoo
 
         public override void Create()
         {
-            if (Id == 0 || Name.IsNullOrWhiteSpace())
+            if (Id == 0 || Name.IsNullOrWhiteSpace() || AssetName.IsNullOrWhitespace())
             {
                 EditorUtility.DisplayDialog("错误", "Id, Name, 命名空间,ArtPrefab  必须填写", "确定");
                 // GUIUtility.ExitGUI();
@@ -157,20 +237,20 @@ namespace Pangoo
             }
 
 
-            if (StringUtility.ContainsChinese(Name))
+            if (StringUtility.ContainsChinese(AssetName))
             {
                 EditorUtility.DisplayDialog("错误", "Name不能包含中文", "确定");
                 // GUIUtility.ExitGUI();
                 return;
             }
 
-            if (StringUtility.IsOnlyDigit(Name))
+            if (StringUtility.IsOnlyDigit(AssetName))
             {
                 EditorUtility.DisplayDialog("错误", "Name不能全是数字", "确定");
                 return;
             }
 
-            if (char.IsDigit(Name[0]))
+            if (char.IsDigit(AssetName[0]))
             {
                 EditorUtility.DisplayDialog("错误", "Name开头不能是数字", "确定");
                 return;
@@ -188,7 +268,7 @@ namespace Pangoo
                 return;
             }
 
-            ConfirmCreate(Id, Name, AssetType, NameCn, ModelPrefab, FileType);
+            ConfirmCreate(Id, Name, AssetType, AssetName, ModelPrefab, FileType);
         }
 
     }

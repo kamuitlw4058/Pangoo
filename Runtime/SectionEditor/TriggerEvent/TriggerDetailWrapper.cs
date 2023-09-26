@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System.Collections.Generic;
 using System.Linq;
 using System.Collections;
@@ -8,9 +9,11 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
+using System;
 
-namespace Pangoo.Editor
+namespace Pangoo
 {
+    [Serializable]
     public class TriggerDetailWrapper : ExcelTableRowDetailWrapper<TriggerEventTableOverview, TriggerEventTable.TriggerEventRow>
     {
 
@@ -92,3 +95,4 @@ namespace Pangoo.Editor
 
     }
 }
+#endif

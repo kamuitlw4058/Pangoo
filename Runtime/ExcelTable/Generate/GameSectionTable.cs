@@ -14,17 +14,8 @@ namespace Pangoo
     public partial class GameSectionTable : ExcelTableBase
     {
         [Serializable]
-        public partial class GameSectionRow : ExcelRowBase
+        public partial class GameSectionRow : ExcelNamedRowBase
         {
-
-            /// <summary>
-            /// Desc: 
-            /// </summary>
-            [TableTitleGroup("名字")]
-            [HideLabel]
-            [JsonMember("Name")]
-            [ExcelTableCol("Name","Name","string", "名字",2)]
-            public string Name ;
 
             /// <summary>
             /// Desc: 
@@ -82,6 +73,11 @@ namespace Pangoo
           }
         }
 
+        public override IReadOnlyList<ExcelNamedRowBase> NamedBaseRows{
+          get{
+              return Rows;
+          }
+        }
 
         [NonSerialized]
         [XmlIgnore]

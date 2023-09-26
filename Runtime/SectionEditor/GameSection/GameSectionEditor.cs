@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
+using System.Linq;
 
 namespace Pangoo.Editor
 {
@@ -25,14 +26,40 @@ namespace Pangoo.Editor
         [ReadOnly]
         public GameSectionTable.GameSectionRow SectionRow;
 
-        StaticSceneEditor m_StaticSceneEditor;
-        DynamicObjectEditor m_DynamicObjectEditor;
+        [ReadOnly]
+        public GameSectionTableOverview Overview;
+
+        [SerializeField]
+        [HideLabel]
+        public GameSectionDetailWrapper Wrapper;
+
+
+        GameSceneStaticSceneEditor m_StaticSceneEditor;
+        GameSceneDynamicObjectEditor m_DynamicObjectEditor;
 
 
         public void UpdateSection()
         {
+
+            Debug.Log($"OnSectionChange");
+
+            Overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<GameSectionTableOverview>(Section);
+            SectionRow = GameSupportEditorUtility.GetGameSectionRowById(Section);
+
+            Wrapper = new GameSectionDetailWrapper();
+            Wrapper.Overview = Overview;
+            Wrapper.Row = SectionRow;
+
+            Debug.Log($"DynamicSceneIds:{Wrapper.DynamicSceneIds.ToList().ToListString()}");
+            Debug.Log($"KeepSceneIds:{Wrapper.KeepSceneIds.ToList().ToListString()}");
+
             m_StaticSceneEditor.SetSection(Section);
+            m_StaticSceneEditor.UpdateDynamicSceneIds(Wrapper.DynamicSceneIds);
+            m_StaticSceneEditor.UpdateKeepSceneIds(Wrapper.KeepSceneIds);
+
+
             m_DynamicObjectEditor.SetSection(Section);
+            m_DynamicObjectEditor.UpdateObjects(Wrapper.DynamicObjectIds);
         }
 
         void UpdateGameObjectName()
@@ -56,24 +83,23 @@ namespace Pangoo.Editor
         {
             SectionRow = GameSupportEditorUtility.GetGameSectionRowById(Section);
 
-            m_StaticSceneEditor = GetComponentInChildren<StaticSceneEditor>();
+            m_StaticSceneEditor = GetComponentInChildren<GameSceneStaticSceneEditor>();
             if (m_StaticSceneEditor == null)
             {
                 var go = new GameObject();
                 go.transform.parent = transform;
                 go.ResetTransfrom();
-                m_StaticSceneEditor = go.GetOrAddComponent<StaticSceneEditor>();
+                m_StaticSceneEditor = go.GetOrAddComponent<GameSceneStaticSceneEditor>();
             }
 
-            m_DynamicObjectEditor = GetComponentInChildren<DynamicObjectEditor>();
+            m_DynamicObjectEditor = GetComponentInChildren<GameSceneDynamicObjectEditor>();
             if (m_DynamicObjectEditor == null)
             {
                 var go = new GameObject();
                 go.transform.parent = transform;
                 go.ResetTransfrom();
-                m_DynamicObjectEditor = go.GetOrAddComponent<DynamicObjectEditor>();
+                m_DynamicObjectEditor = go.GetOrAddComponent<GameSceneDynamicObjectEditor>();
             }
-
 
 
             OnSectionChange();
@@ -99,6 +125,10 @@ namespace Pangoo.Editor
 
         void Update()
         {
+            if (Wrapper.OutsideNeedRefresh)
+            {
+                UpdateSection();
+            }
             gameObject.ResetTransfrom();
 
         }
@@ -106,7 +136,7 @@ namespace Pangoo.Editor
 
         public IEnumerable GetSectionList()
         {
-            return GameSupportEditorUtility.GetGameSectionIds(new List<int> { Section });
+            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<GameSectionTableOverview>();
         }
 
 

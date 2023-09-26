@@ -20,6 +20,6 @@ MonoBehaviour:
       Name: "\u7535\u5B50\u9501"
       AssetPathId: 100001
       NameCn: "\u7535\u5B50\u9501"
-      Position: {x: -3.934, y: 0.379, z: 0.196}
-      Rotation: {x: -0, y: 89.18817, z: -0}
+      Position: {x: -3.861, y: 0.379, z: 0.177}
+      Rotation: {x: -0, y: 89.18816, z: 0}
       TriggerEventIds: 1

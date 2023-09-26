@@ -14,6 +14,7 @@ namespace Pangoo
 {
     public class ExcelTableOverviewRowWrapper<TOverview, TRow> where TOverview : ExcelTableOverview where TRow : ExcelNamedRowBase
     {
+        public bool OutsideNeedRefresh { get; set; }
         public virtual bool CanNameChange
         {
             get
@@ -120,11 +121,13 @@ namespace Pangoo
 
 
 
-        protected void Save()
+        public void Save()
         {
 #if UNITY_EDITOR
             EditorUtility.SetDirty(m_Overview);
             AssetDatabase.SaveAssets();
+
+            OutsideNeedRefresh = true;
 #endif
         }
     }

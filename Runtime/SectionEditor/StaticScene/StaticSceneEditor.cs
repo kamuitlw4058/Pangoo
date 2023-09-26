@@ -11,207 +11,54 @@ namespace Pangoo.Editor
 
     [ExecuteInEditMode]
     [DisallowMultipleComponent]
-    public partial class StaticSceneEditor : MonoBehaviour
+    public class StaticSceneEditor : MonoBehaviour
     {
+        int m_StaticSceneId;
         [ReadOnly]
-        [ValueDropdown("GetSectionList")]
-        [OnValueChanged("OnSectionChange")]
-        public int Section;
-
-        [ReadOnly]
-        public GameSectionTable.GameSectionRow SectionRow;
-
-        [LabelText("动态场景IDs")]
-        [ValueDropdown("StaticSceneIdValueDropdown", IsUniqueList = true)]
-
-        [OnValueChanged("OnDynamicSceneIdsChanged")]
-        [ListDrawerSettings(Expanded = true)]
-
-
-        public List<int> DynamicSceneIds = new List<int>();
-
-
-        public void OnDynamicSceneIdsChanged()
+        [ShowInInspector]
+        [ValueDropdown("StatidSceneValueDropdown")]
+        [PropertyOrder(0)]
+        public int StaticSceneId
         {
-            Debug.Log($"OnDynamicSceneIdsChanged");
-            var overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<GameSectionTableOverview>(Section);
-            SectionRow.DynamicObjectIds = DynamicSceneIds.ToListString();
-            EditorUtility.SetDirty(overview);
+            get
+            {
+                return m_StaticSceneId;
+            }
+            set
+            {
+                m_StaticSceneId = value;
+                OnValueChanged();
+            }
         }
+        [ReadOnly]
+        public StaticSceneTable.StaticSceneRow Row;
+
+        [ReadOnly]
+        public StaticSceneTableOverview Overview;
+
+        [SerializeField]
+        [HideLabel]
+        public StaticSceneDetailWrapper Wrapper;
 
 
-
-
-        [LabelText("保持场景IDs")]
-        [ValueDropdown("StaticSceneIdValueDropdown")]
-
-        public List<int> KeepSceneIds = new List<int>();
-
-
-        public IEnumerable StaticSceneIdValueDropdown()
+        public IEnumerable StatidSceneValueDropdown()
         {
             return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<StaticSceneTableOverview>();
         }
 
 
-
-
-        [ReadOnly]
-        public List<GameObject> DynamicScenes;
-
-
-        [ReadOnly]
-        public List<GameObject> KeepScenes;
-
-        public IEnumerable GetSectionList()
+        public void OnValueChanged()
         {
-            return GameSupportEditorUtility.GetExcelTableOverviewIds<GameSectionTableOverview>();
-        }
 
-        public void ClearScene()
-        {
-            if (DynamicScenes != null)
-            {
+            Overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<StaticSceneTableOverview>(StaticSceneId);
+            Row = GameSupportEditorUtility.GetStaticSceneRowById(StaticSceneId);
 
-                foreach (var scene in DynamicScenes)
-                {
-                    try
-                    {
-                        DestroyImmediate(scene);
-                    }
-                    catch
-                    {
-                    }
-                }
-                DynamicScenes.Clear();
-            }
+            Wrapper = new StaticSceneDetailWrapper();
+            Wrapper.Overview = Overview;
+            Wrapper.Row = Row;
 
-            if (KeepScenes != null)
-            {
-                foreach (var scene in KeepScenes)
-                {
-                    try
-                    {
-                        DestroyImmediate(scene);
-                    }
-                    catch
-                    {
-                    }
-                }
-                KeepScenes.Clear();
-            }
-        }
-
-        public void UpdateBase()
-        {
-            if (DynamicSceneIds == null)
-            {
-                DynamicSceneIds = new List<int>();
-            }
-
-            if (KeepSceneIds == null)
-            {
-                KeepSceneIds = new List<int>();
-            }
-
-            if (DynamicScenes == null)
-            {
-                DynamicScenes = new List<GameObject>();
-            }
-
-            if (KeepScenes == null)
-            {
-                KeepScenes = new List<GameObject>();
-            }
-        }
-
-        public void UpdateScene(List<int> ids, List<GameObject> gameObjects)
-        {
-            foreach (var id in ids)
-            {
-                var staticScene = GameSupportEditorUtility.GetStaticSceneRowById(id);
-                if (staticScene == null)
-                {
-                    Debug.LogError($"staticScene Id:{id} is null");
-                    continue;
-                }
-
-                var assetPathRow = GameSupportEditorUtility.GetAssetPathRowById(staticScene.AssetPathId);
-                // Debug.Log($"Try Create Prefab:{staticScene},{assetPathRow.ToPrefabPath()}");
-                // Debug.Log($"AssetPath:{assetPath}");
-                var asset = AssetDatabaseUtility.LoadAssetAtPath<GameObject>(assetPathRow.ToPrefabPath());
-                var go = PrefabUtility.InstantiatePrefab(asset) as GameObject;
-                go.transform.parent = transform;
-                go.ResetTransfrom();
-                gameObjects.Add(go);
-            }
-        }
-
-
-        public void UpdateSection()
-        {
-            UpdateBase();
-            ClearScene();
-            if (Section == 0)
-            {
-                return;
-            }
-
-            DynamicSceneIds.Clear();
-            KeepSceneIds.Clear();
-
-            SectionRow = GameSupportEditorUtility.GetGameSectionRowById(Section);
-            DynamicSceneIds.AddRange(SectionRow.DynamicSceneIds.ToArrInt());
-            KeepSceneIds.AddRange(SectionRow.KeepSceneIds.ToArrInt());
-
-            UpdateScene(DynamicSceneIds, DynamicScenes);
-            UpdateScene(KeepSceneIds, KeepScenes);
-        }
-
-        void UpdateGameObjectName()
-        {
-            name = "$Static Scene";
-
-            if (Section != 0)
-            {
-                name = $"{name}-Section:{Section}";
-            }
 
         }
-
-        public void OnSectionChange()
-        {
-            UpdateSection();
-            UpdateGameObjectName();
-        }
-
-        private void OnEnable()
-        {
-            UpdateSection();
-        }
-
-        private void OnDisable()
-        {
-            ClearScene();
-        }
-
-        private void OnDestroy()
-        {
-            ClearScene();
-        }
-
-        private void Update()
-        {
-            UpdateGameObjectName();
-            gameObject.ResetTransfrom();
-        }
-
-        public void SetSection(int id)
-        {
-            Section = id;
-            OnSectionChange();
-        }
-
     }
 }
 #endif

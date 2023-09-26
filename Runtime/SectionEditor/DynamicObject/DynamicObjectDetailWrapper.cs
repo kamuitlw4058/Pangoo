@@ -8,9 +8,11 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
+using System;
 
-namespace Pangoo.Editor
+namespace Pangoo
 {
+    [Serializable]
     public class DynamicObjectDetailWrapper : ExcelTableRowDetailWrapper<DynamicObjectTableOverview, DynamicObjectTable.DynamicObjectRow>
     {
         [ShowInInspector]
@@ -83,10 +85,51 @@ namespace Pangoo.Editor
                 {
                     Row.TriggerEventIds = value.ToList().ToListString();
                     Save();
+                    BuildTriggers();
                 }
 
             }
         }
+
+        public void BuildTriggers()
+        {
+            m_Triggers.Clear();
+            foreach (var trigger in TriggerIds)
+            {
+                var wrapper = new TriggerDetailWrapper();
+                wrapper.Id = trigger;
+                var overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<TriggerEventTableOverview>(trigger);
+                var row = GameSupportEditorUtility.GetExcelTableRowWithOverviewById<TriggerEventTableOverview, TriggerEventTable.TriggerEventRow>(trigger);
+                wrapper.Overview = overview;
+                wrapper.Row = row;
+                Triggers.Add(wrapper);
+            }
+        }
+
+        List<TriggerDetailWrapper> m_Triggers;
+
+        [ShowInInspector]
+        [LabelText("触发器实现")]
+        [ListDrawerSettings(HideAddButton = true, HideRemoveButton = true)]
+        [PropertyOrder(5)]
+        [HideReferenceObjectPicker]
+        public List<TriggerDetailWrapper> Triggers
+        {
+            get
+            {
+                if (m_Triggers == null)
+                {
+                    m_Triggers = new List<TriggerDetailWrapper>();
+                    BuildTriggers();
+                }
+                return m_Triggers;
+            }
+            set
+            {
+                m_Triggers = value;
+            }
+        }
+
 
         public IEnumerable TriggerIdValueDropdown()
         {
