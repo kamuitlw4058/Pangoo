@@ -175,12 +175,12 @@ namespace Pangoo.Core.Character
         public void SetFirstPerson()
         {
             Debug.Log($"m_VirtualCamera:{m_VirtualCamera} Character:{Character}");
-            Debug.Log($"Character:{Character.CachedTransfrom}");
+            Debug.Log($"Character:{Character.CachedTransfrom} Character.CameraOffset:{Character.CameraOffset}");
             m_VirtualCamera.Follow = Character.CachedTransfrom;
             m_VirtualCamera.DestroyCinemachineComponent<CinemachineComposer>();
             var transposer = m_VirtualCamera.AddCinemachineComponent<CinemachineTransposer>();
             transposer.m_BindingMode = CinemachineTransposer.BindingMode.LockToTarget;
-            transposer.m_FollowOffset = Vector3.zero;
+            transposer.m_FollowOffset = Character.CameraOffset;
             transposer.m_XDamping = 0;
             transposer.m_YawDamping = 0;
             transposer.m_YDamping = 0;

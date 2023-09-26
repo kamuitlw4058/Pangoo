@@ -15,6 +15,7 @@ namespace Pangoo.Core.Character
 
         [SerializeField] MotionInfo m_MotionInfo;
 
+        public Vector3 CameraOffset { get; set; }
 
         public MotionInfo MotionInfo
         {

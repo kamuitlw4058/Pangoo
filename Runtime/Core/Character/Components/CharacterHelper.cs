@@ -28,6 +28,9 @@ namespace Pangoo.Core.Character
 
         [SerializeField][HideInPlayMode] MotionInfo m_MotionInfo;
 
+        [SerializeField][HideInPlayMode] public Vector3 m_CameraOffset;
+
+
 
         public void Init()
         {
@@ -39,6 +42,7 @@ namespace Pangoo.Core.Character
             characterContainer = new CharacterService(gameObject, m_CameraOnly);
             characterContainer.SetIsPlayer(m_IsPlayer);
             characterContainer.SetMotionInfo(m_MotionInfo);
+            characterContainer.CameraOffset = m_CameraOffset;
             characterContainer.Awake();
 
             IsInited = true;
