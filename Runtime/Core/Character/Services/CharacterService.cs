@@ -125,7 +125,7 @@ namespace Pangoo.Core.Character
 
 
 
-        public CharacterService(GameObject gameObject) : base(gameObject)
+        public CharacterService(GameObject gameObject, bool onlyCamera = false) : base(gameObject)
         {
             m_CharacterInputService = new CharacterInputService(this);
             m_CharacterCameraService = new CharacterCameraService(this);
@@ -137,10 +137,14 @@ namespace Pangoo.Core.Character
 
             AddService(m_CharacterInputService);
             AddService(m_CharacterCameraService);
-            AddService(m_DriverService);
-            AddService(m_MotionActionService);
-            AddService(m_PlayerService);
-            AddService(m_InteractionService);
+
+            if (!onlyCamera)
+            {
+                AddService(m_DriverService);
+                AddService(m_MotionActionService);
+                AddService(m_PlayerService);
+                AddService(m_InteractionService);
+            }
         }
 
 

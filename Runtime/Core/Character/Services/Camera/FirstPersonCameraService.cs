@@ -145,7 +145,7 @@ namespace Pangoo.Core.Character
                 0f
             );
 
-            m_VirtualCamera.transform.localRotation = rotation;
+            m_VirtualCamera.transform.rotation = rotation;
             // Debug.Log($"set Rotation:{rotation}");
 
 

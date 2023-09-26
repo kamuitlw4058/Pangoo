@@ -24,6 +24,8 @@ namespace Pangoo.Core.Character
         [SerializeField][HideInPlayMode] bool m_IsPlayer;
         [ShowInInspector][HideInEditorMode] bool IsInited;
 
+        [SerializeField][HideInPlayMode] bool m_CameraOnly;
+
         [SerializeField][HideInPlayMode] MotionInfo m_MotionInfo;
 
 
@@ -34,7 +36,7 @@ namespace Pangoo.Core.Character
                 return;
             }
             Debug.Log($"On Init:{characterContainer}");
-            characterContainer = new CharacterService(gameObject);
+            characterContainer = new CharacterService(gameObject, m_CameraOnly);
             characterContainer.SetIsPlayer(m_IsPlayer);
             characterContainer.SetMotionInfo(m_MotionInfo);
             characterContainer.Awake();
