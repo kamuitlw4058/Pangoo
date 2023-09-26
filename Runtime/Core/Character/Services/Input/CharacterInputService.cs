@@ -47,9 +47,8 @@ namespace Pangoo.Core.Character
         {
         }
 
-        public override void DoAwake(INestedService parent)
+        public override void DoAwake()
         {
-            base.DoAwake(parent);
             m_InputMove.OnAwake();
             m_InputRotation.OnAwake();
             m_InputInteraction.OnAwake();

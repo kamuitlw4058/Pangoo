@@ -122,6 +122,14 @@ namespace Pangoo
           Rows.AddRange(table.Rows);
         }
 
+        #if UNITY_EDITOR
+        public  override void RemoveId(int Id){
+          var row = GetRowById<UiConfigInfoRow>(Id);
+          if(row == null) return;
+          Rows.Remove(row);
+        }
+        #endif
+
         public UiConfigInfoRow GetRowById(int row_id){
           #if UNITY_EDITOR
           return GetRowById<UiConfigInfoRow>(row_id);

@@ -11,28 +11,33 @@ using System;
 using Pangoo.Core.Common;
 using Pangoo.Core.VisualScripting;
 
-namespace Pangoo.Editor{
+namespace Pangoo.Editor
+{
 
-    public partial class DynamicObjectWrapper{
-        
+    public partial class DynamicObjectWrapper
+    {
+
 
 
         [Button("添加触发器")]
         [FoldoutGroup("$Title")]
         [PropertyOrder(11)]
-        public void AddTrigger(){
+        public void AddTrigger()
+        {
             var addWrapper = new AddWrapper<TriggerEventTableOverview>(m_DetailRow.GetTriggerEventIdList());
             addWrapper.ConfirmAdd = AddTrigger;
             m_AddWindow = OdinEditorWindow.InspectObject(addWrapper);
         }
 
-        public void AddTrigger(int id){
+        public void AddTrigger(int id)
+        {
             var overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<DynamicObjectTableOverview>(m_DetailRow.Id);
             m_DetailRow.AddTriggerEventId(id);
             UpdateTriggers();
             EditorUtility.SetDirty(overview);
             AssetDatabase.SaveAssets();
-            if(m_AddWindow != null){
+            if (m_AddWindow != null)
+            {
                 m_AddWindow.Close();
                 m_AddWindow = null;
             }
@@ -44,15 +49,17 @@ namespace Pangoo.Editor{
         [Button("创建新的触发器")]
         [FoldoutGroup("$Title")]
         [PropertyOrder(12)]
-        public void CreateTrigger(){
+        public void CreateTrigger()
+        {
             var createWrapper = new TriggerEventCreateWrapper();
             createWrapper.ConfirmCreate = CreateTrigger;
             m_CreateWindow = OdinEditorWindow.InspectObject(createWrapper);
         }
 
-        public void CreateTrigger(TriggerEventTable.TriggerEventRow row){
+        public void CreateTrigger(TriggerEventTable.TriggerEventRow row)
+        {
             Debug.Log($"创建对应数据。row:{row.Id}");
-            var packageDir =  GameSupportEditorUtility.GetPakcageDirByOverviewRowId<DynamicObjectTableOverview>(m_Row.Id);
+            var packageDir = GameSupportEditorUtility.GetPakcageDirByOverviewRowId<DynamicObjectTableOverview>(m_Row.Id);
             var overview = AssetDatabaseUtility.FindAssetFirst<TriggerEventTableOverview>(packageDir);
             overview.Data.Rows.Add(row);
             AddTrigger(row.Id);
@@ -65,24 +72,26 @@ namespace Pangoo.Editor{
 
 
         [Serializable]
-        public class DynamicObjecTriggerWrapper:TriggerEventWrapper{
+        public class DynamicObjecTriggerWrapper : TriggerEventWrapper
+        {
             public delegate void TriggerStartHandler();
-            public TriggerStartHandler StrartTrigger;
+            public TriggerStartHandler StartTrigger;
 
             InstructionList RunningInstructionList = null;
 
             GameObject m_GameObject;
 
 
-            public DynamicObjecTriggerWrapper(TriggerEventTable.TriggerEventRow row,GameObject go = null) : base(row)
+            public DynamicObjecTriggerWrapper(TriggerEventTable.TriggerEventRow row, GameObject go = null) : base(row)
             {
                 m_GameObject = go;
             }
 
             [Button("删除引用")]
             [TableTitleGroup("操作")]
-            [TableColumnWidth(80,resizable:false)]
-            protected override void RemoveRef(){
+            [TableColumnWidth(80, resizable: false)]
+            protected override void RemoveRef()
+            {
                 base.RemoveRef();
             }
 
@@ -90,10 +99,12 @@ namespace Pangoo.Editor{
 
             [Button("触发")]
             [TableTitleGroup("操作")]
-            protected void Run(){
-                List <Instruction> instructions = new();
+            protected void Run()
+            {
+                List<Instruction> instructions = new();
 
-                foreach(var instruction in m_Instructions){
+                foreach (var instruction in m_Instructions)
+                {
                     instructions.Add(instruction.InstructionInstance);
                 }
                 Debug.Log($"Start Run Instruction:{instructions.Count}");
@@ -103,20 +114,25 @@ namespace Pangoo.Editor{
 
             }
 
-            public void OnUpdate(){
-               
-                if(RunningInstructionList != null){
+            public void OnUpdate()
+            {
+
+                if (RunningInstructionList != null)
+                {
                     RunningInstructionList.OnUpdate();
-                    if(RunningInstructionList.IsFinished){
+                    if (RunningInstructionList.IsFinished)
+                    {
                         RunningInstructionList = null;
                     }
-                }else{
+                }
+                else
+                {
                 }
             }
         }
 
 
-       
+
     }
 }
 #endif

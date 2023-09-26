@@ -14,22 +14,27 @@ namespace Pangoo
     public abstract class ExcelTableOverview : GameConfigBase
     {
         [ShowInInspector]
-        public  PackageConfig Config;
+        public PackageConfig Config;
 
 
-        public const string ExcelDirPath =  "StreamRes/ExcelTable/Excel";
+        public const string ExcelDirPath = "StreamRes/ExcelTable/Excel";
         [ShowInInspector]
-        public string Namespace {
-            get{
-                if(Config != null){
+        public string Namespace
+        {
+            get
+            {
+                if (Config != null)
+                {
                     return Config.MainNamespace;
                 }
                 return null;
             }
         }
 
-        public virtual ExcelTableBase Table{
-            get{
+        public virtual ExcelTableBase Table
+        {
+            get
+            {
                 return null;
             }
         }
@@ -48,12 +53,14 @@ namespace Pangoo
         {
             //类型名是表名去掉结尾的Table
             var name = Table.GetType().Name;
-            return name.Substring(0,name.Length -5);
+            return name.Substring(0, name.Length - 5);
         }
 
         [ShowInInspector]
-        public string Name{
-            get{
+        public string Name
+        {
+            get
+            {
                 return GetName();
             }
         }
@@ -63,9 +70,9 @@ namespace Pangoo
             return "";
         }
 
-        
-        
-        
+
+
+
 
 
 #if UNITY_EDITOR
@@ -82,10 +89,10 @@ namespace Pangoo
 
         public virtual void SaveExcel()
         {
-            
+
         }
 
-        [Button("从Excel文件重构数据",30)]
+        [Button("从Excel文件重构数据", 30)]
         public void LoadExcelFile()
         {
             LoadExcelFile(true);
@@ -96,27 +103,30 @@ namespace Pangoo
         {
         }
 
-        
-        [Button("选择Excel资源",30)]
+
+        [Button("选择Excel资源", 30)]
         public void SelectExcelFile()
         {
             UnityEngine.Object obj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(ExcelPath);
-            if(obj != null){
-                 Selection.activeObject = obj;
+            if (obj != null)
+            {
+                Selection.activeObject = obj;
             }
         }
 
-        
-        [Button("生成Excel文件",30)]
+
+        [Button("生成Excel文件", 30)]
         public virtual void BuildExcelFile()
         {
-             Table.BuildExcelFile(ExcelPath);
+            Table.BuildExcelFile(ExcelPath);
         }
 
-        public string ExcelPath{
-            get{
-                string excelDirPath = PathUtility.Join(Config.PackageDir,ExcelDirPath);
-                return  excelDirPath+ "/" + this.name + ".xlsx";
+        public string ExcelPath
+        {
+            get
+            {
+                string excelDirPath = PathUtility.Join(Config.PackageDir, ExcelDirPath);
+                return excelDirPath + "/" + this.name + ".xlsx";
             }
         }
 #endif

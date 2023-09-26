@@ -16,11 +16,7 @@ MonoBehaviour:
   Data:
     Priority: 0
     Rows:
-    - Id: 2
-      Name: test
+    - Id: 1
+      Name: "\u6253\u5370\u8C03\u8BD5\u4FE1\u606F"
       InstructionType: Pangoo.Core.VisualScripting.InstructionCommonDebugText
-      Params: fasdfasdf
-    - Id: 6
-      Name: ChangeToSelfCamera
-      InstructionType: Pangoo.Core.VisualScripting.InstructionCameraChange
-      Params: SelfCamera
+      Params: "{\u6D4B\u8BD5\u5185\u5BB9}"

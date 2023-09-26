@@ -8,7 +8,7 @@ namespace Pangoo.Service
     public abstract partial class NestedServiceBase
     {
 
-        public virtual void DoAwake(INestedService parent)
+        public virtual void DoAwake()
         {
         }
 

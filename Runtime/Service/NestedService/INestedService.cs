@@ -16,12 +16,12 @@ namespace Pangoo.Service
 
         INestedService[] Childern { get; }
 
-        INestedService Parent { get; }
+        INestedService Parent { get; set; }
 
 
         float DeltaTime { get; }
 
-        void Awake(INestedService parent);
+        void Awake();
 
         void Start();
 
@@ -39,7 +39,7 @@ namespace Pangoo.Service
         void DrawGizmos();
 
 
-        void DoAwake(INestedService parent);
+        void DoAwake();
         void DoStart();
 
         void DoEnable();

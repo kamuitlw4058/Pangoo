@@ -4,9 +4,9 @@ namespace Pangoo.Service
 {
     public class GameInfoService : ServiceBase
     {
-        public T GetGameInfo<T>() where T:BaseInfo
+        public T GetGameInfo<T>() where T : BaseInfo
         {
-            return  PangooEntry.GameInfo.GetGameInfo<T>();
+            return PangooEntry.GameInfo.GetGameInfo<T>();
         }
 
     }

@@ -91,10 +91,10 @@ namespace Pangoo.Core.Character
 
         }
 
-        public override void DoAwake(INestedService parent)
+        public override void DoAwake()
         {
-            base.DoAwake(parent);
-            // m_InputMove = InputValueVector2MotionPrimary.Create();
+            Debug.Log($"Character:{Character}");
+            Debug.Log($"Character.gameObject:{Character.gameObject}");
             m_VirtualCamera = Character.gameObject.GetComponentInChildren<CinemachineVirtualCamera>();
             if (m_VirtualCamera == null)
             {
@@ -177,12 +177,15 @@ namespace Pangoo.Core.Character
             Debug.Log($"m_VirtualCamera:{m_VirtualCamera} Character:{Character}");
             Debug.Log($"Character:{Character.CachedTransfrom}");
             m_VirtualCamera.Follow = Character.CachedTransfrom;
+            m_VirtualCamera.DestroyCinemachineComponent<CinemachineComposer>();
             var transposer = m_VirtualCamera.AddCinemachineComponent<CinemachineTransposer>();
             transposer.m_BindingMode = CinemachineTransposer.BindingMode.LockToTarget;
             transposer.m_FollowOffset = Vector3.zero;
             transposer.m_XDamping = 0;
             transposer.m_YawDamping = 0;
+            transposer.m_YDamping = 0;
             transposer.m_ZDamping = 0;
+
         }
 
         private float GetRotationDamp(float current, float target, ref float velocity,

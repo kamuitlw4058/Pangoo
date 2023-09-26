@@ -17,9 +17,9 @@ MonoBehaviour:
     Priority: 0
     Rows:
     - Id: 2
-      Name: tttt
-      AssetPathId: 100002
-      NameCn: adf
-      Position: {x: 0, y: 0, z: 0}
-      Rotation: {x: 0, y: 0, z: 0}
+      Name: "\u7535\u5B50\u9501"
+      AssetPathId: 100001
+      NameCn: "\u7535\u5B50\u9501"
+      Position: {x: -3.934, y: 0.379, z: 0.196}
+      Rotation: {x: -0, y: 89.18817, z: -0}
       TriggerEventIds: 1

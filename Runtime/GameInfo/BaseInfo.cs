@@ -2,12 +2,15 @@ using System;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using GameFramework;
+using System.Collections.Generic;
 
 namespace Pangoo
 {
 
     public abstract class BaseInfo : IInfo
     {
+        protected Dictionary<int, object> IdDict = new Dictionary<int, object>();
+
         public virtual string Name
         {
             get
@@ -16,7 +19,8 @@ namespace Pangoo
             }
         }
 
-        public  void Init(){
+        public void Init()
+        {
             OnInit();
         }
 
@@ -26,7 +30,8 @@ namespace Pangoo
 
         // public abstract void Unload();
 
-        public void Shutdown(){
+        public void Shutdown()
+        {
             OnShutdown();
         }
 
@@ -34,9 +39,23 @@ namespace Pangoo
         {
         }
 
-        protected virtual void OnShutdown(){
+        protected virtual void OnShutdown()
+        {
 
         }
+
+
+        public T GetRowById<T>(int id) where T : BaseInfoRow
+        {
+            object ret;
+            if (IdDict.TryGetValue(id, out ret))
+            {
+                return (T)ret;
+            }
+
+            return null;
+        }
+
 
     }
 

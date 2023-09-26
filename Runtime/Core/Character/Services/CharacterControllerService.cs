@@ -8,13 +8,12 @@ namespace Pangoo.Core.Character
 
     public abstract class CharacterControllerService<T> : CharacterBaseService where T : Enum
     {
+        [SerializeField]
         protected T m_ServiceType = default(T);
 
         public CharacterControllerService(INestedService parent) : base(parent)
         {
-
         }
-
 
 
         public T ServiceType
@@ -30,10 +29,16 @@ namespace Pangoo.Core.Character
             }
         }
 
-        public abstract void RemoveService(T val);
+        public virtual void RemoveService(T val)
+        {
+
+        }
 
 
-        public abstract void AddService(T val);
+        public virtual void AddService(T val)
+        {
+
+        }
 
 
         public virtual void ChangeServiceType(T oldType, T newType, bool overwrite = false)

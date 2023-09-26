@@ -16,18 +16,6 @@ MonoBehaviour:
   Data:
     Priority: 0
     Rows:
-    - Id: 10001
-      Name: "\u6D4B\u8BD5\u623F\u95F41"
-      AssetPackageDir: Assets/Plugins/Pangoo
-      AssetType: Scene
-      AssetPath: Room1.prefab
-      Desc: "\u6D4B\u8BD5\u623F\u95F41"
-    - Id: 10002
-      Name: "\u6D4B\u8BD5\u623F\u95F42"
-      AssetPackageDir: Assets/Plugins/Pangoo
-      AssetType: Scene
-      AssetPath: Room2.prefab
-      Desc: "\u6D4B\u8BD5\u623F\u95F42"
     - Id: 10003
       Name: "\u6D4B\u8BD5\u623F\u95F43"
       AssetPackageDir: Assets/Plugins/Pangoo
@@ -52,9 +40,45 @@ MonoBehaviour:
       AssetType: Scene
       AssetPath: Room5.prefab
       Desc: "\u6D4B\u8BD5\u623F\u95F45"
-    - Id: 100002
-      Name: tttt
+    - Id: 200001
+      Name: "\u65B0\u674E\u5B852\u697C\u5C0F\u82B3\u623F\u95F4"
+      AssetPackageDir: Assets/Plugins/Pangoo
+      AssetType: Scene
+      AssetPath: SS_2Floor_XiaoFang_XinLiZhai.prefab
+      Desc: 
+    - Id: 200002
+      Name: "\u65B0\u674E\u5B852\u697C\u5BA2\u5385"
+      AssetPackageDir: Assets/Plugins/Pangoo
+      AssetType: Scene
+      AssetPath: SS_2Floor_KeTing_XinLiZhai.prefab
+      Desc: 
+    - Id: 200003
+      Name: "\u65B0\u674E\u5B852\u697C\u8001\u674E"
+      AssetPackageDir: Assets/Plugins/Pangoo
+      AssetType: Scene
+      AssetPath: SS_2Floor_LaoLi_XinLiZhai.prefab
+      Desc: 
+    - Id: 200004
+      Name: "\u65B0\u674E\u5B852\u697C\u8D70\u5ECA"
+      AssetPackageDir: Assets/Plugins/Pangoo
+      AssetType: Scene
+      AssetPath: SS_2Floor_ZouLang_XinLiZhai.prefab
+      Desc: 
+    - Id: 200005
+      Name: "\u65B0\u674E\u5B852\u697C\u7F57\u7476\u623F\u95F4"
+      AssetPackageDir: Assets/Plugins/Pangoo
+      AssetType: Scene
+      AssetPath: SS_2Floor_LuoYao_XinLiZhai.prefab
+      Desc: 
+    - Id: 200006
+      Name: "\u65B0\u674E\u5B852\u697C\u5395\u6240"
+      AssetPackageDir: Assets/Plugins/Pangoo
+      AssetType: Scene
+      AssetPath: SS_2Floor_CeSuo_XinLiZhai.prefab
+      Desc: 
+    - Id: 100001
+      Name: "\u7535\u5B50\u9501"
       AssetPackageDir: Assets/Plugins/Pangoo
       AssetType: DynamicObject
-      AssetPath: tttt.prefab
+      AssetPath: DO_DM_DaoJu_DianZiSuo_01.prefab
       Desc: 

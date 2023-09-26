@@ -7,7 +7,7 @@ using GameFramework;
 namespace Pangoo
 {
     [Serializable]
-    public sealed class EntityInfo: IReference
+    public sealed class EntityInfo : IReference
     {
 
         public AssetPathTable.AssetPathRow AssetPathRow;
@@ -23,8 +23,10 @@ namespace Pangoo
             }
         }
 
-        public string AssetName{
-            get{
+        public string AssetName
+        {
+            get
+            {
                 return AssetPathRow.Name;
             }
         }
@@ -39,21 +41,25 @@ namespace Pangoo
             }
         }
 
-        public string GroupName{
+        public string GroupName
+        {
 
-            get{
-                return EntityGroupRow.Name;
+            get
+            {
+                return EntityGroupRow?.Name ?? string.Empty;
             }
         }
 
-        public static EntityInfo Create(AssetPathTable.AssetPathRow assetPath, EntityGroupTable.EntityGroupRow entityGroup){
+        public static EntityInfo Create(AssetPathTable.AssetPathRow assetPath, EntityGroupTable.EntityGroupRow entityGroup)
+        {
             var info = ReferencePool.Acquire<EntityInfo>();
             info.AssetPathRow = assetPath;
             info.EntityGroupRow = entityGroup;
             return info;
         }
 
-        public void Clear(){
+        public void Clear()
+        {
             AssetPathRow = null;
             EntityGroupRow = null;
         }

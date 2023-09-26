@@ -10,6 +10,8 @@
 
         StaticScene = 1001,
 
-       
+        DynamicObject = 1002,
+
+
     }
 }

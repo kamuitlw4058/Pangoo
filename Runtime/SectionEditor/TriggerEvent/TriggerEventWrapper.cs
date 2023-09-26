@@ -6,15 +6,19 @@ using Sirenix.OdinInspector;
 using System;
 using UnityEditor;
 
-namespace Pangoo.Editor{
+namespace Pangoo.Editor
+{
 
     [Serializable]
-    public partial class TriggerEventWrapper  :BaseNamedWrapper
+    public partial class TriggerEventWrapper : BaseNamedWrapper
     {
 
-        public override string Title{
-            get{
-                if(m_DetailRow == null){
+        public override string Title
+        {
+            get
+            {
+                if (m_DetailRow == null)
+                {
                     return string.Empty;
                 }
                 return $"{m_DetailRow.TriggerType}".Humanize();
@@ -23,36 +27,44 @@ namespace Pangoo.Editor{
 
         [ShowInInspector]
         [FoldoutGroup("$Title")]
-        public TriggerTypeEnum TriggerType{
-            get{
-                if(m_DetailRow == null){
+        public TriggerTypeEnum TriggerType
+        {
+            get
+            {
+                if (m_DetailRow == null)
+                {
                     return TriggerTypeEnum.Unknown;
                 }
 
-                if(m_DetailRow.TriggerType == null){
+                if (m_DetailRow.TriggerType == null)
+                {
                     m_DetailRow.TriggerType = string.Empty;
                 }
-                switch(m_DetailRow.TriggerType){
+                switch (m_DetailRow.TriggerType)
+                {
                     case "OnInteract":
                         return TriggerTypeEnum.OnInteract;
                     default:
                         return TriggerTypeEnum.Unknown;
                 }
             }
-            set{
-                switch(value){
+            set
+            {
+                switch (value)
+                {
                     case TriggerTypeEnum.Unknown:
                         m_DetailRow.TriggerType = string.Empty;
                         break;
                     case TriggerTypeEnum.OnInteract:
-                        m_DetailRow.TriggerType  = TriggerTypeEnum.OnInteract.ToString();
+                        m_DetailRow.TriggerType = TriggerTypeEnum.OnInteract.ToString();
                         break;
                 }
             }
         }
 
         TriggerEventTable.TriggerEventRow m_DetailRow;
-        public TriggerEventWrapper(TriggerEventTable.TriggerEventRow row): base(row){
+        public TriggerEventWrapper(TriggerEventTable.TriggerEventRow row) : base(row)
+        {
             m_DetailRow = row;
             UpdateInstructions();
         }
@@ -63,17 +75,19 @@ namespace Pangoo.Editor{
         // [ShowInInspector]
         [SerializeField]
         // [HideLabel]
-        [ListDrawerSettings(HideAddButton =true,HideRemoveButton =true,DraggableItems =false, Expanded = true )]
+        [ListDrawerSettings(HideAddButton = true, HideRemoveButton = true, DraggableItems = false, Expanded = true)]
         [TableList]
         // [GUIColor("#FF0000")]
         protected List<TriggerInstrucationWrapper> m_Instructions = new List<TriggerInstrucationWrapper>();
 
 
 
-        public void UpdateInstructions(){
+        public void UpdateInstructions()
+        {
             m_Instructions.Clear();
-            foreach(var instruction_id in m_DetailRow.GetInstructionList()){
-                var row = GameSupportEditorUtility.GetExcelTableRowWithOverviewById<InstructionTableOverview ,InstructionTable.InstructionRow>(instruction_id);
+            foreach (var instruction_id in m_DetailRow.GetInstructionList())
+            {
+                var row = GameSupportEditorUtility.GetExcelTableRowWithOverviewById<InstructionTableOverview, InstructionTable.InstructionRow>(instruction_id);
                 var wrapper = new TriggerInstrucationWrapper(row);
                 wrapper.RemoveRow = RemoveInstruction;
                 wrapper.RemoveRowRef = RemoveInstruction;
@@ -81,7 +95,8 @@ namespace Pangoo.Editor{
             }
         }
 
-        public void RemoveInstruction(int id){
+        public void RemoveInstruction(int id)
+        {
             m_DetailRow.RemoveInstructionId(id);
             var overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<InstructionTableOverview>(Id);
             EditorUtility.SetDirty(overview);
@@ -89,15 +104,15 @@ namespace Pangoo.Editor{
             UpdateInstructions();
         }
 
-        [Button("完全删除")]
-        [FoldoutGroup("$Title")]
-        protected override void Remove(){
-            base.Remove();
-            var overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<TriggerEventTableOverview>(Id);
-            overview.Data.Rows.Remove(m_DetailRow);
-            EditorUtility.SetDirty(overview);
-            AssetDatabase.SaveAssets();
-        }
+        // [Button("完全删除")]
+        // [FoldoutGroup("$Title")]
+        // protected override void Remove(){
+        //     base.Remove();
+        //     var overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<TriggerEventTableOverview>(Id);
+        //     overview.Data.Rows.Remove(m_DetailRow);
+        //     EditorUtility.SetDirty(overview);
+        //     AssetDatabase.SaveAssets();
+        // }
     }
 }
 #endif

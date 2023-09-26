@@ -8,9 +8,11 @@ namespace Pangoo
 
     public static class ListExtension
     {
-        public static string ToItemString<T>(this List<T> list,string split = "|"){
+        public static string ToListString<T>(this List<T> list, string split = "|")
+        {
             StringBuilder sb = new StringBuilder();
-            foreach(var item in list){
+            foreach (var item in list)
+            {
                 sb.Append(item.ToString());
                 sb.Append(split);
             }

@@ -15,6 +15,7 @@ namespace Pangoo.Editor
     public partial class GameSectionEditor : MonoBehaviour
     {
 
+
         [ValueDropdown("GetSectionList")]
         [OnValueChanged("OnSectionChange")]
         public int Section;
@@ -86,14 +87,14 @@ namespace Pangoo.Editor
         private void OnDestroy()
         {
             // DestroyImmediate(m_StaticSceneEditor);
-            UnityEditor.EditorApplication.delayCall += () =>
-            {
-                if (gameObject != null)
-                {
-                    DestroyImmediate(gameObject);
-                }
+            // UnityEditor.EditorApplication.delayCall += () =>
+            // {
+            //     if (gameObject != null)
+            //     {
+            //         DestroyImmediate(gameObject);
+            //     }
 
-            };
+            // };
         }
 
         void Update()

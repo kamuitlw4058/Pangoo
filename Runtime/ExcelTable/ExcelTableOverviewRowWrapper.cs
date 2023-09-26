@@ -1,0 +1,132 @@
+using Sirenix.OdinInspector;
+using UnityEngine;
+using System;
+using UnityEngine.Serialization;
+
+#if UNITY_EDITOR
+using System.IO;
+using System.Text;
+using UnityEditor;
+using Sirenix.OdinInspector.Editor;
+#endif
+
+namespace Pangoo
+{
+    public class ExcelTableOverviewRowWrapper<TOverview, TRow> where TOverview : ExcelTableOverview where TRow : ExcelNamedRowBase
+    {
+        public virtual bool CanNameChange
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        public virtual bool CanIdChange
+        {
+            get
+            {
+                return false;
+            }
+
+        }
+
+
+        protected TOverview m_Overview;
+
+        public virtual TOverview Overview
+        {
+            get
+            {
+                return m_Overview;
+            }
+            set
+            {
+                m_Overview = value;
+            }
+        }
+
+        protected TRow m_Row;
+
+        public TRow Row
+        {
+            get
+            {
+                return m_Row;
+            }
+            set
+            {
+                m_Row = value;
+            }
+        }
+
+
+
+        [ShowInInspector]
+        [TableColumnWidth(60, resizable: false)]
+        [TableTitleGroup("命名空间")]
+        [PropertyOrder(-3)]
+        [HideLabel]
+        public string Namespace
+        {
+            get
+            {
+                return m_Overview?.Config?.MainNamespace;
+            }
+        }
+
+        [ShowInInspector]
+        [TableColumnWidth(60, resizable: false)]
+        [PropertyOrder(-2)]
+        [EnableIf("CanIdChange")]
+        [InfoBox("Id 已经存在", InfoMessageType.Error, "CheckExistsId")]
+        public virtual int Id
+        {
+            get { return m_Row?.Id ?? 0; }
+            set
+            {
+                if (m_Row != null && m_Overview != null)
+                {
+                    m_Row.Id = value;
+                }
+            }
+        }
+
+        protected virtual bool CheckExistsId()
+        {
+            return false;
+        }
+
+        [ShowInInspector]
+        [PropertyOrder(-1)]
+        [EnableIf("CanNameChange")]
+        [InfoBox("已经有对应的名字", InfoMessageType.Warning, "CheckExistsName")]
+        public virtual string Name
+        {
+            get { return m_Row?.Name ?? null; }
+            set
+            {
+                if (m_Row != null && m_Overview != null)
+                {
+                    m_Row.Name = value;
+                }
+            }
+        }
+
+        protected virtual bool CheckExistsName()
+        {
+            return false;
+        }
+
+
+
+        protected void Save()
+        {
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(m_Overview);
+            AssetDatabase.SaveAssets();
+#endif
+        }
+    }
+}
+

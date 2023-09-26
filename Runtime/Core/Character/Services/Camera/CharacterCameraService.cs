@@ -39,13 +39,14 @@ namespace Pangoo.Core.Character
             {
                 switch (m_ServiceType)
                 {
-                    case CharacterCameraTypeEnum.FirstPerson: return m_FirstPersonCameraService.Camera;
+                    case CharacterCameraTypeEnum.FirstPerson: return m_FirstPersonCameraService?.Camera;
                 }
 
                 return null;
             }
         }
 
+        [SerializeField]
         FirstPersonCameraService m_FirstPersonCameraService;
 
 
@@ -83,8 +84,11 @@ namespace Pangoo.Core.Character
                     if (m_FirstPersonCameraService == null)
                     {
                         m_FirstPersonCameraService = new FirstPersonCameraService(this);
-                        m_FirstPersonCameraService.Awake(this);
+                        m_FirstPersonCameraService.Awake();
+                        m_FirstPersonCameraService.Start();
                     }
+
+                    Debug.Log($"m_FirstPersonCameraService:{m_FirstPersonCameraService}");
 
                     AddService(m_FirstPersonCameraService);
                     break;

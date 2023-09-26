@@ -45,10 +45,8 @@ namespace Pangoo.Core.Character
         }
 
 
-        public override void DoAwake(INestedService parent)
+        public override void DoAwake()
         {
-            base.DoAwake(parent);
-
             this.m_Controller = Character.gameObject.GetComponent<CharacterController>();
             if (this.m_Controller == null)
             {

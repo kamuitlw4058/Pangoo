@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 using Pangoo.Core.Common;
 using UnityEngine;
 
-namespace Pangoo.Core.VisualScripting{
+namespace Pangoo.Core.VisualScripting
+{
 
     // [Version(0, 1, 1)]
 
@@ -20,18 +21,18 @@ namespace Pangoo.Core.VisualScripting{
 
     // [Keywords("Debug", "Log", "Print", "Show", "Display", "Name", "Test", "Message", "String")]
     // [Image(typeof(IconBug), ColorTheme.Type.TextLight)]
-    
+
     [Serializable]
     public class InstructionCommonDebugText : Instruction
     {
         // MEMBERS: -------------------------------------------------------------------------------
-        
+
         [SerializeField]
         public string m_Message = string.Empty;
         // private PropertyGetString m_Message = new PropertyGetString("My message");
 
         // PROPERTIES: ----------------------------------------------------------------------------
-        
+
         public override string Title => $"Log: {this.m_Message}";
 
         // CONSTRUCTORS: --------------------------------------------------------------------------
@@ -46,8 +47,13 @@ namespace Pangoo.Core.VisualScripting{
 
         protected override IEnumerator Run(Args args)
         {
-            Debug.Log(this.m_Message);
+            RunImmediate(args);
             yield break;
+        }
+
+        public override void RunImmediate(Args args)
+        {
+            Debug.Log(this.m_Message);
         }
 
         public override string ParamsString()

@@ -29,7 +29,7 @@ MonoBehaviour:
   - Build: 1
     ExcelName: AssetPath
     BaseNamespace: 
-    Named: 0
+    Named: 1
   - Build: 1
     ExcelName: DynamicObject
     BaseNamespace: 
@@ -69,7 +69,7 @@ MonoBehaviour:
   - Build: 1
     ExcelName: StaticScene
     BaseNamespace: 
-    Named: 0
+    Named: 1
   - Build: 1
     ExcelName: TriggerEvent
     BaseNamespace: 

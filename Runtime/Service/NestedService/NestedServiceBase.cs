@@ -9,6 +9,7 @@ namespace Pangoo.Service
     [Serializable]
     public abstract partial class NestedServiceBase : INestedService
     {
+        [field: NonSerialized]
         EventHelper m_EventHelper;
 
         [ShowInInspector]
@@ -23,13 +24,18 @@ namespace Pangoo.Service
         public virtual float DeltaTime => UnityEngine.Time.deltaTime;
         public virtual float Time => UnityEngine.Time.time;
 
-        INestedService m_Parent;
+        [field: NonSerialized]
+        protected INestedService m_Parent;
 
         public INestedService Parent
         {
             get
             {
                 return m_Parent;
+            }
+            set
+            {
+                m_Parent = value;
             }
         }
 

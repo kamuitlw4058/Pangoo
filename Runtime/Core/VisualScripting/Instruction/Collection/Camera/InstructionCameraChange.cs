@@ -5,7 +5,8 @@ using Cinemachine;
 using Pangoo.Core.Common;
 using UnityEngine;
 
-namespace Pangoo.Core.VisualScripting{
+namespace Pangoo.Core.VisualScripting
+{
 
     // [Version(0, 1, 1)]
 
@@ -21,20 +22,21 @@ namespace Pangoo.Core.VisualScripting{
 
     // [Keywords("Debug", "Log", "Print", "Show", "Display", "Name", "Test", "Message", "String")]
     // [Image(typeof(IconBug), ColorTheme.Type.TextLight)]
-    
+
     [Serializable]
     public class InstructionCameraChange : Instruction
     {
         public const int ActiveCameraPriority = 1000;
         // MEMBERS: -------------------------------------------------------------------------------
-        
-        public enum ChangeType{
+
+        public enum ChangeType
+        {
             SelfCamera,
         }
 
         public ChangeType m_ChangeType;
 
-        
+
         public override string Title => $"Change Camera: {this.m_ChangeType}";
 
 
@@ -46,19 +48,40 @@ namespace Pangoo.Core.VisualScripting{
 
         protected override IEnumerator Run(Args args)
         {
-            if(args.Self == null){
+            if (args.Self == null)
+            {
                 Debug.Log($"Self is null");
                 yield break;
             }
 
             var camera = args.Self.GetComponentInChildren<CinemachineVirtualCamera>();
-            if(camera == null){
+            if (camera == null)
+            {
                 Debug.Log($"Self Camera is null");
                 yield break;
             }
             camera.Priority = ActiveCameraPriority;
             Debug.Log($"ChangeType:{m_ChangeType} camera:{camera}");
             yield break;
+        }
+
+        public override void RunImmediate(Args args)
+        {
+            if (args.Self == null)
+            {
+                Debug.Log($"Self is null");
+                return;
+            }
+
+            var camera = args.Self.GetComponentInChildren<CinemachineVirtualCamera>();
+            if (camera == null)
+            {
+                Debug.Log($"Self Camera is null");
+                return;
+            }
+            camera.Priority = ActiveCameraPriority;
+            Debug.Log($"ChangeType:{m_ChangeType} camera:{camera}");
+            return;
         }
 
         public override string ParamsString()
