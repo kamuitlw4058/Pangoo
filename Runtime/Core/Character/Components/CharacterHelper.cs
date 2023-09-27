@@ -1,4 +1,3 @@
-#if UNITY_EDITOR
 
 using UnityEngine;
 using Sirenix.OdinInspector;
@@ -17,18 +16,28 @@ namespace Pangoo.Core.Character
     public class CharacterHelper : MonoBehaviour
     {
 
-        [SerializeField]
         [HideInEditorMode]
         CharacterService characterContainer;
 
-        [SerializeField][HideInPlayMode] bool m_IsPlayer;
-        [ShowInInspector][HideInEditorMode] bool IsInited;
+        [SerializeField]
+        [HideInPlayMode]
+        bool m_IsPlayer;
 
-        [SerializeField][HideInPlayMode] bool m_CameraOnly;
+        [ShowInInspector]
+        [HideInEditorMode]
+        bool IsInited;
 
-        [SerializeField][HideInPlayMode] MotionInfo m_MotionInfo;
+        [SerializeField]
+        [HideInPlayMode]
+        bool m_CameraOnly;
 
-        [SerializeField][HideInPlayMode] public Vector3 m_CameraOffset;
+        [SerializeField]
+        [HideInPlayMode]
+        MotionInfo m_MotionInfo;
+
+        [SerializeField]
+        [HideInPlayMode]
+        public Vector3 m_CameraOffset;
 
         [SerializeField][HideInPlayMode] public float m_MaxPitch;
 
@@ -100,4 +109,3 @@ namespace Pangoo.Core.Character
 
     }
 }
-#endif
