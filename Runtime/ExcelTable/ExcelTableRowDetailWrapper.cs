@@ -1,15 +1,15 @@
+#if UNITY_EDITOR
 using Sirenix.OdinInspector;
 using UnityEngine;
 using System;
 using UnityEngine.Serialization;
-using UnityEditor.Build;
-
-#if UNITY_EDITOR
 using System.IO;
 using System.Text;
+
+
 using UnityEditor;
 using Sirenix.OdinInspector.Editor;
-#endif
+
 
 namespace Pangoo
 {
@@ -49,3 +49,4 @@ namespace Pangoo
     }
 }
 
+#endif

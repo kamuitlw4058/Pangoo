@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Linq;
@@ -6,11 +7,11 @@ using System;
 using Sirenix.Utilities;
 
 
-#if UNITY_EDITOR
+
 
 using UnityEditor;
 using Sirenix.OdinInspector.Editor;
-#endif
+
 
 namespace Pangoo
 {
@@ -273,3 +274,4 @@ namespace Pangoo
 
     }
 }
+#endif

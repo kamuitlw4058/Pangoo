@@ -1,21 +1,22 @@
+#if UNITY_EDITOR
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
 using System;
 
-#if UNITY_EDITOR
+
 
 using UnityEditor;
 using Sirenix.OdinInspector.Editor;
-#endif
+
 
 namespace Pangoo
 {
     public class ExcelTableRowNewWrapper<TOverview, TRow> : ExcelTableOverviewRowWrapper<TOverview, TRow> where TOverview : ExcelTableOverview where TRow : ExcelNamedRowBase, new()
     {
 
-#if UNITY_EDITOR
+
         public Action<int> AfterCreate;
 
         public override bool CanNameChange
@@ -125,6 +126,6 @@ namespace Pangoo
 
 
     }
-#endif
 }
 
+#endif

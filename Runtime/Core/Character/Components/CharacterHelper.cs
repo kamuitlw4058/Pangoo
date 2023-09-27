@@ -30,6 +30,9 @@ namespace Pangoo.Core.Character
 
         [SerializeField][HideInPlayMode] public Vector3 m_CameraOffset;
 
+        [SerializeField][HideInPlayMode] public float m_MaxPitch;
+
+
 
 
         public void Init()
@@ -43,6 +46,7 @@ namespace Pangoo.Core.Character
             characterContainer.SetIsPlayer(m_IsPlayer);
             characterContainer.SetMotionInfo(m_MotionInfo);
             characterContainer.CameraOffset = m_CameraOffset;
+            characterContainer.MaxPitch = m_MaxPitch;
             characterContainer.Awake();
 
             IsInited = true;

@@ -203,7 +203,7 @@ namespace Pangoo.Core.Character
 
         private void ConstrainTargetAngles()
         {
-            float angle = this.m_MaxPitch / 2f;
+            float angle = Character.MaxPitch / 2f;
             m_AnglesTarget.x = Mathf.Clamp(m_AnglesTarget.x, -angle, angle);
 
             if (m_AnglesTarget.y < 0f) m_AnglesTarget.y += 360f;

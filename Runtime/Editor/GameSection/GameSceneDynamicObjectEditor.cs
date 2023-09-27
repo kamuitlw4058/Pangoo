@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Sirenix.OdinInspector;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 
 namespace Pangoo.Editor
 {

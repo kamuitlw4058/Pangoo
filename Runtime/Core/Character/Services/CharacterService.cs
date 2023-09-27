@@ -17,6 +17,8 @@ namespace Pangoo.Core.Character
 
         public Vector3 CameraOffset { get; set; }
 
+        public float MaxPitch { get; set; }
+
         public MotionInfo MotionInfo
         {
             get
