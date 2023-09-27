@@ -127,6 +127,7 @@ namespace Pangoo
             set
             {
                 m_Triggers = value;
+                BuildTriggers();
             }
         }
 

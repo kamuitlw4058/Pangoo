@@ -109,9 +109,7 @@ namespace Pangoo.Editor
                 }
                 Debug.Log($"Start Run Instruction:{instructions.Count}");
                 RunningInstructionList = new InstructionList(instructions.ToArray());
-                RunningInstructionList.Start(new Args(m_GameObject));
-
-
+                RunningInstructionList.Start(new Args(m_TriggerRow, m_GameObject));
             }
 
             public void OnUpdate()

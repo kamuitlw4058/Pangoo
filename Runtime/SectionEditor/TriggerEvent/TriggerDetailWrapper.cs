@@ -10,6 +10,9 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
 using System;
+using Pangoo.Core.Common;
+using Pangoo.Core.VisualScripting;
+using GameFramework;
 
 namespace Pangoo
 {
@@ -63,8 +66,6 @@ namespace Pangoo
 
         [LabelText("指令Ids")]
         [ValueDropdown("InstructionIdValueDropdown", IsUniqueList = true)]
-
-        // [OnValueChanged("OnDynamicSceneIdsChanged")]
         [ListDrawerSettings(Expanded = true)]
 
         [ShowInInspector]
@@ -90,6 +91,43 @@ namespace Pangoo
         public IEnumerable InstructionIdValueDropdown()
         {
             return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<InstructionTableOverview>();
+        }
+
+        [Button("立即运行")]
+        public void Run()
+        {
+            List<Instruction> instructions = new();
+
+
+            foreach (var instructionId in InstructionIds)
+            {
+                var instructionRow = GameSupportEditorUtility.GetExcelTableRowWithOverviewById<InstructionTableOverview, InstructionTable.InstructionRow>(instructionId);
+                if (instructionRow == null || instructionRow.InstructionType == null)
+                {
+                    continue;
+                }
+                var instructionType = Utility.Assembly.GetType(instructionRow.InstructionType);
+                if (instructionType == null)
+                {
+                    continue;
+                }
+
+                var InstructionInstance = Activator.CreateInstance(instructionType) as Instruction;
+                InstructionInstance.LoadParams(instructionRow.Params);
+
+                instructions.Add(InstructionInstance);
+            }
+
+
+
+            // foreach (var instructionId in InstructionIds)
+            // {
+            //     var instructionRow = GameSupportEditorUtility.GetExcelTableRowWithOverviewById<InstructionTableOverview, InstructionTable.InstructionRow>(instructionId);
+            //     instructions.Add(instruction.InstructionInstance);
+            // }
+            // Debug.Log($"Start Run Instruction:{instructions.Count}");
+            var instructionList = new InstructionList(instructions.ToArray());
+            instructionList.Start(new Args(Row));
         }
 
 

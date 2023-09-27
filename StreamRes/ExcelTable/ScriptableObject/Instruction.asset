@@ -19,4 +19,4 @@ MonoBehaviour:
     - Id: 1
       Name: "\u6253\u5370\u8C03\u8BD5\u4FE1\u606F"
       InstructionType: Pangoo.Core.VisualScripting.InstructionCommonDebugText
-      Params: "{\u6D4B\u8BD5\u5185\u5BB9}"
+      Params: '{"Message":"asf","ShowTrigger":true}'

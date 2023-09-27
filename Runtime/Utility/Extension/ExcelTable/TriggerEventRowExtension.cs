@@ -45,6 +45,11 @@ namespace Pangoo
             row.InstructionList = list.ToListString();
         }
 
+        public static string ToRowString(this TriggerEventTable.TriggerEventRow row)
+        {
+            return $"<{row.Id}-{row.Name}>{row.GetInstructionList().Count}";
+        }
+
 
 
     }

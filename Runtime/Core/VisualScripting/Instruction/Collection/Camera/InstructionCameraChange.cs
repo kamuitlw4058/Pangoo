@@ -91,7 +91,14 @@ namespace Pangoo.Core.VisualScripting
 
         public override void LoadParams(string instructionParams)
         {
-            m_ChangeType = instructionParams.ToEnum<ChangeType>();
+            try
+            {
+                m_ChangeType = instructionParams.ToEnum<ChangeType>();
+            }
+            catch
+            {
+                m_ChangeType = ChangeType.SelfCamera;
+            }
         }
 
         // METHODS: -------------------------------------------------------------------------------

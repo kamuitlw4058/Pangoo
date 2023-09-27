@@ -1,15 +1,18 @@
 using System;
 using System.Collections;
 using System.Threading.Tasks;
+using GameFramework;
 using Pangoo.Core.Common;
+using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityGameFramework;
 
 namespace Pangoo.Core.VisualScripting
 {
 
     // [Version(0, 1, 1)]
 
-    [Title("Debug Text")]
+    [Common.Title("Debug Text")]
     // [Description("Prints a message to the Unity Console")]
 
     [Category("Debug/Log Text")]
@@ -25,15 +28,15 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public class InstructionCommonDebugText : Instruction
     {
-        // MEMBERS: -------------------------------------------------------------------------------
-
         [SerializeField]
-        public string m_Message = string.Empty;
+        [LabelText("参数")]
+        [HideReferenceObjectPicker]
+        InstructionMessageParams m_MessageParams = new InstructionMessageParams();
         // private PropertyGetString m_Message = new PropertyGetString("My message");
 
         // PROPERTIES: ----------------------------------------------------------------------------
 
-        public override string Title => $"Log: {this.m_Message}";
+        public override string Title => $"Log: {this.m_MessageParams.Message}";
 
         // CONSTRUCTORS: --------------------------------------------------------------------------
 
@@ -42,7 +45,7 @@ namespace Pangoo.Core.VisualScripting
 
         public InstructionCommonDebugText(string text)
         {
-            this.m_Message = text;
+            this.m_MessageParams.Message = text;
         }
 
         protected override IEnumerator Run(Args args)
@@ -53,17 +56,29 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            Debug.Log(this.m_Message);
+            if (m_MessageParams.ShowTriggerRow)
+            {
+#if UNITY_EDITOR
+                Debug.Log($"TriggerRow:{args?.TriggerRow?.ToRowString()}");
+#else
+                Utility.Text.Format("TriggerRow:{0}", args?.TriggerRow);
+#endif
+            }
+#if UNITY_EDITOR
+            Debug.Log($"Instruction  Log:{this.m_MessageParams.Message}");
+#else
+            Utility.Text.Format("Instruction Log:{0}", this.m_MessageParams.Message);
+#endif
         }
 
         public override string ParamsString()
         {
-            return m_Message;
+            return m_MessageParams.ToJson();
         }
 
         public override void LoadParams(string instructionParams)
         {
-            m_Message = instructionParams;
+            m_MessageParams.LoadFromJson(instructionParams);
         }
 
         // METHODS: -------------------------------------------------------------------------------

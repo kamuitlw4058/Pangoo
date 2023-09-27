@@ -7,45 +7,51 @@ using Sirenix.OdinInspector.Editor;
 using System;
 using UnityEditor;
 
-namespace Pangoo.Editor{
+namespace Pangoo.Editor
+{
 
-    public partial class TriggerEventWrapper  
+    public partial class TriggerEventWrapper
     {
 
         [Button("添加指令")]
         [FoldoutGroup("$Title")]
         [PropertyOrder(11)]
-        public void AddInstructionId(){
-            var addWrapper = new AddWrapper<InstructionTableOverview>(m_DetailRow.GetInstructionList());
+        public void AddInstructionId()
+        {
+            var addWrapper = new AddWrapper<InstructionTableOverview>(m_TriggerRow.GetInstructionList());
             addWrapper.ConfirmAdd = AddInstructionId;
             m_AddWindow = OdinEditorWindow.InspectObject(addWrapper);
         }
 
-        public void AddInstructionId(int id){
-            var overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<TriggerEventTableOverview>(m_DetailRow.Id);
-            m_DetailRow.AddInstructionId(id);
+        public void AddInstructionId(int id)
+        {
+            var overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<TriggerEventTableOverview>(m_TriggerRow.Id);
+            m_TriggerRow.AddInstructionId(id);
             UpdateInstructions();
             EditorUtility.SetDirty(overview);
             AssetDatabase.SaveAssets();
-            if(m_AddWindow != null){
+            if (m_AddWindow != null)
+            {
                 m_AddWindow.Close();
                 m_AddWindow = null;
             }
         }
-        
+
 
         [Button("创建新的指令")]
         [FoldoutGroup("$Title")]
         [PropertyOrder(12)]
-        public void CreateInstruction(){
+        public void CreateInstruction()
+        {
             var createWrapper = new InstructionCreateWrapper();
             createWrapper.ConfirmCreate = CreateTrigger;
             m_CreateWindow = OdinEditorWindow.InspectObject(createWrapper);
         }
 
-        public void CreateTrigger(InstructionTable.InstructionRow row){
+        public void CreateTrigger(InstructionTable.InstructionRow row)
+        {
             Debug.Log($"创建对应数据。row:{row.Id}");
-            var packageDir =  GameSupportEditorUtility.GetPakcageDirByOverviewRowId<TriggerEventTableOverview>(m_Row.Id);
+            var packageDir = GameSupportEditorUtility.GetPakcageDirByOverviewRowId<TriggerEventTableOverview>(m_Row.Id);
             var overview = AssetDatabaseUtility.FindAssetFirst<InstructionTableOverview>(packageDir);
             overview.Data.Rows.Add(row);
             AddInstructionId(row.Id);
@@ -57,15 +63,17 @@ namespace Pangoo.Editor{
 
 
         [Serializable]
-        public class TriggerInstrucationWrapper:InstructionWrapper{
+        public class TriggerInstrucationWrapper : InstructionWrapper
+        {
             public TriggerInstrucationWrapper(InstructionTable.InstructionRow row) : base(row)
             {
             }
 
             [Button("删除引用")]
             [TableTitleGroup("操作")]
-            [TableColumnWidth(80,resizable:false)]
-            protected override void RemoveRef(){
+            [TableColumnWidth(80, resizable: false)]
+            protected override void RemoveRef()
+            {
                 base.RemoveRef();
             }
         }

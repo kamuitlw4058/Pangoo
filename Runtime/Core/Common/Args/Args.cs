@@ -1,45 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Pangoo;
 
 namespace Pangoo.Core.Common
 {
     public class Args
     {
         public static readonly Args EMPTY = new Args();
-        
+
         [NonSerialized] private readonly Dictionary<int, Component> selfComponents;
         [NonSerialized] private readonly Dictionary<int, Component> targetComponents;
 
-        // PROPERTIES: ----------------------------------------------------------------------------
 
-        [field: NonSerialized] public GameObject Self   { get; private set; }
+        [field: NonSerialized] public GameObject Self { get; private set; }
         [field: NonSerialized] public GameObject Target { get; private set; }
-        
-        public Args Clone => new Args(this.Self, this.Target);
 
-        // CONSTRUCTORS: --------------------------------------------------------------------------
+        [field: NonSerialized] public TriggerEventTable.TriggerEventRow TriggerRow { get; private set; }
+
+        public Args Clone => new Args(TriggerRow, this.Self, this.Target);
+
+
 
         private Args()
         {
             this.selfComponents = new Dictionary<int, Component>();
             this.targetComponents = new Dictionary<int, Component>();
         }
-
-        public Args(Component target) : this(target, target)
+        public Args(TriggerEventTable.TriggerEventRow row) : this(row, null as GameObject, null as GameObject)
         { }
 
-        public Args(GameObject target) : this(target, target)
+        public Args(TriggerEventTable.TriggerEventRow row, Component target) : this(row, target, target)
         { }
 
-        public Args(Component self, Component target) : this()
+        public Args(TriggerEventTable.TriggerEventRow row, GameObject target) : this(row, target, target)
+        { }
+
+        public Args(TriggerEventTable.TriggerEventRow row, Component self, Component target) : this()
         {
+            TriggerRow = row;
             this.Self = self == null ? null : self.gameObject;
             this.Target = target == null ? null : target.gameObject;
         }
 
-        public Args(GameObject self, GameObject target) : this()
+        public Args(TriggerEventTable.TriggerEventRow row, GameObject self, GameObject target) : this()
         {
+            TriggerRow = row;
             this.Self = self;
             this.Target = target;
         }
@@ -63,7 +69,7 @@ namespace Pangoo.Core.Common
             this.Self = self;
             this.selfComponents.Clear();
         }
-        
+
         public void ChangeSelf<T>(T self) where T : Component
         {
             this.ChangeSelf(self != null ? self.gameObject : null);
@@ -76,7 +82,7 @@ namespace Pangoo.Core.Common
             this.Target = target;
             this.targetComponents.Clear();
         }
-        
+
         public void ChangeTarget<T>(T target) where T : Component
         {
             this.ChangeTarget(target != null ? target.gameObject : null);
@@ -89,7 +95,7 @@ namespace Pangoo.Core.Common
             where TComponent : Component
         {
             if (gameObject == null) return null;
-            
+
             int hash = typeof(TComponent).GetHashCode();
             if (!dictionary.TryGetValue(hash, out Component value) || value == null)
             {
