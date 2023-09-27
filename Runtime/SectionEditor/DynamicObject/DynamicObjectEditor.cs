@@ -5,219 +5,134 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Sirenix.OdinInspector;
-using Pangoo;
-using System;
+using Sirenix.OdinInspector.Editor;
+using Pangoo.Core.VisualScripting;
+using Pangoo.Core.Character;
 
-namespace Pangoo.Editor
+namespace Pangoo
 {
 
     [ExecuteInEditMode]
     [DisallowMultipleComponent]
-    public partial class DynamicObjectEditor : MonoBehaviour
+    public class DynamicObjectEditor : MonoBehaviour
     {
+        [ReadOnly]
+        public int m_DynamicObjectId;
 
         [ReadOnly]
-        [ValueDropdown("GetSectionList")]
-        [OnValueChanged("OnSectionChange")]
-        public int Section;
-
-        private GameSectionTable.GameSectionRow SectionRow;
-
-        private List<int> DynamicObjectIds;
-
-        // [TableList(AlwaysExpanded =true)]
-        [Searchable]
-        [ListDrawerSettings(HideAddButton = true, DraggableItems = false, Expanded = true, HideRemoveButton = true)]
-        [TableList(AlwaysExpanded = true)]
-        public List<GameSectionDynamicObjectWrapper> DyncObjectList = new List<GameSectionDynamicObjectWrapper>();
-        public IEnumerable GetSectionList()
+        [ShowInInspector]
+        [ValueDropdown("DynamicObjectIdValueDropdown")]
+        [PropertyOrder(0)]
+        public int DynamicObjectId
         {
-            return GameSupportEditorUtility.GetExcelTableOverviewIds<GameSectionTableOverview>();
-        }
-
-
-
-        public void ClearPrefabs()
-        {
-            foreach (var objects in DyncObjectList)
+            get
             {
-                try
-                {
-                    DestroyImmediate(objects.Go);
-                }
-                catch
-                {
-                }
+                return m_DynamicObjectId;
             }
-            DyncObjectList.Clear();
-        }
-
-        public void UpdateSection()
-        {
-            if (DynamicObjectIds == null)
+            set
             {
-                DynamicObjectIds = new List<int>();
-            }
-
-            ClearPrefabs();
-            foreach (var go in transform.Children())
-            {
-                DestroyImmediate(go.gameObject);
-            }
-
-            if (Section == 0)
-            {
-                return;
-            }
-
-            DynamicObjectIds.Clear();
-            SectionRow = GameSupportEditorUtility.GetExcelTableRowWithOverviewById<GameSectionTableOverview, GameSectionTable.GameSectionRow>(Section);
-            DynamicObjectIds.AddRange(SectionRow.DynamicObjectIds.ToArrInt());
-
-            foreach (var id in DynamicObjectIds)
-            {
-                var dynamicObjectRow = GameSupportEditorUtility.GetDynamicObjectRow(id);
-                if (dynamicObjectRow == null)
-                {
-                    Debug.LogError($"动态物体:{id} 没有对应的配置相关配置。请检查！！");
-                    SectionRow.RemoveDynamicObjectId(id);
-                    continue;
-                }
-
-                var assetPathRow = GameSupportEditorUtility.GetAssetPathRowById(dynamicObjectRow.AssetPathId);
-                if (assetPathRow == null)
-                {
-                    Debug.LogError($"动态物体:{id} 资源路径无效。请检查！！");
-                    continue;
-                }
-
-                var asset = AssetDatabaseUtility.LoadAssetAtPath<GameObject>(assetPathRow.ToPrefabPath());
-                var go = PrefabUtility.InstantiatePrefab(asset) as GameObject;
-                go.transform.parent = transform;
-                go.transform.localPosition = dynamicObjectRow.Position;
-                go.transform.localRotation = Quaternion.Euler(dynamicObjectRow.Rotation);
-                var helper = go.AddComponent<DynamicObjectEditorHelper>();
-                helper.DynamicObjectId = id;
-
-                // go.ResetTransfrom();
-                DyncObjectList.Add(new GameSectionDynamicObjectWrapper(this, SectionRow, dynamicObjectRow, go));
+                m_DynamicObjectId = value;
+                OnValueChanged();
             }
         }
 
-        void UpdateGameObjectName()
+        public IEnumerable DynamicObjectIdValueDropdown()
         {
-            name = "///DynamicObject";
-
-            if (Section != 0)
-            {
-                name = $"{name}-Section:{Section}";
-            }
-
+            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<DynamicObjectTableOverview>();
         }
 
-        public void OnSectionChange()
-        {
-            UpdateSection();
-            UpdateGameObjectName();
-        }
+        [ReadOnly]
+        DynamicObjectTableOverview Overview;
+
+
+
+        [ReadOnly]
+        DynamicObjectTable.DynamicObjectRow Row;
+
+
+        [HideLabel]
+        [SerializeField]
+        [PropertyOrder(10)]
+        public DynamicObjectDetailWrapper Wrapper;
 
         private void OnEnable()
         {
-            UpdateSection();
+            OnValueChanged();
         }
 
-        private void OnDisable()
+
+
+        public void OnValueChanged()
         {
+
+            Overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<DynamicObjectTableOverview>(DynamicObjectId);
+            Row = GameSupportEditorUtility.GetDynamicObjectRow(DynamicObjectId);
+
+            Wrapper = new DynamicObjectDetailWrapper();
+            Wrapper.Overview = Overview;
+            Wrapper.Row = Row;
+
+            transform.localPosition = Row.Position;
+            transform.localRotation = Quaternion.Euler(Row.Rotation);
+            Debug.Log($"Set Wrapper.{Row.Position}");
+            InteractionItemTracker tracker;
+
+            foreach (var trigger in Wrapper.Triggers)
+            {
+                switch (trigger.TriggerType)
+                {
+                    case TriggerTypeEnum.OnInteract:
+                        tracker = transform.GetOrAddComponent<InteractionItemTracker>();
+                        break;
+                    default:
+                        tracker = GetComponent<InteractionItemTracker>();
+                        if (tracker != null)
+                        {
+                            DestroyImmediate(tracker);
+                        }
+                        break;
+                }
+
+            }
 
         }
 
-        private void OnDestroy()
+
+        void Start()
         {
-            // ClearScene();
+            // Row = GameSupportEditorUtility.GetDynamicObjectRow(DynamicObjectId);
+            // Model = GameObject.Find("Model");
+            // m_Wrapper = new DynamicObjectWrapper(Row, gameObject);
         }
 
         private void Update()
         {
-            UpdateGameObjectName();
-            gameObject.ResetTransfrom();
 
         }
 
-        public void SetSection(int id)
+        [Button("SetTransfrom")]
+        public void SetTransfrom()
         {
-            Section = id;
-            OnSectionChange();
+            Wrapper.Row.Position = transform.localPosition;
+            Wrapper.Row.Rotation = transform.localRotation.eulerAngles;
+            Wrapper.Save();
+
         }
 
-        [Serializable]
-        public class GameSectionDynamicObjectWrapper
+        public void Run()
         {
-
-
-
-            [ShowInInspector]
-            [TableTitleGroup("动态物体")]
-            [HideLabel]
-            public DynamicObjectWrapper m_Wrapper;
-
-
-            DynamicObjectTable.DynamicObjectRow m_Row;
-            GameSectionTable.GameSectionRow m_SectionRow;
-            DynamicObjectEditor m_Editor;
-
-
-            GameObject m_Go;
-
-
-            [ReadOnly]
-            [ShowInInspector]
-            [HideLabel]
-            [TableTitleGroup("对象")]
-            [TableColumnWidth(80, resizable: false)]
-            public GameObject Go
-            {
-                get
-                {
-                    return m_Go;
-                }
-
-            }
-
-            public GameSectionDynamicObjectWrapper(DynamicObjectEditor editor, GameSectionTable.GameSectionRow SectionRow, DynamicObjectTable.DynamicObjectRow row, GameObject go)
-            {
-                m_SectionRow = SectionRow;
-                m_Row = row;
-                m_Go = go;
-                m_Editor = editor;
-                m_Wrapper = new DynamicObjectWrapper(row);
-            }
-
-
-            [Button("删除引用")]
-            [TableTitleGroup("操作")]
-            [TableColumnWidth(80, resizable: false)]
-            [PropertyOrder(10)]
-            public virtual void Remove()
-            {
-                var overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<GameSectionTableOverview>(m_SectionRow.Id);
-                if (overview == null)
-                {
-                    Debug.LogError($"No Found overview:{m_SectionRow.Id}");
-                    return;
-                }
-                m_SectionRow.RemoveDynamicObjectId(m_Row.Id);
-                m_Editor.OnSectionChange();
-                EditorUtility.SetDirty(overview);
-                AssetDatabase.SaveAssets();
-
-            }
-
-
-
-
+            // List<Instruction> instructions = new();
+            // foreach (var instruction in Wrapper.TriggerIds)
+            // {
+            //     instructions.Add(instruction.InstructionInstance);
+            // }
+            // Debug.Log($"Start Run Instruction:{instructions.Count}");
+            // RunningInstructionList = new InstructionList(instructions.ToArray());
+            // RunningInstructionList.Start(new Args(m_GameObject));
         }
-
 
     }
+
+
 }
 #endif

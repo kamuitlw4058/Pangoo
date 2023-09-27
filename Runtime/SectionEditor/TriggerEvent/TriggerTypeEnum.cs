@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-namespace Pangoo{
-    public enum TriggerTypeEnum{
+namespace Pangoo
+{
+    public enum TriggerTypeEnum
+    {
         Unknown,
-        OnInteract
+        OnInteract,
+        OnStart,
     }
 }
 

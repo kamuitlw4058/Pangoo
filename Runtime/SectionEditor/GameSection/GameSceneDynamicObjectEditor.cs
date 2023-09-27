@@ -69,7 +69,7 @@ namespace Pangoo.Editor
                 var asset = AssetDatabaseUtility.LoadAssetAtPath<GameObject>(assetPathRow.ToPrefabPath());
                 var go = PrefabUtility.InstantiatePrefab(asset) as GameObject;
                 go.transform.parent = transform;
-                var helper = go.AddComponent<DynamicObjectEditorHelper>();
+                var helper = go.AddComponent<DynamicObjectEditor>();
                 helper.DynamicObjectId = id;
                 // go.ResetTransfrom();
                 DynamicObjects.Add(go);

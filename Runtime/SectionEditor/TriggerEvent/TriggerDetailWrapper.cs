@@ -36,13 +36,7 @@ namespace Pangoo
                     Row.TriggerType = string.Empty;
                 }
 
-                switch (Row.TriggerType)
-                {
-                    case "OnInteract":
-                        return TriggerTypeEnum.OnInteract;
-                    default:
-                        return TriggerTypeEnum.Unknown;
-                }
+                return Row.TriggerType.ToEnum<TriggerTypeEnum>(TriggerTypeEnum.Unknown);
             }
             set
             {
@@ -55,6 +49,9 @@ namespace Pangoo
                             break;
                         case TriggerTypeEnum.OnInteract:
                             Row.TriggerType = TriggerTypeEnum.OnInteract.ToString();
+                            break;
+                        default:
+                            Row.TriggerType = value.ToString();
                             break;
                     }
                     Save();
