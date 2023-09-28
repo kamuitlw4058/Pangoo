@@ -1,14 +1,15 @@
+#if UNITY_EDITOR
 using Sirenix.OdinInspector;
 using UnityEngine;
 using System;
 using UnityEngine.Serialization;
 
-#if UNITY_EDITOR
+
 using System.IO;
 using System.Text;
 using UnityEditor;
 using Sirenix.OdinInspector.Editor;
-#endif
+
 
 namespace Pangoo
 {
@@ -126,13 +127,12 @@ namespace Pangoo
 
         public void Save()
         {
-#if UNITY_EDITOR
             EditorUtility.SetDirty(m_Overview);
             AssetDatabase.SaveAssets();
 
             OutsideNeedRefresh = true;
-#endif
         }
     }
 }
 
+#endif
