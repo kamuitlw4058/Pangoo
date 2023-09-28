@@ -33,16 +33,17 @@ namespace Pangoo.Editor
             overviewEditor.Overviews = overviews;
             overviewEditor.Window = this;
             overviewEditor.MenuKey = menuMainKey;
+            overviewEditor.Tree = tree;
             overviewEditor.InitWrappers();
             tree.Add(menuMainKey, overviewEditor);
-            // Debug.Log($"{menuMainKey} Wrapper Count:{overviewEditor.Wrappers.Count}");
-            foreach (var wrapper in overviewEditor.Wrappers)
-            {
+            // // Debug.Log($"{menuMainKey} Wrapper Count:{overviewEditor.Wrappers.Count}");
+            // foreach (var wrapper in overviewEditor.Wrappers)
+            // {
 
-                var customMenuItem = new OdinMenuItem(tree, GameEditorUtility.GetMenuItemKey(menuMainKey, wrapper.Id, wrapper.Name)
-                , wrapper.DetailWrapper);
-                tree.AddMenuItemAtPath(menuMainKey, customMenuItem);
-            }
+            //     var customMenuItem = new OdinMenuItem(tree, GameEditorUtility.GetMenuItemKey(menuMainKey, wrapper.Id, wrapper.Name)
+            //     , wrapper.DetailWrapper);
+            //     tree.AddMenuItemAtPath(menuMainKey, customMenuItem);
+            // }
         }
 
 

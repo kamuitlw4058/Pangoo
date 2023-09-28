@@ -73,11 +73,13 @@ namespace Pangoo
         }
 
         #if UNITY_EDITOR
-        public  override void RemoveId(int Id){
+
+        public override void RemoveId(int Id){
           var row = GetRowById<GlobalDataRow>(Id);
           if(row == null) return;
           Rows.Remove(row);
         }
+
         #endif
 
         public GlobalDataRow GetRowById(int row_id){

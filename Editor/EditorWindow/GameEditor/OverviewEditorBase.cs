@@ -16,6 +16,8 @@ namespace Pangoo.Editor
             where TNewRowWrapper : ExcelTableRowNewWrapper<TOverview, TRow>, new()
             where TRow : ExcelNamedRowBase, new()
     {
+        public OdinMenuTree Tree { get; set; }
+
 
         private static OdinEditorWindow m_CreateWindow;
 
@@ -61,26 +63,46 @@ namespace Pangoo.Editor
             {
                 m_Window = value;
             }
+
         }
+
+
+        private Dictionary<string, OdinMenuItem> MenuItemDict = new Dictionary<string, OdinMenuItem>();
+
 
         public void InitWrappers()
         {
+            foreach (var kv in MenuItemDict)
+            {
+                Tree.MenuItems.Remove(kv.Value);
+            }
+            MenuItemDict.Clear();
+            m_AllWrappers.Clear();
             foreach (var overview in m_Overviews)
             {
 
                 m_AllWrappers.AddRange(overview.Table.NamedBaseRows.Select(x =>
                 {
+                    var detailWrapper = new TRowDetailWrapper();
+                    detailWrapper.Overview = overview;
+                    detailWrapper.Row = x as TRow;
+
                     var wrapper = new TTableRowWrapper();
                     wrapper.Overview = overview;
                     wrapper.Row = x as TRow;
                     wrapper.Window = m_Window;
-                    var detailWrapper = new TRowDetailWrapper();
-                    detailWrapper.Overview = overview;
-                    detailWrapper.Row = x as TRow;
                     wrapper.DetailWrapper = detailWrapper;
                     wrapper.OnRemove += OnWrapperRemove;
                     return wrapper;
                 }).ToList());
+            }
+
+            foreach (var wrapper in m_AllWrappers)
+            {
+                var itemMenuKey = GameEditorUtility.GetMenuItemKey(MenuKey, wrapper.Id, wrapper.Name);
+                var customMenuItem = new OdinMenuItem(Tree, itemMenuKey, wrapper.DetailWrapper);
+                MenuItemDict.Add(itemMenuKey, customMenuItem);
+                Tree.AddMenuItemAtPath(MenuKey, customMenuItem);
             }
 
         }
@@ -103,11 +125,15 @@ namespace Pangoo.Editor
             if (wrapper != null)
             {
                 m_AllWrappers.Remove(wrapper);
-                var item = Window?.MenuTree.GetMenuItem(GameEditorUtility.GetMenuItemKey(MenuKey, wrapper.Id, wrapper.Name));
-                if (item != null)
+                var menuItemKey = GameEditorUtility.GetMenuItemKey(MenuKey, wrapper.Id, wrapper.Name);
+                OdinMenuItem item;
+                if (MenuItemDict.TryGetValue(menuItemKey, out item))
                 {
-                    Window?.MenuTree.MenuItems.Remove(item);
+                    var menuItem = Tree.GetMenuItem(MenuKey);
+                    menuItem.ChildMenuItems.Remove(item);
+                    MenuItemDict.Remove(menuItemKey);
                 }
+
 
             }
         }
@@ -115,18 +141,18 @@ namespace Pangoo.Editor
         [Button("新建行")]
         public void NewRow()
         {
-            //                 PackageConfig config = GameSupportEditorUtility.GetPakcageConfigByOverviewRowId<GameSectionTableOverview>(m_Editor.Section);
-            // var window = new AssetPathWrapper(config, Id, ConstExcelTable.DynamicObjectAssetTypeName, Name, ConstExcelTable.PrefabType, AfterCreateAsset);
-            //                 m_CreateAssetPathWindow = OdinEditorWindow.InspectObject(window);
             var newType = new TNewRowWrapper();
             Debug.Log($"typeof:{newType.GetType()}");
-            OdinEditorWindow.InspectObject(newType);
+            m_CreateWindow = OdinEditorWindow.InspectObject(newType);
+            newType.AfterCreate = OnAfterCreate;
         }
 
+        void OnAfterCreate(int id)
+        {
+            m_CreateWindow?.Close();
+            InitWrappers();
 
-
-
-
+        }
 
 
     }

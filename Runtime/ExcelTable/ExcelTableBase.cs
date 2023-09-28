@@ -74,6 +74,11 @@ namespace Pangoo
         {
 
         }
+
+        public virtual void AddNamedRow(ExcelNamedRowBase row)
+        {
+
+        }
 #endif
     }
 

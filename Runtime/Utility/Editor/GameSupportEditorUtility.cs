@@ -91,6 +91,16 @@ namespace Pangoo
             return null;
         }
 
+        public static T GetExcelTableOverviewByConfig<T>(PackageConfig config) where T : ExcelTableOverview
+        {
+            var overviews = AssetDatabaseUtility.FindAsset<T>(config.PackageDir).ToArray();
+            if (overviews.Length > 0)
+            {
+                return overviews[0];
+            }
+            return null;
+        }
+
 
         public static T GetExcelTableOverviewByRowId<T>(int id) where T : ExcelTableOverview
         {

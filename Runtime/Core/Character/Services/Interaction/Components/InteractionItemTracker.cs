@@ -29,11 +29,10 @@ namespace Pangoo.Core.Character
 
         // INITIALIZE METHODS: --------------------------------------------------------------------
 
-        // public static InteractionTracker Require(GameObject target)
-        // {
-        //     InteractionTracker tracker = target.Get<InteractionTracker>();
-        //     return tracker != null ? tracker : target.Add<InteractionTracker>();
-        // }
+        public static InteractionItemTracker Require(GameObject target)
+        {
+            return target.GetOrAddComponent<InteractionItemTracker>();
+        }
 
         private void Awake()
         {
@@ -87,7 +86,7 @@ namespace Pangoo.Core.Character
         void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawSphere(transform.position, 0.3f);
+            Gizmos.DrawSphere(transform.position, 0.1f);
         }
     }
 }

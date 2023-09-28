@@ -91,11 +91,23 @@ namespace Pangoo
 
             sw.WriteLine();
             sw.WriteLine("        #if UNITY_EDITOR");
-            sw.WriteLine("        public  override void RemoveId(int Id){");
+
+            sw.WriteLine();
+            sw.WriteLine("        public override void RemoveId(int Id){");
             sw.WriteLine($"          var row = GetRowById<{m_ExcelData.ClassBaseName}Row>(Id);");
             sw.WriteLine("          if(row == null) return;");
             sw.WriteLine("          Rows.Remove(row);");
             sw.WriteLine("        }");
+            if (m_Named)
+            {
+                sw.WriteLine();
+                sw.WriteLine("         public override void AddNamedRow(ExcelNamedRowBase row){");
+                sw.WriteLine($"          Rows.Add(row as {m_ExcelData.ClassBaseName}Row);");
+                sw.WriteLine("        }");
+
+            }
+
+            sw.WriteLine();
             sw.WriteLine("        #endif");
 
             sw.WriteLine();

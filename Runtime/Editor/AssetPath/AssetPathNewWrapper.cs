@@ -176,13 +176,13 @@ namespace Pangoo
             AssetName = GetPrefixByAssetType(AssetType) + ModelPrefab.name;
         }
 
-        public static AssetPathNewWrapper Create(AssetPathTableOverview overview, int id = 0, string assetType = "", string name = "", string fileType = "", Action<int> afterCreateAsset = null)
+        public static AssetPathNewWrapper Create(AssetPathTableOverview overview, int id = 0, string assetType = "", string name = "", string fileType = ".prefab", Action<int> afterCreateAsset = null)
         {
             var wrapper = new AssetPathNewWrapper();
             wrapper.Overview = overview;
             wrapper.Row = new AssetPathTable.AssetPathRow();
-            wrapper.Id = wrapper.GetAssetTypeBaseId(assetType) + id;
             wrapper.AssetType = assetType;
+            wrapper.Id = wrapper.GetAssetTypeBaseId(assetType) + id;
             wrapper.FileType = fileType;
             wrapper.Name = name;
             wrapper.AfterCreate = afterCreateAsset;
@@ -190,11 +190,11 @@ namespace Pangoo
         }
 
 
-        public void ConfirmCreate(int id, string name, string assetType, string name_cn, GameObject prefab, string fileType)
+        public void ConfirmCreate(int id, string name, string assetType, string assetName, GameObject prefab, string fileType)
         {
 
 
-            var fileName = $"{name}";
+            var fileName = $"{assetName}";
             var fullFileName = $"{fileName}.{fileType}";
 
 
@@ -203,7 +203,7 @@ namespace Pangoo
             assetPathRow.AssetPackageDir = Overview.Config.PackageDir;
             assetPathRow.AssetPath = fullFileName;
             assetPathRow.AssetType = assetType;
-            assetPathRow.Name = name_cn;
+            assetPathRow.Name = name;
             Overview.Data.Rows.Add(assetPathRow);
             EditorUtility.SetDirty(Overview);
 
@@ -226,6 +226,8 @@ namespace Pangoo
             {
                 AfterCreate(id);
             }
+
+
         }
 
         public override void Create()

@@ -88,13 +88,15 @@ namespace Pangoo
         public void Remove()
         {
             if (Id == 0) return;
-            Overview?.Table?.RemoveId(Id);
-            EditorUtility.SetDirty(m_Overview);
-            AssetDatabase.SaveAssets();
             if (OnRemove != null)
             {
                 OnRemove(Id);
             }
+
+            Overview?.Table?.RemoveId(Id);
+            EditorUtility.SetDirty(m_Overview);
+            AssetDatabase.SaveAssets();
+
 
         }
 #endif

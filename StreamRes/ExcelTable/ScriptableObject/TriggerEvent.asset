@@ -18,6 +18,6 @@ MonoBehaviour:
     Rows:
     - Id: 1
       Name: "\u8C03\u8BD5"
-      TriggerType: OnStart
+      TriggerType: OnInteract
       InstructionList: 1
       Params: 

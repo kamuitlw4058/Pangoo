@@ -92,6 +92,16 @@ namespace Pangoo.Editor
             UpdateGameObjectName();
         }
 
+        private void OnDisable()
+        {
+            ClearObjects(DynamicObjects);
+        }
+
+        private void OnDestroy()
+        {
+            ClearObjects(DynamicObjects);
+        }
+
 
     }
 }

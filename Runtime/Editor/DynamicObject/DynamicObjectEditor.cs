@@ -64,9 +64,11 @@ namespace Pangoo
 
         public void OnValueChanged()
         {
+            if (m_DynamicObjectId == 0) return;
 
-            Overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<DynamicObjectTableOverview>(DynamicObjectId);
-            Row = GameSupportEditorUtility.GetDynamicObjectRow(DynamicObjectId);
+            Overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<DynamicObjectTableOverview>(m_DynamicObjectId);
+            Row = GameSupportEditorUtility.GetDynamicObjectRow(m_DynamicObjectId);
+            Debug.Log($"Row:{Row} DynamicObjectId:{m_DynamicObjectId}");
 
             Wrapper = new DynamicObjectDetailWrapper();
             Wrapper.Overview = Overview;
@@ -121,14 +123,7 @@ namespace Pangoo
 
         public void Run()
         {
-            // List<Instruction> instructions = new();
-            // foreach (var instruction in Wrapper.TriggerIds)
-            // {
-            //     instructions.Add(instruction.InstructionInstance);
-            // }
-            // Debug.Log($"Start Run Instruction:{instructions.Count}");
-            // RunningInstructionList = new InstructionList(instructions.ToArray());
-            // RunningInstructionList.Start(new Args(m_GameObject));
+
         }
 
     }

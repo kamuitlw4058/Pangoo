@@ -17,6 +17,7 @@ namespace Pangoo.Core.Character
     {
 
         [HideInEditorMode]
+        [ShowInInspector]
         CharacterService characterContainer;
 
         [SerializeField]

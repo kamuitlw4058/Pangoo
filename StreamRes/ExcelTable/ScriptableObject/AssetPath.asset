@@ -82,3 +82,15 @@ MonoBehaviour:
       AssetType: DynamicObject
       AssetPath: DO_DM_DaoJu_DianZiSuo_01.prefab
       Desc: 
+    - Id: 100002
+      Name: "\u65E5\u5386"
+      AssetPackageDir: Assets/Plugins/Pangoo
+      AssetType: DynamicObject
+      AssetPath: DO_DM_DaoJu_RiLi_XFR_01.prefab
+      Desc: 
+    - Id: 100004
+      Name: "\u9065\u63A7"
+      AssetPackageDir: Assets/Plugins/Pangoo
+      AssetType: DynamicObject
+      AssetPath: DO_DM_DaoJu_YaoKongQi_01..prefab
+      Desc: 

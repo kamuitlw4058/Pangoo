@@ -78,11 +78,17 @@ namespace Pangoo
         }
 
         #if UNITY_EDITOR
-        public  override void RemoveId(int Id){
+
+        public override void RemoveId(int Id){
           var row = GetRowById<TriggerEventRow>(Id);
           if(row == null) return;
           Rows.Remove(row);
         }
+
+         public override void AddNamedRow(ExcelNamedRowBase row){
+          Rows.Add(row as TriggerEventRow);
+        }
+
         #endif
 
         public TriggerEventRow GetRowById(int row_id){

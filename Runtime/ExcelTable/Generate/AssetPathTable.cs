@@ -87,11 +87,17 @@ namespace Pangoo
         }
 
         #if UNITY_EDITOR
-        public  override void RemoveId(int Id){
+
+        public override void RemoveId(int Id){
           var row = GetRowById<AssetPathRow>(Id);
           if(row == null) return;
           Rows.Remove(row);
         }
+
+         public override void AddNamedRow(ExcelNamedRowBase row){
+          Rows.Add(row as AssetPathRow);
+        }
+
         #endif
 
         public AssetPathRow GetRowById(int row_id){

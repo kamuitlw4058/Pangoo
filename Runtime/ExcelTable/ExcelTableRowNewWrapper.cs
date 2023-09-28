@@ -5,8 +5,6 @@ using System.Linq;
 using UnityEngine;
 using System;
 
-
-
 using UnityEditor;
 using Sirenix.OdinInspector.Editor;
 
@@ -121,7 +119,19 @@ namespace Pangoo
         [Button("新建")]
         public virtual void Create()
         {
-            Debug.Log($"m_Row:{m_Row.Id} id exists:{CheckExistsId()}");
+            if (m_Row == null) return;
+
+            if (CheckExistsId() || CheckExistsName())
+            {
+                Debug.Log($"Row:  id:{m_Row.Id}  exists:{CheckExistsId()} name:{m_Row.Name} exists:{CheckExistsName()}");
+                return;
+            }
+
+            Overview.Table.AddNamedRow(m_Row);
+            if (AfterCreate != null)
+            {
+                AfterCreate(Id);
+            }
         }
 
 

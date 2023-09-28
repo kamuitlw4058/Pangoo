@@ -14,6 +14,7 @@ namespace Pangoo
 {
     public class ExcelTableOverviewRowWrapper<TOverview, TRow> where TOverview : ExcelTableOverview where TRow : ExcelNamedRowBase
     {
+        public OdinEditorWindow Window { get; set; }
         public bool OutsideNeedRefresh { get; set; }
         public virtual bool CanNameChange
         {
@@ -79,6 +80,7 @@ namespace Pangoo
         [ShowInInspector]
         [TableColumnWidth(60, resizable: false)]
         [PropertyOrder(-2)]
+        [DelayedProperty]
         [EnableIf("CanIdChange")]
         [InfoBox("Id 已经存在", InfoMessageType.Error, "CheckExistsId")]
         public virtual int Id
@@ -101,6 +103,7 @@ namespace Pangoo
         [ShowInInspector]
         [PropertyOrder(-1)]
         [EnableIf("CanNameChange")]
+        [DelayedProperty]
         [InfoBox("已经有对应的名字", InfoMessageType.Warning, "CheckExistsName")]
         public virtual string Name
         {

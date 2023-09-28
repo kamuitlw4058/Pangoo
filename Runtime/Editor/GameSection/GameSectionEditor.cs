@@ -29,8 +29,8 @@ namespace Pangoo.Editor
         [ReadOnly]
         public GameSectionTableOverview Overview;
 
-        [SerializeField]
         [HideLabel]
+        [SerializeReference]
         public GameSectionDetailWrapper Wrapper;
 
 
@@ -41,7 +41,7 @@ namespace Pangoo.Editor
         public void UpdateSection()
         {
 
-            Debug.Log($"OnSectionChange");
+            // Debug.Log($"OnSectionChange");
 
             Overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<GameSectionTableOverview>(Section);
             SectionRow = GameSupportEditorUtility.GetGameSectionRowById(Section);
@@ -50,12 +50,13 @@ namespace Pangoo.Editor
             Wrapper.Overview = Overview;
             Wrapper.Row = SectionRow;
 
-            Debug.Log($"DynamicSceneIds:{Wrapper.DynamicSceneIds.ToList().ToListString()}");
-            Debug.Log($"KeepSceneIds:{Wrapper.KeepSceneIds.ToList().ToListString()}");
+            // Debug.Log($"DynamicSceneIds:{Wrapper.DynamicSceneIds.ToList().ToListString()}");
+            // Debug.Log($"KeepSceneIds:{Wrapper.KeepSceneIds.ToList().ToListString()}");
 
             m_StaticSceneEditor.SetSection(Section);
             m_StaticSceneEditor.UpdateDynamicSceneIds(Wrapper.DynamicSceneIds);
             m_StaticSceneEditor.UpdateKeepSceneIds(Wrapper.KeepSceneIds);
+
 
 
             m_DynamicObjectEditor.SetSection(Section);
