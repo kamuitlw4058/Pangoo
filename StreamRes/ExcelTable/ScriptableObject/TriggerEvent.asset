@@ -18,6 +18,6 @@ MonoBehaviour:
     Rows:
     - Id: 1
       Name: "\u8C03\u8BD5"
-      TriggerType: OnInteract
+      TriggerType: Pangoo.Core.VisualScripting.TriggerEventOnInteraction
       InstructionList: 1
-      Params: 
+      Params: '{}'

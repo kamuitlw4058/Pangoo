@@ -79,23 +79,23 @@ namespace Pangoo
             Debug.Log($"Set Wrapper.{Row.Position}");
             InteractionItemTracker tracker;
 
-            foreach (var trigger in Wrapper.Triggers)
-            {
-                switch (trigger.TriggerType)
-                {
-                    case TriggerTypeEnum.OnInteract:
-                        tracker = transform.GetOrAddComponent<InteractionItemTracker>();
-                        break;
-                    default:
-                        tracker = GetComponent<InteractionItemTracker>();
-                        if (tracker != null)
-                        {
-                            DestroyImmediate(tracker);
-                        }
-                        break;
-                }
+            //     foreach (var trigger in Wrapper.Triggers)
+            //     {
+            //         switch (trigger.TriggerType)
+            //         {
+            //             case TriggerTypeEnum.OnInteract:
+            //                 tracker = transform.GetOrAddComponent<InteractionItemTracker>();
+            //                 break;
+            //             default:
+            //                 tracker = GetComponent<InteractionItemTracker>();
+            //                 if (tracker != null)
+            //                 {
+            //                     DestroyImmediate(tracker);
+            //                 }
+            //                 break;
+            //         }
 
-            }
+            //     }
 
         }
 

@@ -70,6 +70,8 @@ namespace Pangoo
         Instruction m_InstructionInstance;
 
         [ShowInInspector]
+        [HideLabel]
+        [HideReferenceObjectPicker]
         public Instruction InstructionInstance
         {
             get

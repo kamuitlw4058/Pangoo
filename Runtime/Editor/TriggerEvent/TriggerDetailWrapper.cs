@@ -27,43 +27,99 @@ namespace Pangoo
 
         [ShowInInspector]
         [PropertyOrder(0)]
-        public TriggerTypeEnum TriggerType
+        [LabelText("触发类型")]
+        [ValueDropdown("GetTriggerEvent")]
+        public string TriggerType
         {
             get
             {
-                if (Row == null)
+
+                if (m_TriggerEventInstace == null)
                 {
-                    return TriggerTypeEnum.Unknown;
+                    UpdateTrigger();
                 }
 
-                if (Row.TriggerType == null)
-                {
-                    Row.TriggerType = string.Empty;
-                }
-
-                return Row.TriggerType.ToEnum<TriggerTypeEnum>(TriggerTypeEnum.Unknown);
+                return Row?.TriggerType;
             }
             set
             {
                 if (Row != null && Overview != null)
                 {
-                    switch (value)
-                    {
-                        case TriggerTypeEnum.Unknown:
-                            Row.TriggerType = string.Empty;
-                            break;
-                        case TriggerTypeEnum.OnInteract:
-                            Row.TriggerType = TriggerTypeEnum.OnInteract.ToString();
-                            break;
-                        default:
-                            Row.TriggerType = value.ToString();
-                            break;
-                    }
+                    Row.TriggerType = value;
+                    Row.Params = "{}";
                     Save();
+                    UpdateTrigger();
                 }
 
             }
         }
+
+        TriggerEvent m_TriggerEventInstace;
+
+        [ShowInInspector]
+        [HideLabel]
+        [HideReferenceObjectPicker]
+        public TriggerEvent TriggerEventInstace
+        {
+            get
+            {
+                return m_TriggerEventInstace;
+            }
+            set
+            {
+                m_TriggerEventInstace = value;
+            }
+        }
+
+        void UpdateTrigger()
+        {
+            var triggerType = Utility.Assembly.GetType(Row.TriggerType);
+            if (triggerType == null)
+            {
+                return;
+            }
+
+            m_TriggerEventInstace = Activator.CreateInstance(triggerType) as TriggerEvent;
+            m_TriggerEventInstace.LoadParamsFromJson(Row.Params);
+        }
+
+        public IEnumerable GetTriggerEvent()
+        {
+            return GameSupportEditorUtility.GetTriggerEvent();
+        }
+
+        [ShowInInspector]
+        [ReadOnly]
+        public string Params
+        {
+            get
+            {
+                return Row?.Params;
+            }
+            set
+            {
+                if (Row != null && Overview != null)
+                {
+                    Row.Params = value;
+                    Save();
+                }
+            }
+        }
+
+        [Button("保存参数")]
+        [TableColumnWidth(80, resizable: false)]
+        public void SaveParams()
+        {
+            Params = m_TriggerEventInstace.ParamsToJson();
+        }
+
+        [Button("加载参数")]
+        [TableColumnWidth(80, resizable: false)]
+        public void LoadParams()
+        {
+            m_TriggerEventInstace.LoadParamsFromJson(Params);
+        }
+
 
 
         [LabelText("指令Ids")]
@@ -71,7 +127,7 @@ namespace Pangoo
         [ListDrawerSettings(Expanded = true)]
 
         [ShowInInspector]
-        [PropertyOrder(1)]
+        [PropertyOrder(9)]
         public int[] InstructionIds
         {
             get
@@ -95,7 +151,8 @@ namespace Pangoo
             return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<InstructionTableOverview>();
         }
 
-        [Button("立即运行")]
+        [Button("立即运行指令")]
+        [PropertyOrder(10)]
         public void Run()
         {
             List<Instruction> instructions = new();
@@ -120,14 +177,6 @@ namespace Pangoo
                 instructions.Add(InstructionInstance);
             }
 
-
-
-            // foreach (var instructionId in InstructionIds)
-            // {
-            //     var instructionRow = GameSupportEditorUtility.GetExcelTableRowWithOverviewById<InstructionTableOverview, InstructionTable.InstructionRow>(instructionId);
-            //     instructions.Add(instruction.InstructionInstance);
-            // }
-            // Debug.Log($"Start Run Instruction:{instructions.Count}");
             var instructionList = new InstructionList(instructions.ToArray());
             instructionList.Start(new Args(Row));
         }
