@@ -64,7 +64,7 @@ public class BuildProject
         GetCommitID();
         if (!File.Exists($@"{ dirPath}\提交ID.txt"))
         {
-            FileStream fileStream = new FileStream($@"{dirPath}\提交ID.txt", FileMode.OpenOrCreate);
+            FileStream fileStream = new FileStream($@"{dirPath}\sourceTree_CommitID.txt", FileMode.OpenOrCreate);
             StreamWriter sw = new StreamWriter(fileStream, Encoding.UTF8);
 
             sw.WriteLine(m_CommitID);
