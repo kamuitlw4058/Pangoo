@@ -61,12 +61,26 @@ public class BuildProject
 
         #region 创建一个记录Git提交ID的txt文件
 
-        //GetCommitID();
-        //FileStream fileStream = new FileStream($@"{dirPath}\{m_CommitID}.txt", FileMode.OpenOrCreate);
-        //StreamWriter sw = new StreamWriter(fileStream, Encoding.UTF8);
-        //fileStream.Close();
+        GetCommitID();
+        if (!File.Exists($@"{ dirPath}\提交ID.txt"))
+        {
+            FileStream fileStream = new FileStream($@"{dirPath}\提交ID.txt", FileMode.OpenOrCreate);
+            StreamWriter sw = new StreamWriter(fileStream, Encoding.UTF8);
+
+            sw.WriteLine(m_CommitID);
+            sw.Close();
+            sw.Dispose();
+            fileStream.Close();
+            fileStream.Dispose();
+        }
+        else
+        {
+            File.WriteAllText($@"{ dirPath}\提交ID.txt", m_CommitID);
+        }
+
 
         #endregion
+
         Debug.Log("项目本地路径名1：" + options.locationPathName);
         BuildPipeline.BuildPlayer(options);
     }
