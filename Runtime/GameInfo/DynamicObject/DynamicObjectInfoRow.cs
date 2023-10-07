@@ -28,8 +28,6 @@ namespace Pangoo
         public EntityGroupTable.EntityGroupRow EntityGroupRow;
 
 
-        List<int> m_LoadSceneIds = null;
-
         public int Id
         {
             get

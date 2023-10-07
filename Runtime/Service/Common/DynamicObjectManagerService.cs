@@ -10,7 +10,7 @@ using Sirenix.OdinInspector;
 
 namespace Pangoo.Service
 {
-    public class DynamicObjectService : ServiceBase
+    public class DynamicObjectManagerService : ServiceBase
     {
         public override int Priority => 6;
 
@@ -73,8 +73,7 @@ namespace Pangoo.Service
                 return;
             }
 
-            Log.Info($"ShowStaticScene:{id}");
-
+            Log.Info($"ShowDynamicObject:{id}");
 
             // 这边有一个假设，同一个时间不会反复加载不同的章节下的同一个场景。
             if (m_LoadingAssetIds.Contains(AssetPathId))

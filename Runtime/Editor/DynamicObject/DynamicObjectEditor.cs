@@ -13,7 +13,7 @@ using System;
 namespace Pangoo
 {
 
-    [ExecuteInEditMode]
+    //[ExecuteInEditMode]
     [DisallowMultipleComponent]
     public class DynamicObjectEditor : MonoBehaviour
     {
@@ -48,6 +48,7 @@ namespace Pangoo
 
 
         [ReadOnly]
+        [ShowInInspector]
         DynamicObjectTable.DynamicObjectRow Row;
 
 
@@ -61,7 +62,24 @@ namespace Pangoo
             OnValueChanged();
         }
 
+        void Start()
+        {
+            DoService = new DynamicObjectService(gameObject);
+            Debug.Log($"Row1:{Row}");
+            Row = GameSupportEditorUtility.GetDynamicObjectRow(m_DynamicObjectId);
+            DoService.Row = Row;
+            Debug.Log($"Row2:{Row}");
+            DoService.Init();
+            Debug.Log($"Row2:{DoService.TriggerEvents.Count}");
+        }
+
+        public Func<TriggerEventParams, bool> CheckInteract;
+
         public Action<TriggerEventParams> InteractEvent;
+
+        [ShowInInspector]
+        [field: NonSerialized]
+        public DynamicObjectService DoService { get; set; }
 
 
 
@@ -71,6 +89,9 @@ namespace Pangoo
 
             Overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<DynamicObjectTableOverview>(m_DynamicObjectId);
             Row = GameSupportEditorUtility.GetDynamicObjectRow(m_DynamicObjectId);
+
+
+
             Debug.Log($"Row:{Row} DynamicObjectId:{m_DynamicObjectId}");
 
             Wrapper = new DynamicObjectDetailWrapper();
@@ -134,6 +155,11 @@ namespace Pangoo
 
         public void OnInteract(CharacterService character, IInteractive interactive)
         {
+            if (CheckInteract != null && CheckInteract(null))
+            {
+
+            }
+
             Debug.Log($"OnInteract:{name}");
             if (InteractEvent != null)
             {
@@ -142,12 +168,6 @@ namespace Pangoo
         }
 
 
-        void Start()
-        {
-            // Row = GameSupportEditorUtility.GetDynamicObjectRow(DynamicObjectId);
-            // Model = GameObject.Find("Model");
-            // m_Wrapper = new DynamicObjectWrapper(Row, gameObject);
-        }
 
         private void Update()
         {

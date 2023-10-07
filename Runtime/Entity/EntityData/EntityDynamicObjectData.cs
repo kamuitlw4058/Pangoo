@@ -25,12 +25,12 @@ namespace Pangoo
             }
         }
 
-        public DynamicObjectService Service;
+        public DynamicObjectManagerService Service;
         public EntityDynamicObjectData() : base()
         {
         }
 
-        public static EntityDynamicObjectData Create(EntityInfo Info, DynamicObjectService service, DynamicObjectInfoRow infoRow, object userData = null)
+        public static EntityDynamicObjectData Create(EntityInfo Info, DynamicObjectManagerService service, DynamicObjectInfoRow infoRow, object userData = null)
         {
             EntityDynamicObjectData entityData = ReferencePool.Acquire<EntityDynamicObjectData>();
             entityData.EntityInfo = Info;
