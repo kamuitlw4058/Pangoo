@@ -65,6 +65,7 @@ namespace Pangoo.Core.Character
             if (InputInteraction)
             {
                 Debug.Log($"InputTineraction.Down");
+                Character.Interact();
             }
 
             InputJump = m_InputJump?.WasPressedThisFrame() ?? false;

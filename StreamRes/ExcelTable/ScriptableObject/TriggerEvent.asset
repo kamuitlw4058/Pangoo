@@ -19,5 +19,10 @@ MonoBehaviour:
     - Id: 1
       Name: "\u8C03\u8BD5"
       TriggerType: Pangoo.Core.VisualScripting.TriggerEventOnInteraction
+      InstructionList: 1|2
+      Params: '{}'
+    - Id: 2
+      Name: "\u8C03\u8BD5\u65E5\u5FD72"
+      TriggerType: Pangoo.Core.VisualScripting.TriggerEventOnInteraction
       InstructionList: 1
       Params: '{}'

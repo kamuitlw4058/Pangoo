@@ -215,6 +215,11 @@ namespace Pangoo
             return GetExcelTableRowWithOverviewById<AssetPathTableOverview, AssetPathTable.AssetPathRow>(id);
         }
 
+        public static TriggerEventTable.TriggerEventRow GetTriggerEventRowById(int id)
+        {
+            return GetExcelTableRowWithOverviewById<TriggerEventTableOverview, TriggerEventTable.TriggerEventRow>(id);
+        }
+
 #endif
     }
 }

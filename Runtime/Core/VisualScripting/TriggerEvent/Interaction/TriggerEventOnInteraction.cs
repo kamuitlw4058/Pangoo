@@ -10,6 +10,13 @@ namespace Pangoo.Core.VisualScripting
     [Category("Character/OnInteraction")]
     public class TriggerEventOnInteraction : TriggerEvent
     {
-        protected override TriggerTypeEnum TriggerType => TriggerTypeEnum.OnInteract;
+        public override TriggerTypeEnum TriggerType => TriggerTypeEnum.OnInteract;
+
+        public override void OnInvoke(TriggerEventParams eventParams)
+        {
+            base.OnInvoke(eventParams);
+            Debug.Log($"In Event Invoke!.Row:{Row}");
+            Instructions.Start(new Args(Row));
+        }
     }
 }

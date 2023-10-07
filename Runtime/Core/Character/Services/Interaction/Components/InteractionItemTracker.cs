@@ -5,9 +5,7 @@ using UnityEngine;
 
 namespace Pangoo.Core.Character
 {
-    [AddComponentMenu("")]
     [DisallowMultipleComponent]
-
     [Serializable]
     public class InteractionItemTracker : MonoBehaviour, IInteractive
     {
@@ -68,6 +66,7 @@ namespace Pangoo.Core.Character
         void IInteractive.Interact(CharacterService character)
         {
             if (this.m_IsInteracting) return;
+            Debug.Log($"Interacting.Name:{name}");
 
             this.m_IsInteracting = true;
             this.m_Character = character;

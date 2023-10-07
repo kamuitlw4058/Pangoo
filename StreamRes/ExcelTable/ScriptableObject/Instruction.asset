@@ -20,3 +20,7 @@ MonoBehaviour:
       Name: "\u6253\u5370\u8C03\u8BD5\u4FE1\u606F"
       InstructionType: Pangoo.Core.VisualScripting.InstructionCommonDebugText
       Params: '{"Message":"asf","ShowTrigger":true}'
+    - Id: 2
+      Name: "\u6253\u5370\u4FE1\u606F\u6D4B\u8BD52"
+      InstructionType: Pangoo.Core.VisualScripting.InstructionCommonDebugText
+      Params: '{"Message":"adfa","ShowTrigger":false}'

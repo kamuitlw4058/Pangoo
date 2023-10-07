@@ -8,6 +8,7 @@ using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using Pangoo.Core.VisualScripting;
 using Pangoo.Core.Character;
+using System;
 
 namespace Pangoo
 {
@@ -60,6 +61,8 @@ namespace Pangoo
             OnValueChanged();
         }
 
+        public Action<TriggerEventParams> InteractEvent;
+
 
 
         public void OnValueChanged()
@@ -77,26 +80,65 @@ namespace Pangoo
             transform.localPosition = Row.Position;
             transform.localRotation = Quaternion.Euler(Row.Rotation);
             Debug.Log($"Set Wrapper.{Row.Position}");
-            InteractionItemTracker tracker;
+            InteractionItemTracker tracker = null;
 
-            //     foreach (var trigger in Wrapper.Triggers)
-            //     {
-            //         switch (trigger.TriggerType)
-            //         {
-            //             case TriggerTypeEnum.OnInteract:
-            //                 tracker = transform.GetOrAddComponent<InteractionItemTracker>();
-            //                 break;
-            //             default:
-            //                 tracker = GetComponent<InteractionItemTracker>();
-            //                 if (tracker != null)
-            //                 {
-            //                     DestroyImmediate(tracker);
-            //                 }
-            //                 break;
-            //         }
+            foreach (var trigger in Wrapper.Triggers)
+            {
 
-            //     }
 
+                switch (trigger.TriggerEventInstance.TriggerType)
+                {
+                    case TriggerTypeEnum.OnInteract:
+                        tracker = transform.GetOrAddComponent<InteractionItemTracker>();
+                        tracker.EventInteract += OnInteract;
+                        break;
+                    default:
+                        tracker = GetComponent<InteractionItemTracker>();
+                        if (tracker != null)
+                        {
+                            tracker.EventInteract -= OnInteract;
+                            DestroyImmediate(tracker);
+                        }
+                        // OnInteractEvent;
+                        break;
+                }
+
+            }
+
+            if (tracker != null)
+            {
+                InteractEvent += OnInteractEvent;
+            }
+            else
+            {
+                InteractEvent -= OnInteractEvent;
+            }
+
+        }
+
+        public void OnInteractEvent(TriggerEventParams eventParams)
+        {
+            Debug.Log($"OnInteractEvent:{name}");
+            foreach (var trigger in Wrapper.Triggers)
+            {
+
+                switch (trigger.TriggerEventInstance.TriggerType)
+                {
+                    case TriggerTypeEnum.OnInteract:
+                        trigger.TriggerEventInstance.OnInvoke(eventParams);
+                        break;
+                }
+
+            }
+        }
+
+        public void OnInteract(CharacterService character, IInteractive interactive)
+        {
+            Debug.Log($"OnInteract:{name}");
+            if (InteractEvent != null)
+            {
+                InteractEvent.Invoke(null);
+            }
         }
 
 

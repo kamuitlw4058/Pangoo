@@ -50,6 +50,17 @@ namespace Pangoo.Core.Character
         //                            screenPoint.z > 0;
         // }
 
+        public bool Interact()
+        {
+            if (this.Target == null) return false;
+
+            // this.EventInteract?.Invoke(this.m_Character, this.Target);
+            this.Target.Interact(Character);
+
+            return true;
+        }
+
+
         public override void DoUpdate()
         {
             SpatialHashInteractionItems.Find(

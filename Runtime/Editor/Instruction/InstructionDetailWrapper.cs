@@ -39,6 +39,10 @@ namespace Pangoo
 
         void UpdateInstruction()
         {
+            if (Row.InstructionType.IsNullOrWhiteSpace())
+            {
+                return;
+            }
 
             var instructionType = Utility.Assembly.GetType(Row.InstructionType);
             if (instructionType == null)

@@ -34,7 +34,7 @@ namespace Pangoo
             get
             {
 
-                if (m_TriggerEventInstace == null)
+                if (m_TriggerEventInstance == null)
                 {
                     UpdateTrigger();
                 }
@@ -54,33 +54,39 @@ namespace Pangoo
             }
         }
 
-        TriggerEvent m_TriggerEventInstace;
+        TriggerEvent m_TriggerEventInstance;
 
         [ShowInInspector]
         [HideLabel]
         [HideReferenceObjectPicker]
-        public TriggerEvent TriggerEventInstace
+        public TriggerEvent TriggerEventInstance
         {
             get
             {
-                return m_TriggerEventInstace;
+                if (m_TriggerEventInstance == null)
+                {
+                    UpdateTrigger();
+                }
+
+                return m_TriggerEventInstance;
             }
             set
             {
-                m_TriggerEventInstace = value;
+                m_TriggerEventInstance = value;
             }
         }
 
         void UpdateTrigger()
         {
-            var triggerType = Utility.Assembly.GetType(Row.TriggerType);
-            if (triggerType == null)
+
+            m_TriggerEventInstance = ClassUtility.CreateInstance<TriggerEvent>(Row.TriggerType);
+            if (m_TriggerEventInstance == null)
             {
                 return;
             }
-
-            m_TriggerEventInstace = Activator.CreateInstance(triggerType) as TriggerEvent;
-            m_TriggerEventInstace.LoadParamsFromJson(Row.Params);
+            m_TriggerEventInstance.Row = Row;
+            m_TriggerEventInstance.LoadParamsFromJson(Row.Params);
+            m_TriggerEventInstance.Instructions = GetInstructionList();
         }
 
         public IEnumerable GetTriggerEvent()
@@ -110,14 +116,14 @@ namespace Pangoo
         [TableColumnWidth(80, resizable: false)]
         public void SaveParams()
         {
-            Params = m_TriggerEventInstace.ParamsToJson();
+            Params = m_TriggerEventInstance.ParamsToJson();
         }
 
         [Button("加载参数")]
         [TableColumnWidth(80, resizable: false)]
         public void LoadParams()
         {
-            m_TriggerEventInstace.LoadParamsFromJson(Params);
+            m_TriggerEventInstance.LoadParamsFromJson(Params);
         }
 
 
@@ -151,9 +157,7 @@ namespace Pangoo
             return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<InstructionTableOverview>();
         }
 
-        [Button("立即运行指令")]
-        [PropertyOrder(10)]
-        public void Run()
+        public InstructionList GetInstructionList()
         {
             List<Instruction> instructions = new();
 
@@ -177,7 +181,14 @@ namespace Pangoo
                 instructions.Add(InstructionInstance);
             }
 
-            var instructionList = new InstructionList(instructions.ToArray());
+            return new InstructionList(instructions.ToArray());
+        }
+
+        [Button("立即运行指令")]
+        [PropertyOrder(10)]
+        public void Run()
+        {
+            var instructionList = GetInstructionList();
             instructionList.Start(new Args(Row));
         }
 

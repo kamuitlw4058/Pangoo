@@ -11,17 +11,22 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public abstract class TriggerEvent : TPolymorphicItem<TriggerEvent>
     {
-        TriggerEventTable.TriggerEventRow Row { get; set; }
+        public TriggerEventTable.TriggerEventRow Row { get; set; }
+
+        public InstructionList Instructions { get; set; }
 
         [ShowInInspector]
         [LabelText("触发点类型")]
-        protected virtual TriggerTypeEnum TriggerType => TriggerTypeEnum.Unknown;
+        public virtual TriggerTypeEnum TriggerType => TriggerTypeEnum.Unknown;
 
-        protected virtual void OnAwake() { }
-        protected virtual void OnEnable() { }
-        protected virtual void OnDisable() { }
+        public virtual void OnAwake()
+        {
 
-        protected virtual void OnInvoke(TriggerEventParams eventParams)
+        }
+        public virtual void OnEnable() { }
+        public virtual void OnDisable() { }
+
+        public virtual void OnInvoke(TriggerEventParams eventParams)
         {
 
         }

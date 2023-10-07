@@ -8,7 +8,7 @@ namespace Pangoo.Core.Character
 {
 
     [Serializable]
-    public class CharacterService : MonoMasterService
+    public partial class CharacterService : MonoMasterService
     {
 
         [SerializeField] protected bool m_IsPlayer;
@@ -60,73 +60,6 @@ namespace Pangoo.Core.Character
             this.IsPlayer = val;
         }
 
-        CharacterInputService m_CharacterInputService;
-
-        public CharacterInputService CharacterInput
-        {
-            get
-            {
-                return m_CharacterInputService;
-            }
-        }
-
-        CharacterCameraService m_CharacterCameraService;
-
-        public CharacterCameraService CharacterCamera
-        {
-            get
-            {
-                return m_CharacterCameraService;
-            }
-        }
-
-        DriverService m_DriverService;
-
-
-        public DriverService Driver
-        {
-            get
-            {
-                return m_DriverService;
-            }
-        }
-
-
-        MotionActionService m_MotionActionService;
-
-
-        public MotionActionService MotionAction
-        {
-            get
-            {
-                return m_MotionActionService;
-            }
-        }
-
-
-        PlayerService m_PlayerService;
-
-
-        public PlayerService PlayerService
-        {
-            get
-            {
-                return m_PlayerService;
-            }
-        }
-
-        InteractionService m_InteractionService;
-
-        public InteractionService InteractionService
-        {
-            get
-            {
-                return m_InteractionService;
-            }
-        }
-
-
-
 
         public CharacterService(GameObject gameObject, bool onlyCamera = false) : base(gameObject)
         {
@@ -147,6 +80,15 @@ namespace Pangoo.Core.Character
                 AddService(m_MotionActionService);
                 AddService(m_PlayerService);
                 AddService(m_InteractionService);
+            }
+        }
+
+
+        public void Interact()
+        {
+            if (m_InteractionService != null)
+            {
+                m_InteractionService.Interact();
             }
         }
 
