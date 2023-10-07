@@ -26,6 +26,7 @@ namespace Pangoo.Editor
         [MenuItem("BuildManager/BuildPC")]
         public static void BuildPC()
         {
+            Debug.Log("项目根目录1：" + Directory.GetParent(Application.dataPath).ToString());
             #region 获取jenkins参数值
 
             outputDirPath = GetCommandLineArgValue("-outputDirPath");
@@ -67,7 +68,7 @@ namespace Pangoo.Editor
             fileStream.Close();
 
             #endregion
-
+            Debug.Log("项目本地路径名1：" + options.locationPathName);
             BuildPipeline.BuildPlayer(options);
         }
 
@@ -133,7 +134,7 @@ namespace Pangoo.Editor
             if (e != null && !string.IsNullOrEmpty(e.Data))
             {
                 m_CommitID = e.Data;
-                // Debug.Log(e.Data);
+                Debug.Log("提交ID1：" + m_CommitID);
             }
         }
 
