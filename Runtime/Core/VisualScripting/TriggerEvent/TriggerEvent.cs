@@ -36,5 +36,14 @@ namespace Pangoo.Core.VisualScripting
         {
             return string.Empty;
         }
+
+        [Button("立即运行指令列表")]
+        public void Run()
+        {
+            if (Instructions != null)
+            {
+                Instructions.Start(new Args(null));
+            }
+        }
     }
 }

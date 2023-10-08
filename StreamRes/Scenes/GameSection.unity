@@ -712,36 +712,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 749d696514ebfa3488514799de627a8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterContainer:
-    MonoTimeMode:
-      m_UpdateTime: 0
-    m_GameObject: {fileID: 1410615123}
-    m_IsPlayer: 0
-    m_MotionInfo:
-      LinearSpeed: 4
-      AngularSpeed: 0
-      RotationSpeedX: 60
-      RotationSpeedY: 60
-      Mass: 0
-      Height: 2
-      Radius: 0.2
-      UseAcceleration: 0
-      Acceleration: 0
-      Deceleration: 0
-      CanJump: 0
-      AirJumps: 0
-      IsJumping: 0
-      IsJumpingForce: 0
-      GravityUpwards: 0
-      GravityDownwards: -9.8
-      TerminalVelocity: -54
-      JumpForce: 0
-      JumpCooldown: 0
-      DashInSuccession: 0
-      DashInAir: 0
-      DashCooldown: 0
-      InteractionRadius: 0
   m_IsPlayer: 1
+  m_CameraOnly: 0
   m_MotionInfo:
     LinearSpeed: 4
     AngularSpeed: 0
@@ -766,6 +738,8 @@ MonoBehaviour:
     DashInAir: 0
     DashCooldown: 0
     InteractionRadius: 2
+  m_CameraOffset: {x: 0, y: 0.7, z: 0}
+  m_MaxPitch: 60
 --- !u!4 &1410615125
 Transform:
   m_ObjectHideFlags: 0
@@ -893,7 +867,7 @@ PrefabInstance:
     - target: {fileID: 1667610867727266057, guid: 13ede1b60dab30e4099b3b3e531aaa62,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6762165518317728763, guid: 13ede1b60dab30e4099b3b3e531aaa62,
         type: 3}
@@ -1088,8 +1062,38 @@ PrefabInstance:
     - target: {fileID: 1441183542, guid: ee88102f4db5d94439573026d4821c5c, type: 3}
       propertyPath: TableOverviews.Array.data[13]
       value: 
-      objectReference: {fileID: 11400000, guid: 33e51a75a24fdb04489b3a9ba3b039ea,
+      objectReference: {fileID: 11400000, guid: 4798bcd4f81d2f943b9999f3940f86b4,
         type: 2}
+    - target: {fileID: 7138320360097416332, guid: ee88102f4db5d94439573026d4821c5c,
+        type: 3}
+      propertyPath: m_AvailableProcedureTypeNames.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7138320360097416332, guid: ee88102f4db5d94439573026d4821c5c,
+        type: 3}
+      propertyPath: m_AvailableProcedureTypeNames.Array.data[1]
+      value: GameMain.ProcedureMainInterface
+      objectReference: {fileID: 0}
+    - target: {fileID: 7138320360097416332, guid: ee88102f4db5d94439573026d4821c5c,
+        type: 3}
+      propertyPath: m_AvailableProcedureTypeNames.Array.data[2]
+      value: Pangoo.ProcedureInitResources
+      objectReference: {fileID: 0}
+    - target: {fileID: 7138320360097416332, guid: ee88102f4db5d94439573026d4821c5c,
+        type: 3}
+      propertyPath: m_AvailableProcedureTypeNames.Array.data[3]
+      value: Pangoo.ProcedureLaunch
+      objectReference: {fileID: 0}
+    - target: {fileID: 7138320360097416332, guid: ee88102f4db5d94439573026d4821c5c,
+        type: 3}
+      propertyPath: m_AvailableProcedureTypeNames.Array.data[4]
+      value: Pangoo.ProcedurePreload
+      objectReference: {fileID: 0}
+    - target: {fileID: 7138320360097416332, guid: ee88102f4db5d94439573026d4821c5c,
+        type: 3}
+      propertyPath: m_AvailableProcedureTypeNames.Array.data[5]
+      value: Pangoo.ProcedureSplash
+      objectReference: {fileID: 0}
     - target: {fileID: 7138320360357503680, guid: ee88102f4db5d94439573026d4821c5c,
         type: 3}
       propertyPath: m_RootOrder

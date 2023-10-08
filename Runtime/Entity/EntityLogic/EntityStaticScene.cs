@@ -7,6 +7,8 @@ using GameFramework;
 using Pangoo.Service;
 using UnityEngine;
 using UnityEngine.Rendering;
+using System;
+
 #if USE_HDRP
 using UnityEngine.Rendering.HighDefinition;
 #endif
@@ -32,8 +34,12 @@ namespace Pangoo
 
         [ShowInInspector]
         public EntityStaticSceneData SceneData;
+
+        [SerializeField]
+        bool IsOpenProbe = true;
 #if USE_HDRP
-        bool IsOpenProbe = false;
+        [field: NonSerialized]
+        [ShowInInspector]
         PlanarReflectionProbe[] PlanarProbes;
 
         public void SetProbeEnabled(bool val)

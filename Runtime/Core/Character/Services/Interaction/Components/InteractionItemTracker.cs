@@ -1,5 +1,6 @@
 using System;
 using Pangoo.Core.Common;
+using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 
@@ -17,6 +18,15 @@ namespace Pangoo.Core.Character
 
         [NonSerialized] private int m_InstanceID;
         [NonSerialized] private bool m_IsInteracting;
+
+        [ShowInInspector]
+        public bool IsInteracting
+        {
+            get
+            {
+                return m_IsInteracting;
+            }
+        }
 
         [NonSerialized] private CharacterService m_Character;
 
@@ -65,6 +75,8 @@ namespace Pangoo.Core.Character
 
         void IInteractive.Interact(CharacterService character)
         {
+            Debug.Log($"Enter Interacting.Name:{name} this.m_IsInteracting:{this.m_IsInteracting}");
+
             if (this.m_IsInteracting) return;
             Debug.Log($"Interacting.Name:{name}");
 
