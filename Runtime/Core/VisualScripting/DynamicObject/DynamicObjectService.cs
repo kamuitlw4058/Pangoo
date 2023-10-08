@@ -4,8 +4,9 @@ using Pangoo.Service;
 using Pangoo.Core.Common;
 using Pangoo.Core.Service;
 using System.Collections.Generic;
-using Palmmedia.ReportGenerator.Core.Parser.Analysis;
 using Sirenix.OdinInspector;
+using Pangoo.Core.Character;
+
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -27,12 +28,21 @@ namespace Pangoo.Core.VisualScripting
         public List<TriggerEvent> TriggerEvents = new List<TriggerEvent>();
 
 
+        public InteractionItemTracker m_Tracker = null;
+
+
+        public Func<TriggerEventParams, bool> CheckInteract;
+
+        public Action<TriggerEventParams> InteractEvent;
+
+
+
         public DynamicObjectService(GameObject gameObject) : base(gameObject)
         {
         }
 
 
-        public void Init()
+        public override void DoAwake()
         {
             var triggerIds = Row.GetTriggerEventIdList();
 #if !UNITY_EDITOR
@@ -75,7 +85,75 @@ namespace Pangoo.Core.VisualScripting
                 triggerInstance.Instructions = GetInstructionList(triggerRow.GetInstructionList());
                 TriggerEvents.Add(triggerInstance);
             }
+
+            UpdateTracker();
         }
+
+        public void UpdateTracker()
+        {
+
+            foreach (var trigger in TriggerEvents)
+            {
+
+                switch (trigger.TriggerType)
+                {
+                    case TriggerTypeEnum.OnInteract:
+                        m_Tracker = CachedTransfrom.GetOrAddComponent<InteractionItemTracker>();
+                        m_Tracker.EventInteract += OnInteract;
+                        break;
+                }
+
+            }
+
+            if (m_Tracker != null)
+            {
+                InteractEvent += OnInteractEvent;
+            }
+        }
+
+
+
+        public void OnInteractEvent(TriggerEventParams eventParams)
+        {
+            Debug.Log($"OnInteractEvent:{gameObject.name}");
+            foreach (var trigger in TriggerEvents)
+            {
+
+                switch (trigger.TriggerType)
+                {
+                    case TriggerTypeEnum.OnInteract:
+                        trigger.OnInvoke(eventParams);
+                        break;
+                }
+            }
+        }
+
+        public void OnInteract(CharacterService character, IInteractive interactive)
+        {
+            if (CheckInteract != null && CheckInteract(null))
+            {
+
+            }
+
+            Debug.Log($"OnInteract:{gameObject.name}");
+            if (InteractEvent != null)
+            {
+                InteractEvent.Invoke(null);
+            }
+        }
+
+
+        public override void DoDestroy()
+        {
+            base.DoDestroy();
+            if (m_Tracker != null)
+            {
+                m_Tracker.EventInteract -= OnInteract;
+                InteractEvent -= OnInteractEvent;
+            }
+        }
+
+
 
 
         public InstructionList GetInstructionList(List<int> ids)

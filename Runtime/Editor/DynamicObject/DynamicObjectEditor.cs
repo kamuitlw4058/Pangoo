@@ -69,13 +69,14 @@ namespace Pangoo
             Row = GameSupportEditorUtility.GetDynamicObjectRow(m_DynamicObjectId);
             DoService.Row = Row;
             Debug.Log($"Row2:{Row}");
-            DoService.Init();
+            DoService.Awake();
+            DoService.Start();
             Debug.Log($"Row2:{DoService.TriggerEvents.Count}");
         }
 
-        public Func<TriggerEventParams, bool> CheckInteract;
+        // public Func<TriggerEventParams, bool> CheckInteract;
 
-        public Action<TriggerEventParams> InteractEvent;
+        // public Action<TriggerEventParams> InteractEvent;
 
         [ShowInInspector]
         [field: NonSerialized]
@@ -101,77 +102,75 @@ namespace Pangoo
             transform.localPosition = Row.Position;
             transform.localRotation = Quaternion.Euler(Row.Rotation);
             Debug.Log($"Set Wrapper.{Row.Position}");
-            InteractionItemTracker tracker = null;
+            // InteractionItemTracker tracker = null;
 
-            foreach (var trigger in Wrapper.Triggers)
-            {
+            // foreach (var trigger in Wrapper.Triggers)
+            // {
 
 
-                switch (trigger.TriggerEventInstance.TriggerType)
-                {
-                    case TriggerTypeEnum.OnInteract:
-                        tracker = transform.GetOrAddComponent<InteractionItemTracker>();
-                        tracker.EventInteract += OnInteract;
-                        break;
-                    default:
-                        tracker = GetComponent<InteractionItemTracker>();
-                        if (tracker != null)
-                        {
-                            tracker.EventInteract -= OnInteract;
-                            DestroyImmediate(tracker);
-                        }
-                        // OnInteractEvent;
-                        break;
-                }
+            //     switch (trigger.TriggerEventInstance.TriggerType)
+            //     {
+            //         case TriggerTypeEnum.OnInteract:
+            //             tracker = transform.GetOrAddComponent<InteractionItemTracker>();
+            //             tracker.EventInteract += OnInteract;
+            //             break;
+            //         default:
+            //             tracker = GetComponent<InteractionItemTracker>();
+            //             if (tracker != null)
+            //             {
+            //                 tracker.EventInteract -= OnInteract;
+            //                 DestroyImmediate(tracker);
+            //             }
+            //             // OnInteractEvent;
+            //             break;
+            //     }
 
-            }
+            // }
 
-            if (tracker != null)
-            {
-                InteractEvent += OnInteractEvent;
-            }
-            else
-            {
-                InteractEvent -= OnInteractEvent;
-            }
+            // if (tracker != null)
+            // {
+            //     InteractEvent += OnInteractEvent;
+            // }
+            // else
+            // {
+            //     InteractEvent -= OnInteractEvent;
+            // }
 
         }
 
-        public void OnInteractEvent(TriggerEventParams eventParams)
-        {
-            Debug.Log($"OnInteractEvent:{name}");
-            foreach (var trigger in Wrapper.Triggers)
-            {
+        // public void OnInteractEvent(TriggerEventParams eventParams)
+        // {
+        //     Debug.Log($"OnInteractEvent:{name}");
+        //     foreach (var trigger in Wrapper.Triggers)
+        //     {
 
-                switch (trigger.TriggerEventInstance.TriggerType)
-                {
-                    case TriggerTypeEnum.OnInteract:
-                        trigger.TriggerEventInstance.OnInvoke(eventParams);
-                        break;
-                }
+        //         switch (trigger.TriggerEventInstance.TriggerType)
+        //         {
+        //             case TriggerTypeEnum.OnInteract:
+        //                 trigger.TriggerEventInstance.OnInvoke(eventParams);
+        //                 break;
+        //         }
 
-            }
-        }
+        //     }
+        // }
 
-        public void OnInteract(CharacterService character, IInteractive interactive)
-        {
-            if (CheckInteract != null && CheckInteract(null))
-            {
+        // public void OnInteract(CharacterService character, IInteractive interactive)
+        // {
+        //     if (CheckInteract != null && CheckInteract(null))
+        //     {
 
-            }
+        //     }
 
-            Debug.Log($"OnInteract:{name}");
-            if (InteractEvent != null)
-            {
-                InteractEvent.Invoke(null);
-            }
-        }
-
+        //     Debug.Log($"OnInteract:{name}");
+        //     if (InteractEvent != null)
+        //     {
+        //         InteractEvent.Invoke(null);
+        //     }
+        // }
 
 
         private void Update()
         {
-
         }
 
         [Button("SetTransfrom")]
