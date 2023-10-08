@@ -26,8 +26,8 @@ namespace Pangoo.Editor
         {
             m_ShowListMaterals = new List<MaterialEntry>();
             ShaderFilterList = new List<Shader>();
-            RefreshTotal();
-            RefreshShowList();
+            // RefreshTotal();
+            // RefreshShowList();
         }
 
         public string GetHdrpLitPropertyName(MaterialTextureType type)
@@ -125,7 +125,7 @@ namespace Pangoo.Editor
                 var extension = AssetUtility.GetAssetFileExtension(o);
                 return extension.ToLower() != "fbx";
             }).ToList();
-        
+
         }
 
         [SerializeField] Shader BuiltinStrand;
@@ -158,28 +158,31 @@ namespace Pangoo.Editor
 
             var Hdrp_Lit = Shader.Find("Shader Graphs/Hdrp_Lit");
 
-            if(Hdrp_Lit != null &&  !ShaderFilterList.Contains(Hdrp_Lit)){
+            if (Hdrp_Lit != null && !ShaderFilterList.Contains(Hdrp_Lit))
+            {
                 ShaderFilterList.Clear();
                 ShaderFilterList.Add(Hdrp_Lit);
             }
 
             RefreshShowList();
-            foreach(var material in m_ShowListMaterals){
+            foreach (var material in m_ShowListMaterals)
+            {
                 var mt = material.material.GetTexture("_MT") as Texture2D;
                 var ao = material.material.GetTexture("_AO") as Texture2D;
                 var rs = material.material.GetTexture("_R") as Texture2D;
-                
-                var maskTex = BuildTextureTools.BlitHdrpMaskTexture(mt,ao,null,rs,isRoughness:true);
+
+                var maskTex = BuildTextureTools.BlitHdrpMaskTexture(mt, ao, null, rs, isRoughness: true);
                 var path = AssetDatabase.GetAssetPath(material.material);
-                if(path != null && path != string.Empty){
+                if (path != null && path != string.Empty)
+                {
                     var builtPath = $"{Path.GetDirectoryName(path)}\\{Path.GetFileNameWithoutExtension(path)}_Mask.png";
                     Debug.Log($"builtPath：{builtPath}");
-                     File.WriteAllBytes(builtPath,maskTex.EncodeToPNG());//将纹理保存为png格式，也可以是jpg、exr等格式
+                    File.WriteAllBytes(builtPath, maskTex.EncodeToPNG());//将纹理保存为png格式，也可以是jpg、exr等格式
                 }
             }
 
 
- 
+
         }
 
 
@@ -187,7 +190,7 @@ namespace Pangoo.Editor
 
         private IEnumerable GetTotalShaders()
         {
-            return m_TotalListMaterals.Select(o => o.shader);
+            return m_TotalListMaterals?.Select(o => o.shader);
         }
 
         [Serializable]
