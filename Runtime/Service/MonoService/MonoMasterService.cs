@@ -26,7 +26,7 @@ namespace Pangoo.Core.Service
             {
                 return m_GameObject;
             }
-            private set
+            set
             {
                 m_GameObject = value;
             }
@@ -49,6 +49,8 @@ namespace Pangoo.Core.Service
         {
             m_GameObject = gameObject;
         }
+
+        public MonoMasterService() { }
 
     }
 

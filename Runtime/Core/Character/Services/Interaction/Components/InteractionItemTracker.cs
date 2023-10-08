@@ -26,6 +26,10 @@ namespace Pangoo.Core.Character
             {
                 return m_IsInteracting;
             }
+            set
+            {
+                m_IsInteracting = value;
+            }
         }
 
         [NonSerialized] private CharacterService m_Character;

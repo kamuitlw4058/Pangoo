@@ -17,6 +17,15 @@ namespace Pangoo.Service
         ExcelTableService m_ExcelTableService;
 
 
+        public ExcelTableService TableService
+        {
+            get
+            {
+                return m_ExcelTableService;
+            }
+        }
+
+
         EntityGroupTable m_EntityGroupTable;
 
         EntityGroupTable.EntityGroupRow m_EntityGroupRow;

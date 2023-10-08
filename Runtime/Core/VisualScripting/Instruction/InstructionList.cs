@@ -5,17 +5,22 @@ using UnityEngine;
 using Pangoo.Core.Common;
 using Sirenix.Utilities;
 using System.Linq;
+using Sirenix.OdinInspector;
 
 namespace Pangoo.Core.VisualScripting
 {
 
+    [Serializable]
     public class InstructionList : TPolymorphicList<Instruction>
     {
+
+        Args LastestArgs { get; set; }
 
         private Instruction[] m_Instructions = Array.Empty<Instruction>();
 
         bool m_IsStopped = false;
 
+        [ShowInInspector]
         public bool IsRunning { get; private set; }
         public bool IsStopped
         {
@@ -39,10 +44,10 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
-        public bool IsFinished { get; private set; }
 
         public int FinishedCount { get; private set; }
 
+        [ShowInInspector]
         public int RunningIndex { get; private set; }
         public int LastestRunningIndex { get; private set; }
 
@@ -62,7 +67,6 @@ namespace Pangoo.Core.VisualScripting
         {
             this.IsRunning = false;
             this.m_IsStopped = false;
-            this.IsFinished = false;
             FinishedCount = 0;
         }
 
@@ -72,15 +76,15 @@ namespace Pangoo.Core.VisualScripting
         }
 
 
-        public void Start(Args args, int fromIndex = 0)
+        public bool Start(Args args, int fromIndex = 0)
         {
-
             this.IsRunning = true;
             this.IsStopped = false;
             this.RunningIndex = Math.Max(0, fromIndex);
             this.LastestRunningIndex = -1;
 
             this.EventStartRunning?.Invoke();
+            LastestArgs = args;
 
             var hasCoroutine = false;
             for (int i = 0; i < this.m_Instructions.Length; i++)
@@ -89,19 +93,18 @@ namespace Pangoo.Core.VisualScripting
                 switch (instruction.InstructionType)
                 {
                     case InstructionType.Immediate:
-                        if (hasCoroutine)
-                        {
-                            Debug.LogError($"Immediate Instruction Is After Coroutine!!! Please Check InstructionList Config!");
-                            this.IsStopped = true;
-                            Finish();
-                            return;
-                        }
                         this.m_Instructions[i].RunImmediate(args);
                         break;
                     case InstructionType.Coroutine:
                         hasCoroutine = true;
+                        this.RunningIndex = i;
                         this.m_Instructions[i].Schedule(args);
                         break;
+                }
+
+                if (hasCoroutine)
+                {
+                    break;
                 }
 
             }
@@ -110,17 +113,16 @@ namespace Pangoo.Core.VisualScripting
             {
                 Finish();
             }
+
+            return !IsRunning;
         }
 
         public void Finish()
         {
             this.IsRunning = false;
-            this.EventEndRunning?.Invoke();
-            this.IsFinished = true;
             this.FinishedCount += 1;
+            this.EventEndRunning?.Invoke();
         }
-
-
 
         public void OnUpdate()
         {
@@ -146,9 +148,8 @@ namespace Pangoo.Core.VisualScripting
         //运行Coroutin.
         public bool RunInstruction()
         {
-            while ((this.m_Instructions[this.RunningIndex] == null
-                || this.m_Instructions[RunningIndex].InstructionType == InstructionType.Immediate
-                 && this.RunningIndex < this.m_Instructions.Length))
+            while (this.m_Instructions[this.RunningIndex] == null
+                 && this.RunningIndex < this.m_Instructions.Length)
             {
                 this.RunningIndex += 1;
             }
@@ -159,24 +160,41 @@ namespace Pangoo.Core.VisualScripting
                 Finish();
                 return false;
             }
-
+            Instruction instruction = this.m_Instructions[this.RunningIndex];
             if (this.LastestRunningIndex != RunningIndex)
             {
+                this.LastestRunningIndex = RunningIndex;
                 EventRunInstruction?.Invoke(this.RunningIndex);
+                if (instruction.InstructionType == InstructionType.Coroutine)
+                {
+                    instruction.Schedule(LastestArgs);
+                }
             }
 
-            Instruction instruction = this.m_Instructions[this.RunningIndex];
-            bool instructionFinished = !instruction.MoveNext();
-            this.LastestRunningIndex = this.RunningIndex;
-            InstructionResult result = instruction.Result;
+            bool waitNextFrame = false;
 
+
+            switch (instruction.InstructionType)
+            {
+                case InstructionType.Immediate:
+                    instruction.RunImmediate(LastestArgs);
+                    break;
+                case InstructionType.Coroutine:
+                    waitNextFrame = instruction.MoveNext();
+                    break;
+                default:
+                    Debug.LogError($"Unknonw InstructionType:{instruction.InstructionType}");
+                    break;
+            }
+
+            InstructionResult result = instruction.Result;
             if (result.DontContinue)
             {
                 Finish();
                 return false;
             }
 
-            if (!instructionFinished)
+            if (waitNextFrame)
             {
                 return false;
             }
@@ -189,8 +207,6 @@ namespace Pangoo.Core.VisualScripting
             }
 
             return true;
-
-
         }
 
         public void Cancel()

@@ -62,16 +62,14 @@ namespace Pangoo
             OnValueChanged();
         }
 
+
+
         void Start()
         {
             DoService = new DynamicObjectService(gameObject);
-            Debug.Log($"Row1:{Row}");
-            Row = GameSupportEditorUtility.GetDynamicObjectRow(m_DynamicObjectId);
             DoService.Row = Row;
-            Debug.Log($"Row2:{Row}");
             DoService.Awake();
             DoService.Start();
-            Debug.Log($"Row2:{DoService.TriggerEvents.Count}");
         }
 
         // public Func<TriggerEventParams, bool> CheckInteract;
@@ -80,7 +78,9 @@ namespace Pangoo
 
         [ShowInInspector]
         [field: NonSerialized]
-        public DynamicObjectService DoService { get; set; }
+        [LabelText("动态物体")]
+        [HideReferenceObjectPicker]
+        public DynamicObjectService DoService { get; private set; }
 
 
 
@@ -102,75 +102,14 @@ namespace Pangoo
             transform.localPosition = Row.Position;
             transform.localRotation = Quaternion.Euler(Row.Rotation);
             Debug.Log($"Set Wrapper.{Row.Position}");
-            // InteractionItemTracker tracker = null;
 
-            // foreach (var trigger in Wrapper.Triggers)
-            // {
-
-
-            //     switch (trigger.TriggerEventInstance.TriggerType)
-            //     {
-            //         case TriggerTypeEnum.OnInteract:
-            //             tracker = transform.GetOrAddComponent<InteractionItemTracker>();
-            //             tracker.EventInteract += OnInteract;
-            //             break;
-            //         default:
-            //             tracker = GetComponent<InteractionItemTracker>();
-            //             if (tracker != null)
-            //             {
-            //                 tracker.EventInteract -= OnInteract;
-            //                 DestroyImmediate(tracker);
-            //             }
-            //             // OnInteractEvent;
-            //             break;
-            //     }
-
-            // }
-
-            // if (tracker != null)
-            // {
-            //     InteractEvent += OnInteractEvent;
-            // }
-            // else
-            // {
-            //     InteractEvent -= OnInteractEvent;
-            // }
 
         }
-
-        // public void OnInteractEvent(TriggerEventParams eventParams)
-        // {
-        //     Debug.Log($"OnInteractEvent:{name}");
-        //     foreach (var trigger in Wrapper.Triggers)
-        //     {
-
-        //         switch (trigger.TriggerEventInstance.TriggerType)
-        //         {
-        //             case TriggerTypeEnum.OnInteract:
-        //                 trigger.TriggerEventInstance.OnInvoke(eventParams);
-        //                 break;
-        //         }
-
-        //     }
-        // }
-
-        // public void OnInteract(CharacterService character, IInteractive interactive)
-        // {
-        //     if (CheckInteract != null && CheckInteract(null))
-        //     {
-
-        //     }
-
-        //     Debug.Log($"OnInteract:{name}");
-        //     if (InteractEvent != null)
-        //     {
-        //         InteractEvent.Invoke(null);
-        //     }
-        // }
 
 
         private void Update()
         {
+            DoService?.Update();
         }
 
         [Button("SetTransfrom")]
@@ -182,10 +121,6 @@ namespace Pangoo
 
         }
 
-        public void Run()
-        {
-
-        }
 
     }
 

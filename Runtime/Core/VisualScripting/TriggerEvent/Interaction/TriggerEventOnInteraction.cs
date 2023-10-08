@@ -12,11 +12,6 @@ namespace Pangoo.Core.VisualScripting
     {
         public override TriggerTypeEnum TriggerType => TriggerTypeEnum.OnInteract;
 
-        public override void OnInvoke(TriggerEventParams eventParams)
-        {
-            base.OnInvoke(eventParams);
-            Debug.Log($"In Event Invoke!.Row:{Row}");
-            Instructions.Start(new Args(Row));
-        }
+
     }
 }

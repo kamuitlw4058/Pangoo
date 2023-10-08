@@ -86,7 +86,7 @@ namespace Pangoo
             }
             m_TriggerEventInstance.Row = Row;
             m_TriggerEventInstance.LoadParamsFromJson(Row.Params);
-            m_TriggerEventInstance.Instructions = GetInstructionList();
+            m_TriggerEventInstance.RunInstructions = GetInstructionList();
         }
 
         public IEnumerable GetTriggerEvent()

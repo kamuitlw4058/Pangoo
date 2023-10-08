@@ -32,6 +32,7 @@ namespace Pangoo.Core.VisualScripting
 
         public void Add(IEnumerator enumerator)
         {
+            if (enumerator == null) return;
             stack.Push(enumerator);
         }
 
@@ -77,12 +78,15 @@ namespace Pangoo.Core.VisualScripting
                 }
 
                 IEnumerator enumerator = stack.Peek();
+                // Debug.Log($"Current Before move IEnumerator:{enumerator.Current} :{stack.Count}");
                 if (enumerator.MoveNext())
                 {
                     if (enumerator.Current is IEnumerator)
                     {
                         // 如果是嵌套的迭代器，那么就入栈，依次进行迭代
+
                         Add((IEnumerator)enumerator.Current);// 开启嵌套的协程
+                        // Debug.Log($"Add New IEnumerator:{enumerator.Current} :{stack.Count}");
                     }
                     // 其他类型的都等下一帧再次进行迭代
                     return true;
@@ -94,10 +98,24 @@ namespace Pangoo.Core.VisualScripting
             return false; // 当迭代完所有的迭代器后则认为结束，不能再移动到下一步
         }
 
+        protected IEnumerator WaitTime(float duration, TimeMode time)
+        {
+            float startTime = time.Time;
+            // Debug.Log($"Before While:{startTime}");
+            while (!this.IsCanceled && time.Time < (startTime + duration))
+            {
+                // Debug.Log($"On While:{IsCanceled} time:{time.Time} :{(startTime + duration)}");
+                yield return null;
+            }
+            // Debug.Log($"End While:{startTime}");
+        }
+
+
+
         /// <summary>
         /// Suspends the execution until the supplied delegate evaluates to false.
         /// </summary>
-        protected IEnumerable While(Func<bool> function)
+        protected IEnumerator While(Func<bool> function)
         {
             while (function.Invoke()) yield return null;
         }
@@ -105,7 +123,7 @@ namespace Pangoo.Core.VisualScripting
         /// <summary>
         /// Suspends the execution until the supplied delegate evaluates to true.
         /// </summary>
-        protected IEnumerable Until(Func<bool> function)
+        protected IEnumerator Until(Func<bool> function)
         {
             while (!function.Invoke()) yield return null;
         }

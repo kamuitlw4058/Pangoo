@@ -6,18 +6,20 @@ using Pangoo.Core.Service;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Pangoo.Core.Character;
+using GameFramework;
+using UnityEngine.Rendering;
 
 
 namespace Pangoo.Core.VisualScripting
 {
 
     [Serializable]
-    public partial class DynamicObjectService : MonoMasterService
+    public partial class DynamicObjectService : MonoMasterService, IReference
     {
         [ShowInInspector]
         public DynamicObjectTable.DynamicObjectRow Row { get; set; }
 
-        public List<TriggerEventTable.TriggerEventRow> TriggerEventRows = new();
+        List<TriggerEventTable.TriggerEventRow> TriggerEventRows = new();
 
         public ExcelTableService TableService { get; set; }
 
@@ -31,40 +33,98 @@ namespace Pangoo.Core.VisualScripting
         public InteractionItemTracker m_Tracker = null;
 
 
-        public Func<TriggerEventParams, bool> CheckInteract;
+        public Action<Args> InteractEvent;
 
-        public Action<TriggerEventParams> InteractEvent;
-
-
-
-        public DynamicObjectService(GameObject gameObject) : base(gameObject)
+        public bool IsRunningTriggers
         {
+            get
+            {
+                foreach (var triggerEvent in TriggerEvents)
+                {
+                    if (triggerEvent.IsRunning)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        public DynamicObjectService() : base() { }
+        public DynamicObjectService(GameObject go) : base(go)
+        {
+        }
+
+        public static DynamicObjectService Create(GameObject go)
+        {
+            var val = ReferencePool.Acquire<DynamicObjectService>();
+            val.gameObject = go;
+            return val;
+        }
+
+        public void Clear()
+        {
+            Row = null;
+            TableService = null;
+            m_TriggerEventTable = null;
+            m_InstructionTable = null;
+            TriggerEventRows.Clear();
+            TriggerEvents.Clear();
+            m_Tracker = null;
+        }
+
+        public TriggerEventTable.TriggerEventRow GetTriggerEventRow(int id)
+        {
+            TriggerEventTable.TriggerEventRow row = null;
+#if UNITY_EDITOR
+            if (Application.isPlaying && m_TriggerEventTable != null)
+            {
+                Debug.Log($"GetRowByTriggerEventTable");
+                row = m_TriggerEventTable.GetRowById(id);
+            }
+            else
+            {
+                row = GameSupportEditorUtility.GetTriggerEventRowById(id);
+            }
+#else
+            row = m_TriggerEventTable.GetRowById(id);
+#endif
+            return row;
+        }
+
+        public InstructionTable.InstructionRow GetInstructionRow(int id)
+        {
+            InstructionTable.InstructionRow instructionRow = null;
+
+#if UNITY_EDITOR
+            if (Application.isPlaying && m_InstructionTable != null)
+            {
+                Debug.Log($"GetRowByInstructionTable");
+                instructionRow = m_InstructionTable.GetRowById(id);
+            }
+            else
+            {
+                instructionRow = GameSupportEditorUtility.GetExcelTableRowWithOverviewById<InstructionTableOverview, InstructionTable.InstructionRow>(id);
+            }
+
+#else
+            instructionRow = m_InstructionTable.GetRowById(id);
+#endif
+            return instructionRow;
         }
 
 
         public override void DoAwake()
         {
             var triggerIds = Row.GetTriggerEventIdList();
-#if !UNITY_EDITOR
-             m_TriggerEventTable = TableService.GetExcelTable<TriggerEventTable>();
-             m_InstructionTable = TableService.GetExcelTable<InstructionTable>();
-             
-#endif
-            Debug.Log($"Init");
+            m_TriggerEventTable = TableService?.GetExcelTable<TriggerEventTable>();
+            m_InstructionTable = TableService?.GetExcelTable<InstructionTable>();
+
             TriggerEventRows.Clear();
             foreach (var triggerId in triggerIds)
             {
                 Debug.Log($"Create TriggerId:{triggerId}");
-                // var wrapper = new TriggerDetailWrapper();
-                // wrapper.Id = trigger;
-                // var overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<TriggerEventTableOverview>(trigger);
-                TriggerEventTable.TriggerEventRow row = null;
-#if UNITY_EDITOR
-                row = GameSupportEditorUtility.GetTriggerEventRowById(triggerId);
-#else
-                row = m_TriggerEventTable.GetRowById(triggerId);
-
-#endif
+                TriggerEventTable.TriggerEventRow row = GetTriggerEventRow(triggerId);
 
                 if (row != null)
                 {
@@ -82,11 +142,20 @@ namespace Pangoo.Core.VisualScripting
                 }
                 triggerInstance.Row = triggerRow;
                 triggerInstance.LoadParamsFromJson(triggerRow.Params);
-                triggerInstance.Instructions = GetInstructionList(triggerRow.GetInstructionList());
+                triggerInstance.RunInstructions = GetInstructionList(triggerRow.GetInstructionList());
                 TriggerEvents.Add(triggerInstance);
             }
 
             UpdateTracker();
+        }
+
+        public override void DoUpdate()
+        {
+            base.DoUpdate();
+            foreach (var trigger in TriggerEvents)
+            {
+                trigger.OnUpdate();
+            }
         }
 
         public void UpdateTracker()
@@ -113,12 +182,11 @@ namespace Pangoo.Core.VisualScripting
 
 
 
-        public void OnInteractEvent(TriggerEventParams eventParams)
+        void OnInteractEvent(Args eventParams)
         {
             Debug.Log($"OnInteractEvent:{gameObject.name}");
             foreach (var trigger in TriggerEvents)
             {
-
                 switch (trigger.TriggerType)
                 {
                     case TriggerTypeEnum.OnInteract:
@@ -128,12 +196,12 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
-        public void OnInteract(CharacterService character, IInteractive interactive)
+        void OnInteract(CharacterService character, IInteractive interactive)
         {
-            if (CheckInteract != null && CheckInteract(null))
-            {
+            // if (CheckInteract != null && CheckInteract(null))
+            // {
 
-            }
+            // }
 
             Debug.Log($"OnInteract:{gameObject.name}");
             if (InteractEvent != null)
@@ -156,20 +224,13 @@ namespace Pangoo.Core.VisualScripting
 
 
 
-        public InstructionList GetInstructionList(List<int> ids)
+        InstructionList GetInstructionList(List<int> ids)
         {
             List<Instruction> instructions = new();
 
-
             foreach (var instructionId in ids)
             {
-                InstructionTable.InstructionRow instructionRow = null;
-
-#if UNITY_EDITOR
-                instructionRow = GameSupportEditorUtility.GetExcelTableRowWithOverviewById<InstructionTableOverview, InstructionTable.InstructionRow>(instructionId);
-#else
-                instructionRow = m_InstructionTable.GetRowById(instructionId);
-#endif
+                InstructionTable.InstructionRow instructionRow = GetInstructionRow(instructionId);
                 if (instructionRow == null || instructionRow.InstructionType == null)
                 {
                     continue;

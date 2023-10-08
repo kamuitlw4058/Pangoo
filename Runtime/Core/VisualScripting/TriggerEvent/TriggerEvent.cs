@@ -13,7 +13,22 @@ namespace Pangoo.Core.VisualScripting
     {
         public TriggerEventTable.TriggerEventRow Row { get; set; }
 
-        public InstructionList Instructions { get; set; }
+        [ShowInInspector]
+        public InstructionList RunInstructions { get; set; }
+
+        [ShowInInspector]
+        public InstructionList FailInstructions { get; set; }
+
+        public bool IsRuningRunInstructions { get; private set; }
+        public bool IsRuningFailInstructions { get; private set; }
+
+        public bool IsRunning
+        {
+            get
+            {
+                return IsRuningRunInstructions || IsRuningFailInstructions;
+            }
+        }
 
         [ShowInInspector]
         [LabelText("触发点类型")]
@@ -23,12 +38,31 @@ namespace Pangoo.Core.VisualScripting
         {
 
         }
-        public virtual void OnEnable() { }
-        public virtual void OnDisable() { }
+        // public virtual void OnEnable() { }
+        // public virtual void OnDisable() { }
 
-        public virtual void OnInvoke(TriggerEventParams eventParams)
+        public virtual bool CheckCondition(Args args)
+        {
+            return true;
+        }
+
+        public virtual void OnInvoke(Args args)
+        {
+            IsRuningRunInstructions = RunInstructions.Start(args);
+        }
+
+        public virtual void OnFailedInvoke(Args args)
+        {
+            IsRuningFailInstructions = FailInstructions.Start(args);
+        }
+
+        public virtual void OnUpdate()
         {
 
+            RunInstructions?.OnUpdate();
+            FailInstructions?.OnUpdate();
+            IsRuningRunInstructions = RunInstructions?.IsRunning ?? false;
+            IsRuningFailInstructions = FailInstructions?.IsRunning ?? false;
         }
 
         public virtual void LoadParamsFromJson(string val) { }
@@ -40,9 +74,9 @@ namespace Pangoo.Core.VisualScripting
         [Button("立即运行指令列表")]
         public void Run()
         {
-            if (Instructions != null)
+            if (RunInstructions != null)
             {
-                Instructions.Start(new Args(null));
+                RunInstructions.Start(new Args(null));
             }
         }
     }

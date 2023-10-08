@@ -24,3 +24,7 @@ MonoBehaviour:
       Name: "\u6253\u5370\u4FE1\u606F\u6D4B\u8BD52"
       InstructionType: Pangoo.Core.VisualScripting.InstructionCommonDebugText
       Params: '{"Message":"adfa","ShowTrigger":false}'
+    - Id: 3
+      Name: "\u6301\u7EED\u6253\u5370\u4FE1\u606F"
+      InstructionType: Pangoo.Core.VisualScripting.InstructionCommonContinuousDebugText
+      Params: '{"SecoundCount":3,"Message":"tttt","ShowTrigger":false}'
