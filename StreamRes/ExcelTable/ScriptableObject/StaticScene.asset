@@ -58,3 +58,9 @@ MonoBehaviour:
       AssetPathId: 20001
       EntityGroupId: 1
       LoadSceneIds: 
+    - Id: 7
+      Name: "2\u697CGlobalVolume"
+      NameCn: 
+      AssetPathId: 200007
+      EntityGroupId: 0
+      LoadSceneIds: 

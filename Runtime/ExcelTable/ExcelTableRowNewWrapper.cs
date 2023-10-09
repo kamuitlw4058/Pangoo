@@ -68,18 +68,12 @@ namespace Pangoo
         {
             get
             {
-                if (m_Row == null)
-                {
-                    m_Row = new TRow();
-                }
+
                 return m_Row.Id;
             }
             set
             {
-                if (m_Row == null)
-                {
-                    m_Row = new TRow();
-                }
+
                 m_Row.Id = value;
             }
         }
@@ -94,18 +88,12 @@ namespace Pangoo
         {
             get
             {
-                if (m_Row == null)
-                {
-                    m_Row = new TRow();
-                }
+
                 return m_Row.Name;
             }
             set
             {
-                if (m_Row == null)
-                {
-                    m_Row = new TRow();
-                }
+
                 m_Row.Name = value;
             }
         }

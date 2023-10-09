@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Pangoo;
+using Pangoo.Core.VisualScripting;
 
 namespace Pangoo.Core.Common
 {
@@ -16,36 +17,35 @@ namespace Pangoo.Core.Common
         [field: NonSerialized] public GameObject Self { get; private set; }
         [field: NonSerialized] public GameObject Target { get; private set; }
 
-        [field: NonSerialized] public TriggerEventTable.TriggerEventRow TriggerRow { get; private set; }
+        [field: NonSerialized] public DynamicObjectService TriggerObject { get; private set; }
 
-        public Args Clone => new Args(TriggerRow, this.Self, this.Target);
+        public Args Clone => new Args(TriggerObject, this.Self, this.Target);
 
 
-
-        private Args()
+        public Args()
         {
             this.selfComponents = new Dictionary<int, Component>();
             this.targetComponents = new Dictionary<int, Component>();
         }
-        public Args(TriggerEventTable.TriggerEventRow row) : this(row, null as GameObject, null as GameObject)
+        public Args(DynamicObjectService triggerObject) : this(triggerObject, null as GameObject, null as GameObject)
         { }
 
-        public Args(TriggerEventTable.TriggerEventRow row, Component target) : this(row, target, target)
+        public Args(DynamicObjectService triggerObject, Component target) : this(triggerObject, target, target)
         { }
 
-        public Args(TriggerEventTable.TriggerEventRow row, GameObject target) : this(row, target, target)
+        public Args(DynamicObjectService triggerObject, GameObject target) : this(triggerObject, target, target)
         { }
 
-        public Args(TriggerEventTable.TriggerEventRow row, Component self, Component target) : this()
+        public Args(DynamicObjectService triggerObject, Component self, Component target) : this()
         {
-            TriggerRow = row;
+            TriggerObject = triggerObject;
             this.Self = self == null ? null : self.gameObject;
             this.Target = target == null ? null : target.gameObject;
         }
 
-        public Args(TriggerEventTable.TriggerEventRow row, GameObject self, GameObject target) : this()
+        public Args(DynamicObjectService triggerObject, GameObject self, GameObject target) : this()
         {
-            TriggerRow = row;
+            TriggerObject = triggerObject;
             this.Self = self;
             this.Target = target;
         }

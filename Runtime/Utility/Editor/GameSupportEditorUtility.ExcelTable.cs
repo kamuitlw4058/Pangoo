@@ -15,6 +15,22 @@ namespace Pangoo
     public static partial class GameSupportEditorUtility
     {
 #if UNITY_EDITOR
+
+        public static bool GetExcelTableNameInPangoo(string name)
+        {
+            var types = Utility.Assembly.GetTypes(typeof(ExcelTableBase));
+            foreach (var type in types)
+            {
+                if (type.FullName == $"Pangoo.{name}Table")
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
         public static IEnumerable GetExcelTableOverview<T>() where T : ExcelTableOverview
         {
             var ret = new ValueDropdownList<T>();

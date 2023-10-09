@@ -77,7 +77,7 @@ namespace Pangoo.Core.Character
 
         bool IInteractive.IsInteracting => this.m_IsInteracting;
 
-        void IInteractive.Interact(CharacterService character)
+        public void Interact(CharacterService character)
         {
             Debug.Log($"Enter Interacting.Name:{name} this.m_IsInteracting:{this.m_IsInteracting}");
 
@@ -90,7 +90,7 @@ namespace Pangoo.Core.Character
             this.EventInteract?.Invoke(character, this);
         }
 
-        void IInteractive.Stop()
+        public void Stop()
         {
             if (!this.m_IsInteracting) return;
 
@@ -100,7 +100,14 @@ namespace Pangoo.Core.Character
 
         void OnDrawGizmos()
         {
-            Gizmos.color = Color.red;
+            if (this.m_IsInteracting)
+            {
+                Gizmos.color = Color.red;
+            }
+            else
+            {
+                Gizmos.color = Color.green;
+            }
             Gizmos.DrawSphere(transform.position, 0.1f);
         }
     }

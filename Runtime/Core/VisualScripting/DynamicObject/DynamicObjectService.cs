@@ -16,6 +16,8 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public partial class DynamicObjectService : MonoMasterService, IReference
     {
+        Args CurrentArgs;
+
         [ShowInInspector]
         public DynamicObjectTable.DynamicObjectRow Row { get; set; }
 
@@ -31,6 +33,10 @@ namespace Pangoo.Core.VisualScripting
 
 
         public InteractionItemTracker m_Tracker = null;
+
+        public Action<Args> TriggerEnter3dEvent;
+
+        public Action<Args> TriggerExit3dEvent;
 
 
         public Action<Args> InteractEvent;
@@ -116,6 +122,7 @@ namespace Pangoo.Core.VisualScripting
 
         public override void DoAwake()
         {
+            CurrentArgs = new Args(this);
             var triggerIds = Row.GetTriggerEventIdList();
             m_TriggerEventTable = TableService?.GetExcelTable<TriggerEventTable>();
             m_InstructionTable = TableService?.GetExcelTable<InstructionTable>();
@@ -143,10 +150,38 @@ namespace Pangoo.Core.VisualScripting
                 triggerInstance.Row = triggerRow;
                 triggerInstance.LoadParamsFromJson(triggerRow.Params);
                 triggerInstance.RunInstructions = GetInstructionList(triggerRow.GetInstructionList());
+
+                switch (triggerInstance.TriggerType)
+                {
+                    case TriggerTypeEnum.OnInteract:
+                        m_Tracker = CachedTransfrom.GetOrAddComponent<InteractionItemTracker>();
+                        m_Tracker.EventInteract += OnInteract;
+                        triggerInstance.EventRunInstructionsEnd -= OnInteractEnd;
+                        triggerInstance.EventRunInstructionsEnd += OnInteractEnd;
+                        break;
+                    case TriggerTypeEnum.OnTriggerEnter3D:
+                        if (TriggerEnter3dEvent == null)
+                        {
+                            TriggerEnter3dEvent += OnTriggerEnter3dEvent;
+                        }
+                        break;
+                    case TriggerTypeEnum.OnTriggerExit3D:
+                        if (TriggerExit3dEvent == null)
+                        {
+                            TriggerExit3dEvent += OnTriggerExit3dEvent;
+                        }
+                        break;
+
+                }
+
                 TriggerEvents.Add(triggerInstance);
             }
 
-            UpdateTracker();
+            if (m_Tracker != null)
+            {
+                InteractEvent += OnInteractEvent;
+            }
+
         }
 
         public override void DoUpdate()
@@ -158,43 +193,7 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
-        public void UpdateTracker()
-        {
 
-            foreach (var trigger in TriggerEvents)
-            {
-
-                switch (trigger.TriggerType)
-                {
-                    case TriggerTypeEnum.OnInteract:
-                        m_Tracker = CachedTransfrom.GetOrAddComponent<InteractionItemTracker>();
-                        m_Tracker.EventInteract += OnInteract;
-                        break;
-                }
-
-            }
-
-            if (m_Tracker != null)
-            {
-                InteractEvent += OnInteractEvent;
-            }
-        }
-
-
-
-        void OnInteractEvent(Args eventParams)
-        {
-            Debug.Log($"OnInteractEvent:{gameObject.name}");
-            foreach (var trigger in TriggerEvents)
-            {
-                switch (trigger.TriggerType)
-                {
-                    case TriggerTypeEnum.OnInteract:
-                        trigger.OnInvoke(eventParams);
-                        break;
-                }
-            }
-        }
 
         void OnInteract(CharacterService character, IInteractive interactive)
         {
@@ -206,9 +205,15 @@ namespace Pangoo.Core.VisualScripting
             Debug.Log($"OnInteract:{gameObject.name}");
             if (InteractEvent != null)
             {
-                InteractEvent.Invoke(null);
+                InteractEvent.Invoke(CurrentArgs);
             }
         }
+
+        void OnInteractEnd()
+        {
+            m_Tracker?.Stop();
+        }
+
 
 
         public override void DoDestroy()
@@ -219,6 +224,16 @@ namespace Pangoo.Core.VisualScripting
                 m_Tracker.EventInteract -= OnInteract;
                 InteractEvent -= OnInteractEvent;
             }
+        }
+
+        public void TriggerEnter3d(Collider collider)
+        {
+            TriggerEnter3dEvent?.Invoke(CurrentArgs);
+        }
+
+        public void TriggerExit3d(Collider collider)
+        {
+            TriggerExit3dEvent?.Invoke(CurrentArgs);
         }
 
 

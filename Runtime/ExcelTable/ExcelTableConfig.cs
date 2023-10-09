@@ -22,7 +22,7 @@ namespace Pangoo
     public class ExcelTableConfig : GameConfigBase
     {
         const string ModuleName = "ExcelTable";
-        
+
 
         public PackageConfig PackConfig;
         [ShowInInspector]
@@ -57,9 +57,9 @@ namespace Pangoo
         public ExcelDirInfo DirInfo = null;
 
         [TableList]
-         public List<ExcelEntry> ExcelList = new List<ExcelEntry>();
-         
-        
+        public List<ExcelEntry> ExcelList = new List<ExcelEntry>();
+
+
         [FormerlySerializedAs("Headers")]
         public List<string> UsingNamespace = new List<string>()
         {
@@ -90,7 +90,7 @@ namespace Pangoo
             InitDir(PackConfig, ref DirInfo);
 
         }
-        
+
         void InitDir(PackageConfig config, ref ExcelDirInfo entry)
         {
             var scriptDir = Path.Join(config.PackageDir, config.ScriptsMainDir, ModuleName).Replace("\\", "/");
@@ -98,7 +98,7 @@ namespace Pangoo
             var scriptCustomDir = Path.Join(scriptDir, "Custom").Replace("\\", "/");
             var scriptOverviewDir = Path.Join(scriptDir, "Overview").Replace("\\", "/");
             var streamResDir = Path.Join(config.PackageDir, config.StreamResDir, ModuleName).Replace("\\", "/");
-            var moduleRelativeDir = Path.Join( config.StreamResDir, ModuleName).Replace("\\", "/");
+            var moduleRelativeDir = Path.Join(config.StreamResDir, ModuleName).Replace("\\", "/");
             var jsonRelativeDir = Path.Join(moduleRelativeDir, "Json").Replace("\\", "/");
             var jsonDir = Path.Join(streamResDir, "Json").Replace("\\", "/");
             var excelDir = Path.Join(streamResDir, "Excel").Replace("\\", "/");
@@ -128,7 +128,7 @@ namespace Pangoo
             entry.ScriptableObjectDir = scriptableObjectDir;
 
         }
-        
+
         [Button("刷新Excel列表", 30)]
         void Refresh()
         {
@@ -150,10 +150,19 @@ namespace Pangoo
                 {
                     if (ExcelList.Find(o => o.ExcelName == fileName) == null)
                     {
+                        var namesapce = string.Empty;
+                        var IsPangooTable = false;
+                        if (GameSupportEditorUtility.GetExcelTableNameInPangoo(fileName))
+                        {
+                            namesapce = "Pangoo";
+                            IsPangooTable = true;
+                        }
+
                         ExcelList.Add(new ExcelEntry()
                         {
                             ExcelName = fileName,
-                            BaseNamespace = string.Empty,
+                            BaseNamespace = namesapce,
+                            IsPangooTable = IsPangooTable,
                         });
                     }
 
@@ -175,21 +184,21 @@ namespace Pangoo
                     Debug.Log($"entry :{entry.ExcelName} skip");
                     continue;
                 }
-                
+
                 var excelFilePath = Path.Join(DirInfo.ExcelDir, $"{entry.ExcelName}.xlsx").Replace("\\", "/");
                 Debug.Log($"Start Build:{excelFilePath}");
-                
+
                 var classBaseName = JsonClassGenerator.ToTitleCase($"{entry.ExcelName}");
                 var className = JsonClassGenerator.ToTitleCase($"{entry.ExcelName}Table");
                 ExcelTableData ExcelData = ExcelTableData.ParserEPPlus(excelFilePath, classBaseName);
 
-                GeneratorCode(ExcelData,className,entry.Named);
+                GeneratorCode(ExcelData, className, entry.Named);
             }
             AssetDatabase.Refresh();
         }
-        
+
         [FoldoutGroup("生成文件或SO")]
-        [Button("Excel生成SO",30)]
+        [Button("Excel生成SO", 30)]
         public void ExcelBuildOverviewSo()
         {
             InitDirInfo();
@@ -203,7 +212,9 @@ namespace Pangoo
                 if (File.Exists(path))
                 {
                     so = AssetDatabaseUtility.LoadAssetAtPath<ExcelTableOverview>(path);
-                }else{
+                }
+                else
+                {
                     so = ScriptableObject.CreateInstance($"{classNamesapce}.{className}Overview") as ExcelTableOverview;
                     AssetDatabase.CreateAsset(so, path);
                 }
@@ -215,9 +226,9 @@ namespace Pangoo
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }
-        
+
         [FoldoutGroup("生成文件或SO")]
-        [Button("生成Excel文件",30)]
+        [Button("生成Excel文件", 30)]
         public void BuildExcelFile()
         {
             foreach (ExcelTableOverview excelTableOverviewSo in AssetDatabaseUtility.FindAsset<ExcelTableOverview>(PackConfig.PackageDir))
@@ -225,9 +236,9 @@ namespace Pangoo
                 excelTableOverviewSo.BuildExcelFile();
             }
         }
-        
+
         [FoldoutGroup("打开或定位文件夹")]
-        [Button("打开Excel文件夹",30)]
+        [Button("打开Excel文件夹", 30)]
         public void OpenExcelFileDir()
         {
             var filePath = DirInfo.ExcelDir;
@@ -235,26 +246,26 @@ namespace Pangoo
             System.Diagnostics.Process.Start("explorer.exe", Path.GetFullPath(filePath));
         }
         [FoldoutGroup("打开或定位文件夹")]
-        [Button("定位SO文件夹",30)]
+        [Button("定位SO文件夹", 30)]
         public void OpenSODir()
         {
             var filePath = DirInfo.ScriptableObjectDir;
             UnityEngine.Object obj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(filePath);
             Selection.activeObject = obj;
         }
-        
+
         /// <summary>
         /// 根据ExcelData数据生成代码
         /// </summary>
         /// <param name="ExcelData">传入的数据</param>
         /// <param name="className">生成的脚本名</param>
-        public void GeneratorCode(ExcelTableData ExcelData,string className,bool named)
+        public void GeneratorCode(ExcelTableData ExcelData, string className, bool named)
         {
             var codeJson = DataTableCodeGenerator.BuildTableCodeJson(ExcelData);
             if (codeJson != null)
             {
                 var codePath = Path.Join(DirInfo.ScriptGenerateDir, $"{className}.cs");
-                JsonClassGenerator.GeneratorCodeString(codeJson, Namespace, new CSharpCodeWriter(UsingNamespace, ExcelData,named), className, codePath);
+                JsonClassGenerator.GeneratorCodeString(codeJson, Namespace, new CSharpCodeWriter(UsingNamespace, ExcelData, named), className, codePath);
                 // AssetDatabase.ImportAsset(codePath);
 
                 var codeCustomPath = Path.Join(DirInfo.ScriptCustomDir, $"{className}.Custom.cs");
@@ -307,15 +318,19 @@ namespace Pangoo
     {
         [TableTitleGroup("操作")]
         [HideLabel]
-        [TableColumnWidth(60,resizable:false)]
+        [TableColumnWidth(60, resizable: false)]
         public bool Build = true;
+
+        [HideInTables]
+        public bool IsPangooTable;
 
         public string ExcelName;
 
         [ValueDropdown("GetNamespaces")]
+        [EnableIf("@!this.IsPangooTable")]
         public string BaseNamespace;
 
-        [TableColumnWidth(60,resizable:false)]
+        [TableColumnWidth(60, resizable: false)]
         public bool Named = false;
 
 #if UNITY_EDITOR
@@ -327,7 +342,7 @@ namespace Pangoo
 
 #endif
     }
-    
+
     [Serializable]
     public class CSVEntry
     {

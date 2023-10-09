@@ -11,11 +11,19 @@ namespace Pangoo
             return Regex.IsMatch(str, @"[\u4e00-\u9fa5]");
         }
 
-        public static bool IsOnlyDigit(string str){
+        public static bool ContainsChinese(char c)
+        {
+            return ContainsChinese(c.ToString());
+        }
+
+        public static bool IsOnlyDigit(string str)
+        {
             var charArr = str.ToCharArray();
             var ret = true;
-            for(int i =0;i < charArr.Length;i++){
-                if(!char.IsDigit(charArr[i])){
+            for (int i = 0; i < charArr.Length; i++)
+            {
+                if (!char.IsDigit(charArr[i]))
+                {
                     ret = false;
                 }
 
@@ -24,5 +32,9 @@ namespace Pangoo
             return ret;
 
         }
+
+
     }
+
+
 }

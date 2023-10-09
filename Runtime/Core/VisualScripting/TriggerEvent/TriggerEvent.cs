@@ -11,6 +11,11 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public abstract class TriggerEvent : TPolymorphicItem<TriggerEvent>
     {
+        public event Action EventRunInstructionsStart;
+
+        public event Action EventRunInstructionsEnd;
+
+
         public TriggerEventTable.TriggerEventRow Row { get; set; }
 
         [ShowInInspector]
@@ -48,7 +53,28 @@ namespace Pangoo.Core.VisualScripting
 
         public virtual void OnInvoke(Args args)
         {
-            IsRuningRunInstructions = RunInstructions.Start(args);
+            if (RunInstructions != null)
+            {
+                RunInstructions.EventStartRunning -= OnRunInstructionsStart;
+                RunInstructions.EventEndRunning -= OnRunInstructionsEnd;
+
+                RunInstructions.EventStartRunning += OnRunInstructionsStart;
+                RunInstructions.EventEndRunning += OnRunInstructionsEnd;
+
+                IsRuningRunInstructions = RunInstructions.Start(args);
+            }
+        }
+
+        void OnRunInstructionsStart()
+        {
+            Debug.Log("Start RunInstructions");
+            EventRunInstructionsStart?.Invoke();
+        }
+
+        void OnRunInstructionsEnd()
+        {
+            Debug.Log("End RunInstructions");
+            EventRunInstructionsEnd?.Invoke();
         }
 
         public virtual void OnFailedInvoke(Args args)

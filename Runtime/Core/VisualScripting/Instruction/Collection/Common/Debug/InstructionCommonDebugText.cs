@@ -59,7 +59,7 @@ namespace Pangoo.Core.VisualScripting
             if (m_MessageParams.ShowTriggerRow)
             {
 #if UNITY_EDITOR
-                Debug.Log($"TriggerRow:{args?.TriggerRow?.ToRowString()}");
+                Debug.Log($"TriggerRow:{args?.TriggerObject?.gameObject?.name}");
 #else
                 Utility.Text.Format("TriggerRow:{0}", args?.TriggerRow);
 #endif

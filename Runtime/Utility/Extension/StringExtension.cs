@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System.Globalization;
+using System.Text;
+using System.Text.RegularExpressions;
+using NPinyin;
+
 
 namespace Pangoo
 {
@@ -106,6 +110,62 @@ namespace Pangoo
                 return defaultVal;
             }
         }
+
+
+        public static string ToPascal(this string str)
+        {
+            char[] chars = str.ToCharArray();
+            chars[0] = char.ToUpper(chars[0]);
+            for (int i = 1; i < chars.Length; i++)
+            {
+                chars[i] = char.ToLower(chars[i]);
+            }
+            return new string(chars);
+        }
+
+        public static bool ContainsChinese(this string str)
+        {
+            if (str.IsNullOrWhiteSpace())
+            {
+                return false;
+            }
+            return Regex.IsMatch(str, @"[\u4e00-\u9fa5]");
+        }
+
+        public static bool ContainsChinese(this char c)
+        {
+            return Regex.IsMatch(c.ToString(), @"[\u4e00-\u9fa5]");
+        }
+
+        public static string ToPinyin(this string str)
+        {
+            Debug.Log($"在toPin中：{str}");
+            if (str.IsNullOrWhiteSpace())
+            {
+                return str;
+            }
+
+            if (!str.ContainsChinese())
+            {
+                return str;
+            }
+
+            var chars = str.ToCharArray();
+            StringBuilder sb = new StringBuilder();
+            foreach (var c in chars)
+            {
+                if (c.ContainsChinese())
+                {
+                    sb.Append(Pinyin.GetPinyin(c));
+                }
+                else
+                {
+                    sb.Append(c);
+                }
+            }
+            return sb.ToString();
+        }
+
 
     }
 }

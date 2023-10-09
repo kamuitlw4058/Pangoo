@@ -98,7 +98,7 @@ namespace Pangoo.Core.VisualScripting
                     case InstructionType.Coroutine:
                         hasCoroutine = true;
                         this.RunningIndex = i;
-                        this.m_Instructions[i].Schedule(args);
+                        // this.m_Instructions[i].Schedule(args);
                         break;
                 }
 

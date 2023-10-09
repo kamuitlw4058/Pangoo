@@ -50,6 +50,38 @@ namespace Pangoo
             }
         }
 
+        public int GroupInstanceCapacity
+        {
+            get
+            {
+                return EntityGroupRow?.InstanceCapacity ?? 1000;
+            }
+        }
+
+        public double GroupInstanceAutoReleaseInterval
+        {
+            get
+            {
+                return EntityGroupRow?.InstanceAutoReleaseInterval ?? 0;
+            }
+        }
+
+        public double GroupInstanceExpireTime
+        {
+            get
+            {
+                return EntityGroupRow?.InstanceExpireTime ?? 0;
+            }
+        }
+
+        public int GroupInstancePriority
+        {
+            get
+            {
+                return EntityGroupRow?.InstancePriority ?? 0;
+            }
+        }
+
         public static EntityInfo Create(AssetPathTable.AssetPathRow assetPath, EntityGroupTable.EntityGroupRow entityGroup)
         {
             var info = ReferencePool.Acquire<EntityInfo>();

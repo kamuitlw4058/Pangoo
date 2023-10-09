@@ -92,5 +92,17 @@ MonoBehaviour:
       Name: "\u9065\u63A7"
       AssetPackageDir: Assets/Plugins/Pangoo
       AssetType: DynamicObject
-      AssetPath: DO_DM_DaoJu_YaoKongQi_01..prefab
+      AssetPath: DO_DM_DaoJu_YaoKongQi_01.prefab
+      Desc: 
+    - Id: 100005
+      Name: "\u6D4B\u8BD5\u78B0\u649E\u89E6\u53D1\u52A8\u6001\u7269\u4F53"
+      AssetPackageDir: Assets/Plugins/Pangoo
+      AssetType: DynamicObject
+      AssetPath: DO_TestTrigger.prefab
+      Desc: 
+    - Id: 200007
+      Name: "\u65B0\u674E\u5B852\u697C\u5168\u5C40Volume"
+      AssetPackageDir: Assets/Plugins/Pangoo
+      AssetType: Scene
+      AssetPath: SS_XinLiZhai_GlobalVolume.prefab
       Desc: 

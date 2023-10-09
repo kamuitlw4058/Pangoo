@@ -26,3 +26,8 @@ MonoBehaviour:
       TriggerType: Pangoo.Core.VisualScripting.TriggerEventOnInteraction
       InstructionList: 1
       Params: '{}'
+    - Id: 3
+      Name: "\u8FDB\u5165\u89E6\u53D1\u5668\u89E6\u53D1"
+      TriggerType: Pangoo.Core.VisualScripting.TriggerEventOnTriggerEnter3d
+      InstructionList: 1
+      Params: '{}'

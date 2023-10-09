@@ -37,3 +37,10 @@ MonoBehaviour:
       Position: {x: 0, y: 0, z: 0}
       Rotation: {x: 0, y: 0, z: 0}
       TriggerEventIds: 
+    - Id: 5
+      Name: "\u6D4B\u8BD5\u78B0\u649E\u89E6\u53D1"
+      AssetPathId: 100005
+      NameCn: 
+      Position: {x: -2.6, y: 1.033, z: -6.07}
+      Rotation: {x: -0, y: 0, z: 0}
+      TriggerEventIds: 3

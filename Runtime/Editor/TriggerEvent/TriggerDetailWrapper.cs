@@ -189,7 +189,7 @@ namespace Pangoo
         public void Run()
         {
             var instructionList = GetInstructionList();
-            instructionList.Start(new Args(Row));
+            instructionList.Start(new Args());
         }
 
 

@@ -13,6 +13,8 @@ namespace Pangoo.Core.VisualScripting
 
         EndInteract,
         OnStart,
+        OnTriggerEnter3D,
+        OnTriggerExit3D
     }
 }
 

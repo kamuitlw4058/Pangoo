@@ -96,7 +96,7 @@ namespace Pangoo.Service
             // m_StaticSceneTable = m_ExcelTableService.GetExcelTable<StaticSceneTable>();
             m_StaticSceneInfo = m_GameInfoService.GetGameInfo<StaticSceneInfo>();
             m_EntityGroupTable = m_ExcelTableService.GetExcelTable<EntityGroupTable>();
-            m_EntityGroupRow = m_EntityGroupTable.GetRowById(1);
+            m_EntityGroupRow = EntityGroupRowExtension.CreateStaticSceneGroup();
             Debug.Log($"DoStart StaticSceneService :{m_EntityGroupRow} m_EntityGroupRow:{m_EntityGroupRow.Name}");
         }
 

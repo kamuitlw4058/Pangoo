@@ -65,7 +65,7 @@ namespace Pangoo
             {
                 // PoolParamData poolParamData = entityData.EntityGroupData.PoolParamData;
                 // PangooEntry.Entity.AddEntityGroup(entityInfo.GroupName, poolParamData.InstanceAutoReleaseInterval, poolParamData.InstanceCapacity, poolParamData.InstanceExpireTime, poolParamData.InstancePriority);
-                PangooEntry.Entity.AddEntityGroup(entityInfo.GroupName, 10, 100, 10, 0);
+                PangooEntry.Entity.AddEntityGroup(entityInfo.GroupName, (float)entityInfo.GroupInstanceAutoReleaseInterval, entityInfo.GroupInstanceCapacity, (float)entityInfo.GroupInstanceExpireTime, entityInfo.GroupInstancePriority);
             }
 
             entityComponent.ShowEntity(serialId, LogicType, entityInfo.AssetPath, entityInfo.GroupName, Constant.AssetPriority.EntityAsset, userData);

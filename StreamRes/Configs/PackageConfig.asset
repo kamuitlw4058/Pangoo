@@ -17,5 +17,6 @@ MonoBehaviour:
   StreamResDir: StreamRes
   ScriptsMainDir: Runtime
   MainNamespace: Pangoo
-  EventOverviews:
-  - {fileID: 11400000, guid: 25a47e9bbd32292488bd0b6880986a7c, type: 2}
+  AssetPathBaseId: 0
+  DynmaicObjectBaseId: 200
+  StaticSceneBaseId: 100

@@ -13,7 +13,7 @@ using Sirenix.OdinInspector.Editor;
 
 namespace Pangoo
 {
-    public class ExcelTableOverviewRowWrapper<TOverview, TRow> where TOverview : ExcelTableOverview where TRow : ExcelNamedRowBase
+    public class ExcelTableOverviewRowWrapper<TOverview, TRow> where TOverview : ExcelTableOverview where TRow : ExcelNamedRowBase, new()
     {
         public OdinEditorWindow Window { get; set; }
         public bool OutsideNeedRefresh { get; set; }
@@ -49,7 +49,7 @@ namespace Pangoo
             }
         }
 
-        protected TRow m_Row;
+        protected TRow m_Row = new TRow();
 
         public TRow Row
         {

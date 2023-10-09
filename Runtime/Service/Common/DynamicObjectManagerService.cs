@@ -60,7 +60,8 @@ namespace Pangoo.Service
 
             m_DynamicObjectTable = m_ExcelTableService.GetExcelTable<DynamicObjectTable>();
             m_EntityGroupTable = m_ExcelTableService.GetExcelTable<EntityGroupTable>();
-            m_EntityGroupRow = m_EntityGroupTable.GetRowById(1);
+
+            m_EntityGroupRow = EntityGroupRowExtension.CreateDynamicObjectGroup();
 
             m_DynamicObjectInfo = m_GameInfoService.GetGameInfo<DynamicObjectInfo>();
             Debug.Log($"DoStart DynamicObjectService :{m_EntityGroupRow} m_EntityGroupRow:{m_EntityGroupRow.Name}");
