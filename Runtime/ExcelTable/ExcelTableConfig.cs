@@ -142,6 +142,7 @@ namespace Pangoo
             ExcelList.Clear();
             DirInfo.NameSpace = PackConfig.MainNamespace;
             var files = Directory.GetFiles(DirInfo.ExcelDir, "*.xlsx");
+            var pangooList = new List<string>();
             foreach (var filePath in files)
             {
                 var regularFilePath = filePath.Replace("\\", "/");
@@ -156,6 +157,7 @@ namespace Pangoo
                         {
                             namesapce = "Pangoo";
                             IsPangooTable = true;
+                            pangooList.Add(GameSupportEditorUtility.GetExcelTablePangooTableName(fileName));
                         }
 
                         ExcelList.Add(new ExcelEntry()
@@ -168,6 +170,21 @@ namespace Pangoo
 
                 }
             }
+            GameSupportEditorUtility.GetExcelTablePangooTableNames().ForEach(o =>
+            {
+                if (!pangooList.Contains(o))
+                {
+                    ExcelList.Add(new ExcelEntry()
+                    {
+                        ExcelName = o.Substring(7, o.Length - (5 + 7)),
+                        BaseNamespace = "Pangoo",
+                        IsPangooTable = true,
+                    });
+                }
+            });
+
+
+
         }
 
         [FoldoutGroup("生成文件或SO")]
@@ -324,6 +341,7 @@ namespace Pangoo
         [HideInTables]
         public bool IsPangooTable;
 
+        [ReadOnly]
         public string ExcelName;
 
         [ValueDropdown("GetNamespaces")]

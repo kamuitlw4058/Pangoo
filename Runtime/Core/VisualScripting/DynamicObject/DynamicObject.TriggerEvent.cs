@@ -13,7 +13,7 @@ using UnityEngine.Rendering;
 namespace Pangoo.Core.VisualScripting
 {
 
-    public partial class DynamicObjectService
+    public partial class DynamicObject
     {
 
         void OnTriggerEnter3dEvent(Args eventParams)

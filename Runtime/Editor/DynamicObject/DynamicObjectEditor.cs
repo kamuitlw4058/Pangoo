@@ -66,7 +66,7 @@ namespace Pangoo
 
         void Start()
         {
-            DoService = new DynamicObjectService(gameObject);
+            DoService = new DynamicObject(gameObject);
             DoService.Row = Row;
             DoService.Awake();
             DoService.Start();
@@ -80,7 +80,7 @@ namespace Pangoo
         [field: NonSerialized]
         [LabelText("动态物体")]
         [HideReferenceObjectPicker]
-        public DynamicObjectService DoService { get; private set; }
+        public DynamicObject DoService { get; private set; }
 
 
 

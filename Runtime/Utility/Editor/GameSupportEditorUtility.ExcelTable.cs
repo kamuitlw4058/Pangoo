@@ -30,6 +30,18 @@ namespace Pangoo
             return false;
         }
 
+        public static List<string> GetExcelTablePangooTableNames()
+        {
+            return Utility.Assembly.GetTypes(typeof(ExcelTableBase)).Select(o => o.FullName).Where(o => o.StartsWith("Pangoo.")).ToList();
+
+        }
+
+        public static string GetExcelTablePangooTableName(string name)
+        {
+            return $"Pangoo.{name}Table";
+        }
+
+
 
         public static IEnumerable GetExcelTableOverview<T>() where T : ExcelTableOverview
         {

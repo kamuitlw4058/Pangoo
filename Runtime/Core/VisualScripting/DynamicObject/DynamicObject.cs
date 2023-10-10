@@ -14,7 +14,7 @@ namespace Pangoo.Core.VisualScripting
 {
 
     [Serializable]
-    public partial class DynamicObjectService : MonoMasterService, IReference
+    public partial class DynamicObject : MonoMasterService, IReference
     {
         Args CurrentArgs;
 
@@ -56,14 +56,14 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
-        public DynamicObjectService() : base() { }
-        public DynamicObjectService(GameObject go) : base(go)
+        public DynamicObject() : base() { }
+        public DynamicObject(GameObject go) : base(go)
         {
         }
 
-        public static DynamicObjectService Create(GameObject go)
+        public static DynamicObject Create(GameObject go)
         {
-            var val = ReferencePool.Acquire<DynamicObjectService>();
+            var val = ReferencePool.Acquire<DynamicObject>();
             val.gameObject = go;
             return val;
         }

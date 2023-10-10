@@ -38,7 +38,7 @@ namespace Pangoo
         [field: NonSerialized]
         [LabelText("动态物体")]
         [HideReferenceObjectPicker]
-        public DynamicObjectService DynamicObjectService { get; set; }
+        public DynamicObject DynamicObjectService { get; set; }
 
         protected override void OnInit(object userData)
         {
@@ -61,7 +61,7 @@ namespace Pangoo
             transform.rotation = DoData.InfoRow.Rotation;
             Name = Utility.Text.Format("{0}[{1}]", DoData.EntityInfo.AssetName, Id);
 
-            DynamicObjectService = DynamicObjectService.Create(gameObject);
+            DynamicObjectService = DynamicObject.Create(gameObject);
             DynamicObjectService.Row = DoData.InfoRow.m_DynamicObjectRow;
             DynamicObjectService.TableService = DoData.Service.TableService;
             DynamicObjectService.Awake();
