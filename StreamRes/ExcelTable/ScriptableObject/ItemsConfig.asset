@@ -17,12 +17,12 @@ MonoBehaviour:
     Priority: 0
     Rows:
     - Id: 1
-      ID: 10001
       Name: "xxx\u7684\u76F8\u7247"
+      ID: 10001
       CanPickup: 1
-      Pos: {x: 10, y: 0, z: 10}
+      Pos: {x: 0, y: 0, z: 0}
     - Id: 2
-      ID: 10002
       Name: "yyy\u7684\u76F8\u7247"
+      ID: 10002
       CanPickup: 1
-      Pos: {x: 2, y: 2, z: 2}
+      Pos: {x: 0, y: 2, z: 0}

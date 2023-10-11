@@ -153,11 +153,16 @@ namespace Pangoo
                     {
                         var namesapce = string.Empty;
                         var IsPangooTable = false;
-                        if (GameSupportEditorUtility.GetExcelTableNameInPangoo(fileName))
+                        if (GameSupportEditorUtility.GetExcelTableNameInPangoo(fileName) && PackConfig.MainNamespace != "Pangoo")
                         {
                             namesapce = "Pangoo";
                             IsPangooTable = true;
                             pangooList.Add(GameSupportEditorUtility.GetExcelTablePangooTableName(fileName));
+                        }
+
+                        if (PackConfig.MainNamespace == "Pangoo")
+                        {
+                            IsPangooTable = true;
                         }
 
                         ExcelList.Add(new ExcelEntry()
@@ -170,18 +175,23 @@ namespace Pangoo
 
                 }
             }
-            GameSupportEditorUtility.GetExcelTablePangooTableNames().ForEach(o =>
+
+            if (PackConfig.MainNamespace != "Pangoo")
             {
-                if (!pangooList.Contains(o))
+                GameSupportEditorUtility.GetExcelTablePangooTableNames().ForEach(o =>
                 {
-                    ExcelList.Add(new ExcelEntry()
+                    if (!pangooList.Contains(o))
                     {
-                        ExcelName = o.Substring(7, o.Length - (5 + 7)),
-                        BaseNamespace = "Pangoo",
-                        IsPangooTable = true,
-                    });
-                }
-            });
+                        ExcelList.Add(new ExcelEntry()
+                        {
+                            ExcelName = o.Substring(7, o.Length - (5 + 7)),
+                            BaseNamespace = "Pangoo",
+                            IsPangooTable = true,
+                        });
+                    }
+                });
+            }
+
 
 
 

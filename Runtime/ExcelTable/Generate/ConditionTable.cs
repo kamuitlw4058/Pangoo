@@ -11,43 +11,34 @@ using Pangoo;
 namespace Pangoo
 {
     [Serializable]
-    public partial class PangooEventsTable : ExcelTableBase
+    public partial class ConditionTable : ExcelTableBase
     {
         [Serializable]
-        public partial class PangooEventsRow : ExcelNamedRowBase
+        public partial class ConditionRow : ExcelNamedRowBase
         {
 
             /// <summary>
             /// Desc: 
             /// </summary>
-            [TableTitleGroup("事件的命名空间")]
+            [TableTitleGroup("条件类型")]
             [HideLabel]
-            [JsonMember("Namesapce")]
-            [ExcelTableCol("Namesapce","Namesapce","string", "事件的命名空间",2)]
-            public string Namesapce ;
+            [JsonMember("ConditionType")]
+            [ExcelTableCol("ConditionType","ConditionType","string", "条件类型",3)]
+            public string ConditionType ;
 
             /// <summary>
             /// Desc: 
             /// </summary>
-            [TableTitleGroup("事件名称")]
+            [TableTitleGroup("条件参数")]
             [HideLabel]
-            [JsonMember("EventName")]
-            [ExcelTableCol("EventName","EventName","string", "事件名称",3)]
-            public string EventName ;
-
-            /// <summary>
-            /// Desc: 
-            /// </summary>
-            [TableTitleGroup("描述")]
-            [HideLabel]
-            [JsonMember("desc")]
-            [ExcelTableCol("Desc","desc","string", "描述",4)]
-            public string Desc ;
+            [JsonMember("Params")]
+            [ExcelTableCol("Params","Params","string", "条件参数",4)]
+            public string Params ;
         }
 
 
         [TableList]
-        public List<PangooEventsRow> Rows = new();
+        public List<ConditionRow> Rows = new();
 
         public override IReadOnlyList<ExcelRowBase> BaseRows{
           get{
@@ -63,7 +54,7 @@ namespace Pangoo
 
         [NonSerialized]
         [XmlIgnore]
-        public Dictionary<int,PangooEventsRow> Dict = new ();
+        public Dictionary<int,ConditionRow> Dict = new ();
 
         public override void Init(){
           Dict.Clear();
@@ -73,29 +64,29 @@ namespace Pangoo
         }
 
         public override void Merge(ExcelTableBase val){
-          var table = val as PangooEventsTable;
+          var table = val as ConditionTable;
           Rows.AddRange(table.Rows);
         }
 
         #if UNITY_EDITOR
 
         public override void RemoveId(int Id){
-          var row = GetRowById<PangooEventsRow>(Id);
+          var row = GetRowById<ConditionRow>(Id);
           if(row == null) return;
           Rows.Remove(row);
         }
 
          public override void AddNamedRow(ExcelNamedRowBase row){
-          Rows.Add(row as PangooEventsRow);
+          Rows.Add(row as ConditionRow);
         }
 
         #endif
 
-        public PangooEventsRow GetRowById(int row_id){
+        public ConditionRow GetRowById(int row_id){
           #if UNITY_EDITOR
-          return GetRowById<PangooEventsRow>(row_id);
+          return GetRowById<ConditionRow>(row_id);
           #else
-          PangooEventsRow row;
+          ConditionRow row;
           if(Dict.TryGetValue(row_id,out row)){
               return row;
           }
@@ -107,7 +98,7 @@ namespace Pangoo
         /// <summary> 从Excel文件重新构建数据 </summary>
         public virtual void LoadExcelFile(string excelFilePath)
         {
-          Rows = LoadExcelFile<PangooEventsRow>(excelFilePath);
+          Rows = LoadExcelFile<ConditionRow>(excelFilePath);
         }
 #endif
 

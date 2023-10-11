@@ -20,8 +20,8 @@ MonoBehaviour:
       Name: "\u7535\u5B50\u9501"
       AssetPathId: 100001
       NameCn: "\u7535\u5B50\u9501"
-      Position: {x: -3.861, y: 0.379, z: 0.177}
-      Rotation: {x: -0, y: 89.18816, z: 0}
+      Position: {x: 0, y: 0.38, z: 0}
+      Rotation: {x: 0, y: 89.19, z: 0}
       TriggerEventIds: 1
     - Id: 3
       Name: "\u65E5\u5386"
@@ -41,6 +41,6 @@ MonoBehaviour:
       Name: "\u6D4B\u8BD5\u78B0\u649E\u89E6\u53D1"
       AssetPathId: 100005
       NameCn: 
-      Position: {x: -2.6, y: 1.033, z: -6.07}
-      Rotation: {x: -0, y: 0, z: 0}
+      Position: {x: 0, y: 1.03, z: 0}
+      Rotation: {x: 0, y: 0, z: 0}
       TriggerEventIds: 3

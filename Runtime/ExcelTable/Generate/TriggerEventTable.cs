@@ -43,6 +43,33 @@ namespace Pangoo
             [JsonMember("Params")]
             [ExcelTableCol("Params","Params","string", "触发器参数",5)]
             public string Params ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("是否使用条件")]
+            [HideLabel]
+            [JsonMember("UseCondition")]
+            [ExcelTableCol("UseCondition","UseCondition","bool", "是否使用条件",6)]
+            public bool UseCondition ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("条件列表")]
+            [HideLabel]
+            [JsonMember("ConditionList")]
+            [ExcelTableCol("ConditionList","ConditionList","string", "条件列表",7)]
+            public string ConditionList ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("失败指令列表")]
+            [HideLabel]
+            [JsonMember("FailInstructionList")]
+            [ExcelTableCol("FailInstructionList","FailInstructionList","string", "失败指令列表",8)]
+            public string FailInstructionList ;
         }
 
 

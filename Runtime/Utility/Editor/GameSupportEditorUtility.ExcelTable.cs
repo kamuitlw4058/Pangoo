@@ -248,6 +248,16 @@ namespace Pangoo
             return GetExcelTableRowWithOverviewById<TriggerEventTableOverview, TriggerEventTable.TriggerEventRow>(id);
         }
 
+        public static ConditionTable.ConditionRow GetConditionRowById(int id)
+        {
+            return GetExcelTableRowWithOverviewById<ConditionTableOverview, ConditionTable.ConditionRow>(id);
+        }
+
+        public static InstructionTable.InstructionRow GetInstructionRowById(int id)
+        {
+            return GetExcelTableRowWithOverviewById<InstructionTableOverview, InstructionTable.InstructionRow>(id);
+        }
+
 #endif
     }
 }

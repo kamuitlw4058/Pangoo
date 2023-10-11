@@ -17,11 +17,13 @@ MonoBehaviour:
     Priority: 0
     Rows:
     - Id: 1
+      Name: 
       IntKey: Cube0_Transform_Position.x
       IntValue: 10
       FloatKey: cube0_Transform_Position.y
       FloatValue: 10.2
     - Id: 2
+      Name: 
       IntKey: 
       IntValue: 0
       FloatKey: Cube0.Light.Inset

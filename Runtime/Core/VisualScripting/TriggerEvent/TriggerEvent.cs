@@ -18,10 +18,28 @@ namespace Pangoo.Core.VisualScripting
 
         public TriggerEventTable.TriggerEventRow Row { get; set; }
 
-        [ShowInInspector]
+        // [ShowInInspector]
         public InstructionList RunInstructions { get; set; }
 
+        public ConditionList Conditions { get; set; }
+
         [ShowInInspector]
+        [LabelText("是否条件触发")]
+        public bool UseCondition
+        {
+            get
+            {
+                return Row?.UseCondition ?? false;
+            }
+            set
+            {
+                Row.UseCondition = value;
+            }
+        }
+
+        // [ShowInInspector]
+
+        [ShowIf("@this.UseCondition")]
         public InstructionList FailInstructions { get; set; }
 
         public bool IsRuningRunInstructions { get; private set; }
@@ -53,15 +71,22 @@ namespace Pangoo.Core.VisualScripting
 
         public virtual void OnInvoke(Args args)
         {
-            if (RunInstructions != null)
+            if (UseCondition && Conditions != null)
             {
-                RunInstructions.EventStartRunning -= OnRunInstructionsStart;
-                RunInstructions.EventEndRunning -= OnRunInstructionsEnd;
-
-                RunInstructions.EventStartRunning += OnRunInstructionsStart;
-                RunInstructions.EventEndRunning += OnRunInstructionsEnd;
-
-                IsRuningRunInstructions = RunInstructions.Start(args);
+                var isPass = Conditions.Check(args);
+                Debug.Log($"Check Pass:{isPass}");
+                if (isPass)
+                {
+                    OnPassInvoke(args);
+                }
+                else
+                {
+                    OnFailedInvoke(args);
+                }
+            }
+            else
+            {
+                OnPassInvoke(args);
             }
         }
 
@@ -77,9 +102,36 @@ namespace Pangoo.Core.VisualScripting
             EventRunInstructionsEnd?.Invoke();
         }
 
-        public virtual void OnFailedInvoke(Args args)
+
+        public void OnPassInvoke(Args args)
         {
-            IsRuningFailInstructions = FailInstructions.Start(args);
+            if (RunInstructions != null)
+            {
+                RunInstructions.EventStartRunning -= OnRunInstructionsStart;
+                RunInstructions.EventStartRunning += OnRunInstructionsStart;
+
+
+                RunInstructions.EventEndRunning -= OnRunInstructionsEnd;
+                RunInstructions.EventEndRunning += OnRunInstructionsEnd;
+
+                IsRuningRunInstructions = RunInstructions.Start(args);
+            }
+            else
+            {
+                IsRuningRunInstructions = false;
+            }
+        }
+
+        public void OnFailedInvoke(Args args)
+        {
+            if (FailInstructions != null)
+            {
+                IsRuningFailInstructions = FailInstructions.Start(args);
+            }
+            else
+            {
+                IsRuningFailInstructions = false;
+            }
         }
 
         public virtual void OnUpdate()
@@ -100,10 +152,7 @@ namespace Pangoo.Core.VisualScripting
         [Button("立即运行指令列表")]
         public void Run()
         {
-            if (RunInstructions != null)
-            {
-                RunInstructions.Start(new Args(null));
-            }
+            OnInvoke(new Args());
         }
     }
 }

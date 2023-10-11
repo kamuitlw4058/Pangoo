@@ -95,6 +95,8 @@ namespace Pangoo.Editor
             InitCommonOverviews<TriggerEventTableOverview, TriggerDetailWrapper, ExcelTableTableRowWrapper<TriggerEventTableOverview, TriggerEventTable.TriggerEventRow>, TriggerEventTable.TriggerEventRow>(tree, "Trigger");
             InitCommonOverviews<InstructionTableOverview, InstructionDetailWrapper, ExcelTableTableRowWrapper<InstructionTableOverview, InstructionTable.InstructionRow>, InstructionTable.InstructionRow>(tree, "Instruction");
 
+            InitCommonOverviews<ConditionTableOverview, ConditionDetailWrapper, ExcelTableTableRowWrapper<ConditionTableOverview, ConditionTable.ConditionRow>, ConditionTable.ConditionRow>(tree, "Condition");
+
             return tree;
         }
     }

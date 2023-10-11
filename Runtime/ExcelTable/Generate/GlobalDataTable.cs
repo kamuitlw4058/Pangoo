@@ -14,7 +14,7 @@ namespace Pangoo
     public partial class GlobalDataTable : ExcelTableBase
     {
         [Serializable]
-        public partial class GlobalDataRow : ExcelRowBase
+        public partial class GlobalDataRow : ExcelNamedRowBase
         {
 
             /// <summary>
@@ -55,6 +55,11 @@ namespace Pangoo
           }
         }
 
+        public override IReadOnlyList<ExcelNamedRowBase> NamedBaseRows{
+          get{
+              return Rows;
+          }
+        }
 
         [NonSerialized]
         [XmlIgnore]
@@ -78,6 +83,10 @@ namespace Pangoo
           var row = GetRowById<GlobalDataRow>(Id);
           if(row == null) return;
           Rows.Remove(row);
+        }
+
+         public override void AddNamedRow(ExcelNamedRowBase row){
+          Rows.Add(row as GlobalDataRow);
         }
 
         #endif

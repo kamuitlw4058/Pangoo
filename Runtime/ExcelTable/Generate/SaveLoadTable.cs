@@ -14,7 +14,7 @@ namespace Pangoo
     public partial class SaveLoadTable : ExcelTableBase
     {
         [Serializable]
-        public partial class SaveLoadRow : ExcelRowBase
+        public partial class SaveLoadRow : ExcelNamedRowBase
         {
 
             /// <summary>
@@ -64,6 +64,11 @@ namespace Pangoo
           }
         }
 
+        public override IReadOnlyList<ExcelNamedRowBase> NamedBaseRows{
+          get{
+              return Rows;
+          }
+        }
 
         [NonSerialized]
         [XmlIgnore]
@@ -87,6 +92,10 @@ namespace Pangoo
           var row = GetRowById<SaveLoadRow>(Id);
           if(row == null) return;
           Rows.Remove(row);
+        }
+
+         public override void AddNamedRow(ExcelNamedRowBase row){
+          Rows.Add(row as SaveLoadRow);
         }
 
         #endif

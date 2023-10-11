@@ -14,7 +14,7 @@ namespace Pangoo
     public partial class ItemsConfigTable : ExcelTableBase
     {
         [Serializable]
-        public partial class ItemsConfigRow : ExcelRowBase
+        public partial class ItemsConfigRow : ExcelNamedRowBase
         {
 
             /// <summary>
@@ -23,17 +23,8 @@ namespace Pangoo
             [TableTitleGroup("编号")]
             [HideLabel]
             [JsonMember("ID")]
-            [ExcelTableCol("ID","ID","int", "编号",1)]
+            [ExcelTableCol("ID","ID","int", "编号",2)]
             public int ID ;
-
-            /// <summary>
-            /// Desc: 
-            /// </summary>
-            [TableTitleGroup("名字")]
-            [HideLabel]
-            [JsonMember("Name")]
-            [ExcelTableCol("Name","Name","string", "名字",2)]
-            public string Name ;
 
             /// <summary>
             /// Desc: 
@@ -41,7 +32,7 @@ namespace Pangoo
             [TableTitleGroup("能否拾取")]
             [HideLabel]
             [JsonMember("CanPickup")]
-            [ExcelTableCol("CanPickup","CanPickup","bool", "能否拾取",3)]
+            [ExcelTableCol("CanPickup","CanPickup","bool", "能否拾取",4)]
             public bool CanPickup ;
 
             /// <summary>
@@ -50,7 +41,7 @@ namespace Pangoo
             [TableTitleGroup("位置坐标")]
             [HideLabel]
             [JsonMember("Pos")]
-            [ExcelTableCol("Pos","Pos","Vector3", "位置坐标",4)]
+            [ExcelTableCol("Pos","Pos","Vector3", "位置坐标",5)]
             public Vector3 Pos ;
         }
 
@@ -64,6 +55,11 @@ namespace Pangoo
           }
         }
 
+        public override IReadOnlyList<ExcelNamedRowBase> NamedBaseRows{
+          get{
+              return Rows;
+          }
+        }
 
         [NonSerialized]
         [XmlIgnore]
@@ -87,6 +83,10 @@ namespace Pangoo
           var row = GetRowById<ItemsConfigRow>(Id);
           if(row == null) return;
           Rows.Remove(row);
+        }
+
+         public override void AddNamedRow(ExcelNamedRowBase row){
+          Rows.Add(row as ItemsConfigRow);
         }
 
         #endif

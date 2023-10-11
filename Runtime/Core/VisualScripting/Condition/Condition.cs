@@ -36,5 +36,8 @@ namespace Pangoo.Core.VisualScripting
         // PROTECTED METHODS: ---------------------------------------------------------------------
 
         protected abstract bool Run(Args args);
+
+        public abstract string ParamsString();
+        public abstract void LoadParams(string instructionParams);
     }
 }

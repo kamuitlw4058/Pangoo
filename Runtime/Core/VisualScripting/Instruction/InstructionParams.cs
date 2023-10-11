@@ -9,13 +9,8 @@ namespace Pangoo.Core.VisualScripting
 {
 
     [Serializable]
-    public class InstructionParams
+    public class InstructionParams : JsonParams
     {
-        public virtual void LoadFromJson(string val) { }
-        public virtual string ToJson()
-        {
-            return JsonMapper.ToJson(this);
-        }
 
     }
 }

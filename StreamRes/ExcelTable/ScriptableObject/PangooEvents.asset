@@ -17,18 +17,22 @@ MonoBehaviour:
     Priority: 0
     Rows:
     - Id: 1
+      Name: 
       Namesapce: Pangoo
       EventName: ResourceInitComplete
       Desc: "\u8D44\u6E90\u7EC4\u4EF6\u521D\u59CB\u5316"
     - Id: 2
+      Name: 
       Namesapce: Pangoo
       EventName: EventTrigger
       Desc: "\u6761\u4EF6\u89E6\u53D1\u4E8B\u4EF6\u7528\u6765\u51FA\u53D1\u5916\u90E8\u5B9A\u4E49\u4E8B\u4EF6"
     - Id: 3
+      Name: 
       Namesapce: 1
       EventName: 2
       Desc: 4
     - Id: 4
+      Name: 
       Namesapce: 2
       EventName: 3
       Desc: 4

@@ -27,58 +27,77 @@ MonoBehaviour:
     ScriptableObjectDir: Assets/Plugins/Pangoo/StreamRes/ExcelTable/ScriptableObject
   ExcelList:
   - Build: 1
+    IsPangooTable: 0
     ExcelName: AssetPath
     BaseNamespace: 
     Named: 1
   - Build: 1
+    IsPangooTable: 0
+    ExcelName: Condition
+    BaseNamespace: 
+    Named: 1
+  - Build: 1
+    IsPangooTable: 0
     ExcelName: DynamicObject
     BaseNamespace: 
     Named: 1
   - Build: 1
+    IsPangooTable: 0
     ExcelName: EntityGroup
     BaseNamespace: 
     Named: 1
   - Build: 1
+    IsPangooTable: 0
     ExcelName: GameSection
     BaseNamespace: 
     Named: 1
   - Build: 1
+    IsPangooTable: 0
     ExcelName: GlobalData
     BaseNamespace: 
-    Named: 0
+    Named: 1
   - Build: 1
+    IsPangooTable: 0
     ExcelName: Instruction
     BaseNamespace: 
     Named: 1
   - Build: 1
+    IsPangooTable: 0
     ExcelName: ItemsConfig
     BaseNamespace: 
-    Named: 0
+    Named: 1
   - Build: 1
+    IsPangooTable: 0
     ExcelName: PangooEvents
     BaseNamespace: 
-    Named: 0
+    Named: 1
   - Build: 1
+    IsPangooTable: 0
     ExcelName: RuntimeData
     BaseNamespace: 
-    Named: 0
+    Named: 1
   - Build: 1
+    IsPangooTable: 0
     ExcelName: SaveLoad
     BaseNamespace: 
-    Named: 0
+    Named: 1
   - Build: 1
+    IsPangooTable: 0
     ExcelName: StaticScene
     BaseNamespace: 
     Named: 1
   - Build: 1
+    IsPangooTable: 0
     ExcelName: TriggerEvent
     BaseNamespace: 
     Named: 1
   - Build: 1
+    IsPangooTable: 0
     ExcelName: UiConfigInfo
     BaseNamespace: 
     Named: 1
   - Build: 1
+    IsPangooTable: 0
     ExcelName: Volume
     BaseNamespace: 
     Named: 1
