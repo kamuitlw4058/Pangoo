@@ -7,7 +7,7 @@ using Pangoo.Core.Service;
 namespace Pangoo.Core.Character
 {
 
-    public partial class CharacterService
+    public partial class Character
     {
 
         CharacterInputService m_CharacterInputService;

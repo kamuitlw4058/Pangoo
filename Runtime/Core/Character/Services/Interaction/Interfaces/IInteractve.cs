@@ -29,7 +29,7 @@ namespace Pangoo.Core.Character
         /// Executed when a character attempts to interact with this interface
         /// </summary>
         /// <param name="character"></param>
-        void Interact(CharacterService character);
+        void Interact(Character character);
 
         /// <summary>
         /// Executed when the interaction finishes

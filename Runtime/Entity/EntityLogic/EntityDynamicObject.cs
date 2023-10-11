@@ -82,6 +82,17 @@ namespace Pangoo
 
         }
 
+        private void OnTriggerEnter(Collider other)
+        {
+            Debug.Log($"EntityDynamicObject OnTriggerEnter");
+            DynamicObjectService?.TriggerEnter3d(other);
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            Debug.Log($"EntityDynamicObject OnTriggerExit");
+            DynamicObjectService?.TriggerExit3d(other);
+        }
 
 
     }

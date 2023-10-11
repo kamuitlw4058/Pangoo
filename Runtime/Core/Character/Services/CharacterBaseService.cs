@@ -7,10 +7,10 @@ using Pangoo.Core.Service;
 namespace Pangoo.Core.Character
 {
 
-    public class CharacterBaseService : MonoSubService<CharacterService>
+    public class CharacterBaseService : MonoSubService<Character>
     {
 
-        public CharacterService Character
+        public Character Character
         {
             get
             {

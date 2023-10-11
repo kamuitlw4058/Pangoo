@@ -18,7 +18,7 @@ namespace Pangoo.Core.Character
 
         [HideInEditorMode]
         [ShowInInspector]
-        CharacterService characterContainer;
+        Character characterContainer;
 
         [SerializeField]
         [HideInPlayMode]
@@ -52,7 +52,7 @@ namespace Pangoo.Core.Character
                 return;
             }
             Debug.Log($"On Init:{characterContainer}");
-            characterContainer = new CharacterService(gameObject, m_CameraOnly);
+            characterContainer = new Character(gameObject, m_CameraOnly);
             characterContainer.SetIsPlayer(m_IsPlayer);
             characterContainer.SetMotionInfo(m_MotionInfo);
             characterContainer.CameraOffset = m_CameraOffset;

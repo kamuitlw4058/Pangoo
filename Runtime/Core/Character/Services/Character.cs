@@ -8,7 +8,7 @@ namespace Pangoo.Core.Character
 {
 
     [Serializable]
-    public partial class CharacterService : MonoMasterService
+    public partial class Character : MonoMasterService
     {
 
         [SerializeField] protected bool m_IsPlayer;
@@ -61,7 +61,7 @@ namespace Pangoo.Core.Character
         }
 
 
-        public CharacterService(GameObject gameObject, bool onlyCamera = false) : base(gameObject)
+        public Character(GameObject gameObject, bool onlyCamera = false) : base(gameObject)
         {
             m_CharacterInputService = new CharacterInputService(this);
             m_CharacterCameraService = new CharacterCameraService(this);

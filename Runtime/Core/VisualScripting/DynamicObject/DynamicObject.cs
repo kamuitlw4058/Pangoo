@@ -195,7 +195,7 @@ namespace Pangoo.Core.VisualScripting
 
 
 
-        void OnInteract(CharacterService character, IInteractive interactive)
+        void OnInteract(Character.Character character, IInteractive interactive)
         {
             // if (CheckInteract != null && CheckInteract(null))
             // {

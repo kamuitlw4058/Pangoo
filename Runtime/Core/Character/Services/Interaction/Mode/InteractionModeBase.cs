@@ -17,13 +17,13 @@ namespace Pangoo.Core.Character
 
         public static readonly Vector3 GIZMO_SIZE = Vector3.one * 0.05f;
 
-        public virtual float CalculatePriority(CharacterService character, IInteractive interactive)
+        public virtual float CalculatePriority(Character character, IInteractive interactive)
         {
             return 0;
         }
 
 
-        public virtual void DrawGizmos(CharacterService character)
+        public virtual void DrawGizmos(Character character)
         {
 
         }

@@ -30,13 +30,13 @@ namespace Pangoo.Core.Character
         public int UniqueCode => m_InstanceID;
 
 
-        public event Action<CharacterService, IInteractive> EventInteract;
-        public event Action<CharacterService, IInteractive> EventStop;
+        public event Action<Character, IInteractive> EventInteract;
+        public event Action<Character, IInteractive> EventStop;
 
 
-        [NonSerialized] private CharacterService m_Character;
+        [NonSerialized] private Character m_Character;
 
-        public void Interact(CharacterService character)
+        public void Interact(Character character)
         {
             if (this.m_IsInteracting) return;
 

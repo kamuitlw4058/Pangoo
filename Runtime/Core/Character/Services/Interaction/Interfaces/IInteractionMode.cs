@@ -6,8 +6,8 @@ namespace Pangoo.Core.Character
 {
     public interface IInteractionMode
     {
-        float CalculatePriority(CharacterService character, IInteractive interactive);
+        float CalculatePriority(Character character, IInteractive interactive);
 
-        void DrawGizmos(CharacterService character);
+        void DrawGizmos(Character character);
     }
 }

@@ -18,7 +18,7 @@ namespace Pangoo.Core.Character
 
         // PUBLIC METHODS: ------------------------------------------------------------------------
 
-        public override float CalculatePriority(CharacterService character, IInteractive interactive)
+        public override float CalculatePriority(Character character, IInteractive interactive)
         {
             if (character == null) return float.MaxValue;
 
@@ -30,7 +30,7 @@ namespace Pangoo.Core.Character
 
         // GIZMOS: --------------------------------------------------------------------------------
 
-        public override void DrawGizmos(CharacterService character)
+        public override void DrawGizmos(Character character)
         {
             base.DrawGizmos(character);
 

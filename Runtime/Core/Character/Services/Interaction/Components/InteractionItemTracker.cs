@@ -32,12 +32,12 @@ namespace Pangoo.Core.Character
             }
         }
 
-        [NonSerialized] private CharacterService m_Character;
+        [NonSerialized] private Character m_Character;
 
         // EVENTS: --------------------------------------------------------------------------------
 
-        public event Action<CharacterService, IInteractive> EventInteract;
-        public event Action<CharacterService, IInteractive> EventStop;
+        public event Action<Character, IInteractive> EventInteract;
+        public event Action<Character, IInteractive> EventStop;
 
         // INITIALIZE METHODS: --------------------------------------------------------------------
 
@@ -77,7 +77,7 @@ namespace Pangoo.Core.Character
 
         bool IInteractive.IsInteracting => this.m_IsInteracting;
 
-        public void Interact(CharacterService character)
+        public void Interact(Character character)
         {
             Debug.Log($"Enter Interacting.Name:{name} this.m_IsInteracting:{this.m_IsInteracting}");
 
