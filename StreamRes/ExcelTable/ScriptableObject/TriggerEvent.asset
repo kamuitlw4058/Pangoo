@@ -21,13 +21,22 @@ MonoBehaviour:
       TriggerType: Pangoo.Core.VisualScripting.TriggerEventOnInteraction
       InstructionList: 1|2|3
       Params: '{}'
+      UseCondition: 0
+      ConditionList: 
+      FailInstructionList: 
     - Id: 2
       Name: "\u8C03\u8BD5\u65E5\u5FD72"
       TriggerType: Pangoo.Core.VisualScripting.TriggerEventOnInteraction
       InstructionList: 1
       Params: '{}'
+      UseCondition: 0
+      ConditionList: 
+      FailInstructionList: 
     - Id: 3
       Name: "\u8FDB\u5165\u89E6\u53D1\u5668\u89E6\u53D1"
       TriggerType: Pangoo.Core.VisualScripting.TriggerEventOnTriggerEnter3d
       InstructionList: 1
       Params: '{}'
+      UseCondition: 0
+      ConditionList: 
+      FailInstructionList: 

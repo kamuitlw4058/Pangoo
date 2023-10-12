@@ -170,6 +170,7 @@ namespace Pangoo
                             ExcelName = fileName,
                             BaseNamespace = namesapce,
                             IsPangooTable = IsPangooTable,
+                            Named = true,
                         });
                     }
 
@@ -187,6 +188,7 @@ namespace Pangoo
                             ExcelName = o.Substring(7, o.Length - (5 + 7)),
                             BaseNamespace = "Pangoo",
                             IsPangooTable = true,
+                            Named = true,
                         });
                     }
                 });

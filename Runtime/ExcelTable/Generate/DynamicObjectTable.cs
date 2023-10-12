@@ -61,6 +61,33 @@ namespace Pangoo
             [JsonMember("TriggerEventIds")]
             [ExcelTableCol("TriggerEventIds","TriggerEventIds","string", "触发事件Ids",7)]
             public string TriggerEventIds ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("使用热点区域")]
+            [HideLabel]
+            [JsonMember("UseHotspot")]
+            [ExcelTableCol("UseHotspot","UseHotspot","bool", "使用热点区域",8)]
+            public bool UseHotspot ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("热点区域的范围")]
+            [HideLabel]
+            [JsonMember("HotspotRadius")]
+            [ExcelTableCol("HotspotRadius","HotspotRadius","float", "热点区域的范围",9)]
+            public float HotspotRadius ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("热点区域Ids")]
+            [HideLabel]
+            [JsonMember("HotspotIds")]
+            [ExcelTableCol("HotspotIds","HotspotIds","string", "热点区域Ids",10)]
+            public string HotspotIds ;
         }
 
 

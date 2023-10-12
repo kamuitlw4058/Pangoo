@@ -23,6 +23,9 @@ MonoBehaviour:
       Position: {x: 0, y: 0.38, z: 0}
       Rotation: {x: 0, y: 89.19, z: 0}
       TriggerEventIds: 1
+      UseHotspot: 0
+      HotspotRadius: 0
+      HotspotIds: 
     - Id: 3
       Name: "\u65E5\u5386"
       AssetPathId: 100002
@@ -30,6 +33,9 @@ MonoBehaviour:
       Position: {x: 0, y: 0, z: 0}
       Rotation: {x: 0, y: 0, z: 0}
       TriggerEventIds: 
+      UseHotspot: 0
+      HotspotRadius: 0
+      HotspotIds: 
     - Id: 4
       Name: "\u6D4B\u8BD5"
       AssetPathId: 100004
@@ -37,10 +43,16 @@ MonoBehaviour:
       Position: {x: 0, y: 0, z: 0}
       Rotation: {x: 0, y: 0, z: 0}
       TriggerEventIds: 
+      UseHotspot: 0
+      HotspotRadius: 0
+      HotspotIds: 
     - Id: 5
       Name: "\u6D4B\u8BD5\u78B0\u649E\u89E6\u53D1"
       AssetPathId: 100005
       NameCn: 
-      Position: {x: -3.138, y: 1.03, z: -6.079}
-      Rotation: {x: -0, y: 0, z: 0}
+      Position: {x: 0, y: 1.03, z: 0}
+      Rotation: {x: 0, y: 0, z: 0}
       TriggerEventIds: 3
+      UseHotspot: 0
+      HotspotRadius: 0
+      HotspotIds: 

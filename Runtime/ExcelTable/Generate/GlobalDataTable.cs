@@ -23,7 +23,7 @@ namespace Pangoo
             [TableTitleGroup("键")]
             [HideLabel]
             [JsonMember("Key")]
-            [ExcelTableCol("Key","Key","string", "键",2)]
+            [ExcelTableCol("Key","Key","string", "键",3)]
             public string Key ;
 
             /// <summary>
@@ -32,7 +32,7 @@ namespace Pangoo
             [TableTitleGroup("类型")]
             [HideLabel]
             [JsonMember("Type")]
-            [ExcelTableCol("Type","Type","string", "类型",3)]
+            [ExcelTableCol("Type","Type","string", "类型",4)]
             public string Type ;
 
             /// <summary>
@@ -41,7 +41,7 @@ namespace Pangoo
             [TableTitleGroup("值")]
             [HideLabel]
             [JsonMember("Value")]
-            [ExcelTableCol("Value","Value","string", "值",4)]
+            [ExcelTableCol("Value","Value","string", "值",5)]
             public string Value ;
         }
 

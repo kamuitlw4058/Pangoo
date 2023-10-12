@@ -156,6 +156,14 @@ namespace Pangoo
             return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<TriggerEventTableOverview>();
         }
 
+        public bool UseHotspot
+        {
+            get
+            {
+                return Row?.UseHotspot ?? false;
+            }
+        }
+
 
 
     }
