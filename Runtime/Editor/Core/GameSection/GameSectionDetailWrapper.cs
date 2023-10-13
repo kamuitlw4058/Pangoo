@@ -69,16 +69,45 @@ namespace Pangoo
                 if (Row != null && Overview != null)
                 {
                     Row.KeepSceneIds = value.ToList().ToListString();
-                    Debug.Log($"Keep changed");
                     Save();
                 }
 
             }
         }
 
+
+        [LabelText("初始化场景")]
+        [ValueDropdown("StaticSceneIdValueDropdown", IsUniqueList = true)]
+        [ListDrawerSettings(Expanded = true)]
+
+        [ShowInInspector]
+        [PropertyOrder(3)]
+        public int[] InitSceneIds
+        {
+            get
+            {
+                return Row?.InitSceneIds?.ToArrInt();
+            }
+            set
+            {
+
+                if (Row != null && Overview != null)
+                {
+                    Row.InitSceneIds = value.ToList().ToListString();
+                    Save();
+                }
+            }
+        }
+
+
         public IEnumerable StaticSceneIdKeepValueDropdown()
         {
             return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<StaticSceneTableOverview>(ids: DynamicSceneIds.ToList());
+        }
+
+        public IEnumerable StaticSceneIdValueDropdown()
+        {
+            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<StaticSceneTableOverview>();
         }
 
 
@@ -87,7 +116,7 @@ namespace Pangoo
         [ListDrawerSettings(Expanded = true)]
 
         [ShowInInspector]
-        [PropertyOrder(3)]
+        [PropertyOrder(4)]
         public int[] DynamicObjectIds
         {
             get
@@ -111,11 +140,39 @@ namespace Pangoo
 
             }
         }
+
+
+        [LabelText("初始化完成指令")]
+        [ValueDropdown("InstructionIdValueDropdown", IsUniqueList = true)]
+        [ListDrawerSettings(Expanded = true)]
+        [ShowInInspector]
+        [PropertyOrder(5)]
+        public int[] InstructionIds
+        {
+            get
+            {
+                return Row?.InitedInstructionIds?.ToArrInt() ?? new int[0];
+            }
+            set
+            {
+
+                if (Row != null && Overview != null)
+                {
+                    Row.InitedInstructionIds = value.ToList().ToListString();
+                    Save();
+                }
+            }
+        }
+
         public IEnumerable DynamicObjectIdValueDropdown()
         {
             return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<DynamicObjectTableOverview>();
         }
 
+        public IEnumerable InstructionIdValueDropdown()
+        {
+            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<InstructionTableOverview>();
+        }
 
 
 

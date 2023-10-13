@@ -6,6 +6,8 @@ using System;
 using GameFramework;
 using UnityGameFramework.Runtime;
 using UnityEngine;
+using Pangoo.Core.Common;
+using Pangoo.Core.VisualScripting;
 
 namespace Pangoo.Service
 {
@@ -18,6 +20,9 @@ namespace Pangoo.Service
         DynamicObjectManagerService m_DynamicObjectService;
 
         GameSectionTable m_GameSectionTable;
+
+        InstructionTable m_InstructionTable;
+
 
 
         public int CurrentId = 1;
@@ -49,8 +54,24 @@ namespace Pangoo.Service
         {
             Debug.Log($"DoStart GameSectionService");
             m_GameSectionTable = m_ExcelTableService.GetExcelTable<GameSectionTable>();
+            m_StaticSceneService.OnInitSceneLoaded += OnInitSceneLoaded;
             UpdateStaticScene(true);
         }
+
+        void OnInitSceneLoaded()
+        {
+            Debug.Log($"OnInitSceneLoaded");
+            var GameSection = m_GameSectionTable.GetGameSectionRow(CurrentId);
+            var instructionIds = GameSection.InitedInstructionIds.ToListInt();
+            if (instructionIds.Count > 0)
+            {
+                var instructions = GetInstructionList(instructionIds);
+                instructions.Start(Args.EMPTY);
+
+            }
+        }
+
+
 
         void UpdateStaticScene(bool isStart = false)
         {
@@ -58,8 +79,8 @@ namespace Pangoo.Service
             {
                 LatestId = CurrentId;
                 var GameSection = m_GameSectionTable.GetGameSectionRow(CurrentId);
-                m_StaticSceneService.SetHoldSceneId(GameSection.KeepSceneIds.ToListInt());
-                m_StaticSceneService.SetSectionIds(GameSection.DynamicSceneIds.ToListInt());
+
+
                 Tuple<int, int> sectionChange = new Tuple<int, int>(0, 0);
                 if (!string.IsNullOrEmpty(GameSection.SectionJumpByScene))
                 {
@@ -70,15 +91,11 @@ namespace Pangoo.Service
                     }
                 }
                 m_StaticSceneService.SetGameSectionChange(sectionChange);
-
-                var ids = GameSection.FirstDynamicSceneIds.ToListInt();
-                if (isStart)
-                {
-                    foreach (var id in ids)
-                    {
-                        m_StaticSceneService.ShowStaticScene(id);
-                    }
-                }
+                m_StaticSceneService.SetGameScetion(
+                    GameSection.DynamicSceneIds.ToListInt(),
+                    GameSection.KeepSceneIds.ToListInt(),
+                    GameSection.InitSceneIds.ToListInt()
+                    );
 
                 var doIds = GameSection.DynamicObjectIds.ToListInt();
                 foreach (var doId in doIds)
@@ -90,9 +107,62 @@ namespace Pangoo.Service
             }
         }
 
+        public InstructionTable.InstructionRow GetInstructionRow(int id)
+        {
+            InstructionTable.InstructionRow instructionRow = null;
+
+#if UNITY_EDITOR
+            if (Application.isPlaying && m_InstructionTable != null)
+            {
+                Debug.Log($"GetRowByInstructionTable");
+                instructionRow = m_InstructionTable.GetRowById(id);
+            }
+            else
+            {
+                instructionRow = GameSupportEditorUtility.GetExcelTableRowWithOverviewById<InstructionTableOverview, InstructionTable.InstructionRow>(id);
+            }
+
+#else
+            instructionRow = m_InstructionTable.GetRowById(id);
+#endif
+            return instructionRow;
+        }
+
+        InstructionList GetInstructionList(List<int> ids)
+        {
+            List<Instruction> instructions = new();
+
+            foreach (var instructionId in ids)
+            {
+                InstructionTable.InstructionRow instructionRow = GetInstructionRow(instructionId);
+                if (instructionRow == null || instructionRow.InstructionType == null)
+                {
+                    continue;
+                }
+
+                var InstructionInstance = ClassUtility.CreateInstance<Instruction>(instructionRow.InstructionType);
+                InstructionInstance.LoadParams(instructionRow.Params);
+
+                instructions.Add(InstructionInstance);
+            }
+
+            return new InstructionList(instructions.ToArray());
+        }
+
+
         public override void DoUpdate(float elapseSeconds, float realElapseSeconds)
         {
             UpdateStaticScene();
+        }
+
+        public override void DoDestroy()
+        {
+            if (m_StaticSceneService != null)
+            {
+                m_StaticSceneService.OnInitSceneLoaded -= OnInitSceneLoaded;
+
+            }
+            base.DoDestroy();
         }
 
 

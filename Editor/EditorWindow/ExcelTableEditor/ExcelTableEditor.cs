@@ -14,18 +14,18 @@ namespace Pangoo.Editor
     public class DataTableEditor : OdinMenuEditorWindow
     {
 
-        [MenuItem("Pangoo/ExcelTable编辑", false, 6)]
-        public static void ShowWindow()
-        {
-            var window = GetWindow<DataTableEditor>();
-            window.position = GUIHelper.GetEditorWindowRect().AlignCenter(800, 700);
-            window.titleContent = new GUIContent("Pangoo编辑");
-            window.MenuWidth = 180;
+        // [MenuItem("Pangoo/ExcelTable编辑", false, 6)]
+        // public static void ShowWindow()
+        // {
+        //     var window = GetWindow<DataTableEditor>();
+        //     window.position = GUIHelper.GetEditorWindowRect().AlignCenter(800, 700);
+        //     window.titleContent = new GUIContent("Pangoo编辑");
+        //     window.MenuWidth = 180;
 
 
 
-            window.Show();
-        }
+        //     window.Show();
+        // }
 
         protected override OdinMenuTree BuildMenuTree()
         {

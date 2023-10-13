@@ -23,7 +23,7 @@ namespace Pangoo
             [TableTitleGroup("Int类型的键")]
             [HideLabel]
             [JsonMember("int_key")]
-            [ExcelTableCol("IntKey","int_key","string", "Int类型的键",3)]
+            [ExcelTableCol("IntKey","int_key","string", "Int类型的键",2)]
             public string IntKey ;
 
             /// <summary>
@@ -32,7 +32,7 @@ namespace Pangoo
             [TableTitleGroup("Int类型的值")]
             [HideLabel]
             [JsonMember("int_value")]
-            [ExcelTableCol("IntValue","int_value","int", "Int类型的值",4)]
+            [ExcelTableCol("IntValue","int_value","int", "Int类型的值",3)]
             public int IntValue ;
 
             /// <summary>
@@ -41,7 +41,7 @@ namespace Pangoo
             [TableTitleGroup("Flaot类型的键")]
             [HideLabel]
             [JsonMember("float_key")]
-            [ExcelTableCol("FloatKey","float_key","string", "Flaot类型的键",5)]
+            [ExcelTableCol("FloatKey","float_key","string", "Flaot类型的键",4)]
             public string FloatKey ;
 
             /// <summary>
@@ -50,7 +50,7 @@ namespace Pangoo
             [TableTitleGroup("Float类型的值")]
             [HideLabel]
             [JsonMember("float_value")]
-            [ExcelTableCol("FloatValue","float_value","float", "Float类型的值",6)]
+            [ExcelTableCol("FloatValue","float_value","float", "Float类型的值",5)]
             public float FloatValue ;
         }
 

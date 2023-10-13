@@ -23,7 +23,7 @@ namespace Pangoo
             [TableTitleGroup("事件的命名空间")]
             [HideLabel]
             [JsonMember("Namesapce")]
-            [ExcelTableCol("Namesapce","Namesapce","string", "事件的命名空间",3)]
+            [ExcelTableCol("Namesapce","Namesapce","string", "事件的命名空间",2)]
             public string Namesapce ;
 
             /// <summary>
@@ -32,7 +32,7 @@ namespace Pangoo
             [TableTitleGroup("事件名称")]
             [HideLabel]
             [JsonMember("EventName")]
-            [ExcelTableCol("EventName","EventName","string", "事件名称",4)]
+            [ExcelTableCol("EventName","EventName","string", "事件名称",3)]
             public string EventName ;
 
             /// <summary>
@@ -41,7 +41,7 @@ namespace Pangoo
             [TableTitleGroup("描述")]
             [HideLabel]
             [JsonMember("desc")]
-            [ExcelTableCol("Desc","desc","string", "描述",5)]
+            [ExcelTableCol("Desc","desc","string", "描述",4)]
             public string Desc ;
         }
 

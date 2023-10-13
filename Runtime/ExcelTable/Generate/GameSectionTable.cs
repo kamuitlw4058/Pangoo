@@ -49,9 +49,9 @@ namespace Pangoo
             /// </summary>
             [TableTitleGroup("进入章节默认加载的场景")]
             [HideLabel]
-            [JsonMember("FirstDynamicSceneIds")]
-            [ExcelTableCol("FirstDynamicSceneIds","FirstDynamicSceneIds","string", "进入章节默认加载的场景",6)]
-            public string FirstDynamicSceneIds ;
+            [JsonMember("InitSceneIds")]
+            [ExcelTableCol("InitSceneIds","InitSceneIds","string", "进入章节默认加载的场景",6)]
+            public string InitSceneIds ;
 
             /// <summary>
             /// Desc: 
@@ -61,6 +61,15 @@ namespace Pangoo
             [JsonMember("DynamicObjectIds")]
             [ExcelTableCol("DynamicObjectIds","DynamicObjectIds","string", "动态物体",7)]
             public string DynamicObjectIds ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("初始化后执行的指令")]
+            [HideLabel]
+            [JsonMember("InitedInstructionIds")]
+            [ExcelTableCol("InitedInstructionIds","InitedInstructionIds","string", "初始化后执行的指令",8)]
+            public string InitedInstructionIds ;
         }
 
 

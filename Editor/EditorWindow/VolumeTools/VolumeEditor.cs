@@ -24,9 +24,12 @@ namespace Pangoo.Editor
         public static GameMainConfig m_GameMainConfig;
 
         [ShowInInspector]
-        public static string PackageDir{
-            get{
-                if(m_GameMainConfig == null){
+        public static string PackageDir
+        {
+            get
+            {
+                if (m_GameMainConfig == null)
+                {
                     return string.Empty;
                 }
 
@@ -35,17 +38,21 @@ namespace Pangoo.Editor
         }
 
         [ShowInInspector]
-        public static string VolumeDir {
-            get{
-                return Path.Join(PackageDir,"StreamRes/Volume").Replace("\\","/");
+        public static string VolumeDir
+        {
+            get
+            {
+                return Path.Join(PackageDir, "StreamRes/Volume").Replace("\\", "/");
             }
         }
 
 
         [ShowInInspector]
-        public static string PrefabDir {
-            get{
-                return Path.Join(PackageDir,"StreamRes/Prefab/Volume").Replace("\\","/");
+        public static string PrefabDir
+        {
+            get
+            {
+                return Path.Join(PackageDir, "StreamRes/Prefab/Volume").Replace("\\", "/");
             }
         }
 
@@ -54,32 +61,34 @@ namespace Pangoo.Editor
         private static OdinEditorWindow m_CreateWindow;
 
 
-        [MenuItem("Pangoo/Volume编辑", false, 6)]
-        public static void ShowWindow()
+        // [MenuItem("Pangoo/Volume编辑", false, 6)]
+        // public static void ShowWindow()
+        // {
+        //     var window = GetWindow<VolumeEditor>();
+        //     window.position = GUIHelper.GetEditorWindowRect().AlignCenter(800, 700);
+        //     window.titleContent = new GUIContent("Volume编辑");
+        //     // window.MenuWidth = 180;
+
+        //     window.Show();
+        // }
+
+
+        protected override void OnEnable()
         {
-            var window = GetWindow<VolumeEditor>();
-            window.position = GUIHelper.GetEditorWindowRect().AlignCenter(800, 700);
-            window.titleContent = new GUIContent("Volume编辑");
-            // window.MenuWidth = 180;
-
-            window.Show();
-        }
-
-
-        protected override void OnEnable() {
             m_VolumeComponent = Transform.FindFirstObjectByType<VolumeComponent>();
             m_GameMainConfig = AssetDatabaseUtility.FindAssetFirst<GameMainConfig>();
         }
 
         [Button("CreateVolume")]
-        public void CreateVolume(){
+        public void CreateVolume()
+        {
 
-            m_CreateWindow =  OdinEditorWindow.InspectObject(new VolumeCreateWindow());
+            m_CreateWindow = OdinEditorWindow.InspectObject(new VolumeCreateWindow());
 
         }
 
 
-        private static void ConfirmCreate( string name)
+        private static void ConfirmCreate(string name)
         {
             // var volumePath = $"{PackageDir}";
             DirectoryUtility.ExistsOrCreate(PrefabDir);
@@ -92,7 +101,7 @@ namespace Pangoo.Editor
             // if(volumeComponent != null){
             //     go.transform.parent = volumeComponent.transform;
             // }
-            
+
             // go.transform.localPosition = Vector3.zero;
             // var volume = go.AddComponent<Volume>();
             // volume.isGlobal = true;
@@ -108,41 +117,47 @@ namespace Pangoo.Editor
         }
 
 
-        public class VolumeCreateWindow{
-            
+        public class VolumeCreateWindow
+        {
+
             public string Name = "";
 
-            public VolumeCreateWindow(){
- 
+            public VolumeCreateWindow()
+            {
+
             }
 
-             [Button("新建", ButtonSizes.Large)]
-            public void Create(){
+            [Button("新建", ButtonSizes.Large)]
+            public void Create()
+            {
 
-                if ( Name.IsNullOrWhitespace())
+                if (Name.IsNullOrWhitespace())
                 {
                     EditorUtility.DisplayDialog("错误", "Name必须填写", "确定");
                     // GUIUtility.ExitGUI();
                     return;
                 }
 
-                if(StringUtility.ContainsChinese(Name)){
+                if (StringUtility.ContainsChinese(Name))
+                {
                     EditorUtility.DisplayDialog("错误", "Name不能包含中文", "确定");
                     // GUIUtility.ExitGUI();
                     return;
                 }
 
-                if(StringUtility.IsOnlyDigit(Name)){
+                if (StringUtility.IsOnlyDigit(Name))
+                {
                     EditorUtility.DisplayDialog("错误", "Name不能全是数字", "确定");
                     return;
                 }
 
-                if(char.IsDigit(Name[0])){
+                if (char.IsDigit(Name[0]))
+                {
                     EditorUtility.DisplayDialog("错误", "Name开头不能是数字", "确定");
                     return;
                 }
 
-                ConfirmCreate( Name);
+                ConfirmCreate(Name);
 
             }
         }
