@@ -13,7 +13,7 @@ using System;
 namespace Pangoo
 {
 
-    [ExecuteInEditMode]
+    //[ExecuteInEditMode]
     [DisallowMultipleComponent]
     public class DynamicObjectEditor : MonoBehaviour
     {
@@ -48,6 +48,7 @@ namespace Pangoo
 
 
         [ReadOnly]
+        [ShowInInspector]
         DynamicObjectTable.DynamicObjectRow Row;
 
 
@@ -61,7 +62,25 @@ namespace Pangoo
             OnValueChanged();
         }
 
-        public Action<TriggerEventParams> InteractEvent;
+
+
+        void Start()
+        {
+            DoService = new DynamicObject(gameObject);
+            DoService.Row = Row;
+            DoService.Awake();
+            DoService.Start();
+        }
+
+        // public Func<TriggerEventParams, bool> CheckInteract;
+
+        // public Action<TriggerEventParams> InteractEvent;
+
+        [ShowInInspector]
+        [field: NonSerialized]
+        [LabelText("动态物体")]
+        [HideReferenceObjectPicker]
+        public DynamicObject DoService { get; private set; }
 
 
 
@@ -71,6 +90,9 @@ namespace Pangoo
 
             Overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<DynamicObjectTableOverview>(m_DynamicObjectId);
             Row = GameSupportEditorUtility.GetDynamicObjectRow(m_DynamicObjectId);
+
+
+
             Debug.Log($"Row:{Row} DynamicObjectId:{m_DynamicObjectId}");
 
             Wrapper = new DynamicObjectDetailWrapper();
@@ -80,78 +102,14 @@ namespace Pangoo
             transform.localPosition = Row.Position;
             transform.localRotation = Quaternion.Euler(Row.Rotation);
             Debug.Log($"Set Wrapper.{Row.Position}");
-            InteractionItemTracker tracker = null;
 
-            foreach (var trigger in Wrapper.Triggers)
-            {
-
-
-                switch (trigger.TriggerEventInstance.TriggerType)
-                {
-                    case TriggerTypeEnum.OnInteract:
-                        tracker = transform.GetOrAddComponent<InteractionItemTracker>();
-                        tracker.EventInteract += OnInteract;
-                        break;
-                    default:
-                        tracker = GetComponent<InteractionItemTracker>();
-                        if (tracker != null)
-                        {
-                            tracker.EventInteract -= OnInteract;
-                            DestroyImmediate(tracker);
-                        }
-                        // OnInteractEvent;
-                        break;
-                }
-
-            }
-
-            if (tracker != null)
-            {
-                InteractEvent += OnInteractEvent;
-            }
-            else
-            {
-                InteractEvent -= OnInteractEvent;
-            }
 
         }
 
-        public void OnInteractEvent(TriggerEventParams eventParams)
-        {
-            Debug.Log($"OnInteractEvent:{name}");
-            foreach (var trigger in Wrapper.Triggers)
-            {
-
-                switch (trigger.TriggerEventInstance.TriggerType)
-                {
-                    case TriggerTypeEnum.OnInteract:
-                        trigger.TriggerEventInstance.OnInvoke(eventParams);
-                        break;
-                }
-
-            }
-        }
-
-        public void OnInteract(CharacterService character, IInteractive interactive)
-        {
-            Debug.Log($"OnInteract:{name}");
-            if (InteractEvent != null)
-            {
-                InteractEvent.Invoke(null);
-            }
-        }
-
-
-        void Start()
-        {
-            // Row = GameSupportEditorUtility.GetDynamicObjectRow(DynamicObjectId);
-            // Model = GameObject.Find("Model");
-            // m_Wrapper = new DynamicObjectWrapper(Row, gameObject);
-        }
 
         private void Update()
         {
-
+            DoService?.Update();
         }
 
         [Button("SetTransfrom")]
@@ -163,9 +121,16 @@ namespace Pangoo
 
         }
 
-        public void Run()
+        private void OnTriggerEnter(Collider other)
         {
+            Debug.Log($"DynamicObjectEditor OnTriggerEnter");
+            DoService?.TriggerEnter3d(other);
+        }
 
+        private void OnTriggerExit(Collider other)
+        {
+            Debug.Log($"DynamicObjectEditor OnTriggerExit");
+            DoService?.TriggerExit3d(other);
         }
 
     }

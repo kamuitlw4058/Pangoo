@@ -25,7 +25,7 @@ namespace Pangoo
         [ValueDropdown("AssetPathIdValueDropdown")]
         [PropertyOrder(0)]
         [ShowInInspector]
-        // [InlineButton("ShowCreateAssetPath", SdfIconType.Plus, Label = "")]
+        [InlineButton("ShowCreateAssetPath", SdfIconType.Plus, Label = "")]
         public int AssetPathId
         {
             get
@@ -82,6 +82,17 @@ namespace Pangoo
             return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<StaticSceneTableOverview>();
         }
 
+        void ShowCreateAssetPath()
+        {
+            var assetOverview = GameSupportEditorUtility.GetExcelTableOverviewByConfig<AssetPathTableOverview>(Overview.Config);
+            var assetNewObject = AssetPathNewWrapper.Create(assetOverview, Id, ConstExcelTable.StaticSceneAssetTypeName, Name, afterCreateAsset: OnAfterCreateAsset);
+            var window = OdinEditorWindow.InspectObject(assetNewObject);
+            assetNewObject.Window = window;
+        }
+        public void OnAfterCreateAsset(int id)
+        {
+            AssetPathId = id;
+        }
 
     }
 }

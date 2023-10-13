@@ -18,20 +18,25 @@ namespace Pangoo
     public class AssetPathNewWrapper : ExcelTableRowNewWrapper<AssetPathTableOverview, AssetPathTable.AssetPathRow>
     {
 
-        public int GetAssetTypeBaseId(string assetType)
+        public int GetAssetTypeBaseId(AssetPathTableOverview overview, string assetType)
         {
+            if (overview == null || assetType.IsNullOrWhiteSpace())
+            {
+                return 0;
+            }
+
             switch (assetType)
             {
                 case ConstExcelTable.DynamicObjectAssetTypeName:
-                    return ConstExcelTable.DynamicObjectAssetPathIdBase;
+                    return overview.Config.AssetPathBaseId + overview.Config.DynmaicObjectBaseId;
                 case ConstExcelTable.StaticSceneAssetTypeName:
-                    return ConstExcelTable.StaticSceneAssetPathIdBase;
+                    return overview.Config.AssetPathBaseId + overview.Config.StaticSceneBaseId;
             }
 
             return 0;
         }
 
-        public string GetPrefixByAssetType(string assetType)
+        public static string GetPrefixByAssetType(string assetType)
         {
             switch (assetType)
             {
@@ -56,7 +61,7 @@ namespace Pangoo
                     if (Row.AssetType == null || Row.AssetType == string.Empty)
                     {
                         Row.AssetType = ConstExcelTable.DynamicObjectAssetTypeName;
-                        Row.Id = GetAssetTypeBaseId(Row.AssetType);
+                        Row.Id = GetAssetTypeBaseId(Overview, Row.AssetType);
                     }
                 }
 
@@ -67,7 +72,7 @@ namespace Pangoo
                 if (Row != null)
                 {
                     Row.AssetType = value;
-                    Row.Id = GetAssetTypeBaseId(value);
+                    Row.Id = GetAssetTypeBaseId(Overview, value);
                 }
             }
         }
@@ -106,23 +111,6 @@ namespace Pangoo
             return ret;
         }
 
-        // [ShowInInspector]
-        // public string PackageDir
-        // {
-        //     get
-        //     {
-        //         if (Row == null && Overview == null)
-        //         {
-        //             return string.Empty;
-        //         }
-        //         if (Row.AssetPackageDir.IsNullOrWhitespace())
-        //         {
-        //             Row.AssetPackageDir = Overview.Config.PackageDir;
-        //         }
-
-        //         return Row.AssetPackageDir;
-        //     }
-        // }
 
 
 
@@ -176,16 +164,17 @@ namespace Pangoo
             AssetName = GetPrefixByAssetType(AssetType) + ModelPrefab.name;
         }
 
-        public static AssetPathNewWrapper Create(AssetPathTableOverview overview, int id = 0, string assetType = "", string name = "", string fileType = ".prefab", Action<int> afterCreateAsset = null)
+        public static AssetPathNewWrapper Create(AssetPathTableOverview overview, int id = 0, string assetType = "", string name = "", string fileType = "prefab", Action<int> afterCreateAsset = null)
         {
             var wrapper = new AssetPathNewWrapper();
             wrapper.Overview = overview;
             wrapper.Row = new AssetPathTable.AssetPathRow();
             wrapper.AssetType = assetType;
-            wrapper.Id = wrapper.GetAssetTypeBaseId(assetType) + id;
+            wrapper.Id = wrapper.GetAssetTypeBaseId(overview, assetType) + id;
             wrapper.FileType = fileType;
             wrapper.Name = name;
             wrapper.AfterCreate = afterCreateAsset;
+            wrapper.AssetName = GetPrefixByAssetType(assetType) + name.ToPinyin();
             return wrapper;
         }
 
@@ -211,12 +200,14 @@ namespace Pangoo
 
             var go = new GameObject(fileName);
 
-            var prefab_go = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
-            prefab_go.transform.parent = go.transform;
-            prefab_go.ResetTransfrom(false);
-            prefab_go.name = ConstExcelTable.SubModelName;
+            if (prefab != null)
+            {
+                var prefab_go = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+                prefab_go.transform.SetParent(go.transform);
+                prefab_go.ResetTransfrom(false);
+                prefab_go.name = ConstExcelTable.SubModelName;
+            }
 
-            // string prefabPath = "Assets/Prefabs/MyPrefab.prefab";
             PrefabUtility.SaveAsPrefabAsset(go, assetPathRow.ToPrefabPath());
             GameObject.DestroyImmediate(go);
 

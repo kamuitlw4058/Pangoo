@@ -76,6 +76,15 @@ namespace Pangoo
             }
         }
 
+        bool UseCondition
+        {
+            get
+            {
+                return Row?.UseCondition ?? false;
+            }
+        }
+
+
         void UpdateTrigger()
         {
 
@@ -86,7 +95,9 @@ namespace Pangoo
             }
             m_TriggerEventInstance.Row = Row;
             m_TriggerEventInstance.LoadParamsFromJson(Row.Params);
-            m_TriggerEventInstance.Instructions = GetInstructionList();
+            m_TriggerEventInstance.RunInstructions = GetInstructionList(InstructionIds);
+            m_TriggerEventInstance.FailInstructions = GetInstructionList(FailedInstructionIds);
+            m_TriggerEventInstance.Conditions = GetConditionList(ConditionIds);
         }
 
         public IEnumerable GetTriggerEvent()
@@ -131,7 +142,6 @@ namespace Pangoo
         [LabelText("指令Ids")]
         [ValueDropdown("InstructionIdValueDropdown", IsUniqueList = true)]
         [ListDrawerSettings(Expanded = true)]
-
         [ShowInInspector]
         [PropertyOrder(9)]
         public int[] InstructionIds
@@ -146,36 +156,100 @@ namespace Pangoo
                 if (Row != null && Overview != null)
                 {
                     Row.InstructionList = value.ToList().ToListString();
+                    UpdateTrigger();
                     Save();
                 }
 
             }
         }
 
+        [LabelText("条件Ids")]
+        [ValueDropdown("ConditionIdValueDropdown", IsUniqueList = true)]
+        [ListDrawerSettings(Expanded = true)]
+        [ShowInInspector]
+        [PropertyOrder(10)]
+        [ShowIf("@this.UseCondition")]
+        public int[] ConditionIds
+        {
+            get
+            {
+                return Row?.ConditionList?.ToArrInt() ?? new int[0];
+            }
+            set
+            {
+
+                if (Row != null && Overview != null)
+                {
+                    Row.ConditionList = value.ToList().ToListString();
+                    UpdateTrigger();
+                    Save();
+                }
+
+            }
+        }
+
+
+
+        [LabelText("失败指令Ids")]
+        [ValueDropdown("InstructionIdValueDropdown", IsUniqueList = true)]
+        [ListDrawerSettings(Expanded = true)]
+        [ShowInInspector]
+        [PropertyOrder(10)]
+        [ShowIf("@this.UseCondition")]
+        public int[] FailedInstructionIds
+        {
+            get
+            {
+                return Row?.FailInstructionList?.ToArrInt() ?? new int[0];
+            }
+            set
+            {
+
+                if (Row != null && Overview != null)
+                {
+                    Row.FailInstructionList = value.ToList().ToListString();
+                    UpdateTrigger();
+                    Save();
+                }
+
+            }
+        }
+
+
         public IEnumerable InstructionIdValueDropdown()
         {
             return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<InstructionTableOverview>();
         }
 
-        public InstructionList GetInstructionList()
+        public IEnumerable ConditionIdValueDropdown()
         {
+            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<ConditionTableOverview>();
+        }
+
+        public InstructionList GetInstructionList(int[] ids)
+        {
+            if (ids.Length == 0)
+            {
+                return null;
+            }
+
             List<Instruction> instructions = new();
 
-
-            foreach (var instructionId in InstructionIds)
+            foreach (var instructionId in ids)
             {
                 var instructionRow = GameSupportEditorUtility.GetExcelTableRowWithOverviewById<InstructionTableOverview, InstructionTable.InstructionRow>(instructionId);
                 if (instructionRow == null || instructionRow.InstructionType == null)
                 {
                     continue;
                 }
-                var instructionType = Utility.Assembly.GetType(instructionRow.InstructionType);
-                if (instructionType == null)
+
+                var InstructionInstance = ClassUtility.CreateInstance<Instruction>(instructionRow.InstructionType);
+                if (InstructionInstance == null)
                 {
                     continue;
                 }
 
-                var InstructionInstance = Activator.CreateInstance(instructionType) as Instruction;
+
                 InstructionInstance.LoadParams(instructionRow.Params);
 
                 instructions.Add(InstructionInstance);
@@ -184,13 +258,60 @@ namespace Pangoo
             return new InstructionList(instructions.ToArray());
         }
 
-        [Button("立即运行指令")]
+        public ConditionList GetConditionList(int[] ids)
+        {
+            if (ids.Length == 0)
+            {
+                return null;
+            }
+
+            List<Condition> items = new();
+
+            foreach (var itemId in ids)
+            {
+                var row = GameSupportEditorUtility.GetConditionRowById(itemId);
+                if (row == null || row.ConditionType == null)
+                {
+                    continue;
+                }
+
+                var instance = ClassUtility.CreateInstance<Condition>(row.ConditionType);
+                if (instance == null)
+                {
+                    continue;
+                }
+
+
+                instance.LoadParams(row.Params);
+                items.Add(instance);
+            }
+
+            return new ConditionList(items.ToArray());
+        }
+
+        [Button("运行成功指令")]
+        [PropertyOrder(10)]
+        public void RunPass()
+        {
+            var instructionList = GetInstructionList(InstructionIds);
+            instructionList.Start(new Args());
+        }
+
+        [Button("运行失败指令")]
+        [PropertyOrder(10)]
+        public void RunFailed()
+        {
+            var instructionList = GetInstructionList(FailedInstructionIds);
+            instructionList.Start(new Args());
+        }
+
+        [Button("运行指令")]
         [PropertyOrder(10)]
         public void Run()
         {
-            var instructionList = GetInstructionList();
-            instructionList.Start(new Args(Row));
+            m_TriggerEventInstance?.OnInvoke(new Args());
         }
+
 
 
     }
