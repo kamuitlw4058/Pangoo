@@ -5,7 +5,7 @@ using Pangoo.Core.Common;
 using Sirenix.OdinInspector;
 using Cinemachine;
 
-namespace Pangoo.Core.Character
+namespace Pangoo.Core.Characters
 {
 
     [Serializable]
@@ -35,7 +35,7 @@ namespace Pangoo.Core.Character
 
         public bool reverse = false;
 
-        public FirstPersonCameraService(INestedService parent) : base(parent)
+        public FirstPersonCameraService(NestedBaseService parent) : base(parent)
         {
         }
 
@@ -85,13 +85,13 @@ namespace Pangoo.Core.Character
             }
         }
 
-        public override void DoStart()
+        protected override void DoStart()
         {
             SetFirstPerson();
 
         }
 
-        public override void DoAwake()
+        protected override void DoAwake()
         {
             Debug.Log($"Character:{Character}");
             Debug.Log($"Character.gameObject:{Character.gameObject}");
@@ -104,7 +104,7 @@ namespace Pangoo.Core.Character
             }
         }
 
-        public override void DoUpdate()
+        protected override void DoUpdate()
         {
             CameraRotation();
         }

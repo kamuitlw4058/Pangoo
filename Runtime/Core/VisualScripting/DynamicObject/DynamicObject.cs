@@ -5,7 +5,7 @@ using Pangoo.Core.Common;
 using Pangoo.Core.Service;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
-using Pangoo.Core.Character;
+using Pangoo.Core.Characters;
 using GameFramework;
 using UnityEngine.Rendering;
 
@@ -120,7 +120,7 @@ namespace Pangoo.Core.VisualScripting
         }
 
 
-        public override void DoAwake()
+        protected override void DoAwake()
         {
             CurrentArgs = new Args(this);
             var triggerIds = Row.GetTriggerEventIdList();
@@ -184,7 +184,7 @@ namespace Pangoo.Core.VisualScripting
 
         }
 
-        public override void DoUpdate()
+        protected override void DoUpdate()
         {
             base.DoUpdate();
             foreach (var trigger in TriggerEvents)
@@ -195,7 +195,7 @@ namespace Pangoo.Core.VisualScripting
 
 
 
-        void OnInteract(Character.Character character, IInteractive interactive)
+        void OnInteract(Characters.Character character, IInteractive interactive)
         {
             // if (CheckInteract != null && CheckInteract(null))
             // {
@@ -216,7 +216,7 @@ namespace Pangoo.Core.VisualScripting
 
 
 
-        public override void DoDestroy()
+        protected override void DoDestroy()
         {
             base.DoDestroy();
             if (m_Tracker != null)

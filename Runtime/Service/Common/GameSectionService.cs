@@ -11,7 +11,7 @@ using Pangoo.Core.VisualScripting;
 
 namespace Pangoo.Service
 {
-    public class GameSectionService : ServiceBase
+    public class GameSectionService : BaseService
     {
         public override int Priority => 10;
 
@@ -30,14 +30,14 @@ namespace Pangoo.Service
         public int LatestId = -1;
 
 
-        public override void DoAwake(IServiceContainer services)
+        protected override void DoAwake()
         {
-            base.DoAwake(services);
-            m_StaticSceneService = services.GetService<StaticSceneService>();
-            m_ExcelTableService = services.GetService<ExcelTableService>();
-            m_DynamicObjectService = services.GetService<DynamicObjectManagerService>();
+            base.DoAwake();
+            m_StaticSceneService = Parent.GetService<StaticSceneService>();
+            m_ExcelTableService = Parent.GetService<ExcelTableService>();
+            m_DynamicObjectService = Parent.GetService<DynamicObjectManagerService>();
 
-            EventHelper.Subscribe(GameSectionChangeEventArgs.EventId, OnGameSectionChangeEvent);
+            Event.Subscribe(GameSectionChangeEventArgs.EventId, OnGameSectionChangeEvent);
 
         }
 
@@ -50,7 +50,7 @@ namespace Pangoo.Service
             }
         }
 
-        public override void DoStart()
+        protected override void DoStart()
         {
             Debug.Log($"DoStart GameSectionService");
             m_GameSectionTable = m_ExcelTableService.GetExcelTable<GameSectionTable>();
@@ -150,12 +150,12 @@ namespace Pangoo.Service
         }
 
 
-        public override void DoUpdate(float elapseSeconds, float realElapseSeconds)
+        protected override void DoUpdate()
         {
             UpdateStaticScene();
         }
 
-        public override void DoDestroy()
+        protected override void DoDestroy()
         {
             if (m_StaticSceneService != null)
             {

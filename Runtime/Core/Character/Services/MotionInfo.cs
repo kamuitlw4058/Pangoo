@@ -1,7 +1,7 @@
 using System;
 using Sirenix.OdinInspector;
 
-namespace Pangoo.Core.Character
+namespace Pangoo.Core.Characters
 {
 
     [Serializable]

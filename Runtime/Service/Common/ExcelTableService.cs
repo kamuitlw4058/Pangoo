@@ -2,7 +2,7 @@ using Pangoo;
 
 namespace Pangoo.Service
 {
-    public class ExcelTableService : ServiceBase
+    public class ExcelTableService : BaseService
     {
         public override int Priority => -1;
 

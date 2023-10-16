@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Pangoo.Core.Character
+namespace Pangoo.Core.Characters
 {
     public abstract class MotionActionBase
     {

@@ -3,7 +3,7 @@ using UnityEngine;
 using Pangoo.Service;
 using Sirenix.OdinInspector;
 
-namespace Pangoo.Core.Character
+namespace Pangoo.Core.Characters
 {
 
     [Serializable]
@@ -24,7 +24,7 @@ namespace Pangoo.Core.Character
 
         // CONSTRUCTOR: ---------------------------------------------------------------------------
 
-        public PlayerService(INestedService parent) : base(parent)
+        public PlayerService(NestedBaseService parent) : base(parent)
         {
             this.m_IsControllable = true;
         }
@@ -96,7 +96,7 @@ namespace Pangoo.Core.Character
             AddService(m_PlayerDirectionalService);
         }
 
-        public override void DoStart()
+        protected override void DoStart()
         {
             ChangePlayerType(m_CharacterPlayerType, m_CharacterPlayerType, true);
 

@@ -4,7 +4,7 @@ using Pangoo.Service;
 using Pangoo.Core.Common;
 using Pangoo.Core.Service;
 
-namespace Pangoo.Core.Character
+namespace Pangoo.Core.Characters
 {
 
     public partial class Character

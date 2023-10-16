@@ -5,7 +5,7 @@ using Pangoo.Core.Common;
 using Pangoo.Core.Service;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
-using Pangoo.Core.Character;
+using Pangoo.Core.Characters;
 using GameFramework;
 using UnityEngine.Rendering;
 

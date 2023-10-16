@@ -4,7 +4,7 @@ using Sirenix.OdinInspector;
 using Pangoo.Core.Common;
 using Pangoo.Core.Service;
 
-namespace Pangoo.Core.Character
+namespace Pangoo.Core.Characters
 {
 
     public class CharacterBaseService : MonoSubService<Character>
@@ -24,10 +24,10 @@ namespace Pangoo.Core.Character
 
 
 
-        public CharacterBaseService(INestedService parent) : base()
+        public CharacterBaseService(NestedBaseService parent) : base()
         {
             Parent = parent;
-            InitParent(parent);
+            InitParent();
         }
 
     }

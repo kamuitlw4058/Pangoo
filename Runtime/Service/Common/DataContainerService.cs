@@ -7,40 +7,40 @@ using UnityGameFramework.Runtime;
 
 namespace Pangoo
 {
-    public class DataContainerService : ServiceBase,IKeyValue
+    public class DataContainerService : BaseService, IKeyValue
     {
-        public GlobalDataService globalDataService=new GlobalDataService();
-        public SaveLoadService saveLoadService=new SaveLoadService();
-        public RuntimeDataService runtimeDataService=new RuntimeDataService();
+        public GlobalDataService globalDataService = new GlobalDataService();
+        public SaveLoadService saveLoadService = new SaveLoadService();
+        public RuntimeDataService runtimeDataService = new RuntimeDataService();
 
-        public override void DoAwake(IServiceContainer services)
+        protected override void DoAwake()
         {
-            base.DoAwake(services);
-            globalDataService = services.GetService<GlobalDataService>();
-            saveLoadService = services.GetService<SaveLoadService>();
-            runtimeDataService = services.GetService<RuntimeDataService>();
+            base.DoAwake();
+            globalDataService = Parent.GetService<GlobalDataService>();
+            saveLoadService = Parent.GetService<SaveLoadService>();
+            runtimeDataService = Parent.GetService<RuntimeDataService>();
         }
 
         public bool TryGet<T>(string key, out T outValue)
         {
-            if (!runtimeDataService.TryGet<T>(key,out outValue))
+            if (!runtimeDataService.TryGet<T>(key, out outValue))
             {
-                if (!saveLoadService.TryGet<T>(key,out outValue))
+                if (!saveLoadService.TryGet<T>(key, out outValue))
                 {
-                    if (!globalDataService.TryGet<T>(key,out outValue))
+                    if (!globalDataService.TryGet<T>(key, out outValue))
                     {
-                        Debug.LogError("默认配置表中没有这个键:"+key);
+                        Debug.LogError("默认配置表中没有这个键:" + key);
                         return false;
                     }
                 }
-                runtimeDataService.Set<T>(key,(T)outValue);
+                runtimeDataService.Set<T>(key, (T)outValue);
             }
             return true;
         }
 
         public void Set<T>(string key, T value)
         {
-            runtimeDataService.Set<T>(key,value);
+            runtimeDataService.Set<T>(key, value);
             //TODO:添加条件约束添加SaveLoad数据的节点
             //saveLoadService.Set<T>(key,value);
         }

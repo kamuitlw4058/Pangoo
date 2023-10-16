@@ -3,7 +3,7 @@ using UnityEngine;
 using Pangoo.Service;
 using Sirenix.OdinInspector;
 
-namespace Pangoo.Core.Character
+namespace Pangoo.Core.Characters
 {
 
     public abstract class CharacterControllerService<T> : CharacterBaseService where T : Enum
@@ -11,7 +11,7 @@ namespace Pangoo.Core.Character
         [SerializeField]
         protected T m_ServiceType = default(T);
 
-        public CharacterControllerService(INestedService parent) : base(parent)
+        public CharacterControllerService(NestedBaseService parent) : base(parent)
         {
         }
 
@@ -52,7 +52,7 @@ namespace Pangoo.Core.Character
             AddService(newType);
         }
 
-        public override void DoStart()
+        protected override void DoStart()
         {
             ChangeServiceType(m_ServiceType, m_ServiceType, true);
 

@@ -1,22 +1,16 @@
 using System;
-using UnityEngine;
+using System.Linq;
 using GameFramework;
+using Sirenix.OdinInspector;
+using System.Collections.Generic;
+
 
 
 namespace Pangoo.Service
 {
-    public abstract partial class NestedServiceBase
+    public partial class NestedBaseService
     {
-        bool IsAwaked = false;
-
-        bool IsStarted = false;
-
-        // public void Awake()
-        // {
-        //     Awake(m_Parent);
-        // }
-
-        public void Awake()
+        public override void Awake()
         {
             if (IsAwaked)
             {
@@ -35,7 +29,7 @@ namespace Pangoo.Service
             DoAwake();
         }
 
-        public void Start()
+        public override void Start()
         {
             IsStarted = true;
             if (m_ChildernArray != null)
@@ -49,7 +43,7 @@ namespace Pangoo.Service
 
         }
 
-        public void Update()
+        public override void Update()
         {
             if (m_ChildernArray != null)
             {
@@ -63,7 +57,7 @@ namespace Pangoo.Service
         }
 
 
-        public void Destroy()
+        public override void Destroy()
         {
             if (m_ChildernArray != null)
             {
@@ -84,7 +78,7 @@ namespace Pangoo.Service
             }
         }
 
-        public void Enable()
+        public override void Enable()
         {
             if (m_ChildernArray != null)
             {
@@ -96,7 +90,7 @@ namespace Pangoo.Service
             DoEnable();
         }
 
-        public void Disable()
+        public override void Disable()
         {
             if (m_ChildernArray != null)
             {
@@ -108,7 +102,7 @@ namespace Pangoo.Service
             DoDisable();
         }
 
-        public void FixedUpdate()
+        public override void FixedUpdate()
         {
             if (m_ChildernArray != null)
             {
@@ -120,7 +114,7 @@ namespace Pangoo.Service
             DoFixedUpdate();
         }
 
-        public void DrawGizmos()
+        public override void DrawGizmos()
         {
             if (m_ChildernArray != null)
             {

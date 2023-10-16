@@ -5,7 +5,7 @@ using Pangoo.Core.Common;
 using Sirenix.OdinInspector;
 
 
-namespace Pangoo.Core.Character
+namespace Pangoo.Core.Characters
 {
 
     [Serializable]
@@ -43,11 +43,11 @@ namespace Pangoo.Core.Character
         public bool InputJump { get; private set; }
 
 
-        public CharacterInputService(INestedService parent) : base(parent)
+        public CharacterInputService(NestedBaseService parent) : base(parent)
         {
         }
 
-        public override void DoAwake()
+        protected override void DoAwake()
         {
             m_InputMove.OnAwake();
             m_InputRotation.OnAwake();
@@ -55,7 +55,7 @@ namespace Pangoo.Core.Character
             m_InputJump.OnAwake();
         }
 
-        public override void DoUpdate()
+        protected override void DoUpdate()
         {
             InputMove = m_InputMove?.Read() ?? Vector2.zero;
 
@@ -73,7 +73,7 @@ namespace Pangoo.Core.Character
         }
 
 
-        public override void DoDestroy()
+        protected override void DoDestroy()
         {
             m_InputMove.OnDestroy();
             m_InputRotation.OnDestroy();

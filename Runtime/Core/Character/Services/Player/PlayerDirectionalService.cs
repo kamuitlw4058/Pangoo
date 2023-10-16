@@ -4,7 +4,7 @@ using Pangoo.Service;
 using Pangoo.Core.Common;
 using Sirenix.OdinInspector;
 
-namespace Pangoo.Core.Character
+namespace Pangoo.Core.Characters
 {
 
     [Serializable]
@@ -27,11 +27,11 @@ namespace Pangoo.Core.Character
 
 
 
-        public PlayerDirectionalService(INestedService parent) : base(parent)
+        public PlayerDirectionalService(NestedBaseService parent) : base(parent)
         {
         }
 
-        public override void DoAwake()
+        protected override void DoAwake()
         {
             m_PlayerService = Parent as PlayerService;
         }
@@ -40,14 +40,14 @@ namespace Pangoo.Core.Character
 
 
 
-        public override void DoStart()
+        protected override void DoStart()
         {
             m_MotionActionService = Character.GetService<MotionActionService>();
             m_CharacterCameraService = Character.GetService<CharacterCameraService>();
             // Debug.Log($"PlayerDirection Start! m_CharacterCameraService:{m_CharacterCameraService} Parent:{Parent}");
         }
 
-        public override void DoUpdate()
+        protected override void DoUpdate()
         {
             base.DoUpdate();
 

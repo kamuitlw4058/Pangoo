@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Pangoo.Core.Common;
 using UnityEngine;
 
-namespace Pangoo.Core.Character
+namespace Pangoo.Core.Characters
 {
     public static class SpatialHashInteractionItems
     {

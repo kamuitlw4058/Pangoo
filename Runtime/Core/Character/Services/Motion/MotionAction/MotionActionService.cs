@@ -3,7 +3,7 @@ using Pangoo.Service;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Pangoo.Core.Character
+namespace Pangoo.Core.Characters
 {
 
     [Serializable]
@@ -35,7 +35,7 @@ namespace Pangoo.Core.Character
             }
         }
 
-        public MotionActionService(INestedService parent) : base(parent)
+        public MotionActionService(NestedBaseService parent) : base(parent)
         {
 
         }
@@ -44,7 +44,7 @@ namespace Pangoo.Core.Character
         public MotionActionBase CurrentAction { get; private set; }
 
 
-        public override void DoUpdate()
+        protected override void DoUpdate()
         {
             MoveDirection = Vector3.zero;
             this.CurrentAction?.Update();

@@ -4,7 +4,7 @@ using Pangoo.Service;
 using Sirenix.OdinInspector;
 
 
-namespace Pangoo.Core.Character
+namespace Pangoo.Core.Characters
 {
 
     public class DriverCharacterController : CharacterBaseService
@@ -12,7 +12,7 @@ namespace Pangoo.Core.Character
 
         public Vector3 MoveDirection { get; set; }
 
-        public DriverCharacterController(INestedService parent) : base(parent)
+        public DriverCharacterController(NestedBaseService parent) : base(parent)
         {
 
         }
@@ -39,13 +39,13 @@ namespace Pangoo.Core.Character
         }
 
         public Vector3 ControllerMoveDirection;
-        public override void DoStart()
+        protected override void DoStart()
         {
             m_MotionActionService = Character.MotionAction;
         }
 
 
-        public override void DoAwake()
+        protected override void DoAwake()
         {
             this.m_Controller = Character.gameObject.GetComponent<CharacterController>();
             if (this.m_Controller == null)
@@ -56,7 +56,7 @@ namespace Pangoo.Core.Character
             }
         }
 
-        public override void DoUpdate()
+        protected override void DoUpdate()
         {
             // Debug.Log($"Update Services:{Services}");
             // MoveDirection = Services.GetVariable<Vector3>("MoveDirection");
@@ -125,7 +125,7 @@ namespace Pangoo.Core.Character
 
 
 
-        public override void DoDestroy()
+        protected override void DoDestroy()
         {
             UnityEngine.Object.Destroy(this.m_Controller);
             base.DoDestroy();

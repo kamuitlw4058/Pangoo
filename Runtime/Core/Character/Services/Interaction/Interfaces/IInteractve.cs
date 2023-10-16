@@ -1,7 +1,7 @@
 using UnityEngine;
 using Pangoo.Core.Common;
 
-namespace Pangoo.Core.Character
+namespace Pangoo.Core.Characters
 {
     public interface IInteractive : ISpatialHash
     {

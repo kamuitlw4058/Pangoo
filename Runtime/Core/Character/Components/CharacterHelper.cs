@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 using System;
 
 
-namespace Pangoo.Core.Character
+namespace Pangoo.Core.Characters
 {
     // [SelectionBase]
     // [DisallowMultipleComponent]
@@ -95,12 +95,6 @@ namespace Pangoo.Core.Character
         {
             characterContainer.Destroy();
 
-        }
-
-        [Button("设置移动")]
-        public void SetMotionDirection()
-        {
-            characterContainer?.SetVariable<Vector3>("MoveDirection", new Vector3(0, 1, 0));
         }
 
         void OnDrawGizmos()

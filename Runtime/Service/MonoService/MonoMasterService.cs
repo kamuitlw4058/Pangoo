@@ -6,7 +6,7 @@ using Pangoo.Core.Common;
 namespace Pangoo.Core.Service
 {
 
-    public class MonoMasterService : NestedServiceBase
+    public class MonoMasterService : NestedBaseService
     {
 
         [SerializeField] TimeMode MonoTimeMode;
@@ -38,7 +38,7 @@ namespace Pangoo.Core.Service
             {
                 if (m_CachedTransfrom == null)
                 {
-                    m_CachedTransfrom = m_GameObject.transform;
+                    m_CachedTransfrom = m_GameObject?.transform;
                 }
                 return m_CachedTransfrom;
             }

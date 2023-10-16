@@ -10,7 +10,7 @@ using Sirenix.OdinInspector;
 
 namespace Pangoo.Service
 {
-    public class DynamicObjectManagerService : ServiceBase
+    public class DynamicObjectManagerService : BaseService
     {
         public override int Priority => 6;
 
@@ -45,17 +45,16 @@ namespace Pangoo.Service
         Dictionary<int, EntityDynamicObject> m_LoadedAssetDict = new Dictionary<int, EntityDynamicObject>();
         List<int> m_LoadingAssetIds = new List<int>();
 
-        public override void DoAwake(IServiceContainer services)
+        protected override void DoAwake()
         {
-            base.DoAwake(services);
+            base.DoAwake();
 
-            m_ExcelTableService = services.GetService<ExcelTableService>();
-            m_GameInfoService = services.GetService<GameInfoService>();
-
+            m_ExcelTableService = Parent.GetService<ExcelTableService>();
+            m_GameInfoService = Parent.GetService<GameInfoService>();
         }
 
 
-        public override void DoStart()
+        protected override void DoStart()
         {
 
             m_DynamicObjectTable = m_ExcelTableService.GetExcelTable<DynamicObjectTable>();
@@ -114,13 +113,6 @@ namespace Pangoo.Service
 
         }
 
-
-
-        public override void DoUpdate(float elapseSeconds, float realElapseSeconds)
-        {
-
-
-        }
 
     }
 }

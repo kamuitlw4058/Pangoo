@@ -2,7 +2,7 @@ using Pangoo;
 
 namespace Pangoo.Service
 {
-    public class GameInfoService : ServiceBase
+    public class GameInfoService : BaseService
     {
         public T GetGameInfo<T>() where T : BaseInfo
         {

@@ -4,7 +4,7 @@ using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 
-namespace Pangoo.Core.Character
+namespace Pangoo.Core.Characters
 {
     [DisallowMultipleComponent]
     [Serializable]

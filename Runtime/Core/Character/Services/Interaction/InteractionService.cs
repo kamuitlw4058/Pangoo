@@ -6,7 +6,7 @@ using Pangoo.Core.Common;
 using Sirenix.OdinInspector;
 
 
-namespace Pangoo.Core.Character
+namespace Pangoo.Core.Characters
 {
 
     [Serializable]
@@ -35,7 +35,7 @@ namespace Pangoo.Core.Character
         [NonSerialized] private List<ISpatialHash> m_Interactions = new List<ISpatialHash>();
 
 
-        public InteractionService(INestedService parent) : base(parent)
+        public InteractionService(NestedBaseService parent) : base(parent)
         {
             m_InteractionMode = new InteractionModeNearCharacter();
         }
@@ -61,7 +61,7 @@ namespace Pangoo.Core.Character
         }
 
 
-        public override void DoUpdate()
+        protected override void DoUpdate()
         {
             SpatialHashInteractionItems.Find(
                 Character.CachedTransfrom.position,
@@ -103,7 +103,7 @@ namespace Pangoo.Core.Character
         }
 
 
-        public override void DoDrawGizmos()
+        protected override void DoDrawGizmos()
         {
             if (Character == null) return;
             if (!Character.IsPlayer) return;

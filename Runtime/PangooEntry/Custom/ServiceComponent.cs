@@ -15,7 +15,7 @@ namespace Pangoo
     {
         [ShowInInspector]
         [TableList]
-        public List<ServiceContainer> ServiceContainers = new List<ServiceContainer>();
+        public List<IBaseServiceContainer> ServiceContainers = new List<IBaseServiceContainer>();
 
 
     }

@@ -2,7 +2,7 @@ using System;
 using Pangoo.Core.Common;
 using UnityEngine;
 
-namespace Pangoo.Core.Character
+namespace Pangoo.Core.Characters
 {
     public interface IInteractionMode
     {

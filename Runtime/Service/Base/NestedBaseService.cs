@@ -1,32 +1,36 @@
 using System;
-using UnityEngine;
+using System.Linq;
 using GameFramework;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
-using System.Linq;
+
 
 
 namespace Pangoo.Service
 {
-    public abstract partial class NestedServiceBase
+    [Serializable]
+    public partial class NestedBaseService : BaseService, IBaseServiceContainer
     {
+        public override float DeltaTime => UnityEngine.Time.deltaTime;
+        public override float Time => UnityEngine.Time.time;
+
 
         [field: NonSerialized]
         [ShowInInspector]
         [HideIf("@this.m_ChildernArray.Length == 0")]
-        private INestedService[] m_ChildernArray = new INestedService[0];
-        private readonly Dictionary<Type, INestedService> m_ChildernDict = new Dictionary<Type, INestedService>();
+        private BaseService[] m_ChildernArray = new BaseService[0];
+        private readonly Dictionary<Type, BaseService> m_ChildernDict = new Dictionary<Type, BaseService>();
 
-        public INestedService[] Childern
+        public BaseService[] Childern
         {
             get
             {
                 return m_ChildernArray;
             }
         }
-        public virtual void AddService(INestedService service)
+        public virtual void AddService(BaseService service)
         {
-            INestedService cachedService;
+            BaseService cachedService;
             Type serviceType = service.GetType();
             if (m_ChildernDict.TryGetValue(serviceType, out cachedService))
             {
@@ -38,7 +42,7 @@ namespace Pangoo.Service
 
             if (m_ChildernArray == null || m_ChildernArray.Length == 0)
             {
-                m_ChildernArray = new INestedService[1];
+                m_ChildernArray = new BaseService[1];
                 m_ChildernArray[0] = service;
             }
             else
@@ -65,9 +69,9 @@ namespace Pangoo.Service
             }
         }
 
-        public virtual void RemoveService(INestedService service)
+        public virtual void RemoveService(BaseService service)
         {
-            INestedService cachedService;
+            BaseService cachedService;
             Type serviceType = service.GetType();
             if (!m_ChildernDict.TryGetValue(serviceType, out cachedService))
             {
@@ -78,9 +82,9 @@ namespace Pangoo.Service
             cachedService.Destroy();
         }
 
-        public T GetService<T>() where T : class, INestedService
+        public T GetService<T>() where T : BaseService
         {
-            INestedService ret;
+            BaseService ret;
             var keyType = typeof(T);
             if (m_ChildernDict.TryGetValue(keyType, out ret))
             {

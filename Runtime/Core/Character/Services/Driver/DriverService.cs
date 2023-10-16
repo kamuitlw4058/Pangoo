@@ -2,14 +2,14 @@ using System;
 using UnityEngine;
 using Pangoo.Service;
 
-namespace Pangoo.Core.Character
+namespace Pangoo.Core.Characters
 {
 
     [Serializable]
     public class DriverService : CharacterControllerService<CharacterDriverTypeEnum>
     {
 
-        public DriverService(INestedService parent) : base(parent)
+        public DriverService(NestedBaseService parent) : base(parent)
         {
 
         }

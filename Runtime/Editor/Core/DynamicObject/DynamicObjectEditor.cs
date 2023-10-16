@@ -7,7 +7,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using Pangoo.Core.VisualScripting;
-using Pangoo.Core.Character;
+using Pangoo.Core.Characters;
 using System;
 
 namespace Pangoo

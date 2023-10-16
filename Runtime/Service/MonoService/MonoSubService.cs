@@ -6,7 +6,7 @@ using Pangoo.Core.Common;
 namespace Pangoo.Core.Service
 {
 
-    public abstract class MonoSubService<TMaster> : NestedServiceBase where TMaster : MonoMasterService
+    public abstract class MonoSubService<TMaster> : NestedBaseService where TMaster : MonoMasterService
     {
 
         public TMaster Master { get; protected set; }
@@ -28,35 +28,35 @@ namespace Pangoo.Core.Service
             }
         }
 
-        public void InitParent(INestedService parent)
+        public void InitParent()
         {
-            if (parent != null)
+            if (Parent != null)
             {
-                if (parent is TMaster)
+                if (Parent is TMaster)
                 {
-                    Master = parent as TMaster;
+                    Master = Parent as TMaster;
                 }
 
-                if (parent is MonoSubService<TMaster>)
+                if (Parent is MonoSubService<TMaster>)
                 {
-                    Master = (parent as MonoSubService<TMaster>).Master;
+                    Master = (Parent as MonoSubService<TMaster>).Master;
                 }
-
-
             }
         }
 
         public static MonoSubService<TMaster> Create<TSub>(TMaster master) where TSub : MonoSubService<TMaster>, new()
         {
             var subService = new TSub();
-            subService.InitParent(master);
+            subService.Parent = master;
+            subService.InitParent();
             return subService;
         }
 
         public static MonoSubService<TMaster> Create<TSub>(MonoSubService<TMaster> sub) where TSub : MonoSubService<TMaster>, new()
         {
             var subService = new TSub();
-            subService.InitParent(sub);
+            subService.Parent = sub.Parent;
+            subService.InitParent();
             return subService;
         }
 

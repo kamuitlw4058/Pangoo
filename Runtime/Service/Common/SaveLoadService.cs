@@ -10,7 +10,7 @@ namespace Pangoo.Service
         private SaveLoadTable m_SaveLoadTable;
 
 
-        public override void DoStart()
+        protected override void DoStart()
         {
             m_SaveLoadTable = m_ExcelTableService.GetExcelTable<SaveLoadTable>();
             for (int i = 0; i < m_SaveLoadTable.Rows.Count; i++)

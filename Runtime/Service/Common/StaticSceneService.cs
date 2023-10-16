@@ -10,7 +10,7 @@ using Sirenix.OdinInspector;
 
 namespace Pangoo.Service
 {
-    public class StaticSceneService : ServiceBase
+    public class StaticSceneService : BaseService
     {
         public override int Priority => 5;
 
@@ -65,9 +65,9 @@ namespace Pangoo.Service
 
         public Action OnInitSceneLoaded;
 
-        public override void DoAwake(IServiceContainer services)
+        protected override void DoAwake()
         {
-            base.DoAwake(services);
+            base.DoAwake();
             m_LoadingAssetIds = new List<int>();
             m_HoldStaticSceneIds = new List<int>();
             m_InitStaticSceneIds = new List<int>();
@@ -75,14 +75,14 @@ namespace Pangoo.Service
             NeedLoadDict = new Dictionary<int, int>();
             m_SectionSceneInfos = new Dictionary<int, StaticSceneInfoRow>();
 
-            m_ExcelTableService = services.GetService<ExcelTableService>();
-            m_GameInfoService = services.GetService<GameInfoService>();
+            m_ExcelTableService = Parent.GetService<ExcelTableService>();
+            m_GameInfoService = Parent.GetService<GameInfoService>();
 
             m_LoadedSceneAssetDict = new Dictionary<int, EntityStaticScene>();
             m_EnterAssetCountDict = new Dictionary<int, int>();
 
-            EventHelper.Subscribe(EnterStaticSceneEventArgs.EventId, OnEnterStaticSceneEvent);
-            EventHelper.Subscribe(ExitStaticSceneEventArgs.EventId, OnExitStaticSceneEvent);
+            Event.Subscribe(EnterStaticSceneEventArgs.EventId, OnEnterStaticSceneEvent);
+            Event.Subscribe(ExitStaticSceneEventArgs.EventId, OnExitStaticSceneEvent);
         }
 
         void OnEnterStaticSceneEvent(object sender, GameFrameworkEventArgs e)
@@ -97,7 +97,7 @@ namespace Pangoo.Service
             ExitSceneAsset(args.AssetPathId);
         }
 
-        public override void DoStart()
+        protected override void DoStart()
         {
 
             // m_StaticSceneTable = m_ExcelTableService.GetExcelTable<StaticSceneTable>();
@@ -151,7 +151,7 @@ namespace Pangoo.Service
             {
                 if (staticSceneInfo.Id == m_SectionChange.Item1)
                 {
-                    EventHelper.Fire(this, GameSectionChangeEventArgs.Create(m_SectionChange.Item2));
+                    Event.Fire(this, GameSectionChangeEventArgs.Create(m_SectionChange.Item2));
                 }
             }
 
@@ -333,7 +333,7 @@ namespace Pangoo.Service
             Log.Info("load :{}");
         }
 
-        public override void DoUpdate(float elapseSeconds, float realElapseSeconds)
+        protected override void DoUpdate()
         {
             UpdateNeedLoadDict();
             UpdateAutoLoad();

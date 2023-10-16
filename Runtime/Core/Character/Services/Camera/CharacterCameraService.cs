@@ -5,13 +5,13 @@ using Sirenix.OdinInspector;
 using Cinemachine;
 
 
-namespace Pangoo.Core.Character
+namespace Pangoo.Core.Characters
 {
 
     [Serializable]
     public class CharacterCameraService : CharacterControllerService<CharacterCameraTypeEnum>
     {
-        public CharacterCameraService(INestedService parent) : base(parent)
+        public CharacterCameraService(NestedBaseService parent) : base(parent)
         {
 
         }
