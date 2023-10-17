@@ -39,6 +39,10 @@ namespace Pangoo
         public int StaticSceneBaseId;
 
 
+        [LabelText("角色起始Id")]
+        public int CharacterBaseId;
+
+
         // [ValueDropdown("GetAllEventsOverview")]
         // public List<PangooEventsTableOverview> EventOverviews;
 

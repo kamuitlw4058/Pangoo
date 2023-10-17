@@ -7,6 +7,9 @@ namespace Pangoo
 
     public static class ConstExcelTable
     {
+
+        public const string CharacterAssetTypeName = "Character";
+
         public const string DynamicObjectAssetTypeName = "DynamicObject";
         public const int DynamicObjectAssetPathIdBase = 100000;
 

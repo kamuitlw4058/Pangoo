@@ -51,6 +51,7 @@ namespace Pangoo.Core.VisualScripting
                     case TriggerTypeEnum.OnInteract:
                         // trigger.EventRunInstructionsEnd -= OnInteractEnd;
                         // trigger.EventRunInstructionsEnd += OnInteractEnd;
+                        Debug.Log($"Trigger:{trigger?.Row?.Id} inovke ");
                         trigger.OnInvoke(eventParams);
                         break;
                 }

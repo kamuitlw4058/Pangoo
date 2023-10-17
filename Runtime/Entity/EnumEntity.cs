@@ -12,6 +12,8 @@
 
         DynamicObject = 1002,
 
+        Character = 1003,
+
 
     }
 }

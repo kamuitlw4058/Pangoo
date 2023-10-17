@@ -34,6 +34,18 @@ namespace Pangoo
             return row;
         }
 
+        public static EntityGroupTable.EntityGroupRow CreateCharacterGroup()
+        {
+            var row = new EntityGroupTable.EntityGroupRow();
+            row.Id = 0;
+            row.Name = "Character";
+            row.InstanceAutoReleaseInterval = 0;
+            row.InstanceExpireTime = 0;
+            row.InstancePriority = 0;
+            row.InstanceCapacity = 10000;
+            return row;
+        }
+
 
     }
 }

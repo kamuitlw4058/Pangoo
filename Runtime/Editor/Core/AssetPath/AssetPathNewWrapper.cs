@@ -11,6 +11,7 @@ using Sirenix.Utilities;
 
 using UnityEditor;
 using Sirenix.OdinInspector.Editor;
+using System.IO;
 
 
 namespace Pangoo
@@ -31,7 +32,11 @@ namespace Pangoo
                     return overview.Config.AssetPathBaseId + overview.Config.DynmaicObjectBaseId;
                 case ConstExcelTable.StaticSceneAssetTypeName:
                     return overview.Config.AssetPathBaseId + overview.Config.StaticSceneBaseId;
+                case ConstExcelTable.CharacterAssetTypeName:
+                    return overview.Config.AssetPathBaseId + overview.Config.StaticSceneBaseId;
             }
+
+
 
             return 0;
         }
@@ -44,6 +49,8 @@ namespace Pangoo
                     return "DO_";
                 case ConstExcelTable.StaticSceneAssetTypeName:
                     return "SS_";
+                case ConstExcelTable.CharacterAssetTypeName:
+                    return "CA_";
             }
 
             return string.Empty;
@@ -208,6 +215,12 @@ namespace Pangoo
                 prefab_go.name = ConstExcelTable.SubModelName;
             }
 
+            if (!Directory.Exists(assetPathRow.ToDirPath()))
+            {
+                Directory.CreateDirectory(assetPathRow.ToDirPath());
+            }
+
+
             PrefabUtility.SaveAsPrefabAsset(go, assetPathRow.ToPrefabPath());
             GameObject.DestroyImmediate(go);
 
@@ -216,6 +229,11 @@ namespace Pangoo
             if (AfterCreate != null)
             {
                 AfterCreate(id);
+            }
+
+            if (Window != null)
+            {
+                Window.Close();
             }
 
 

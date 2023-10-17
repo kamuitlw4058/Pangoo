@@ -33,6 +33,11 @@ MonoBehaviour:
     Named: 1
   - Build: 1
     IsPangooTable: 1
+    ExcelName: Character
+    BaseNamespace: 
+    Named: 1
+  - Build: 1
+    IsPangooTable: 1
     ExcelName: Condition
     BaseNamespace: 
     Named: 1

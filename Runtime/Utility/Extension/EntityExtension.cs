@@ -50,6 +50,10 @@ namespace Pangoo
                 case EnumEntity.DynamicObject:
                     LogicType = typeof(EntityDynamicObject);
                     break;
+                case EnumEntity.Character:
+                    LogicType = typeof(EntityCharacter);
+                    break;
+
 
             }
 

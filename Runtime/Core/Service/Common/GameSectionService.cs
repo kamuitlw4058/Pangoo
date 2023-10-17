@@ -66,7 +66,9 @@ namespace Pangoo.Core.Services
             if (instructionIds.Count > 0)
             {
                 var instructions = GetInstructionList(instructionIds);
-                instructions.Start(Args.EMPTY);
+                var args = new Args();
+                args.Main = Parent as MainSerice;
+                instructions.Start(args);
 
             }
         }

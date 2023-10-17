@@ -85,10 +85,7 @@ namespace Pangoo
 
         [LabelText("触发器Ids")]
         [ValueDropdown("TriggerIdValueDropdown", IsUniqueList = true)]
-
-        // [OnValueChanged("OnDynamicSceneIdsChanged")]
         [ListDrawerSettings(Expanded = true)]
-
         [ShowInInspector]
         [PropertyOrder(4)]
         public int[] TriggerIds

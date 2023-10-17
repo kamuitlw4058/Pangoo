@@ -18,7 +18,7 @@ namespace Pangoo.Core.VisualScripting
 
         public TriggerEventTable.TriggerEventRow Row { get; set; }
 
-        // [ShowInInspector]
+        [ShowInInspector]
         public InstructionList RunInstructions { get; set; }
 
         public ConditionList Conditions { get; set; }
@@ -37,8 +37,7 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
-        // [ShowInInspector]
-
+        [ShowInInspector]
         [ShowIf("@this.UseCondition")]
         public InstructionList FailInstructions { get; set; }
 
@@ -146,7 +145,7 @@ namespace Pangoo.Core.VisualScripting
         public virtual void LoadParamsFromJson(string val) { }
         public virtual string ParamsToJson()
         {
-            return string.Empty;
+            return "{}";
         }
 
         [Button("立即运行指令列表")]

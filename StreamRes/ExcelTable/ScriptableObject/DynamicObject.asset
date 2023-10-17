@@ -22,7 +22,7 @@ MonoBehaviour:
       NameCn: "\u7535\u5B50\u9501"
       Position: {x: 0, y: 0.38, z: 0}
       Rotation: {x: 0, y: 89.19, z: 0}
-      TriggerEventIds: 1
+      TriggerEventIds: 5
       UseHotspot: 0
       HotspotRadius: 0
       HotspotIds: 

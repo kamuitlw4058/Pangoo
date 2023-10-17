@@ -106,3 +106,9 @@ MonoBehaviour:
       AssetType: Scene
       AssetPath: SS_XinLiZhai_GlobalVolume.prefab
       Desc: 
+    - Id: 101
+      Name: "\u9ED8\u8BA4\u73A9\u5BB6"
+      AssetPackageDir: Assets/Plugins/Pangoo
+      AssetType: Character
+      AssetPath: CA_MoRenWanJia.prefab
+      Desc: 

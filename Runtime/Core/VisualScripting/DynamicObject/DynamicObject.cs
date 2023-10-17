@@ -15,11 +15,14 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public partial class DynamicObject : MonoMasterService, IReference
     {
-        Args CurrentArgs;
+        public Args CurrentArgs { get; set; }
+
+        public MainSerice Main { get; set; }
 
         [ShowInInspector]
         public DynamicObjectTable.DynamicObjectRow Row { get; set; }
 
+        [ShowInInspector]
         List<TriggerEventTable.TriggerEventRow> TriggerEventRows = new();
 
         public ExcelTableService TableService { get; set; }
@@ -124,6 +127,7 @@ namespace Pangoo.Core.VisualScripting
         protected override void DoAwake()
         {
             CurrentArgs = new Args(this);
+            CurrentArgs.Main = Main;
             var triggerIds = Row.GetTriggerEventIdList();
             m_TriggerEventTable = TableService?.GetExcelTable<TriggerEventTable>();
             m_InstructionTable = TableService?.GetExcelTable<InstructionTable>();
@@ -131,9 +135,8 @@ namespace Pangoo.Core.VisualScripting
             TriggerEventRows.Clear();
             foreach (var triggerId in triggerIds)
             {
-                Debug.Log($"Create TriggerId:{triggerId}");
                 TriggerEventTable.TriggerEventRow row = GetTriggerEventRow(triggerId);
-
+                Debug.Log($"Create TriggerId:{triggerId}  row:{row}");
                 if (row != null)
                 {
                     TriggerEventRows.Add(row);
@@ -246,6 +249,14 @@ namespace Pangoo.Core.VisualScripting
                 InteractEvent.Invoke(CurrentArgs);
             }
         }
+
+        [Button("触发交互指令")]
+        void OnInteract()
+        {
+            OnInteract(null, null);
+        }
+
+
 
         void OnInteractEnd()
         {

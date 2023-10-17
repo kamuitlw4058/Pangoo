@@ -16,6 +16,8 @@ namespace Pangoo.Core.VisualScripting
 
         Args LastestArgs { get; set; }
 
+        [ShowInInspector]
+
         private Instruction[] m_Instructions = Array.Empty<Instruction>();
 
         bool m_IsStopped = false;

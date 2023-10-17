@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pangoo;
 using Pangoo.Core.VisualScripting;
+using Pangoo.Core.Services;
+using Sirenix.OdinInspector;
 
 namespace Pangoo.Core.Common
 {
+    [Serializable]
     public class Args
     {
         public static readonly Args EMPTY = new Args();
@@ -17,7 +20,12 @@ namespace Pangoo.Core.Common
         [field: NonSerialized] public GameObject Self { get; private set; }
         [field: NonSerialized] public GameObject Target { get; private set; }
 
+        [ShowInInspector]
         [field: NonSerialized] public DynamicObject TriggerObject { get; private set; }
+
+        [ShowInInspector]
+        [field: NonSerialized] public MainSerice Main { get; set; }
+
 
         public Args Clone => new Args(TriggerObject, this.Self, this.Target);
 

@@ -23,6 +23,15 @@ namespace Pangoo.Editor
             }
         }
 
+        [ShowInInspector]
+        public string FullPath
+        {
+            get
+            {
+                return Row.ToFullPath();
+            }
+        }
+
     }
 }
 #endif

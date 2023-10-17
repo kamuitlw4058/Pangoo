@@ -23,7 +23,7 @@ MonoBehaviour:
       SectionJumpByScene: ' 10004#2'
       InitSceneIds: 1
       DynamicObjectIds: 2|5
-      InitedInstructionIds: 5
+      InitedInstructionIds: 6
     - Id: 2
       Name: "\u5207\u6362\u7AE0\u8282"
       DynamicSceneIds: 1

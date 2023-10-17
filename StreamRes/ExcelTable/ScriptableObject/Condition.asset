@@ -15,12 +15,4 @@ MonoBehaviour:
   Config: {fileID: 11400000, guid: b28e25bda078ea84aa67d9488e039e49, type: 2}
   Data:
     Priority: 0
-    Rows:
-    - Id: 1
-      Name: "\u6D4B\u8BD5\u6761\u4EF6-\u59CB\u7EC8\u662Ftrue"
-      ConditionType: Pangoo.Core.VisualScripting.ConditionDebug
-      Params: '{"Ok":true}'
-    - Id: 2
-      Name: "\u6D4B\u8BD5\u6761\u4EF6-\u59CB\u7EC8\u662Ffalse"
-      ConditionType: Pangoo.Core.VisualScripting.ConditionDebug
-      Params: '{"Ok":false}'
+    Rows: []
