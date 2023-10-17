@@ -5,11 +5,12 @@ using Pangoo;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityGameFramework.Runtime;
+using Pangoo.Core.Services;
 
 public class RuntimeDataComponent : GameFrameworkComponent
 {
     [InlineEditor()]
-    public List<ExcelTableOverview> tableOverviews=new List<ExcelTableOverview>();
+    public List<ExcelTableOverview> tableOverviews = new List<ExcelTableOverview>();
     [InlineEditor()]
     public RuntimeDataTableOverview runtimeDataSO;
 
@@ -28,18 +29,18 @@ public class RuntimeDataComponent : GameFrameworkComponent
             if (x.name.Contains("Item"))
             {
                 ItemsConfigTableOverview itemsConfig = (ItemsConfigTableOverview)x;
-                    
+
                 for (int i = 0; i < itemsConfig.Data.Rows.Count; i++)
                 {
                     runtimeDataSO.Data.Rows.Add(new RuntimeDataTable.RuntimeDataRow()
                     {
                         Id = itemsConfig.Data.Rows[i].ID,
                         Key = $"Item_{itemsConfig.Data.Rows[i].Name}_CanPickup",
-                        Type =$"{itemsConfig.Data.Rows[i].CanPickup.GetType()}",
+                        Type = $"{itemsConfig.Data.Rows[i].CanPickup.GetType()}",
                         Value = $"{itemsConfig.Data.Rows[i].CanPickup}",
                     });
                 }
-                    
+
             }
         });
     }
@@ -50,7 +51,7 @@ public class RuntimeDataComponent : GameFrameworkComponent
         for (int i = 0; i < runtimeDataSO.Data.Rows.Count; i++)
         {
             Type t = Type.GetType(runtimeDataSO.Data.Rows[i].Type);
-            DataContainerService.Set(runtimeDataSO.Data.Rows[i].Key,runtimeDataSO.Data.Rows[i].Value);
+            DataContainerService.Set(runtimeDataSO.Data.Rows[i].Key, runtimeDataSO.Data.Rows[i].Value);
         }
     }
 }

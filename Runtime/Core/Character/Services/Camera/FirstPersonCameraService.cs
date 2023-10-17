@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using Pangoo.Service;
+using Pangoo.Core.Services;
 using Pangoo.Core.Common;
 using Sirenix.OdinInspector;
 using Cinemachine;

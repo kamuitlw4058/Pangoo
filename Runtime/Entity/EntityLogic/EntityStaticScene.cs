@@ -4,9 +4,6 @@ using UnityEngine;
 using UnityGameFramework.Runtime;
 using Sirenix.OdinInspector;
 using GameFramework;
-using Pangoo.Service;
-using UnityEngine;
-using UnityEngine.Rendering;
 using System;
 
 #if USE_HDRP

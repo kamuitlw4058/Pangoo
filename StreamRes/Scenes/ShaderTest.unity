@@ -590,10 +590,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sDFType: 0
-  Range: 1
+  Range: 0.93
   boxRoundness: 1
-  SoftEdge: 0.15
-  NoiseScale: 2
+  SoftEdge: 0.18
+  NoiseScale: 3.02
   materials:
   - {fileID: 2100000, guid: a751bedd6357790409ff0edb7ae2bf3c, type: 2}
   capsuleMesh: {fileID: 0}
@@ -607,7 +607,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 826041475}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.305, y: 0.127, z: -0.453}
+  m_LocalPosition: {x: 0.981, y: 0.137, z: 0.217}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

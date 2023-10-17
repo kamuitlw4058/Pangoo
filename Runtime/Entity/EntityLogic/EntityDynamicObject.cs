@@ -1,12 +1,14 @@
 using System;
-using UnityEngine;
 using UnityGameFramework.Runtime;
 using Sirenix.OdinInspector;
 using GameFramework;
 using Pangoo;
 using Pangoo.Core.VisualScripting;
+
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.EventSystems;
+
 #if USE_HDRP
 using UnityEngine.Rendering.HighDefinition;
 #endif
@@ -92,6 +94,16 @@ namespace Pangoo
         {
             Debug.Log($"EntityDynamicObject OnTriggerExit");
             DynamicObjectService?.TriggerExit3d(other);
+        }
+
+        public void OnPointerEnter(PointerEventData pointerEventData)
+        {
+            DynamicObjectService?.PointerEnter(pointerEventData);
+        }
+
+        public void OnPointerExit(PointerEventData pointerEventData)
+        {
+            DynamicObjectService?.PointerExit(pointerEventData);
         }
 
 

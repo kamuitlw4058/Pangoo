@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
-using Pangoo.Service;
 using Pangoo.Core.Common;
-using Pangoo.Core.Service;
+using Pangoo.Core.Services;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Pangoo.Core.Characters;
@@ -60,6 +59,8 @@ namespace Pangoo.Core.VisualScripting
         public DynamicObject(GameObject go) : base(go)
         {
         }
+        // public Vector3 HotSpotPosition => this.CachedTransfrom.TransformPoint(Row?.);
+
 
         public static DynamicObject Create(GameObject go)
         {
@@ -192,6 +193,43 @@ namespace Pangoo.Core.VisualScripting
                 trigger.OnUpdate();
             }
         }
+
+
+
+        // private void UpdateHotSpot()
+        // {
+        //     bool wasActive = this.IsActive;
+
+        //     if (this.Target == null)
+        //     {
+        //         this.IsActive = false;
+        //         this.Distance = float.MaxValue;
+        //     }
+        //     else
+        //     {
+        //         this.Distance = Vector3.Distance(
+        //             this.Target.transform.position,
+        //             this.Position
+        //         );
+
+        //         this.IsActive = this.Distance <= this.Radius;
+        //     }
+
+        //     this.Transition = Mathf.SmoothDamp(
+        //         this.Transition,
+        //         this.IsActive ? 1f : 0f,
+        //         ref this.m_Velocity,
+        //         TRANSITION_SMOOTH_TIME
+        //     );
+
+        //     this.m_Spots.OnUpdate(this);
+
+        //     switch (wasActive)
+        //     {
+        //         case false when this.IsActive: this.EventOnActivate?.Invoke(); break;
+        //         case true when !this.IsActive: this.EventOnDeactivate?.Invoke(); break;
+        //     }
+        // }
 
 
 

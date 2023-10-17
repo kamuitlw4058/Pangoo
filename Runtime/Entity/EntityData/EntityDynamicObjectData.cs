@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using GameFramework;
 using UnityEngine;
 using UnityGameFramework.Runtime;
-using Pangoo.Service;
+using Pangoo.Core.Services;
 
 namespace Pangoo
 {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using GameFramework;
 using UnityEngine;
 using UnityGameFramework.Runtime;
-using Pangoo.Service;
+using Pangoo.Core.Services;
 
 namespace Pangoo
 {
@@ -12,11 +12,13 @@ namespace Pangoo
     public class EntityStaticSceneData : EntityData
     {
         // public EntityInfo Info;
-        
+
         public EntityInfo EntityInfo;
 
-        public int AssetPathId{
-            get{
+        public int AssetPathId
+        {
+            get
+            {
                 return EntityInfo.AssetPathId;
             }
         }

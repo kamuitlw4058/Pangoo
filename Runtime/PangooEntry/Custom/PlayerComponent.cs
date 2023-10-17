@@ -13,10 +13,10 @@ namespace Pangoo
     {
         public GameObject PlayerPrefab;
 
-        private void Start() {
-            if(PlayerPrefab != null){
-                Instantiate(PlayerPrefab);
-            }
-        }
+        // private void Start() {
+        //     if(PlayerPrefab != null){
+        //         Instantiate(PlayerPrefab);
+        //     }
+        // }
     }
 }

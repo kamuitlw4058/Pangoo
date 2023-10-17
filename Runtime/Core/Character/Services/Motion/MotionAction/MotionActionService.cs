@@ -1,5 +1,5 @@
 using System;
-using Pangoo.Service;
+using Pangoo.Core.Services;
 using Sirenix.OdinInspector;
 using UnityEngine;
 

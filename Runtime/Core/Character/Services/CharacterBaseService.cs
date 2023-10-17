@@ -1,8 +1,7 @@
 using UnityEngine;
-using Pangoo.Service;
 using Sirenix.OdinInspector;
 using Pangoo.Core.Common;
-using Pangoo.Core.Service;
+using Pangoo.Core.Services;
 
 namespace Pangoo.Core.Characters
 {

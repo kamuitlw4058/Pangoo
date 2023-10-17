@@ -6,7 +6,7 @@ using Pangoo;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityGameFramework.Runtime;
-using Pangoo.Service;
+using Pangoo.Core.Services;
 using Sirenix.OdinInspector;
 
 namespace Pangoo
