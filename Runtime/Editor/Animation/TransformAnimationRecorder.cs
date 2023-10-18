@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Pangoo;
 using Sirenix.OdinInspector;
 using UnityEditor;
@@ -25,7 +26,9 @@ namespace Pangoo
         [ReadOnly]
         public bool Started = false;
 
-        public float DelayStart = 0.1f;
+        public bool DeltaRotation = true;
+
+        // public float DelayStart = 0.1f;
 
         public int KeyframeCount = 0;
         // Start is called before the first frame update
@@ -75,6 +78,32 @@ namespace Pangoo
             SaveAnimationClip();
         }
 
+        [Button("Read")]
+        public void ReadClip()
+        {
+            var clip = AssetDatabaseUtility.FindAssetFirst<AnimationClip>($"{path}");
+            Debug.Log($"clip:{clip}");
+            var curveBindings = AnimationUtility.GetCurveBindings(clip);
+            foreach (var curveBinding in curveBindings)
+            {
+                Debug.Log($"curveBinding:{curveBinding.path},{curveBinding.type} ,{curveBinding.propertyName},{curveBinding.isPPtrCurve},{curveBinding.isDiscreteCurve}");
+                AnimationCurve curve = AnimationUtility.GetEditorCurve(clip, curveBinding);
+                Debug.Log($"curve:{curve.keys.Count()}");
+                if (curveBinding.propertyName.Contains("Euler"))
+                {
+                    foreach (var key in curve.keys)
+                    {
+                        Debug.Log($"curve key:{key.value},{key.inTangent},{key.inWeight},{key.outTangent},{key.tangentMode},{key.time}");
+                    }
+
+                }
+
+
+
+
+            }
+        }
+
         AnimationClip SaveAnimationClip()
         {
             AnimationClip clip = new AnimationClip();
@@ -107,18 +136,18 @@ namespace Pangoo
 
             if (Started)
             {
-                if (DelayStart > 0)
-                {
-                    DelayStart -= Time.deltaTime;
-                    if (DelayStart <= 0)
-                    {
-                        DelayStart = 0;
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
+                // if (DelayStart > 0)
+                // {
+                //     DelayStart -= Time.deltaTime;
+                //     if (DelayStart <= 0)
+                //     {
+                //         DelayStart = 0;
+                //     }
+                //     else
+                //     {
+                //         return;
+                //     }
+                // }
 
                 StartedTime += Time.deltaTime;
                 if (LastestStarted != Started)
@@ -201,9 +230,9 @@ namespace Pangoo
 
                 }
 
-                EulerAnglesX.AddKeyFrame(StartedTime, trans.localEulerAngles.x);
-                EulerAnglesY.AddKeyFrame(StartedTime, trans.localEulerAngles.y);
-                EulerAnglesZ.AddKeyFrame(StartedTime, trans.localEulerAngles.z);
+                EulerAnglesX.AddKeyFrame(StartedTime, trans.localEulerAngles.x, true);
+                EulerAnglesY.AddKeyFrame(StartedTime, trans.localEulerAngles.y, true);
+                EulerAnglesZ.AddKeyFrame(StartedTime, trans.localEulerAngles.z, true);
 
             }
 
@@ -247,7 +276,7 @@ namespace Pangoo
 
             public void Init(float val)
             {
-                // lastestVal = val;
+                lastestVal = val;
             }
 
             public static TransformCurve CreatePositionX(string path)
@@ -284,11 +313,37 @@ namespace Pangoo
 
 
 
-            public void AddKeyFrame(float time, float val)
+            public void AddKeyFrame(float time, float val, bool isRotation = false)
             {
+                if (isRotation)
+                {
 
-                curve.AddKey(time, val - lastestVal);
-                // lastestVal = val;
+                    var delta = Mathf.Abs(val - lastestVal);
+                    if (delta >= 180)
+                    {
+                        var diff = (val - lastestVal);
+                        delta = diff > 0 ? 360 - diff : 360 + diff;
+                    }
+                    else
+                    {
+                        delta = val - lastestVal;
+                    }
+
+                    var finalVal = (lastestVal + delta);
+
+                    var kf = new Keyframe(time, finalVal);
+                    kf.tangentMode = 136;
+                    curve.AddKey(kf);
+                    lastestVal = finalVal;
+                }
+                else
+                {
+                    var kf = new Keyframe(time, val);
+                    kf.tangentMode = 136;
+                    curve.AddKey(kf);
+                    lastestVal = val;
+                }
+
             }
 
             public void Bind(AnimationClip clip)
