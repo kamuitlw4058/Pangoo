@@ -150,6 +150,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ff18e6bdeba9a494c9b535986ee77dec, type: 2}
   - {fileID: 11400000, guid: f1ac45e8da162ec419c629d7e1cc4167, type: 2}
   - {fileID: 11400000, guid: 33e51a75a24fdb04489b3a9ba3b039ea, type: 2}
+  - {fileID: 11400000, guid: e75bf781babd33042a602070b4731672, type: 2}
 --- !u!1 &442314974464039217
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,10 +240,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dde7d0452e9eed847b406ae8a619679a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ServiceContainers: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!1 &4182964704037074084
 GameObject:
   m_ObjectHideFlags: 0
@@ -294,6 +291,8 @@ MonoBehaviour:
     GameInfoTypeName: Pangoo.StaticSceneInfo
   - Enable: 1
     GameInfoTypeName: Pangoo.DynamicObjectInfo
+  - Enable: 1
+    GameInfoTypeName: Pangoo.CharacterInfo
 --- !u!1 &7138320360357503681
 GameObject:
   m_ObjectHideFlags: 0

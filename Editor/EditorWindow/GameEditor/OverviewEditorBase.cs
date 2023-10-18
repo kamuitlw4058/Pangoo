@@ -21,6 +21,9 @@ namespace Pangoo.Editor
 
         private static OdinEditorWindow m_CreateWindow;
 
+
+        public string MenuDisplayName { get; set; }
+
         public string MenuKey
         { get; set; }
 
@@ -102,7 +105,7 @@ namespace Pangoo.Editor
                 var itemMenuKey = GameEditorUtility.GetMenuItemKey(MenuKey, wrapper.Id, wrapper.Name);
                 var customMenuItem = new OdinMenuItem(Tree, itemMenuKey, wrapper.DetailWrapper);
                 MenuItemDict.Add(itemMenuKey, customMenuItem);
-                Tree.AddMenuItemAtPath(MenuKey, customMenuItem);
+                Tree.AddMenuItemAtPath(MenuDisplayName, customMenuItem);
             }
 
         }
@@ -129,7 +132,7 @@ namespace Pangoo.Editor
                 OdinMenuItem item;
                 if (MenuItemDict.TryGetValue(menuItemKey, out item))
                 {
-                    var menuItem = Tree.GetMenuItem(MenuKey);
+                    var menuItem = Tree.GetMenuItem(MenuDisplayName);
                     menuItem.ChildMenuItems.Remove(item);
                     MenuItemDict.Remove(menuItemKey);
                 }
