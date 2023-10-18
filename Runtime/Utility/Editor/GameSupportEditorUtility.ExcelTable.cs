@@ -290,6 +290,11 @@ namespace Pangoo
             return GetExcelTableRowWithOverviewById<InstructionTableOverview, InstructionTable.InstructionRow>(id);
         }
 
+        public static HotspotTable.HotspotRow GetHotspotRowById(int id)
+        {
+            return GetExcelTableRowWithOverviewById<HotspotTableOverview, HotspotTable.HotspotRow>(id);
+        }
+
 #endif
     }
 }

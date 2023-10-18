@@ -9,7 +9,15 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public abstract class HotSpot : MonoSubService<DynamicObject>
     {
+        public HotspotTable.HotspotRow Row { get; set; }
 
+        public DynamicObject dynamicObject { get; set; }
+
+        public virtual void LoadParamsFromJson(string val) { }
+        public virtual string ParamsToJson()
+        {
+            return "{}";
+        }
 
     }
 }

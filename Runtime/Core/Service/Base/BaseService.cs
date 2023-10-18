@@ -8,7 +8,9 @@ namespace Pangoo.Core.Services
     public abstract partial class BaseService : IBaseServiceLifeCycle
     {
 
+        [NonSerialized]
         protected IBaseServiceContainer m_Parent;
+        [NonSerialized]
         protected EventHelper m_EventHelper;
 
         public EventHelper Event

@@ -1,6 +1,7 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 using Pangoo.Core.Common;
+using System;
 
 namespace Pangoo.Core.Services
 {
@@ -13,7 +14,7 @@ namespace Pangoo.Core.Services
         public override float DeltaTime => MonoTimeMode.DeltaTime;
         public override float Time => MonoTimeMode.DeltaTime;
 
-
+        [NonSerialized]
         Transform m_CachedTransfrom;
 
         [SerializeField]

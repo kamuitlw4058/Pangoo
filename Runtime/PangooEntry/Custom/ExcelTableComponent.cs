@@ -14,20 +14,28 @@ namespace Pangoo
 {
     public class ExcelTableComponent : GameFrameworkComponent
     {
-// #if UNITY_EDITOR
-//         private IEnumerable GetAllAssemblyNames()
-//         {
-//             return GameSupportEditorUtility.GetAssembly();
-//         }
+        // #if UNITY_EDITOR
+        //         private IEnumerable GetAllAssemblyNames()
+        //         {
+        //             return GameSupportEditorUtility.GetAssembly();
+        //         }
 
-//         [ValueDropdown("GetAllAssemblyNames")]
-// #endif
+        //         [ValueDropdown("GetAllAssemblyNames")]
+        // #endif
 
 
         public delegate void ExcelTableLoadCompleteCallback();
         // public List<string> AssemblyNames;
 
         public List<ExcelTableOverview> TableOverviews;
+#if UNITY_EDITOR
+
+        [Button("引入所有Overview")]
+        public void UpdateAllOverviews()
+        {
+            TableOverviews = AssetDatabaseUtility.FindAsset<ExcelTableOverview>().ToList();
+        }
+#endif
 
         [ShowInInspector]
         Dictionary<Type, ExcelTableBase> m_ExcelTableDic = new Dictionary<Type, ExcelTableBase>();
@@ -80,12 +88,15 @@ namespace Pangoo
 
                 }
 
-                foreach( var kv in m_ExcelTableDic){
+                foreach (var kv in m_ExcelTableDic)
+                {
                     kv.Value.CustomInit();
                 }
-                
-            }else{
-                    Debug.Log("Load ExcelTable Without Overview");
+
+            }
+            else
+            {
+                Debug.Log("Load ExcelTable Without Overview");
             }
 
             // foreach (var assemblyName in AssemblyNames)
@@ -119,7 +130,7 @@ namespace Pangoo
 
         }
         ResourceComponent ResouceCom;
-        
+
         protected void Start()
         {
             ResouceCom = UnityGameFramework.Runtime.GameEntry.GetComponent<ResourceComponent>();
@@ -129,7 +140,7 @@ namespace Pangoo
         }
 
 #if UNITY_EDITOR
-        
+
 #endif
 
         public void Load(Type tableType, ExcelTableLoadCompleteCallback callback = null)

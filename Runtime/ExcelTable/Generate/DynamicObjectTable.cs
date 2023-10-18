@@ -88,6 +88,15 @@ namespace Pangoo
             [JsonMember("HotspotIds")]
             [ExcelTableCol("HotspotIds","HotspotIds","string", "热点区域Ids",10)]
             public string HotspotIds ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("热点区域偏移")]
+            [HideLabel]
+            [JsonMember("HotspotOffset")]
+            [ExcelTableCol("HotspotOffset","HotspotOffset","Vector3", "热点区域偏移",11)]
+            public Vector3 HotspotOffset ;
         }
 
 

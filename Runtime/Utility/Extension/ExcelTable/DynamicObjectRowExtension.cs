@@ -19,6 +19,15 @@ namespace Pangoo
             return row.TriggerEventIds.ToListInt();
         }
 
+        public static List<int> GetHotspotIdList(this DynamicObjectTable.DynamicObjectRow row)
+        {
+            if (row == null || row.HotspotIds.IsNullOrWhiteSpace())
+            {
+                return new List<int>();
+            }
+            return row.HotspotIds.ToListInt();
+        }
+
         public static void AddTriggerEventId(this DynamicObjectTable.DynamicObjectRow row, int id)
         {
             if (row == null)

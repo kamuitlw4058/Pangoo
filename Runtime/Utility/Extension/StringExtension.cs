@@ -29,15 +29,19 @@ namespace Pangoo
 
         public static int[] ToArrInt(this string str, string split = "|")
         {
-            var strs = str.Split(split);
             List<int> ret = new List<int>();
-            // int[] ret = new int[strs.Length];
+            if (str.IsNullOrWhiteSpace())
+            {
+                return new int[0];
+            }
+
+            var strs = str.Split(split);
+
             for (int i = 0; i < strs.Length; i++)
             {
                 if (int.TryParse(strs[i], out int value))
                 {
                     ret.Add(value);
-                    // ret[i] = int.Parse(strs[i]);
                 }
             }
             return ret.ToArray();

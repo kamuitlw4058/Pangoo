@@ -19,5 +19,16 @@ namespace Pangoo
             return sb.ToString().TrimEnd(split.ToCharArray());
         }
 
+        public static string ToListString<T>(this T[] list, string split = "|")
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var item in list)
+            {
+                sb.Append(item.ToString());
+                sb.Append(split);
+            }
+            return sb.ToString().TrimEnd(split.ToCharArray());
+        }
+
     }
 }

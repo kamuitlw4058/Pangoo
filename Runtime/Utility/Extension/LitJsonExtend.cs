@@ -124,7 +124,7 @@ public class LitJsonExtend
             writeType(v, w);
         });
 
-        Debug.Log("Vector2加入成功");
+        // Debug.Log("Vector2加入成功");
     }
 
     /// <summary>
@@ -147,7 +147,7 @@ public class LitJsonExtend
             writeType(v, w);
         });
 
-        Debug.Log("Tile加入成功");
+        // Debug.Log("Tile加入成功");
     }
 
 }

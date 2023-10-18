@@ -25,6 +25,8 @@ namespace Pangoo.Core.Services
         [ShowInInspector]
         Dictionary<int, EntityCharacter> m_LoadedEntityDict = new Dictionary<int, EntityCharacter>();
 
+        EntityCharacter Player = null;
+
         [ShowInInspector]
         List<int> m_LoadingEntityIds = new List<int>();
 
@@ -95,10 +97,27 @@ namespace Pangoo.Core.Services
                             m_LoadingEntityIds.Remove(infoId);
                         }
                         m_LoadedEntityDict.Add(AssetPathId, o.Logic as EntityCharacter);
+                        if (infoRow.IsPlayer)
+                        {
+                            Player = o.Logic as EntityCharacter;
+                        }
                     },
                     data.EntityInfo,
                     data);
             }
+        }
+
+        public GameObject PlayerGameObject
+        {
+            get
+            {
+                if (Player != null)
+                {
+                    return Player.gameObject;
+                }
+                return null;
+            }
+
         }
 
 

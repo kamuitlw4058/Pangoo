@@ -63,6 +63,11 @@ MonoBehaviour:
     Named: 1
   - Build: 1
     IsPangooTable: 1
+    ExcelName: Hotspot
+    BaseNamespace: 
+    Named: 1
+  - Build: 1
+    IsPangooTable: 1
     ExcelName: Instruction
     BaseNamespace: 
     Named: 1
