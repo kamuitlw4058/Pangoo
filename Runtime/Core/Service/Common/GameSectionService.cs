@@ -19,6 +19,8 @@ namespace Pangoo.Core.Services
         StaticSceneService m_StaticSceneService;
         DynamicObjectManagerService m_DynamicObjectService;
 
+        GameMainConfigService m_GameMainConfigService;
+
         GameSectionTable m_GameSectionTable;
 
         InstructionTable m_InstructionTable;
@@ -35,6 +37,9 @@ namespace Pangoo.Core.Services
             base.DoAwake();
             m_StaticSceneService = Parent.GetService<StaticSceneService>();
             m_ExcelTableService = Parent.GetService<ExcelTableService>();
+            m_StaticSceneService = Parent.GetService<StaticSceneService>();
+            m_GameMainConfigService = Parent.GetService<GameMainConfigService>();
+
             m_DynamicObjectService = Parent.GetService<DynamicObjectManagerService>();
 
             Event.Subscribe(GameSectionChangeEventArgs.EventId, OnGameSectionChangeEvent);
@@ -55,7 +60,8 @@ namespace Pangoo.Core.Services
             Debug.Log($"DoStart GameSectionService");
             m_GameSectionTable = m_ExcelTableService.GetExcelTable<GameSectionTable>();
             m_StaticSceneService.OnInitSceneLoaded += OnInitSceneLoaded;
-            UpdateStaticScene(true);
+            CurrentId = m_GameMainConfigService.GetGameMainConfig().EnterGameSectionId;
+            UpdateStaticScene();
         }
 
         void OnInitSceneLoaded()
@@ -75,7 +81,7 @@ namespace Pangoo.Core.Services
 
 
 
-        void UpdateStaticScene(bool isStart = false)
+        void UpdateStaticScene()
         {
             if (CurrentId != LatestId)
             {

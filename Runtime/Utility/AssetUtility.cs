@@ -26,7 +26,7 @@ namespace Pangoo
 
         public static List<T> GetAssetListByPath<T>(string[] paths) where T : UnityEngine.Object
         {
-            var items = AssetDatabase.FindAssets($"t:{typeof(T).Name}",paths)
+            var items = AssetDatabase.FindAssets($"t:{typeof(T).Name}", paths)
            .Select(x => AssetDatabase.GUIDToAssetPath(x))
            .Select(x => AssetDatabase.LoadAssetAtPath<T>(x));
             return items.ToList();
@@ -36,25 +36,29 @@ namespace Pangoo
         public static List<T> GetAssetListByPath<T>(string path) where T : UnityEngine.Object
         {
 
-            return GetAssetListByPath<T>(new string[]{path});
+            return GetAssetListByPath<T>(new string[] { path });
         }
 
 
-        public static string GetAssetDir(UnityEngine.Object obj){
+        public static string GetAssetDir(UnityEngine.Object obj)
+        {
             var path = AssetDatabase.GetAssetPath(obj);
             var index = path.LastIndexOf('/');
-            if(index > 0){
-                return path.Substring(0,index + 1);
+            if (index > 0)
+            {
+                return path.Substring(0, index + 1);
             }
 
             return null;
         }
 
 
-        public static string GetAssetFullFileName(UnityEngine.Object obj){
+        public static string GetAssetFullFileName(UnityEngine.Object obj)
+        {
             var path = AssetDatabase.GetAssetPath(obj);
             var index = path.LastIndexOf('/');
-            if(index > 0){
+            if (index > 0)
+            {
                 return path.Substring(index + 1);
             }
 
@@ -62,25 +66,30 @@ namespace Pangoo
         }
 
 
-        public static string GetAssetFileExtension(UnityEngine.Object obj){
+        public static string GetAssetFileExtension(UnityEngine.Object obj)
+        {
             var path = AssetDatabase.GetAssetPath(obj);
             var index = path.LastIndexOf('.');
-            if(index > 0){
+            if (index > 0)
+            {
                 return path.Substring(index + 1);
             }
 
             return null;
         }
 
-        public static string GetExcelTable(string packageDir){
+        public static string GetExcelTable(string packageDir)
+        {
             return $"{packageDir}/StreamRes/ExcelTable";
         }
 
-        public static string GetExcelTableOverview(string packageDir){
-            return   $"{GetExcelTable(packageDir)}/ScriptableObject";
+        public static string GetExcelTableOverview(string packageDir)
+        {
+            return $"{GetExcelTable(packageDir)}/ScriptableObject";
         }
 
-        public static string GetAssetPathOverview(string packageDir){
+        public static string GetAssetPathOverview(string packageDir)
+        {
 
             return $"{GetExcelTableOverview(packageDir)}/AssetPath.asset";
 
@@ -88,34 +97,47 @@ namespace Pangoo
 
 
 #endif
-        public static string GetVolumeProfileDir(string packageDir){
+        public static string GetVolumeProfileDir(string packageDir)
+        {
             return $"{packageDir}/StreamRes/Volume";
         }
-        public static string GetVolumeProfile(string packageDir,string name){
+        public static string GetVolumeProfile(string packageDir, string name)
+        {
             return $"{GetVolumeProfileDir(packageDir)}/{name}.asset";
         }
-        public static string GetVolumePrefabDir(string packageDir){
+        public static string GetVolumePrefabDir(string packageDir)
+        {
             return $"{packageDir}/StreamRes/Prefab/Volume";
         }
 
-        public static string GetVolumePrefab(string packageDir,string name){
+        public static string GetVolumePrefab(string packageDir, string name)
+        {
             return $"{GetVolumePrefabDir(packageDir)}/{name}.prefab";
         }
 
-        public static string GetScene(string packageDir,string name){
+        public static string GetScene(string packageDir, string name)
+        {
             return $"{packageDir}/StreamRes/Scenes/{name}.unity";
         }
 
-        public static string GetDynamicObject(string packageDir,string name){
-             return $"{packageDir}/StreamRes/Prefab/DynamicObject/{name}";
+        public static string GetDynamicObject(string packageDir, string name)
+        {
+            return $"{packageDir}/StreamRes/Prefab/DynamicObject/{name}";
         }
 
-        public static string GetAssetPath(string packageDir, string assetType, string name){
-             return $"{packageDir}/StreamRes/Prefab/{assetType}/{name}";
+        public static string GetAssetPath(string packageDir, string assetType, string name)
+        {
+            return $"{GetAssetPathDir(packageDir, assetType)}/{name}";
         }
 
-        public static string GetPrefabPath(string packageDir, string assetType, string name){
-             return $"{GetPrefabDir(packageDir,assetType)}/{name}.prefab";
+        public static string GetAssetPathDir(string packageDir, string assetType)
+        {
+            return $"{packageDir}/StreamRes/Prefab/{assetType}";
+        }
+
+        public static string GetPrefabPath(string packageDir, string assetType, string name)
+        {
+            return $"{GetPrefabDir(packageDir, assetType)}/{name}.prefab";
         }
 
         public static string GetPrefabDir(string packageDir, string assetType)
@@ -124,8 +146,9 @@ namespace Pangoo
         }
 
 
-        public static string GetStaticScene(string packageDir,string name){
-             return $"{packageDir}/StreamRes/Prefab/Scene/{name}";
+        public static string GetStaticScene(string packageDir, string name)
+        {
+            return $"{packageDir}/StreamRes/Prefab/Scene/{name}";
         }
 
         public static string GetPrefab()
@@ -178,8 +201,9 @@ namespace Pangoo
             return GetStreamRes("Configs");
         }
 
-        public static string GetScene(string SceneName){
-                return $"{GetStreamRes("Scenes")}/{SceneName}.unity";
+        public static string GetScene(string SceneName)
+        {
+            return $"{GetStreamRes("Scenes")}/{SceneName}.unity";
         }
 
         public static string GetResources()

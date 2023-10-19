@@ -19,6 +19,7 @@ namespace Pangoo.Core.Services
             AddService(new GameInfoService());
             AddService(new DynamicObjectManagerService());
             AddService(new CharacterService());
+            AddService(new GameMainConfigService());
         }
 
     }

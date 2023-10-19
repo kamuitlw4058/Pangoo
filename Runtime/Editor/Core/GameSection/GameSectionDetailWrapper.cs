@@ -31,7 +31,7 @@ namespace Pangoo
         {
             get
             {
-                return Row?.DynamicSceneIds?.ToArrInt();
+                return Row?.DynamicSceneIds?.ToArrInt() ?? new int[0];
             }
             set
             {
@@ -61,7 +61,7 @@ namespace Pangoo
         {
             get
             {
-                return Row?.KeepSceneIds?.ToArrInt();
+                return Row?.KeepSceneIds?.ToArrInt() ?? new int[0];
             }
             set
             {
@@ -86,7 +86,7 @@ namespace Pangoo
         {
             get
             {
-                return Row?.InitSceneIds?.ToArrInt();
+                return Row?.InitSceneIds?.ToArrInt() ?? new int[0];
             }
             set
             {

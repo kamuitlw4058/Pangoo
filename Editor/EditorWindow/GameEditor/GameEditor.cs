@@ -91,7 +91,7 @@ namespace Pangoo.Editor
             // InitCommonOverviews<AssetPathTableOverview, AssetPathDetailWrapper, ExcelTableTableRowWrapper<AssetPathTableOverview, AssetPathTable.AssetPathRow>, AssetPathTable.AssetPathRow>(tree, "AssetPath");
             InitCommonOverviews<StaticSceneTableOverview, StaticSceneDetailWrapper, ExcelTableTableRowWrapper<StaticSceneTableOverview, StaticSceneTable.StaticSceneRow>, StaticSceneTable.StaticSceneRow>(tree, "StaticScene", "静态场景");
             InitCommonOverviews<DynamicObjectTableOverview, DynamicObjectDetailWrapper, ExcelTableTableRowWrapper<DynamicObjectTableOverview, DynamicObjectTable.DynamicObjectRow>, DynamicObjectTable.DynamicObjectRow>(tree, "DynamicObject", "动态物体");
-            InitCommonOverviews<GameSectionTableOverview, GameSectionDetailWrapper, ExcelTableTableRowWrapper<GameSectionTableOverview, GameSectionTable.GameSectionRow>, GameSectionTable.GameSectionRow>(tree, "GameSection", "游戏章节");
+            InitCommonOverviews<GameSectionTableOverview, GameSectionDetailWrapper, ExcelTableTableRowWrapper<GameSectionTableOverview, GameSectionTable.GameSectionRow>, GameSectionTable.GameSectionRow>(tree, "GameSection", "游戏段落");
 
             InitCommonOverviews<TriggerEventTableOverview, TriggerDetailWrapper, ExcelTableTableRowWrapper<TriggerEventTableOverview, TriggerEventTable.TriggerEventRow>, TriggerEventTable.TriggerEventRow>(tree, "Trigger", "触发器");
             InitCommonOverviews<InstructionTableOverview, InstructionDetailWrapper, ExcelTableTableRowWrapper<InstructionTableOverview, InstructionTable.InstructionRow>, InstructionTable.InstructionRow>(tree, "Instruction", "指令");

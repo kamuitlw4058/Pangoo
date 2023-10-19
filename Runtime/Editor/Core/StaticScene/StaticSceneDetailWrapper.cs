@@ -45,7 +45,13 @@ namespace Pangoo
 
         public IEnumerable AssetPathIdValueDropdown()
         {
-            return GameSupportEditorUtility.GetAssetPathIds(ids: new List<int> { AssetPathId }, assetTypes: new List<string> { "Scene" });
+            return GameSupportEditorUtility.GetAssetPathIds(assetTypes: new List<string> { "Scene" });
+        }
+
+
+        public IEnumerable AssetPathIdValueDropdownWithoutSelf()
+        {
+            return GameSupportEditorUtility.GetAssetPathIds(assetTypes: new List<string> { "Scene" });
         }
 
 
@@ -79,7 +85,7 @@ namespace Pangoo
 
         public IEnumerable StaticSceneIdValueDropdown()
         {
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<StaticSceneTableOverview>();
+            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<StaticSceneTableOverview>(ids: new List<int> { Id });
         }
 
         void ShowCreateAssetPath()

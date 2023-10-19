@@ -122,6 +122,8 @@ namespace Pangoo
 
 
         [ShowInInspector]
+        [TabGroup("新建预制体")]
+        [PropertyOrder(11)]
         public string FullPath
         {
             get
@@ -142,9 +144,13 @@ namespace Pangoo
             ret.Add(ConstExcelTable.StaticSceneAssetTypeName);
             return ret;
         }
+
+
         string m_AssetName;
 
         [ShowInInspector]
+        [PropertyOrder(9)]
+        [TabGroup("新建预制体")]
         public string AssetName
         {
             get
@@ -164,7 +170,29 @@ namespace Pangoo
         [AssetsOnly]
         [AssetSelector(ExpandAllMenuItems = false)]
         [OnValueChanged("OnModelPrefabChanged")]
+        [PropertyOrder(10)]
+        [TabGroup("新建预制体")]
         public GameObject ModelPrefab;
+
+
+        [TabGroup("创建资产引用")]
+        [LabelText("引用预制体")]
+        [ValueDropdown("OnRefAssetValueDropdown")]
+        [PropertyOrder(11)]
+        public string RefAssetName;
+
+        IEnumerable OnRefAssetValueDropdown()
+        {
+            var ret = new ValueDropdownList<string>();
+            var assetDir = AssetUtility.GetAssetPathDir(Overview.Config.PackageDir, AssetType);
+            var assets = AssetDatabaseUtility.FindAsset<GameObject>(assetDir);
+            foreach (var asset in assets)
+            {
+                ret.Add(asset.name);
+            }
+            return ret;
+        }
+
 
         void OnModelPrefabChanged()
         {
@@ -182,11 +210,12 @@ namespace Pangoo
             wrapper.Name = name;
             wrapper.AfterCreate = afterCreateAsset;
             wrapper.AssetName = GetPrefixByAssetType(assetType) + name.ToPinyin();
+            wrapper.ShowCreateButton = false;
             return wrapper;
         }
 
 
-        public void ConfirmCreate(int id, string name, string assetType, string assetName, GameObject prefab, string fileType)
+        public void ConfirmCreateNew(int id, string name, string assetType, string assetName, GameObject prefab, string fileType)
         {
 
 
@@ -239,49 +268,115 @@ namespace Pangoo
 
         }
 
-        public override void Create()
+        public void ConfirmCreateRef(int id, string name, string assetType, string assetName, string fileType)
         {
-            if (Id == 0 || Name.IsNullOrWhiteSpace() || AssetName.IsNullOrWhitespace())
+
+
+            var fileName = $"{assetName}";
+            var fullFileName = $"{fileName}.{fileType}";
+
+            var assetPathRow = new AssetPathTable.AssetPathRow();
+            assetPathRow.Id = id;
+            assetPathRow.AssetPackageDir = Overview.Config.PackageDir;
+            assetPathRow.AssetPath = fullFileName;
+            assetPathRow.AssetType = assetType;
+            assetPathRow.Name = name;
+            Overview.Data.Rows.Add(assetPathRow);
+            EditorUtility.SetDirty(Overview);
+            AssetDatabase.SaveAssets();
+            if (AfterCreate != null)
+            {
+                AfterCreate(id);
+            }
+
+            if (Window != null)
+            {
+                Window.Close();
+            }
+
+
+        }
+        public bool CheckParams(bool checkAssetName = true)
+        {
+            if (Id == 0 || Name.IsNullOrWhiteSpace() || (checkAssetName && AssetName.IsNullOrWhitespace()) || (!checkAssetName && RefAssetName.IsNullOrWhiteSpace()))
             {
                 EditorUtility.DisplayDialog("错误", "Id, Name, 命名空间,ArtPrefab  必须填写", "确定");
                 // GUIUtility.ExitGUI();
-                return;
+                return false;
             }
 
-
-            if (StringUtility.ContainsChinese(AssetName))
+            if (checkAssetName)
             {
-                EditorUtility.DisplayDialog("错误", "Name不能包含中文", "确定");
-                // GUIUtility.ExitGUI();
-                return;
+                if (StringUtility.ContainsChinese(AssetName))
+                {
+                    EditorUtility.DisplayDialog("错误", "Name不能包含中文", "确定");
+                    // GUIUtility.ExitGUI();
+                    return false;
+                }
+
+                if (StringUtility.IsOnlyDigit(AssetName))
+                {
+                    EditorUtility.DisplayDialog("错误", "Name不能全是数字", "确定");
+                    return false;
+                }
+
+                if (char.IsDigit(AssetName[0]))
+                {
+                    EditorUtility.DisplayDialog("错误", "Name开头不能是数字", "确定");
+                    return false;
+                }
             }
 
-            if (StringUtility.IsOnlyDigit(AssetName))
-            {
-                EditorUtility.DisplayDialog("错误", "Name不能全是数字", "确定");
-                return;
-            }
 
-            if (char.IsDigit(AssetName[0]))
-            {
-                EditorUtility.DisplayDialog("错误", "Name开头不能是数字", "确定");
-                return;
-            }
 
             if (CheckExistsId())
             {
                 EditorUtility.DisplayDialog("错误", "Id已经存在", "确定");
-                return;
+                return false;
             }
 
             if (CheckExistsName())
             {
                 EditorUtility.DisplayDialog("错误", "Name已经存在", "确定");
+                return false;
+            }
+
+            return true;
+
+        }
+
+
+
+        [TabGroup("新建预制体")]
+        [Button("新建预制体资产")]
+        [PropertyOrder(12)]
+        public void CreateNew()
+        {
+            if (!CheckParams())
+            {
                 return;
             }
 
-            ConfirmCreate(Id, Name, AssetType, AssetName, ModelPrefab, FileType);
+            ConfirmCreateNew(Id, Name, AssetType, AssetName, ModelPrefab, FileType);
         }
+
+
+        [TabGroup("创建资产引用")]
+        [Button("引用预制体资产")]
+        [PropertyOrder(12)]
+        public void CreateRef()
+        {
+            if (!CheckParams(false))
+            {
+                return;
+            }
+
+            ConfirmCreateRef(Id, Name, AssetType, RefAssetName, FileType);
+        }
+
+
+
+
 
     }
 }

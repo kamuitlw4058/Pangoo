@@ -30,8 +30,15 @@ namespace Pangoo
         }
 
 
-       [ValueDropdown("GetProcedureType")]
+        [ValueDropdown("GetProcedureType")]
         public string EntryProcedure;
+
+        private IEnumerable GetProcedureType()
+        {
+            var typeList = GameSupportEditorUtility.GetTypeNames<GameFramework.Procedure.ProcedureBase>().ToList();
+            typeList.Insert(0, string.Empty);
+            return typeList;
+        }
 
 #if ENABLE_FGUI
         [ShowInInspector]
@@ -43,12 +50,16 @@ namespace Pangoo
 
         public bool InitUnloadScene = true;
 
-        private IEnumerable GetProcedureType()
+        [ValueDropdown("GetGameSectionIds")]
+        public int EnterGameSectionId;
+
+        private IEnumerable GetGameSectionIds()
         {
-            var typeList = GameSupportEditorUtility.GetTypeNames<GameFramework.Procedure.ProcedureBase>().ToList();
-            typeList.Insert(0,string.Empty);
+            var typeList = GameSupportEditorUtility.GetExcelTableOverviewNamedIds<GameSectionTableOverview>();
             return typeList;
         }
+
+
 
         private IEnumerable GetAllSceneDirs()
         {
@@ -57,25 +68,25 @@ namespace Pangoo
         private IEnumerable GetAllScenes()
         {
             var scenesList = GameSupportEditorUtility.GetAllScenes(SceneBaseDir).ToList();
-            scenesList.Insert(0,ConstString.NULL);
+            scenesList.Insert(0, ConstString.NULL);
             return scenesList;
         }
 #endif
     }
-    #if ENABLE_FGUI
+#if ENABLE_FGUI
     [Serializable]
     public class LogoEntry{
         [ValueDropdown("GetUILogicTypes")]
         [ShowInInspector]
         public string LogoUIType;
         public UiConfigInfoTable.UiConfigInfoRow LogoUIConfig;
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
         private IEnumerable GetUILogicTypes(){
             var uiTypes = GameSupportEditorUtility.GetTypeNames<UILogicBase>().ToList();
             uiTypes.Insert(0,null);
             return uiTypes;
         }
-        #endif
+#endif
     }
-    #endif
+#endif
 }

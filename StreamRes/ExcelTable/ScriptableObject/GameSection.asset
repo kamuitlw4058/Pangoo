@@ -15,20 +15,4 @@ MonoBehaviour:
   Config: {fileID: 11400000, guid: b28e25bda078ea84aa67d9488e039e49, type: 2}
   Data:
     Priority: 0
-    Rows:
-    - Id: 1
-      Name: "\u6E38\u620F\u521D\u59CB"
-      DynamicSceneIds: 1|2|3|4|5|6
-      KeepSceneIds: 21000|7
-      SectionJumpByScene: ' 10004#2'
-      InitSceneIds: 1
-      DynamicObjectIds: 2|5
-      InitedInstructionIds: 6
-    - Id: 2
-      Name: "\u5207\u6362\u7AE0\u8282"
-      DynamicSceneIds: 1
-      KeepSceneIds: 
-      SectionJumpByScene: 
-      InitSceneIds: 
-      DynamicObjectIds: 
-      InitedInstructionIds: 
+    Rows: []

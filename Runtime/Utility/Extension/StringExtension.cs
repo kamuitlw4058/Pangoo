@@ -149,9 +149,10 @@ namespace Pangoo
                 return str;
             }
 
+
             if (!str.ContainsChinese())
             {
-                return str;
+                return str.Replace("-", "_");
             }
 
             var chars = str.ToCharArray();
@@ -167,7 +168,7 @@ namespace Pangoo
                     sb.Append(c);
                 }
             }
-            return sb.ToString();
+            return sb.ToString().Replace("-", "_");
         }
 
 

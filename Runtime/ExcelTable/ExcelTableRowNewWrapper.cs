@@ -13,7 +13,7 @@ namespace Pangoo
 {
     public class ExcelTableRowNewWrapper<TOverview, TRow> : ExcelTableOverviewRowWrapper<TOverview, TRow> where TOverview : ExcelTableOverview where TRow : ExcelNamedRowBase, new()
     {
-
+        public bool ShowCreateButton { get; set; } = true;
 
         public Action<int> AfterCreate;
 
@@ -105,6 +105,7 @@ namespace Pangoo
         }
 
         [Button("新建")]
+        [ShowIf("@this.ShowCreateButton")]
         public virtual void Create()
         {
             if (m_Row == null) return;
