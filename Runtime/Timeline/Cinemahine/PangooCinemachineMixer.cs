@@ -178,6 +178,17 @@ namespace Pangoo.Timeline
 #endif
         }
 
+        public CinemachineBrain GetBrainFromGo(string tagName)
+        {
+            CinemachineBrain brain = null;
+            var go = GameObject.FindGameObjectWithTag(tagName);
+            if (go != null)
+            {
+                brain = go.GetComponent<CinemachineBrain>();
+            }
+            return brain;
+        }
+
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
             base.ProcessFrame(playable, info, playerData);
@@ -190,14 +201,14 @@ namespace Pangoo.Timeline
             else
                 mBrain = go.GetComponent<CinemachineBrain>();
 
+            if (mBrain == null) mBrain = GameObject.FindObjectOfType<CinemachineBrain>();
+
             if (mBrain == null)
             {
-
-                var playerGo = GameObject.FindGameObjectWithTag("Player");
-                mBrain = playerGo.GetComponent<CinemachineBrain>();
-            }
-            if (mBrain == null)
+                Debug.LogError($"Find CinemachineBrain Failed!");
                 return;
+            }
+
 
             // Find which clips are active.  We can process a maximum of 2.
             // In the case that the weights don't add up to 1, the outgoing weight
