@@ -38,6 +38,7 @@ namespace Pangoo
 
             PangooEntry.ExcelTable.LoadExcelTable();
             PangooEntry.GameInfo.Init();
+            LitJsonExtend.LitJsonInit();
 
 
             // GameFramework.Data.Data[] _datas = GameEntry.Data.GetAllData();

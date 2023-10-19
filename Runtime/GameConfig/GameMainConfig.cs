@@ -33,12 +33,10 @@ namespace Pangoo
         [ValueDropdown("GetProcedureType")]
         public string EntryProcedure;
 
-        private IEnumerable GetProcedureType()
-        {
-            var typeList = GameSupportEditorUtility.GetTypeNames<GameFramework.Procedure.ProcedureBase>().ToList();
-            typeList.Insert(0, string.Empty);
-            return typeList;
-        }
+        [ValueDropdown("GetGameSectionIds")]
+        public int EnterGameSectionId;
+
+
 
 #if ENABLE_FGUI
         [ShowInInspector]
@@ -48,10 +46,15 @@ namespace Pangoo
 
 #if UNITY_EDITOR
 
+        private IEnumerable GetProcedureType()
+        {
+            var typeList = GameSupportEditorUtility.GetTypeNames<GameFramework.Procedure.ProcedureBase>().ToList();
+            typeList.Insert(0, string.Empty);
+            return typeList;
+        }
+
         public bool InitUnloadScene = true;
 
-        [ValueDropdown("GetGameSectionIds")]
-        public int EnterGameSectionId;
 
         private IEnumerable GetGameSectionIds()
         {

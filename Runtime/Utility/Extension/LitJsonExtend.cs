@@ -1,21 +1,29 @@
-
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using LitJson;
 using System;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine.Tilemaps;
 using Pangoo;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 
 public class LitJsonExtend
 {
+#if UNITY_EDITOR
+    [InitializeOnLoadMethod]
+#endif
+    public static void LitJsonInit()
+    {
+        joinV3Type();
+        joinV3IntType();
+        joinV2Type();
+        joinTileType();
+    }
+
     /// <summary>
     /// List<Vector3> 序列化Vector3
     /// </summary>
 
-    [InitializeOnLoadMethod]
     static void joinV3Type()
     {
         Action<Vector3, JsonWriter> writeType = (v, w) =>
@@ -60,7 +68,6 @@ public class LitJsonExtend
     /// <summary>
     /// List<Vector3Int> 序列化Vector3Int
     /// </summary>
-    [InitializeOnLoadMethod]
     static void joinV3IntType()
     {
         Action<Vector3Int, JsonWriter> writeType = (v, w) =>
@@ -103,7 +110,6 @@ public class LitJsonExtend
     /// <summary>
     /// List<Vector2> 序列化Vector2
     /// </summary>
-    [InitializeOnLoadMethod]
     static void joinV2Type()
     {
         Action<Vector2, JsonWriter> writeType = (v, w) =>
@@ -130,7 +136,6 @@ public class LitJsonExtend
     /// <summary>
     /// List<Tile> 序列化Tile
     /// </summary>
-    [InitializeOnLoadMethod]
     static void joinTileType()
     {
         Action<Tile, JsonWriter> writeType = (v, w) =>

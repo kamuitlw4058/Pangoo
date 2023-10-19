@@ -73,7 +73,7 @@ namespace Pangoo.Core.VisualScripting
 #if UNITY_EDITOR
                 Debug.Log($"TriggerRow:{args?.TriggerObject?.gameObject?.name}");
 #else
-                Utility.Text.Format("TriggerRow:{0}", args?.TriggerRow);
+                Utility.Text.Format("TriggerObject:{0}", args?.TriggerObject);
 #endif
             }
 #if UNITY_EDITOR

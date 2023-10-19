@@ -136,7 +136,7 @@ namespace Pangoo.Core.VisualScripting
                 row = GameSupportEditorUtility.GetHotspotRowById(id);
             }
 #else
-            row = m_TriggerEventTable.GetRowById(id);
+            row = m_HotspotTable.GetRowById(id);
 #endif
             return row;
         }
