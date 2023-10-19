@@ -94,6 +94,26 @@ namespace Pangoo.Core.Characters
                     break;
             }
         }
+
+        public void SetDirection(Vector3 direction)
+        {
+            switch (m_ServiceType)
+            {
+                case CharacterCameraTypeEnum.FirstPerson:
+                    if (m_FirstPersonCameraService == null)
+                    {
+                        m_FirstPersonCameraService = new FirstPersonCameraService(this);
+                        m_FirstPersonCameraService.Awake();
+                        m_FirstPersonCameraService.Start();
+                    }
+
+                    m_FirstPersonCameraService.SetDirection(direction);
+                    break;
+            }
+
+        }
+
+
     }
 }
 

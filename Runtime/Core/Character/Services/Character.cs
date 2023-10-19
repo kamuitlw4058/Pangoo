@@ -59,6 +59,11 @@ namespace Pangoo.Core.Characters
             this.IsPlayer = val;
         }
 
+        public void SetDirection(Vector3 direction)
+        {
+            m_CharacterCameraService.SetDirection(direction);
+        }
+
 
         public Character(GameObject gameObject, bool onlyCamera = false) : base(gameObject)
         {

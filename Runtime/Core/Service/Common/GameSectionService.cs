@@ -87,7 +87,10 @@ namespace Pangoo.Core.Services
             {
                 LatestId = CurrentId;
                 var GameSection = m_GameSectionTable.GetGameSectionRow(CurrentId);
-
+                if (GameSection == null)
+                {
+                    Debug.LogError($"GameSection is null:{GameSection}");
+                }
 
                 Tuple<int, int> sectionChange = new Tuple<int, int>(0, 0);
                 if (!string.IsNullOrEmpty(GameSection.SectionJumpByScene))

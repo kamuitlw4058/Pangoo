@@ -56,6 +56,7 @@ namespace Pangoo
 
             character = new Character(gameObject, false);
             character.SetIsPlayer(EntityData.IsPlayer);
+
             MotionInfo motionInfo = new MotionInfo();
             motionInfo.RotationSpeedX = 80;
             motionInfo.RotationSpeedY = 80;
@@ -69,6 +70,7 @@ namespace Pangoo
             character.MaxPitch = EntityData.InfoRow.m_CharacterRow.MaxPitch;
             character.Awake();
             character.Start();
+            character.SetDirection(transform.forward);
 
         }
 

@@ -47,7 +47,7 @@ namespace Pangoo.Core.Characters
 
         public void SetDirection(Vector3 direction)
         {
-            this.SetRotation(Quaternion.LookRotation(direction, Vector3.up));
+            this.SetRotation(Quaternion.Euler(direction));
         }
 
 

@@ -121,13 +121,8 @@ namespace Pangoo
         {
             get
             {
-                if (Row?.DynamicObjectIds == null)
-                {
-                    return null;
-                }
 
-
-                return Row?.DynamicObjectIds?.ToArrInt();
+                return Row?.DynamicObjectIds?.ToArrInt() ?? new int[0];
             }
             set
             {
