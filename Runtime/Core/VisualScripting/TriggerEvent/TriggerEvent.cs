@@ -9,8 +9,14 @@ namespace Pangoo.Core.VisualScripting
 {
 
     [Serializable]
-    public abstract class TriggerEvent : TPolymorphicItem<TriggerEvent>
+    public abstract class TriggerEvent
     {
+        public bool Enabled { get; set; }
+
+        public GameObject Parent { get; set; }
+
+        public DynamicObject dynamicObject { get; set; }
+
         public event Action EventRunInstructionsStart;
 
         public event Action EventRunInstructionsEnd;
@@ -70,6 +76,7 @@ namespace Pangoo.Core.VisualScripting
 
         public virtual void OnInvoke(Args args)
         {
+            args.ChangeTarget(Parent);
             if (UseCondition && Conditions != null)
             {
                 var isPass = Conditions.Check(args);

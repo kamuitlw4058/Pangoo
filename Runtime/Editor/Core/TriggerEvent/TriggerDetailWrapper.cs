@@ -76,6 +76,27 @@ namespace Pangoo
             }
         }
 
+        [ShowInInspector]
+        [LabelText("是否默认打开")]
+        public bool Enabled
+        {
+            get
+            {
+
+
+                return Row?.Enabled ?? false;
+            }
+            set
+            {
+                if (Row != null && Overview != null)
+                {
+                    Row.Enabled = value;
+                    Save();
+                }
+
+            }
+        }
+
         bool UseCondition
         {
             get

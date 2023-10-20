@@ -47,10 +47,6 @@ namespace Pangoo.Core.VisualScripting
 
         void OnInteract(Characters.Character character, IInteractive interactive)
         {
-            // if (CheckInteract != null && CheckInteract(null))
-            // {
-
-            // }
 
             Debug.Log($"OnInteract:{gameObject.name}");
             if (InteractEvent != null)
@@ -71,7 +67,6 @@ namespace Pangoo.Core.VisualScripting
         {
             m_Tracker?.Stop();
         }
-
 
 
         void DoAwakeTriggerEvent()
@@ -101,6 +96,9 @@ namespace Pangoo.Core.VisualScripting
                     return;
                 }
                 triggerInstance.Row = triggerRow;
+                triggerInstance.Parent = gameObject;
+                triggerInstance.dynamicObject = this;
+                triggerInstance.Enabled = triggerRow.Enabled;
                 triggerInstance.LoadParamsFromJson(triggerRow.Params);
                 triggerInstance.RunInstructions = GetInstructionList(triggerRow.GetInstructionList());
 

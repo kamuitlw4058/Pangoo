@@ -23,12 +23,15 @@ namespace Pangoo
 
 
 
-        public Type  GetRowType(){
-            Type ret  = null;
+        public Type GetRowType()
+        {
+            Type ret = null;
             var nestedTypes = this.GetType().GetNestedTypes();
-            foreach(var nested in nestedTypes){
-                if(nested.BaseType == typeof(ExcelRowBase)
-                || nested.BaseType == typeof(ExcelNamedRowBase) ){
+            foreach (var nested in nestedTypes)
+            {
+                if (nested.BaseType == typeof(ExcelRowBase)
+                || nested.BaseType == typeof(ExcelNamedRowBase))
+                {
                     ret = nested;
                     JsonMapper.AddObjectMetadata(nested);
                     break;
@@ -38,8 +41,9 @@ namespace Pangoo
         }
 
 
-        public ExcelTableColAttribute[] GetColAttributes(){
-            var rowType =  GetRowType();
+        public ExcelTableColAttribute[] GetColAttributes()
+        {
+            var rowType = GetRowType();
             var objectMetadata = JsonMapper.GetObjectMetadata(rowType);
             List<ExcelTableColAttribute> rowAttributes = new List<ExcelTableColAttribute>();
 
@@ -47,33 +51,33 @@ namespace Pangoo
             {
                 var prop_data = propPair.Value;
                 var excelTableRow = prop_data.Info.GetCustomAttribute<ExcelTableColAttribute>();
-                if (excelTableRow != null )
+                if (excelTableRow != null)
                 {
                     rowAttributes.Add(excelTableRow);
                 }
             }
 
-             rowAttributes.Sort((attr1,attr2) => attr1.Index.CompareTo(attr2.Index));
-             return rowAttributes.ToArray();
+            rowAttributes.Sort((attr1, attr2) => attr1.Index.CompareTo(attr2.Index));
+            return rowAttributes.ToArray();
         }
 
-        
+
         public virtual string[] GetHeadNames()
         {
-            return GetColAttributes().Select( o=> o.Head).ToArray();
+            return GetColAttributes().Select(o => o.Head).ToArray();
         }
 
         public virtual string[] GetNameCn()
         {
-            return GetColAttributes().Select( o=> o.NameCn).ToArray();
+            return GetColAttributes().Select(o => o.NameCn).ToArray();
         }
 
         public virtual string[] GetTypeNames()
         {
-            return GetColAttributes().Select( o=> o.ColType).ToArray();
+            return GetColAttributes().Select(o => o.ColType).ToArray();
         }
 
-        
+
         public virtual List<string[]> GetTableHeadList()
         {
             List<string[]> tableHeadList = new List<string[]>();
@@ -89,83 +93,89 @@ namespace Pangoo
 
             foreach (var item in BaseRows)
             {
-                string[] rowStrs = GetRowStrings(item,cols);
+                string[] rowStrs = GetRowStrings(item, cols);
                 ret.Add(rowStrs);
             }
             return ret;
         }
 
-        public string[] GetRowStrings(object item,ExcelTableColAttribute[] cols)
+        public string[] GetRowStrings(object item, ExcelTableColAttribute[] cols)
         {
             string[] texts = new string[cols.Length];
             for (int i = 0; i < texts.Length; i++)
             {
                 object valueText = item.GetType().GetField(cols[i].Name).GetValue(item);
-                texts[i] = valueText != null ?valueText.ToString(): string.Empty;
+                texts[i] = valueText != null ? valueText.ToString() : string.Empty;
             }
             return texts;
         }
 
 
-        public virtual List<T> LoadExcelFile<T>(string excelFilePath)where T:ExcelRowBase,new()
+        public virtual List<T> LoadExcelFile<T>(string excelFilePath) where T : ExcelRowBase, new()
         {
             List<T> ret = new List<T>();
             var fileInfo = new FileInfo(excelFilePath);
             Debug.Log($"excelFilePath:{excelFilePath}");
             ExcelPackage excelPackage = new ExcelPackage(fileInfo);
+            if (excelPackage.Workbook.Worksheets.Count == 0)
+            {
+                return ret;
+            }
             ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets[1];
 
             Type rowType = typeof(T);
             JsonMapper.AddObjectMetadata(rowType);
-            ObjectMetadata  metadata = JsonMapper.GetObjectMetadata(rowType);
+            ObjectMetadata metadata = JsonMapper.GetObjectMetadata(rowType);
             var propertyDict = GetPropertyDict(metadata);
 
-            Dictionary<int,string> headDict = new Dictionary<int, string>();
+            Dictionary<int, string> headDict = new Dictionary<int, string>();
             for (int j = 0; j < worksheet.Dimension.Columns; j++)
             {
                 var cellValue = worksheet.Cells[0 + 1, j + 1].Value;
-                headDict.Add(j,cellValue.ToString());
+                headDict.Add(j, cellValue.ToString());
             }
 
             var hasId = headDict.ContainsValue("Id");
             Debug.Log($"Load Excel Rows:{worksheet.Dimension.Rows}");
 
             for (int row = 3; row < worksheet.Dimension.Rows; row++)
-            {   
-                var  eventsRow = new T();
+            {
+                var eventsRow = new T();
                 for (int col = 0; col < worksheet.Dimension.Columns; col++)
                 {
                     string head;
                     PropertyMetadata propertyMetadata;
-                     if(headDict.TryGetValue(col,out head)  && propertyDict.TryGetValue(head,out propertyMetadata)){
+                    if (headDict.TryGetValue(col, out head) && propertyDict.TryGetValue(head, out propertyMetadata))
+                    {
                         var excelTableRowAttribute = propertyMetadata.Info.GetCustomAttribute<ExcelTableColAttribute>();
                         if (excelTableRowAttribute != null && excelTableRowAttribute.Head == head)
                         {
-                                var cellValue = worksheet.Cells[row + 1, col + 1].Value;
-                              
-                                if (propertyMetadata.IsField)
-                                {
-                                    var fieldInfo = propertyMetadata.Info as FieldInfo;
-                                      var value = StringConvert.ToValue(fieldInfo.FieldType, cellValue!=null ? cellValue.ToString() : string.Empty);
-                                    ((FieldInfo)propertyMetadata.Info).SetValue(
-                                        eventsRow,value);
-                                }
-                                // 属性的设置暂时不考虑
-                                // else
-                                // {
-                                //     PropertyInfo p_info = (PropertyInfo)propertyMetadata.Info;
+                            var cellValue = worksheet.Cells[row + 1, col + 1].Value;
 
-                                //     if (p_info.CanWrite)
-                                //         p_info.SetValue(eventsRow, cellValue, null);
-                                // }
+                            if (propertyMetadata.IsField)
+                            {
+                                var fieldInfo = propertyMetadata.Info as FieldInfo;
+                                var value = StringConvert.ToValue(fieldInfo.FieldType, cellValue != null ? cellValue.ToString() : string.Empty);
+                                ((FieldInfo)propertyMetadata.Info).SetValue(
+                                    eventsRow, value);
+                            }
+                            // 属性的设置暂时不考虑
+                            // else
+                            // {
+                            //     PropertyInfo p_info = (PropertyInfo)propertyMetadata.Info;
+
+                            //     if (p_info.CanWrite)
+                            //         p_info.SetValue(eventsRow, cellValue, null);
+                            // }
                             //    Debug.Log($"Set  cellValue:{cellValue} propertyMetadata.Info:{propertyMetadata.Info.GetType()} excelTableRowAttribute:{excelTableRowAttribute.Name}");
                         }
 
-                    
+
                     }
                 }
-                if(!hasId){
-                    eventsRow.Id = row -2;
+                if (!hasId)
+                {
+                    eventsRow.Id = row - 2;
                 }
                 ret.Add(eventsRow);
             }
@@ -174,15 +184,16 @@ namespace Pangoo
 
         }
 
-        public Dictionary<string,PropertyMetadata> GetPropertyDict(ObjectMetadata  metadata){
-            Dictionary<string,PropertyMetadata> dic = new Dictionary<string, PropertyMetadata>();
+        public Dictionary<string, PropertyMetadata> GetPropertyDict(ObjectMetadata metadata)
+        {
+            Dictionary<string, PropertyMetadata> dic = new Dictionary<string, PropertyMetadata>();
             foreach (var propPair in metadata.Properties)
             {
                 var prop_data = propPair.Value;
                 var excelTableRowAttribute = prop_data.Info.GetCustomAttribute<ExcelTableColAttribute>();
                 if (excelTableRowAttribute != null)
                 {
-                    dic.Add(excelTableRowAttribute.Head,prop_data);
+                    dic.Add(excelTableRowAttribute.Head, prop_data);
                 }
             }
 
@@ -190,20 +201,20 @@ namespace Pangoo
         }
 
 
-        public  void BuildExcelFile(string path,string sheetName = "Sheet1")
+        public void BuildExcelFile(string path, string sheetName = "Sheet1")
         {
-             Debug.Log($"Build Excel path:{path}");
+            Debug.Log($"Build Excel path:{path}");
             var rowsList = GetTableHeadList();
             rowsList.AddRange(GetTableRowDataList());
             Debug.Log($"Build Excel Rows:{rowsList.Count}");
-            WriteTextToExcel(path,sheetName,rowsList);
+            WriteTextToExcel(path, sheetName, rowsList);
             AssetDatabase.ImportAsset(path);
         }
 
-        private void WriteTextToExcel(string filePath ,string sheetName,List<string[]> RowsList)
+        private void WriteTextToExcel(string filePath, string sheetName, List<string[]> RowsList)
         {
             var fileInfo = new FileInfo(filePath);
-            using (ExcelPackage excelPackage=new ExcelPackage(fileInfo))
+            using (ExcelPackage excelPackage = new ExcelPackage(fileInfo))
             {
                 //添加一张表格.如果失败认为已经有了去获取一张。
                 ExcelWorksheet worksheet;
@@ -221,7 +232,7 @@ namespace Pangoo
                 {
                     for (int col = 0; col < RowsList[row].Length; col++)
                     {
-                            worksheet.Cells[row+1, col+1].Value = RowsList[row][col];
+                        worksheet.Cells[row + 1, col + 1].Value = RowsList[row][col];
                     }
                 }
                 excelPackage.Save();//写入后保存表格

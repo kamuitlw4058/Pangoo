@@ -92,7 +92,7 @@ namespace Pangoo
         {
             get
             {
-                return Row?.TriggerEventIds?.ToArrInt();
+                return Row?.TriggerEventIds?.ToArrInt() ?? new int[0];
             }
             set
             {
