@@ -108,6 +108,11 @@ MonoBehaviour:
     Named: 1
   - Build: 1
     IsPangooTable: 1
+    ExcelName: Variables
+    BaseNamespace: 
+    Named: 1
+  - Build: 1
+    IsPangooTable: 1
     ExcelName: Volume
     BaseNamespace: 
     Named: 1

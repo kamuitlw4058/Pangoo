@@ -23,7 +23,7 @@ namespace Pangoo
             [TableTitleGroup("编号")]
             [HideLabel]
             [JsonMember("ID")]
-            [ExcelTableCol("ID","ID","int", "编号",2)]
+            [ExcelTableCol("ID","ID","int", "编号",3)]
             public int ID ;
 
             /// <summary>
