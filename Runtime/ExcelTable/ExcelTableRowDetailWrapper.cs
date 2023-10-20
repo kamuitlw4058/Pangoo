@@ -18,6 +18,17 @@ namespace Pangoo
         [field: NonSerialized]
         public Action<int> OnRemove;
 
+        [ShowInInspector]
+        [LabelText("Overview位置")]
+        public TOverview TraceOverview
+        {
+            get
+            {
+                return m_Overview;
+            }
+        }
+
+
         [ReadOnly]
         public override int Id
         {

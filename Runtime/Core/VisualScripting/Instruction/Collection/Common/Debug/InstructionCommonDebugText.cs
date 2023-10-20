@@ -59,7 +59,7 @@ namespace Pangoo.Core.VisualScripting
             if (m_MessageParams.ShowTriggerRow)
             {
 #if UNITY_EDITOR
-                Debug.Log($"TriggerObject:{args?.TriggerObject?.gameObject?.name}");
+                Debug.Log($"TriggerObject:{args?.dynamicObject?.gameObject?.name}");
 #else
                 Utility.Text.Format("TriggerObject:{0}", args?.TriggerObject);
 #endif

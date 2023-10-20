@@ -18,6 +18,7 @@ namespace Pangoo.Core.VisualScripting
         TriggerEventTable m_TriggerEventTable;
         InstructionTable m_InstructionTable;
 
+        [HideReferenceObjectPicker]
         public List<TriggerEvent> TriggerEvents = new List<TriggerEvent>();
 
 
@@ -29,6 +30,14 @@ namespace Pangoo.Core.VisualScripting
 
 
         public Action<Args> InteractEvent;
+
+        public bool IsInteracting
+        {
+            get
+            {
+                return m_Tracker?.IsInteracting ?? false;
+            }
+        }
 
         public bool IsRunningTriggers
         {
@@ -65,7 +74,31 @@ namespace Pangoo.Core.VisualScripting
 
         void OnInteractEnd()
         {
-            m_Tracker?.Stop();
+            bool allFinish = true;
+            foreach (var trigger in TriggerEvents)
+            {
+                if (trigger.TriggerType == TriggerTypeEnum.OnInteract && trigger.IsRunning)
+                {
+                    allFinish = false;
+                    break;
+                }
+            }
+            if (allFinish)
+            {
+                m_Tracker?.Stop();
+            }
+        }
+
+        public void SetTriggerEnabled(int id, bool val)
+        {
+            Debug.Log($"SetTriggerEnabled:{id}:{val}");
+            foreach (var trigger in TriggerEvents)
+            {
+                if (trigger.Row.Id == id)
+                {
+                    trigger.Enabled = val;
+                }
+            }
         }
 
 
@@ -93,14 +126,17 @@ namespace Pangoo.Core.VisualScripting
                 var triggerInstance = ClassUtility.CreateInstance<TriggerEvent>(triggerRow.TriggerType);
                 if (triggerInstance == null)
                 {
+                    Debug.LogError($"Create Trigger Failed!{triggerRow.TriggerType}");
                     return;
                 }
                 triggerInstance.Row = triggerRow;
                 triggerInstance.Parent = gameObject;
                 triggerInstance.dynamicObject = this;
                 triggerInstance.Enabled = triggerRow.Enabled;
+                triggerInstance.Targets = triggerRow.Targets.Split("|");
+                triggerInstance.TargetType = (TriggerTargetListProcessTypeEnum)triggerRow.TargetListType;
                 triggerInstance.LoadParamsFromJson(triggerRow.Params);
-                triggerInstance.RunInstructions = GetInstructionList(triggerRow.GetInstructionList());
+                triggerInstance.RunInstructions = GetInstructionList(triggerInstance, triggerRow.GetInstructionList());
 
                 switch (triggerInstance.TriggerType)
                 {
@@ -140,6 +176,7 @@ namespace Pangoo.Core.VisualScripting
             Debug.Log($"OnTriggerEnter3dEvent:{gameObject.name}");
             foreach (var trigger in TriggerEvents)
             {
+                if (!trigger.Enabled) continue;
                 switch (trigger.TriggerType)
                 {
                     case TriggerTypeEnum.OnTriggerEnter3D:
@@ -155,6 +192,7 @@ namespace Pangoo.Core.VisualScripting
             Debug.Log($"OnTriggerExit3dEvent:{gameObject.name}");
             foreach (var trigger in TriggerEvents)
             {
+                if (!trigger.Enabled) continue;
                 switch (trigger.TriggerType)
                 {
                     case TriggerTypeEnum.OnTriggerEnter3D:
@@ -171,11 +209,11 @@ namespace Pangoo.Core.VisualScripting
             Debug.Log($"OnInteractEvent:{gameObject.name}");
             foreach (var trigger in TriggerEvents)
             {
+                if (!trigger.Enabled) continue;
+
                 switch (trigger.TriggerType)
                 {
                     case TriggerTypeEnum.OnInteract:
-                        // trigger.EventRunInstructionsEnd -= OnInteractEnd;
-                        // trigger.EventRunInstructionsEnd += OnInteractEnd;
                         Debug.Log($"Trigger:{trigger?.Row?.Id} inovke ");
                         trigger.OnInvoke(eventParams);
                         break;
@@ -238,7 +276,7 @@ namespace Pangoo.Core.VisualScripting
 
 
 
-        InstructionList GetInstructionList(List<int> ids)
+        InstructionList GetInstructionList(TriggerEvent trigger, List<int> ids)
         {
             List<Instruction> instructions = new();
 
@@ -252,6 +290,7 @@ namespace Pangoo.Core.VisualScripting
 
                 var InstructionInstance = ClassUtility.CreateInstance<Instruction>(instructionRow.InstructionType);
                 InstructionInstance.LoadParams(instructionRow.Params);
+                InstructionInstance.Trigger = trigger;
 
                 instructions.Add(InstructionInstance);
             }

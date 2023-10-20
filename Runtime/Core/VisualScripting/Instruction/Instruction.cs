@@ -10,6 +10,8 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public abstract class Instruction : TPolymorphicItem<Instruction>, IEnumerator
     {
+        public TriggerEvent Trigger { get; set; }
+
         private const int DEFAULT_NEXT_INSTRUCTION = 1;
         protected int NextInstruction { get; set; }
 

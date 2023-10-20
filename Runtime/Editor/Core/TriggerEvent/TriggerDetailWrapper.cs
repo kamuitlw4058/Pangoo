@@ -97,6 +97,97 @@ namespace Pangoo
             }
         }
 
+        string[] m_Targets;
+
+        [ShowInInspector]
+        [LabelText("目标")]
+        [ListDrawerSettings(CustomAddFunction = "AddTarget", CustomRemoveIndexFunction = "RemoveTarget")]
+        [OnValueChanged("UpdateTargets", includeChildren: true)]
+        public string[] Targets
+        {
+            get
+            {
+                if (m_Targets == null)
+                {
+                    if (Row?.Targets.IsNullOrWhiteSpace() ?? true)
+                    {
+                        m_Targets = new string[0];
+                    }
+                    else
+                    {
+                        m_Targets = Row?.Targets?.Split("|");
+                    }
+                }
+
+                return m_Targets;
+            }
+            set
+            {
+                if (Row != null && Overview != null)
+                {
+                    Row.Targets = value.ToListString();
+                    Save();
+                }
+
+            }
+        }
+
+        [ShowInInspector]
+        [LabelText("目标列表操作方式")]
+        public TriggerTargetListProcessTypeEnum TriggerListType
+        {
+            get
+            {
+                if (Row != null)
+                {
+                    return (TriggerTargetListProcessTypeEnum)Row.TargetListType;
+                }
+
+                return TriggerTargetListProcessTypeEnum.SeqAndDisabled;
+
+            }
+            set
+            {
+                if (Row != null && Overview != null)
+                {
+                    Row.TargetListType = (int)value;
+                    Save();
+                }
+            }
+        }
+
+        public void UpdateTargets()
+        {
+            Row.Targets = m_Targets.ToListString();
+            Save();
+        }
+
+        public void AddTarget()
+        {
+            if (Row.Targets.IsNullOrWhiteSpace())
+            {
+                Row.Targets = "Self";
+            }
+            else
+            {
+                var l = Row.Targets.Split("|").ToList();
+                l.Add("Self");
+                Row.Targets = l.ToListString();
+            }
+            m_Targets = Row?.Targets?.Split("|");
+            Save();
+        }
+
+        public void RemoveTarget(int index)
+        {
+            var targetList = m_Targets.ToList();
+            targetList.RemoveAt(index);
+            m_Targets = targetList.ToArray();
+            Row.Targets = m_Targets.ToListString();
+            Save();
+        }
+
+
         bool UseCondition
         {
             get
@@ -315,7 +406,7 @@ namespace Pangoo
         public void RunPass()
         {
             var instructionList = GetInstructionList(InstructionIds);
-            instructionList.Start(new Args());
+            instructionList?.Start(new Args());
         }
 
         [Button("运行失败指令")]
@@ -323,7 +414,7 @@ namespace Pangoo
         public void RunFailed()
         {
             var instructionList = GetInstructionList(FailedInstructionIds);
-            instructionList.Start(new Args());
+            instructionList?.Start(new Args());
         }
 
         [Button("运行指令")]

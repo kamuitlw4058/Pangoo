@@ -20,9 +20,17 @@ namespace Pangoo.Core.VisualScripting
 
 
         private const float TRANSITION_SMOOTH_TIME = 0.25f;
+        [ShowInInspector]
+        public bool IsHotspotActive
+        {
+            get
+            {
+                return IsHotspotDistanceActive && !IsInteracting;
+            }
+        }
 
         [ShowInInspector]
-        public bool IsHotspotActive { get; private set; }
+        public bool IsHotspotDistanceActive { get; private set; }
         [ShowInInspector]
         public float Distance { get; private set; }
 
@@ -85,12 +93,12 @@ namespace Pangoo.Core.VisualScripting
 
         private void DoUpdateHotspot()
         {
-            bool wasActive = this.IsHotspotActive;
+            bool wasActive = this.IsHotspotDistanceActive;
             this.Target = Character.PlayerGameObject;
 
             if (this.Target == null)
             {
-                this.IsHotspotActive = false;
+                this.IsHotspotDistanceActive = false;
                 this.Distance = float.MaxValue;
             }
             else
@@ -100,12 +108,12 @@ namespace Pangoo.Core.VisualScripting
                     this.HotspotPosition
                 );
 
-                this.IsHotspotActive = this.Distance <= this.Radius;
+                this.IsHotspotDistanceActive = this.Distance <= this.Radius;
             }
 
             this.Transition = Mathf.SmoothDamp(
                 this.Transition,
-                this.IsHotspotActive ? 1f : 0f,
+                this.IsHotspotDistanceActive ? 1f : 0f,
                 ref this.m_Velocity,
                 TRANSITION_SMOOTH_TIME
             );

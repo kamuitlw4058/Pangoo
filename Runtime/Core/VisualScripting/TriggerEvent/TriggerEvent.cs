@@ -11,9 +11,19 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public abstract class TriggerEvent
     {
+        [ShowInInspector]
+        [HideInEditorMode]
         public bool Enabled { get; set; }
 
         public GameObject Parent { get; set; }
+
+
+        public string[] Targets { get; set; }
+
+        public TriggerTargetListProcessTypeEnum TargetType { get; set; }
+
+        [ShowInInspector]
+        public int TargetIndex { get; set; }
 
         public DynamicObject dynamicObject { get; set; }
 
@@ -25,6 +35,7 @@ namespace Pangoo.Core.VisualScripting
         public TriggerEventTable.TriggerEventRow Row { get; set; }
 
         [ShowInInspector]
+        [HideInEditorMode]
         public InstructionList RunInstructions { get; set; }
 
         public ConditionList Conditions { get; set; }
@@ -43,12 +54,25 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
-        [ShowInInspector]
+        // [ShowInInspector]
         [ShowIf("@this.UseCondition")]
+        [HideInEditorMode]
         public InstructionList FailInstructions { get; set; }
 
-        public bool IsRuningRunInstructions { get; private set; }
-        public bool IsRuningFailInstructions { get; private set; }
+        public bool IsRuningRunInstructions
+        {
+            get
+            {
+                return RunInstructions?.IsRunning ?? false;
+            }
+        }
+        public bool IsRuningFailInstructions
+        {
+            get
+            {
+                return FailInstructions?.IsRunning ?? false;
+            }
+        }
 
         public bool IsRunning
         {
@@ -76,7 +100,72 @@ namespace Pangoo.Core.VisualScripting
 
         public virtual void OnInvoke(Args args)
         {
-            args.ChangeTarget(Parent);
+            if (Targets == null || Targets.Length == 0)
+            {
+                args.ChangeTarget(Parent);
+            }
+            else
+            {
+                if (Targets.Length == 1)
+                {
+                    if (Targets[0] == "Self")
+                    {
+                        args.ChangeTarget(Parent);
+                    }
+                    else
+                    {
+                        var trans = dynamicObject.CachedTransfrom.Find(Targets[0]);
+                        if (trans != null)
+                        {
+                            args.ChangeTarget(trans.gameObject);
+                        }
+                        else
+                        {
+                            args.ChangeTarget(Parent);
+                        }
+                    }
+                }
+                else
+                {
+                    var targetStr = Targets[TargetIndex];
+                    if (targetStr == "Self")
+                    {
+                        args.ChangeTarget(Parent, TargetIndex);
+                    }
+                    else
+                    {
+                        var trans = dynamicObject.CachedTransfrom.Find(targetStr);
+                        if (trans != null)
+                        {
+                            args.ChangeTarget(trans.gameObject, TargetIndex);
+                        }
+                        else
+                        {
+                            args.ChangeTarget(Parent, TargetIndex);
+                        }
+                    }
+
+                    TargetIndex += 1;
+                    switch (TargetType)
+                    {
+                        case TriggerTargetListProcessTypeEnum.SeqAndDisabled:
+                            if (TargetIndex >= Targets.Length)
+                            {
+                                Enabled = false;
+                            }
+                            break;
+                        case TriggerTargetListProcessTypeEnum.Loop:
+                            if (TargetIndex >= Targets.Length)
+                            {
+                                TargetIndex = 0;
+                            }
+                            break;
+                    }
+
+                }
+            }
+
+
             if (UseCondition && Conditions != null)
             {
                 var isPass = Conditions.Check(args);
@@ -120,24 +209,18 @@ namespace Pangoo.Core.VisualScripting
                 RunInstructions.EventEndRunning -= OnRunInstructionsEnd;
                 RunInstructions.EventEndRunning += OnRunInstructionsEnd;
 
-                IsRuningRunInstructions = RunInstructions.Start(args);
+                RunInstructions.Start(args);
             }
-            else
-            {
-                IsRuningRunInstructions = false;
-            }
+
         }
 
         public void OnFailedInvoke(Args args)
         {
             if (FailInstructions != null)
             {
-                IsRuningFailInstructions = FailInstructions.Start(args);
+                FailInstructions.Start(args);
             }
-            else
-            {
-                IsRuningFailInstructions = false;
-            }
+
         }
 
         public virtual void OnUpdate()
@@ -145,8 +228,6 @@ namespace Pangoo.Core.VisualScripting
 
             RunInstructions?.OnUpdate();
             FailInstructions?.OnUpdate();
-            IsRuningRunInstructions = RunInstructions?.IsRunning ?? false;
-            IsRuningFailInstructions = FailInstructions?.IsRunning ?? false;
         }
 
         public virtual void LoadParamsFromJson(string val) { }

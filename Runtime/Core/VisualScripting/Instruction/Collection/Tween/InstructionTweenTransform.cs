@@ -9,17 +9,14 @@ using UnityGameFramework;
 
 namespace Pangoo.Core.VisualScripting
 {
-
-    // [Version(0, 1, 1)]
     [Common.Title("Debug Text")]
-    [Category("Tween/CreateOrMovePlayer")]
-
-
+    [Category("Tween/缓动Transform")]
 
     [Serializable]
     public class InstructionTweenTransform : Instruction
     {
         [ShowInInspector]
+        [HideInEditorMode]
         public Args LastestArgs { get; set; }
 
         [SerializeField]
@@ -34,12 +31,19 @@ namespace Pangoo.Core.VisualScripting
 
         public override string Title => $"Tween: {this.m_Params}";
 
+
         float m_StartTime;
 
+        [ShowInInspector]
+        [HideInEditorMode]
         Transform m_TargetTransform = null;
 
         Vector3 m_StartPosition;
+
         Vector3 m_StartRotation;
+
+        [HideInEditorMode]
+        public float progress;
 
 
 
@@ -80,6 +84,8 @@ namespace Pangoo.Core.VisualScripting
             var rotationY = m_StartRotation.y;
             var rotationZ = m_StartRotation.z;
 
+
+
             if (((int)m_Params.TweenType & (int)TweenTransformType.PostionX) > 0)
             {
                 positionX = LerpValue(m_StartPosition.x + (float)m_Params.TweenMin, m_StartPosition.x + (float)m_Params.TweenMax, progress, m_Params.ForwardBack);
@@ -102,16 +108,18 @@ namespace Pangoo.Core.VisualScripting
                 rotationX = LerpValue(m_StartRotation.x + (float)m_Params.TweenMin, m_StartRotation.x + (float)m_Params.TweenMax, progress, m_Params.ForwardBack);
             }
 
-            if (((int)m_Params.TweenType & (int)TweenTransformType.PostionY) > 0)
+            if (((int)m_Params.TweenType & (int)TweenTransformType.RotationY) > 0)
             {
                 rotationY = LerpValue(m_StartRotation.y + (float)m_Params.TweenMin, m_StartRotation.y + (float)m_Params.TweenMax, progress, m_Params.ForwardBack);
             }
 
-            if (((int)m_Params.TweenType & (int)TweenTransformType.PostionZ) > 0)
+            if (((int)m_Params.TweenType & (int)TweenTransformType.RotationZ) > 0)
             {
                 rotationZ = LerpValue(m_StartRotation.z + (float)m_Params.TweenMin, m_StartRotation.z + (float)m_Params.TweenMax, progress, m_Params.ForwardBack);
             }
+
             m_TargetTransform.localRotation = Quaternion.Euler(new Vector3(rotationX, rotationY, rotationZ));
+            // Debug.Log($"args.Target:{m_TargetTransform.localRotation}, rotationZ:{rotationZ} ,min:{m_Params.TweenMin} max:{m_Params.TweenMax} progress:{progress} m_Params.ForwardBack:{m_Params.ForwardBack} z:{((int)m_Params.TweenType & (int)TweenTransformType.PostionZ)}");
         }
 
 
@@ -126,13 +134,9 @@ namespace Pangoo.Core.VisualScripting
                 m_StartTime = Time.time;
                 var startProcess = Time.time < (m_StartTime + m_Params.TweenDuration);
                 Debug.Log($"args.Target:{args.Target}, startProcess:{startProcess} TweenMin:{m_Params.TweenMin} TweenMax:{m_Params.TweenMax} TweenDuration:{m_Params.TweenDuration}");
-                var positionMin = m_StartPosition.x + (float)m_Params.TweenMin;
-
-
                 while (Time.time < (m_StartTime + m_Params.TweenDuration))
                 {
-
-                    var progress = (Time.time - m_StartTime) / (float)m_Params.TweenDuration;
+                    progress = (Time.time - m_StartTime) / (float)m_Params.TweenDuration;
                     UpdateTween(progress);
                     yield return null;
                 }

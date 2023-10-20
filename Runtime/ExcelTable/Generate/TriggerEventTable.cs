@@ -38,10 +38,28 @@ namespace Pangoo
             /// <summary>
             /// Desc: 
             /// </summary>
+            [TableTitleGroup("触发对象列表")]
+            [HideLabel]
+            [JsonMember("Targets")]
+            [ExcelTableCol("Targets","Targets","string", "触发对象列表",5)]
+            public string Targets ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("目标列表类型")]
+            [HideLabel]
+            [JsonMember("TargetListType")]
+            [ExcelTableCol("TargetListType","TargetListType","int", "目标列表类型",6)]
+            public int TargetListType ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
             [TableTitleGroup("指令列表")]
             [HideLabel]
             [JsonMember("InstructionList")]
-            [ExcelTableCol("InstructionList","InstructionList","string", "指令列表",5)]
+            [ExcelTableCol("InstructionList","InstructionList","string", "指令列表",7)]
             public string InstructionList ;
 
             /// <summary>
@@ -50,7 +68,7 @@ namespace Pangoo
             [TableTitleGroup("触发器参数")]
             [HideLabel]
             [JsonMember("Params")]
-            [ExcelTableCol("Params","Params","string", "触发器参数",6)]
+            [ExcelTableCol("Params","Params","string", "触发器参数",8)]
             public string Params ;
 
             /// <summary>
@@ -59,7 +77,7 @@ namespace Pangoo
             [TableTitleGroup("是否使用条件")]
             [HideLabel]
             [JsonMember("UseCondition")]
-            [ExcelTableCol("UseCondition","UseCondition","bool", "是否使用条件",7)]
+            [ExcelTableCol("UseCondition","UseCondition","bool", "是否使用条件",9)]
             public bool UseCondition ;
 
             /// <summary>
@@ -68,7 +86,7 @@ namespace Pangoo
             [TableTitleGroup("条件列表")]
             [HideLabel]
             [JsonMember("ConditionList")]
-            [ExcelTableCol("ConditionList","ConditionList","string", "条件列表",8)]
+            [ExcelTableCol("ConditionList","ConditionList","string", "条件列表",10)]
             public string ConditionList ;
 
             /// <summary>
@@ -77,7 +95,7 @@ namespace Pangoo
             [TableTitleGroup("失败指令列表")]
             [HideLabel]
             [JsonMember("FailInstructionList")]
-            [ExcelTableCol("FailInstructionList","FailInstructionList","string", "失败指令列表",9)]
+            [ExcelTableCol("FailInstructionList","FailInstructionList","string", "失败指令列表",11)]
             public string FailInstructionList ;
         }
 

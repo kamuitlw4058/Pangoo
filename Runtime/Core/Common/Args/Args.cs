@@ -20,14 +20,19 @@ namespace Pangoo.Core.Common
         [field: NonSerialized] public GameObject Self { get; private set; }
         [field: NonSerialized] public GameObject Target { get; private set; }
 
+        public int TargetIndex { get; set; }
+
         [ShowInInspector]
-        [field: NonSerialized] public DynamicObject TriggerObject { get; private set; }
+        [field: NonSerialized] public DynamicObject dynamicObject { get; private set; }
+
+        [ShowInInspector]
+        [field: NonSerialized] public TriggerEvent Trigger { get; private set; }
 
         [ShowInInspector]
         [field: NonSerialized] public MainSerice Main { get; set; }
 
 
-        public Args Clone => new Args(TriggerObject, this.Self, this.Target);
+        public Args Clone => new Args(dynamicObject, this.Self, this.Target);
 
 
         public Args()
@@ -46,14 +51,14 @@ namespace Pangoo.Core.Common
 
         public Args(DynamicObject triggerObject, Component self, Component target) : this()
         {
-            TriggerObject = triggerObject;
+            dynamicObject = triggerObject;
             this.Self = self == null ? null : self.gameObject;
             this.Target = target == null ? null : target.gameObject;
         }
 
         public Args(DynamicObject triggerObject, GameObject self, GameObject target) : this()
         {
-            TriggerObject = triggerObject;
+            dynamicObject = triggerObject;
             this.Self = self;
             this.Target = target;
         }
@@ -88,6 +93,15 @@ namespace Pangoo.Core.Common
             if (this.Target == target) return;
 
             this.Target = target;
+            this.targetComponents.Clear();
+        }
+
+        public void ChangeTarget(GameObject target, int index)
+        {
+            if (this.Target == target) return;
+
+            this.Target = target;
+            this.TargetIndex = index;
             this.targetComponents.Clear();
         }
 
