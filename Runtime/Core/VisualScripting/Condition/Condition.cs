@@ -5,9 +5,9 @@ using UnityEngine;
 namespace Pangoo.Core.VisualScripting
 {
     [Serializable]
-    public abstract class Condition : TPolymorphicItem<Condition>
+    public abstract class Condition : TPolymorphicItem<Condition>, IParams
     {
-        // MEMBERS: -------------------------------------------------------------------------------
+        public virtual IParams Params { get; }
 
         [SerializeField]
         [HideInInspector]
@@ -37,7 +37,17 @@ namespace Pangoo.Core.VisualScripting
 
         protected abstract bool Run(Args args);
 
-        public abstract string ParamsString();
-        public abstract void LoadParams(string instructionParams);
+
+
+        public void Load(string val)
+        {
+            Params.Load(val);
+        }
+
+        public string Save()
+        {
+            return Params.Save();
+        }
+
     }
 }

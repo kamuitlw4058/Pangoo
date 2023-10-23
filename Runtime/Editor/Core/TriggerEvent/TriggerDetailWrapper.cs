@@ -394,7 +394,7 @@ namespace Pangoo
                 }
 
 
-                instance.LoadParams(row.Params);
+                instance.Load(row.Params);
                 items.Add(instance);
             }
 

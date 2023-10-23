@@ -21,7 +21,7 @@ namespace Pangoo.Core.VisualScripting
         [LabelText("关闭当前触发器")]
         public bool DisableSelfTrigger;
 
-        public override void LoadFromJson(string val)
+        public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionTriggerEventParams>(val);
             TriggerId = par.TriggerId;

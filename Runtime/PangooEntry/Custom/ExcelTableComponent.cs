@@ -38,14 +38,16 @@ namespace Pangoo
 #endif
 
         [ShowInInspector]
+        [HideInPlayMode]
         Dictionary<Type, ExcelTableBase> m_ExcelTableDic = new Dictionary<Type, ExcelTableBase>();
 
         [ShowInInspector]
+        [HideInPlayMode]
         Dictionary<Type, bool> m_ExcelTableLoadStatusDic = new Dictionary<Type, bool>();
 
         [ShowInInspector]
+        [HideInPlayMode]
         public bool IsLoaded { get; private set; }
-
 
 
         public T GetExcelTable<T>() where T : ExcelTableBase

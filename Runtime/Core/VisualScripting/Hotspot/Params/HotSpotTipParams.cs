@@ -20,7 +20,7 @@ namespace Pangoo.Core.VisualScripting
 
 
 
-        public override void LoadFromJson(string val)
+        public override void Load(string val)
         {
             var par = JsonMapper.ToObject<HotSpotTipParams>(val);
             Text = par.Text;

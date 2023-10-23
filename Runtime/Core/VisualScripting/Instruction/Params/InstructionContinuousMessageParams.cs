@@ -14,7 +14,7 @@ namespace Pangoo.Core.VisualScripting
         public int SecoundCount;
 
 
-        public override void LoadFromJson(string val)
+        public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionContinuousMessageParams>(val);
             Message = par.Message;

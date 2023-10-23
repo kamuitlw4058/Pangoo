@@ -101,6 +101,9 @@ namespace Pangoo.Editor
             InitCommonOverviews<CharacterTableOverview, CharacterDetailWrapper, ExcelTableTableRowWrapper<CharacterTableOverview, CharacterTable.CharacterRow>, CharacterTable.CharacterRow>(tree, "Character", "角色");
             InitCommonOverviews<HotspotTableOverview, HotspotDetailWrapper, ExcelTableTableRowWrapper<HotspotTableOverview, HotspotTable.HotspotRow>, HotspotTable.HotspotRow>(tree, "Hotspot", "热点区域");
 
+            InitCommonOverviews<VariablesTableOverview, VariablesDetailWrapper, ExcelTableTableRowWrapper<VariablesTableOverview, VariablesTable.VariablesRow>, VariablesTable.VariablesRow>(tree, "Variables", "变量");
+
+
 
             return tree;
         }

@@ -13,7 +13,7 @@ namespace Pangoo.Core.VisualScripting
     {
         public T EnumVal;
 
-        public override void LoadFromJson(string val)
+        public override void Load(string val)
         {
             var par = JsonMapper.ToObject(val, GetType()) as InstructionEnumParams<T>;
             EnumVal = par.EnumVal;

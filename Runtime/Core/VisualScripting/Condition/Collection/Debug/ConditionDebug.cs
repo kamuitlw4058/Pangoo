@@ -29,9 +29,11 @@ namespace Pangoo.Core.VisualScripting
     public class ConditionDebug : Condition
     {
         [SerializeField]
-        [LabelText("参数")]
+        [HideLabel]
         [HideReferenceObjectPicker]
-        ConditionBoolParams Params = new ConditionBoolParams();
+        ConditionBoolParams m_Params = new ConditionBoolParams();
+
+        public override IParams Params => m_Params;
         // private PropertyGetString m_Message = new PropertyGetString("My message");
 
         // PROPERTIES: ----------------------------------------------------------------------------
@@ -46,18 +48,9 @@ namespace Pangoo.Core.VisualScripting
 
         protected override bool Run(Args args)
         {
-            return Params.Ok;
+            return m_Params.Ok;
         }
 
-        public override string ParamsString()
-        {
-            return Params.ToJson();
-        }
-
-        public override void LoadParams(string instructionParams)
-        {
-            Params.LoadFromJson(instructionParams);
-        }
 
         // METHODS: -------------------------------------------------------------------------------
 

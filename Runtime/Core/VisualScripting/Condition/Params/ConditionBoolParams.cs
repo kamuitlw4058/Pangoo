@@ -15,7 +15,7 @@ namespace Pangoo.Core.VisualScripting
         public bool Ok;
 
 
-        public override void LoadFromJson(string val)
+        public override void Load(string val)
         {
             var par = JsonMapper.ToObject<ConditionBoolParams>(val);
             Ok = par.Ok;

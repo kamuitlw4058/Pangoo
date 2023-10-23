@@ -6,10 +6,10 @@ using LitJson;
 
 namespace Pangoo.Core.Common
 {
-    public class JsonParams
+    public class JsonParams : Params
     {
-        public virtual void LoadFromJson(string val) { }
-        public virtual string ToJson()
+        public override void Load(string val) { }
+        public override string Save()
         {
             return JsonMapper.ToJson(this);
         }

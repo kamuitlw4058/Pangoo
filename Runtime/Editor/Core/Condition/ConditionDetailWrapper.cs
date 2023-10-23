@@ -51,7 +51,7 @@ namespace Pangoo
             }
 
             m_ConditionInstance = Activator.CreateInstance(conditionType) as Condition;
-            m_ConditionInstance.LoadParams(Row.Params);
+            m_ConditionInstance.Load(Row.Params);
         }
 
         [ShowInInspector]
@@ -99,14 +99,14 @@ namespace Pangoo
         [TableColumnWidth(80, resizable: false)]
         public void SaveParams()
         {
-            Params = ConditionInstance.ParamsString();
+            Params = ConditionInstance.Save();
         }
 
         [Button("加载参数")]
         [TableColumnWidth(80, resizable: false)]
         public void LoadParams()
         {
-            ConditionInstance.LoadParams(Row.Params);
+            ConditionInstance.Load(Row.Params);
         }
 
     }

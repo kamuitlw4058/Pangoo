@@ -85,12 +85,12 @@ namespace Pangoo.Core.VisualScripting
 
         public override string ParamsString()
         {
-            return m_MessageParams.ToJson();
+            return m_MessageParams.Save();
         }
 
         public override void LoadParams(string instructionParams)
         {
-            m_MessageParams.LoadFromJson(instructionParams);
+            m_MessageParams.Load(instructionParams);
         }
 
         // METHODS: -------------------------------------------------------------------------------

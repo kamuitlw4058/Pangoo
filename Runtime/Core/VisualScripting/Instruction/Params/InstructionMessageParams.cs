@@ -15,7 +15,7 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("ShowTrigger")]
         public bool ShowTriggerRow;
 
-        public override void LoadFromJson(string val)
+        public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionMessageParams>(val);
             Message = par.Message;

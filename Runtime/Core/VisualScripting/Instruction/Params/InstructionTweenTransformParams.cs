@@ -40,7 +40,7 @@ namespace Pangoo.Core.VisualScripting
         public double TweenMax;
 
 
-        public override void LoadFromJson(string val)
+        public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionTweenTransformParams>(val);
             TweenType = par.TweenType;

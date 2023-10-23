@@ -208,11 +208,11 @@ namespace Pangoo.Core.VisualScripting
 
         public override void LoadParamsFromJson(string val)
         {
-            m_Params.LoadFromJson(val);
+            m_Params.Load(val);
         }
         public override string ParamsToJson()
         {
-            return m_Params.ToJson();
+            return m_Params.Save();
         }
     }
 }
