@@ -22,6 +22,8 @@ namespace Pangoo.Core.VisualScripting
     public class InstructionTweenTransformParams : InstructionParams
     {
 
+
+
         [JsonMember("TweenType")]
         public TweenTransformType TweenType;
 
@@ -39,6 +41,10 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("TweenMax")]
         public double TweenMax;
 
+        [LabelText("保存结束时的Transform")]
+        [JsonMember("SetFinalTransform")]
+        public bool SetFinalTransform;
+
 
         public override void Load(string val)
         {
@@ -48,6 +54,7 @@ namespace Pangoo.Core.VisualScripting
             ForwardBack = par.ForwardBack;
             TweenMin = par.TweenMin;
             TweenMax = par.TweenMax;
+            SetFinalTransform = par.SetFinalTransform;
         }
 
 

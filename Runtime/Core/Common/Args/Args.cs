@@ -20,6 +20,9 @@ namespace Pangoo.Core.Common
         [field: NonSerialized] public GameObject Self { get; private set; }
         [field: NonSerialized] public GameObject Target { get; private set; }
 
+        [field: NonSerialized] public string TargetPath { get; private set; }
+
+
         public int TargetIndex { get; set; }
 
         [ShowInInspector]
@@ -29,7 +32,7 @@ namespace Pangoo.Core.Common
         [field: NonSerialized] public TriggerEvent Trigger { get; private set; }
 
         [ShowInInspector]
-        [field: NonSerialized] public MainSerice Main { get; set; }
+        [field: NonSerialized] public MainService Main { get; set; }
 
 
         public Args Clone => new Args(dynamicObject, this.Self, this.Target);
@@ -37,8 +40,8 @@ namespace Pangoo.Core.Common
 
         public Args()
         {
-            this.selfComponents = new Dictionary<int, Component>();
-            this.targetComponents = new Dictionary<int, Component>();
+            // this.selfComponents = new Dictionary<int, Component>();
+            // this.targetComponents = new Dictionary<int, Component>();
         }
         public Args(DynamicObject triggerObject) : this(triggerObject, null as GameObject, null as GameObject)
         { }
@@ -88,21 +91,14 @@ namespace Pangoo.Core.Common
             this.ChangeSelf(self != null ? self.gameObject : null);
         }
 
-        public void ChangeTarget(GameObject target)
-        {
-            if (this.Target == target) return;
-
-            this.Target = target;
-            this.targetComponents.Clear();
-        }
-
-        public void ChangeTarget(GameObject target, int index)
+        public void ChangeTarget(GameObject target, string path = null, int index = 0)
         {
             if (this.Target == target) return;
 
             this.Target = target;
             this.TargetIndex = index;
-            this.targetComponents.Clear();
+            this.TargetPath = path;
+            // this.targetComponents.Clear();
         }
 
         public void ChangeTarget<T>(T target) where T : Component

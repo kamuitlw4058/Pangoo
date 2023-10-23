@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
@@ -9,6 +10,7 @@ using UnityGameFramework.Runtime;
 
 namespace Pangoo
 {
+    [Serializable]
     public class KeyValueService : BaseService, IKeyValue
     {
         [ShowInInspector]

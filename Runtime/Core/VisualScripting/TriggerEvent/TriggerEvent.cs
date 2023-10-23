@@ -11,6 +11,8 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public abstract class TriggerEvent
     {
+        public const string SelfStr = "Self";
+
         [ShowInInspector]
         [HideInEditorMode]
         public bool Enabled { get; set; }
@@ -108,7 +110,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 if (Targets.Length == 1)
                 {
-                    if (Targets[0] == "Self")
+                    if (Targets[0] == SelfStr)
                     {
                         args.ChangeTarget(Parent);
                     }
@@ -117,31 +119,31 @@ namespace Pangoo.Core.VisualScripting
                         var trans = dynamicObject.CachedTransfrom.Find(Targets[0]);
                         if (trans != null)
                         {
-                            args.ChangeTarget(trans.gameObject);
+                            args.ChangeTarget(trans.gameObject, path: Targets[0]);
                         }
                         else
                         {
-                            args.ChangeTarget(Parent);
+                            args.ChangeTarget(Parent, path: SelfStr);
                         }
                     }
                 }
                 else
                 {
                     var targetStr = Targets[TargetIndex];
-                    if (targetStr == "Self")
+                    if (targetStr == SelfStr)
                     {
-                        args.ChangeTarget(Parent, TargetIndex);
+                        args.ChangeTarget(Parent, path: targetStr, index: TargetIndex);
                     }
                     else
                     {
                         var trans = dynamicObject.CachedTransfrom.Find(targetStr);
                         if (trans != null)
                         {
-                            args.ChangeTarget(trans.gameObject, TargetIndex);
+                            args.ChangeTarget(trans.gameObject, path: targetStr, index: TargetIndex);
                         }
                         else
                         {
-                            args.ChangeTarget(Parent, TargetIndex);
+                            args.ChangeTarget(Parent, path: targetStr, index: TargetIndex);
                         }
                     }
 

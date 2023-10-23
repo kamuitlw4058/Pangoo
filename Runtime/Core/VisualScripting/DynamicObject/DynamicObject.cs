@@ -17,7 +17,7 @@ namespace Pangoo.Core.VisualScripting
     {
         public Args CurrentArgs { get; set; }
 
-        public MainSerice Main { get; set; }
+        public MainService Main { get; set; }
         CharacterService m_CharacterService;
 
         public CharacterService Character
@@ -38,6 +38,19 @@ namespace Pangoo.Core.VisualScripting
         [ShowInInspector]
 
         public ExcelTableService TableService { get; set; }
+
+
+        public string RuntimeKey
+        {
+            get
+            {
+                if (Row != null)
+                {
+                    return Utility.Text.Format("DO_{0}", Row.Id.ToString());
+                }
+                return null;
+            }
+        }
 
 
 
@@ -74,7 +87,32 @@ namespace Pangoo.Core.VisualScripting
             CurrentArgs.Main = Main;
             DoAwakeTriggerEvent();
             DoAwakeHotspot();
+        }
 
+        protected override void DoStart()
+        {
+            var dynamicObjectValue = Main.GetDynamicObjectValue(RuntimeKey);
+            if (dynamicObjectValue != null)
+            {
+                var transformValue = dynamicObjectValue.transformValue;
+                if (transformValue != null)
+                {
+                    CachedTransfrom.localPosition = transformValue.Value.Postion;
+                    CachedTransfrom.localRotation = Quaternion.Euler(transformValue.Value.Rotation);
+                    CachedTransfrom.localScale = transformValue.Value.Scale;
+                }
+
+                foreach (var kv in dynamicObjectValue.ChilernTransforms)
+                {
+                    var childTransform = CachedTransfrom.Find(kv.Key);
+                    if (childTransform != null)
+                    {
+                        childTransform.localPosition = kv.Value.Postion;
+                        childTransform.localRotation = Quaternion.Euler(kv.Value.Rotation);
+                        childTransform.localScale = kv.Value.Scale;
+                    }
+                }
+            }
         }
 
         protected override void DoUpdate()

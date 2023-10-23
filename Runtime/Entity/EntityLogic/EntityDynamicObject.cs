@@ -69,7 +69,7 @@ namespace Pangoo
             DynamicObj.Row = DoData.InfoRow.m_DynamicObjectRow;
             DynamicObj.TableService = DoData?.Service?.TableService;
             DynamicObj.CurrentArgs = new Core.Common.Args();
-            DynamicObj.Main = DoData.Service.Parent as MainSerice;
+            DynamicObj.Main = DoData.Service.Parent as MainService;
             DynamicObj.Awake();
             DynamicObj.Start();
 

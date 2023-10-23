@@ -17,13 +17,12 @@ namespace Pangoo.Core.VisualScripting
 
         public override void Load(string val)
         {
-            // DefaultValue = val.ToVector3();
-            // DefaultValue = val.toSave;
+            DefaultValue = val.ToTransformValue();
         }
 
         public override string Save()
         {
-            return string.Empty;
+            return DefaultValue.ToSave();
         }
     }
 }

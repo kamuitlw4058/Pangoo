@@ -73,7 +73,7 @@ namespace Pangoo.Core.Services
             {
                 var instructions = GetInstructionList(instructionIds);
                 var args = new Args();
-                args.Main = Parent as MainSerice;
+                args.Main = Parent as MainService;
                 instructions.Start(args);
 
             }

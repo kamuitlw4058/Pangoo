@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using NPinyin;
 using GameFramework;
+using Pangoo.Core.Common;
 
 
 namespace Pangoo
@@ -48,6 +49,18 @@ namespace Pangoo
 
             return new Vector3(vals[0].ToFloatForce(), vals[1].ToFloatForce(), vals[2].ToFloatForce());
 
+        }
+        #endregion
+
+
+        #region  Transform
+        public static TransformValue ToTransformValue(this Transform transform)
+        {
+            var val = new TransformValue();
+            val.Postion = transform.localPosition;
+            val.Rotation = transform.localEulerAngles;
+            val.Scale = transform.localScale;
+            return val;
         }
         #endregion
 

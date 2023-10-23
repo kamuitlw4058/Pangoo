@@ -141,6 +141,15 @@ namespace Pangoo.Core.VisualScripting
                     yield return null;
                 }
                 UpdateTween(1.0f);
+                Debug.Log($"End Tween");
+
+                if (m_Params.SetFinalTransform)
+                {
+                    Debug.Log($"Set SetFinalTransform:path:{args.TargetPath}");
+                    var main = Trigger.dynamicObject.Main;
+
+                    main.SetDynamicObjectValue(Trigger.dynamicObject, args.TargetPath, m_TargetTransform.ToTransformValue());
+                }
             }
         }
 
