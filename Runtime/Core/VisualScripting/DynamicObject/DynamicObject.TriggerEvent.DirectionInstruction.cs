@@ -58,20 +58,21 @@ namespace Pangoo.Core.VisualScripting
         void DoAwakeDirectionInstruction()
         {
             var directInstructions = DirectInstruction.CreateArray(Row?.DirectInstructions);
-            foreach (var directInstruction in directInstructions)
+            for (int i = 0; i < directInstructions.Length; i++)
             {
+                var directInstruction = directInstructions[i];
                 switch (directInstruction.TriggerType)
                 {
                     case TriggerTypeEnum.OnTriggerEnter3D:
                         TriggerEventTable.TriggerEventRow row = new TriggerEventTable.TriggerEventRow();
-                        row.Id = 1;
+                        row.Id = (i * -1) - 1;
                         row.Name = $"DI_{directInstruction.TriggerType}_{directInstruction.InstructionType}_{directInstruction.Int1}";
                         row.Params = "{}";
                         row.Targets = string.Empty;
                         row.Enabled = directInstruction.InitEnabled;
                         var triggerEvent = CreateTriggerEvent<TriggerEventOnTriggerEnter3d>(row);
                         triggerEvent.RunInstructions = GetDirectInstructionList(directInstruction, triggerEvent);
-                        TriggerEvents.Add(triggerEvent);
+                        TriggerEvents.Add(row.Id, triggerEvent);
                         break;
                 }
             }

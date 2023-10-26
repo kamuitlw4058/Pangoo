@@ -65,6 +65,7 @@ namespace Pangoo
             transform.rotation = DoData.InfoRow.Rotation;
             Name = Utility.Text.Format("{0}[{1}]", DoData.EntityInfo.AssetName, DoData.InfoRow.Id);
 
+            Debug.Log("Create DynamicObject");
             DynamicObj = DynamicObject.Create(gameObject);
             DynamicObj.Row = DoData.InfoRow.m_DynamicObjectRow;
             DynamicObj.TableService = DoData?.Service?.TableService;
@@ -83,6 +84,7 @@ namespace Pangoo
 
         protected override void OnHide(bool isShutdown, object userData)
         {
+            DynamicObj.Disable();
             ReferencePool.Release(DynamicObj);
             base.OnHide(isShutdown, userData);
 

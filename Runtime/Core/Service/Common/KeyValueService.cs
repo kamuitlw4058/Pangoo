@@ -28,7 +28,7 @@ namespace Pangoo
             if (m_KeyValueDict.ContainsKey(key))
             {
                 value = m_KeyValueDict[key];
-                Debug.LogError($"获取的value值0：{value}");
+                // Debug.LogError($"获取的value值0：{value}");
                 return (T)value;
             }
 
@@ -54,14 +54,7 @@ namespace Pangoo
 
         public virtual void Set<T>(string key, T value)
         {
-            if (m_KeyValueDict.ContainsKey(key))
-            {
-                m_KeyValueDict[key] = value;
-            }
-            else
-            {
-                m_KeyValueDict.Add(key, value);
-            }
+            m_KeyValueDict.Set(key, value);
         }
 
     }

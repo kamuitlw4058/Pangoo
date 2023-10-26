@@ -53,7 +53,7 @@ namespace Pangoo.Core.VisualScripting
         void OnInteractEnd()
         {
             bool allFinish = true;
-            foreach (var trigger in TriggerEvents)
+            foreach (var trigger in TriggerEvents.Values)
             {
                 if (trigger.TriggerType == TriggerTypeEnum.OnInteract && trigger.IsRunning)
                 {
@@ -70,9 +70,12 @@ namespace Pangoo.Core.VisualScripting
         void OnInteractEvent(Args eventParams)
         {
             Debug.Log($"OnInteractEvent:{gameObject.name}");
-            foreach (var trigger in TriggerEvents)
+            foreach (var trigger in TriggerEvents.Values)
             {
-                if (!trigger.Enabled) continue;
+                if (!trigger.Enabled)
+                {
+                    continue;
+                }
 
                 switch (trigger.TriggerType)
                 {

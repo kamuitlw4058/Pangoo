@@ -23,7 +23,7 @@ namespace Pangoo.Core.VisualScripting
         void OnTriggerEnter3dEvent(Args eventParams)
         {
             Debug.Log($"OnTriggerEnter3dEvent:{gameObject.name}");
-            foreach (var trigger in TriggerEvents)
+            foreach (var trigger in TriggerEvents.Values)
             {
                 if (!trigger.Enabled) continue;
                 switch (trigger.TriggerType)
@@ -39,7 +39,7 @@ namespace Pangoo.Core.VisualScripting
         void OnTriggerExit3dEvent(Args eventParams)
         {
             Debug.Log($"OnTriggerExit3dEvent:{gameObject.name}");
-            foreach (var trigger in TriggerEvents)
+            foreach (var trigger in TriggerEvents.Values)
             {
                 if (!trigger.Enabled) continue;
                 switch (trigger.TriggerType)

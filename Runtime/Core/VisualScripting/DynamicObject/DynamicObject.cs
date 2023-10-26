@@ -32,6 +32,22 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
+
+        DynamicObjectValue m_Variables;
+
+        [ShowInInspector]
+        public DynamicObjectValue Variables
+        {
+            get
+            {
+                if (m_Variables == null)
+                {
+                    m_Variables = Main.GetOrCreateDynamicObjectValue(RuntimeKey, this);
+                }
+                return m_Variables;
+            }
+        }
+
         DynamicObjectService m_DynamicObjectService;
 
         public DynamicObjectService DynamicObjectService
@@ -84,7 +100,10 @@ namespace Pangoo.Core.VisualScripting
         public void Clear()
         {
             Row = null;
+            IsAwaked = false;
+            IsStarted = false;
             TableService = null;
+            m_Variables = null;
             m_TriggerEventTable = null;
             m_InstructionTable = null;
             TriggerEventRows.Clear();
@@ -105,10 +124,9 @@ namespace Pangoo.Core.VisualScripting
 
         protected override void DoStart()
         {
-            var dynamicObjectValue = Main.GetDynamicObjectValue(RuntimeKey);
-            if (dynamicObjectValue != null)
+            if (Variables != null)
             {
-                var transformValue = dynamicObjectValue.transformValue;
+                var transformValue = Variables.transformValue;
                 if (transformValue != null)
                 {
                     CachedTransfrom.localPosition = transformValue.Value.Postion;
@@ -116,7 +134,7 @@ namespace Pangoo.Core.VisualScripting
                     CachedTransfrom.localScale = transformValue.Value.Scale;
                 }
 
-                foreach (var kv in dynamicObjectValue.ChilernTransforms)
+                foreach (var kv in Variables.ChilernTransforms)
                 {
                     var childTransform = CachedTransfrom.Find(kv.Key);
                     if (childTransform != null)
@@ -124,6 +142,22 @@ namespace Pangoo.Core.VisualScripting
                         childTransform.localPosition = kv.Value.Postion;
                         childTransform.localRotation = Quaternion.Euler(kv.Value.Rotation);
                         childTransform.localScale = kv.Value.Scale;
+                    }
+                }
+
+                foreach (var kv in Variables.TriggerEnabledDict)
+                {
+                    if (TriggerEvents.ContainsKey(kv.Key))
+                    {
+                        TriggerEvents[kv.Key].SetEnabled(kv.Value);
+                    }
+                }
+
+                foreach (var kv in Variables.TriggerIndexDict)
+                {
+                    if (TriggerEvents.ContainsKey(kv.Key))
+                    {
+                        TriggerEvents[kv.Key].SetTargetIndex(kv.Value);
                     }
                 }
             }
@@ -134,11 +168,20 @@ namespace Pangoo.Core.VisualScripting
             base.DoUpdate();
             foreach (var trigger in TriggerEvents)
             {
-                trigger.OnUpdate();
+                trigger.Value.OnUpdate();
             }
             DoUpdateHotspot();
         }
 
+        protected override void DoDisable()
+        {
+            base.DoDisable();
+            if (m_Tracker != null)
+            {
+                m_Tracker.EventInteract -= OnInteract;
+                InteractEvent -= OnInteractEvent;
+            }
+        }
 
 
         protected override void DoDestroy()
@@ -151,6 +194,11 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
+        [Button("Hide")]
+        public void Hide()
+        {
+            DynamicObjectService.Hide(Row.Id);
+        }
 
 
 

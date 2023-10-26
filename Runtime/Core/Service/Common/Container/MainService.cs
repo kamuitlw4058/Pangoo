@@ -27,9 +27,16 @@ namespace Pangoo.Core.Services
         }
 
 
-        public DynamicObjectValue GetDynamicObjectValue(string key)
+        public DynamicObjectValue GetOrCreateDynamicObjectValue(string key, DynamicObject dynamicObject)
         {
-            return RuntimeData.Get<DynamicObjectValue>(key);
+            var val = RuntimeData.Get<DynamicObjectValue>(key);
+            if (val == null)
+            {
+                val = new DynamicObjectValue();
+                val.dynamicObejct = dynamicObject;
+                RuntimeData.Set<DynamicObjectValue>(key, val);
+            }
+            return val;
         }
 
         public void SetTargetTransformValue(DynamicObjectValue dynamicObjectValue, string target, TransformValue transformValue)

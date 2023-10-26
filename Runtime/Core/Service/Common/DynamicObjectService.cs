@@ -76,6 +76,7 @@ namespace Pangoo.Core.Services
         }
 
 
+        [Button("Show")]
         public void ShowDynamicObject(int id)
         {
             if (Loader == null)
@@ -119,7 +120,12 @@ namespace Pangoo.Core.Services
         [Button("Hide")]
         public void Hide(int id)
         {
-
+            var entity = GetLoadedEntity(id);
+            if (entity != null)
+            {
+                Loader.HideEntity(entity.Id);
+            }
+            m_LoadedAssetDict.Remove(id);
         }
 
 

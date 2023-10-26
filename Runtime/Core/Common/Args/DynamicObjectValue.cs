@@ -15,18 +15,27 @@ namespace Pangoo.Core.Common
 
         public Dictionary<string, TransformValue> ChilernTransforms = new Dictionary<string, TransformValue>();
 
+        public Dictionary<int, bool> TriggerEnabledDict = new Dictionary<int, bool>();
+
+        public Dictionary<int, int> TriggerIndexDict = new();
+
 
         public void SetChilernTransforms(string key, TransformValue val)
         {
-            if (ChilernTransforms.ContainsKey(key))
-            {
-                ChilernTransforms[key] = val;
-            }
-            else
-            {
-                ChilernTransforms.Add(key, val);
-            }
+            ChilernTransforms.Set(key, val);
         }
+
+        public void SetTriggerEnabled(int key, bool val)
+        {
+            TriggerEnabledDict.Set(key, val);
+        }
+
+        public void SetTriggerIndex(int key, int val)
+        {
+            TriggerIndexDict.Set(key, val);
+        }
+
+
 
     }
 }

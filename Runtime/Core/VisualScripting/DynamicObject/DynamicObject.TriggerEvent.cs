@@ -14,13 +14,15 @@ namespace Pangoo.Core.VisualScripting
 
     public partial class DynamicObject
     {
+        [ShowInInspector]
+        [ReadOnly]
         List<TriggerEventTable.TriggerEventRow> TriggerEventRows = new();
 
         TriggerEventTable m_TriggerEventTable;
         InstructionTable m_InstructionTable;
 
         [HideReferenceObjectPicker]
-        public List<TriggerEvent> TriggerEvents = new List<TriggerEvent>();
+        public Dictionary<int, TriggerEvent> TriggerEvents = new();
 
 
 
@@ -29,7 +31,7 @@ namespace Pangoo.Core.VisualScripting
         {
             get
             {
-                foreach (var triggerEvent in TriggerEvents)
+                foreach (var triggerEvent in TriggerEvents.Values)
                 {
                     if (triggerEvent.IsRunning)
                     {
@@ -47,9 +49,9 @@ namespace Pangoo.Core.VisualScripting
             Debug.Log($"SetTriggerEnabled:{id}:{val}");
             foreach (var trigger in TriggerEvents)
             {
-                if (trigger.Row.Id == id)
+                if (trigger.Value.Row.Id == id)
                 {
-                    trigger.Enabled = val;
+                    trigger.Value.Enabled = val;
                 }
             }
         }
@@ -63,7 +65,7 @@ namespace Pangoo.Core.VisualScripting
             ret.Row = row;
             ret.Parent = gameObject;
             ret.dynamicObject = this;
-            ret.Enabled = row.Enabled;
+            ret.SetEnabled(row.Enabled);
             ret.IsDirectInstuction = true;
             return ret;
         }
@@ -89,7 +91,7 @@ namespace Pangoo.Core.VisualScripting
             ret.Row = row;
             ret.Parent = gameObject;
             ret.dynamicObject = this;
-            ret.Enabled = row.Enabled;
+            ret.SetEnabled(row.Enabled);
             ret.LoadParamsFromJson(row.Params);
             ret.RunInstructions = InstructionList.BuildInstructionList(ret, row.GetInstructionList(), m_InstructionTable);
             return ret;
@@ -106,6 +108,8 @@ namespace Pangoo.Core.VisualScripting
             TriggerEvents.Clear();
 
             DoAwakeTimeline();
+
+            Debug.Log($"triggerIds:{triggerIds.Count}");
 
             foreach (var triggerId in triggerIds)
             {
@@ -130,7 +134,6 @@ namespace Pangoo.Core.VisualScripting
                 {
                     case TriggerTypeEnum.OnInteract:
                         m_Tracker = CachedTransfrom.GetOrAddComponent<InteractionItemTracker>();
-                        m_Tracker.EventInteract += OnInteract;
                         triggerInstance.EventRunInstructionsEnd -= OnInteractEnd;
                         triggerInstance.EventRunInstructionsEnd += OnInteractEnd;
                         break;
@@ -148,7 +151,7 @@ namespace Pangoo.Core.VisualScripting
                         break;
                 }
 
-                TriggerEvents.Add(triggerInstance);
+                TriggerEvents.Add(triggerInstance.Row.Id, triggerInstance);
             }
 
             DoAwakeDirectionInstruction();
@@ -156,6 +159,7 @@ namespace Pangoo.Core.VisualScripting
             if (m_Tracker != null)
             {
                 InteractEvent += OnInteractEvent;
+                m_Tracker.EventInteract += OnInteract;
             }
         }
 

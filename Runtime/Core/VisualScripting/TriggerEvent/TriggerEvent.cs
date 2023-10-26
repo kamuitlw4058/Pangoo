@@ -13,9 +13,27 @@ namespace Pangoo.Core.VisualScripting
     {
         public const string SelfStr = "Self";
 
+        bool m_Enabled;
+
         [ShowInInspector]
         [HideInEditorMode]
-        public bool Enabled { get; set; }
+        public bool Enabled
+        {
+            get
+            {
+                return m_Enabled;
+            }
+            set
+            {
+                dynamicObject.Variables.SetTriggerEnabled(Row.Id, value);
+                m_Enabled = value;
+            }
+        }
+
+        public void SetEnabled(bool val)
+        {
+            m_Enabled = val;
+        }
 
         public GameObject Parent { get; set; }
 
@@ -23,6 +41,7 @@ namespace Pangoo.Core.VisualScripting
         public bool IsDirectInstuction { get; set; } = false;
 
 
+        [ShowInInspector]
         public string[] Targets
         {
             get
@@ -39,8 +58,27 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
+        public int m_TargetIndex;
+
         [ShowInInspector]
-        public int TargetIndex { get; set; }
+        public int TargetIndex
+        {
+            get
+            {
+                return m_TargetIndex;
+            }
+            set
+            {
+                Debug.Log($"Set TargetIndex:{value}");
+                dynamicObject.Variables.SetTriggerIndex(Row.Id, value);
+                m_TargetIndex = value;
+            }
+        }
+
+        public void SetTargetIndex(int index)
+        {
+            m_TargetIndex = index;
+        }
 
         public DynamicObject dynamicObject { get; set; }
 
@@ -198,13 +236,14 @@ namespace Pangoo.Core.VisualScripting
             }
             else
             {
+
                 OnPassInvoke(args);
             }
         }
 
         void OnRunInstructionsStart()
         {
-            Debug.Log("Start RunInstructions");
+            Debug.Log($"Start RunInstructions:{EventRunInstructionsStart}. {EventRunInstructionsStart?.GetInvocationList()?.Length}");
             EventRunInstructionsStart?.Invoke();
         }
 
@@ -219,6 +258,7 @@ namespace Pangoo.Core.VisualScripting
         {
             if (RunInstructions != null)
             {
+                Debug.Log("OnPassInvoke:");
                 RunInstructions.EventStartRunning -= OnRunInstructionsStart;
                 RunInstructions.EventStartRunning += OnRunInstructionsStart;
 
