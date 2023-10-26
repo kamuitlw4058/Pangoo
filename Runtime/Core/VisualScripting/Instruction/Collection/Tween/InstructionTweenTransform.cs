@@ -146,9 +146,7 @@ namespace Pangoo.Core.VisualScripting
                 if (m_Params.SetFinalTransform)
                 {
                     Debug.Log($"Set SetFinalTransform:path:{args.TargetPath}");
-                    var main = Trigger.dynamicObject.Main;
-
-                    main.SetDynamicObjectValue(Trigger.dynamicObject, args.TargetPath, m_TargetTransform.ToTransformValue());
+                    Trigger.dynamicObject.SetTargetTransformValue(args.TargetPath, m_TargetTransform.ToTransformValue());
                 }
             }
         }
