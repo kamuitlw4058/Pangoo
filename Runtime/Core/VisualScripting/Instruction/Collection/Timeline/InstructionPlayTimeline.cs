@@ -17,8 +17,8 @@ namespace Pangoo.Core.VisualScripting
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        InstructionPlayTimelineParams m_Params=new InstructionPlayTimelineParams();
-        
+        public InstructionPlayTimelineParams m_Params = new InstructionPlayTimelineParams();
+
         [ShowInInspector]
         public override InstructionType InstructionType
         {
@@ -30,9 +30,9 @@ namespace Pangoo.Core.VisualScripting
 
         protected override IEnumerator Run(Args args)
         {
-            if (args.Target!=null)
+            if (args.Target != null)
             {
-                PlayableDirector playableDirector=args.Target.GetComponent<PlayableDirector>();
+                PlayableDirector playableDirector = args.Target.GetComponent<PlayableDirector>();
                 playableDirector.Play();
 
                 while (playableDirector.state == PlayState.Playing)
@@ -44,10 +44,11 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            if (args.Target!=null)
+            if (args.Target != null)
             {
-                PlayableDirector playableDirector=args.Target.GetComponent<PlayableDirector>();
+                PlayableDirector playableDirector = args.Target.GetComponent<PlayableDirector>();
                 playableDirector.Play();
+                Debug.Log($"Play :{playableDirector}");
             }
         }
 

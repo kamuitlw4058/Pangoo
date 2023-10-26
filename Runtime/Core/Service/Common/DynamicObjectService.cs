@@ -10,7 +10,7 @@ using Sirenix.OdinInspector;
 
 namespace Pangoo.Core.Services
 {
-    public class DynamicObjectManagerService : BaseService
+    public class DynamicObjectService : BaseService
     {
         public override int Priority => 6;
 
@@ -66,6 +66,15 @@ namespace Pangoo.Core.Services
             Debug.Log($"DoStart DynamicObjectService :{m_EntityGroupRow} m_EntityGroupRow:{m_EntityGroupRow.Name}");
         }
 
+        public EntityDynamicObject GetLoadedEntity(int id)
+        {
+            if (m_LoadedAssetDict.TryGetValue(id, out EntityDynamicObject var))
+            {
+                return var;
+            }
+            return null;
+        }
+
 
         public void ShowDynamicObject(int id)
         {
@@ -77,7 +86,7 @@ namespace Pangoo.Core.Services
             //通过路径ID去判断是否被加载。用来在不同的章节下用了不用的静态场景ID,但是使用不同的加载Ids
             var info = m_DynamicObjectInfo.GetRowById<DynamicObjectInfoRow>(id);
             var AssetPathId = info.AssetPathId;
-            if (m_LoadedAssetDict.ContainsKey(AssetPathId))
+            if (m_LoadedAssetDict.ContainsKey(id))
             {
                 return;
             }
@@ -85,29 +94,29 @@ namespace Pangoo.Core.Services
             Log.Info($"ShowDynamicObject:{id}");
 
             // 这边有一个假设，同一个时间不会反复加载不同的章节下的同一个场景。
-            if (m_LoadingAssetIds.Contains(AssetPathId))
+            if (m_LoadingAssetIds.Contains(id))
             {
                 return;
             }
             else
             {
                 EntityDynamicObjectData data = EntityDynamicObjectData.Create(info.CreateEntityInfo(m_EntityGroupRow), this, info);
-                m_LoadingAssetIds.Add(AssetPathId);
+                m_LoadingAssetIds.Add(id);
                 Loader.ShowEntity(EnumEntity.DynamicObject,
                     (o) =>
                     {
-                        if (m_LoadingAssetIds.Contains(AssetPathId))
+                        if (m_LoadingAssetIds.Contains(id))
                         {
-                            m_LoadingAssetIds.Remove(AssetPathId);
+                            m_LoadingAssetIds.Remove(id);
                         }
-                        m_LoadedAssetDict.Add(AssetPathId, o.Logic as EntityDynamicObject);
+                        m_LoadedAssetDict.Add(id, o.Logic as EntityDynamicObject);
                     },
                     data.EntityInfo,
                     data);
             }
         }
 
-
+        [Button("Hide")]
         public void Hide(int id)
         {
 

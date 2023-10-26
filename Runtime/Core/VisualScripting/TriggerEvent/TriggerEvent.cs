@@ -19,10 +19,25 @@ namespace Pangoo.Core.VisualScripting
 
         public GameObject Parent { get; set; }
 
+        [ShowInInspector]
+        public bool IsDirectInstuction { get; set; } = false;
 
-        public string[] Targets { get; set; }
 
-        public TriggerTargetListProcessTypeEnum TargetType { get; set; }
+        public string[] Targets
+        {
+            get
+            {
+                return Row?.Targets.Split("|");
+            }
+        }
+
+        public TriggerTargetListProcessTypeEnum TargetType
+        {
+            get
+            {
+                return (TriggerTargetListProcessTypeEnum)Row?.TargetListType;
+            }
+        }
 
         [ShowInInspector]
         public int TargetIndex { get; set; }

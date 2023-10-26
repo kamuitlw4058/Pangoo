@@ -63,7 +63,7 @@ namespace Pangoo
 
             transform.position = DoData.InfoRow.Position;
             transform.rotation = DoData.InfoRow.Rotation;
-            Name = Utility.Text.Format("{0}[{1}]", DoData.EntityInfo.AssetName, Id);
+            Name = Utility.Text.Format("{0}[{1}]", DoData.EntityInfo.AssetName, DoData.InfoRow.Id);
 
             DynamicObj = DynamicObject.Create(gameObject);
             DynamicObj.Row = DoData.InfoRow.m_DynamicObjectRow;

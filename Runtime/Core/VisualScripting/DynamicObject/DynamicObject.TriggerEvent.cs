@@ -5,6 +5,7 @@ using UnityEngine;
 using Pangoo.Core.Common;
 using Pangoo.Core.Characters;
 using Sirenix.OdinInspector;
+using UnityEngine.Playables;
 
 
 
@@ -22,22 +23,7 @@ namespace Pangoo.Core.VisualScripting
         public List<TriggerEvent> TriggerEvents = new List<TriggerEvent>();
 
 
-        public InteractionItemTracker m_Tracker = null;
 
-        public Action<Args> TriggerEnter3dEvent;
-
-        public Action<Args> TriggerExit3dEvent;
-
-
-        public Action<Args> InteractEvent;
-
-        public bool IsInteracting
-        {
-            get
-            {
-                return m_Tracker?.IsInteracting ?? false;
-            }
-        }
 
         public bool IsRunningTriggers
         {
@@ -54,40 +40,7 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
-        void OnInteract(Characters.Character character, IInteractive interactive)
-        {
 
-            Debug.Log($"OnInteract:{gameObject.name}");
-            if (InteractEvent != null)
-            {
-                InteractEvent.Invoke(CurrentArgs);
-            }
-        }
-
-        [Button("触发交互指令")]
-        void OnInteract()
-        {
-            OnInteract(null, null);
-        }
-
-
-
-        void OnInteractEnd()
-        {
-            bool allFinish = true;
-            foreach (var trigger in TriggerEvents)
-            {
-                if (trigger.TriggerType == TriggerTypeEnum.OnInteract && trigger.IsRunning)
-                {
-                    allFinish = false;
-                    break;
-                }
-            }
-            if (allFinish)
-            {
-                m_Tracker?.Stop();
-            }
-        }
 
         public void SetTriggerEnabled(int id, bool val)
         {
@@ -100,6 +53,47 @@ namespace Pangoo.Core.VisualScripting
                 }
             }
         }
+        public T CreateTriggerEvent<T>(TriggerEventTable.TriggerEventRow row) where T : TriggerEvent
+        {
+            var ret = Activator.CreateInstance<T>();
+            if (ret == null)
+            {
+                return null;
+            }
+            ret.Row = row;
+            ret.Parent = gameObject;
+            ret.dynamicObject = this;
+            ret.Enabled = row.Enabled;
+            ret.IsDirectInstuction = true;
+            return ret;
+        }
+
+
+        public T CreateInstruction<T>() where T : Instruction
+        {
+            var ret = Activator.CreateInstance<T>();
+
+            return ret;
+        }
+
+
+
+        public TriggerEvent CreateTriggerEvent(TriggerEventTable.TriggerEventRow row)
+        {
+            var ret = ClassUtility.CreateInstance<TriggerEvent>(row.TriggerType);
+            if (ret == null)
+            {
+                Debug.LogError($"Create Trigger Failed!{row.TriggerType}");
+                return null;
+            }
+            ret.Row = row;
+            ret.Parent = gameObject;
+            ret.dynamicObject = this;
+            ret.Enabled = row.Enabled;
+            ret.LoadParamsFromJson(row.Params);
+            ret.RunInstructions = InstructionList.BuildInstructionList(ret, row.GetInstructionList(), m_InstructionTable);
+            return ret;
+        }
 
 
         void DoAwakeTriggerEvent()
@@ -111,9 +105,11 @@ namespace Pangoo.Core.VisualScripting
             TriggerEventRows.Clear();
             TriggerEvents.Clear();
 
+            DoAwakeTimeline();
+
             foreach (var triggerId in triggerIds)
             {
-                TriggerEventTable.TriggerEventRow row = GetTriggerEventRow(triggerId);
+                TriggerEventTable.TriggerEventRow row = TriggerEventRowExtension.GetById(triggerId);
                 Debug.Log($"Create TriggerId:{triggerId}  row:{row}");
                 if (row != null)
                 {
@@ -123,20 +119,12 @@ namespace Pangoo.Core.VisualScripting
 
             foreach (var triggerRow in TriggerEventRows)
             {
-                var triggerInstance = ClassUtility.CreateInstance<TriggerEvent>(triggerRow.TriggerType);
+                var triggerInstance = CreateTriggerEvent(triggerRow);
                 if (triggerInstance == null)
                 {
                     Debug.LogError($"Create Trigger Failed!{triggerRow.TriggerType}");
                     return;
                 }
-                triggerInstance.Row = triggerRow;
-                triggerInstance.Parent = gameObject;
-                triggerInstance.dynamicObject = this;
-                triggerInstance.Enabled = triggerRow.Enabled;
-                triggerInstance.Targets = triggerRow.Targets.Split("|");
-                triggerInstance.TargetType = (TriggerTargetListProcessTypeEnum)triggerRow.TargetListType;
-                triggerInstance.LoadParamsFromJson(triggerRow.Params);
-                triggerInstance.RunInstructions = GetInstructionList(triggerInstance, triggerRow.GetInstructionList());
 
                 switch (triggerInstance.TriggerType)
                 {
@@ -158,11 +146,12 @@ namespace Pangoo.Core.VisualScripting
                             TriggerExit3dEvent += OnTriggerExit3dEvent;
                         }
                         break;
-
                 }
 
                 TriggerEvents.Add(triggerInstance);
             }
+
+            DoAwakeDirectionInstruction();
 
             if (m_Tracker != null)
             {
@@ -170,133 +159,6 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
-
-        void OnTriggerEnter3dEvent(Args eventParams)
-        {
-            Debug.Log($"OnTriggerEnter3dEvent:{gameObject.name}");
-            foreach (var trigger in TriggerEvents)
-            {
-                if (!trigger.Enabled) continue;
-                switch (trigger.TriggerType)
-                {
-                    case TriggerTypeEnum.OnTriggerEnter3D:
-                        trigger.OnInvoke(eventParams);
-                        break;
-                }
-            }
-        }
-
-
-        void OnTriggerExit3dEvent(Args eventParams)
-        {
-            Debug.Log($"OnTriggerExit3dEvent:{gameObject.name}");
-            foreach (var trigger in TriggerEvents)
-            {
-                if (!trigger.Enabled) continue;
-                switch (trigger.TriggerType)
-                {
-                    case TriggerTypeEnum.OnTriggerEnter3D:
-                        trigger.OnInvoke(eventParams);
-                        break;
-                }
-            }
-        }
-
-
-
-        void OnInteractEvent(Args eventParams)
-        {
-            Debug.Log($"OnInteractEvent:{gameObject.name}");
-            foreach (var trigger in TriggerEvents)
-            {
-                if (!trigger.Enabled) continue;
-
-                switch (trigger.TriggerType)
-                {
-                    case TriggerTypeEnum.OnInteract:
-                        Debug.Log($"Trigger:{trigger?.Row?.Id} inovke ");
-                        trigger.OnInvoke(eventParams);
-                        break;
-                }
-            }
-        }
-
-
-        public TriggerEventTable.TriggerEventRow GetTriggerEventRow(int id)
-        {
-            TriggerEventTable.TriggerEventRow row = null;
-#if UNITY_EDITOR
-            if (Application.isPlaying && m_TriggerEventTable != null)
-            {
-                Debug.Log($"GetRowByTriggerEventTable");
-                row = m_TriggerEventTable.GetRowById(id);
-            }
-            else
-            {
-                row = GameSupportEditorUtility.GetTriggerEventRowById(id);
-            }
-#else
-            row = m_TriggerEventTable.GetRowById(id);
-#endif
-            return row;
-        }
-
-        public InstructionTable.InstructionRow GetInstructionRow(int id)
-        {
-            InstructionTable.InstructionRow instructionRow = null;
-
-#if UNITY_EDITOR
-            if (Application.isPlaying && m_InstructionTable != null)
-            {
-                Debug.Log($"GetRowByInstructionTable");
-                instructionRow = m_InstructionTable.GetRowById(id);
-            }
-            else
-            {
-                instructionRow = GameSupportEditorUtility.GetExcelTableRowWithOverviewById<InstructionTableOverview, InstructionTable.InstructionRow>(id);
-            }
-
-#else
-            instructionRow = m_InstructionTable.GetRowById(id);
-#endif
-            return instructionRow;
-        }
-
-
-        public void TriggerEnter3d(Collider collider)
-        {
-            TriggerEnter3dEvent?.Invoke(CurrentArgs);
-        }
-
-        public void TriggerExit3d(Collider collider)
-        {
-            TriggerExit3dEvent?.Invoke(CurrentArgs);
-        }
-
-
-
-
-        InstructionList GetInstructionList(TriggerEvent trigger, List<int> ids)
-        {
-            List<Instruction> instructions = new();
-
-            foreach (var instructionId in ids)
-            {
-                InstructionTable.InstructionRow instructionRow = GetInstructionRow(instructionId);
-                if (instructionRow == null || instructionRow.InstructionType == null)
-                {
-                    continue;
-                }
-
-                var InstructionInstance = ClassUtility.CreateInstance<Instruction>(instructionRow.InstructionType);
-                InstructionInstance.LoadParams(instructionRow.Params);
-                InstructionInstance.Trigger = trigger;
-
-                instructions.Add(InstructionInstance);
-            }
-
-            return new InstructionList(instructions.ToArray());
-        }
 
     }
 }

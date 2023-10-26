@@ -10,6 +10,31 @@ namespace Pangoo
 
     public static class TriggerEventRowExtension
     {
+
+        public static TriggerEventTable.TriggerEventRow GetById(int id, TriggerEventTable table = null)
+        {
+            TriggerEventTable.TriggerEventRow row = null;
+#if UNITY_EDITOR
+            if (Application.isPlaying && table != null)
+            {
+                Debug.Log($"GetRowByTriggerEventTable");
+                row = table?.GetRowById(id);
+            }
+            else
+            {
+                row = GameSupportEditorUtility.GetTriggerEventRowById(id);
+            }
+#else
+            if(table == null){
+                Debug.LogError($"GetTriggerEventRow Table Is null");
+            }else{
+                 row = table?.GetRowById(id);
+            }
+#endif
+            return row;
+        }
+
+
         public static List<int> GetInstructionList(this TriggerEventTable.TriggerEventRow row)
         {
             if (row == null || row.InstructionList.IsNullOrWhiteSpace())

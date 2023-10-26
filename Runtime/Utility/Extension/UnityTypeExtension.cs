@@ -26,6 +26,27 @@ namespace Pangoo
             return 0;
         }
 
+        public static int ToIntForce(this string val)
+        {
+            int outVal;
+            if (int.TryParse(val, out outVal))
+            {
+                return outVal;
+            }
+            return 0;
+        }
+
+        public static bool ToBoolForce(this string val)
+        {
+            bool outVal;
+            if (bool.TryParse(val, out outVal))
+            {
+                return outVal;
+            }
+            return false;
+        }
+
+
 
         #region  Vector3
 

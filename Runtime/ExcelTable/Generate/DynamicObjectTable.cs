@@ -97,6 +97,15 @@ namespace Pangoo
             [JsonMember("HotspotOffset")]
             [ExcelTableCol("HotspotOffset","HotspotOffset","Vector3", "热点区域偏移",11)]
             public Vector3 HotspotOffset ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("直接指令")]
+            [HideLabel]
+            [JsonMember("DirectInstructions")]
+            [ExcelTableCol("DirectInstructions","DirectInstructions","string", "直接指令",12)]
+            public string DirectInstructions ;
         }
 
 

@@ -1,17 +1,13 @@
 #if UNITY_EDITOR
 using System.Collections.Generic;
-using System.Linq;
 using System.Collections;
 using Sirenix.OdinInspector;
-using Sirenix.Utilities;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.UIElements;
 using System;
-
 
 using UnityEditor;
 using Sirenix.OdinInspector.Editor;
+using Pangoo.Core.VisualScripting;
 
 
 
@@ -230,6 +226,46 @@ namespace Pangoo
         public IEnumerable GetHotspotIds()
         {
             return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<HotspotTableOverview>();
+        }
+
+        List<DirectInstruction> m_DirectInstructions;
+
+        [ShowInInspector]
+        [PropertyOrder(10)]
+        [LabelText("直接指令")]
+        // [ValueDropdown("GetHotspotIds", IsUniqueList = true)]
+        // [HideReferenceObjectPicker]
+        [TableList(AlwaysExpanded = true)]
+        [OnValueChanged("OnDirectInstructionsChanged", includeChildren: true)]
+        // [ListDrawerSettings(Expanded = true, CustomAddFunction = "AddDirectInstruction", CustomRemoveIndexFunction = "RemoveIndexDirectInstruction")]
+        public List<DirectInstruction> DirectInstructions
+        {
+            get
+            {
+                if (m_DirectInstructions == null)
+                {
+                    m_DirectInstructions = DirectInstruction.CreateList(Row?.DirectInstructions);
+                }
+
+                return m_DirectInstructions;
+            }
+            set
+            {
+                m_DirectInstructions = value;
+                Debug.Log($"Set DirectInstructions");
+            }
+
+        }
+
+        void OnDirectInstructionsChanged()
+        {
+            var currentValue = DirectInstruction.Save(m_DirectInstructions);
+            // Debug.Log($"Try Save:{currentValue}, old:{Row?.DirectInstructions}");
+            if (!currentValue.Equals(Row?.DirectInstructions))
+            {
+                Row.DirectInstructions = currentValue;
+                Save();
+            }
         }
 
 

@@ -32,6 +32,20 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
+        DynamicObjectService m_DynamicObjectService;
+
+        public DynamicObjectService DynamicObjectService
+        {
+            get
+            {
+                if (m_DynamicObjectService == null)
+                {
+                    m_DynamicObjectService = Main?.GetService<DynamicObjectService>();
+                }
+                return m_DynamicObjectService;
+            }
+        }
+
         [ShowInInspector]
         public DynamicObjectTable.DynamicObjectRow Row { get; set; }
 

@@ -22,7 +22,7 @@ namespace Pangoo.Core.VisualScripting
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        InstructionBoolParams m_Params = new InstructionBoolParams();
+        public InstructionBoolParams m_Params = new InstructionBoolParams();
 
         public InstructionSetSelfTriggerEnabled()
         { }

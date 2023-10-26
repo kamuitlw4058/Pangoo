@@ -222,5 +222,28 @@ namespace Pangoo.Core.VisualScripting
             return this.m_Instructions[index];
         }
 
+        public static InstructionList BuildInstructionList(TriggerEvent trigger, List<int> ids, InstructionTable table = null)
+        {
+            List<Instruction> instructions = new();
+
+            foreach (var instructionId in ids)
+            {
+                InstructionTable.InstructionRow instructionRow = InstructionRowExtension.GetById(instructionId, table);
+                if (instructionRow == null || instructionRow.InstructionType == null)
+                {
+                    continue;
+                }
+
+                var InstructionInstance = ClassUtility.CreateInstance<Instruction>(instructionRow.InstructionType);
+                InstructionInstance.LoadParams(instructionRow.Params);
+                InstructionInstance.Trigger = trigger;
+
+                instructions.Add(InstructionInstance);
+            }
+
+            return new InstructionList(instructions.ToArray());
+        }
+
+
     }
 }

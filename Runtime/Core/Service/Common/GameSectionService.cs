@@ -17,7 +17,7 @@ namespace Pangoo.Core.Services
 
         ExcelTableService m_ExcelTableService;
         StaticSceneService m_StaticSceneService;
-        DynamicObjectManagerService m_DynamicObjectService;
+        DynamicObjectService m_DynamicObjectService;
 
         GameMainConfigService m_GameMainConfigService;
 
@@ -40,7 +40,7 @@ namespace Pangoo.Core.Services
             m_StaticSceneService = Parent.GetService<StaticSceneService>();
             m_GameMainConfigService = Parent.GetService<GameMainConfigService>();
 
-            m_DynamicObjectService = Parent.GetService<DynamicObjectManagerService>();
+            m_DynamicObjectService = Parent.GetService<DynamicObjectService>();
 
             Event.Subscribe(GameSectionChangeEventArgs.EventId, OnGameSectionChangeEvent);
 

@@ -21,7 +21,7 @@ namespace Pangoo.Core.Services
             AddService(RuntimeData);
             AddService(new DataContainerService());
             AddService(new GameInfoService());
-            AddService(new DynamicObjectManagerService());
+            AddService(new DynamicObjectService());
             AddService(new CharacterService());
             AddService(new GameMainConfigService());
         }
