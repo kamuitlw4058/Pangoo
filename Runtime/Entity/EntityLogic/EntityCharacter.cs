@@ -70,7 +70,7 @@ namespace Pangoo
             character.MaxPitch = EntityData.InfoRow.m_CharacterRow.MaxPitch;
             character.Awake();
             character.Start();
-            character.SetDirection(transform.forward);
+            character.SetDirection(transform.rotation.eulerAngles);
 
         }
 
