@@ -47,28 +47,31 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public InstructionList GetDirectInstructionList(DirectInstruction directInstruction, TriggerEvent trigger)
+        public InstructionList GetDirectInstructionList(DirectInstructionGroup directInstructionGroup, TriggerEvent trigger)
         {
             List<Instruction> ret = new();
 
-            switch (directInstruction.InstructionType)
+            foreach (var directInstruction in directInstructionGroup.DirectInstructionList)
             {
-                case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:
-                    var instruction = GetDynamicObjectPlayTimelineInstruction(directInstruction.Int1);
-                    ret.Add(instruction);
-                    break;
-                case DirectInstructionTypeEnum.ChangeGameSection:
-                    var instructionGameSection = GetChangeGameSectionInstruction(directInstruction.Int1);
-                    ret.Add(instructionGameSection);
-                    break;
-                case DirectInstructionTypeEnum.SetBoolVariable:
-                    var InstructionSetVariableBool = GetSetVariableBoolInstruction(directInstruction.Int1, directInstruction.Bool1);
-                    ret.Add(InstructionSetVariableBool);
-                    break;
+                switch (directInstruction.InstructionType)
+                {
+                    case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:
+                        var instruction = GetDynamicObjectPlayTimelineInstruction(directInstruction.Int1);
+                        ret.Add(instruction);
+                        break;
+                    case DirectInstructionTypeEnum.ChangeGameSection:
+                        var instructionGameSection = GetChangeGameSectionInstruction(directInstruction.Int1);
+                        ret.Add(instructionGameSection);
+                        break;
+                    case DirectInstructionTypeEnum.SetBoolVariable:
+                        var InstructionSetVariableBool = GetSetVariableBoolInstruction(directInstruction.Int1, directInstruction.Bool1);
+                        ret.Add(InstructionSetVariableBool);
+                        break;
 
+                }
             }
 
-            if (directInstruction.DisableOnFinish)
+            if (directInstructionGroup.DisableOnFinish)
             {
                 var instruction = GetSelfTriggerEnabledInstruction(false);
                 ret.Add(instruction);
@@ -80,17 +83,21 @@ namespace Pangoo.Core.VisualScripting
             return new InstructionList(ret.ToArray());
         }
 
-        public TriggerEvent BuildTriggerEvent(int i, DirectInstruction directInstruction)
+        public TriggerEvent BuildTriggerEvent(int i, DirectInstructionGroup directInstructionGroup)
         {
+
+            if (directInstructionGroup.DirectInstructionList == null || directInstructionGroup.DirectInstructionList.Length == 0) return null;
+
             TriggerEvent ret = null;
             TriggerEventTable.TriggerEventRow row = new TriggerEventTable.TriggerEventRow();
+
             row.Id = (i * -1) - 1;
-            row.Name = $"DI_{directInstruction.TriggerType}_{directInstruction.InstructionType}_{directInstruction.Int1}";
+            row.Name = $"DI_{directInstructionGroup.TriggerType}_{directInstructionGroup.DirectInstructionList?.Length ?? 0}";
             row.Params = "{}";
             row.Targets = string.Empty;
-            row.Enabled = directInstruction.InitEnabled;
+            row.Enabled = directInstructionGroup.InitEnabled;
 
-            switch (directInstruction.TriggerType)
+            switch (directInstructionGroup.TriggerType)
             {
                 case TriggerTypeEnum.OnTriggerEnter3D:
                     ret = CreateTriggerEvent<TriggerEventOnTriggerEnter3d>(row);
@@ -105,7 +112,7 @@ namespace Pangoo.Core.VisualScripting
 
             if (ret != null)
             {
-                ret.RunInstructions = GetDirectInstructionList(directInstruction, ret);
+                ret.RunInstructions = GetDirectInstructionList(directInstructionGroup, ret);
                 TriggerEvents.Add(row.Id, ret);
             }
 
@@ -115,11 +122,14 @@ namespace Pangoo.Core.VisualScripting
 
         void DoAwakeDirectionInstruction()
         {
-            var directInstructions = DirectInstruction.CreateArray(Row?.DirectInstructions);
-            for (int i = 0; i < directInstructions.Length; i++)
+            var directInstructionGroups = DirectInstructionGroup.CreateArray(Row?.DirectInstructions);
+            if (directInstructionGroups == null || directInstructionGroups.Length == 0) return;
+
+
+            for (int i = 0; i < directInstructionGroups.Length; i++)
             {
-                var directInstruction = directInstructions[i];
-                BuildTriggerEvent(i, directInstruction);
+                var directInstructionGroup = directInstructionGroups[i];
+                BuildTriggerEvent(i, directInstructionGroup);
             }
         }
 

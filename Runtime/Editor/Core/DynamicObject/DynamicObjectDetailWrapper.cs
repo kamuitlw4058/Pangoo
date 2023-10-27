@@ -228,30 +228,34 @@ namespace Pangoo
             return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<HotspotTableOverview>();
         }
 
-        List<DirectInstruction> m_DirectInstructions;
+        List<DirectInstructionGroup> m_DirectInstructionGroups;
 
         [ShowInInspector]
         [PropertyOrder(10)]
         [LabelText("直接指令")]
         // [ValueDropdown("GetHotspotIds", IsUniqueList = true)]
         // [HideReferenceObjectPicker]
-        [TableList(AlwaysExpanded = true)]
+        // [TableList(AlwaysExpanded = true)]
         [OnValueChanged("OnDirectInstructionsChanged", includeChildren: true)]
         // [ListDrawerSettings(Expanded = true, CustomAddFunction = "AddDirectInstruction", CustomRemoveIndexFunction = "RemoveIndexDirectInstruction")]
-        public List<DirectInstruction> DirectInstructions
+        public List<DirectInstructionGroup> DirectInstructions
         {
             get
             {
-                if (m_DirectInstructions == null)
+                if (m_DirectInstructionGroups == null)
                 {
-                    m_DirectInstructions = DirectInstruction.CreateList(Row?.DirectInstructions);
+                    m_DirectInstructionGroups = DirectInstructionGroup.CreateList(Row?.DirectInstructions);
+                    if (m_DirectInstructionGroups == null)
+                    {
+                        m_DirectInstructionGroups = new List<DirectInstructionGroup>();
+                    }
                 }
 
-                return m_DirectInstructions;
+                return m_DirectInstructionGroups;
             }
             set
             {
-                m_DirectInstructions = value;
+                m_DirectInstructionGroups = value;
                 Debug.Log($"Set DirectInstructions");
             }
 
@@ -259,8 +263,8 @@ namespace Pangoo
 
         void OnDirectInstructionsChanged()
         {
-            var currentValue = DirectInstruction.Save(m_DirectInstructions);
-            // Debug.Log($"Try Save:{currentValue}, old:{Row?.DirectInstructions}");
+            var currentValue = DirectInstructionGroup.Save(m_DirectInstructionGroups);
+            Debug.Log($"Try Save:{currentValue}, old:{Row?.DirectInstructions}");
             if (!currentValue.Equals(Row?.DirectInstructions))
             {
                 Row.DirectInstructions = currentValue;

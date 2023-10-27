@@ -238,9 +238,11 @@ namespace LitJson
             }
         }
 
-        public static ObjectMetadata GetObjectMetadata(Type type){
+        public static ObjectMetadata GetObjectMetadata(Type type)
+        {
             ObjectMetadata ret;
-            if(object_metadata.TryGetValue(type, out ret)){
+            if (object_metadata.TryGetValue(type, out ret))
+            {
                 return ret;
             }
             return default(ObjectMetadata);
@@ -968,6 +970,11 @@ namespace LitJson
                 Object value;
 
                 var jsonMemberAttribute = p_data.Info.GetCustomAttribute<JsonMemberAttribute>();
+                var JsonNoMemberAttribute = p_data.Info.GetCustomAttribute<JsonNoMemberAttribute>();
+                if (JsonNoMemberAttribute != null)
+                {
+                    continue;
+                }
                 propertyName = jsonMemberAttribute != null ? jsonMemberAttribute.Name : p_data.Info.Name;
 
                 if (!p_data.IsField && !((PropertyInfo)p_data.Info).CanRead)
