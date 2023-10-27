@@ -102,7 +102,7 @@ namespace Pangoo.Core.Characters
             characterContainer?.DrawGizmos();
         }
 
-        void ResetCameraDirection()
+        public void ResetCameraDirection()
         {
             characterContainer.ResetCameraDirection();
         }
