@@ -77,7 +77,7 @@ namespace Pangoo.Core.Services
                 var character = m_LoadedEntityDict[infoId];
                 character.transform.position = positon;
                 character.transform.rotation = Quaternion.Euler(rotation);
-                character.character.SetDirection(character.transform.rotation.eulerAngles);
+                character.character.ResetCameraDirection();
                 Physics.SyncTransforms();
                 return;
             }

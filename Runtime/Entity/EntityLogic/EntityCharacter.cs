@@ -70,8 +70,7 @@ namespace Pangoo
             character.MaxPitch = EntityData.InfoRow.m_CharacterRow.MaxPitch;
             character.Awake();
             character.Start();
-            character.SetDirection(transform.rotation.eulerAngles);
-
+            character.ResetCameraDirection();
         }
 
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
