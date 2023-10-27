@@ -32,6 +32,9 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("关闭相机GameObject")]
         UnactiveCameraGameObject,
+
+        [LabelText("子物体播放Timeline")]
+        SubGameObjectPlayTimeline,
     }
 
     [Serializable]
@@ -99,6 +102,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SetGameObjectActive => true,
                     DirectInstructionTypeEnum.ActiveCameraGameObject => true,
                     DirectInstructionTypeEnum.UnactiveCameraGameObject => true,
+                    DirectInstructionTypeEnum.SubGameObjectPlayTimeline => true,
                     _ => false,
                 };
             }
@@ -114,6 +118,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SetGameObjectActive => true,
                     DirectInstructionTypeEnum.ActiveCameraGameObject => true,
                     DirectInstructionTypeEnum.UnactiveCameraGameObject => true,
+                    DirectInstructionTypeEnum.SubGameObjectPlayTimeline => true,
                     _ => false,
                 };
             }
@@ -146,6 +151,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SetPlayerIsControllable => "设置值",
                     DirectInstructionTypeEnum.ActiveCameraGameObject => "等待切换完成",
                     DirectInstructionTypeEnum.UnactiveCameraGameObject => "等待切换完成",
+                    DirectInstructionTypeEnum.SubGameObjectPlayTimeline => "等待切换完成",
                     _ => "Bool1",
                 };
             }
@@ -161,6 +167,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SetGameObjectActive => "子对象",
                     DirectInstructionTypeEnum.ActiveCameraGameObject => "子对象",
                     DirectInstructionTypeEnum.UnactiveCameraGameObject => "子对象",
+                    DirectInstructionTypeEnum.SubGameObjectPlayTimeline => "子对象",
                     _ => "String1",
                 };
             }

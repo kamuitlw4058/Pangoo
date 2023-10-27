@@ -71,6 +71,15 @@ namespace Pangoo.Core.VisualScripting
         }
 
 
+        Instruction GetSubGameObjectPlayTimeline(string path, bool val)
+        {
+            var instruction = Activator.CreateInstance<InstructionSubGameObjectPlayTimeline>();
+            instruction.ParamsRaw.Path = path;
+            instruction.ParamsRaw.Val = val;
+            return instruction;
+        }
+
+
 
 
 
@@ -116,6 +125,10 @@ namespace Pangoo.Core.VisualScripting
                     case DirectInstructionTypeEnum.UnactiveCameraGameObject:
                         var InstructionUnactiveCameraGameObject = GetUnactiveCameraGameObject(directInstruction.String1, directInstruction.Bool1);
                         ret.Add(InstructionUnactiveCameraGameObject);
+                        break;
+                    case DirectInstructionTypeEnum.SubGameObjectPlayTimeline:
+                        var InstructionSubGameObjectPlayTimeline = GetSubGameObjectPlayTimeline(directInstruction.String1, directInstruction.Bool1);
+                        ret.Add(InstructionSubGameObjectPlayTimeline);
                         break;
                 }
             }
