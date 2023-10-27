@@ -64,6 +64,12 @@ namespace Pangoo.Core.Characters
             m_CharacterCameraService.SetDirection(direction);
         }
 
+        public void ResetDirection()
+        {
+            m_CharacterCameraService.SetDirection(gameObject.transform.rotation.eulerAngles);
+
+        }
+
 
         public Character(GameObject gameObject, bool onlyCamera = false) : base(gameObject)
         {
