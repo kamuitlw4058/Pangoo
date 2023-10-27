@@ -22,7 +22,8 @@ namespace Pangoo.Core.VisualScripting
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        public InstructionBoolParams m_Params = new InstructionBoolParams();
+        public InstructionBoolParams ParamsRaw = new InstructionBoolParams();
+        public override IParams Params => this.ParamsRaw;
 
         public InstructionSetSelfTriggerEnabled()
         { }
@@ -36,20 +37,11 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            Trigger.Enabled = m_Params.Val;
+            Trigger.Enabled = ParamsRaw.Val;
             return;
         }
 
-        public override string ParamsString()
-        {
-            return m_Params.Save();
-        }
 
-        public override void LoadParams(string instructionParams)
-        {
-            m_Params.Load(instructionParams);
-        }
-        // METHODS: -------------------------------------------------------------------------------
 
     }
 }

@@ -13,7 +13,7 @@ namespace Pangoo.Core.VisualScripting
     // [Title("Change Camera")]
     // [Description("Prints a message to the Unity Console")]
 
-    [Category("Common/切换GameSection")]
+    [Category("Common/SetSelfTriggerEnabled")]
 
     // [Parameter(
     //     "Message",
@@ -24,26 +24,31 @@ namespace Pangoo.Core.VisualScripting
     // [Image(typeof(IconBug), ColorTheme.Type.TextLight)]
 
     [Serializable]
-    public class InstructionChangeGameSection : Instruction
+    public class InstructionGameObjectActive : Instruction
     {
 
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        public InstructionIntParams ParamsRaw = new InstructionIntParams();
-        public override IParams Params => this.ParamsRaw;
+        public InstructionSubGameObjectBoolParams ParamsRaw = new InstructionSubGameObjectBoolParams();
 
-        public InstructionChangeGameSection()
+        public override IParams Params => this.ParamsRaw;
+        public InstructionGameObjectActive()
         { }
 
         protected override IEnumerator Run(Args args)
         {
             yield break;
+
         }
 
         public override void RunImmediate(Args args)
         {
-            args.dynamicObject.Event.Fire(this, GameSectionChangeEventArgs.Create(ParamsRaw.Val));
+            var trans = args.dynamicObject.CachedTransfrom.Find(ParamsRaw.Path);
+            if (trans != null)
+            {
+                trans.gameObject.SetActive(ParamsRaw.Val);
+            }
             return;
         }
 

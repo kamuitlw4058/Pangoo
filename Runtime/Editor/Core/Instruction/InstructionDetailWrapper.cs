@@ -51,7 +51,7 @@ namespace Pangoo
             }
 
             m_InstructionInstance = Activator.CreateInstance(instructionType) as Instruction;
-            m_InstructionInstance.LoadParams(Row.Params);
+            m_InstructionInstance.Load(Row.Params);
         }
 
         [ShowInInspector]
@@ -99,14 +99,14 @@ namespace Pangoo
         [TableColumnWidth(80, resizable: false)]
         public void SaveParams()
         {
-            InstructionParams = InstructionInstance.ParamsString();
+            InstructionParams = InstructionInstance.Save();
         }
 
         [Button("加载参数")]
         [TableColumnWidth(80, resizable: false)]
         public void LoadParams()
         {
-            InstructionInstance.LoadParams(Row.Params);
+            InstructionInstance.Load(Row.Params);
         }
 
         [Button("立即运行")]

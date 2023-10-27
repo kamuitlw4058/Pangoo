@@ -17,14 +17,15 @@ namespace Pangoo.Core.VisualScripting
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        public InstructionPlayTimelineParams m_Params = new InstructionPlayTimelineParams();
+        public InstructionPlayTimelineParams ParamsRaw = new InstructionPlayTimelineParams();
+        public override IParams Params => this.ParamsRaw;
 
         [ShowInInspector]
         public override InstructionType InstructionType
         {
             get
             {
-                return m_Params.WaitToComplete ? InstructionType.Coroutine : InstructionType.Immediate;
+                return ParamsRaw.WaitToComplete ? InstructionType.Coroutine : InstructionType.Immediate;
             }
         }
 
@@ -52,14 +53,6 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
-        public override string ParamsString()
-        {
-            return m_Params.Save();
-        }
 
-        public override void LoadParams(string instructionParams)
-        {
-            m_Params.Load(instructionParams);
-        }
     }
 }

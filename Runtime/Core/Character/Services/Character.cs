@@ -18,6 +18,8 @@ namespace Pangoo.Core.Characters
 
         public float MaxPitch { get; set; }
 
+        public bool IsControllable { get; set; }
+
         public MotionInfo MotionInfo
         {
             get

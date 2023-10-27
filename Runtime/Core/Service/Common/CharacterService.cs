@@ -25,7 +25,7 @@ namespace Pangoo.Core.Services
         [ShowInInspector]
         Dictionary<int, EntityCharacter> m_LoadedEntityDict = new Dictionary<int, EntityCharacter>();
 
-        EntityCharacter Player = null;
+        public EntityCharacter Player = null;
 
         [ShowInInspector]
         List<int> m_LoadingEntityIds = new List<int>();

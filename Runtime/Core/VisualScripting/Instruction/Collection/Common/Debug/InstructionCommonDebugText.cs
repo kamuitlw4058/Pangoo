@@ -31,12 +31,14 @@ namespace Pangoo.Core.VisualScripting
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        InstructionMessageParams m_MessageParams = new InstructionMessageParams();
+        InstructionMessageParams ParamsRaw = new InstructionMessageParams();
         // private PropertyGetString m_Message = new PropertyGetString("My message");
+
+        public override IParams Params => this.ParamsRaw;
 
         // PROPERTIES: ----------------------------------------------------------------------------
 
-        public override string Title => $"Log: {this.m_MessageParams.Message}";
+        public override string Title => $"Log: {this.ParamsRaw.Message}";
 
         // CONSTRUCTORS: --------------------------------------------------------------------------
 
@@ -45,7 +47,7 @@ namespace Pangoo.Core.VisualScripting
 
         public InstructionCommonDebugText(string text)
         {
-            this.m_MessageParams.Message = text;
+            this.ParamsRaw.Message = text;
         }
 
         protected override IEnumerator Run(Args args)
@@ -56,7 +58,7 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            if (m_MessageParams.ShowTriggerRow)
+            if (ParamsRaw.ShowTriggerRow)
             {
 #if UNITY_EDITOR
                 Debug.Log($"TriggerObject:{args?.dynamicObject?.gameObject?.name}");
@@ -65,23 +67,13 @@ namespace Pangoo.Core.VisualScripting
 #endif
             }
 #if UNITY_EDITOR
-            Debug.Log($"Instruction  Log:{this.m_MessageParams.Message}");
+            Debug.Log($"Instruction  Log:{this.ParamsRaw.Message}");
 #else
             Utility.Text.Format("Instruction Log:{0}", this.m_MessageParams.Message);
 #endif
         }
 
-        public override string ParamsString()
-        {
-            return m_MessageParams.Save();
-        }
 
-        public override void LoadParams(string instructionParams)
-        {
-            m_MessageParams.Load(instructionParams);
-        }
-
-        // METHODS: -------------------------------------------------------------------------------
 
     }
 }

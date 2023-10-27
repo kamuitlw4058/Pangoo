@@ -31,7 +31,8 @@ namespace Pangoo.Core.VisualScripting
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        InstructionDynamicObejctTriggerEventParams m_Params = new InstructionDynamicObejctTriggerEventParams();
+        InstructionDynamicObejctTriggerEventParams ParamsRaw = new InstructionDynamicObejctTriggerEventParams();
+        public override IParams Params => this.ParamsRaw;
 
 
         public InstructionSetDOTriggerEnabled()
@@ -39,16 +40,16 @@ namespace Pangoo.Core.VisualScripting
 
         protected override IEnumerator Run(Args args)
         {
-            if (m_Params.DisableSelfTrigger && Trigger != null)
+            if (ParamsRaw.DisableSelfTrigger && Trigger != null)
             {
                 Trigger.Enabled = false;
             }
             yield return null;
             // args.dynamicObject
-            var dynamicObjectEntity = args.dynamicObject?.DynamicObjectService?.GetLoadedEntity(m_Params.DynamicObjectId);
+            var dynamicObjectEntity = args.dynamicObject?.DynamicObjectService?.GetLoadedEntity(ParamsRaw.DynamicObjectId);
             if (dynamicObjectEntity != null)
             {
-                dynamicObjectEntity?.DynamicObj?.SetTriggerEnabled(m_Params.TriggerId, m_Params.Enabled);
+                dynamicObjectEntity?.DynamicObj?.SetTriggerEnabled(ParamsRaw.TriggerId, ParamsRaw.Enabled);
                 Debug.Log($"dynamicObjectEntity.DynamicObj.{dynamicObjectEntity},{dynamicObjectEntity?.DynamicObj},{Trigger}");
             }
 
@@ -59,16 +60,7 @@ namespace Pangoo.Core.VisualScripting
             return;
         }
 
-        public override string ParamsString()
-        {
-            return m_Params.Save();
-        }
 
-        public override void LoadParams(string instructionParams)
-        {
-            m_Params.Load(instructionParams);
-        }
-        // METHODS: -------------------------------------------------------------------------------
 
     }
 }

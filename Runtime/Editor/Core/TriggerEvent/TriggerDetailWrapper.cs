@@ -362,7 +362,7 @@ namespace Pangoo
                 }
 
 
-                InstructionInstance.LoadParams(instructionRow.Params);
+                InstructionInstance.Load(instructionRow.Params);
 
                 instructions.Add(InstructionInstance);
             }

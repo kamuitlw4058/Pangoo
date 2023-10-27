@@ -235,7 +235,7 @@ namespace Pangoo.Core.VisualScripting
                 }
 
                 var InstructionInstance = ClassUtility.CreateInstance<Instruction>(instructionRow.InstructionType);
-                InstructionInstance.LoadParams(instructionRow.Params);
+                InstructionInstance.Load(instructionRow.Params);
                 InstructionInstance.Trigger = trigger;
 
                 instructions.Add(InstructionInstance);

@@ -32,12 +32,13 @@ namespace Pangoo.Core.VisualScripting
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        public InstructionSetVariableParams m_Params = new InstructionSetVariableParams();
-        // private PropertyGetString m_Message = new PropertyGetString("My message");
+        public InstructionSetVariableParams ParamsRaw = new InstructionSetVariableParams();
+
+        public override IParams Params => this.ParamsRaw;
 
         // PROPERTIES: ----------------------------------------------------------------------------
 
-        public override string Title => $"Log: {this.m_Params}";
+        public override string Title => $"Log: {this.ParamsRaw}";
 
         // CONSTRUCTORS: --------------------------------------------------------------------------
 
@@ -54,20 +55,9 @@ namespace Pangoo.Core.VisualScripting
         public override void RunImmediate(Args args)
         {
             var runtimeService = args.Main.GetService<RuntimeDataService>();
-            runtimeService.SetVariable<bool>(m_Params.VariableId, m_Params.Val);
+            runtimeService.SetVariable<bool>(ParamsRaw.VariableId, ParamsRaw.Val);
         }
 
-        public override string ParamsString()
-        {
-            return m_Params.Save();
-        }
-
-        public override void LoadParams(string instructionParams)
-        {
-            m_Params.Load(instructionParams);
-        }
-
-        // METHODS: -------------------------------------------------------------------------------
 
     }
 }

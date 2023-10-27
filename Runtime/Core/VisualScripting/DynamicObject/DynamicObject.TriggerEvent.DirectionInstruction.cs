@@ -19,31 +19,65 @@ namespace Pangoo.Core.VisualScripting
         Instruction GetSelfTriggerEnabledInstruction(bool val)
         {
             var instruction = Activator.CreateInstance<InstructionSetSelfTriggerEnabled>();
-            instruction.m_Params = new InstructionBoolParams();
-            instruction.m_Params.Val = val;
+            instruction.ParamsRaw = new InstructionBoolParams();
+            instruction.ParamsRaw.Val = val;
             return instruction;
         }
 
         Instruction GetDynamicObjectPlayTimelineInstruction(int dynamicObjectId)
         {
             var instruction = Activator.CreateInstance<InstructionDynamicObjectPlayTimeline>();
-            instruction.m_Params.Val = dynamicObjectId;
+            instruction.ParamsRaw.Val = dynamicObjectId;
             return instruction;
         }
 
         Instruction GetSetVariableBoolInstruction(int VariableId, bool val)
         {
             var instruction = Activator.CreateInstance<InstructionSetVariableBool>();
-            instruction.m_Params.VariableId = VariableId;
-            instruction.m_Params.Val = val;
+            instruction.ParamsRaw.VariableId = VariableId;
+            instruction.ParamsRaw.Val = val;
             return instruction;
         }
+
+        Instruction GetSetPlayerIsControllable(bool val)
+        {
+            var instruction = Activator.CreateInstance<InstructionSetPlayerControllable>();
+            instruction.ParamsRaw.Val = val;
+            return instruction;
+        }
+
+        Instruction GetSetGameObjectActive(string path, bool val)
+        {
+            var instruction = Activator.CreateInstance<InstructionGameObjectActive>();
+            instruction.ParamsRaw.Path = path;
+            instruction.ParamsRaw.Val = val;
+            return instruction;
+        }
+
+        Instruction GetActiveCameraGameObject(string path, bool val)
+        {
+            var instruction = Activator.CreateInstance<InstructionActiveCameraGameObject>();
+            instruction.ParamsRaw.Path = path;
+            instruction.ParamsRaw.Val = val;
+            return instruction;
+        }
+
+        Instruction GetUnactiveCameraGameObject(string path, bool val)
+        {
+            var instruction = Activator.CreateInstance<InstructionUnactiveCameraGameObject>();
+            instruction.ParamsRaw.Path = path;
+            instruction.ParamsRaw.Val = val;
+            return instruction;
+        }
+
+
+
 
 
         Instruction GetChangeGameSectionInstruction(int val)
         {
             var instruction = Activator.CreateInstance<InstructionChangeGameSection>();
-            instruction.m_Params.Val = val;
+            instruction.ParamsRaw.Val = val;
             return instruction;
         }
 
@@ -67,7 +101,22 @@ namespace Pangoo.Core.VisualScripting
                         var InstructionSetVariableBool = GetSetVariableBoolInstruction(directInstruction.Int1, directInstruction.Bool1);
                         ret.Add(InstructionSetVariableBool);
                         break;
-
+                    case DirectInstructionTypeEnum.SetPlayerIsControllable:
+                        var InstructionSetPlayerIsIsControllable = GetSetPlayerIsControllable(directInstruction.Bool1);
+                        ret.Add(InstructionSetPlayerIsIsControllable);
+                        break;
+                    case DirectInstructionTypeEnum.SetGameObjectActive:
+                        var InstructionSetGameObjectActive = GetSetGameObjectActive(directInstruction.String1, directInstruction.Bool1);
+                        ret.Add(InstructionSetGameObjectActive);
+                        break;
+                    case DirectInstructionTypeEnum.ActiveCameraGameObject:
+                        var InstructionActiveCameraGameObject = GetActiveCameraGameObject(directInstruction.String1, directInstruction.Bool1);
+                        ret.Add(InstructionActiveCameraGameObject);
+                        break;
+                    case DirectInstructionTypeEnum.UnactiveCameraGameObject:
+                        var InstructionUnactiveCameraGameObject = GetUnactiveCameraGameObject(directInstruction.String1, directInstruction.Bool1);
+                        ret.Add(InstructionUnactiveCameraGameObject);
+                        break;
                 }
             }
 

@@ -22,14 +22,16 @@ namespace Pangoo.Core.VisualScripting
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        InstructionTweenTransformParams m_Params = new InstructionTweenTransformParams();
+        InstructionTweenTransformParams ParamsRaw = new InstructionTweenTransformParams();
+
+        public override IParams Params => this.ParamsRaw;
 
         public override InstructionType InstructionType => InstructionType.Coroutine;
         // private PropertyGetString m_Message = new PropertyGetString("My message");
 
         // PROPERTIES: ----------------------------------------------------------------------------
 
-        public override string Title => $"Tween: {this.m_Params}";
+        public override string Title => $"Tween: {this.ParamsRaw}";
 
 
         float m_StartTime;
@@ -86,36 +88,36 @@ namespace Pangoo.Core.VisualScripting
 
 
 
-            if (((int)m_Params.TweenType & (int)TweenTransformType.PostionX) > 0)
+            if (((int)ParamsRaw.TweenType & (int)TweenTransformType.PostionX) > 0)
             {
-                positionX = LerpValue(m_StartPosition.x + (float)m_Params.TweenMin, m_StartPosition.x + (float)m_Params.TweenMax, progress, m_Params.ForwardBack);
+                positionX = LerpValue(m_StartPosition.x + (float)ParamsRaw.TweenMin, m_StartPosition.x + (float)ParamsRaw.TweenMax, progress, ParamsRaw.ForwardBack);
             }
 
-            if (((int)m_Params.TweenType & (int)TweenTransformType.PostionY) > 0)
+            if (((int)ParamsRaw.TweenType & (int)TweenTransformType.PostionY) > 0)
             {
-                positionY = LerpValue(m_StartPosition.y + (float)m_Params.TweenMin, m_StartPosition.y + (float)m_Params.TweenMax, progress, m_Params.ForwardBack);
+                positionY = LerpValue(m_StartPosition.y + (float)ParamsRaw.TweenMin, m_StartPosition.y + (float)ParamsRaw.TweenMax, progress, ParamsRaw.ForwardBack);
             }
 
-            if (((int)m_Params.TweenType & (int)TweenTransformType.PostionZ) > 0)
+            if (((int)ParamsRaw.TweenType & (int)TweenTransformType.PostionZ) > 0)
             {
-                positionZ = LerpValue(m_StartPosition.z + (float)m_Params.TweenMin, m_StartPosition.z + (float)m_Params.TweenMax, progress, m_Params.ForwardBack);
+                positionZ = LerpValue(m_StartPosition.z + (float)ParamsRaw.TweenMin, m_StartPosition.z + (float)ParamsRaw.TweenMax, progress, ParamsRaw.ForwardBack);
             }
             m_TargetTransform.localPosition = new Vector3(positionX, positionY, positionZ);
 
 
-            if (((int)m_Params.TweenType & (int)TweenTransformType.RotationX) > 0)
+            if (((int)ParamsRaw.TweenType & (int)TweenTransformType.RotationX) > 0)
             {
-                rotationX = LerpValue(m_StartRotation.x + (float)m_Params.TweenMin, m_StartRotation.x + (float)m_Params.TweenMax, progress, m_Params.ForwardBack);
+                rotationX = LerpValue(m_StartRotation.x + (float)ParamsRaw.TweenMin, m_StartRotation.x + (float)ParamsRaw.TweenMax, progress, ParamsRaw.ForwardBack);
             }
 
-            if (((int)m_Params.TweenType & (int)TweenTransformType.RotationY) > 0)
+            if (((int)ParamsRaw.TweenType & (int)TweenTransformType.RotationY) > 0)
             {
-                rotationY = LerpValue(m_StartRotation.y + (float)m_Params.TweenMin, m_StartRotation.y + (float)m_Params.TweenMax, progress, m_Params.ForwardBack);
+                rotationY = LerpValue(m_StartRotation.y + (float)ParamsRaw.TweenMin, m_StartRotation.y + (float)ParamsRaw.TweenMax, progress, ParamsRaw.ForwardBack);
             }
 
-            if (((int)m_Params.TweenType & (int)TweenTransformType.RotationZ) > 0)
+            if (((int)ParamsRaw.TweenType & (int)TweenTransformType.RotationZ) > 0)
             {
-                rotationZ = LerpValue(m_StartRotation.z + (float)m_Params.TweenMin, m_StartRotation.z + (float)m_Params.TweenMax, progress, m_Params.ForwardBack);
+                rotationZ = LerpValue(m_StartRotation.z + (float)ParamsRaw.TweenMin, m_StartRotation.z + (float)ParamsRaw.TweenMax, progress, ParamsRaw.ForwardBack);
             }
 
             m_TargetTransform.localRotation = Quaternion.Euler(new Vector3(rotationX, rotationY, rotationZ));
@@ -132,18 +134,18 @@ namespace Pangoo.Core.VisualScripting
                 m_StartPosition = m_TargetTransform.localPosition;
                 m_StartRotation = m_TargetTransform.localRotation.eulerAngles;
                 m_StartTime = Time.time;
-                var startProcess = Time.time < (m_StartTime + m_Params.TweenDuration);
-                Debug.Log($"args.Target:{args.Target}, startProcess:{startProcess} TweenMin:{m_Params.TweenMin} TweenMax:{m_Params.TweenMax} TweenDuration:{m_Params.TweenDuration}");
-                while (Time.time < (m_StartTime + m_Params.TweenDuration))
+                var startProcess = Time.time < (m_StartTime + ParamsRaw.TweenDuration);
+                Debug.Log($"args.Target:{args.Target}, startProcess:{startProcess} TweenMin:{ParamsRaw.TweenMin} TweenMax:{ParamsRaw.TweenMax} TweenDuration:{ParamsRaw.TweenDuration}");
+                while (Time.time < (m_StartTime + ParamsRaw.TweenDuration))
                 {
-                    progress = (Time.time - m_StartTime) / (float)m_Params.TweenDuration;
+                    progress = (Time.time - m_StartTime) / (float)ParamsRaw.TweenDuration;
                     UpdateTween(progress);
                     yield return null;
                 }
                 UpdateTween(1.0f);
                 Debug.Log($"End Tween");
 
-                if (m_Params.SetFinalTransform)
+                if (ParamsRaw.SetFinalTransform)
                 {
                     Debug.Log($"Set SetFinalTransform:path:{args.TargetPath}");
                     Trigger.dynamicObject.SetTargetTransformValue(args.TargetPath, m_TargetTransform.ToTransformValue());
@@ -161,17 +163,7 @@ namespace Pangoo.Core.VisualScripting
 
         }
 
-        public override string ParamsString()
-        {
-            return m_Params.Save();
-        }
 
-        public override void LoadParams(string instructionParams)
-        {
-            m_Params.Load(instructionParams);
-        }
-
-        // METHODS: -------------------------------------------------------------------------------
 
     }
 }

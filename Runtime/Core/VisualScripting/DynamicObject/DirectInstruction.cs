@@ -20,6 +20,18 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("设置Bool变量")]
         SetBoolVariable,
+
+        [LabelText("设置玩家是否可以被控制")]
+        SetPlayerIsControllable,
+
+        [LabelText("设置子GameObject激活")]
+        SetGameObjectActive,
+
+        [LabelText("激活相机GameObject")]
+        ActiveCameraGameObject,
+
+        [LabelText("关闭相机GameObject")]
+        UnactiveCameraGameObject,
     }
 
     [Serializable]
@@ -33,6 +45,14 @@ namespace Pangoo.Core.VisualScripting
 
         public DirectInstructionTypeEnum InstructionType;
 
+        // [ValueDropdown("OnMainIntValueDropdown")]
+        [TableTitleGroup("String参数1")]
+        [LabelText("$String1Label")]
+        [ShowIf("$IsMainStringShow")]
+        [LabelWidth(50)]
+        [JsonMember("String1")]
+        public string String1;
+
         [ValueDropdown("OnMainIntValueDropdown")]
         [TableTitleGroup("Int参数1")]
         [LabelText("$Int1Label")]
@@ -44,7 +64,7 @@ namespace Pangoo.Core.VisualScripting
         [TableTitleGroup("Bool参数1")]
         [LabelText("$Bool1Label")]
         [ShowIf("$IsMainBoolShow")]
-        [LabelWidth(50)]
+        [LabelWidth(80)]
         [JsonMember("Bool1")]
         public bool Bool1;
 
@@ -61,6 +81,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectPlayTimeline => true,
                     DirectInstructionTypeEnum.ChangeGameSection => true,
                     DirectInstructionTypeEnum.SetBoolVariable => true,
+
                     _ => false,
                 };
             }
@@ -74,6 +95,25 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.SetBoolVariable => true,
+                    DirectInstructionTypeEnum.SetPlayerIsControllable => true,
+                    DirectInstructionTypeEnum.SetGameObjectActive => true,
+                    DirectInstructionTypeEnum.ActiveCameraGameObject => true,
+                    DirectInstructionTypeEnum.UnactiveCameraGameObject => true,
+                    _ => false,
+                };
+            }
+        }
+
+        [JsonNoMember]
+        public bool IsMainStringShow
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.SetGameObjectActive => true,
+                    DirectInstructionTypeEnum.ActiveCameraGameObject => true,
+                    DirectInstructionTypeEnum.UnactiveCameraGameObject => true,
                     _ => false,
                 };
             }
@@ -102,7 +142,26 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.SetBoolVariable => "设置值",
+                    DirectInstructionTypeEnum.SetGameObjectActive => "设置值",
+                    DirectInstructionTypeEnum.SetPlayerIsControllable => "设置值",
+                    DirectInstructionTypeEnum.ActiveCameraGameObject => "等待切换完成",
+                    DirectInstructionTypeEnum.UnactiveCameraGameObject => "等待切换完成",
                     _ => "Bool1",
+                };
+            }
+        }
+
+        [JsonNoMember]
+        public string String1Label
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.SetGameObjectActive => "子对象",
+                    DirectInstructionTypeEnum.ActiveCameraGameObject => "子对象",
+                    DirectInstructionTypeEnum.UnactiveCameraGameObject => "子对象",
+                    _ => "String1",
                 };
             }
         }

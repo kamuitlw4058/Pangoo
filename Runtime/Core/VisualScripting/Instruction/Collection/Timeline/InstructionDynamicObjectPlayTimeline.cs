@@ -17,7 +17,9 @@ namespace Pangoo.Core.VisualScripting
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        public InstructionIntParams m_Params = new InstructionIntParams();
+        public InstructionIntParams ParamsRaw = new InstructionIntParams();
+
+        public override IParams Params => this.ParamsRaw;
 
         protected override IEnumerator Run(Args args)
         {
@@ -30,25 +32,12 @@ namespace Pangoo.Core.VisualScripting
 
             var dynamicObject = args.dynamicObject;
             var DynamicObjectService = dynamicObject.DynamicObjectService;
-            Debug.Log($"m_Params:{m_Params}");
-            Debug.Log($"m_Params:{m_Params.Val}");
-            Debug.Log($"args.dynamicObject:{dynamicObject}");
-            Debug.Log($"args.dynamicObject.DynamicObjectService:{DynamicObjectService}");
-            Debug.Log($"args.dynamicObject.DynamicObjectService.DeltaTime:{DynamicObjectService.DeltaTime}");
-            var targetEntity = DynamicObjectService.GetLoadedEntity(m_Params.Val);
-            Debug.Log($"targetEntity:{targetEntity}");
+
+            var targetEntity = DynamicObjectService.GetLoadedEntity(ParamsRaw.Val);
             targetEntity?.DynamicObj?.PlayTimeline();
-            Debug.Log($"Play :{m_Params.Val} Timeline");
+            Debug.Log($"Play :{ParamsRaw.Val} Timeline");
         }
 
-        public override string ParamsString()
-        {
-            return m_Params.Save();
-        }
 
-        public override void LoadParams(string instructionParams)
-        {
-            m_Params.Load(instructionParams);
-        }
     }
 }

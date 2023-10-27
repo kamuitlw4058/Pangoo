@@ -57,18 +57,30 @@ namespace Pangoo.Core.Characters
 
         protected override void DoUpdate()
         {
-            InputMove = m_InputMove?.Read() ?? Vector2.zero;
+            if (!Character.IsControllable)
+            {
+                InputMove = Vector3.zero;
+                InputRotation = Vector3.zero;
+                InputInteraction = false;
+                InputJump = false;
+            }
+            else
+            {
+                InputMove = m_InputMove?.Read() ?? Vector2.zero;
 
-            InputRotation = m_InputRotation?.Read() ?? Vector2.zero;
+                InputRotation = m_InputRotation?.Read() ?? Vector2.zero;
 
-            InputInteraction = m_InputInteraction?.WasPressedThisFrame() ?? false;
+                InputInteraction = m_InputInteraction?.WasPressedThisFrame() ?? false;
+                InputJump = m_InputJump?.WasPressedThisFrame() ?? false;
+            }
+
             if (InputInteraction)
             {
                 Debug.Log($"InputTineraction.Down");
                 Character.Interact();
             }
 
-            InputJump = m_InputJump?.WasPressedThisFrame() ?? false;
+
             // Debug.Log($"InputMove:{InputMove}, InputRotation:{InputRotation} InputInteraction:{InputInteraction} InputJump:{InputJump}");
         }
 

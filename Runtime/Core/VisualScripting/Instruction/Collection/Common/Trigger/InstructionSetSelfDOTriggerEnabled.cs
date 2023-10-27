@@ -31,7 +31,8 @@ namespace Pangoo.Core.VisualScripting
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        InstructionTriggerEventParams m_Params = new InstructionTriggerEventParams();
+        InstructionTriggerEventParams ParamsRaw = new InstructionTriggerEventParams();
+        public override IParams Params => this.ParamsRaw;
 
 
 
@@ -41,12 +42,12 @@ namespace Pangoo.Core.VisualScripting
 
         protected override IEnumerator Run(Args args)
         {
-            if (m_Params.DisableSelfTrigger && Trigger != null)
+            if (ParamsRaw.DisableSelfTrigger && Trigger != null)
             {
                 Trigger.Enabled = false;
             }
             yield return null;
-            args.dynamicObject?.SetTriggerEnabled(m_Params.TriggerId, m_Params.Enabled);
+            args.dynamicObject?.SetTriggerEnabled(ParamsRaw.TriggerId, ParamsRaw.Enabled);
             Debug.Log($"args.{args.Self},{args.dynamicObject},{Trigger}");
         }
 
@@ -55,16 +56,7 @@ namespace Pangoo.Core.VisualScripting
             return;
         }
 
-        public override string ParamsString()
-        {
-            return m_Params.Save();
-        }
 
-        public override void LoadParams(string instructionParams)
-        {
-            m_Params.Load(instructionParams);
-        }
-        // METHODS: -------------------------------------------------------------------------------
 
     }
 }

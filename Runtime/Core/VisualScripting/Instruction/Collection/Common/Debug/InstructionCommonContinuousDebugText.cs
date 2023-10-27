@@ -38,10 +38,12 @@ namespace Pangoo.Core.VisualScripting
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        InstructionContinuousMessageParams m_MessageParams = new InstructionContinuousMessageParams();
+        InstructionContinuousMessageParams ParamsRaw = new InstructionContinuousMessageParams();
+
+        public override IParams Params => this.ParamsRaw;
 
 
-        public override string Title => $"Log: {this.m_MessageParams.Message}";
+        public override string Title => $"Log: {this.ParamsRaw.Message}";
 
         // CONSTRUCTORS: --------------------------------------------------------------------------
 
@@ -52,12 +54,12 @@ namespace Pangoo.Core.VisualScripting
 
         public InstructionCommonContinuousDebugText(string text)
         {
-            this.m_MessageParams.Message = text;
+            this.ParamsRaw.Message = text;
         }
 
         protected override IEnumerator Run(Args args)
         {
-            CurrentCount = m_MessageParams.SecoundCount;
+            CurrentCount = ParamsRaw.SecoundCount;
             while (CurrentCount > 0)
             {
                 RunImmediate(args);
@@ -68,7 +70,7 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            if (m_MessageParams.ShowTriggerRow)
+            if (ParamsRaw.ShowTriggerRow)
             {
 #if UNITY_EDITOR
                 Debug.Log($"TriggerRow:{args?.dynamicObject?.gameObject?.name}");
@@ -77,23 +79,14 @@ namespace Pangoo.Core.VisualScripting
 #endif
             }
 #if UNITY_EDITOR
-            Debug.Log($"Instruction Index:{CurrentCount}:{Time.frameCount} Log:{this.m_MessageParams.Message}");
+            Debug.Log($"Instruction Index:{CurrentCount}:{Time.frameCount} Log:{this.ParamsRaw.Message}");
 #else
             Utility.Text.Format("Instruction Log:{0}", this.m_MessageParams.Message);
 #endif
         }
 
-        public override string ParamsString()
-        {
-            return m_MessageParams.Save();
-        }
 
-        public override void LoadParams(string instructionParams)
-        {
-            m_MessageParams.Load(instructionParams);
-        }
 
-        // METHODS: -------------------------------------------------------------------------------
 
     }
 }

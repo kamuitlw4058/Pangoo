@@ -8,8 +8,10 @@ namespace Pangoo.Core.VisualScripting
 {
 
     [Serializable]
-    public abstract class Instruction : TPolymorphicItem<Instruction>, IEnumerator
+    public abstract class Instruction : TPolymorphicItem<Instruction>, IEnumerator, IParams
     {
+
+
         public TriggerEvent Trigger { get; set; }
 
         private const int DEFAULT_NEXT_INSTRUCTION = 1;
@@ -132,7 +134,16 @@ namespace Pangoo.Core.VisualScripting
 
         public void Reset() { }
 
-        public abstract string ParamsString();
-        public abstract void LoadParams(string instructionParams);
+        public abstract IParams Params { get; }
+
+        public virtual string Save()
+        {
+            return Params.Save();
+        }
+
+        public virtual void Load(string val)
+        {
+            Params.Load(val);
+        }
     }
 }

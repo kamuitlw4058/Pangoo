@@ -13,12 +13,12 @@ namespace Pangoo.Core.VisualScripting
 
     // [Version(0, 1, 1)]
     [Common.Title("Debug Text")]
-    [Category("Character/CreateOrMovePlayer")]
+    [Category("Character/设置玩家是否可控制")]
 
 
 
     [Serializable]
-    public class InstructionCreateOrMovePlayer : Instruction
+    public class InstructionSetPlayerControllable : Instruction
     {
         [ShowInInspector]
         public Args LastestArgs { get; set; }
@@ -26,18 +26,18 @@ namespace Pangoo.Core.VisualScripting
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        InstructionPlayerPostionParams ParamsRaw = new InstructionPlayerPostionParams();
+        public InstructionBoolParams ParamsRaw = new InstructionBoolParams();
         // private PropertyGetString m_Message = new PropertyGetString("My message");
 
         public override IParams Params => this.ParamsRaw;
 
         // PROPERTIES: ----------------------------------------------------------------------------
 
-        public override string Title => $"Character: {this.ParamsRaw.CharacterId}";
+        public override string Title => $"Character: {this.ParamsRaw}";
 
         // CONSTRUCTORS: --------------------------------------------------------------------------
 
-        public InstructionCreateOrMovePlayer()
+        public InstructionSetPlayerControllable()
         { }
 
         protected override IEnumerator Run(Args args)
@@ -49,16 +49,15 @@ namespace Pangoo.Core.VisualScripting
         public override void RunImmediate(Args args)
         {
             LastestArgs = args;
-            Debug.Log($"Instruction  Log:{this.ParamsRaw.CharacterId}");
-#if UNITY_EDITOR
-            Debug.Log($"Instruction  Log:{this.ParamsRaw.CharacterId}");
-#else
-            Utility.Text.Format("Instruction Log:{0}", this.m_Params.CharacterId);
-#endif
+
             if (args?.Main != null)
             {
                 var characterService = args.Main.GetService<CharacterService>();
-                characterService?.ShowCharacter(ParamsRaw.CharacterId, ParamsRaw.Position, ParamsRaw.Rotation);
+                if (characterService.Player != null)
+                {
+                    characterService.Player.character.IsControllable = ParamsRaw.Val;
+                    Debug.Log($"SetPlayer val:{ParamsRaw.Val}");
+                }
             }
 
         }
