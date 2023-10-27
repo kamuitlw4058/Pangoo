@@ -74,6 +74,10 @@ namespace Pangoo.Core.Services
             var AssetPathId = infoRow.AssetPathId;
             if (m_LoadedEntityDict.ContainsKey(infoId))
             {
+                var character = m_LoadedEntityDict[infoId];
+                character.transform.position = positon;
+                character.transform.rotation = Quaternion.Euler(rotation);
+                Physics.SyncTransforms();
                 return;
             }
 
@@ -96,7 +100,7 @@ namespace Pangoo.Core.Services
                         {
                             m_LoadingEntityIds.Remove(infoId);
                         }
-                        m_LoadedEntityDict.Add(AssetPathId, o.Logic as EntityCharacter);
+                        m_LoadedEntityDict.Add(infoId, o.Logic as EntityCharacter);
                         if (infoRow.IsPlayer)
                         {
                             Player = o.Logic as EntityCharacter;

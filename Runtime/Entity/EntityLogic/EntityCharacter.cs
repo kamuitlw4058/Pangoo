@@ -33,7 +33,7 @@ namespace Pangoo
 
         [HideInEditorMode]
         [ShowInInspector]
-        Character character;
+        public Character character;
 
         protected override void OnInit(object userData)
         {

@@ -51,7 +51,7 @@ namespace Pangoo.Core.Services
             var args = e as GameSectionChangeEventArgs;
             if (args.GameSectionId != 0)
             {
-                CurrentId = args.GameSectionId;
+                SetGameSection(args.GameSectionId);
             }
         }
 
@@ -59,34 +59,39 @@ namespace Pangoo.Core.Services
         {
             Debug.Log($"DoStart GameSectionService");
             m_GameSectionTable = m_ExcelTableService.GetExcelTable<GameSectionTable>();
+            m_InstructionTable = m_ExcelTableService.GetExcelTable<InstructionTable>();
             m_StaticSceneService.OnInitSceneLoaded += OnInitSceneLoaded;
-            CurrentId = m_GameMainConfigService.GetGameMainConfig().EnterGameSectionId;
-            UpdateStaticScene();
+            var enterGameSectionId = m_GameMainConfigService.GetGameMainConfig().EnterGameSectionId;
+            SetGameSection(enterGameSectionId);
         }
 
         void OnInitSceneLoaded()
         {
             Debug.Log($"OnInitSceneLoaded");
-            var GameSection = m_GameSectionTable.GetGameSectionRow(CurrentId);
+            var GameSection = m_GameSectionTable.GetGameSectionRow(LatestId);
             var instructionIds = GameSection.InitedInstructionIds.ToListInt();
             if (instructionIds.Count > 0)
             {
-                var instructions = GetInstructionList(instructionIds);
+
+                var instructions = InstructionList.BuildInstructionList(instructionIds, m_InstructionTable);
                 var args = new Args();
                 args.Main = Parent as MainService;
                 instructions.Start(args);
-
             }
         }
 
-
-
-        void UpdateStaticScene()
+        public void SetGameSection(int id)
         {
-            if (CurrentId != LatestId)
+            if (id <= 0)
             {
-                LatestId = CurrentId;
-                var GameSection = m_GameSectionTable.GetGameSectionRow(CurrentId);
+                return;
+            }
+
+            if (LatestId != id)
+            {
+                LatestId = id;
+
+                var GameSection = m_GameSectionTable.GetGameSectionRow(LatestId);
                 if (GameSection == null)
                 {
                     Debug.LogError($"GameSection is null:{GameSection}");
@@ -101,6 +106,7 @@ namespace Pangoo.Core.Services
                         sectionChange = new Tuple<int, int>(itemList[0], itemList[1]);
                     }
                 }
+
                 m_StaticSceneService.SetGameSectionChange(sectionChange);
                 m_StaticSceneService.SetGameScetion(
                     GameSection.DynamicSceneIds.ToListInt(),
@@ -108,6 +114,7 @@ namespace Pangoo.Core.Services
                     GameSection.InitSceneIds.ToListInt()
                     );
 
+                m_DynamicObjectService.HideAllLoaded();
                 var doIds = GameSection.DynamicObjectIds.ToListInt();
                 foreach (var doId in doIds)
                 {
@@ -118,53 +125,6 @@ namespace Pangoo.Core.Services
             }
         }
 
-        public InstructionTable.InstructionRow GetInstructionRow(int id)
-        {
-            InstructionTable.InstructionRow instructionRow = null;
-
-#if UNITY_EDITOR
-            if (Application.isPlaying && m_InstructionTable != null)
-            {
-                Debug.Log($"GetRowByInstructionTable");
-                instructionRow = m_InstructionTable.GetRowById(id);
-            }
-            else
-            {
-                instructionRow = GameSupportEditorUtility.GetExcelTableRowWithOverviewById<InstructionTableOverview, InstructionTable.InstructionRow>(id);
-            }
-
-#else
-            instructionRow = m_InstructionTable.GetRowById(id);
-#endif
-            return instructionRow;
-        }
-
-        InstructionList GetInstructionList(List<int> ids)
-        {
-            List<Instruction> instructions = new();
-
-            foreach (var instructionId in ids)
-            {
-                InstructionTable.InstructionRow instructionRow = GetInstructionRow(instructionId);
-                if (instructionRow == null || instructionRow.InstructionType == null)
-                {
-                    continue;
-                }
-
-                var InstructionInstance = ClassUtility.CreateInstance<Instruction>(instructionRow.InstructionType);
-                InstructionInstance.LoadParams(instructionRow.Params);
-
-                instructions.Add(InstructionInstance);
-            }
-
-            return new InstructionList(instructions.ToArray());
-        }
-
-
-        protected override void DoUpdate()
-        {
-            UpdateStaticScene();
-        }
 
         protected override void DoDestroy()
         {

@@ -75,6 +75,16 @@ namespace Pangoo.Core.Services
             return null;
         }
 
+        public void HideAllLoaded()
+        {
+            var ids = m_LoadedAssetDict.Keys.ToList();
+            foreach (var id in ids)
+            {
+                Loader.HideEntity(m_LoadedAssetDict[id].Id);
+                m_LoadedAssetDict.Remove(id);
+            }
+        }
+
 
         [Button("Show")]
         public void ShowDynamicObject(int id)

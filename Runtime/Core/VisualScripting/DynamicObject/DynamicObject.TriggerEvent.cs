@@ -93,7 +93,7 @@ namespace Pangoo.Core.VisualScripting
             ret.dynamicObject = this;
             ret.SetEnabled(row.Enabled);
             ret.LoadParamsFromJson(row.Params);
-            ret.RunInstructions = InstructionList.BuildInstructionList(ret, row.GetInstructionList(), m_InstructionTable);
+            ret.RunInstructions = InstructionList.BuildInstructionList(row.GetInstructionList(), m_InstructionTable, ret);
             return ret;
         }
 

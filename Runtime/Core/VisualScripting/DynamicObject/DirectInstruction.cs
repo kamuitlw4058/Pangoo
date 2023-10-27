@@ -13,6 +13,9 @@ namespace Pangoo.Core.VisualScripting
         Unknown,
         [LabelText("动态物体播放Timeline")]
         DynamicObjectPlayTimeline,
+
+        [LabelText("切换GameSection")]
+        ChangeGameSection,
     }
 
 
@@ -51,7 +54,12 @@ namespace Pangoo.Core.VisualScripting
         {
             get
             {
-                return InstructionType == DirectInstructionTypeEnum.DynamicObjectPlayTimeline;
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.DynamicObjectPlayTimeline => true,
+                    DirectInstructionTypeEnum.ChangeGameSection => true,
+                    _ => false,
+                };
             }
         }
 
@@ -59,7 +67,12 @@ namespace Pangoo.Core.VisualScripting
         {
             get
             {
-                return "动态物体";
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.DynamicObjectPlayTimeline => "动态物体",
+                    DirectInstructionTypeEnum.ChangeGameSection => "GameSectionId",
+                    _ => "Int1",
+                };
             }
         }
 
@@ -72,6 +85,8 @@ namespace Pangoo.Core.VisualScripting
             {
                 case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:
                     return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<DynamicObjectTableOverview>();
+                case DirectInstructionTypeEnum.ChangeGameSection:
+                    return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<GameSectionTableOverview>();
             }
 
             return null;
