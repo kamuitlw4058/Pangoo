@@ -38,6 +38,7 @@ namespace Pangoo.Core.VisualScripting
         public GameObject Parent { get; set; }
 
         [ShowInInspector]
+        [HideInEditorMode]
         public bool IsDirectInstuction { get; set; } = false;
 
 
@@ -46,7 +47,7 @@ namespace Pangoo.Core.VisualScripting
         {
             get
             {
-                return Row?.Targets.Split("|");
+                return Row?.Targets?.Split("|");
             }
         }
 
@@ -93,6 +94,8 @@ namespace Pangoo.Core.VisualScripting
         [HideInEditorMode]
         public InstructionList RunInstructions { get; set; }
 
+        [ShowInInspector]
+        [ShowIf("@this.UseCondition")]
         public ConditionList Conditions { get; set; }
 
         [ShowInInspector]

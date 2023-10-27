@@ -97,6 +97,17 @@ namespace Pangoo
 
 
 #endif
+        public static string GetSoundTypeDir(string packageDir, string type)
+        {
+            return $"{packageDir}/StreamRes/Sound/{type}";
+        }
+
+        public static string GetSoundAssetPath(string packageDir, string type, string assetPath)
+        {
+            return $"{packageDir}/StreamRes/Sound/{type}/{assetPath}";
+        }
+
+
         public static string GetVolumeProfileDir(string packageDir)
         {
             return $"{packageDir}/StreamRes/Volume";

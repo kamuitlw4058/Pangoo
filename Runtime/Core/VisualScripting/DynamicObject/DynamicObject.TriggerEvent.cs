@@ -21,6 +21,9 @@ namespace Pangoo.Core.VisualScripting
         TriggerEventTable m_TriggerEventTable;
         InstructionTable m_InstructionTable;
 
+        ConditionTable m_ConditionTable;
+
+
         [HideReferenceObjectPicker]
         public Dictionary<int, TriggerEvent> TriggerEvents = new();
 
@@ -94,6 +97,11 @@ namespace Pangoo.Core.VisualScripting
             ret.SetEnabled(row.Enabled);
             ret.LoadParamsFromJson(row.Params);
             ret.RunInstructions = InstructionList.BuildInstructionList(row.GetInstructionList(), m_InstructionTable, ret);
+            if (row.UseCondition)
+            {
+                ret.Conditions = ConditionList.BuildConditionList(row.GetConditionList(), m_ConditionTable, ret);
+                ret.FailInstructions = InstructionList.BuildInstructionList(row.GetFailInstructionList(), m_InstructionTable, ret);
+            }
             return ret;
         }
 
@@ -102,6 +110,7 @@ namespace Pangoo.Core.VisualScripting
         {
             m_TriggerEventTable = TableService?.GetExcelTable<TriggerEventTable>();
             m_InstructionTable = TableService?.GetExcelTable<InstructionTable>();
+            m_ConditionTable = TableService?.GetExcelTable<ConditionTable>();
 
             var triggerIds = Row.GetTriggerEventIdList();
             TriggerEventRows.Clear();

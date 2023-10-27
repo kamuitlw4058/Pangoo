@@ -20,6 +20,26 @@ namespace Pangoo.Editor
             window.titleContent = new GUIContent("资源编辑器");
             window.MenuWidth = 200;
         }
+        protected override void OnBeginDrawEditors()
+        {
+            if (MenuTree == null)
+                return;
+
+            var toolbarHeight = MenuTree.Config.SearchToolbarHeight;
+
+            SirenixEditorGUI.BeginHorizontalToolbar(toolbarHeight);
+            {
+                // GUILayout.Label("提交拉取前务必点击保存全部配置");
+
+
+                if (SirenixEditorGUI.ToolbarButton(new GUIContent("刷新菜单树")))
+                {
+                    ForceMenuTreeRebuild();
+                }
+
+            }
+            SirenixEditorGUI.EndHorizontalToolbar();
+        }
 
         void InitOverviews<TOverview, TRowDetailWrapper, TTableRowWrapper, TNewRowWrapper, TRow>(OdinMenuTree tree, string menuMainKey, string menuDisplayName)
             where TOverview : ExcelTableOverview
@@ -103,6 +123,7 @@ namespace Pangoo.Editor
 
             InitCommonOverviews<VariablesTableOverview, VariablesDetailWrapper, ExcelTableTableRowWrapper<VariablesTableOverview, VariablesTable.VariablesRow>, VariablesTable.VariablesRow>(tree, "Variables", "变量");
 
+            InitCommonOverviews<SoundTableOverview, SoundDetailWrapper, SoundRowWrapper, SoundTable.SoundRow>(tree, "Sound", "音频");
 
 
             return tree;

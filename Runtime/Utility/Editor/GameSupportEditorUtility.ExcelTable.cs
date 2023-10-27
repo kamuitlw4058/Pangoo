@@ -252,6 +252,50 @@ namespace Pangoo
             return ret;
         }
 
+        public static void TryAddIdByExcludeIds(ValueDropdownList<int> list, ExcelNamedRowBase row, List<int> exclude_ids = null)
+        {
+            if (exclude_ids == null)
+            {
+                list.Add($"{row.Id}-{row.Name}", row.Id);
+            }
+            else
+            {
+                if (!exclude_ids.Contains(row.Id))
+                {
+                    list.Add($"{row.Id}-{row.Name}", row.Id);
+                }
+            }
+        }
+
+        public static IEnumerable GetVariableIds(string valueType, List<int> ids = null)
+        {
+            var ret = new ValueDropdownList<int>();
+            var overviews = AssetDatabaseUtility.FindAsset<VariablesTableOverview>();
+            foreach (var overview in overviews)
+            {
+                var namedRows = overview.Data.Rows;
+                if (namedRows == null)
+                {
+                    continue;
+                }
+                foreach (var row in namedRows)
+                {
+                    if (valueType.IsNullOrWhiteSpace())
+                    {
+                        TryAddIdByExcludeIds(ret, row, ids);
+                    }
+                    else
+                    {
+                        if (valueType.Equals(row.ValueType))
+                        {
+                            TryAddIdByExcludeIds(ret, row, ids);
+                        }
+                    }
+                }
+            }
+            return ret;
+        }
+
 
 
         public static GameSectionTable.GameSectionRow GetGameSectionRowById(int id)

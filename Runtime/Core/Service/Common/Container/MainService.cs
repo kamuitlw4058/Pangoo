@@ -24,6 +24,7 @@ namespace Pangoo.Core.Services
             AddService(new DynamicObjectService());
             AddService(new CharacterService());
             AddService(new GameMainConfigService());
+            AddService(new SoundService());
         }
 
 

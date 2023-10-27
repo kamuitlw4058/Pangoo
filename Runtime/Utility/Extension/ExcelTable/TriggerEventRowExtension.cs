@@ -44,6 +44,24 @@ namespace Pangoo
             return row.InstructionList.ToListInt();
         }
 
+        public static List<int> GetFailInstructionList(this TriggerEventTable.TriggerEventRow row)
+        {
+            if (row == null || row.FailInstructionList.IsNullOrWhiteSpace())
+            {
+                return new List<int>();
+            }
+            return row.FailInstructionList.ToListInt();
+        }
+
+        public static List<int> GetConditionList(this TriggerEventTable.TriggerEventRow row)
+        {
+            if (row == null || row.ConditionList.IsNullOrWhiteSpace())
+            {
+                return new List<int>();
+            }
+            return row.ConditionList.ToListInt();
+        }
+
         public static void AddInstructionId(this TriggerEventTable.TriggerEventRow row, int id)
         {
             if (row == null)

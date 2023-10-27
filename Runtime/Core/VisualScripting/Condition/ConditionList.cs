@@ -1,5 +1,5 @@
 using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using Pangoo.Core.Common;
 using UnityEngine;
 
@@ -55,6 +55,28 @@ namespace Pangoo.Core.VisualScripting
         {
             index = Mathf.Clamp(index, 0, this.Length - 1);
             return this.m_Conditions[index];
+        }
+
+        public static ConditionList BuildConditionList(List<int> ids, ConditionTable table = null, TriggerEvent trigger = null)
+        {
+            List<Condition> vals = new();
+
+            foreach (var rowId in ids)
+            {
+                ConditionTable.ConditionRow row = ConditionRowExtension.GetById(rowId, table);
+                if (row == null || row.ConditionType == null)
+                {
+                    continue;
+                }
+
+                var instance = ClassUtility.CreateInstance<Condition>(row.ConditionType);
+                instance.Load(row.Params);
+                // instance.Trigger = trigger;
+
+                vals.Add(instance);
+            }
+
+            return new ConditionList(vals.ToArray());
         }
     }
 }
