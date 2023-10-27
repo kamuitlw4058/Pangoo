@@ -16,6 +16,9 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("切换GameSection")]
         ChangeGameSection,
+
+        [LabelText("设置Bool变量")]
+        SetBoolVariable,
     }
 
 
@@ -23,12 +26,12 @@ namespace Pangoo.Core.VisualScripting
     {
         [TableTitleGroup("触发器类型")]
         [HideLabel]
-        [TableColumnWidth(200, resizable: false)]
+        [TableColumnWidth(140, resizable: false)]
         public TriggerTypeEnum TriggerType;
 
         [TableTitleGroup("指令类型")]
         [HideLabel]
-        [TableColumnWidth(200, resizable: false)]
+        [TableColumnWidth(140, resizable: false)]
         public DirectInstructionTypeEnum InstructionType;
 
         [ValueDropdown("OnMainIntValueDropdown")]
@@ -37,6 +40,12 @@ namespace Pangoo.Core.VisualScripting
         [ShowIf("$IsMainIntShow")]
         [LabelWidth(50)]
         public int Int1;
+
+        [TableTitleGroup("Bool参数1")]
+        [LabelText("$Bool1Label")]
+        [ShowIf("$IsMainBoolShow")]
+        [LabelWidth(50)]
+        public bool Bool1;
 
         [TableTitleGroup("自动开启")]
         [HideLabel]
@@ -58,10 +67,24 @@ namespace Pangoo.Core.VisualScripting
                 {
                     DirectInstructionTypeEnum.DynamicObjectPlayTimeline => true,
                     DirectInstructionTypeEnum.ChangeGameSection => true,
+                    DirectInstructionTypeEnum.SetBoolVariable => true,
                     _ => false,
                 };
             }
         }
+
+        public bool IsMainBoolShow
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.SetBoolVariable => true,
+                    _ => false,
+                };
+            }
+        }
+
 
         public string Int1Label
         {
@@ -69,9 +92,22 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.DynamicObjectPlayTimeline => "动态物体",
+                    DirectInstructionTypeEnum.DynamicObjectPlayTimeline => "动态物体Id",
                     DirectInstructionTypeEnum.ChangeGameSection => "GameSectionId",
+                    DirectInstructionTypeEnum.SetBoolVariable => "变量Id",
                     _ => "Int1",
+                };
+            }
+        }
+
+        public string Bool1Label
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.SetBoolVariable => "设置值",
+                    _ => "Bool1",
                 };
             }
         }
@@ -87,6 +123,8 @@ namespace Pangoo.Core.VisualScripting
                     return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<DynamicObjectTableOverview>();
                 case DirectInstructionTypeEnum.ChangeGameSection:
                     return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<GameSectionTableOverview>();
+                case DirectInstructionTypeEnum.SetBoolVariable:
+                    return GameSupportEditorUtility.GetVariableIds(VariableValueTypeEnum.Bool.ToString());
             }
 
             return null;
@@ -102,6 +140,7 @@ namespace Pangoo.Core.VisualScripting
             if (datas.Length >= 3) ret.Int1 = datas[2].ToIntForce();
             if (datas.Length >= 4) ret.InitEnabled = datas[3].ToBoolForce();
             if (datas.Length >= 5) ret.DisableOnFinish = datas[4].ToBoolForce();
+            if (datas.Length >= 6) ret.Bool1 = datas[5].ToBoolForce();
 
             return ret;
         }
@@ -201,6 +240,8 @@ namespace Pangoo.Core.VisualScripting
                 sb.Append(instruction.InitEnabled.ToString());
                 sb.Append(",");
                 sb.Append(instruction.DisableOnFinish.ToString());
+                sb.Append(",");
+                sb.Append(instruction.Bool1.ToString());
                 sb.Append("|");
             }
             return sb.ToString().TrimEnd('|');

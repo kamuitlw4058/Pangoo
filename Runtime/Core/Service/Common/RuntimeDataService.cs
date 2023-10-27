@@ -48,6 +48,14 @@ namespace Pangoo.Core.Services
             return default(T);
         }
 
+        public void SetVariable<T>(int id, T val)
+        {
+            if (m_VariablesDict.TryGetValue(id, out VariablesTable.VariablesRow row))
+            {
+                Set<T>(row.Key, val);
+            }
+        }
+
 
 
     }

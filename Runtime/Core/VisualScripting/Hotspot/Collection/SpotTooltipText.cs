@@ -41,11 +41,12 @@ namespace Pangoo.Core.VisualScripting
         HotSpotTipParams m_Params = new HotSpotTipParams();
 
 
-        [Space][SerializeField] protected GameObject m_Prefab;
+        [Space][SerializeField][HideInEditorMode] protected GameObject m_Prefab;
 
         // MEMBERS: -------------------------------------------------------------------------------
 
         [ShowInInspector]
+        [HideInEditorMode]
         private GameObject m_Tooltip;
 
         private Image m_Image;

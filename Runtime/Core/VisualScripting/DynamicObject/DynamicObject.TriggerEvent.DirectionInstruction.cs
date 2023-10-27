@@ -31,6 +31,15 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
+        Instruction GetSetVariableBoolInstruction(int VariableId, bool val)
+        {
+            var instruction = Activator.CreateInstance<InstructionSetVariableBool>();
+            instruction.m_Params.VariableId = VariableId;
+            instruction.m_Params.Val = val;
+            return instruction;
+        }
+
+
         Instruction GetChangeGameSectionInstruction(int val)
         {
             var instruction = Activator.CreateInstance<InstructionChangeGameSection>();
@@ -51,6 +60,10 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.ChangeGameSection:
                     var instructionGameSection = GetChangeGameSectionInstruction(directInstruction.Int1);
                     ret.Add(instructionGameSection);
+                    break;
+                case DirectInstructionTypeEnum.SetBoolVariable:
+                    var InstructionSetVariableBool = GetSetVariableBoolInstruction(directInstruction.Int1, directInstruction.Bool1);
+                    ret.Add(InstructionSetVariableBool);
                     break;
 
             }
