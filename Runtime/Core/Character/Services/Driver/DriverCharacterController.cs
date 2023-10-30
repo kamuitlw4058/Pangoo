@@ -52,7 +52,9 @@ namespace Pangoo.Core.Characters
             {
                 GameObject instance = Character.gameObject;
                 this.m_Controller = instance.AddComponent<CharacterController>();
-                this.m_Controller.hideFlags = HideFlags.HideInInspector;
+                this.m_Controller.height = 1.5f;
+                this.m_Controller.radius = 0.3f;
+                // this.m_Controller.hideFlags = HideFlags.HideInInspector;
             }
         }
 

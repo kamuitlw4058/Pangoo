@@ -15,9 +15,9 @@ namespace Pangoo.Core.Services
         public override float Time => MonoTimeMode.DeltaTime;
 
         [NonSerialized]
-        Transform m_CachedTransfrom;
+        protected Transform m_CachedTransfrom;
 
-        [SerializeField]
+        [NonSerialized]
         GameObject m_GameObject;
 
         public GameObject gameObject
@@ -42,6 +42,7 @@ namespace Pangoo.Core.Services
                 }
                 return m_CachedTransfrom;
             }
+
         }
 
 

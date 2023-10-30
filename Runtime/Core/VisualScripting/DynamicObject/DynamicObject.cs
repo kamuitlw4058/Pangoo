@@ -109,6 +109,9 @@ namespace Pangoo.Core.VisualScripting
             TriggerEventRows.Clear();
             TriggerEvents.Clear();
             m_Tracker = null;
+            m_CachedTransfrom = null;
+            TriggerEnter3dEvent -= OnTriggerEnter3dEvent;
+            TriggerExit3dEvent -= OnTriggerExit3dEvent;
         }
 
 
@@ -118,6 +121,7 @@ namespace Pangoo.Core.VisualScripting
         {
             CurrentArgs = new Args(this);
             CurrentArgs.Main = Main;
+            Debug.Log($"Do awake m_Tracker:{m_Tracker}");
             DoAwakeTriggerEvent();
             DoAwakeHotspot();
         }
@@ -175,12 +179,18 @@ namespace Pangoo.Core.VisualScripting
 
         protected override void DoDisable()
         {
-            base.DoDisable();
+
             if (m_Tracker != null)
             {
+                Debug.Log($"Try disable ");
                 m_Tracker.EventInteract -= OnInteract;
                 InteractEvent -= OnInteractEvent;
+                GameObject.DestroyImmediate(m_Tracker);
+                m_Tracker = null;
+                Debug.Log($"Try disable m_Tracker:{m_Tracker}");
+
             }
+            base.DoDisable();
         }
 
 

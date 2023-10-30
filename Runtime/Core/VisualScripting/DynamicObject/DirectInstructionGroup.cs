@@ -50,6 +50,10 @@ namespace Pangoo.Core.VisualScripting
 
         public static List<DirectInstructionGroup> CreateList(string s)
         {
+            if (s.IsNullOrWhiteSpace())
+            {
+                return new List<DirectInstructionGroup>();
+            }
             return JsonMapper.ToObject<List<DirectInstructionGroup>>(s);
         }
 

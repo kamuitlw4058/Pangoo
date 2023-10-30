@@ -26,9 +26,6 @@ namespace Pangoo.Core.Services
         InstructionTable m_InstructionTable;
 
 
-
-        public int CurrentId = 1;
-
         public int LatestId = -1;
 
 

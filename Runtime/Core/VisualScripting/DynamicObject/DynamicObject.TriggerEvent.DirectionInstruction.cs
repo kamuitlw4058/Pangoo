@@ -158,11 +158,14 @@ namespace Pangoo.Core.VisualScripting
             row.Params = "{}";
             row.Targets = string.Empty;
             row.Enabled = directInstructionGroup.InitEnabled;
+            Debug.Log($"Try add row:{row.Id}");
 
             switch (directInstructionGroup.TriggerType)
             {
                 case TriggerTypeEnum.OnTriggerEnter3D:
                     ret = CreateTriggerEvent<TriggerEventOnTriggerEnter3d>(row);
+                    TriggerEnter3dEvent -= OnTriggerEnter3dEvent;
+                    TriggerEnter3dEvent += OnTriggerEnter3dEvent;
                     break;
                 case TriggerTypeEnum.OnInteract:
                     ret = CreateTriggerEvent<TriggerEventOnInteraction>(row);

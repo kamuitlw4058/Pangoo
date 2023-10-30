@@ -65,7 +65,7 @@ namespace Pangoo
             transform.rotation = DoData.InfoRow.Rotation;
             Name = Utility.Text.Format("{0}[{1}]", DoData.EntityInfo.AssetName, DoData.InfoRow.Id);
 
-            Debug.Log("Create DynamicObject");
+            Debug.Log($"Create DynamicObject:{DoData.InfoRow.Id}");
             DynamicObj = DynamicObject.Create(gameObject);
             DynamicObj.Row = DoData.InfoRow.m_DynamicObjectRow;
             DynamicObj.TableService = DoData?.Service?.TableService;

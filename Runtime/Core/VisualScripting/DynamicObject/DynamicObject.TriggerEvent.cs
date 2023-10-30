@@ -147,16 +147,12 @@ namespace Pangoo.Core.VisualScripting
                         triggerInstance.EventRunInstructionsEnd += OnInteractEnd;
                         break;
                     case TriggerTypeEnum.OnTriggerEnter3D:
-                        if (TriggerEnter3dEvent == null)
-                        {
-                            TriggerEnter3dEvent += OnTriggerEnter3dEvent;
-                        }
+                        TriggerEnter3dEvent -= OnTriggerEnter3dEvent;
+                        TriggerEnter3dEvent += OnTriggerEnter3dEvent;
                         break;
                     case TriggerTypeEnum.OnTriggerExit3D:
-                        if (TriggerExit3dEvent == null)
-                        {
-                            TriggerExit3dEvent += OnTriggerExit3dEvent;
-                        }
+                        TriggerExit3dEvent -= OnTriggerExit3dEvent;
+                        TriggerExit3dEvent += OnTriggerExit3dEvent;
                         break;
                 }
 

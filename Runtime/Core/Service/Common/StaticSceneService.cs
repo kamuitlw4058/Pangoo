@@ -43,6 +43,9 @@ namespace Pangoo.Core.Services
         Dictionary<int, StaticSceneInfoRow> m_SectionSceneInfos;
 
         [ShowInInspector]
+        List<int> m_DynamicStaticSceneIds;
+
+        [ShowInInspector]
         List<int> m_HoldStaticSceneIds;
 
 
@@ -65,10 +68,13 @@ namespace Pangoo.Core.Services
 
         public Action OnInitSceneLoaded;
 
+
+
         protected override void DoAwake()
         {
             base.DoAwake();
             m_LoadingAssetIds = new List<int>();
+            m_DynamicStaticSceneIds = new List<int>();
             m_HoldStaticSceneIds = new List<int>();
             m_InitStaticSceneIds = new List<int>();
 
@@ -108,9 +114,33 @@ namespace Pangoo.Core.Services
         }
 
 
+        public bool IsInGameSectionConfig(int id)
+        {
+            if (m_InitStaticSceneIds.Contains(id))
+            {
+                return true;
+            }
+
+            if (m_HoldStaticSceneIds.Contains(id))
+            {
+                return true;
+            }
+
+            if (m_DynamicStaticSceneIds.Contains(id))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+
         public void SetGameScetion(List<int> dynamicIds, List<int> holdIds, List<int> initIds)
         {
             m_SectionInited = false;
+            m_DynamicStaticSceneIds.Clear();
+            m_DynamicStaticSceneIds.AddRange(dynamicIds);
+
             m_SectionSceneInfos.Clear();
             foreach (var id in dynamicIds)
             {
@@ -201,6 +231,11 @@ namespace Pangoo.Core.Services
             var sceneInfo = m_StaticSceneInfo.GetRowById<StaticSceneInfoRow>(staticSceneId);
             var AssetPathId = sceneInfo.AssetPathId;
             if (m_LoadedSceneAssetDict.ContainsKey(AssetPathId))
+            {
+                return;
+            }
+
+            if (!IsInGameSectionConfig(staticSceneId))
             {
                 return;
             }

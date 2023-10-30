@@ -801,10 +801,35 @@ PrefabInstance:
       propertyPath: GameInfoItems.Array.data[3].GameInfoTypeName
       value: Pangoo.CharacterInfo
       objectReference: {fileID: 0}
+    - target: {fileID: 3418757528749321421, guid: ee88102f4db5d94439573026d4821c5c,
+        type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5173344796360138057, guid: ee88102f4db5d94439573026d4821c5c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6911174193088342970, guid: ee88102f4db5d94439573026d4821c5c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7138320360097379408, guid: ee88102f4db5d94439573026d4821c5c,
         type: 3}
       propertyPath: m_EditorResourceMode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7138320360097401710, guid: ee88102f4db5d94439573026d4821c5c,
+        type: 3}
+      propertyPath: m_UIGroups.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7138320360097401710, guid: ee88102f4db5d94439573026d4821c5c,
+        type: 3}
+      propertyPath: m_UIGroups.Array.data[0].m_Name
+      value: Default
       objectReference: {fileID: 0}
     - target: {fileID: 7138320360097416332, guid: ee88102f4db5d94439573026d4821c5c,
         type: 3}

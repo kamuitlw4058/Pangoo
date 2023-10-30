@@ -40,21 +40,8 @@ namespace Pangoo
             PangooEntry.GameInfo.Init();
             LitJsonExtend.LitJsonInit();
 
-
-            // GameFramework.Data.Data[] _datas = GameEntry.Data.GetAllData();
-
-            // datas = new DataBase[_datas.Length];
-            // for (int i = 0; i < _datas.Length; i++)
-            // {
-            //     if (_datas[i] is DataBase)
-            //     {
-            //         datas[i] = _datas[i] as DataBase;
-            //     }
-            //     else
-            //     {
-            //         throw new System.Exception(string.Format("Data {0} is not derive form DataBase", _datas[i].GetType()));
-            //     }
-            // }
+            PangooEntry.UI.AddUIGroup("Default");
+            PangooEntry.UI.OpenUIForm("Assets/Plugins/Pangoo/StreamRes/Prefab/UI/SubtitlePanel", "Default");
 
             PreloadResources();
         }
