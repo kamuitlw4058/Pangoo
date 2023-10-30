@@ -72,6 +72,12 @@ namespace Pangoo.Core.Characters
 
         }
 
+        public void SetCameraOffset(Vector3 offset)
+        {
+            CameraOffset = offset;
+            m_CharacterCameraService.SetCameraOffset(offset);
+        }
+
 
         public Character(GameObject gameObject, bool onlyCamera = false) : base(gameObject)
         {

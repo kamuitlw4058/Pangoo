@@ -54,7 +54,7 @@ namespace Pangoo
 
             Name = Utility.Text.Format("{0}[{1}]", EntityData.EntityInfo.AssetName, Id);
 
-            character = new Character(gameObject, false);
+            character = new Character(gameObject, EntityData.CameraOnly);
             character.SetIsPlayer(EntityData.IsPlayer);
 
             MotionInfo motionInfo = new MotionInfo();
@@ -65,10 +65,12 @@ namespace Pangoo
             motionInfo.TerminalVelocity = -54f;
             motionInfo.InteractionRadius = 2;
 
+
             character.SetMotionInfo(motionInfo);
             character.CameraOffset = EntityData.InfoRow.m_CharacterRow.CameraOffset;
             character.MaxPitch = EntityData.InfoRow.m_CharacterRow.MaxPitch;
             character.IsControllable = true;
+
             character.Awake();
             character.Start();
             character.ResetCameraDirection();

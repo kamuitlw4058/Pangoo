@@ -70,6 +70,15 @@ namespace Pangoo
             [JsonMember("MaxPitch")]
             [ExcelTableCol("MaxPitch","MaxPitch","float", "俯仰范围",8)]
             public float MaxPitch ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("只使用相机")]
+            [HideLabel]
+            [JsonMember("CameraOnly")]
+            [ExcelTableCol("CameraOnly","CameraOnly","bool", "只使用相机",9)]
+            public bool CameraOnly ;
         }
 
 

@@ -18,5 +18,8 @@ namespace Pangoo
         public List<IBaseServiceContainer> ServiceContainers = new List<IBaseServiceContainer>();
 
 
+        public MainService mainService;
+
+
     }
 }

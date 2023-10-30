@@ -57,5 +57,13 @@ namespace Pangoo
                 return InfoRow.IsPlayer;
             }
         }
+
+        public bool CameraOnly
+        {
+            get
+            {
+                return InfoRow.CameraOnly;
+            }
+        }
     }
 }

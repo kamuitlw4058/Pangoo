@@ -78,6 +78,15 @@ namespace Pangoo
             }
         }
 
+        public bool CameraOnly
+        {
+            get
+            {
+                return m_CharacterRow.CameraOnly;
+            }
+        }
+
+
 
     }
 }

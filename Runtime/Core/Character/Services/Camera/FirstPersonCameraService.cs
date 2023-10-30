@@ -109,6 +109,8 @@ namespace Pangoo.Core.Characters
             CameraRotation();
         }
 
+
+
         private void CameraRotation()
         {
             // if there is an input
@@ -169,6 +171,14 @@ namespace Pangoo.Core.Characters
             //     // rotate the player left and right
             //     transform.Rotate(Vector3.up * _rotationVelocity);
             // }
+        }
+
+        public void SetCameraOffset(Vector3 offset)
+        {
+            var transposer = m_VirtualCamera.AddCinemachineComponent<CinemachineTransposer>();
+
+            transposer.m_FollowOffset = offset;
+
         }
 
 

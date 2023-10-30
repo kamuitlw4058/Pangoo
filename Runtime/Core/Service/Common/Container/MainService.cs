@@ -4,12 +4,15 @@ using System.Linq;
 using Pangoo.Core.Common;
 using Pangoo.Core.VisualScripting;
 using UnityEngine;
+using Pangoo.Core.Characters;
 
 namespace Pangoo.Core.Services
 {
     public class MainService : NestedBaseService
     {
         RuntimeDataService RuntimeData = new RuntimeDataService();
+
+        public CharacterService CharacterService = new CharacterService();
 
         public MainService()
         {
@@ -22,7 +25,7 @@ namespace Pangoo.Core.Services
             AddService(new DataContainerService());
             AddService(new GameInfoService());
             AddService(new DynamicObjectService());
-            AddService(new CharacterService());
+            AddService(CharacterService);
             AddService(new GameMainConfigService());
             AddService(new SoundService());
         }

@@ -138,6 +138,28 @@ namespace Pangoo.Editor
         }
 
 
+        [ShowInInspector]
+        [DelayedProperty]
+        [LabelText("只处理相机")]
+        public bool CameraOnly
+        {
+            get
+            {
+                return Row?.CameraOnly ?? false;
+
+            }
+            set
+            {
+                if (Row != null && Overview != null)
+                {
+                    Row.CameraOnly = value;
+                    Save();
+                }
+
+            }
+        }
+
+
 
     }
 }
