@@ -24,6 +24,11 @@ namespace Pangoo.Core.Characters
         [HideInPlayMode]
         bool m_IsPlayer;
 
+
+        [SerializeField]
+        [HideInPlayMode]
+        bool IsControllable;
+
         [ShowInInspector]
         [HideInEditorMode]
         bool IsInited;
@@ -57,6 +62,7 @@ namespace Pangoo.Core.Characters
             characterContainer.SetMotionInfo(m_MotionInfo);
             characterContainer.CameraOffset = m_CameraOffset;
             characterContainer.MaxPitch = m_MaxPitch;
+            characterContainer.IsControllable = IsControllable;
             characterContainer.Awake();
 
             IsInited = true;
