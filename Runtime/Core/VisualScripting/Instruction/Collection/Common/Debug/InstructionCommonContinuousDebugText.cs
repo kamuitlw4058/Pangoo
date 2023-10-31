@@ -75,13 +75,13 @@ namespace Pangoo.Core.VisualScripting
 #if UNITY_EDITOR
                 Debug.Log($"TriggerRow:{args?.dynamicObject?.gameObject?.name}");
 #else
-                Utility.Text.Format("TriggerObject:{0}", args?.TriggerObject);
+                Utility.Text.Format("TriggerObject:{0}", args?.dynamicObject);
 #endif
             }
 #if UNITY_EDITOR
             Debug.Log($"Instruction Index:{CurrentCount}:{Time.frameCount} Log:{this.ParamsRaw.Message}");
 #else
-            Utility.Text.Format("Instruction Log:{0}", this.m_MessageParams.Message);
+            Utility.Text.Format("Instruction Log:{0}", this.ParamsRaw.Message);
 #endif
         }
 

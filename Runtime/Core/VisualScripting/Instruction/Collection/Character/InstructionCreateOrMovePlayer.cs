@@ -53,7 +53,7 @@ namespace Pangoo.Core.VisualScripting
 #if UNITY_EDITOR
             Debug.Log($"Instruction  Log:{this.ParamsRaw.CharacterId}");
 #else
-            Utility.Text.Format("Instruction Log:{0}", this.m_Params.CharacterId);
+            Utility.Text.Format("Instruction Log:{0}", this.ParamsRaw.CharacterId);
 #endif
             if (args?.Main != null)
             {
