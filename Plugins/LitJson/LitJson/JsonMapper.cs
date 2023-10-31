@@ -900,7 +900,7 @@ namespace LitJson
                 writer.WriteObjectStart();
                 foreach (DictionaryEntry entry in (IDictionary)obj)
                 {
-                    writer.WritePropertyName((string)entry.Key);
+                    writer.WritePropertyName(entry.Key.ToString());
                     WriteValue(entry.Value, writer, writer_is_private,
                         depth + 1);
                 }

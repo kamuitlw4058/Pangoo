@@ -16,6 +16,7 @@ using GameFramework;
 
 using UnityEditor;
 using Sirenix.OdinInspector.Editor;
+using LitJson;
 
 
 
@@ -358,17 +359,27 @@ namespace Pangoo
             }
         }
 
-        Dictionary<StateKey, InstrctionIds> m_StateInstructionIds = new Dictionary<StateKey, InstrctionIds>();
+
+        Dictionary<int, InstrctionIds> m_StateInstructionIds;
+
 
         [ShowInInspector]
         [PropertyOrder(10)]
         [ShowIf("ConditionType", ConditionTypeEnum.StateCondition)]
-        [OnCollectionChanged(after: "After")]
         [DictionaryDrawerSettings(KeyLabel = "状态", ValueLabel = "执行指令")]
-        public Dictionary<StateKey, InstrctionIds> StateInstructionIds
+        [OnCollectionChanged(after: "After")]
+        [HideReferenceObjectPicker]
+        [OnValueChanged("OnStateInstructionIdsChanged", includeChildren: true)]
+
+        public Dictionary<int, InstrctionIds> StateInstructionIds
         {
             get
             {
+                if (m_StateInstructionIds == null)
+                {
+                    m_StateInstructionIds = JsonMapper.ToObject<Dictionary<int, InstrctionIds>>(Row.Params);
+                }
+
                 return m_StateInstructionIds;
             }
             set
@@ -377,20 +388,25 @@ namespace Pangoo
             }
         }
 
+        void OnStateInstructionIdsChanged()
+        {
+            Debug.Log($"OnStateInstructionIdsChanged:{JsonMapper.ToJson(StateInstructionIds)}");
+            Row.Params = JsonMapper.ToJson(StateInstructionIds);
+        }
+
 
         public void After(CollectionChangeInfo info, object value)
         {
             if (info.ChangeType == CollectionChangeType.SetKey)
             {
-                var key = (StateKey)info.Key;
-                if (info.Value == null)
+                var key = (int)info.Key;
+                if (m_StateInstructionIds[key].Ids == null)
                 {
-                    var ids = new InstrctionIds();
-                    ids.Ids = new int[0];
-                    m_StateInstructionIds[key] = ids;
+                    var instrctionIds = new InstrctionIds();
+                    instrctionIds.Ids = new int[0];
+                    m_StateInstructionIds[key] = instrctionIds;
                 }
             }
-            Debug.Log($"after info:{info} value:{value}");
         }
 
 
@@ -512,12 +528,11 @@ namespace Pangoo
         //     }
         // }
 
-
         public struct InstrctionIds
         {
             [ValueDropdown("InstructionIdValueDropdown", IsUniqueList = true)]
+            [ListDrawerSettings(Expanded = true)]
             public int[] Ids;
-
             public IEnumerable InstructionIdValueDropdown()
             {
                 return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<InstructionTableOverview>();
