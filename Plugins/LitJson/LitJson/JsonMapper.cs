@@ -14,7 +14,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -25,6 +24,7 @@ using ILRuntime.CLR.Method;
 using ILRuntime.CLR.Utils;
 #endif
 using Object = System.Object;
+
 
 using UnityEngine;
 
@@ -77,6 +77,8 @@ namespace LitJson
         private Type element_type;
         private bool is_dictionary;
 
+        private Type dict_key_type;
+
         private IDictionary<string, PropertyMetadata> properties;
 
 
@@ -97,6 +99,18 @@ namespace LitJson
         {
             get { return is_dictionary; }
             set { is_dictionary = value; }
+        }
+
+        public Type DictKeyType
+        {
+            get
+            {
+                return dict_key_type;
+            }
+            set
+            {
+                dict_key_type = value;
+            }
         }
 
         public IDictionary<string, PropertyMetadata> Properties
@@ -179,7 +193,12 @@ namespace LitJson
             data.IsArray = type.IsArray;
 
             if (type.GetInterface("System.Collections.IList") != null)
+            {
                 data.IsList = true;
+            }
+
+
+
 #if ILRUNTIME_PACKAGES_CHECKED
             if (type is ILRuntime.Reflection.ILRuntimeWrapperType)
             {
@@ -256,7 +275,18 @@ namespace LitJson
             ObjectMetadata data = new ObjectMetadata();
 
             if (type.GetInterface("System.Collections.IDictionary") != null)
+            {
                 data.IsDictionary = true;
+                var genericArguments = type.GetGenericArguments();
+                if (genericArguments.Length > 0)
+                {
+                    Debug.Log($"genericArguments:{genericArguments.Length}");
+                    data.DictKeyType = genericArguments[0];
+                    data.ElementType = genericArguments[1];
+                }
+
+            }
+
 
             data.Properties = new Dictionary<string, PropertyMetadata>();
             foreach (PropertyInfo p_info in type.GetProperties())
@@ -542,6 +572,7 @@ namespace LitJson
                 instance = Activator.CreateInstance(value_type);
 #endif
 
+
                 while (true)
                 {
                     reader.Read();
@@ -624,9 +655,28 @@ namespace LitJson
                             property, rt.CheckCLRTypes(ReadValue(
                                 t_data.ElementType, reader)));
 #else
-                            ((IDictionary)instance).Add(
-                            property, ReadValue(
-                                t_data.ElementType, reader));
+
+                        // UnityEngine.Debug.Log($"123 {property}:{t_data.IsDictionary},{t_data.ElementType},{t_data.Properties.Count},{t_data.DictKeyType}");
+
+                        if (t_data.DictKeyType == null)
+                        {
+                            ((IDictionary)instance).Add(property, ReadValue(t_data.ElementType, reader));
+                        }
+                        else
+                        {
+                            switch (t_data.DictKeyType.ToString())
+                            {
+                                case "System.Int32":
+                                    ((IDictionary)instance).Add(int.Parse(property), ReadValue(t_data.ElementType, reader));
+                                    break;
+                                default:
+                                    ((IDictionary)instance).Add(property, ReadValue(t_data.ElementType, reader));
+                                    break;
+                            }
+                        }
+
+
+
 #endif
                     }
                 }

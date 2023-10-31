@@ -532,6 +532,7 @@ namespace Pangoo
         {
             [ValueDropdown("InstructionIdValueDropdown", IsUniqueList = true)]
             [ListDrawerSettings(Expanded = true)]
+            [JsonMember("Ids")]
             public int[] Ids;
             public IEnumerable InstructionIdValueDropdown()
             {
