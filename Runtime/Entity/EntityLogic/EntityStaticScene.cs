@@ -97,15 +97,22 @@ namespace Pangoo
 
         private void OnTriggerEnter(Collider other)
         {
-            EnterCollider = other;
-            EventHelper.Fire(this, EnterStaticSceneEventArgs.Create(SceneData.AssetPathId));
+            if (other.tag == "Player")
+            {
+                EnterCollider = other;
+                EventHelper.Fire(this, EnterStaticSceneEventArgs.Create(SceneData.AssetPathId));
+            }
+
         }
 
 
         private void OnTriggerExit(Collider other)
         {
-            EnterCollider = null;
-            EventHelper.Fire(this, ExitStaticSceneEventArgs.Create(SceneData.AssetPathId));
+            if (other.tag == "Player")
+            {
+                EnterCollider = null;
+                EventHelper.Fire(this, ExitStaticSceneEventArgs.Create(SceneData.AssetPathId));
+            }
         }
 
 

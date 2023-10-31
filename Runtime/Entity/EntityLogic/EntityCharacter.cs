@@ -51,6 +51,10 @@ namespace Pangoo
                 Log.Error("Entity data is invalid.");
                 return;
             }
+            if (EntityData.IsPlayer)
+            {
+                tag = "Player";
+            }
 
             Name = Utility.Text.Format("{0}[{1}]", EntityData.EntityInfo.AssetName, Id);
 
