@@ -68,10 +68,10 @@ namespace Pangoo.Core.Services
             {
                 Loader = EntityLoader.Create(this);
             }
+            Debug.Log($"ShowCharacter:{infoId},{positon},{rotation},{m_LoadedEntityDict.ContainsKey(infoId)}");
 
             //通过路径ID去判断是否被加载。用来在不同的章节下用了不用的静态场景ID,但是使用不同的加载Ids
             var infoRow = m_CharacterInfo.GetRowById<CharacterInfoRow>(infoId);
-            var AssetPathId = infoRow.AssetPathId;
             if (m_LoadedEntityDict.ContainsKey(infoId))
             {
                 var character = m_LoadedEntityDict[infoId];
@@ -83,7 +83,6 @@ namespace Pangoo.Core.Services
             }
 
             Log.Info($"Show Character Row Id:{infoId}");
-
             // 这边有一个假设，同一个时间不会反复加载不同的章节下的同一个场景。
             if (m_LoadingEntityIds.Contains(infoId))
             {

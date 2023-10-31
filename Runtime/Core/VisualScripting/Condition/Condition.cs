@@ -25,17 +25,22 @@ namespace Pangoo.Core.VisualScripting
 
         // PUBLIC METHODS: ------------------------------------------------------------------------
 
+        public int GetState(Args args)
+        {
+            return this.Run(args);
+        }
+
         public bool Check(Args args)
         {
             // if (!this.IsEnabled) return this.m_Sign;
-            if (this.Breakpoint) Debug.Break();
+            // if (this.Breakpoint) Debug.Break();
 
-            return this.m_Sign ? this.Run(args) : !this.Run(args);
+            return this.m_Sign ? (this.Run(args) != 0) : !(this.Run(args) != 0);
         }
 
         // PROTECTED METHODS: ---------------------------------------------------------------------
 
-        protected abstract bool Run(Args args);
+        protected abstract int Run(Args args);
 
 
 

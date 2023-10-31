@@ -9,7 +9,7 @@ namespace Pangoo.Core.VisualScripting
 {
 
     [Serializable]
-    public abstract class TriggerEvent
+    public class TriggerEvent
     {
         public const string SelfStr = "Self";
 
@@ -94,21 +94,24 @@ namespace Pangoo.Core.VisualScripting
         [HideInEditorMode]
         public InstructionList RunInstructions { get; set; }
 
+
+        public Dictionary<int, InstructionList> ConditionInstructions { get; private set; } = new Dictionary<int, InstructionList>();
+
         [ShowInInspector]
         [ShowIf("@this.UseCondition")]
         public ConditionList Conditions { get; set; }
 
         [ShowInInspector]
         [LabelText("是否条件触发")]
-        public bool UseCondition
+        public ConditionTypeEnum ConditionType
         {
             get
             {
-                return Row?.UseCondition ?? false;
+                return Row?.ConditionType.ToEnum<ConditionTypeEnum>() ?? ConditionTypeEnum.NoCondition;
             }
             set
             {
-                Row.UseCondition = value;
+                Row.ConditionType = value.ToString();
             }
         }
 
@@ -223,24 +226,27 @@ namespace Pangoo.Core.VisualScripting
                 }
             }
 
-
-            if (UseCondition && Conditions != null)
+            switch (ConditionType)
             {
-                var isPass = Conditions.Check(args);
-                Debug.Log($"Check Pass:{isPass}");
-                if (isPass)
-                {
+                case ConditionTypeEnum.NoCondition:
                     OnPassInvoke(args);
-                }
-                else
-                {
-                    OnFailedInvoke(args);
-                }
-            }
-            else
-            {
+                    break;
+                case ConditionTypeEnum.BoolCondition:
+                    var isPass = Conditions.Check(args);
+                    Debug.Log($"Check Pass:{isPass}");
+                    if (isPass)
+                    {
+                        OnPassInvoke(args);
+                    }
+                    else
+                    {
+                        OnFailedInvoke(args);
+                    }
+                    break;
+                case ConditionTypeEnum.StateCondition:
+                    var state = Conditions.GetState(args);
+                    break;
 
-                OnPassInvoke(args);
             }
         }
 

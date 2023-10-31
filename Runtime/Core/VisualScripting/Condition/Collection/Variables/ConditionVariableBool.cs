@@ -34,11 +34,11 @@ namespace Pangoo.Core.VisualScripting
         { }
 
 
-        protected override bool Run(Args args)
+        protected override int Run(Args args)
         {
             var runtimeService = args.Main.GetService<RuntimeDataService>();
             var variable = runtimeService.GetVariable<bool>(m_Params.VariableId);
-            return variable == m_Params.CheckBool;
+            return variable == m_Params.CheckBool ? 1 : 0;
         }
 
 

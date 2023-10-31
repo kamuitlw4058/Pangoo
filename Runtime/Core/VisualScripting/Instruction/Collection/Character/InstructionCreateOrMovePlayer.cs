@@ -49,15 +49,12 @@ namespace Pangoo.Core.VisualScripting
         public override void RunImmediate(Args args)
         {
             LastestArgs = args;
-            Debug.Log($"Instruction  Log:{this.ParamsRaw.CharacterId}");
-#if UNITY_EDITOR
-            Debug.Log($"Instruction  Log:{this.ParamsRaw.CharacterId}");
-#else
-            Utility.Text.Format("Instruction Log:{0}", this.m_Params.CharacterId);
-#endif
+            Debug.Log($"InstructionCreateOrMovePlayer:{this.ParamsRaw.CharacterId},{args?.Main}");
+
             if (args?.Main != null)
             {
-                var characterService = args.Main.GetService<CharacterService>();
+                var characterService = args.Main.CharacterService;
+                Debug.Log($"InstructionCreateOrMovePlayer  get characterService:{characterService}");
                 characterService?.ShowCharacter(ParamsRaw.CharacterId, ParamsRaw.Position, ParamsRaw.Rotation);
             }
 

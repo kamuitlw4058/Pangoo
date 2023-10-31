@@ -74,11 +74,11 @@ namespace Pangoo
             /// <summary>
             /// Desc: 
             /// </summary>
-            [TableTitleGroup("是否使用条件")]
+            [TableTitleGroup("条件类型")]
             [HideLabel]
-            [JsonMember("UseCondition")]
-            [ExcelTableCol("UseCondition","UseCondition","bool", "是否使用条件",9)]
-            public bool UseCondition ;
+            [JsonMember("ConditionType")]
+            [ExcelTableCol("ConditionType","ConditionType","string", "条件类型",9)]
+            public string ConditionType ;
 
             /// <summary>
             /// Desc: 

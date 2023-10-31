@@ -97,11 +97,17 @@ namespace Pangoo.Core.VisualScripting
             ret.SetEnabled(row.Enabled);
             ret.LoadParamsFromJson(row.Params);
             ret.RunInstructions = InstructionList.BuildInstructionList(row.GetInstructionList(), m_InstructionTable, ret);
-            if (row.UseCondition)
+            switch (row.ConditionType.ToEnum<ConditionTypeEnum>())
             {
-                ret.Conditions = ConditionList.BuildConditionList(row.GetConditionList(), m_ConditionTable, ret);
-                ret.FailInstructions = InstructionList.BuildInstructionList(row.GetFailInstructionList(), m_InstructionTable, ret);
+                case ConditionTypeEnum.NoCondition:
+                    ret.ConditionInstructions.Add(1, ret.RunInstructions);
+                    break;
+                case ConditionTypeEnum.BoolCondition:
+                    ret.ConditionInstructions.Add(1, ret.RunInstructions);
+                    ret.ConditionInstructions.Add(0, InstructionList.BuildInstructionList(row.GetFailInstructionList(), m_InstructionTable, ret));
+                    break;
             }
+
             return ret;
         }
 
