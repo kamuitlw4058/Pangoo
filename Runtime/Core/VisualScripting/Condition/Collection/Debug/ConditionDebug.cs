@@ -46,9 +46,9 @@ namespace Pangoo.Core.VisualScripting
         { }
 
 
-        protected override bool Run(Args args)
+        protected override int Run(Args args)
         {
-            return m_Params.Ok;
+            return m_Params.Ok ? 1 : 0;
         }
 
 

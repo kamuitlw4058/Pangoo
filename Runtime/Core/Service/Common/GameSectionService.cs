@@ -79,10 +79,12 @@ namespace Pangoo.Core.Services
 
         public void SetGameSection(int id)
         {
+            Debug.Log($"SetGameSection is :{id}");
             if (id <= 0)
             {
                 return;
             }
+
 
             if (LatestId != id)
             {

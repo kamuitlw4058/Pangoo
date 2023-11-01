@@ -51,6 +51,20 @@ namespace Pangoo.Core.VisualScripting
             return true;
         }
 
+        public int GetState(Args args)
+        {
+            int ret = 0;
+            this.EventStartCheck?.Invoke();
+
+            if (this.m_Conditions.Length > 0)
+            {
+                ret = this.m_Conditions[0].GetState(args);
+            }
+
+            this.EventEndCheck?.Invoke();
+            return ret;
+        }
+
         public Condition Get(int index)
         {
             index = Mathf.Clamp(index, 0, this.Length - 1);

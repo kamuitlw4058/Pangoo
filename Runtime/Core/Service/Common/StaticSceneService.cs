@@ -254,7 +254,7 @@ namespace Pangoo.Core.Services
                 Loader.ShowEntity(EnumEntity.StaticScene,
                     (o) =>
                     {
-                        Log.Info($"ShowStaticScene Loaded:{staticSceneId}");
+                        Log.Info($"ShowStaticScene Loaded:{staticSceneId}-{sceneInfo.Name}");
                         if (m_LoadingAssetIds.Contains(AssetPathId))
                         {
                             m_LoadingAssetIds.Remove(AssetPathId);

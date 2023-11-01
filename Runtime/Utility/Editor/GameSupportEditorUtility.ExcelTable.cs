@@ -4,10 +4,8 @@ using System.IO;
 using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEditor;
-using UnityEngine;
-using UnityEngine.UIElements;
-using UnityGameFramework.Runtime;
 using GameFramework;
+using Pangoo.Core.VisualScripting;
 
 namespace Pangoo
 {
@@ -221,9 +219,14 @@ namespace Pangoo
             return ret;
         }
 
-        public static IEnumerable GetCharacterIds(bool onlyPlayer = false, List<int> ids = null)
+        public static IEnumerable GetCharacterIds(bool onlyPlayer = false, bool hasDefault = false, List<int> ids = null)
         {
+
             var ret = new ValueDropdownList<int>();
+            if (hasDefault)
+            {
+                ret.Add("Default", 0);
+            }
             var overviews = AssetDatabaseUtility.FindAsset<CharacterTableOverview>();
             foreach (var overview in overviews)
             {
@@ -295,6 +298,30 @@ namespace Pangoo
             }
             return ret;
         }
+
+        public static IEnumerable GetConditionIds(ConditionTypeEnum valueType, List<int> ids = null)
+        {
+            var ret = new ValueDropdownList<int>();
+            var overviews = AssetDatabaseUtility.FindAsset<ConditionTableOverview>();
+            foreach (var overview in overviews)
+            {
+                var namedRows = overview.Data.Rows;
+                if (namedRows == null)
+                {
+                    continue;
+                }
+                foreach (var row in namedRows)
+                {
+                    var condition = ClassUtility.CreateInstance<Condition>(row.ConditionType);
+                    if (valueType.Equals(condition.ConditionType))
+                    {
+                        TryAddIdByExcludeIds(ret, row, ids);
+                    }
+                }
+            }
+            return ret;
+        }
+
 
 
 

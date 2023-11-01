@@ -16,11 +16,14 @@ using GameFramework;
 
 using UnityEditor;
 using Sirenix.OdinInspector.Editor;
+using LitJson;
 
 
 
 namespace Pangoo
 {
+
+
     [Serializable]
     public class TriggerDetailWrapper : ExcelTableRowDetailWrapper<TriggerEventTableOverview, TriggerEventTable.TriggerEventRow>
     {
@@ -28,53 +31,57 @@ namespace Pangoo
         [ShowInInspector]
         [PropertyOrder(0)]
         [LabelText("触发类型")]
-        [ValueDropdown("GetTriggerEvent")]
-        public string TriggerType
+        // [ValueDropdown("GetTriggerEvent")]
+        public TriggerTypeEnum TriggerType
         {
             get
             {
 
-                if (m_TriggerEventInstance == null)
-                {
-                    UpdateTrigger();
-                }
+                // if (m_TriggerEventInstance == null)
+                // {
+                //     UpdateTrigger();
+                // }
+                // if (Row != null)
+                // {
+                //     Row.TriggerType = typeof(TriggerEvent).FullName;
+                // }
 
-                return Row?.TriggerType;
+                return Row?.TriggerType.ToEnum<TriggerTypeEnum>() ?? TriggerTypeEnum.Unknown;
             }
             set
             {
                 if (Row != null && Overview != null)
                 {
-                    Row.TriggerType = value;
-                    Row.Params = "{}";
+                    Row.TriggerType = value.ToString();
+                    // Row.Params = "{}";
                     Save();
-                    UpdateTrigger();
+                    // UpdateTrigger();
                 }
 
             }
         }
 
-        TriggerEvent m_TriggerEventInstance;
+        // TriggerEvent m_TriggerEventInstance;
 
-        [ShowInInspector]
-        [HideLabel]
-        [HideReferenceObjectPicker]
-        public TriggerEvent TriggerEventInstance
-        {
-            get
-            {
-                if (m_TriggerEventInstance == null)
-                {
-                    UpdateTrigger();
-                }
+        // [ShowInInspector]
+        // [HideLabel]
+        // [HideReferenceObjectPicker]
+        // public TriggerEvent TriggerEventInstance
+        // {
+        //     get
+        //     {
+        //         if (m_TriggerEventInstance == null)
+        //         {
+        //             UpdateTrigger();
+        //         }
 
-                return m_TriggerEventInstance;
-            }
-            set
-            {
-                m_TriggerEventInstance = value;
-            }
-        }
+        //         return m_TriggerEventInstance;
+        //     }
+        //     set
+        //     {
+        //         m_TriggerEventInstance = value;
+        //     }
+        // }
 
         [ShowInInspector]
         [LabelText("是否默认打开")]
@@ -101,6 +108,7 @@ namespace Pangoo
 
         [ShowInInspector]
         [LabelText("目标")]
+        [TitleGroup("目标")]
         [ListDrawerSettings(CustomAddFunction = "AddTarget", CustomRemoveIndexFunction = "RemoveTarget")]
         [OnValueChanged("UpdateTargets", includeChildren: true)]
         public string[] Targets
@@ -134,6 +142,7 @@ namespace Pangoo
 
         [ShowInInspector]
         [LabelText("目标列表操作方式")]
+        [TitleGroup("目标")]
         public TriggerTargetListProcessTypeEnum TriggerListType
         {
             get
@@ -187,99 +196,93 @@ namespace Pangoo
             Save();
         }
 
+        [ShowInInspector]
+        [LabelText("条件类型")]
+        [TitleGroup("指令系统")]
+
+        public ConditionTypeEnum ConditionType
+        {
+            get
+            {
+                return Row?.ConditionType.ToEnum<ConditionTypeEnum>() ?? ConditionTypeEnum.NoCondition;
+            }
+            set
+            {
+                if (Row != null && Overview != null)
+                {
+                    Row.ConditionType = value.ToString();
+                    Save();
+                }
+            }
+        }
 
         bool UseCondition
         {
             get
             {
-                return Row?.UseCondition ?? false;
+                return ConditionType != ConditionTypeEnum.NoCondition;
             }
         }
 
 
-        void UpdateTrigger()
-        {
+        // void UpdateTrigger()
+        // {
 
-            m_TriggerEventInstance = ClassUtility.CreateInstance<TriggerEvent>(Row.TriggerType);
-            if (m_TriggerEventInstance == null)
-            {
-                return;
-            }
-            m_TriggerEventInstance.Row = Row;
-            m_TriggerEventInstance.LoadParamsFromJson(Row.Params);
-            m_TriggerEventInstance.RunInstructions = GetInstructionList(InstructionIds);
-            m_TriggerEventInstance.FailInstructions = GetInstructionList(FailedInstructionIds);
-            m_TriggerEventInstance.Conditions = GetConditionList(ConditionIds);
-        }
+        //     m_TriggerEventInstance = ClassUtility.CreateInstance<TriggerEvent>(Row.TriggerType);
+        //     if (m_TriggerEventInstance == null)
+        //     {
+        //         return;
+        //     }
+        //     m_TriggerEventInstance.Row = Row;
+        //     m_TriggerEventInstance.LoadParamsFromJson(Row.Params);
+        //     m_TriggerEventInstance.RunInstructions = GetInstructionList(InstructionIds);
+        //     m_TriggerEventInstance.FailInstructions = GetInstructionList(FailedInstructionIds);
+        //     m_TriggerEventInstance.Conditions = GetConditionList(ConditionIds);
+        // }
 
         public IEnumerable GetTriggerEvent()
         {
             return GameSupportEditorUtility.GetTriggerEvent();
         }
 
-        [ShowInInspector]
-        [ReadOnly]
-        public string Params
-        {
-            get
-            {
-                return Row?.Params;
-            }
-            set
-            {
-                if (Row != null && Overview != null)
-                {
-                    Row.Params = value;
-                    Save();
-                }
-            }
-        }
+        // [ShowInInspector]
+        // [ReadOnly]
+        // public string Params
+        // {
+        //     get
+        //     {
+        //         return Row?.Params;
+        //     }
+        //     set
+        //     {
+        //         if (Row != null && Overview != null)
+        //         {
+        //             Row.Params = value;
+        //             Save();
+        //         }
+        //     }
+        // }
 
-        [Button("保存参数")]
-        [TableColumnWidth(80, resizable: false)]
-        public void SaveParams()
-        {
-            Params = m_TriggerEventInstance.ParamsToJson();
-        }
+        // [Button("保存参数")]
+        // [TableColumnWidth(80, resizable: false)]
+        // public void SaveParams()
+        // {
+        //     Params = m_TriggerEventInstance.ParamsToJson();
+        // }
 
-        [Button("加载参数")]
-        [TableColumnWidth(80, resizable: false)]
-        public void LoadParams()
-        {
-            m_TriggerEventInstance.LoadParamsFromJson(Params);
-        }
-
-
-
-        [LabelText("指令Ids")]
-        [ValueDropdown("InstructionIdValueDropdown", IsUniqueList = true)]
-        [ListDrawerSettings(Expanded = true)]
-        [ShowInInspector]
-        [PropertyOrder(9)]
-        public int[] InstructionIds
-        {
-            get
-            {
-                return Row?.InstructionList?.ToArrInt() ?? new int[0];
-            }
-            set
-            {
-
-                if (Row != null && Overview != null)
-                {
-                    Row.InstructionList = value.ToList().ToListString();
-                    UpdateTrigger();
-                    Save();
-                }
-
-            }
-        }
+        // [Button("加载参数")]
+        // [TableColumnWidth(80, resizable: false)]
+        // public void LoadParams()
+        // {
+        //     m_TriggerEventInstance.LoadParamsFromJson(Params);
+        // }
 
         [LabelText("条件Ids")]
         [ValueDropdown("ConditionIdValueDropdown", IsUniqueList = true)]
         [ListDrawerSettings(Expanded = true)]
         [ShowInInspector]
-        [PropertyOrder(10)]
+        [PropertyOrder(9)]
+        [TitleGroup("指令系统")]
         [ShowIf("@this.UseCondition")]
         public int[] ConditionIds
         {
@@ -293,7 +296,36 @@ namespace Pangoo
                 if (Row != null && Overview != null)
                 {
                     Row.ConditionList = value.ToList().ToListString();
-                    UpdateTrigger();
+                    Save();
+                }
+
+            }
+        }
+
+
+
+        [LabelText("指令Ids")]
+        [ValueDropdown("InstructionIdValueDropdown", IsUniqueList = true)]
+        [ListDrawerSettings(Expanded = true)]
+        [ShowInInspector]
+        [PropertyOrder(10)]
+        [TitleGroup("指令系统")]
+        [ShowIf("@this.ConditionType == ConditionTypeEnum.BoolCondition || this.ConditionType == ConditionTypeEnum.NoCondition")]
+
+
+        public int[] InstructionIds
+        {
+            get
+            {
+                return Row?.InstructionList?.ToArrInt() ?? new int[0];
+            }
+            set
+            {
+
+                if (Row != null && Overview != null)
+                {
+                    Row.InstructionList = value.ToList().ToListString();
+                    // UpdateTrigger();
                     Save();
                 }
 
@@ -306,8 +338,9 @@ namespace Pangoo
         [ValueDropdown("InstructionIdValueDropdown", IsUniqueList = true)]
         [ListDrawerSettings(Expanded = true)]
         [ShowInInspector]
-        [PropertyOrder(10)]
-        [ShowIf("@this.UseCondition")]
+        [PropertyOrder(11)]
+        [TitleGroup("指令系统")]
+        [ShowIf("ConditionType", ConditionTypeEnum.BoolCondition)]
         public int[] FailedInstructionIds
         {
             get
@@ -320,12 +353,64 @@ namespace Pangoo
                 if (Row != null && Overview != null)
                 {
                     Row.FailInstructionList = value.ToList().ToListString();
-                    UpdateTrigger();
+                    // UpdateTrigger();
                     Save();
                 }
 
             }
         }
+
+
+        Dictionary<int, InstrctionIds> m_StateInstructionIds;
+
+
+        [ShowInInspector]
+        [PropertyOrder(10)]
+        [ShowIf("ConditionType", ConditionTypeEnum.StateCondition)]
+        [DictionaryDrawerSettings(KeyLabel = "状态", ValueLabel = "执行指令")]
+        [OnCollectionChanged(after: "After")]
+        [HideReferenceObjectPicker]
+        [TitleGroup("指令系统")]
+        [OnValueChanged("OnStateInstructionIdsChanged", includeChildren: true)]
+
+        public Dictionary<int, InstrctionIds> StateInstructionIds
+        {
+            get
+            {
+                if (m_StateInstructionIds == null)
+                {
+                    m_StateInstructionIds = JsonMapper.ToObject<Dictionary<int, InstrctionIds>>(Row.Params);
+                }
+
+                return m_StateInstructionIds;
+            }
+            set
+            {
+                m_StateInstructionIds = value;
+            }
+        }
+
+        void OnStateInstructionIdsChanged()
+        {
+            Debug.Log($"OnStateInstructionIdsChanged:{JsonMapper.ToJson(StateInstructionIds)}");
+            Row.Params = JsonMapper.ToJson(StateInstructionIds);
+        }
+
+
+        public void After(CollectionChangeInfo info, object value)
+        {
+            if (info.ChangeType == CollectionChangeType.SetKey)
+            {
+                var key = (int)info.Key;
+                if (m_StateInstructionIds[key].Ids == null)
+                {
+                    var instrctionIds = new InstrctionIds();
+                    instrctionIds.Ids = new int[0];
+                    m_StateInstructionIds[key] = instrctionIds;
+                }
+            }
+        }
+
 
 
         public IEnumerable InstructionIdValueDropdown()
@@ -335,7 +420,7 @@ namespace Pangoo
 
         public IEnumerable ConditionIdValueDropdown()
         {
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<ConditionTableOverview>();
+            return GameSupportEditorUtility.GetConditionIds(ConditionType);
         }
 
         public InstructionList GetInstructionList(int[] ids)
@@ -417,12 +502,33 @@ namespace Pangoo
             instructionList?.Start(new Args());
         }
 
-        [Button("运行指令")]
-        [PropertyOrder(10)]
-        public void Run()
-        {
-            m_TriggerEventInstance?.OnInvoke(new Args());
-        }
+        // Enum m_EnumType;
+
+        // [ShowInInspector]
+        // [TitleGroup("指令系统")]
+        // [LabelText("参考枚举")]
+        // [PropertyOrder(10)]
+        // public Enum EnumType
+        // {
+        //     get
+        //     {
+        //         return m_EnumType;
+        //     }
+        //     set
+        //     {
+        //         m_EnumType = value;
+        //         var tmp = new Dictionary<StateKey, InstrctionId[]>();
+
+        //         foreach (var kv in m_StateInstructionIds)
+        //         {
+        //             var key = new StateKey();
+        //             key.Id = kv.Key.Id;
+        //             key.t = value.GetType();
+        //             tmp.Add(key, kv.Value);
+        //         }
+        //         m_StateInstructionIds = tmp;
+        //     }
+        // }
 
 
 

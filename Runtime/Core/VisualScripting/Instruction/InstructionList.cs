@@ -222,7 +222,7 @@ namespace Pangoo.Core.VisualScripting
             return this.m_Instructions[index];
         }
 
-        public static InstructionList BuildInstructionList(List<int> ids, InstructionTable table = null, TriggerEvent trigger = null)
+        public static InstructionList BuildInstructionList(IEnumerable<int> ids, InstructionTable table = null, TriggerEvent trigger = null)
         {
             List<Instruction> instructions = new();
 

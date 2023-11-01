@@ -32,7 +32,7 @@ namespace Pangoo.Core.VisualScripting
 #if UNITY_EDITOR
         public IEnumerable GetCharacterIds()
         {
-            return GameSupportEditorUtility.GetCharacterIds(onlyPlayer: true);
+            return GameSupportEditorUtility.GetCharacterIds(onlyPlayer: true, hasDefault: true);
         }
 #endif
 

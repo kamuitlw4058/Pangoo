@@ -36,6 +36,9 @@ namespace Pangoo
         [ValueDropdown("GetGameSectionIds")]
         public int EnterGameSectionId;
 
+        [ValueDropdown("GetDefaultPlayer")]
+        public int DefaultPlayer;
+
 
 
 #if ENABLE_FGUI
@@ -45,6 +48,10 @@ namespace Pangoo
 #endif
 
 #if UNITY_EDITOR
+        private IEnumerable GetDefaultPlayer()
+        {
+            return GameSupportEditorUtility.GetCharacterIds(true);
+        }
 
         private IEnumerable GetProcedureType()
         {

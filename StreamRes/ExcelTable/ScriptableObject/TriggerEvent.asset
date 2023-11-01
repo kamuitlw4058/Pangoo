@@ -24,7 +24,7 @@ MonoBehaviour:
       TargetListType: 0
       InstructionList: 1|2|3
       Params: '{}'
-      UseCondition: 0
+      ConditionType: StateCondition
       ConditionList: 1
       FailInstructionList: 1
     - Id: 2
@@ -35,7 +35,7 @@ MonoBehaviour:
       TargetListType: 0
       InstructionList: 1
       Params: '{}'
-      UseCondition: 0
+      ConditionType: 
       ConditionList: 
       FailInstructionList: 
     - Id: 3
@@ -46,6 +46,6 @@ MonoBehaviour:
       TargetListType: 0
       InstructionList: 1
       Params: '{}'
-      UseCondition: 0
+      ConditionType: 
       ConditionList: 
       FailInstructionList: 

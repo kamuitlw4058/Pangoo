@@ -106,6 +106,15 @@ namespace Pangoo
             [JsonMember("DirectInstructions")]
             [ExcelTableCol("DirectInstructions","DirectInstructions","string", "直接指令",12)]
             public string DirectInstructions ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("子物体")]
+            [HideLabel]
+            [JsonMember("SubDynamicObject")]
+            [ExcelTableCol("SubDynamicObject","SubDynamicObject","string", "子物体",13)]
+            public string SubDynamicObject ;
         }
 
 
