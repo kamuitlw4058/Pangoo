@@ -191,6 +191,8 @@ namespace Pangoo.Editor
 
             ResourceBuilder m_builder = new ResourceBuilder();
             m_builder.BuildResources(m_controller);
+            
+            Debug.Log("资源构建完成");
             return null;
         }
 
@@ -199,6 +201,8 @@ namespace Pangoo.Editor
             string sourceDirectoryPath = $"{Directory.GetParent(Application.dataPath)}/ABs";
             string targetDirectoryPath = $"{Application.streamingAssetsPath}";
             FileUtil.MoveFileOrDirectory(sourceDirectoryPath,targetDirectoryPath);
+            
+            Debug.Log("资源移动完成");
             return null;
         }
     }
