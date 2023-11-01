@@ -14,6 +14,8 @@ namespace Pangoo.Core.Services
 
         public CharacterService CharacterService = new CharacterService();
 
+        public GameMainConfigService GameConfig = new GameMainConfigService();
+
         public MainService()
         {
             AddService(new ExcelTableService());
@@ -26,7 +28,7 @@ namespace Pangoo.Core.Services
             AddService(new GameInfoService());
             AddService(new DynamicObjectService());
             AddService(CharacterService);
-            AddService(new GameMainConfigService());
+            AddService(GameConfig);
             AddService(new SoundService());
         }
 

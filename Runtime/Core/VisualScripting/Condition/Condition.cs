@@ -7,6 +7,8 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public abstract class Condition : TPolymorphicItem<Condition>, IParams
     {
+        public virtual ConditionTypeEnum ConditionType => ConditionTypeEnum.BoolCondition;
+
         public virtual IParams Params { get; }
 
         [SerializeField]

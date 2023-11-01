@@ -90,12 +90,18 @@ namespace Pangoo.Core.VisualScripting
 
         public TriggerEventTable.TriggerEventRow Row { get; set; }
 
+
         [ShowInInspector]
         [HideInEditorMode]
-        public InstructionList RunInstructions { get; set; }
-
-
         public Dictionary<int, InstructionList> ConditionInstructions { get; private set; } = new Dictionary<int, InstructionList>();
+
+        public bool UseCondition
+        {
+            get
+            {
+                return ConditionType != ConditionTypeEnum.NoCondition;
+            }
+        }
 
         [ShowInInspector]
         [ShowIf("@this.UseCondition")]
@@ -115,48 +121,39 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
-        // [ShowInInspector]
-        [ShowIf("@this.UseCondition")]
-        [HideInEditorMode]
-        public InstructionList FailInstructions { get; set; }
 
-        public bool IsRuningRunInstructions
-        {
-            get
-            {
-                return RunInstructions?.IsRunning ?? false;
-            }
-        }
-        public bool IsRuningFailInstructions
-        {
-            get
-            {
-                return FailInstructions?.IsRunning ?? false;
-            }
-        }
 
         public bool IsRunning
         {
             get
             {
-                return IsRuningRunInstructions || IsRuningFailInstructions;
+                foreach (var kv in ConditionInstructions)
+                {
+                    if (kv.Value.IsRunning)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
             }
         }
 
         [ShowInInspector]
         [LabelText("触发点类型")]
-        public virtual TriggerTypeEnum TriggerType => TriggerTypeEnum.Unknown;
+        public virtual TriggerTypeEnum TriggerType
+        {
+            get
+            {
+                return Row?.TriggerType.ToEnum<TriggerTypeEnum>() ?? TriggerTypeEnum.Unknown;
+            }
+        }
+
+
 
         public virtual void OnAwake()
         {
 
-        }
-        // public virtual void OnEnable() { }
-        // public virtual void OnDisable() { }
-
-        public virtual bool CheckCondition(Args args)
-        {
-            return true;
         }
 
         public virtual void OnInvoke(Args args)
@@ -229,22 +226,17 @@ namespace Pangoo.Core.VisualScripting
             switch (ConditionType)
             {
                 case ConditionTypeEnum.NoCondition:
-                    OnPassInvoke(args);
+                    Debug.Log("No Condition Invoke!");
+                    OnStateInvoke(1, args);
                     break;
                 case ConditionTypeEnum.BoolCondition:
-                    var isPass = Conditions.Check(args);
+                    var isPass = Conditions.Check(args) ? 1 : 0;
                     Debug.Log($"Check Pass:{isPass}");
-                    if (isPass)
-                    {
-                        OnPassInvoke(args);
-                    }
-                    else
-                    {
-                        OnFailedInvoke(args);
-                    }
+                    OnStateInvoke(isPass, args);
                     break;
                 case ConditionTypeEnum.StateCondition:
                     var state = Conditions.GetState(args);
+                    OnStateInvoke(state, args);
                     break;
 
             }
@@ -262,38 +254,31 @@ namespace Pangoo.Core.VisualScripting
             EventRunInstructionsEnd?.Invoke();
         }
 
-
-        public void OnPassInvoke(Args args)
+        public void OnStateInvoke(int state, Args args)
         {
-            if (RunInstructions != null)
+            if (ConditionInstructions.TryGetValue(state, out InstructionList instructionList))
             {
-                Debug.Log("OnPassInvoke:");
-                RunInstructions.EventStartRunning -= OnRunInstructionsStart;
-                RunInstructions.EventStartRunning += OnRunInstructionsStart;
+                Debug.Log($"state on invoke:{state}");
+                instructionList.EventStartRunning -= OnRunInstructionsStart;
+                instructionList.EventStartRunning += OnRunInstructionsStart;
 
 
-                RunInstructions.EventEndRunning -= OnRunInstructionsEnd;
-                RunInstructions.EventEndRunning += OnRunInstructionsEnd;
+                instructionList.EventEndRunning -= OnRunInstructionsEnd;
+                instructionList.EventEndRunning += OnRunInstructionsEnd;
 
-                RunInstructions.Start(args);
+                instructionList.Start(args);
             }
 
         }
 
-        public void OnFailedInvoke(Args args)
-        {
-            if (FailInstructions != null)
-            {
-                FailInstructions.Start(args);
-            }
 
-        }
 
         public virtual void OnUpdate()
         {
-
-            RunInstructions?.OnUpdate();
-            FailInstructions?.OnUpdate();
+            foreach (var kv in ConditionInstructions)
+            {
+                kv.Value?.OnUpdate();
+            }
         }
 
         public virtual void LoadParamsFromJson(string val) { }

@@ -277,13 +277,38 @@ namespace Pangoo
         //     m_TriggerEventInstance.LoadParamsFromJson(Params);
         // }
 
+        [LabelText("条件Ids")]
+        [ValueDropdown("ConditionIdValueDropdown", IsUniqueList = true)]
+        [ListDrawerSettings(Expanded = true)]
+        [ShowInInspector]
+        [PropertyOrder(9)]
+        [TitleGroup("指令系统")]
+        [ShowIf("@this.UseCondition")]
+        public int[] ConditionIds
+        {
+            get
+            {
+                return Row?.ConditionList?.ToArrInt() ?? new int[0];
+            }
+            set
+            {
+
+                if (Row != null && Overview != null)
+                {
+                    Row.ConditionList = value.ToList().ToListString();
+                    Save();
+                }
+
+            }
+        }
+
 
 
         [LabelText("指令Ids")]
         [ValueDropdown("InstructionIdValueDropdown", IsUniqueList = true)]
         [ListDrawerSettings(Expanded = true)]
         [ShowInInspector]
-        [PropertyOrder(9)]
+        [PropertyOrder(10)]
         [TitleGroup("指令系统")]
         [ShowIf("@this.ConditionType == ConditionTypeEnum.BoolCondition || this.ConditionType == ConditionTypeEnum.NoCondition")]
 
@@ -307,38 +332,14 @@ namespace Pangoo
             }
         }
 
-        [LabelText("条件Ids")]
-        [ValueDropdown("ConditionIdValueDropdown", IsUniqueList = true)]
-        [ListDrawerSettings(Expanded = true)]
-        [ShowInInspector]
-        [PropertyOrder(10)]
-        [ShowIf("@this.UseCondition")]
-        public int[] ConditionIds
-        {
-            get
-            {
-                return Row?.ConditionList?.ToArrInt() ?? new int[0];
-            }
-            set
-            {
-
-                if (Row != null && Overview != null)
-                {
-                    Row.ConditionList = value.ToList().ToListString();
-                    // UpdateTrigger();
-                    Save();
-                }
-
-            }
-        }
-
 
 
         [LabelText("失败指令Ids")]
         [ValueDropdown("InstructionIdValueDropdown", IsUniqueList = true)]
         [ListDrawerSettings(Expanded = true)]
         [ShowInInspector]
-        [PropertyOrder(10)]
+        [PropertyOrder(11)]
+        [TitleGroup("指令系统")]
         [ShowIf("ConditionType", ConditionTypeEnum.BoolCondition)]
         public int[] FailedInstructionIds
         {
@@ -369,6 +370,7 @@ namespace Pangoo
         [DictionaryDrawerSettings(KeyLabel = "状态", ValueLabel = "执行指令")]
         [OnCollectionChanged(after: "After")]
         [HideReferenceObjectPicker]
+        [TitleGroup("指令系统")]
         [OnValueChanged("OnStateInstructionIdsChanged", includeChildren: true)]
 
         public Dictionary<int, InstrctionIds> StateInstructionIds
@@ -418,7 +420,7 @@ namespace Pangoo
 
         public IEnumerable ConditionIdValueDropdown()
         {
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<ConditionTableOverview>();
+            return GameSupportEditorUtility.GetConditionIds(ConditionType);
         }
 
         public InstructionList GetInstructionList(int[] ids)
@@ -528,59 +530,6 @@ namespace Pangoo
         //     }
         // }
 
-        public struct InstrctionIds
-        {
-            [ValueDropdown("InstructionIdValueDropdown", IsUniqueList = true)]
-            [ListDrawerSettings(Expanded = true)]
-            [JsonMember("Ids")]
-            public int[] Ids;
-            public IEnumerable InstructionIdValueDropdown()
-            {
-                return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<InstructionTableOverview>();
-            }
-        }
-
-        public struct StateKey
-        {
-            // [ValueDropdown("InstructionIdValueDropdown")]
-            public int Id;
-
-            // [HideInInspector]
-            // public Type t;
-
-            // public IEnumerable InstructionIdValueDropdown()
-            // {
-            //     ValueDropdownList<int> ret = new ValueDropdownList<int>();
-            //     if (t != null)
-            //     {
-            //         foreach (var s in Enum.GetValues(t))
-            //         {
-            //             ret.Add(Enum.GetName(t, s), (int)s);
-            //         }
-            //     }
-            //     else
-            //     {
-            //         ret.Add("9", 1);
-            //         ret.Add("8", 1);
-            //         ret.Add("7", 1);
-            //         ret.Add("6", 1);
-            //         ret.Add("5", 1);
-            //         ret.Add("4", 1);
-            //         ret.Add("3", 1);
-            //         ret.Add("2", 1);
-            //         ret.Add("1", 1);
-            //         ret.Add("0", 0);
-            //     }
-
-            //     return ret;
-            // }
-        }
-
-        public enum BoolEnum
-        {
-            False = 0,
-            True = 1,
-        }
 
 
     }

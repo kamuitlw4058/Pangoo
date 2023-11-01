@@ -64,6 +64,12 @@ namespace Pangoo.Core.Services
 
         public void ShowCharacter(int infoId, Vector3 positon, Vector3 rotation)
         {
+            if (infoId == 0)
+            {
+                Debug.LogError("ShowCharacter Id is 0");
+                return;
+            }
+
             if (Loader == null)
             {
                 Loader = EntityLoader.Create(this);

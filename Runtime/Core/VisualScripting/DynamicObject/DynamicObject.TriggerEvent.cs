@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
-
 using UnityEngine;
-using Pangoo.Core.Common;
 using Pangoo.Core.Characters;
 using Sirenix.OdinInspector;
-using UnityEngine.Playables;
-
+using LitJson;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -81,35 +78,72 @@ namespace Pangoo.Core.VisualScripting
             return ret;
         }
 
-
-
-        public TriggerEvent CreateTriggerEvent(TriggerEventTable.TriggerEventRow row)
+        public void SetConditionInstructionsByRow(TriggerEvent triggerEvent)
         {
-            var ret = ClassUtility.CreateInstance<TriggerEvent>(row.TriggerType);
-            if (ret == null)
+            switch (triggerEvent.ConditionType)
+            {
+                case ConditionTypeEnum.NoCondition:
+                    var noConditionInstruction = InstructionList.BuildInstructionList(triggerEvent.Row.GetInstructionList(), m_InstructionTable, triggerEvent);
+                    triggerEvent.ConditionInstructions.Add(1, noConditionInstruction);
+                    break;
+                case ConditionTypeEnum.BoolCondition:
+                    triggerEvent.ConditionInstructions.Add(1, InstructionList.BuildInstructionList(triggerEvent.Row.GetInstructionList(), m_InstructionTable, triggerEvent));
+                    triggerEvent.ConditionInstructions.Add(0, InstructionList.BuildInstructionList(triggerEvent.Row.GetFailInstructionList(), m_InstructionTable, triggerEvent));
+                    break;
+                case ConditionTypeEnum.StateCondition:
+                    Dictionary<int, InstrctionIds> StateInstructionIds = JsonMapper.ToObject<Dictionary<int, InstrctionIds>>(triggerEvent.Row.Params);
+                    foreach (var kv in StateInstructionIds)
+                    {
+                        triggerEvent.ConditionInstructions.Add(kv.Key, InstructionList.BuildInstructionList(kv.Value.Ids, m_InstructionTable, triggerEvent));
+                    }
+                    break;
+            }
+
+        }
+
+
+
+        public TriggerEvent CreateTriggerEvent(TriggerEventTable.TriggerEventRow row, bool buildInstructions = true)
+        {
+            var ret = new TriggerEvent();
+            ret.Row = row;
+            if (ret.TriggerType == TriggerTypeEnum.Unknown)
             {
                 Debug.LogError($"Create Trigger Failed!{row.TriggerType}");
                 return null;
             }
-            ret.Row = row;
+
             ret.Parent = gameObject;
             ret.dynamicObject = this;
             ret.SetEnabled(row.Enabled);
-            ret.LoadParamsFromJson(row.Params);
-            ret.RunInstructions = InstructionList.BuildInstructionList(row.GetInstructionList(), m_InstructionTable, ret);
-            switch (row.ConditionType.ToEnum<ConditionTypeEnum>())
+            if (buildInstructions)
             {
-                case ConditionTypeEnum.NoCondition:
-                    ret.ConditionInstructions.Add(1, ret.RunInstructions);
+                SetConditionInstructionsByRow(ret);
+
+            }
+
+            switch (ret.TriggerType)
+            {
+                case TriggerTypeEnum.OnInteract:
+                    m_Tracker = CachedTransfrom.GetOrAddComponent<InteractionItemTracker>();
+                    ret.EventRunInstructionsEnd -= OnInteractEnd;
+                    ret.EventRunInstructionsEnd += OnInteractEnd;
                     break;
-                case ConditionTypeEnum.BoolCondition:
-                    ret.ConditionInstructions.Add(1, ret.RunInstructions);
-                    ret.ConditionInstructions.Add(0, InstructionList.BuildInstructionList(row.GetFailInstructionList(), m_InstructionTable, ret));
+                case TriggerTypeEnum.OnTriggerEnter3D:
+                    TriggerEnter3dEvent -= OnTriggerEnter3dEvent;
+                    TriggerEnter3dEvent += OnTriggerEnter3dEvent;
+                    break;
+                case TriggerTypeEnum.OnTriggerExit3D:
+                    TriggerExit3dEvent -= OnTriggerExit3dEvent;
+                    TriggerExit3dEvent += OnTriggerExit3dEvent;
                     break;
             }
 
+            TriggerEvents.Add(ret.Row.Id, ret);
             return ret;
         }
+
+        public
 
 
         void DoAwakeTriggerEvent()
@@ -138,31 +172,8 @@ namespace Pangoo.Core.VisualScripting
 
             foreach (var triggerRow in TriggerEventRows)
             {
-                var triggerInstance = CreateTriggerEvent(triggerRow);
-                if (triggerInstance == null)
-                {
-                    Debug.LogError($"Create Trigger Failed!{triggerRow.TriggerType}");
-                    return;
-                }
+                CreateTriggerEvent(triggerRow);
 
-                switch (triggerInstance.TriggerType)
-                {
-                    case TriggerTypeEnum.OnInteract:
-                        m_Tracker = CachedTransfrom.GetOrAddComponent<InteractionItemTracker>();
-                        triggerInstance.EventRunInstructionsEnd -= OnInteractEnd;
-                        triggerInstance.EventRunInstructionsEnd += OnInteractEnd;
-                        break;
-                    case TriggerTypeEnum.OnTriggerEnter3D:
-                        TriggerEnter3dEvent -= OnTriggerEnter3dEvent;
-                        TriggerEnter3dEvent += OnTriggerEnter3dEvent;
-                        break;
-                    case TriggerTypeEnum.OnTriggerExit3D:
-                        TriggerExit3dEvent -= OnTriggerExit3dEvent;
-                        TriggerExit3dEvent += OnTriggerExit3dEvent;
-                        break;
-                }
-
-                TriggerEvents.Add(triggerInstance.Row.Id, triggerInstance);
             }
 
             DoAwakeDirectionInstruction();

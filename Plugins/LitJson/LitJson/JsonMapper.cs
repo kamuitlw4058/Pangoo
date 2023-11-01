@@ -280,7 +280,7 @@ namespace LitJson
                 var genericArguments = type.GetGenericArguments();
                 if (genericArguments.Length > 0)
                 {
-                    Debug.Log($"genericArguments:{genericArguments.Length}");
+                    // Debug.Log($"genericArguments:{genericArguments.Length}");
                     data.DictKeyType = genericArguments[0];
                     data.ElementType = genericArguments[1];
                 }

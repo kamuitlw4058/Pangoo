@@ -7,6 +7,7 @@ using Pangoo.Core.Characters;
 using Sirenix.OdinInspector;
 using UnityEngine.Playables;
 using UnityEditor;
+using Sirenix.Utilities;
 
 
 
@@ -90,11 +91,11 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public InstructionList GetDirectInstructionList(DirectInstructionGroup directInstructionGroup, TriggerEvent trigger)
+        public InstructionList GetDirectInstructionList(DirectInstructionGroup diGroup, TriggerEvent trigger)
         {
             List<Instruction> ret = new();
 
-            foreach (var directInstruction in directInstructionGroup.DirectInstructionList)
+            foreach (var directInstruction in diGroup.DirectInstructionList)
             {
                 switch (directInstruction.InstructionType)
                 {
@@ -133,11 +134,12 @@ namespace Pangoo.Core.VisualScripting
                 }
             }
 
-            if (directInstructionGroup.DisableOnFinish)
+            if (diGroup.DisableOnFinish)
             {
                 var instruction = GetSelfTriggerEnabledInstruction(false);
                 ret.Add(instruction);
             }
+
             foreach (var instruction in ret)
             {
                 instruction.Trigger = trigger;
@@ -145,45 +147,25 @@ namespace Pangoo.Core.VisualScripting
             return new InstructionList(ret.ToArray());
         }
 
-        public TriggerEvent BuildTriggerEvent(int i, DirectInstructionGroup directInstructionGroup)
+        public void BuildTriggerEvent(int i, DirectInstructionGroup directInstructionGroup)
         {
 
-            if (directInstructionGroup.DirectInstructionList == null || directInstructionGroup.DirectInstructionList.Length == 0) return null;
+            if (directInstructionGroup.DirectInstructionList == null || directInstructionGroup.DirectInstructionList.Length == 0) return;
 
-            TriggerEvent ret = null;
             TriggerEventTable.TriggerEventRow row = new TriggerEventTable.TriggerEventRow();
 
             row.Id = (i * -1) - 1;
-            row.Name = $"DI_{directInstructionGroup.TriggerType}_{directInstructionGroup.DirectInstructionList?.Length ?? 0}";
+            row.Name = $"DI_{row.TriggerType}_{directInstructionGroup.DirectInstructionList?.Length ?? 0}";
             row.Params = "{}";
+            row.ConditionType = ConditionTypeEnum.NoCondition.ToString();
             row.Targets = string.Empty;
             row.Enabled = directInstructionGroup.InitEnabled;
-            Debug.Log($"Try add row:{row.Id}");
+            row.TriggerType = directInstructionGroup.TriggerType.ToString();
 
-            switch (directInstructionGroup.TriggerType)
-            {
-                case TriggerTypeEnum.OnTriggerEnter3D:
-                    ret = CreateTriggerEvent<TriggerEventOnTriggerEnter3d>(row);
-                    TriggerEnter3dEvent -= OnTriggerEnter3dEvent;
-                    TriggerEnter3dEvent += OnTriggerEnter3dEvent;
-                    break;
-                case TriggerTypeEnum.OnInteract:
-                    ret = CreateTriggerEvent<TriggerEventOnInteraction>(row);
-                    m_Tracker = CachedTransfrom.GetOrAddComponent<InteractionItemTracker>();
-                    ret.EventRunInstructionsEnd -= OnInteractEnd;
-                    ret.EventRunInstructionsEnd += OnInteractEnd;
-                    break;
-            }
 
-            if (ret != null)
-            {
-                ret.RunInstructions = GetDirectInstructionList(directInstructionGroup, ret);
-                TriggerEvents.Add(row.Id, ret);
-            }
-
-            return ret;
+            var trigger = CreateTriggerEvent(row, false);
+            trigger.ConditionInstructions.Add(1, GetDirectInstructionList(directInstructionGroup, trigger));
         }
-
 
         void DoAwakeDirectionInstruction()
         {

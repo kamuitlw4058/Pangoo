@@ -17,7 +17,6 @@ namespace Pangoo.Core.VisualScripting
 
     [Category("Variable/Bool")]
 
-
     [Serializable]
     public class ConditionVariableBool : Condition
     {
