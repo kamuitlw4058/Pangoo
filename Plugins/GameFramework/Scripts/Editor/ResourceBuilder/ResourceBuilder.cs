@@ -10,6 +10,7 @@ using System;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace UnityGameFramework.Editor.ResourceTools
 {
@@ -257,7 +258,15 @@ namespace UnityGameFramework.Editor.ResourceTools
                     EditorGUILayout.BeginHorizontal();
                     {
                         EditorGUILayout.LabelField("Output Directory", GUILayout.Width(160f));
-                        m_Controller.OutputDirectory = EditorGUILayout.TextField(m_Controller.OutputDirectory);
+                        
+                        string abPackgePath = $"{Directory.GetParent(Application.dataPath)?.ToString()}/ABs";
+                        if (!Directory.Exists(abPackgePath))
+                        {
+                            Directory.CreateDirectory(abPackgePath);
+                        }
+                        m_Controller.OutputDirectory = abPackgePath;
+                        
+                        //m_Controller.OutputDirectory = EditorGUILayout.TextField(m_Controller.OutputDirectory);
                         if (GUILayout.Button("Browse...", GUILayout.Width(80f)))
                         {
                             BrowseOutputDirectory();
@@ -426,6 +435,12 @@ namespace UnityGameFramework.Editor.ResourceTools
             {
                 Debug.LogWarning("Build resources failure.");
             }
+        }
+
+        public void BuildResources(ResourceBuilderController controller)
+        {
+            m_Controller = controller;
+            BuildResources();
         }
 
         private void SaveConfiguration()
