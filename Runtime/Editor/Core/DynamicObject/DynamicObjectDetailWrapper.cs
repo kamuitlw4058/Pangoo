@@ -14,8 +14,22 @@ using Pangoo.Core.VisualScripting;
 namespace Pangoo
 {
     [Serializable]
-    public class DynamicObjectDetailWrapper : ExcelTableRowDetailWrapper<DynamicObjectTableOverview, DynamicObjectTable.DynamicObjectRow>
+    public partial class DynamicObjectDetailWrapper : ExcelTableRowDetailWrapper<DynamicObjectTableOverview, DynamicObjectTable.DynamicObjectRow>
     {
+        [ShowInInspector]
+        [PropertyOrder(1)]
+        public Space PositionSpace
+        {
+            get
+            {
+                return Row?.Space.ToEnum<Space>() ?? Space.Self;
+            }
+            set
+            {
+                Row.Space = value.ToString();
+            }
+        }
+
         [ShowInInspector]
         [PropertyOrder(1)]
         public Vector3 Postion
@@ -77,198 +91,13 @@ namespace Pangoo
             return GameSupportEditorUtility.GetAssetPathIds(assetTypes: new List<string> { "DynamicObject" });
         }
 
-
-
-        [LabelText("触发器Ids")]
-        [ValueDropdown("TriggerIdValueDropdown", IsUniqueList = true)]
-        [ListDrawerSettings(Expanded = true)]
         [ShowInInspector]
-        [PropertyOrder(4)]
-        public int[] TriggerIds
+        [LabelText("资源预制体")]
+        public GameObject AssetPrefab
         {
             get
             {
-                return Row?.TriggerEventIds?.ToArrInt() ?? new int[0];
-            }
-            set
-            {
-
-                if (Row != null && Overview != null)
-                {
-                    Row.TriggerEventIds = value.ToListString();
-                    Save();
-                    BuildTriggers();
-                }
-
-            }
-        }
-
-        public void BuildTriggers()
-        {
-            m_Triggers.Clear();
-            foreach (var trigger in TriggerIds)
-            {
-                var wrapper = new TriggerDetailWrapper();
-                wrapper.Id = trigger;
-                var overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<TriggerEventTableOverview>(trigger);
-                var row = GameSupportEditorUtility.GetExcelTableRowWithOverviewById<TriggerEventTableOverview, TriggerEventTable.TriggerEventRow>(trigger);
-                wrapper.Overview = overview;
-                wrapper.Row = row;
-                Triggers.Add(wrapper);
-            }
-        }
-
-        List<TriggerDetailWrapper> m_Triggers;
-
-        [ShowInInspector]
-        [LabelText("触发器实现")]
-        [ListDrawerSettings(HideAddButton = true, HideRemoveButton = true)]
-        [PropertyOrder(5)]
-        [HideReferenceObjectPicker]
-        public List<TriggerDetailWrapper> Triggers
-        {
-            get
-            {
-                if (m_Triggers == null)
-                {
-                    m_Triggers = new List<TriggerDetailWrapper>();
-                    BuildTriggers();
-                }
-                return m_Triggers;
-            }
-            set
-            {
-                m_Triggers = value;
-                BuildTriggers();
-            }
-        }
-
-
-        public IEnumerable TriggerIdValueDropdown()
-        {
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<TriggerEventTableOverview>();
-        }
-
-        [ShowInInspector]
-        [PropertyOrder(6)]
-        [LabelText("是否使用热点区域")]
-        public bool UseHotspot
-        {
-            get
-            {
-                return Row?.UseHotspot ?? false;
-            }
-            set
-            {
-                Row.UseHotspot = value;
-                Save();
-            }
-        }
-
-
-        [ShowInInspector]
-        [PropertyOrder(7)]
-        [LabelText("热点区域范围")]
-        [ShowIf("@this.UseHotspot")]
-        public float HotspotRadius
-        {
-            get
-            {
-                return Row?.HotspotRadius ?? 0f;
-            }
-            set
-            {
-                Row.HotspotRadius = value;
-                Save();
-            }
-        }
-
-
-        [ShowInInspector]
-        [PropertyOrder(8)]
-        [LabelText("热点区域偏移")]
-        [ShowIf("@this.UseHotspot")]
-        public Vector3 HotspotOffset
-        {
-            get
-            {
-                return Row?.HotspotOffset ?? Vector3.zero;
-            }
-            set
-            {
-                Row.HotspotOffset = value;
-                Save();
-            }
-        }
-
-        [ShowInInspector]
-        [PropertyOrder(9)]
-        [LabelText("热点区域Ids")]
-        [ShowIf("@this.UseHotspot")]
-        [ValueDropdown("GetHotspotIds", IsUniqueList = true)]
-        [ListDrawerSettings(Expanded = true)]
-
-
-        public int[] HotspotIds
-        {
-            get
-            {
-                return Row?.HotspotIds.ToArrInt();
-            }
-            set
-            {
-                Row.HotspotIds = value.ToListString();
-                Save();
-            }
-        }
-
-
-        public IEnumerable GetHotspotIds()
-        {
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<HotspotTableOverview>();
-        }
-
-        List<DirectInstructionGroup> m_DirectInstructionGroups;
-
-        [ShowInInspector]
-        [PropertyOrder(10)]
-        [LabelText("直接指令")]
-        // [ValueDropdown("GetHotspotIds", IsUniqueList = true)]
-        // [HideReferenceObjectPicker]
-        // [TableList(AlwaysExpanded = true)]
-        [OnValueChanged("OnDirectInstructionsChanged", includeChildren: true)]
-        // [ListDrawerSettings(Expanded = true, CustomAddFunction = "AddDirectInstruction", CustomRemoveIndexFunction = "RemoveIndexDirectInstruction")]
-        public List<DirectInstructionGroup> DirectInstructions
-        {
-            get
-            {
-                if (m_DirectInstructionGroups == null)
-                {
-                    m_DirectInstructionGroups = DirectInstructionGroup.CreateList(Row?.DirectInstructions);
-                    if (m_DirectInstructionGroups == null)
-                    {
-                        m_DirectInstructionGroups = new List<DirectInstructionGroup>();
-                    }
-                }
-
-                return m_DirectInstructionGroups;
-            }
-            set
-            {
-                m_DirectInstructionGroups = value;
-                Debug.Log($"Set DirectInstructions");
-            }
-
-        }
-
-        void OnDirectInstructionsChanged()
-        {
-            var currentValue = DirectInstructionGroup.Save(m_DirectInstructionGroups);
-            Debug.Log($"Try Save:{currentValue}, old:{Row?.DirectInstructions}");
-            if (!currentValue.Equals(Row?.DirectInstructions))
-            {
-                Row.DirectInstructions = currentValue;
-                Save();
+                return GameSupportEditorUtility.GetPrefabByAssetPathId(AssetPathId);
             }
         }
 

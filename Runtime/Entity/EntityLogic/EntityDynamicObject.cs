@@ -50,6 +50,23 @@ namespace Pangoo
 
         }
 
+        public void UpdateDefaultTransform()
+        {
+            switch (DoData.InfoRow.m_DynamicObjectRow.Space.ToEnum<Space>())
+            {
+                case Space.World:
+                    transform.position = DoData.InfoRow.Position;
+                    transform.rotation = DoData.InfoRow.Rotation;
+                    transform.localScale = Vector3.one;
+                    break;
+                case Space.Self:
+                    transform.localPosition = DoData.InfoRow.Position;
+                    transform.localRotation = DoData.InfoRow.Rotation;
+                    transform.localScale = Vector3.one;
+                    break;
+            }
+        }
+
         protected override void OnShow(object userData)
         {
             base.OnShow(userData);
@@ -60,9 +77,9 @@ namespace Pangoo
                 Log.Error("Entity data is invalid.");
                 return;
             }
+            UpdateDefaultTransform();
 
-            transform.position = DoData.InfoRow.Position;
-            transform.rotation = DoData.InfoRow.Rotation;
+
             Name = Utility.Text.Format("{0}[{1}]", DoData.EntityInfo.AssetName, DoData.InfoRow.Id);
 
             Debug.Log($"Create DynamicObject:{DoData.InfoRow.Id}");
@@ -71,6 +88,7 @@ namespace Pangoo
             DynamicObj.TableService = DoData?.Service?.TableService;
             DynamicObj.CurrentArgs = new Core.Common.Args();
             DynamicObj.Main = DoData.Service.Parent as MainService;
+            DynamicObj.Entity = this;
             DynamicObj.Awake();
             DynamicObj.Start();
 

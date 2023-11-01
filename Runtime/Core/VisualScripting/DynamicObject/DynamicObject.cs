@@ -17,6 +17,8 @@ namespace Pangoo.Core.VisualScripting
     {
         public Args CurrentArgs { get; set; }
 
+        public EntityDynamicObject Entity { get; set; }
+
         public MainService Main { get; set; }
         CharacterService m_CharacterService;
 
@@ -108,8 +110,11 @@ namespace Pangoo.Core.VisualScripting
             m_InstructionTable = null;
             TriggerEventRows.Clear();
             TriggerEvents.Clear();
+            SubDynamicObjectDict.Clear();
+            LoadingDynamicObject.Clear();
             m_Tracker = null;
             m_CachedTransfrom = null;
+            m_SubDynamicObjectInfo = null;
             TriggerEnter3dEvent -= OnTriggerEnter3dEvent;
             TriggerExit3dEvent -= OnTriggerExit3dEvent;
         }
@@ -124,6 +129,7 @@ namespace Pangoo.Core.VisualScripting
             Debug.Log($"Do awake m_Tracker:{m_Tracker}");
             DoAwakeTriggerEvent();
             DoAwakeHotspot();
+            DoAwakeSubDynamicObject();
         }
 
         protected override void DoStart()

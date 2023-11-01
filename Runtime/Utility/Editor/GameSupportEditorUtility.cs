@@ -266,6 +266,14 @@ namespace Pangoo
             return ret;
         }
 
+        public static GameObject GetPrefabByAssetPathId(int id)
+        {
+            var row = GameSupportEditorUtility.GetAssetPathRowById(id);
+            var finalPath = AssetUtility.GetAssetPath(row.AssetPackageDir, row.AssetType, row.AssetPath);
+            return AssetDatabaseUtility.LoadAssetAtPath<GameObject>(finalPath);
+
+        }
+
 
         public static IEnumerable GetPackageConfig()
         {

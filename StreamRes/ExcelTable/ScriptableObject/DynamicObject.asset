@@ -20,17 +20,21 @@ MonoBehaviour:
       Name: "\u7535\u5B50\u9501"
       AssetPathId: 100001
       NameCn: "\u7535\u5B50\u9501"
-      Position: {x: 0, y: 1.07, z: 0}
-      Rotation: {x: 0, y: 89.19, z: 0}
+      Space: Self
+      Position: {x: 0, y: 0.3, z: 0}
+      Rotation: {x: -0, y: 0, z: 0}
       TriggerEventIds: 1
       UseHotspot: 1
       HotspotRadius: 2
       HotspotIds: 1
       HotspotOffset: {x: 0, y: 0, z: 0}
+      DirectInstructions: 
+      SubDynamicObject: 
     - Id: 3
       Name: "\u65E5\u5386"
       AssetPathId: 100002
       NameCn: 
+      Space: 
       Position: {x: 0, y: 0, z: 0}
       Rotation: {x: 0, y: 0, z: 0}
       TriggerEventIds: 
@@ -38,10 +42,13 @@ MonoBehaviour:
       HotspotRadius: 0
       HotspotIds: 
       HotspotOffset: {x: 0, y: 0, z: 0}
+      DirectInstructions: 
+      SubDynamicObject: 
     - Id: 4
       Name: "\u6D4B\u8BD5"
       AssetPathId: 100004
       NameCn: 
+      Space: 
       Position: {x: 0, y: 0, z: 0}
       Rotation: {x: 0, y: 0, z: 0}
       TriggerEventIds: 
@@ -49,10 +56,13 @@ MonoBehaviour:
       HotspotRadius: 0
       HotspotIds: 
       HotspotOffset: {x: 0, y: 0, z: 0}
+      DirectInstructions: 
+      SubDynamicObject: 
     - Id: 5
       Name: "\u6D4B\u8BD5\u78B0\u649E\u89E6\u53D1"
       AssetPathId: 100005
       NameCn: 
+      Space: 
       Position: {x: 0, y: 1.03, z: 0}
       Rotation: {x: 0, y: 0, z: 0}
       TriggerEventIds: 3
@@ -60,3 +70,5 @@ MonoBehaviour:
       HotspotRadius: 0
       HotspotIds: 
       HotspotOffset: {x: 0, y: 0, z: 0}
+      DirectInstructions: 
+      SubDynamicObject: 

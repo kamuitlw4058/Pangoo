@@ -38,10 +38,19 @@ namespace Pangoo
             /// <summary>
             /// Desc: 
             /// </summary>
+            [TableTitleGroup("位置空间")]
+            [HideLabel]
+            [JsonMember("Space")]
+            [ExcelTableCol("Space","Space","string", "位置空间",5)]
+            public string Space ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
             [TableTitleGroup("位置")]
             [HideLabel]
             [JsonMember("Position")]
-            [ExcelTableCol("Position","Position","Vector3", "位置",5)]
+            [ExcelTableCol("Position","Position","Vector3", "位置",6)]
             public Vector3 Position ;
 
             /// <summary>
@@ -50,7 +59,7 @@ namespace Pangoo
             [TableTitleGroup("旋转")]
             [HideLabel]
             [JsonMember("Rotation")]
-            [ExcelTableCol("Rotation","Rotation","Vector3", "旋转",6)]
+            [ExcelTableCol("Rotation","Rotation","Vector3", "旋转",7)]
             public Vector3 Rotation ;
 
             /// <summary>
@@ -59,7 +68,7 @@ namespace Pangoo
             [TableTitleGroup("触发事件Ids")]
             [HideLabel]
             [JsonMember("TriggerEventIds")]
-            [ExcelTableCol("TriggerEventIds","TriggerEventIds","string", "触发事件Ids",7)]
+            [ExcelTableCol("TriggerEventIds","TriggerEventIds","string", "触发事件Ids",8)]
             public string TriggerEventIds ;
 
             /// <summary>
@@ -68,7 +77,7 @@ namespace Pangoo
             [TableTitleGroup("使用热点区域")]
             [HideLabel]
             [JsonMember("UseHotspot")]
-            [ExcelTableCol("UseHotspot","UseHotspot","bool", "使用热点区域",8)]
+            [ExcelTableCol("UseHotspot","UseHotspot","bool", "使用热点区域",9)]
             public bool UseHotspot ;
 
             /// <summary>
@@ -77,7 +86,7 @@ namespace Pangoo
             [TableTitleGroup("热点区域的范围")]
             [HideLabel]
             [JsonMember("HotspotRadius")]
-            [ExcelTableCol("HotspotRadius","HotspotRadius","float", "热点区域的范围",9)]
+            [ExcelTableCol("HotspotRadius","HotspotRadius","float", "热点区域的范围",10)]
             public float HotspotRadius ;
 
             /// <summary>
@@ -86,7 +95,7 @@ namespace Pangoo
             [TableTitleGroup("热点区域Ids")]
             [HideLabel]
             [JsonMember("HotspotIds")]
-            [ExcelTableCol("HotspotIds","HotspotIds","string", "热点区域Ids",10)]
+            [ExcelTableCol("HotspotIds","HotspotIds","string", "热点区域Ids",11)]
             public string HotspotIds ;
 
             /// <summary>
@@ -95,7 +104,7 @@ namespace Pangoo
             [TableTitleGroup("热点区域偏移")]
             [HideLabel]
             [JsonMember("HotspotOffset")]
-            [ExcelTableCol("HotspotOffset","HotspotOffset","Vector3", "热点区域偏移",11)]
+            [ExcelTableCol("HotspotOffset","HotspotOffset","Vector3", "热点区域偏移",12)]
             public Vector3 HotspotOffset ;
 
             /// <summary>
@@ -104,7 +113,7 @@ namespace Pangoo
             [TableTitleGroup("直接指令")]
             [HideLabel]
             [JsonMember("DirectInstructions")]
-            [ExcelTableCol("DirectInstructions","DirectInstructions","string", "直接指令",12)]
+            [ExcelTableCol("DirectInstructions","DirectInstructions","string", "直接指令",13)]
             public string DirectInstructions ;
 
             /// <summary>
@@ -113,7 +122,7 @@ namespace Pangoo
             [TableTitleGroup("子物体")]
             [HideLabel]
             [JsonMember("SubDynamicObject")]
-            [ExcelTableCol("SubDynamicObject","SubDynamicObject","string", "子物体",13)]
+            [ExcelTableCol("SubDynamicObject","SubDynamicObject","string", "子物体",14)]
             public string SubDynamicObject ;
         }
 

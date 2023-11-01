@@ -19,12 +19,12 @@ MonoBehaviour:
     - Id: 1
       Name: "\u8C03\u8BD5"
       Enabled: 0
-      TriggerType: Pangoo.Core.VisualScripting.TriggerEventOnInteraction
+      TriggerType: OnInteract
       Targets: 
       TargetListType: 0
       InstructionList: 1|2|3
       Params: '{}'
-      ConditionType: StateCondition
+      ConditionType: NoCondition
       ConditionList: 1
       FailInstructionList: 1
     - Id: 2

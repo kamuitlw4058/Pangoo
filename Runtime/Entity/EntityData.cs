@@ -13,6 +13,8 @@ namespace Pangoo
 {
     public class EntityData : IReference
     {
+        protected Space m_Space = Space.Self;
+
         protected Vector3 m_Position = Vector3.zero;
 
         protected Quaternion m_Rotation = Quaternion.identity;
@@ -36,6 +38,18 @@ namespace Pangoo
             set
             {
                 m_Position = value;
+            }
+        }
+
+        public virtual Space Space
+        {
+            get
+            {
+                return m_Space;
+            }
+            set
+            {
+                m_Space = value;
             }
         }
 
@@ -66,6 +80,7 @@ namespace Pangoo
             entityData.Position = Vector3.zero;
             entityData.Rotation = Quaternion.identity;
             entityData.UserData = userData;
+            entityData.Space = Space.World;
             return entityData;
         }
 
@@ -75,6 +90,7 @@ namespace Pangoo
             entityData.Position = position;
             entityData.Rotation = Quaternion.identity;
             entityData.UserData = userData;
+            entityData.Space = Space.World;
             return entityData;
         }
 
@@ -84,6 +100,7 @@ namespace Pangoo
             entityData.Position = position;
             entityData.Rotation = quaternion;
             entityData.UserData = userData;
+            entityData.Space = Space.World;
             return entityData;
         }
 
@@ -91,6 +108,7 @@ namespace Pangoo
         {
             m_Position = Vector3.zero;
             m_Rotation = Quaternion.identity;
+            m_Space = Space.World;
             UserData = null;
         }
     }

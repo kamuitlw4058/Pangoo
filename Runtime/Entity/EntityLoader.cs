@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Pangoo
 {
-     public class EntityLoader : IReference
+    public class EntityLoader : IReference
     {
         private Dictionary<int, Action<Entity>> dicCallback;
         private Dictionary<int, Entity> dicSerial2Entity;
@@ -45,11 +45,17 @@ namespace Pangoo
         //     return ShowEntity<T>((int)enumEntity, onShowSuccess, userData);
         // }
 
-        public int ShowEntity(EnumEntity enumEntity, Action<Entity> onShowSuccess,EntityInfo entityInfo, object userData = null)
+        public void AttachEntity(Entity child, int parentEntityId, string path)
         {
-            int serialId = PangooEntry.Entity.ShowEntity( enumEntity,entityInfo,userData);
-            if(serialId != 0){
-                  dicCallback.Add(serialId, onShowSuccess);
+            PangooEntry.Entity.AttachEntity(child, parentEntityId, path);
+        }
+
+        public int ShowEntity(EnumEntity enumEntity, Action<Entity> onShowSuccess, EntityInfo entityInfo, object userData = null)
+        {
+            int serialId = PangooEntry.Entity.ShowEntity(enumEntity, entityInfo, userData);
+            if (serialId != 0)
+            {
+                dicCallback.Add(serialId, onShowSuccess);
             }
             return serialId;
         }

@@ -85,6 +85,55 @@ namespace Pangoo.Core.Services
             }
         }
 
+        public void ShowSubDynamicObject(int dynamicObjectId, int parentEntityId, string path, Action<EntityDynamicObject> onShowSuccess)
+        {
+            if (Loader == null)
+            {
+                Loader = EntityLoader.Create(this);
+            }
+
+            //通过路径ID去判断是否被加载。用来在不同的章节下用了不用的静态场景ID,但是使用不同的加载Ids
+            var info = m_DynamicObjectInfo.GetRowById<DynamicObjectInfoRow>(dynamicObjectId);
+
+            EntityDynamicObject entity;
+
+            if (m_LoadedAssetDict.TryGetValue(dynamicObjectId, out entity))
+            {
+                Loader.AttachEntity(entity.Entity, parentEntityId, path);
+                return;
+            }
+
+            Log.Info($"ShowDynamicObject:{dynamicObjectId}");
+
+            // 这边有一个假设，同一个时间不会反复加载不同的章节下的同一个场景。
+            if (m_LoadingAssetIds.Contains(dynamicObjectId))
+            {
+
+                return;
+            }
+            else
+            {
+                EntityDynamicObjectData data = EntityDynamicObjectData.Create(info.CreateEntityInfo(m_EntityGroupRow), this, info);
+                m_LoadingAssetIds.Add(dynamicObjectId);
+                Loader.ShowEntity(EnumEntity.DynamicObject,
+                    (o) =>
+                    {
+                        if (m_LoadingAssetIds.Contains(dynamicObjectId))
+                        {
+                            m_LoadingAssetIds.Remove(dynamicObjectId);
+                        }
+                        var showedEntity = o.Logic as EntityDynamicObject;
+                        m_LoadedAssetDict.Add(dynamicObjectId, showedEntity);
+                        Loader.AttachEntity(showedEntity.Entity, parentEntityId, path);
+                        showedEntity.UpdateDefaultTransform();
+                        onShowSuccess?.Invoke(o.Logic as EntityDynamicObject);
+
+                    },
+                    data.EntityInfo,
+                    data);
+            }
+        }
+
 
         [Button("Show")]
         public void ShowDynamicObject(int id)
