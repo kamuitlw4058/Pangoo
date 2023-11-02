@@ -233,7 +233,7 @@ namespace Pangoo.Editor
 
         private static Task MoveABPackgeResource()
         {
-            string sourceDirectoryPath = $"{Directory.GetParent(Application.dataPath)}/ABs/Package/{m_Controller.InternalResourceVersion}/Windows";
+            string sourceDirectoryPath = $"{m_Controller.OutputPackagePath}/Windows";
             string targetDirectoryPath = $"{Application.streamingAssetsPath}";
             //FileUtil.MoveFileOrDirectory(sourceDirectoryPath,targetDirectoryPath);
             DirectoryInfo di = new DirectoryInfo(sourceDirectoryPath);
