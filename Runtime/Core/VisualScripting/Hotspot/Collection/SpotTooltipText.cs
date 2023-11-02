@@ -5,7 +5,6 @@ using TMPro;
 using UnityEngine.UI;
 using Sirenix.OdinInspector;
 using Pangoo;
-using Sirenix.OdinInspector.Editor;
 using System.Collections.Generic;
 
 namespace Pangoo.Core.VisualScripting
