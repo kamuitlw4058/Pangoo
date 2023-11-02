@@ -234,9 +234,14 @@ namespace Pangoo.Editor
         private static Task MoveABPackgeResource()
         {
             string sourceDirectoryPath = $"{m_Controller.OutputPackagePath}/Windows";
-            string targetDirectoryPath = $"{Application.streamingAssetsPath}";
+            string targetDirectoryPath = $"{Application.streamingAssetsPath}/Windows";
             //FileUtil.MoveFileOrDirectory(sourceDirectoryPath,targetDirectoryPath);
             //DirectoryInfo di = new DirectoryInfo(sourceDirectoryPath);
+            if (Directory.Exists(targetDirectoryPath))
+            {
+                Directory.Delete(targetDirectoryPath);
+            }
+            
             Directory.Move(sourceDirectoryPath,targetDirectoryPath);
             
             Debug.Log("资源移动完成");
