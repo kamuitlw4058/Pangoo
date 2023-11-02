@@ -49,32 +49,9 @@ namespace Pangoo.Core.VisualScripting
         }
 
 
-        public void AddPrefabValueDropdownList(ValueDropdownList<GameObject> ret, Transform trans, string prefix)
-        {
-            foreach (var child in trans.Children())
-            {
-                var path = $"{prefix}/{child.name}";
-                if (prefix == string.Empty)
-                {
-                    path = child.name;
-                }
-                ret.Add(path, child.gameObject);
-                GoPathDict.Add(child.gameObject, path);
-                AddPrefabValueDropdownList(ret, child, path);
-            }
-        }
-
-
         IEnumerable OnTargetDropdown()
         {
-            var ValueDropdown = new ValueDropdownList<GameObject>();
-            ValueDropdown.Add(ConstString.Self, gameObject);
-            GoPathDict.Clear();
-            if (gameObject != null)
-            {
-                AddPrefabValueDropdownList(ValueDropdown, gameObject.transform, string.Empty);
-            }
-            return ValueDropdown;
+            return GameSupportEditorUtility.RefPrefabDropdown(gameObject, GoPathDict);
         }
 
         void OnTargetChanged()

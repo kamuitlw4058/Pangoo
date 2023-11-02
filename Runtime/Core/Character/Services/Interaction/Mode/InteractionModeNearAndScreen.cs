@@ -28,14 +28,14 @@ namespace Pangoo.Core.Characters
                 character.CachedTransfrom.TransformPoint(this.m_Offset),
                 interactive.Position
             );
-            Debug.Log($"distance:{distance} interactive.InteractRadius:{interactive.InteractRadius}");
+            // Debug.Log($"distance:{distance} interactive.InteractRadius:{interactive.InteractRadius}");
             if (interactive.InteractRadius > 0 && distance > interactive.InteractRadius) return float.MaxValue;
 
 
             var angle = character.CameraIncluded(interactive.Position);
             var InteractRadian = interactive.InteractRadian == 0 ? character.Main.GameConfig.GetGameMainConfig().DefaultInteractRadian : interactive.InteractRadian;
 
-            Debug.Log($"distance:{distance}, angle:{angle} interactive.InteractRadian:{interactive.InteractRadian},InteractRadian:{InteractRadian},{angle < InteractRadian}");
+            // Debug.Log($"distance:{distance}, angle:{angle} interactive.InteractRadian:{interactive.InteractRadian},InteractRadian:{InteractRadian},{angle < InteractRadian}");
 
             if (angle < InteractRadian) return float.MaxValue;
 

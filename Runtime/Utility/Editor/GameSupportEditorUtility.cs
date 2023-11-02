@@ -268,7 +268,10 @@ namespace Pangoo
 
         public static GameObject GetPrefabByAssetPathId(int id)
         {
+            if (id == 0) return null;
             var row = GameSupportEditorUtility.GetAssetPathRowById(id);
+            if (row == null) return null;
+
             var finalPath = AssetUtility.GetAssetPath(row.AssetPackageDir, row.AssetType, row.AssetPath);
             return AssetDatabaseUtility.LoadAssetAtPath<GameObject>(finalPath);
 
@@ -365,6 +368,63 @@ namespace Pangoo
             }
             return ret;
         }
+
+
+        public static void AddPrefabValueDropdownList(ValueDropdownList<GameObject> ret, Transform trans, string prefix, Dictionary<GameObject, string> goPathDict)
+        {
+            foreach (var child in trans.Children())
+            {
+                var path = $"{prefix}/{child.name}";
+                if (prefix == string.Empty)
+                {
+                    path = child.name;
+                }
+                ret.Add(path, child.gameObject);
+                goPathDict?.Add(child.gameObject, path);
+                AddPrefabValueDropdownList(ret, child, path, goPathDict);
+            }
+        }
+
+
+        public static IEnumerable RefPrefabDropdown(GameObject prefab, Dictionary<GameObject, string> goPathDict)
+        {
+            var ValueDropdown = new ValueDropdownList<GameObject>();
+            ValueDropdown.Add(ConstString.Self, prefab);
+            goPathDict?.Clear();
+            if (prefab != null)
+            {
+                AddPrefabValueDropdownList(ValueDropdown, prefab.transform, string.Empty, goPathDict);
+            }
+            return ValueDropdown;
+        }
+
+        public static void AddPrefabStringDropdownList(ValueDropdownList<string> ret, Transform trans, string prefix)
+        {
+            foreach (var child in trans.Children())
+            {
+                var path = $"{prefix}/{child.name}";
+                if (prefix == string.Empty)
+                {
+                    path = child.name;
+                }
+                ret.Add(path);
+                AddPrefabStringDropdownList(ret, child, path);
+            }
+        }
+
+
+        public static IEnumerable RefPrefabStringDropdown(GameObject prefab)
+        {
+            var ValueDropdown = new ValueDropdownList<string>();
+            ValueDropdown.Add(ConstString.Self);
+            if (prefab != null)
+            {
+                AddPrefabStringDropdownList(ValueDropdown, prefab.transform, string.Empty);
+            }
+            return ValueDropdown;
+        }
+
+
 #endif
     }
 }

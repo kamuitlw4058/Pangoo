@@ -168,7 +168,7 @@ namespace Pangoo
 
         [LabelText("模型预制体")]
         [AssetsOnly]
-        [AssetSelector(ExpandAllMenuItems = false)]
+        // [AssetSelector(ExpandAllMenuItems = false, Filter = "p: prefab")]
         [OnValueChanged("OnModelPrefabChanged")]
         [PropertyOrder(10)]
         [TabGroup("新建预制体")]
@@ -196,7 +196,11 @@ namespace Pangoo
 
         void OnModelPrefabChanged()
         {
-            AssetName = GetPrefixByAssetType(AssetType) + ModelPrefab.name;
+            if (AssetName.IsNullOrWhiteSpace())
+            {
+                AssetName = GetPrefixByAssetType(AssetType) + ModelPrefab.name;
+            }
+
         }
 
         public static AssetPathNewWrapper Create(AssetPathTableOverview overview, int id = 0, string assetType = "", string name = "", string fileType = "prefab", Action<int> afterCreateAsset = null)

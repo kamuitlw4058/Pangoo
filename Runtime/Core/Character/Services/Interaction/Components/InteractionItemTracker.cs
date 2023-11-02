@@ -66,7 +66,7 @@ namespace Pangoo.Core.Characters
 
         int ISpatialHash.UniqueCode => this.GetInstanceID();
 
-        Vector3 ISpatialHash.Position => this.transform.position;
+        public Vector3 Position => this.transform.TransformPoint(InteractOffset);
 
         // INTERACTIVE INTERFACE: -----------------------------------------------------------------
 
@@ -116,7 +116,7 @@ namespace Pangoo.Core.Characters
             {
                 Gizmos.color = Color.green;
             }
-            Gizmos.DrawSphere(transform.position, 0.1f);
+            Gizmos.DrawSphere(Position, 0.05f);
         }
     }
 }

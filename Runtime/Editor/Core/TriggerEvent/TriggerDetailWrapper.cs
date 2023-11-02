@@ -104,12 +104,51 @@ namespace Pangoo
             }
         }
 
+
+        [JsonNoMember]
+        [HideInInspector]
+        public Dictionary<GameObject, string> GoPathDict = new Dictionary<GameObject, string>();
+
+        [ReadOnly]
+        [LabelText("参考预制体")]
+        [TitleGroup("目标")]
+        [ShowInInspector]
+        public GameObject RefPrefab { get; set; }
+
+        [ShowInInspector]
+        [LabelText("参考动态物体资产Id")]
+        [ValueDropdown("OnDynamicObjectIdDropdown")]
+        [OnValueChanged("OnDynamicObjectIdChanged")]
+        [TitleGroup("目标")]
+        public int DynamicObjectAssetPathId { get; set; }
+
+
+        void OnDynamicObjectIdChanged()
+        {
+            RefPrefab = GameSupportEditorUtility.GetPrefabByAssetPathId(DynamicObjectAssetPathId);
+        }
+
+
+        IEnumerable OnDynamicObjectIdDropdown()
+        {
+            return GameSupportEditorUtility.GetAssetPathIds(assetTypes: new List<string> { "DynamicObject" });
+        }
+
+        IEnumerable OnTargetsDropdown()
+        {
+            return GameSupportEditorUtility.RefPrefabStringDropdown(RefPrefab);
+        }
+
+
+
+
         string[] m_Targets;
 
         [ShowInInspector]
         [LabelText("目标")]
         [TitleGroup("目标")]
         [ListDrawerSettings(CustomAddFunction = "AddTarget", CustomRemoveIndexFunction = "RemoveTarget")]
+        [ValueDropdown("OnTargetsDropdown")]
         [OnValueChanged("UpdateTargets", includeChildren: true)]
         public string[] Targets
         {

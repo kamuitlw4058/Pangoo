@@ -90,33 +90,6 @@ namespace Pangoo.Core.VisualScripting
 
         private float m_Velocity;
 
-        public void SetImageAlpha(Image image, float alpha)
-        {
-            var color = image.color;
-            if (color.a != alpha)
-            {
-                image.color = new Color(color.r, color.g, color.b, alpha);
-            }
-        }
-
-        public void SetStateImageAlpha(HotsoptState state, float alpha)
-        {
-            switch (state)
-            {
-                case HotsoptState.ShowUI:
-                    SetImageAlpha(m_Point, alpha);
-                    break;
-                case HotsoptState.None:
-                    SetImageAlpha(m_Point, alpha);
-                    break;
-            }
-        }
-
-        public void UpdateImage(float transition)
-        {
-            SetStateImageAlpha(CurrentSpotState, transition);
-            SetStateImageAlpha(LastestSpotState, (1 - transition));
-        }
 
         List<SpotState> states = new List<SpotState>();
 
@@ -305,11 +278,10 @@ namespace Pangoo.Core.VisualScripting
 
         private Image ConfigureImage(RectTransform parent, string resourcePath)
         {
-            GameObject imageGo = new GameObject("Eye");
+            GameObject imageGo = new GameObject("UI");
             var image = imageGo.AddComponent<Image>();
-            var sprite = Resources.Load<Sprite>(resourcePath);
-            image.sprite = sprite;
-
+            var mat = Resources.Load<Material>(resourcePath);
+            image.material = mat;
             RectTransform imageTransform = imageGo.GetComponent<RectTransform>();
             PangooRectTransformUtility.SetAndCenterToParent(imageTransform, parent);
             imageTransform.sizeDelta = new Vector2(30, 30);
@@ -333,27 +305,27 @@ namespace Pangoo.Core.VisualScripting
         }
 
 
-        private GameObject ConfigureText(RectTransform parent)
-        {
-            GameObject gameObject = new GameObject("Text");
-            this.m_TooltipText = gameObject.AddComponent<Text>();
-            var Point = Resources.Load<Sprite>("UI/UI_Point");
-            Debug.Log($"Point:{Point}");
-            // Resources.GetBuiltinResource(typeof())
+        // private GameObject ConfigureText(RectTransform parent)
+        // {
+        //     GameObject gameObject = new GameObject("Text");
+        //     this.m_TooltipText = gameObject.AddComponent<Text>();
+        //     var Point = Resources.Load<Sprite>("UI/UI_Point");
+        //     Debug.Log($"Point:{Point}");
+        //     // Resources.GetBuiltinResource(typeof())
 
-            // Font font = (Font)Resources.GetBuiltinResource(typeof(Font), FONT_NAME);
-            // this.m_TooltipText.font = font;
-            // this.m_TooltipText.fontSize = FONT_SIZE;
+        //     // Font font = (Font)Resources.GetBuiltinResource(typeof(Font), FONT_NAME);
+        //     // this.m_TooltipText.font = font;
+        //     // this.m_TooltipText.fontSize = FONT_SIZE;
 
-            RectTransform textTransform = gameObject.GetComponent<RectTransform>();
-            PangooRectTransformUtility.SetAndCenterToParent(textTransform, parent);
+        //     RectTransform textTransform = gameObject.GetComponent<RectTransform>();
+        //     PangooRectTransformUtility.SetAndCenterToParent(textTransform, parent);
 
-            Shadow shadow = gameObject.AddComponent<Shadow>();
-            shadow.effectColor = COLOR_BACKGROUND;
-            shadow.effectDistance = Vector2.one;
+        //     Shadow shadow = gameObject.AddComponent<Shadow>();
+        //     shadow.effectColor = COLOR_BACKGROUND;
+        //     shadow.effectDistance = Vector2.one;
 
-            return gameObject;
-        }
+        //     return gameObject;
+        // }
 
         public override void LoadParamsFromJson(string val)
         {
@@ -391,7 +363,7 @@ namespace Pangoo.Core.VisualScripting
 
                 if (m_Alpha < 0)
                 {
-                    m_Alpha = image.color.a;
+                    m_Alpha = image.material.color.a;
                 }
 
 
@@ -424,10 +396,10 @@ namespace Pangoo.Core.VisualScripting
         {
             if (image == null) return;
 
-            var color = image.color;
+            var color = image.material.color;
             if (color.a != alpha)
             {
-                image.color = new Color(color.r, color.g, color.b, alpha);
+                image.material.color = new Color(color.r, color.g, color.b, alpha);
             }
         }
     }

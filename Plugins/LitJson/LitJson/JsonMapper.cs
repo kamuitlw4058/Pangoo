@@ -1094,6 +1094,8 @@ namespace LitJson
 
         public static T ToObject<T>(string json)
         {
+            if (json == null) return default(T);
+
             JsonReader reader = new JsonReader(json);
 
             return (T)ReadValue(typeof(T), reader);

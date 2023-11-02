@@ -45,7 +45,7 @@ namespace Pangoo.Core.VisualScripting
 
         public Character Target;
 
-        public Vector3 HotspotInteractPosition => this.CachedTransfrom.TransformPoint(this.Row.InteractOffset);
+        public Vector3 HotspotInteractPosition => m_Tracker?.Position ?? this.CachedTransfrom.position;
 
 
 
