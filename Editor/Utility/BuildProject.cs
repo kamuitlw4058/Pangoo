@@ -179,31 +179,68 @@ namespace Pangoo.Editor
 
             return null;
         }
-
+        
+        static ResourceBuilderController m_Controller = new ResourceBuilderController();
+        static ResourceBuilder m_Builder = new ResourceBuilder();
         private static Task BuildResoure()
         {
             ResourceRuleEditor m_resourceRule = new ResourceRuleEditor();
             m_resourceRule.RefreshResourceCollection();
-            
-            
-            ResourceBuilderController m_controller = new ResourceBuilderController();
-            m_controller.Load();
 
-            ResourceBuilder m_builder = new ResourceBuilder();
-            m_builder.BuildResources(m_controller);
+            m_Builder.m_OrderBuildResources = false;
+
+            if (m_Controller.Load())
+            {
+                Debug.Log("Load configuration success.");
+
+                m_Builder.m_CompressionHelperTypeNameIndex = 0;
+                string[] compressionHelperTypeNames = m_Controller.GetCompressionHelperTypeNames();
+                for (int i = 0; i < compressionHelperTypeNames.Length; i++)
+                {
+                    if (m_Controller.CompressionHelperTypeName == compressionHelperTypeNames[i])
+                    {
+                        m_Builder.m_CompressionHelperTypeNameIndex = i;
+                        break;
+                    }
+                }
+
+                m_Controller.RefreshCompressionHelper();
+
+                m_Builder.m_BuildEventHandlerTypeNameIndex = 0;
+                string[] buildEventHandlerTypeNames = m_Controller.GetBuildEventHandlerTypeNames();
+                for (int i = 0; i < buildEventHandlerTypeNames.Length; i++)
+                {
+                    if (m_Controller.BuildEventHandlerTypeName == buildEventHandlerTypeNames[i])
+                    {
+                        m_Builder.m_BuildEventHandlerTypeNameIndex = i;
+                        break;
+                    }
+                }
+
+                m_Controller.RefreshBuildEventHandler();
+            }
+            else
+            {
+                Debug.LogWarning("Load configuration failure.");
+            }
+
+            
+            m_Builder.BuildResources(m_Controller);
             
             Debug.Log("资源构建完成");
-            return null;
+            return Task.CompletedTask;
         }
 
         private static Task MoveABPackgeResource()
         {
-            string sourceDirectoryPath = $"{Directory.GetParent(Application.dataPath)}/ABs";
+            string sourceDirectoryPath = $"{Directory.GetParent(Application.dataPath)}/ABs/Package/{m_Controller.InternalResourceVersion}/Windows";
             string targetDirectoryPath = $"{Application.streamingAssetsPath}";
-            FileUtil.MoveFileOrDirectory(sourceDirectoryPath,targetDirectoryPath);
+            //FileUtil.MoveFileOrDirectory(sourceDirectoryPath,targetDirectoryPath);
+            DirectoryInfo di = new DirectoryInfo(sourceDirectoryPath);
+            di.MoveTo(targetDirectoryPath);
             
             Debug.Log("资源移动完成");
-            return null;
+            return Task.CompletedTask;
         }
     }
 }
