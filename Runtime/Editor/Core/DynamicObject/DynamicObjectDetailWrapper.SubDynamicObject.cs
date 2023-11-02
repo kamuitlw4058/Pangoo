@@ -17,7 +17,7 @@ namespace Pangoo
     public partial class DynamicObjectDetailWrapper
     {
         [LabelText("子动态物体")]
-        [TabGroup("子动态物体系统", Order = 13)]
+        [TabGroup("子动态物体", Order = 13)]
         [PropertyOrder(14)]
         [ShowInInspector]
         public string SubDynamicObjecStr
@@ -31,7 +31,7 @@ namespace Pangoo
         List<SubDynamicObject> m_SubDynamicObject;
 
         [LabelText("子动态物体")]
-        [TabGroup("子动态物体系统")]
+        [TabGroup("子动态物体")]
         // [ValueDropdown("TriggerIdValueDropdown", IsUniqueList = true)]
         [ListDrawerSettings(Expanded = true, CustomAddFunction = "OnSubDynamicObjectsAdd")]
         [ShowInInspector]

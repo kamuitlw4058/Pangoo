@@ -21,7 +21,7 @@ namespace Pangoo
         [ValueDropdown("TriggerIdValueDropdown", IsUniqueList = true)]
         [ListDrawerSettings(Expanded = true)]
         [ShowInInspector]
-        [PropertyOrder(4)]
+        [PropertyOrder(3)]
         public int[] TriggerIds
         {
             get
@@ -133,6 +133,8 @@ namespace Pangoo
                 Save();
             }
         }
+
+
 
 
     }

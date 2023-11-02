@@ -124,6 +124,33 @@ namespace Pangoo
             [JsonMember("SubDynamicObject")]
             [ExcelTableCol("SubDynamicObject","SubDynamicObject","string", "子物体",14)]
             public string SubDynamicObject ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("可交互半径")]
+            [HideLabel]
+            [JsonMember("InteractRadius")]
+            [ExcelTableCol("InteractRadius","InteractRadius","float", "可交互半径",15)]
+            public float InteractRadius ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("交互点偏移")]
+            [HideLabel]
+            [JsonMember("InteractOffset")]
+            [ExcelTableCol("InteractOffset","InteractOffset","Vector3", "交互点偏移",16)]
+            public Vector3 InteractOffset ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("可交互角度")]
+            [HideLabel]
+            [JsonMember("InteractRadian")]
+            [ExcelTableCol("InteractRadian","InteractRadian","float", "可交互角度",17)]
+            public float InteractRadian ;
         }
 
 

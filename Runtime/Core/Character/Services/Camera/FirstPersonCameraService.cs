@@ -50,6 +50,18 @@ namespace Pangoo.Core.Characters
             this.SetRotation(Quaternion.Euler(direction));
         }
 
+        public float CameraIncluded(Vector3 position)
+        {
+            if (CameraTransform == null)
+            {
+                return 0;
+            }
+
+            Vector3 forwardVector = CameraTransform.forward;
+            Vector3 targetVector = (position - CameraTransform.position).normalized;
+            float angle = Vector3.Dot(forwardVector, targetVector);
+            return angle;
+        }
 
 
 

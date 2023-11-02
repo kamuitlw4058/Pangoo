@@ -31,24 +31,17 @@ namespace Pangoo.Core.Characters
 
 
 
-
-        [NonSerialized] private List<ISpatialHash> m_Interactions = new List<ISpatialHash>();
-
+        [ShowInInspector]
+        [HideInEditorMode]
+        private List<ISpatialHash> m_Interactions = new List<ISpatialHash>();
 
         public InteractionService(NestedBaseService parent) : base(parent)
         {
-            m_InteractionMode = new InteractionModeNearCharacter();
+            m_InteractionMode = new InteractionModeNearAndScreen();
+            m_ServiceType = CharacterInteractionTypeEnum.NearAndScreen;
+
         }
 
-        // public bool IsInsideFrustum(Vector3 itemPosition)
-        // {
-        //     Vector3 screenPoint = Character.CharacterCamera.Camera..WorldToScreenPoint(itemPosition);
-
-        //     // 判断点是否在摄像机视锥内
-        //     return screenPoint.x > 0 && screenPoint.x < Screen.width &&
-        //                            screenPoint.y > 0 && screenPoint.y < Screen.height &&
-        //                            screenPoint.z > 0;
-        // }
 
         public bool Interact()
         {
@@ -114,6 +107,7 @@ namespace Pangoo.Core.Characters
                 Gizmos.color = COLOR_GIZMO_TARGET;
                 Gizmos.DrawLine(this.Target.Position, Character.CachedTransfrom.position);
             }
+            m_InteractionMode.DrawGizmos(Character);
         }
 
         public override void AddService(CharacterInteractionTypeEnum newType)
@@ -123,7 +117,12 @@ namespace Pangoo.Core.Characters
                 case CharacterInteractionTypeEnum.NearCharacter:
                     m_InteractionMode = new InteractionModeNearCharacter();
                     break;
+                case CharacterInteractionTypeEnum.NearAndScreen:
+                    m_InteractionMode = new InteractionModeNearAndScreen();
+                    break;
             }
+
+
         }
 
 

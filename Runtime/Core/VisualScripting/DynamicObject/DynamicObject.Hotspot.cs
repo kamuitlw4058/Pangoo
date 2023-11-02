@@ -31,14 +31,23 @@ namespace Pangoo.Core.VisualScripting
 
         [ShowInInspector]
         public bool IsHotspotDistanceActive { get; private set; }
+
+
+        [ShowInInspector]
+        public bool IsHotspotInteractActive { get; private set; }
         [ShowInInspector]
         public float Distance { get; private set; }
 
+        public float InteractDistance { get; private set; }
 
 
-        public GameObject Target;
 
-        public Vector3 HotspotPosition => this.CachedTransfrom.TransformPoint(this.Row.HotspotOffset);
+
+        public Character Target;
+
+        public Vector3 HotspotInteractPosition => this.CachedTransfrom.TransformPoint(this.Row.InteractOffset);
+
+
 
         [ShowInInspector]
         public float Transition { get; private set; }
@@ -48,6 +57,11 @@ namespace Pangoo.Core.VisualScripting
         public float Radius
         {
             get => this.Row.HotspotRadius >= 0 ? this.Row.HotspotRadius : float.MaxValue;
+        }
+
+        public float InteractRadius
+        {
+            get => this.Row.InteractRadius >= 0 ? this.Row.InteractRadius : float.MaxValue;
         }
 
         [ShowInInspector]
@@ -94,7 +108,7 @@ namespace Pangoo.Core.VisualScripting
         private void DoUpdateHotspot()
         {
             bool wasActive = this.IsHotspotDistanceActive;
-            this.Target = Character.PlayerGameObject;
+            this.Target = Character?.Player?.character;
 
             if (this.Target == null)
             {
@@ -104,19 +118,17 @@ namespace Pangoo.Core.VisualScripting
             else
             {
                 this.Distance = Vector3.Distance(
-                    this.Target.transform.position,
-                    this.HotspotPosition
+                    this.Target.CachedTransfrom.position,
+                    this.HotspotInteractPosition
                 );
 
                 this.IsHotspotDistanceActive = this.Distance <= this.Radius;
+
+
+                this.IsHotspotInteractActive = (Target.Target == (m_Tracker as IInteractive) && m_Tracker != null);
             }
 
-            this.Transition = Mathf.SmoothDamp(
-                this.Transition,
-                this.IsHotspotDistanceActive ? 1f : 0f,
-                ref this.m_Velocity,
-                TRANSITION_SMOOTH_TIME
-            );
+
 
             foreach (var spot in m_HotSpots)
             {

@@ -34,10 +34,16 @@ namespace Pangoo
         public string EntryProcedure;
 
         [ValueDropdown("GetGameSectionIds")]
+        [LabelText("默认进入游戏段落")]
         public int EnterGameSectionId;
 
         [ValueDropdown("GetDefaultPlayer")]
+        [LabelText("默认玩家")]
         public int DefaultPlayer;
+
+        [LabelText("默认交互夹角")]
+        public float DefaultInteractRadian = 0.45f;
+
 
 
 

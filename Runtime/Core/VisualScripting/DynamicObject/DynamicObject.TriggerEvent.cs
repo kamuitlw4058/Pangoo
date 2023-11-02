@@ -182,6 +182,9 @@ namespace Pangoo.Core.VisualScripting
             {
                 InteractEvent += OnInteractEvent;
                 m_Tracker.EventInteract += OnInteract;
+                m_Tracker.InteractOffset = Row.InteractOffset;
+                m_Tracker.InteractRadian = Row.InteractRadian;
+                m_Tracker.InteractRadius = Row.InteractRadius;
             }
         }
 

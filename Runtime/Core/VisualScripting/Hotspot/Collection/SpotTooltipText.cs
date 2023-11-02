@@ -5,6 +5,8 @@ using TMPro;
 using UnityEngine.UI;
 using Sirenix.OdinInspector;
 using Pangoo;
+using Sirenix.OdinInspector.Editor;
+using System.Collections.Generic;
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -49,15 +51,101 @@ namespace Pangoo.Core.VisualScripting
         [HideInEditorMode]
         private GameObject m_Tooltip;
 
-        private Image m_Image;
+        private Image m_Eye;
+        private Image m_Point;
+
+        private const float TRANSITION_SMOOTH_TIME = 0.25f;
+
         [NonSerialized] private Text m_TooltipText;
         [NonSerialized] private TMP_Text m_TooltipTMPText;
 
-        // PROPERTIES: ----------------------------------------------------------------------------
 
-        // public override string Title => $"Show {this.m_Text}";
 
-        // OVERRIDE METHODS: ----------------------------------------------------------------------
+
+        public HotsoptState SpotState
+        {
+            get
+            {
+                if (!dynamicObject.IsHotspotActive)
+                {
+                    return HotsoptState.None;
+                }
+
+                if (dynamicObject.IsHotspotInteractActive)
+                {
+                    return HotsoptState.ShowInteract;
+                }
+
+                return HotsoptState.ShowUI;
+            }
+        }
+
+        HotsoptState LastestSpotState = HotsoptState.None;
+        HotsoptState CurrentSpotState = HotsoptState.None;
+
+
+        float Transition { get; set; }
+
+        bool IsTransitioning;
+
+        private float m_Velocity;
+
+        public void SetImageAlpha(Image image, float alpha)
+        {
+            var color = image.color;
+            if (color.a != alpha)
+            {
+                image.color = new Color(color.r, color.g, color.b, alpha);
+            }
+        }
+
+        public void SetStateImageAlpha(HotsoptState state, float alpha)
+        {
+            switch (state)
+            {
+                case HotsoptState.ShowUI:
+                    SetImageAlpha(m_Point, alpha);
+                    break;
+                case HotsoptState.None:
+                    SetImageAlpha(m_Point, alpha);
+                    break;
+            }
+        }
+
+        public void UpdateImage(float transition)
+        {
+            SetStateImageAlpha(CurrentSpotState, transition);
+            SetStateImageAlpha(LastestSpotState, (1 - transition));
+        }
+
+        List<SpotState> states = new List<SpotState>();
+
+
+        public void UpdateState(float transition, bool onlySub = false)
+        {
+            foreach (var state in states)
+            {
+                if (state.State == CurrentSpotState)
+                {
+                    if (onlySub)
+                    {
+                        state.SubAlpha(transition);
+                    }
+                    else
+                    {
+                        state.AddAlpha(transition);
+                    }
+
+                }
+                else
+                {
+                    state.SubAlpha((1 - Transition));
+                }
+            }
+        }
+
+
+
 
         protected override void DoUpdate()
         {
@@ -74,12 +162,51 @@ namespace Pangoo.Core.VisualScripting
             };
 
             instance.transform.SetPositionAndRotation(
-                dynamicObject.HotspotPosition + offset,
+                dynamicObject.HotspotInteractPosition + offset,
                 ShortcutMainCamera.Transform.rotation
             );
 
             bool isActive = this.EnableInstance();
             instance.SetActive(isActive);
+
+            if (CurrentSpotState != SpotState)
+            {
+                Transition = 0;
+                m_Velocity = 0;
+                if (IsTransitioning)
+                {
+                    UpdateState(1, true);
+                    LastestSpotState = CurrentSpotState;
+                }
+                CurrentSpotState = SpotState;
+                IsTransitioning = true;
+
+            }
+            else
+            {
+                if (LastestSpotState != CurrentSpotState)
+                {
+                    if (IsTransitioning)
+                    {
+                        this.Transition = Mathf.SmoothDamp(
+                            this.Transition,
+                           1,
+                            ref this.m_Velocity,
+                            TRANSITION_SMOOTH_TIME
+                        );
+
+                        UpdateState(Transition);
+
+                        if (Transition == 1)
+                        {
+                            IsTransitioning = false;
+                            LastestSpotState = CurrentSpotState;
+                        }
+                    }
+                }
+
+            }
+
         }
 
 
@@ -97,7 +224,7 @@ namespace Pangoo.Core.VisualScripting
                 this.m_Tooltip = new GameObject("Tooltip");
 
                 this.m_Tooltip.transform.SetPositionAndRotation(
-                    dynamicObject.HotspotPosition + dynamicObject.CachedTransfrom.TransformDirection(this.m_Params.Offset),
+                    dynamicObject.HotspotInteractPosition + dynamicObject.CachedTransfrom.TransformDirection(this.m_Params.Offset),
                     ShortcutMainCamera.Transform.rotation
                 );
                 this.m_Tooltip.transform.SetParent(dynamicObject.CachedTransfrom);
@@ -116,72 +243,93 @@ namespace Pangoo.Core.VisualScripting
                     1f
                 );
 
-                RectTransform image = this.ConfigureImage(canvasTransform);
 
-                // RectTransform background = this.ConfigureBackground(canvasTransform);
-                // this.ConfigureText(background);
+                SpotState HandState = new SpotState();
+                HandState.Enable = true;
+                HandState.image = CreateHand(canvasTransform);
+                HandState.State = HotsoptState.ShowInteract;
 
-                // this.m_Tooltip.hideFlags = HideFlags.HideAndDontSave;
+                states.Add(HandState);
 
-                Args args = new Args(dynamicObject);
-                args.ChangeTarget(dynamicObject.Target);
+                // SpotState EyeState = new SpotState();
+                // EyeState.Enable = true;
+                // EyeState.image = CreateEye(canvasTransform);
+                // EyeState.State = HotsoptState.ShowInteract;
 
-                if (this.m_TooltipText != null) this.m_TooltipText.text = this.m_Params.Text;
-                if (this.m_TooltipTMPText != null) this.m_TooltipTMPText.text = this.m_Params.Text;
+                // states.Add(EyeState);
+
+                SpotState Point = new SpotState();
+                Point.Enable = true;
+                Point.image = CreatePoint(canvasTransform);
+                Point.State = HotsoptState.ShowUI;
+
+                states.Add(Point);
+
+
             }
 
             return this.m_Tooltip;
         }
 
-        private RectTransform ConfigureBackground(RectTransform parent)
+
+
+
+        // private RectTransform ConfigureBackground(RectTransform parent)
+        // {
+        //     GameObject gameObject = new GameObject("Background");
+
+        //     Image image = gameObject.AddComponent<Image>();
+        //     image.color = COLOR_BACKGROUND;
+
+        //     VerticalLayoutGroup layoutGroup = gameObject.AddComponent<VerticalLayoutGroup>();
+        //     layoutGroup.padding = new RectOffset(PADDING, PADDING, PADDING, PADDING);
+        //     layoutGroup.childAlignment = TextAnchor.MiddleCenter;
+        //     layoutGroup.childControlWidth = true;
+        //     layoutGroup.childControlHeight = true;
+        //     layoutGroup.childScaleWidth = true;
+        //     layoutGroup.childScaleHeight = true;
+        //     layoutGroup.childForceExpandWidth = true;
+        //     layoutGroup.childForceExpandHeight = true;
+
+        //     ContentSizeFitter sizeFitter = gameObject.AddComponent<ContentSizeFitter>();
+        //     sizeFitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+        //     sizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+        //     RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
+        //     PangooRectTransformUtility.SetAndCenterToParent(rectTransform, parent);
+
+        //     return rectTransform;
+        // }
+
+
+
+        private Image ConfigureImage(RectTransform parent, string resourcePath)
         {
-            GameObject gameObject = new GameObject("Background");
+            GameObject imageGo = new GameObject("Eye");
+            var image = imageGo.AddComponent<Image>();
+            var sprite = Resources.Load<Sprite>(resourcePath);
+            image.sprite = sprite;
 
-            Image image = gameObject.AddComponent<Image>();
-            image.color = COLOR_BACKGROUND;
-
-            VerticalLayoutGroup layoutGroup = gameObject.AddComponent<VerticalLayoutGroup>();
-            layoutGroup.padding = new RectOffset(PADDING, PADDING, PADDING, PADDING);
-            layoutGroup.childAlignment = TextAnchor.MiddleCenter;
-            layoutGroup.childControlWidth = true;
-            layoutGroup.childControlHeight = true;
-            layoutGroup.childScaleWidth = true;
-            layoutGroup.childScaleHeight = true;
-            layoutGroup.childForceExpandWidth = true;
-            layoutGroup.childForceExpandHeight = true;
-
-            ContentSizeFitter sizeFitter = gameObject.AddComponent<ContentSizeFitter>();
-            sizeFitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
-            sizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-
-            RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
-            PangooRectTransformUtility.SetAndCenterToParent(rectTransform, parent);
-
-            return rectTransform;
-        }
-        private RectTransform ConfigureImage(RectTransform parent)
-        {
-            GameObject gameObject = new GameObject("Image");
-            this.m_Image = gameObject.AddComponent<Image>();
-            var Eye = Resources.Load<Sprite>("UI/UI_Eye");
-            m_Image.sprite = Eye;
-
-            // Debug.Log($"Point:{Eye}");
-            // this.m_TooltipText = gameObject.AddComponent<Text>();
-
-            // Font font = (Font)Resources.GetBuiltinResource(typeof(Font), FONT_NAME);
-            // this.m_TooltipText.font = font;
-            // this.m_TooltipText.fontSize = FONT_SIZE;
-
-            RectTransform imageTransform = gameObject.GetComponent<RectTransform>();
+            RectTransform imageTransform = imageGo.GetComponent<RectTransform>();
             PangooRectTransformUtility.SetAndCenterToParent(imageTransform, parent);
             imageTransform.sizeDelta = new Vector2(30, 30);
 
-            // Shadow shadow = gameObject.AddComponent<Shadow>();
-            // shadow.effectColor = COLOR_BACKGROUND;
-            // shadow.effectDistance = Vector2.one;
+            return image;
+        }
 
-            return imageTransform;
+        private Image CreateEye(RectTransform parent)
+        {
+            return ConfigureImage(parent, "UI/UI_Eye");
+        }
+
+        private Image CreatePoint(RectTransform parent)
+        {
+            return ConfigureImage(parent, "UI/UI_Point");
+        }
+
+        private Image CreateHand(RectTransform parent)
+        {
+            return ConfigureImage(parent, "UI/UI_Hand");
         }
 
 
@@ -214,6 +362,73 @@ namespace Pangoo.Core.VisualScripting
         public override string ParamsToJson()
         {
             return m_Params.Save();
+        }
+    }
+    public enum HotsoptState
+    {
+        None,
+        ShowUI,
+        ShowInteract,
+
+        ShowDisable,
+    }
+
+
+    public class SpotState
+    {
+        public bool Enable;
+
+        public HotsoptState State;
+
+        public Image image;
+
+        public float m_Alpha = -1;
+        public float Alpha
+        {
+            get
+            {
+                if (image == null) return 0;
+
+                if (m_Alpha < 0)
+                {
+                    m_Alpha = image.color.a;
+                }
+
+
+                return m_Alpha;
+            }
+            set
+            {
+                m_Alpha = value;
+                SetImageAlpha(image, value);
+            }
+        }
+
+        public void AddAlpha(float alpha)
+        {
+            if (Alpha < alpha)
+            {
+                Alpha = alpha;
+            }
+        }
+
+        public void SubAlpha(float alpha)
+        {
+            if (Alpha > alpha)
+            {
+                Alpha = alpha;
+            }
+        }
+
+        void SetImageAlpha(Image image, float alpha)
+        {
+            if (image == null) return;
+
+            var color = image.color;
+            if (color.a != alpha)
+            {
+                image.color = new Color(color.r, color.g, color.b, alpha);
+            }
         }
     }
 }

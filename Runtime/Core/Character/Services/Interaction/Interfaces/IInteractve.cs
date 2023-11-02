@@ -5,7 +5,6 @@ namespace Pangoo.Core.Characters
 {
     public interface IInteractive : ISpatialHash
     {
-        // PROPERTIES: ----------------------------------------------------------------------------
 
         /// <summary>
         /// The scene object that this interface belongs to
@@ -35,5 +34,14 @@ namespace Pangoo.Core.Characters
         /// Executed when the interaction finishes
         /// </summary>
         void Stop();
+
+
+        float InteractRadius { get; set; }
+
+
+        Vector3 InteractOffset { get; set; }
+
+
+        float InteractRadian { get; set; }
     }
 }

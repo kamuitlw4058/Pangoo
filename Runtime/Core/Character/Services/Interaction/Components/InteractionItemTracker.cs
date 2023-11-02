@@ -13,7 +13,6 @@ namespace Pangoo.Core.Characters
         private const HideFlags FLAGS = HideFlags.HideAndDontSave | HideFlags.HideInInspector;
 
         // MEMBERS: -------------------------------------------------------------------------------
-
         [NonSerialized] private Vector3 m_LastPosition;
 
         [NonSerialized] private int m_InstanceID;
@@ -76,6 +75,15 @@ namespace Pangoo.Core.Characters
         int IInteractive.InstanceID => this.m_InstanceID;
 
         bool IInteractive.IsInteracting => this.m_IsInteracting;
+
+        [ShowInInspector]
+        public float InteractRadius { get; set; }
+
+        [ShowInInspector]
+        public Vector3 InteractOffset { get; set; }
+
+        [ShowInInspector]
+        public float InteractRadian { get; set; }
 
         public void Interact(Character character)
         {

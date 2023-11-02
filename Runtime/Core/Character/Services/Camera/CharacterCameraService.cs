@@ -113,6 +113,23 @@ namespace Pangoo.Core.Characters
 
         }
 
+        public float CameraIncluded(Vector3 position)
+        {
+            switch (m_ServiceType)
+            {
+                case CharacterCameraTypeEnum.FirstPerson:
+                    if (m_FirstPersonCameraService == null)
+                    {
+                        m_FirstPersonCameraService = new FirstPersonCameraService(this);
+                        m_FirstPersonCameraService.Awake();
+                        m_FirstPersonCameraService.Start();
+                    }
+
+                    return m_FirstPersonCameraService.CameraIncluded(position);
+            }
+            return 0;
+        }
+
         public void SetCameraOffset(Vector3 offset)
         {
 

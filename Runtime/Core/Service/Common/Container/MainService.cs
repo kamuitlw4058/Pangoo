@@ -8,6 +8,7 @@ using Pangoo.Core.Characters;
 
 namespace Pangoo.Core.Services
 {
+    [Serializable]
     public class MainService : NestedBaseService
     {
         RuntimeDataService RuntimeData = new RuntimeDataService();

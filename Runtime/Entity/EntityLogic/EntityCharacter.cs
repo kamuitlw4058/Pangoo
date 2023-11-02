@@ -5,6 +5,8 @@ using UnityGameFramework.Runtime;
 using Sirenix.OdinInspector;
 using GameFramework;
 using Pangoo.Core.Characters;
+using Pangoo.Core.Services;
+
 
 
 namespace Pangoo
@@ -60,6 +62,7 @@ namespace Pangoo
 
             character = new Character(gameObject, EntityData.CameraOnly);
             character.SetIsPlayer(EntityData.IsPlayer);
+            character.Main = EntityData.Service.Parent as MainService;
 
             MotionInfo motionInfo = new MotionInfo();
             motionInfo.RotationSpeedX = 80;

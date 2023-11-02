@@ -10,6 +10,9 @@ namespace Pangoo.Core.Characters
     public partial class Character : MonoMasterService
     {
 
+        public MainService Main { get; set; }
+
+
         [SerializeField] protected bool m_IsPlayer;
 
         [SerializeField] MotionInfo m_MotionInfo;
@@ -51,6 +54,9 @@ namespace Pangoo.Core.Characters
             }
         }
 
+        public IInteractive Target => m_InteractionService?.Target;
+
+
         public void SetMotionInfo(MotionInfo motionInfo)
         {
             this.MotionInfo = motionInfo;
@@ -64,6 +70,11 @@ namespace Pangoo.Core.Characters
         public void SetDirection(Vector3 direction)
         {
             m_CharacterCameraService.SetDirection(direction);
+        }
+
+        public float CameraIncluded(Vector3 position)
+        {
+            return m_CharacterCameraService.CameraIncluded(position);
         }
 
         public void ResetCameraDirection()

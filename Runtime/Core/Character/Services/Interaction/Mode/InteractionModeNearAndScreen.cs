@@ -11,7 +11,7 @@ namespace Pangoo.Core.Characters
     // [Description("Selects the closest interactive element to the Character")]
 
     [Serializable]
-    public class InteractionModeNearCharacter : InteractionModeBase
+    public class InteractionModeNearAndScreen : InteractionModeBase
     {
 
         [SerializeField] private Vector3 m_Offset = new Vector3(0f, 0f, 0f);
@@ -22,10 +22,24 @@ namespace Pangoo.Core.Characters
         {
             if (character == null) return float.MaxValue;
 
-            return Vector3.Distance(
+
+
+            var distance = Vector3.Distance(
                 character.CachedTransfrom.TransformPoint(this.m_Offset),
                 interactive.Position
             );
+            Debug.Log($"distance:{distance} interactive.InteractRadius:{interactive.InteractRadius}");
+            if (interactive.InteractRadius > 0 && distance > interactive.InteractRadius) return float.MaxValue;
+
+
+            var angle = character.CameraIncluded(interactive.Position);
+            var InteractRadian = interactive.InteractRadian == 0 ? character.Main.GameConfig.GetGameMainConfig().DefaultInteractRadian : interactive.InteractRadian;
+
+            Debug.Log($"distance:{distance}, angle:{angle} interactive.InteractRadian:{interactive.InteractRadian},InteractRadian:{InteractRadian},{angle < InteractRadian}");
+
+            if (angle < InteractRadian) return float.MaxValue;
+
+            return angle;
         }
 
         // GIZMOS: --------------------------------------------------------------------------------
