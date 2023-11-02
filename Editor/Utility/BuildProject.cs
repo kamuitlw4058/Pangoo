@@ -236,8 +236,8 @@ namespace Pangoo.Editor
             string sourceDirectoryPath = $"{m_Controller.OutputPackagePath}/Windows";
             string targetDirectoryPath = $"{Application.streamingAssetsPath}";
             //FileUtil.MoveFileOrDirectory(sourceDirectoryPath,targetDirectoryPath);
-            DirectoryInfo di = new DirectoryInfo(sourceDirectoryPath);
-            di.MoveTo(targetDirectoryPath);
+            //DirectoryInfo di = new DirectoryInfo(sourceDirectoryPath);
+            Directory.Move(sourceDirectoryPath,targetDirectoryPath);
             
             Debug.Log("资源移动完成");
             return Task.CompletedTask;
