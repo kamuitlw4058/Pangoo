@@ -28,6 +28,8 @@ namespace Pangoo.Editor
 
         private UnityAction buildResoureceEvent;
 
+        private static bool isJenkinsBuild=true;
+
         [MenuItem("BuildManager/BuildPC")]
         public static async void BuildPC()
         {
@@ -38,10 +40,21 @@ namespace Pangoo.Editor
 
             #region 获取jenkins参数值
 
-            outputDirPath = GetCommandLineArgValue("-outputDirPath");
-            tagName = GetCommandLineArgValue("-tagName");
-            buildNumber = GetCommandLineArgValue("-buildNumber");
-            monthDay = GetCommandLineArgValue("-monthDay");
+            if (isJenkinsBuild)
+            {
+                outputDirPath = GetCommandLineArgValue("-outputDirPath");
+                tagName = GetCommandLineArgValue("-tagName");
+                buildNumber = GetCommandLineArgValue("-buildNumber");
+                monthDay = GetCommandLineArgValue("-monthDay");
+            }
+            else
+            {
+                outputDirPath = @"C:\Users\ugmax\Desktop\FangLing_HDRP_Package";
+                tagName = "测试";
+                buildNumber = "99";
+                monthDay = "1102";
+            }
+            
 
             #endregion
 
