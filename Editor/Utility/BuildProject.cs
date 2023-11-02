@@ -33,8 +33,8 @@ namespace Pangoo.Editor
         [MenuItem("BuildManager/BuildPC")]
         public static async void BuildPC()
         {
-            await BuildResoure();
-            await MoveABPackgeResource();
+            // await BuildResoure();
+            // await MoveABPackgeResource();
 
             Debug.Log("项目根目录1：" + Directory.GetParent(Application.dataPath).ToString());
 
@@ -195,7 +195,7 @@ namespace Pangoo.Editor
         
         static ResourceBuilderController m_Controller = new ResourceBuilderController();
         static ResourceBuilder m_Builder = new ResourceBuilder();
-        private static Task BuildResoure()
+        private static void BuildResoure()
         {
             string abPackgePath = $"{Directory.GetParent(Application.dataPath)?.ToString()}/ABs";
             if (!Directory.Exists(abPackgePath))
@@ -247,10 +247,10 @@ namespace Pangoo.Editor
             m_Builder.BuildResources(m_Controller);
             
             Debug.Log("资源构建完成");
-            return Task.CompletedTask;
+            //return Task.CompletedTask;
         }
 
-        private static Task MoveABPackgeResource()
+        private static void MoveABPackgeResource()
         {
             string sourceDirectoryPath = $"{m_Controller.OutputPackagePath}/Windows";
             string targetDirectoryPath = $"{Application.streamingAssetsPath}/Windows";
@@ -264,7 +264,7 @@ namespace Pangoo.Editor
             Directory.Move(sourceDirectoryPath,targetDirectoryPath);
             
             Debug.Log("资源移动完成");
-            return Task.CompletedTask;
+            //return Task.CompletedTask;
         }
     }
 }
