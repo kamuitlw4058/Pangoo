@@ -197,6 +197,12 @@ namespace Pangoo.Editor
         static ResourceBuilder m_Builder = new ResourceBuilder();
         private static Task BuildResoure()
         {
+            string abPackgePath = $"{Directory.GetParent(Application.dataPath)?.ToString()}/ABs";
+            if (!Directory.Exists(abPackgePath))
+            {
+                Directory.CreateDirectory(abPackgePath);
+            }
+            
             ResourceRuleEditor m_resourceRule = new ResourceRuleEditor();
             m_resourceRule.RefreshResourceCollection();
 
