@@ -10,6 +10,7 @@ using System;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace UnityGameFramework.Editor.ResourceTools
 {
@@ -19,9 +20,9 @@ namespace UnityGameFramework.Editor.ResourceTools
     public sealed class ResourceBuilder : EditorWindow
     {
         private ResourceBuilderController m_Controller = null;
-        private bool m_OrderBuildResources = false;
-        private int m_CompressionHelperTypeNameIndex = 0;
-        private int m_BuildEventHandlerTypeNameIndex = 0;
+        public bool m_OrderBuildResources = false;
+        public int m_CompressionHelperTypeNameIndex = 0;
+        public int m_BuildEventHandlerTypeNameIndex = 0;
 
         [MenuItem("Game Framework/Resource Tools/Resource Builder", false, 40)]
         public static void Open()
@@ -257,6 +258,14 @@ namespace UnityGameFramework.Editor.ResourceTools
                     EditorGUILayout.BeginHorizontal();
                     {
                         EditorGUILayout.LabelField("Output Directory", GUILayout.Width(160f));
+                        
+                        string abPackgePath = $"{Directory.GetParent(Application.dataPath)?.ToString()}/ABs";
+                        if (!Directory.Exists(abPackgePath))
+                        {
+                            Directory.CreateDirectory(abPackgePath);
+                        }
+                        m_Controller.OutputDirectory = abPackgePath;
+                        
                         m_Controller.OutputDirectory = EditorGUILayout.TextField(m_Controller.OutputDirectory);
                         if (GUILayout.Button("Browse...", GUILayout.Width(80f)))
                         {
@@ -415,17 +424,24 @@ namespace UnityGameFramework.Editor.ResourceTools
             message = "Ready to build.";
         }
 
-        private void BuildResources()
+        public void BuildResources()
         {
             if (m_Controller.BuildResources())
             {
-                Debug.Log("Build resources success.");
+                Debug.Log("资源构建成功.");
                 SaveConfiguration();
             }
             else
             {
-                Debug.LogWarning("Build resources failure.");
+                Debug.LogWarning("B资源构建失败.");
             }
+        }
+
+        public void  BuildResources(ResourceBuilderController controller)
+        {
+            m_Controller = controller;
+            Debug.Log("资源构建完成");
+            BuildResources();
         }
 
         private void SaveConfiguration()

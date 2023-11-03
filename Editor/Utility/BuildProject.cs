@@ -5,169 +5,303 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
+using Pangoo.Editor.ResourceTools;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityGameFramework.Editor.ResourceTools;
 using Debug = UnityEngine.Debug;
 
-public class BuildProject
+namespace Pangoo.Editor
 {
-    private static string m_CommitID;
-
-    private static string outputDirPath = @"C:\Users\ASUS\Desktop";
-    private static string dirPath;
-    private static string tagName = "A0";
-    private static string monthDay = "0918";
-    private static string buildNumber = "123";
-
-
-    [MenuItem("BuildManager/BuildPC")]
-    public static void BuildPC()
+    public class BuildProject
     {
-        Debug.Log("项目根目录1：" + Directory.GetParent(Application.dataPath).ToString());
+        private static string m_CommitID;
 
-        #region 获取jenkins参数值
+        private static string outputDirPath = @"C:\Users\ASUS\Desktop";
+        private static string dirPath;
+        private static string tagName = "A0";
+        private static string monthDay = "0918";
+        private static string buildNumber = "123";
 
-        outputDirPath = GetCommandLineArgValue("-outputDirPath");
-        tagName = GetCommandLineArgValue("-tagName");
-        buildNumber = GetCommandLineArgValue("-buildNumber");
-        monthDay = GetCommandLineArgValue("-monthDay");
+        private UnityAction buildResoureceEvent;
 
-        #endregion
+        private static bool isJenkinsBuild=true;
 
-        #region 构建设置
-
-        BuildPlayerOptions options = new BuildPlayerOptions();
-        //获取所有场景名字
-        string[] scenePaths = new string[EditorBuildSettings.scenes.Length];
-        for (int i = 0; i < EditorBuildSettings.scenes.Length; i++)
+        [MenuItem("BuildManager/BuildPC")]
+        public static async void BuildPC()
         {
-            scenePaths[i] = EditorBuildSettings.scenes[i].path;
-        }
+            // await BuildResoure();
+            // await MoveABPackgeResource();
 
-        options.scenes = scenePaths;
-        options.target = BuildTarget.StandaloneWindows64;
-        options.options = BuildOptions.None;
+            Debug.Log("项目根目录1：" + Directory.GetParent(Application.dataPath).ToString());
 
-        dirPath = $@"{outputDirPath}";
-        if (!Directory.Exists(dirPath))
-        {
-            Directory.CreateDirectory(dirPath);
-        }
+            #region 获取jenkins参数值
 
-        options.locationPathName = $@"{dirPath}\{PlayerSettings.productName}.exe";
-
-        #endregion
-
-        #region 创建一个记录Git提交ID的txt文件
-
-        GetCommitID();
-        if (!File.Exists($@"{ dirPath}\提交ID.txt"))
-        {
-            FileStream fileStream = new FileStream($@"{dirPath}\sourceTree_CommitID.txt", FileMode.OpenOrCreate);
-            StreamWriter sw = new StreamWriter(fileStream, Encoding.UTF8);
-
-            sw.WriteLine(m_CommitID);
-            sw.Close();
-            sw.Dispose();
-            fileStream.Close();
-            fileStream.Dispose();
-        }
-        else
-        {
-            File.WriteAllText($@"{ dirPath}\提交ID.txt", m_CommitID);
-        }
-
-
-        #endregion
-
-        Debug.Log("项目本地路径名1：" + options.locationPathName);
-        BuildPipeline.BuildPlayer(options);
-    }
-
-    private static string EnvironmentVariable
-    {
-        get
-        {
-            string sPath = System.Environment.GetEnvironmentVariable("Path");
-            var result = sPath.Split(';');
-            for (int i = 0; i < result.Length; i++)
+            if (isJenkinsBuild)
             {
-                if (result[i].Contains(@"Git\cmd"))
+                outputDirPath = GetCommandLineArgValue("-outputDirPath");
+                tagName = GetCommandLineArgValue("-tagName");
+                buildNumber = GetCommandLineArgValue("-buildNumber");
+                monthDay = GetCommandLineArgValue("-monthDay");
+            }
+            else
+            {
+                outputDirPath = @"C:\Users\ugmax\Desktop\FangLing_HDRP_Package";
+                tagName = "测试";
+                buildNumber = "99";
+                monthDay = "1102";
+            }
+            
+
+            #endregion
+
+            #region 构建设置
+
+            BuildPlayerOptions options = new BuildPlayerOptions();
+            //获取所有场景名字
+            string[] scenePaths = new string[EditorBuildSettings.scenes.Length];
+            for (int i = 0; i < EditorBuildSettings.scenes.Length; i++)
+            {
+                scenePaths[i] = EditorBuildSettings.scenes[i].path;
+            }
+
+            options.scenes = scenePaths;
+            options.target = BuildTarget.StandaloneWindows64;
+            options.options = BuildOptions.None;
+
+            dirPath = $@"{outputDirPath}";
+            if (!Directory.Exists(dirPath))
+            {
+                Directory.CreateDirectory(dirPath);
+            }
+
+            options.locationPathName = $@"{dirPath}\{PlayerSettings.productName}.exe";
+
+            #endregion
+
+            #region 创建一个记录Git提交ID的txt文件
+
+            GetCommitID();
+            if (!File.Exists($@"{dirPath}\提交ID.txt"))
+            {
+                FileStream fileStream = new FileStream($@"{dirPath}\sourceTree_CommitID.txt", FileMode.OpenOrCreate);
+                StreamWriter sw = new StreamWriter(fileStream, Encoding.UTF8);
+
+                sw.WriteLine(m_CommitID);
+                sw.Close();
+                sw.Dispose();
+                fileStream.Close();
+                fileStream.Dispose();
+            }
+            else
+            {
+                File.WriteAllText($@"{dirPath}\提交ID.txt", m_CommitID);
+            }
+
+            #endregion
+
+            Debug.Log("项目本地路径名1：" + options.locationPathName);
+            BuildPipeline.BuildPlayer(options);
+        }
+
+        private static string EnvironmentVariable
+        {
+            get
+            {
+                string sPath = System.Environment.GetEnvironmentVariable("Path");
+                var result = sPath.Split(';');
+                for (int i = 0; i < result.Length; i++)
                 {
-                    sPath = result[i];
-                    return sPath;
+                    if (result[i].Contains(@"Git\cmd"))
+                    {
+                        sPath = result[i];
+                        return sPath;
+                    }
+                }
+
+                return sPath;
+            }
+        }
+
+        private static void GetCommitID()
+        {
+            string gitPath = System.IO.Path.Combine(EnvironmentVariable, "git.exe");
+            Debug.LogFormat("环境路径：{0}", gitPath);
+            Process p = new Process();
+            p.StartInfo.FileName = gitPath; //获取或设置要启动的应用程序或文档。
+            p.StartInfo.Arguments = "rev-parse HEAD"; //命令行命令
+            p.StartInfo.CreateNoWindow = true; //获取或设置指示是否在新窗口中启动该进程的值。
+            p.StartInfo.UseShellExecute = false; //获取或设置指示是否使用操作系统 shell 启动进程的值。
+            p.StartInfo.RedirectStandardOutput = true; //获取或设置指示是否将应用程序的文本输出写入 StandardOutput 流中的值。
+            p.OutputDataReceived += OnOutputDataReceived;
+            p.Start();
+            p.BeginOutputReadLine();
+            p.WaitForExit();
+        }
+
+        [MenuItem("BuildManager/AddTagAndPush")]
+        private static void AddTagAndPush()
+        {
+            //tagName = GetCommandLineArgValue("-tagName");
+            tagName = "ABCDE";
+            Debug.Log("标签名字:" + tagName);
+
+            string gitPath = System.IO.Path.Combine(EnvironmentVariable, "git.exe");
+            Process p = new Process();
+            p.StartInfo.FileName = gitPath;
+
+            p.StartInfo.Arguments = $"tag -a {tagName} -m \"{tagName}\"";
+            Debug.Log("命令:" + p.StartInfo.Arguments);
+            p.Start();
+            p.StartInfo.Arguments = $"push -f origin {tagName}";
+            p.WaitForExit();
+            Debug.Log("命令:" + p.StartInfo.Arguments);
+            p.Start();
+            Debug.Log("推送标签");
+            p.WaitForExit();
+        }
+
+        private static void OnOutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if (e != null && !string.IsNullOrEmpty(e.Data))
+            {
+                m_CommitID = e.Data;
+                Debug.Log("提交ID1：" + m_CommitID);
+            }
+        }
+
+        /// <summary>
+        /// 获得命令行参数的值
+        /// </summary>
+        /// <param name="argName"></param>
+        /// <returns></returns>
+        private static string GetCommandLineArgValue(string argName)
+        {
+            string[] commandLineArgs = System.Environment.GetCommandLineArgs();
+            for (int i = 0; i < commandLineArgs.Length - 1; i++)
+            {
+                Debug.Log($"命令行内容:{commandLineArgs[i]}");
+                if (commandLineArgs[i].ToLower() == argName.ToLower())
+                {
+                    return commandLineArgs[i + 1];
                 }
             }
 
-            return sPath;
+            return null;
         }
-    }
-
-    private static void GetCommitID()
-    {
-        string gitPath = System.IO.Path.Combine(EnvironmentVariable, "git.exe");
-        Debug.LogFormat("环境路径：{0}", gitPath);
-        Process p = new Process();
-        p.StartInfo.FileName = gitPath; //获取或设置要启动的应用程序或文档。
-        p.StartInfo.Arguments = "rev-parse HEAD"; //命令行命令
-        p.StartInfo.CreateNoWindow = true; //获取或设置指示是否在新窗口中启动该进程的值。
-        p.StartInfo.UseShellExecute = false; //获取或设置指示是否使用操作系统 shell 启动进程的值。
-        p.StartInfo.RedirectStandardOutput = true; //获取或设置指示是否将应用程序的文本输出写入 StandardOutput 流中的值。
-        p.OutputDataReceived += OnOutputDataReceived;
-        p.Start();
-        p.BeginOutputReadLine();
-        p.WaitForExit();
-    }
-
-    [MenuItem("BuildManager/AddTagAndPush")]
-    private static void AddTagAndPush()
-    {
-        //tagName = GetCommandLineArgValue("-tagName");
-        tagName = "ABCDE";
-        Debug.Log("标签名字:" + tagName);
-
-        string gitPath = System.IO.Path.Combine(EnvironmentVariable, "git.exe");
-        Process p = new Process();
-        p.StartInfo.FileName = gitPath;
-
-        p.StartInfo.Arguments = $"tag -a {tagName} -m \"{tagName}\"";
-        Debug.Log("命令:" + p.StartInfo.Arguments);
-        p.Start();
-        p.StartInfo.Arguments = $"push -f origin {tagName}";
-        p.WaitForExit();
-        Debug.Log("命令:" + p.StartInfo.Arguments);
-        p.Start();
-        Debug.Log("推送标签");
-        p.WaitForExit();
-    }
-
-    private static void OnOutputDataReceived(object sender, DataReceivedEventArgs e)
-    {
-        if (e != null && !string.IsNullOrEmpty(e.Data))
+        
+        static ResourceBuilderController m_Controller = new ResourceBuilderController();
+        static ResourceBuilder m_Builder = new ResourceBuilder();
+        static string abPackgePath = $"{Directory.GetParent(Application.dataPath)?.ToString()}/ABs";
+        public static string copyPath;
+        [MenuItem("BuildManager/BuildResoure")]
+        private static void BuildResoure()
         {
-            m_CommitID = e.Data;
-            Debug.Log("提交ID1：" + m_CommitID);
-        }
-    }
-
-    /// <summary>
-    /// 获得命令行参数的值
-    /// </summary>
-    /// <param name="argName"></param>
-    /// <returns></returns>
-    private static string GetCommandLineArgValue(string argName)
-    {
-        string[] commandLineArgs = System.Environment.GetCommandLineArgs();
-        for (int i = 0; i < commandLineArgs.Length - 1; i++)
-        {
-            Debug.Log($"命令行内容:{commandLineArgs[i]}");
-            if (commandLineArgs[i].ToLower() == argName.ToLower())
+            Debug.Log("开始打包资源");
+            
+            if (!Directory.Exists(abPackgePath))
             {
-                return commandLineArgs[i + 1];
+                Debug.Log("创建ABs文件夹");
+                Directory.CreateDirectory(abPackgePath);
             }
+            
+            ResourceRuleEditor m_resourceRule = new ResourceRuleEditor();
+            m_resourceRule.RefreshResourceCollection();
+            
+            m_Builder.m_OrderBuildResources = false;
+
+            if (m_Controller.Load())
+            {
+                Debug.Log("Load configuration success.");
+
+                m_Builder.m_CompressionHelperTypeNameIndex = 0;
+                string[] compressionHelperTypeNames = m_Controller.GetCompressionHelperTypeNames();
+                for (int i = 0; i < compressionHelperTypeNames.Length; i++)
+                {
+                    if (m_Controller.CompressionHelperTypeName == compressionHelperTypeNames[i])
+                    {
+                        m_Builder.m_CompressionHelperTypeNameIndex = i;
+                        break;
+                    }
+                }
+
+                m_Controller.RefreshCompressionHelper();
+
+                m_Builder.m_BuildEventHandlerTypeNameIndex = 0;
+                string[] buildEventHandlerTypeNames = m_Controller.GetBuildEventHandlerTypeNames();
+                for (int i = 0; i < buildEventHandlerTypeNames.Length; i++)
+                {
+                    if (m_Controller.BuildEventHandlerTypeName == buildEventHandlerTypeNames[i])
+                    {
+                        m_Builder.m_BuildEventHandlerTypeNameIndex = i;
+                        break;
+                    }
+                }
+
+                m_Controller.RefreshBuildEventHandler();
+            }
+            else
+            {
+                Debug.LogWarning("加载配置失败.");
+            }
+            Debug.Log("配置中输出目录:"+m_Controller.OutputDirectory);
+            m_Controller.OutputDirectory = abPackgePath;
+            copyPath = m_Controller.OutputPackagePath;
+            m_Builder.BuildResources(m_Controller);
+
+            MoveABPackgeResource();
+            //return Task.CompletedTask;
         }
 
-        return null;
+        private static void MoveABPackgeResource()
+        {
+            m_Controller.Load();
+            
+            string sourceDirectoryPath = $"{copyPath}/Windows";
+            Debug.Log("复制路径:"+sourceDirectoryPath);
+            string targetDirectoryPath = $"{Application.streamingAssetsPath}/Windows";
+            //FileUtil.MoveFileOrDirectory(sourceDirectoryPath,targetDirectoryPath);
+            //DirectoryInfo di = new DirectoryInfo(sourceDirectoryPath);
+            if (Directory.Exists(targetDirectoryPath))
+            {
+                Debug.Log("删除目标文件夹");
+                Directory.Delete(targetDirectoryPath);
+                
+            }
+            //Debug.Log("开始移动文件夹");
+            //Directory.Move(sourceDirectoryPath,targetDirectoryPath);
+            Debug.Log("开始拷贝文件夹");
+            CopyPastFilesAndDirs(sourceDirectoryPath,targetDirectoryPath);
+            
+            Debug.Log("资源移动完成");
+            //return Task.CompletedTask;
+        }
+        
+        private static void CopyPastFilesAndDirs(string srcDir,string destDir)
+        {
+            if (!Directory.Exists(destDir))//若目标文件夹不存在
+            {
+                string newPath;
+                FileInfo fileInfo;
+                Directory.CreateDirectory(destDir);//创建目标文件夹                                                  
+                string[] files = Directory.GetFiles(srcDir);//获取源文件夹中的所有文件完整路径
+                foreach (string path in files)          //遍历文件     
+                {
+                    fileInfo = new FileInfo(path);
+                    newPath = destDir + fileInfo.Name;
+                    File.Copy(path, newPath, true);
+                }
+                string[] dirs = Directory.GetDirectories(srcDir);
+                foreach (string path in dirs)        //遍历文件夹
+                {
+                    DirectoryInfo directory = new DirectoryInfo(path);
+                    string newDir = destDir + directory.Name;
+                    CopyPastFilesAndDirs(path+"\\", newDir+"\\");
+                }
+            }          
+        }
     }
 }
