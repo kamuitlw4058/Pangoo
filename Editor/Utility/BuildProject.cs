@@ -196,6 +196,7 @@ namespace Pangoo.Editor
         static ResourceBuilderController m_Controller = new ResourceBuilderController();
         static ResourceBuilder m_Builder = new ResourceBuilder();
         static string abPackgePath = $"{Directory.GetParent(Application.dataPath)?.ToString()}/ABs";
+        public static string copyPath;
         [MenuItem("BuildManager/BuildResoure")]
         private static void BuildResoure()
         {
@@ -248,6 +249,7 @@ namespace Pangoo.Editor
             }
             Debug.Log("配置中输出目录:"+m_Controller.OutputDirectory);
             m_Controller.OutputDirectory = abPackgePath;
+            copyPath = m_Controller.OutputPackagePath;
             m_Builder.BuildResources(m_Controller);
             
             //return Task.CompletedTask;
@@ -257,7 +259,7 @@ namespace Pangoo.Editor
         {
             m_Controller.Load();
             
-            string sourceDirectoryPath = $"{m_Controller.OutputPackagePath}/Windows";
+            string sourceDirectoryPath = $"{copyPath}/Windows";
             Debug.Log("复制路径:"+sourceDirectoryPath);
             string targetDirectoryPath = $"{Application.streamingAssetsPath}/Windows";
             //FileUtil.MoveFileOrDirectory(sourceDirectoryPath,targetDirectoryPath);
