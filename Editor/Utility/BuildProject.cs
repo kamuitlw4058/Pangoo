@@ -291,14 +291,14 @@ namespace Pangoo.Editor
                 foreach (string path in files)          //遍历文件     
                 {
                     fileInfo = new FileInfo(path);
-                    newPath = destDir + fileInfo.Name;
+                    newPath =fileInfo.Name;
                     File.Copy(path, newPath, true);
                 }
                 string[] dirs = Directory.GetDirectories(srcDir);
                 foreach (string path in dirs)        //遍历文件夹
                 {
                     DirectoryInfo directory = new DirectoryInfo(path);
-                    string newDir = destDir + directory.Name;
+                    string newDir =directory.Name;
                     CopyPastFilesAndDirs(path+"\\", newDir+"\\");
                 }
             }          
