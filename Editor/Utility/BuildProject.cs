@@ -195,6 +195,8 @@ namespace Pangoo.Editor
         
         static ResourceBuilderController m_Controller = new ResourceBuilderController();
         static ResourceBuilder m_Builder = new ResourceBuilder();
+        
+        [MenuItem("BuildManager/BuildResoure")]
         private static void BuildResoure()
         {
             Debug.Log("开始打包资源");
@@ -207,7 +209,7 @@ namespace Pangoo.Editor
             
             ResourceRuleEditor m_resourceRule = new ResourceRuleEditor();
             m_resourceRule.RefreshResourceCollection();
-            m_Controller.OutputDirectory = abPackgePath;
+            
             m_Builder.m_OrderBuildResources = false;
 
             if (m_Controller.Load())
@@ -244,11 +246,10 @@ namespace Pangoo.Editor
             {
                 Debug.LogWarning("加载配置失败.");
             }
-
-            
+            Debug.Log("配置中输出目录:"+m_Controller.OutputDirectory);
+            m_Controller.OutputDirectory = abPackgePath;
             m_Builder.BuildResources(m_Controller);
             
-            Debug.Log("资源构建完成");
             //return Task.CompletedTask;
         }
 

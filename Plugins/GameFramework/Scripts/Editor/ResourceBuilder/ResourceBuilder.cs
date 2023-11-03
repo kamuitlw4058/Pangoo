@@ -428,18 +428,19 @@ namespace UnityGameFramework.Editor.ResourceTools
         {
             if (m_Controller.BuildResources())
             {
-                Debug.Log("Build resources success.");
+                Debug.Log("资源构建成功.");
                 SaveConfiguration();
             }
             else
             {
-                Debug.LogWarning("Build resources failure.");
+                Debug.LogWarning("B资源构建失败.");
             }
         }
 
-        public void BuildResources(ResourceBuilderController controller)
+        public void  BuildResources(ResourceBuilderController controller)
         {
             m_Controller = controller;
+            Debug.Log("资源构建完成");
             BuildResources();
         }
 
