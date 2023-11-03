@@ -251,7 +251,8 @@ namespace Pangoo.Editor
             m_Controller.OutputDirectory = abPackgePath;
             copyPath = m_Controller.OutputPackagePath;
             m_Builder.BuildResources(m_Controller);
-            
+
+            MoveABPackgeResource();
             //return Task.CompletedTask;
         }
 
