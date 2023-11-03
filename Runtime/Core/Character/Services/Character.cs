@@ -102,13 +102,14 @@ namespace Pangoo.Core.Characters
 
             AddService(m_CharacterInputService);
             AddService(m_CharacterCameraService);
+            AddService(m_InteractionService);
 
             if (!onlyCamera)
             {
                 AddService(m_DriverService);
                 AddService(m_MotionActionService);
                 AddService(m_PlayerService);
-                AddService(m_InteractionService);
+
             }
         }
 
