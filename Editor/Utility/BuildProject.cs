@@ -263,12 +263,39 @@ namespace Pangoo.Editor
             {
                 Debug.Log("删除目标文件夹");
                 Directory.Delete(targetDirectoryPath);
+                
             }
-            Debug.Log("开始移动文件夹");
-            Directory.Move(sourceDirectoryPath,targetDirectoryPath);
+            //Debug.Log("开始移动文件夹");
+            //Directory.Move(sourceDirectoryPath,targetDirectoryPath);
+            Debug.Log("开始拷贝文件夹");
+            CopyPastFilesAndDirs(sourceDirectoryPath,targetDirectoryPath);
             
             Debug.Log("资源移动完成");
             //return Task.CompletedTask;
+        }
+        
+        private static void CopyPastFilesAndDirs(string srcDir,string destDir)
+        {
+            if (!Directory.Exists(destDir))//若目标文件夹不存在
+            {
+                string newPath;
+                FileInfo fileInfo;
+                Directory.CreateDirectory(destDir);//创建目标文件夹                                                  
+                string[] files = Directory.GetFiles(srcDir);//获取源文件夹中的所有文件完整路径
+                foreach (string path in files)          //遍历文件     
+                {
+                    fileInfo = new FileInfo(path);
+                    newPath = destDir + fileInfo.Name;
+                    File.Copy(path, newPath, true);
+                }
+                string[] dirs = Directory.GetDirectories(srcDir);
+                foreach (string path in dirs)        //遍历文件夹
+                {
+                    DirectoryInfo directory = new DirectoryInfo(path);
+                    string newDir = destDir + directory.Name;
+                    CopyPastFilesAndDirs(path+"\\", newDir+"\\");
+                }
+            }          
         }
     }
 }
