@@ -35,8 +35,8 @@ namespace Pangoo.Core.VisualScripting
 
         protected override int Run(Args args)
         {
-            var runtimeService = args.Main.GetService<RuntimeDataService>();
-            var variable = runtimeService.GetVariable<bool>(m_Params.VariableId);
+            var variable = args.dynamicObject.GetVariable<bool>(m_Params.VariableId);
+            Debug.Log($"Condition Id:{m_Params.VariableId} Ret:{variable} Check:{m_Params.CheckBool}");
             return variable == m_Params.CheckBool ? 1 : 0;
         }
 

@@ -70,7 +70,7 @@ namespace Pangoo
             motionInfo.LinearSpeed = EntityData.InfoRow.m_CharacterRow.MoveSpeed;
             motionInfo.GravityDownwards = -9.8f;
             motionInfo.TerminalVelocity = -54f;
-            motionInfo.InteractionRadius = 2;
+            motionInfo.InteractionRadius = 5;
 
 
             character.SetMotionInfo(motionInfo);

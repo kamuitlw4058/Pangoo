@@ -14,6 +14,24 @@ namespace Pangoo.Core.VisualScripting
 
     public partial class DynamicObject
     {
+        bool m_IsEnterTrigger;
+
+        public bool IsEnterTrigger
+        {
+            get
+            {
+                return m_IsEnterTrigger;
+            }
+            set
+            {
+                m_IsEnterTrigger = value;
+                if (m_Tracker != null)
+                {
+                    m_Tracker.InteractTriggerEnter = value;
+                }
+            }
+        }
+
 
         public Action<Args> TriggerEnter3dEvent;
 
@@ -57,11 +75,14 @@ namespace Pangoo.Core.VisualScripting
 
         public void TriggerEnter3d(Collider collider)
         {
+            IsEnterTrigger = true;
+
             TriggerEnter3dEvent?.Invoke(CurrentArgs);
         }
 
         public void TriggerExit3d(Collider collider)
         {
+            IsEnterTrigger = false;
             TriggerExit3dEvent?.Invoke(CurrentArgs);
         }
 

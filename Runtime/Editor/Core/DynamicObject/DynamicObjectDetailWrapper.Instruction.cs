@@ -17,11 +17,11 @@ namespace Pangoo
     {
 
         [LabelText("触发器Ids")]
-        [TabGroup("指令系统", Order = 11)]
+        [TabGroup("指令系统")]
         [ValueDropdown("TriggerIdValueDropdown", IsUniqueList = true)]
         [ListDrawerSettings(Expanded = true)]
         [ShowInInspector]
-        [PropertyOrder(3)]
+        [PropertyOrder(11)]
         public int[] TriggerIds
         {
             get
@@ -91,13 +91,10 @@ namespace Pangoo
         List<DirectInstructionGroup> m_DirectInstructionGroups;
 
         [ShowInInspector]
-        [PropertyOrder(10)]
+
         [LabelText("直接指令")]
         [TabGroup("指令系统")]
-
-        // [ValueDropdown("GetHotspotIds", IsUniqueList = true)]
-        // [HideReferenceObjectPicker]
-        // [TableList(AlwaysExpanded = true)]
+        [PropertyOrder(10)]
         [OnValueChanged("OnDirectInstructionsChanged", includeChildren: true)]
         // [ListDrawerSettings(Expanded = true, CustomAddFunction = "AddDirectInstruction", CustomRemoveIndexFunction = "RemoveIndexDirectInstruction")]
         public List<DirectInstructionGroup> DirectInstructions

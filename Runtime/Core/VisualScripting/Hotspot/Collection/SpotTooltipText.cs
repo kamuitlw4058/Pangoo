@@ -59,8 +59,7 @@ namespace Pangoo.Core.VisualScripting
         [NonSerialized] private TMP_Text m_TooltipTMPText;
 
 
-
-
+        [ShowInInspector]
         public HotsoptState SpotState
         {
             get
@@ -68,6 +67,11 @@ namespace Pangoo.Core.VisualScripting
                 if (!dynamicObject.IsHotspotActive)
                 {
                     return HotsoptState.None;
+                }
+
+                if (dynamicObject.IsHotspotBanInteractActive)
+                {
+                    return HotsoptState.ShowDisable;
                 }
 
                 if (dynamicObject.IsHotspotInteractActive)
@@ -234,8 +238,14 @@ namespace Pangoo.Core.VisualScripting
                 Point.Enable = true;
                 Point.image = CreatePoint(canvasTransform);
                 Point.State = HotsoptState.ShowUI;
-
                 states.Add(Point);
+
+                SpotState Ban = new SpotState();
+                Ban.Enable = true;
+                Ban.image = CreateBan(canvasTransform);
+                Ban.State = HotsoptState.ShowDisable;
+
+                states.Add(Ban);
 
 
             }
@@ -298,6 +308,10 @@ namespace Pangoo.Core.VisualScripting
             return ConfigureImage(parent, "UI/UI_Point");
         }
 
+        private Image CreateBan(RectTransform parent)
+        {
+            return ConfigureImage(parent, "UI/UI_Ban");
+        }
         private Image CreateHand(RectTransform parent)
         {
             return ConfigureImage(parent, "UI/UI_Hand");

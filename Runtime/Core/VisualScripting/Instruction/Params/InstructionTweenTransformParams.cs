@@ -18,11 +18,32 @@ namespace Pangoo.Core.VisualScripting
         RotationZ = 1 << 6,
     }
 
+    public enum TweenTransformStartTypeEnum
+    {
+        [LabelText("相对原始值")]
+        RelativeOrigin,
+
+        [LabelText("配置值")]
+        ConfigValue,
+    }
+
+    public enum TweenTransformEndTypeEnum
+    {
+        [LabelText("相对起始值")]
+        RelativeStart,
+
+        [LabelText("配置值")]
+        ConfigValue,
+    }
+
     [Serializable]
     public class InstructionTweenTransformParams : InstructionParams
     {
+        [JsonMember("TweenStartType")]
+        public TweenTransformStartTypeEnum TweenStartType;
 
-
+        [JsonMember("TweenEndType")]
+        public TweenTransformEndTypeEnum TweenEndType;
 
         [JsonMember("TweenType")]
         public TweenTransformType TweenType;
@@ -49,6 +70,8 @@ namespace Pangoo.Core.VisualScripting
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionTweenTransformParams>(val);
+            TweenStartType = par.TweenStartType;
+            TweenEndType = par.TweenEndType;
             TweenType = par.TweenType;
             TweenDuration = par.TweenDuration;
             ForwardBack = par.ForwardBack;

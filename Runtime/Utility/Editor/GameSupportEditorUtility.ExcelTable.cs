@@ -270,7 +270,7 @@ namespace Pangoo
             }
         }
 
-        public static IEnumerable GetVariableIds(string valueType, List<int> ids = null)
+        public static IEnumerable GetVariableIds(string valueType, string variableType = null, List<int> ids = null)
         {
             var ret = new ValueDropdownList<int>();
             var overviews = AssetDatabaseUtility.FindAsset<VariablesTableOverview>();
@@ -283,6 +283,11 @@ namespace Pangoo
                 }
                 foreach (var row in namedRows)
                 {
+                    if (variableType != null && !row.VariableType.Equals(variableType))
+                    {
+                        continue;
+                    }
+
                     if (valueType.IsNullOrWhiteSpace())
                     {
                         TryAddIdByExcludeIds(ret, row, ids);

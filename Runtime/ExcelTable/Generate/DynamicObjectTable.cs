@@ -151,6 +151,15 @@ namespace Pangoo
             [JsonMember("InteractRadian")]
             [ExcelTableCol("InteractRadian","InteractRadian","float", "可交互角度",17)]
             public float InteractRadian ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("交互对象")]
+            [HideLabel]
+            [JsonMember("InteractTarget")]
+            [ExcelTableCol("InteractTarget","InteractTarget","string", "交互对象",18)]
+            public string InteractTarget ;
         }
 
 

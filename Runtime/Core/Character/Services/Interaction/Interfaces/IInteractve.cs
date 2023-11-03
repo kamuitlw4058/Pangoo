@@ -9,7 +9,7 @@ namespace Pangoo.Core.Characters
         /// <summary>
         /// The scene object that this interface belongs to
         /// </summary>
-        GameObject Instance { get; }
+        GameObject Instance { get; set; }
 
         /// <summary>
         /// Returns the scene object instance id that this interface belongs to
@@ -35,6 +35,11 @@ namespace Pangoo.Core.Characters
         /// </summary>
         void Stop();
 
+        bool InteractCanBan { get; set; }
+
+        bool InteractTriggerEnter { get; set; }
+
+        bool InteractDisabled { get; }
 
         float InteractRadius { get; set; }
 

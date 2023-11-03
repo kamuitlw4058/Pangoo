@@ -12,18 +12,30 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public class ConditionVariableBoolParams : ConditionParams
     {
+        [JsonMember("VariableType")]
+        [OnValueChanged("OnVariableTypeChanged")]
+        public VariableTypeEnum VariableType;
+
         [JsonMember("VariableId")]
         [ValueDropdown("OnVariableIdValueDropdown")]
+        [LabelText("变量Id")]
+
         public int VariableId;
 
 
         [JsonMember("CheckBool")]
+        [LabelText("检测目标")]
         public bool CheckBool;
 
 #if UNITY_EDITOR
+        void OnVariableTypeChanged()
+        {
+            VariableId = 0;
+        }
+
         IEnumerable OnVariableIdValueDropdown()
         {
-            return GameSupportEditorUtility.GetVariableIds(VariableValueTypeEnum.Bool.ToString());
+            return GameSupportEditorUtility.GetVariableIds(VariableValueTypeEnum.Bool.ToString(), VariableType.ToString());
         }
 #endif
 
@@ -33,6 +45,7 @@ namespace Pangoo.Core.VisualScripting
             var par = JsonMapper.ToObject<ConditionVariableBoolParams>(val);
             VariableId = par.VariableId;
             CheckBool = par.CheckBool;
+            VariableType = par.VariableType;
         }
 
     }

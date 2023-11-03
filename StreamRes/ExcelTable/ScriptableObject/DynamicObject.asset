@@ -30,6 +30,10 @@ MonoBehaviour:
       HotspotOffset: {x: 0, y: 0, z: 0}
       DirectInstructions: 
       SubDynamicObject: 
+      InteractRadius: 0
+      InteractOffset: {x: 0, y: 0, z: 0}
+      InteractRadian: 0
+      InteractTarget: 
     - Id: 3
       Name: "\u65E5\u5386"
       AssetPathId: 100002
@@ -44,6 +48,10 @@ MonoBehaviour:
       HotspotOffset: {x: 0, y: 0, z: 0}
       DirectInstructions: 
       SubDynamicObject: 
+      InteractRadius: 0
+      InteractOffset: {x: 0, y: 0, z: 0}
+      InteractRadian: 0
+      InteractTarget: 
     - Id: 4
       Name: "\u6D4B\u8BD5"
       AssetPathId: 100004
@@ -58,6 +66,10 @@ MonoBehaviour:
       HotspotOffset: {x: 0, y: 0, z: 0}
       DirectInstructions: 
       SubDynamicObject: 
+      InteractRadius: 0
+      InteractOffset: {x: 0, y: 0, z: 0}
+      InteractRadian: 0
+      InteractTarget: 
     - Id: 5
       Name: "\u6D4B\u8BD5\u78B0\u649E\u89E6\u53D1"
       AssetPathId: 100005
@@ -72,3 +84,7 @@ MonoBehaviour:
       HotspotOffset: {x: 0, y: 0, z: 0}
       DirectInstructions: 
       SubDynamicObject: 
+      InteractRadius: 0
+      InteractOffset: {x: 0, y: 0, z: 0}
+      InteractRadian: 0
+      InteractTarget: Self

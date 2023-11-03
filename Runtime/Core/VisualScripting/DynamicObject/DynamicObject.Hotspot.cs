@@ -35,6 +35,34 @@ namespace Pangoo.Core.VisualScripting
 
         [ShowInInspector]
         public bool IsHotspotInteractActive { get; private set; }
+
+
+        bool m_CanHotspotBan;
+        public bool CanHotspotBan
+        {
+            get
+            {
+                return m_CanHotspotBan;
+            }
+            set
+            {
+                m_CanHotspotBan = value;
+                if (m_Tracker != null)
+                {
+                    m_Tracker.InteractCanBan = value;
+                }
+
+            }
+        }
+        [ShowInInspector]
+        public bool IsHotspotBanInteractActive
+        {
+            get
+            {
+                return IsEnterTrigger && CanHotspotBan;
+            }
+        }
+
         [ShowInInspector]
         public float Distance { get; private set; }
 
@@ -54,6 +82,7 @@ namespace Pangoo.Core.VisualScripting
 
         private float m_Velocity;
 
+        [ShowInInspector]
         public float Radius
         {
             get => this.Row.HotspotRadius >= 0 ? this.Row.HotspotRadius : float.MaxValue;

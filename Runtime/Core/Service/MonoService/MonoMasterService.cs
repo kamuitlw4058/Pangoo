@@ -32,6 +32,7 @@ namespace Pangoo.Core.Services
             }
         }
 
+        [ShowInInspector]
         public Transform CachedTransfrom
         {
             get

@@ -13,6 +13,10 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public class InstructionSetVariableParams : InstructionParams
     {
+        [JsonMember("VariableType")]
+        [OnValueChanged("OnVariableTypeChanged")]
+        public VariableTypeEnum VariableType;
+
         [JsonMember("VariableId")]
         [ValueDropdown("OnVariableIdValueDropdown")]
         public int VariableId;
@@ -24,8 +28,14 @@ namespace Pangoo.Core.VisualScripting
 #if UNITY_EDITOR
         IEnumerable OnVariableIdValueDropdown()
         {
-            return GameSupportEditorUtility.GetVariableIds(VariableValueTypeEnum.Bool.ToString());
+            return GameSupportEditorUtility.GetVariableIds(VariableValueTypeEnum.Bool.ToString(), VariableType.ToString());
         }
+
+        void OnVariableTypeChanged()
+        {
+            VariableId = 0;
+        }
+
 #endif
 
 

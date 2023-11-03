@@ -16,7 +16,7 @@ namespace Pangoo.Core.VisualScripting
     [Common.Title("设置Bool")]
     // [Description("Prints a message to the Unity Console")]
 
-    [Category("Variables/设置Bool")]
+    [Category("Variables/动态物体CanBan")]
 
     // [Parameter(
     //     "Message",
@@ -27,12 +27,12 @@ namespace Pangoo.Core.VisualScripting
     // [Image(typeof(IconBug), ColorTheme.Type.TextLight)]
 
     [Serializable]
-    public class InstructionSetVariableBool : Instruction
+    public class InstructionInverseDynamiaObjectCanBan : Instruction
     {
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        public InstructionSetVariableParams ParamsRaw = new InstructionSetVariableParams();
+        public InstructionBoolParams ParamsRaw = new InstructionBoolParams();
 
         public override IParams Params => this.ParamsRaw;
 
@@ -42,7 +42,7 @@ namespace Pangoo.Core.VisualScripting
 
         // CONSTRUCTORS: --------------------------------------------------------------------------
 
-        public InstructionSetVariableBool()
+        public InstructionInverseDynamiaObjectCanBan()
         { }
 
 
@@ -54,8 +54,8 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            Debug.Log($"Set VariableType:{ParamsRaw.VariableType}, VariableId:{ParamsRaw.VariableId} val:{ParamsRaw.Val}");
-            args.dynamicObject.SetVariable<bool>(ParamsRaw.VariableId, ParamsRaw.Val);
+            // Debug.Log($"Set CanBan To:{ParamsRaw.Val} Old:{args.dynamicObject.CanHotspotBan}");
+            args.dynamicObject.CanHotspotBan = !args.dynamicObject.CanHotspotBan;
         }
 
 

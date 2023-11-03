@@ -9,11 +9,11 @@ using UnityGameFramework;
 
 namespace Pangoo.Core.VisualScripting
 {
-    [Common.Title("Debug Text")]
-    [Category("Tween/缓动Transform")]
+    // [Common.Title("Debug Text")]
+    [Category("Tween/门缓动")]
 
     [Serializable]
-    public class InstructionTweenTransform : Instruction
+    public class InstructionDoorTweenTransform : Instruction
     {
         [ShowInInspector]
         [HideInEditorMode]
@@ -48,12 +48,6 @@ namespace Pangoo.Core.VisualScripting
         public float progress;
 
 
-
-
-        // CONSTRUCTORS: --------------------------------------------------------------------------
-
-        public InstructionTweenTransform()
-        { }
 
         public float LerpValueWithConfig(float startOrigin, float val, bool forwardBack = false, bool isRotation = false)
         {
@@ -182,6 +176,9 @@ namespace Pangoo.Core.VisualScripting
             // Debug.Log($"args.Target:{args.Target}");
             if (args.Target != null)
             {
+
+                var angle = args.dynamicObject.CachedTransfrom.InverseTransformPoint(args.Main.CharacterService.Player.CachedTransform.position);
+                Debug.Log($"Angle:{angle.z}");
                 m_TargetTransform = args.Target.transform;
                 m_StartPosition = m_TargetTransform.localPosition;
                 m_StartRotation = m_TargetTransform.localRotation.eulerAngles;

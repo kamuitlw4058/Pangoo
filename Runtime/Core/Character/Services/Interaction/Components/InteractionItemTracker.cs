@@ -1,7 +1,6 @@
 using System;
 using Pangoo.Core.Common;
 using Sirenix.OdinInspector;
-using UnityEditor;
 using UnityEngine;
 
 namespace Pangoo.Core.Characters
@@ -66,15 +65,29 @@ namespace Pangoo.Core.Characters
 
         int ISpatialHash.UniqueCode => this.GetInstanceID();
 
-        public Vector3 Position => this.transform.TransformPoint(InteractOffset);
+        public Vector3 Position => Instance.transform.TransformPoint(InteractOffset);
+
+
 
         // INTERACTIVE INTERFACE: -----------------------------------------------------------------
 
-        GameObject IInteractive.Instance => this.gameObject;
 
         int IInteractive.InstanceID => this.m_InstanceID;
 
         bool IInteractive.IsInteracting => this.m_IsInteracting;
+
+        [ShowInInspector]
+        public bool InteractDisabled
+        {
+            get
+            {
+                if (InteractCanBan && InteractTriggerEnter)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
 
         [ShowInInspector]
         public float InteractRadius { get; set; }
@@ -84,6 +97,28 @@ namespace Pangoo.Core.Characters
 
         [ShowInInspector]
         public float InteractRadian { get; set; }
+
+        GameObject m_Instance;
+
+        [ShowInInspector]
+        public GameObject Instance
+        {
+            get
+            {
+                if (m_Instance == null)
+                {
+                    return this.gameObject;
+                }
+                return m_Instance;
+            }
+            set
+            {
+                m_Instance = value;
+            }
+        }
+
+        public bool InteractCanBan { get; set; }
+        public bool InteractTriggerEnter { get; set; }
 
         public void Interact(Character character)
         {

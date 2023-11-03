@@ -8,17 +8,36 @@ namespace Pangoo
 {
     public class VariablesDetailWrapper : ExcelTableRowDetailWrapper<VariablesTableOverview, VariablesTable.VariablesRow>
     {
+        VariableTypeEnum? m_VariableType;
+
         [ShowInInspector]
         public VariableTypeEnum VariableType
         {
             get
             {
-                return Row?.VariableType.ToEnum<VariableTypeEnum>() ?? VariableTypeEnum.DynamicObject;
+                if (m_VariableType == null)
+                {
+                    var rowValue = Row?.VariableType.ToEnum<VariableTypeEnum>();
+                    if (rowValue == null)
+                    {
+                        m_VariableType = VariableTypeEnum.DynamicObject;
+                        Row.VariableType = m_VariableType.ToString();
+                        Save();
+                    }
+                    else
+                    {
+                        m_VariableType = rowValue;
+                    }
+
+                }
+
+                return m_VariableType.Value;
             }
             set
             {
                 if (Row != null)
                 {
+                    m_VariableType = value;
                     Row.VariableType = value.ToString();
                     Save();
                 }

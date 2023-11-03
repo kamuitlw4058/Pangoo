@@ -22,6 +22,8 @@ namespace Pangoo.Core.VisualScripting
         public MainService Main { get; set; }
         CharacterService m_CharacterService;
 
+        RuntimeDataService m_RuntimeData;
+
         public CharacterService Character
         {
             get
@@ -31,6 +33,18 @@ namespace Pangoo.Core.VisualScripting
                     m_CharacterService = Main?.GetService<CharacterService>();
                 }
                 return m_CharacterService;
+            }
+        }
+
+        public RuntimeDataService RuntimeData
+        {
+            get
+            {
+                if (m_RuntimeData == null)
+                {
+                    m_RuntimeData = Main?.GetService<RuntimeDataService>();
+                }
+                return m_RuntimeData;
             }
         }
 

@@ -44,6 +44,9 @@ namespace Pangoo
         [LabelText("默认交互夹角")]
         public float DefaultInteractRadian = 0.45f;
 
+        [LabelText("默认交互范围")]
+        public float DefaultInteractRadius = 2f;
+
 
 
 

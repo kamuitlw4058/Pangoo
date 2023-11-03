@@ -4,6 +4,7 @@ using UnityEngine;
 using Pangoo;
 using LitJson;
 using Pangoo.Core.VisualScripting;
+using Sirenix.OdinInspector;
 
 namespace Pangoo.Core.Common
 {
@@ -18,6 +19,9 @@ namespace Pangoo.Core.Common
         public Dictionary<int, bool> TriggerEnabledDict = new Dictionary<int, bool>();
 
         public Dictionary<int, int> TriggerIndexDict = new();
+
+        [ShowInInspector]
+        Dictionary<string, object> m_KeyValueDict = new Dictionary<string, object>();
 
 
         public void SetChilernTransforms(string key, TransformValue val)
@@ -35,6 +39,25 @@ namespace Pangoo.Core.Common
             TriggerIndexDict.Set(key, val);
         }
 
+
+
+        public virtual T Get<T>(string key, T defaultValue = default(T))
+        {
+            object value = null;
+            if (m_KeyValueDict.ContainsKey(key))
+            {
+                value = m_KeyValueDict[key];
+                // Debug.LogError($"获取的value值0：{value}");
+                return (T)value;
+            }
+
+            return defaultValue;
+        }
+
+        public virtual void Set<T>(string key, T value)
+        {
+            m_KeyValueDict.Set(key, value);
+        }
 
 
     }

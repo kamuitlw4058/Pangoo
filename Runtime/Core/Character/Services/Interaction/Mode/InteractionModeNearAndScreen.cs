@@ -21,16 +21,18 @@ namespace Pangoo.Core.Characters
         public override float CalculatePriority(Character character, IInteractive interactive)
         {
             if (character == null) return float.MaxValue;
-
+            if (interactive.InteractDisabled) return float.MaxValue;
 
 
             var distance = Vector3.Distance(
                 character.CachedTransfrom.TransformPoint(this.m_Offset),
                 interactive.Position
             );
-            // Debug.Log($"distance:{distance} interactive.InteractRadius:{interactive.InteractRadius}");
-            if (interactive.InteractRadius > 0 && distance > interactive.InteractRadius) return float.MaxValue;
 
+            var InteractRadius = interactive.InteractRadius == 0 ? character.Main.GameConfig.GetGameMainConfig().DefaultInteractRadius : interactive.InteractRadius;
+            if (InteractRadius > 0 && distance > InteractRadius) return float.MaxValue;
+
+            // Debug.Log($"distance:{distance}, InteractRadius:{InteractRadius},interactive.InteractRadius:{interactive.InteractRadius}");
 
             var angle = character.CameraIncluded(interactive.Position);
             var InteractRadian = interactive.InteractRadian == 0 ? character.Main.GameConfig.GetGameMainConfig().DefaultInteractRadian : interactive.InteractRadian;

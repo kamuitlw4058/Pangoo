@@ -20,6 +20,9 @@ namespace Pangoo.Core.VisualScripting
 
         ConditionTable m_ConditionTable;
 
+        VariablesTable m_VariablesTable;
+
+
 
         [HideReferenceObjectPicker]
         public Dictionary<int, TriggerEvent> TriggerEvents = new();
@@ -87,10 +90,12 @@ namespace Pangoo.Core.VisualScripting
                     triggerEvent.ConditionInstructions.Add(1, noConditionInstruction);
                     break;
                 case ConditionTypeEnum.BoolCondition:
+                    triggerEvent.Conditions = ConditionList.BuildConditionList(triggerEvent.Row.GetConditionList());
                     triggerEvent.ConditionInstructions.Add(1, InstructionList.BuildInstructionList(triggerEvent.Row.GetInstructionList(), m_InstructionTable, triggerEvent));
                     triggerEvent.ConditionInstructions.Add(0, InstructionList.BuildInstructionList(triggerEvent.Row.GetFailInstructionList(), m_InstructionTable, triggerEvent));
                     break;
                 case ConditionTypeEnum.StateCondition:
+                    triggerEvent.Conditions = ConditionList.BuildConditionList(triggerEvent.Row.GetConditionList());
                     Dictionary<int, InstrctionIds> StateInstructionIds = JsonMapper.ToObject<Dictionary<int, InstrctionIds>>(triggerEvent.Row.Params);
                     foreach (var kv in StateInstructionIds)
                     {
@@ -151,6 +156,7 @@ namespace Pangoo.Core.VisualScripting
             m_TriggerEventTable = TableService?.GetExcelTable<TriggerEventTable>();
             m_InstructionTable = TableService?.GetExcelTable<InstructionTable>();
             m_ConditionTable = TableService?.GetExcelTable<ConditionTable>();
+            m_VariablesTable = TableService?.GetExcelTable<VariablesTable>();
 
             var triggerIds = Row.GetTriggerEventIdList();
             TriggerEventRows.Clear();
@@ -185,6 +191,11 @@ namespace Pangoo.Core.VisualScripting
                 m_Tracker.InteractOffset = Row.InteractOffset;
                 m_Tracker.InteractRadian = Row.InteractRadian;
                 m_Tracker.InteractRadius = Row.InteractRadius;
+                var InteractTarget = CachedTransfrom.Find(Row.InteractTarget);
+                if (InteractTarget != null)
+                {
+                    m_Tracker.Instance = InteractTarget.gameObject;
+                }
             }
         }
 

@@ -231,11 +231,12 @@ namespace Pangoo.Core.VisualScripting
                     break;
                 case ConditionTypeEnum.BoolCondition:
                     var isPass = Conditions?.Check(args) ?? false ? 1 : 0;
-                    Debug.Log($"Check Pass:{isPass}");
+                    Debug.Log($"Check Pass:{isPass} :{Conditions}");
                     OnStateInvoke(isPass, args);
                     break;
                 case ConditionTypeEnum.StateCondition:
                     var state = Conditions?.GetState(args) ?? 1;
+                    Debug.Log($"Check state:{state} :{Conditions}");
                     OnStateInvoke(state, args);
                     break;
 
