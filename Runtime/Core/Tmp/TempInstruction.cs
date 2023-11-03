@@ -41,5 +41,21 @@ namespace Pangoo
             characterService?.Player?.character?.SetCameraOffset(new Vector3(0, height, 0));
 
         }
+
+        public void SetPlayerInput(bool val)
+        {
+            if (mainService == null)
+            {
+                mainService = PangooEntry.Service.mainService;
+            }
+
+            if (characterService == null)
+            {
+                characterService = mainService?.CharacterService;
+            }
+
+            var player = characterService?.Player?.character;
+            if (player != null) player.IsControllable = val;
+        }
     }
 }
