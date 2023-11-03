@@ -22,7 +22,7 @@ namespace Pangoo.Core.VisualScripting
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        InstructionTweenTransformParams ParamsRaw = new InstructionTweenTransformParams();
+        InstructionDoorTweenTransformParams ParamsRaw = new InstructionDoorTweenTransformParams();
 
         public override IParams Params => this.ParamsRaw;
 
@@ -48,6 +48,9 @@ namespace Pangoo.Core.VisualScripting
         public float progress;
 
 
+        public bool IsForward;
+
+
 
         public float LerpValueWithConfig(float startOrigin, float val, bool forwardBack = false, bool isRotation = false)
         {
@@ -66,10 +69,25 @@ namespace Pangoo.Core.VisualScripting
             switch (ParamsRaw.TweenEndType)
             {
                 case TweenTransformEndTypeEnum.RelativeStart:
-                    end = start + (float)ParamsRaw.TweenMax;
+                    if (IsForward)
+                    {
+                        end = start + (float)ParamsRaw.TweenMaxForward;
+                    }
+                    else
+                    {
+                        end = start + (float)ParamsRaw.TweenMaxBack;
+                    }
+
                     break;
                 case TweenTransformEndTypeEnum.ConfigValue:
-                    end = (float)ParamsRaw.TweenMax;
+                    if (IsForward)
+                    {
+                        end = (float)ParamsRaw.TweenMaxForward;
+                    }
+                    else
+                    {
+                        end = (float)ParamsRaw.TweenMaxBack;
+                    }
                     break;
             }
 
@@ -176,15 +194,21 @@ namespace Pangoo.Core.VisualScripting
             // Debug.Log($"args.Target:{args.Target}");
             if (args.Target != null)
             {
-
                 var angle = args.dynamicObject.CachedTransfrom.InverseTransformPoint(args.Main.CharacterService.Player.CachedTransform.position);
-                Debug.Log($"Angle:{angle.z}");
+                if (angle.x >= 0)
+                {
+                    IsForward = true;
+                }
+                else
+                {
+                    IsForward = false;
+                }
                 m_TargetTransform = args.Target.transform;
                 m_StartPosition = m_TargetTransform.localPosition;
                 m_StartRotation = m_TargetTransform.localRotation.eulerAngles;
                 m_StartTime = Time.time;
                 var startProcess = Time.time < (m_StartTime + ParamsRaw.TweenDuration);
-                Debug.Log($"args.Target:{args.Target}, startProcess:{startProcess} TweenMin:{ParamsRaw.TweenMin} TweenMax:{ParamsRaw.TweenMax} TweenDuration:{ParamsRaw.TweenDuration}");
+                Debug.Log($"args.Target:{args.Target}, startProcess:{startProcess} TweenMin:{ParamsRaw.TweenMin} TweenMax:{ParamsRaw.TweenMaxForward},{ParamsRaw.TweenMaxBack} TweenDuration:{ParamsRaw.TweenDuration}");
                 while (Time.time < (m_StartTime + ParamsRaw.TweenDuration))
                 {
                     progress = (Time.time - m_StartTime) / (float)ParamsRaw.TweenDuration;
