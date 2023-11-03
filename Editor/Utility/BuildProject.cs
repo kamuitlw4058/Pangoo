@@ -207,7 +207,7 @@ namespace Pangoo.Editor
             
             ResourceRuleEditor m_resourceRule = new ResourceRuleEditor();
             m_resourceRule.RefreshResourceCollection();
-
+            m_Controller.OutputDirectory = abPackgePath;
             m_Builder.m_OrderBuildResources = false;
 
             if (m_Controller.Load())
