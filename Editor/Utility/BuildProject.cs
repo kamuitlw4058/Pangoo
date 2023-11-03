@@ -197,9 +197,11 @@ namespace Pangoo.Editor
         static ResourceBuilder m_Builder = new ResourceBuilder();
         private static void BuildResoure()
         {
+            Debug.Log("开始打包资源");
             string abPackgePath = $"{Directory.GetParent(Application.dataPath)?.ToString()}/ABs";
             if (!Directory.Exists(abPackgePath))
             {
+                Debug.Log("创建ABs文件夹");
                 Directory.CreateDirectory(abPackgePath);
             }
             
@@ -240,7 +242,7 @@ namespace Pangoo.Editor
             }
             else
             {
-                Debug.LogWarning("Load configuration failure.");
+                Debug.LogWarning("加载配置失败.");
             }
 
             
@@ -258,9 +260,10 @@ namespace Pangoo.Editor
             //DirectoryInfo di = new DirectoryInfo(sourceDirectoryPath);
             if (Directory.Exists(targetDirectoryPath))
             {
+                Debug.Log("删除目标文件夹");
                 Directory.Delete(targetDirectoryPath);
             }
-            
+            Debug.Log("开始移动文件夹");
             Directory.Move(sourceDirectoryPath,targetDirectoryPath);
             
             Debug.Log("资源移动完成");
