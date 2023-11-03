@@ -195,12 +195,12 @@ namespace Pangoo.Editor
         
         static ResourceBuilderController m_Controller = new ResourceBuilderController();
         static ResourceBuilder m_Builder = new ResourceBuilder();
-        
+        static string abPackgePath = $"{Directory.GetParent(Application.dataPath)?.ToString()}/ABs";
         [MenuItem("BuildManager/BuildResoure")]
         private static void BuildResoure()
         {
             Debug.Log("开始打包资源");
-            string abPackgePath = $"{Directory.GetParent(Application.dataPath)?.ToString()}/ABs";
+            
             if (!Directory.Exists(abPackgePath))
             {
                 Debug.Log("创建ABs文件夹");
@@ -255,7 +255,10 @@ namespace Pangoo.Editor
 
         private static void MoveABPackgeResource()
         {
+            m_Controller.Load();
+            
             string sourceDirectoryPath = $"{m_Controller.OutputPackagePath}/Windows";
+            Debug.Log("复制路径:"+sourceDirectoryPath);
             string targetDirectoryPath = $"{Application.streamingAssetsPath}/Windows";
             //FileUtil.MoveFileOrDirectory(sourceDirectoryPath,targetDirectoryPath);
             //DirectoryInfo di = new DirectoryInfo(sourceDirectoryPath);
