@@ -28,7 +28,7 @@ namespace Pangoo.Editor
 
         private UnityAction buildResoureceEvent;
 
-        private static bool isJenkinsBuild=true;
+        private static bool isJenkinsBuild = true;
 
         [MenuItem("BuildManager/BuildPC")]
         public static async void BuildPC()
@@ -54,7 +54,6 @@ namespace Pangoo.Editor
                 buildNumber = "99";
                 monthDay = "1102";
             }
-            
 
             #endregion
 
@@ -192,25 +191,27 @@ namespace Pangoo.Editor
 
             return null;
         }
-        
+
         static ResourceBuilderController m_Controller = new ResourceBuilderController();
         static ResourceBuilder m_Builder = new ResourceBuilder();
         static string abPackgePath = $"{Directory.GetParent(Application.dataPath)?.ToString()}/ABs";
         public static string copyPath;
+
         [MenuItem("BuildManager/BuildResoure")]
         private static void BuildResoure()
         {
             Debug.Log("开始打包资源");
-            
+
             if (!Directory.Exists(abPackgePath))
             {
                 Debug.Log("创建ABs文件夹");
                 Directory.CreateDirectory(abPackgePath);
             }
-            
+
             ResourceRuleEditor m_resourceRule = new ResourceRuleEditor();
             m_resourceRule.RefreshResourceCollection();
-            
+            m_resourceRule.Save();
+
             m_Builder.m_OrderBuildResources = false;
 
             if (m_Controller.Load())
@@ -247,7 +248,8 @@ namespace Pangoo.Editor
             {
                 Debug.LogWarning("加载配置失败.");
             }
-            Debug.Log("配置中输出目录:"+m_Controller.OutputDirectory);
+
+            Debug.Log("配置中输出目录:" + m_Controller.OutputDirectory);
             m_Controller.OutputDirectory = abPackgePath;
             copyPath = m_Controller.OutputPackagePath;
             m_Builder.BuildResources(m_Controller);
@@ -259,49 +261,53 @@ namespace Pangoo.Editor
         private static void MoveABPackgeResource()
         {
             m_Controller.Load();
-            
+
             string sourceDirectoryPath = $"{copyPath}/Windows";
-            Debug.Log("复制路径:"+sourceDirectoryPath);
-            string targetDirectoryPath = $"{Application.streamingAssetsPath}/Windows";
-            //FileUtil.MoveFileOrDirectory(sourceDirectoryPath,targetDirectoryPath);
-            //DirectoryInfo di = new DirectoryInfo(sourceDirectoryPath);
-            if (Directory.Exists(targetDirectoryPath))
-            {
-                Debug.Log("删除目标文件夹");
-                Directory.Delete(targetDirectoryPath);
-                
-            }
-            //Debug.Log("开始移动文件夹");
-            //Directory.Move(sourceDirectoryPath,targetDirectoryPath);
+            Debug.Log("复制路径:" + sourceDirectoryPath);
+            string targetDirectoryPath = $"{Application.streamingAssetsPath}";
+            Debug.Log("目标路径:" + targetDirectoryPath);
+            // if (Directory.Exists(targetDirectoryPath))
+            // {
+            //     Debug.Log("删除目标文件夹");
+            //     Directory.Delete(targetDirectoryPath);
+            // }
+
             Debug.Log("开始拷贝文件夹");
-            CopyPastFilesAndDirs(sourceDirectoryPath,targetDirectoryPath);
-            
+            CopyPastFilesAndDirs(sourceDirectoryPath, targetDirectoryPath);
+
             Debug.Log("资源移动完成");
             //return Task.CompletedTask;
         }
-        
-        private static void CopyPastFilesAndDirs(string srcDir,string destDir)
+
+        private static void CopyPastFilesAndDirs(string srcDir, string destDir)
         {
-            if (!Directory.Exists(destDir))//若目标文件夹不存在
+            if (!Directory.Exists(destDir)) //若目标文件夹不存在
             {
-                string newPath;
-                FileInfo fileInfo;
-                Directory.CreateDirectory(destDir);//创建目标文件夹                                                  
-                string[] files = Directory.GetFiles(srcDir);//获取源文件夹中的所有文件完整路径
-                foreach (string path in files)          //遍历文件     
-                {
-                    fileInfo = new FileInfo(path);
-                    newPath =fileInfo.Name;
-                    File.Copy(path, newPath, true);
-                }
-                string[] dirs = Directory.GetDirectories(srcDir);
-                foreach (string path in dirs)        //遍历文件夹
-                {
-                    DirectoryInfo directory = new DirectoryInfo(path);
-                    string newDir =directory.Name;
-                    CopyPastFilesAndDirs(path+"\\", newDir+"\\");
-                }
-            }          
+                Directory.CreateDirectory(destDir); //创建目标文件夹        
+            }
+
+            string newPath;
+            FileInfo fileInfo;
+            Directory.CreateDirectory(destDir); //创建目标文件夹                                                  
+            string[] files = Directory.GetFiles(srcDir); //获取源文件夹中的所有文件完整路径
+            foreach (string path in files) //遍历文件     
+            {
+                fileInfo = new FileInfo(path);
+                newPath = Path.Combine(destDir, fileInfo.Name);
+                Debug.Log("新文件路径:" + newPath);
+                Debug.Log("<>fileName=" + fileInfo.Name);
+                File.Copy(path, newPath, true);
+            }
+
+            string[] dirs = Directory.GetDirectories(srcDir);
+            foreach (string path in dirs) //遍历文件夹
+            {
+                DirectoryInfo directory = new DirectoryInfo(path);
+                string newDir = Path.Combine(destDir, directory.Name);
+                Debug.Log("新目录路径:" + newDir);
+                Debug.Log("<>DirName=" + directory.Name);
+                CopyPastFilesAndDirs(path, newDir);
+            }
         }
     }
 }
