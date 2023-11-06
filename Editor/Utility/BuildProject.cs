@@ -210,6 +210,7 @@ namespace Pangoo.Editor
             
             ResourceRuleEditor m_resourceRule = new ResourceRuleEditor();
             m_resourceRule.RefreshResourceCollection();
+            m_resourceRule.Save();
             
             m_Builder.m_OrderBuildResources = false;
 
