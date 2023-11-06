@@ -28,7 +28,7 @@ namespace Pangoo.Core.VisualScripting
         Instruction GetDynamicObjectPlayTimelineInstruction(int dynamicObjectId)
         {
             var instruction = Activator.CreateInstance<InstructionDynamicObjectPlayTimeline>();
-            instruction.ParamsRaw.Val = dynamicObjectId;
+            instruction.ParamsRaw.DynamicObjectId = dynamicObjectId;
             return instruction;
         }
 
@@ -80,6 +80,25 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
+        Instruction GetDynamicObjectModelActive(int dynamicObjectId, bool val)
+        {
+            var instruction = Activator.CreateInstance<InstructionDynamicObjectSetModelActive>();
+            instruction.ParamsRaw.DynamicObjectId = dynamicObjectId;
+            instruction.ParamsRaw.Val = val;
+            return instruction;
+        }
+
+        Instruction GetDynamicObjectHotspotActive(int dynamicObjectId, bool val)
+        {
+            var instruction = Activator.CreateInstance<InstructionDynamicObjectHotspotActive>();
+            instruction.ParamsRaw.DynamicObjectId = dynamicObjectId;
+            instruction.ParamsRaw.Val = val;
+            return instruction;
+        }
+
+
+
+
 
 
 
@@ -130,6 +149,14 @@ namespace Pangoo.Core.VisualScripting
                     case DirectInstructionTypeEnum.SubGameObjectPlayTimeline:
                         var InstructionSubGameObjectPlayTimeline = GetSubGameObjectPlayTimeline(directInstruction.String1, directInstruction.Bool1);
                         ret.Add(InstructionSubGameObjectPlayTimeline);
+                        break;
+                    case DirectInstructionTypeEnum.DynamicObjectModelActive:
+                        var InstructionDynamicObjectModelActive = GetDynamicObjectModelActive(directInstruction.Int1, directInstruction.Bool1);
+                        ret.Add(InstructionDynamicObjectModelActive);
+                        break;
+                    case DirectInstructionTypeEnum.DynamicObjectHotspotActive:
+                        var InstructionDynamicObjectHotspotActive = GetDynamicObjectHotspotActive(directInstruction.Int1, directInstruction.Bool1);
+                        ret.Add(InstructionDynamicObjectHotspotActive);
                         break;
                 }
             }

@@ -18,6 +18,10 @@ namespace Pangoo
         public const int StaticSceneAssetPathIdBase = 200000;
 
 
+        public const string UIAssetTypeName = "UI";
+
+
+
         public const string SubModelName = "Model";
 
 

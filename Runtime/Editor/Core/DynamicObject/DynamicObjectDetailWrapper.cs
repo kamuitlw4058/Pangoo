@@ -72,6 +72,26 @@ namespace Pangoo
 
         }
 
+        [LabelText("默认隐藏模型")]
+        [PropertyOrder(4)]
+        [ShowInInspector]
+        public bool DefaultHideModel
+        {
+            get
+            {
+                return Row?.DefaultHideModel ?? false;
+            }
+            set
+            {
+                if (Row != null && Overview != null)
+                {
+                    Row.DefaultHideModel = value;
+                    Save();
+                }
+            }
+
+        }
+
         void ShowCreateAssetPath()
         {
             var assetOverview = GameSupportEditorUtility.GetExcelTableOverviewByConfig<AssetPathTableOverview>(Overview.Config);
@@ -100,6 +120,9 @@ namespace Pangoo
                 return GameSupportEditorUtility.GetPrefabByAssetPathId(AssetPathId);
             }
         }
+
+
+
 
 
     }

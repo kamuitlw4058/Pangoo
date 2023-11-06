@@ -22,7 +22,7 @@ MonoBehaviour:
       NameCn: "\u7535\u5B50\u9501"
       Space: Self
       Position: {x: 0, y: 0.3, z: 0}
-      Rotation: {x: -0, y: 0, z: 0}
+      Rotation: {x: 0, y: 0, z: 0}
       TriggerEventIds: 1
       UseHotspot: 1
       HotspotRadius: 2
@@ -34,6 +34,7 @@ MonoBehaviour:
       InteractOffset: {x: 0, y: 0, z: 0}
       InteractRadian: 0
       InteractTarget: 
+      DefaultHideModel: 0
     - Id: 3
       Name: "\u65E5\u5386"
       AssetPathId: 100002
@@ -52,6 +53,7 @@ MonoBehaviour:
       InteractOffset: {x: 0, y: 0, z: 0}
       InteractRadian: 0
       InteractTarget: 
+      DefaultHideModel: 0
     - Id: 4
       Name: "\u6D4B\u8BD5"
       AssetPathId: 100004
@@ -70,6 +72,7 @@ MonoBehaviour:
       InteractOffset: {x: 0, y: 0, z: 0}
       InteractRadian: 0
       InteractTarget: 
+      DefaultHideModel: 0
     - Id: 5
       Name: "\u6D4B\u8BD5\u78B0\u649E\u89E6\u53D1"
       AssetPathId: 100005
@@ -88,3 +91,4 @@ MonoBehaviour:
       InteractOffset: {x: 0, y: 0, z: 0}
       InteractRadian: 0
       InteractTarget: Self
+      DefaultHideModel: 0

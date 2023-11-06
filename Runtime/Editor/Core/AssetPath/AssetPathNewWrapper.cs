@@ -33,7 +33,9 @@ namespace Pangoo
                 case ConstExcelTable.StaticSceneAssetTypeName:
                     return overview.Config.AssetPathBaseId + overview.Config.StaticSceneBaseId;
                 case ConstExcelTable.CharacterAssetTypeName:
-                    return overview.Config.AssetPathBaseId + overview.Config.StaticSceneBaseId;
+                    return overview.Config.AssetPathBaseId + overview.Config.CharacterBaseId;
+                case ConstExcelTable.UIAssetTypeName:
+                    return overview.Config.AssetPathBaseId + overview.Config.UIBaseId;
             }
 
 
@@ -51,6 +53,8 @@ namespace Pangoo
                     return "SS_";
                 case ConstExcelTable.CharacterAssetTypeName:
                     return "CA_";
+                case ConstExcelTable.UIAssetTypeName:
+                    return "UI_";
             }
 
             return string.Empty;

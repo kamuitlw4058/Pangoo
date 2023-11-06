@@ -35,6 +35,13 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("子物体播放Timeline")]
         SubGameObjectPlayTimeline,
+
+
+        [LabelText("设置动态物体模型的Active")]
+        DynamicObjectModelActive,
+
+        [LabelText("动态物体设置Hotspot")]
+        DynamicObjectHotspotActive,
     }
 
     [Serializable]
@@ -84,7 +91,8 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectPlayTimeline => true,
                     DirectInstructionTypeEnum.ChangeGameSection => true,
                     DirectInstructionTypeEnum.SetBoolVariable => true,
-
+                    DirectInstructionTypeEnum.DynamicObjectModelActive => true,
+                    DirectInstructionTypeEnum.DynamicObjectHotspotActive => true,
                     _ => false,
                 };
             }
@@ -103,6 +111,9 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.ActiveCameraGameObject => true,
                     DirectInstructionTypeEnum.UnactiveCameraGameObject => true,
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => true,
+                    DirectInstructionTypeEnum.DynamicObjectModelActive => true,
+                    DirectInstructionTypeEnum.DynamicObjectHotspotActive => true,
+
                     _ => false,
                 };
             }
@@ -134,6 +145,9 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectPlayTimeline => "动态物体Id",
                     DirectInstructionTypeEnum.ChangeGameSection => "GameSectionId",
                     DirectInstructionTypeEnum.SetBoolVariable => "变量Id",
+                    DirectInstructionTypeEnum.DynamicObjectModelActive => "动态物体Id",
+                    DirectInstructionTypeEnum.DynamicObjectHotspotActive => "动态物体Id",
+
                     _ => "Int1",
                 };
             }
@@ -152,6 +166,9 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.ActiveCameraGameObject => "等待切换完成",
                     DirectInstructionTypeEnum.UnactiveCameraGameObject => "等待切换完成",
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => "等待切换完成",
+                    DirectInstructionTypeEnum.DynamicObjectModelActive => "设置值",
+                    DirectInstructionTypeEnum.DynamicObjectHotspotActive => "设置值",
+
                     _ => "Bool1",
                 };
             }
@@ -179,11 +196,15 @@ namespace Pangoo.Core.VisualScripting
             switch (InstructionType)
             {
                 case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:
-                    return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<DynamicObjectTableOverview>();
+                    return GameSupportEditorUtility.GetDynamicObjectIds(true);
                 case DirectInstructionTypeEnum.ChangeGameSection:
                     return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<GameSectionTableOverview>();
                 case DirectInstructionTypeEnum.SetBoolVariable:
                     return GameSupportEditorUtility.GetVariableIds(VariableValueTypeEnum.Bool.ToString());
+                case DirectInstructionTypeEnum.DynamicObjectModelActive:
+                    return GameSupportEditorUtility.GetDynamicObjectIds(true);
+                case DirectInstructionTypeEnum.DynamicObjectHotspotActive:
+                    return GameSupportEditorUtility.GetDynamicObjectIds(true);
             }
 
             return null;

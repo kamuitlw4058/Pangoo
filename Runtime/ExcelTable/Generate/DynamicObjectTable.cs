@@ -160,6 +160,15 @@ namespace Pangoo
             [JsonMember("InteractTarget")]
             [ExcelTableCol("InteractTarget","InteractTarget","string", "交互对象",18)]
             public string InteractTarget ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("默认隐藏模型")]
+            [HideLabel]
+            [JsonMember("DefaultHideModel")]
+            [ExcelTableCol("DefaultHideModel","DefaultHideModel","bool", "默认隐藏模型",19)]
+            public bool DefaultHideModel ;
         }
 
 

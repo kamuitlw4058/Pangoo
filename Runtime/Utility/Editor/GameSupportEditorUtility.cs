@@ -322,6 +322,29 @@ namespace Pangoo
             return ret;
         }
 
+        public static IEnumerable GetUIParamsType(string currentTypeStr = null)
+        {
+            var types = Utility.Assembly.GetTypes(typeof(UIPanelParams));
+            Type currentType = null;
+            if (currentTypeStr != null)
+            {
+                currentType = Utility.Assembly.GetType(currentTypeStr);
+            }
+
+            ValueDropdownList<string> ret = new();
+            for (int i = 0; i < types.Length; i++)
+            {
+                var type = types[i];
+                if (type == currentType)
+                {
+                    continue;
+                }
+                var attr = type.GetCustomAttribute(typeof(CategoryAttribute));
+                ret.Add(attr.ToString(), types[i].ToString());
+            }
+            return ret;
+        }
+
         public static IEnumerable GetSubTypeWithCategory<T>(string currentTypeStr = null)
         {
             var types = Utility.Assembly.GetTypes(typeof(T));

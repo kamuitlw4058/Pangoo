@@ -17,7 +17,7 @@ namespace Pangoo.Core.VisualScripting
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        public InstructionIntParams ParamsRaw = new InstructionIntParams();
+        public InstructionDynamicObjectBoolParams ParamsRaw = new InstructionDynamicObjectBoolParams();
 
         public override IParams Params => this.ParamsRaw;
 
@@ -31,11 +31,18 @@ namespace Pangoo.Core.VisualScripting
         {
 
             var dynamicObject = args.dynamicObject;
-            var DynamicObjectService = dynamicObject.DynamicObjectService;
-
-            var targetEntity = DynamicObjectService.GetLoadedEntity(ParamsRaw.Val);
-            targetEntity?.DynamicObj?.PlayTimeline();
-            Debug.Log($"Play :{ParamsRaw.Val} Timeline");
+            if (ParamsRaw.DynamicObjectId == 0)
+            {
+                dynamicObject?.PlayTimeline();
+                Debug.Log($"DynamicObject Self PlayTimeline:");
+            }
+            else
+            {
+                var DynamicObjectService = dynamicObject.DynamicObjectService;
+                var targetEntity = DynamicObjectService.GetLoadedEntity(ParamsRaw.DynamicObjectId);
+                targetEntity?.DynamicObj?.PlayTimeline();
+                Debug.Log($"DynamicObjectId:{ParamsRaw.DynamicObjectId}  Play Timeline:{ParamsRaw.Val} ");
+            }
         }
 
 

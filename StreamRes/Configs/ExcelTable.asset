@@ -93,6 +93,11 @@ MonoBehaviour:
     Named: 1
   - Build: 1
     IsPangooTable: 1
+    ExcelName: SimpleUI
+    BaseNamespace: 
+    Named: 1
+  - Build: 1
+    IsPangooTable: 1
     ExcelName: Sound
     BaseNamespace: 
     Named: 1

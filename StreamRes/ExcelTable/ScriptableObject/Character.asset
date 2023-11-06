@@ -24,3 +24,4 @@ MonoBehaviour:
       Height: 0
       CameraOffset: {x: 0, y: 0.7, z: 0}
       MaxPitch: 90
+      CameraOnly: 0

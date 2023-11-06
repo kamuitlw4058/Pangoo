@@ -42,6 +42,8 @@ namespace Pangoo
         [LabelText("角色起始Id")]
         public int CharacterBaseId;
 
+        [LabelText("*UI起始Id")]
+        public int UIBaseId;
 
         // [ValueDropdown("GetAllEventsOverview")]
         // public List<PangooEventsTableOverview> EventOverviews;

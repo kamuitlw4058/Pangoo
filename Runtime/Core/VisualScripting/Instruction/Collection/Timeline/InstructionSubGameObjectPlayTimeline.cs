@@ -43,7 +43,7 @@ namespace Pangoo.Core.VisualScripting
                 playableDirector.Play();
                 yield return null;
 
-                while (ParamsRaw.Val && playableDirector.state == PlayState.Playing)
+                while (ParamsRaw.Val && playableDirector.time == playableDirector.playableAsset.duration)
                 {
                     yield return null;
                 }

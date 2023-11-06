@@ -20,12 +20,19 @@ namespace Pangoo.Core.VisualScripting
 
 
         private const float TRANSITION_SMOOTH_TIME = 0.25f;
+
+        bool m_IsHotspotActive;
+
         [ShowInInspector]
         public bool IsHotspotActive
         {
             get
             {
-                return IsHotspotDistanceActive && !IsInteracting;
+                return IsHotspotDistanceActive && !IsInteracting && m_IsHotspotActive;
+            }
+            set
+            {
+                m_IsHotspotActive = value;
             }
         }
 
@@ -105,6 +112,14 @@ namespace Pangoo.Core.VisualScripting
             var ids = Row.GetHotspotIdList();
             m_HotspotRows.Clear();
             m_HotSpots.Clear();
+            if (Row.UseHotspot)
+            {
+                IsHotspotActive = true;
+            }
+            else
+            {
+                IsHotspotActive = false;
+            }
 
             foreach (var valId in ids)
             {
@@ -136,6 +151,8 @@ namespace Pangoo.Core.VisualScripting
 
         private void DoUpdateHotspot()
         {
+            if (!m_IsHotspotActive) return;
+
             bool wasActive = this.IsHotspotDistanceActive;
             this.Target = Character?.Player?.character;
 
@@ -152,7 +169,6 @@ namespace Pangoo.Core.VisualScripting
                 );
 
                 this.IsHotspotDistanceActive = this.Distance <= this.Radius;
-
 
                 this.IsHotspotInteractActive = (Target.Target == (m_Tracker as IInteractive) && m_Tracker != null);
             }

@@ -124,6 +124,8 @@ namespace Pangoo.Editor
             InitCommonOverviews<VariablesTableOverview, VariablesDetailWrapper, ExcelTableTableRowWrapper<VariablesTableOverview, VariablesTable.VariablesRow>, VariablesTable.VariablesRow>(tree, "Variables", "变量");
 
             InitCommonOverviews<SoundTableOverview, SoundDetailWrapper, SoundRowWrapper, SoundTable.SoundRow>(tree, "Sound", "音频");
+            InitCommonOverviews<SimpleUITableOverview, SimpleUIDetailWrapper, ExcelTableTableRowWrapper<SimpleUITableOverview, SimpleUITable.SimpleUIRow>, SimpleUITable.SimpleUIRow>(tree, "UI", "UI");
+
 
 
             return tree;

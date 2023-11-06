@@ -97,6 +97,8 @@ namespace Pangoo.Core.VisualScripting
                 return null;
             }
         }
+        public GameObject Model { get; set; }
+
 
 
 
@@ -140,10 +142,24 @@ namespace Pangoo.Core.VisualScripting
         {
             CurrentArgs = new Args(this);
             CurrentArgs.Main = Main;
-            Debug.Log($"Do awake m_Tracker:{m_Tracker}");
+            Model = CachedTransfrom.Find("Model")?.gameObject;
+            if (Row.DefaultHideModel)
+            {
+                Model?.SetActive(false);
+            }
+            else
+            {
+                Model?.SetActive(true);
+            }
             DoAwakeTriggerEvent();
             DoAwakeHotspot();
             DoAwakeSubDynamicObject();
+            Debug.Log($"Do awake m_Tracker:{m_Tracker}");
+        }
+
+        public void SetModelActive(bool val)
+        {
+            Model?.SetActive(val);
         }
 
         protected override void DoStart()
