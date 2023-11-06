@@ -290,7 +290,7 @@ namespace Pangoo.Editor
                 {
                     fileInfo = new FileInfo(path);
                     newPath =Path.Combine(destDir,fileInfo.Name);
-                    
+                    Debug.Log("新文件路径:"+newPath);
                     Debug.Log("<>fileName="+fileInfo.Name);
                     File.Copy(path, newPath, true);
                 }
@@ -299,8 +299,9 @@ namespace Pangoo.Editor
                 {
                     DirectoryInfo directory = new DirectoryInfo(path);
                     string newDir =Path.Combine(destDir,directory.Name);
+                    Debug.Log("新目录路径:"+newDir);
                     Debug.Log("<>DirName="+directory.Name);
-                    CopyPastFilesAndDirs(path+"\\", newDir+"\\");
+                    CopyPastFilesAndDirs(path, newDir);
                 }
             }          
         }
