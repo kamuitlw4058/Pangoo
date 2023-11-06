@@ -263,8 +263,8 @@ namespace Pangoo.Editor
             
             string sourceDirectoryPath = $"{copyPath}/Windows";
             Debug.Log("复制路径:"+sourceDirectoryPath);
-            string targetDirectoryPath = $"{Application.streamingAssetsPath}/";
-
+            string targetDirectoryPath = $"{Application.streamingAssetsPath}/Windows";
+            Debug.Log("目标路径:"+sourceDirectoryPath);
             // if (Directory.Exists(targetDirectoryPath))
             // {
             //     Debug.Log("删除目标文件夹");
@@ -290,7 +290,7 @@ namespace Pangoo.Editor
                 {
                     fileInfo = new FileInfo(path);
                     newPath =fileInfo.Name;
-                    Debug.Log("fileName="+fileInfo.Name);
+                    Debug.Log("<>fileName="+fileInfo.Name);
                     File.Copy(path, newPath, true);
                 }
                 string[] dirs = Directory.GetDirectories(srcDir);
@@ -298,7 +298,7 @@ namespace Pangoo.Editor
                 {
                     DirectoryInfo directory = new DirectoryInfo(path);
                     string newDir =directory.Name;
-                    Debug.Log("DirName="+directory.Name);
+                    Debug.Log("<>DirName="+directory.Name);
                     CopyPastFilesAndDirs(path+"\\", newDir+"\\");
                 }
             }          
