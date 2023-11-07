@@ -122,6 +122,24 @@ namespace Pangoo
             }
         }
 
+        [ShowInInspector]
+        [LabelText("默认关闭热点区域")]
+        [TabGroup("交互系统")]
+        [PropertyOrder(6)]
+        public bool DefaultHideHotspot
+        {
+            get
+            {
+                return Row?.DefaultHideHotspot ?? false;
+            }
+            set
+            {
+                Row.DefaultHideHotspot = value;
+                Save();
+            }
+        }
+
+
 
         [ShowInInspector]
 

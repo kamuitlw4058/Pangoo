@@ -467,6 +467,11 @@ namespace LitJson
                 }
 #endif
 
+                if (json_type == typeof(double) && vt == typeof(float))
+                {
+                    return Convert.ToSingle(reader.Value);
+                }
+
                 // If there's a custom importer that fits, use it
                 if (custom_importers_table.ContainsKey(json_type) &&
                     custom_importers_table[json_type].ContainsKey(
@@ -872,10 +877,14 @@ namespace LitJson
             int depth)
         {
             if (depth > max_nesting_depth)
+            {
+                Debug.Log($"WriteValue:{obj}");
                 throw new JsonException(
                     String.Format("Max allowed object depth reached while " +
                                   "trying to export from type {0}",
                         obj.GetType()));
+            }
+
 
             if (obj == null)
             {
@@ -899,11 +908,18 @@ namespace LitJson
                 return;
             }
 
+            if (obj is Single)
+            {
+                writer.Write((float)obj);
+                return;
+            }
+
             if (obj is Double)
             {
                 writer.Write((double)obj);
                 return;
             }
+
 
             if (obj is Int32)
             {
@@ -1014,10 +1030,12 @@ namespace LitJson
             IList<PropertyMetadata> props = type_properties[obj_type];
 
             writer.WriteObjectStart();
+
             foreach (PropertyMetadata p_data in props)
             {
                 string propertyName;
                 Object value;
+
 
                 var jsonMemberAttribute = p_data.Info.GetCustomAttribute<JsonMemberAttribute>();
                 var JsonNoMemberAttribute = p_data.Info.GetCustomAttribute<JsonNoMemberAttribute>();
@@ -1025,7 +1043,10 @@ namespace LitJson
                 {
                     continue;
                 }
+
                 propertyName = jsonMemberAttribute != null ? jsonMemberAttribute.Name : p_data.Info.Name;
+
+
 
                 if (!p_data.IsField && !((PropertyInfo)p_data.Info).CanRead)
                 {

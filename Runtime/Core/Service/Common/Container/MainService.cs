@@ -17,6 +17,11 @@ namespace Pangoo.Core.Services
 
         public GameMainConfigService GameConfig = new GameMainConfigService();
 
+
+        public UIService UI = new UIService();
+
+        public SubtitleService Subtitle = new SubtitleService();
+
         public MainService()
         {
             AddService(new ExcelTableService());
@@ -31,6 +36,8 @@ namespace Pangoo.Core.Services
             AddService(CharacterService);
             AddService(GameConfig);
             AddService(new SoundService());
+            AddService(UI);
+            AddService(Subtitle);
         }
 
 

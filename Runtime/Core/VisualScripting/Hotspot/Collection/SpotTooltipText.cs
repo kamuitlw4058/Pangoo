@@ -368,6 +368,8 @@ namespace Pangoo.Core.VisualScripting
         public Image image;
 
         public float m_Alpha = -1;
+
+        public Material material;
         public float Alpha
         {
             get
@@ -409,10 +411,16 @@ namespace Pangoo.Core.VisualScripting
         {
             if (image == null) return;
 
-            var color = image.material.color;
+            if (material == null)
+            {
+                material = new Material(image.material);
+                image.material = material;
+            }
+            var color = material.color;
             if (color.a != alpha)
             {
-                image.material.color = new Color(color.r, color.g, color.b, alpha);
+
+                material.color = new Color(color.r, color.g, color.b, alpha);
             }
         }
     }

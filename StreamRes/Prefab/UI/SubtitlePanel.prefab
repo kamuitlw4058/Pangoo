@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4191798168484297304}
   - component: {fileID: 4191798168484297310}
   - component: {fileID: 4191798168484297305}
-  - component: {fileID: -5093623897921963964}
+  - component: {fileID: 3195290861872726340}
   m_Layer: 0
   m_Name: SubtitlePanel
   m_TagString: Untagged
@@ -78,7 +78,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &-5093623897921963964
+--- !u!114 &3195290861872726340
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,9 +87,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4191798168484297307}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29ba0143da8d5c44cb134495352d020d, type: 3}
+  m_Script: {fileID: 11500000, guid: e104cc5956ca09942ae504893df4a939, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ParamsRaw:
+    Message: 
+    ShowTriggerRow: 0
   m_Text: {fileID: 0}
 --- !u!1 &4191798168950797155
 GameObject:

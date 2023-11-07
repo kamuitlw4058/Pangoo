@@ -112,7 +112,7 @@ namespace Pangoo.Core.VisualScripting
             var ids = Row.GetHotspotIdList();
             m_HotspotRows.Clear();
             m_HotSpots.Clear();
-            if (Row.UseHotspot)
+            if (Row.UseHotspot && !Row.DefaultHideHotspot)
             {
                 IsHotspotActive = true;
             }
@@ -121,27 +121,30 @@ namespace Pangoo.Core.VisualScripting
                 IsHotspotActive = false;
             }
 
-            foreach (var valId in ids)
+            if (Row.UseHotspot)
             {
-                HotspotTable.HotspotRow row = GetHotspotRow(valId);
-                Debug.Log($"Create Hotspot:{valId}  row:{row}");
-                if (row != null)
+                foreach (var valId in ids)
                 {
-                    m_HotspotRows.Add(row);
+                    HotspotTable.HotspotRow row = GetHotspotRow(valId);
+                    Debug.Log($"Create Hotspot:{valId}  row:{row}");
+                    if (row != null)
+                    {
+                        m_HotspotRows.Add(row);
+                    }
                 }
-            }
 
-            foreach (var row in m_HotspotRows)
-            {
-                var instance = ClassUtility.CreateInstance<HotSpot>(row.HotspotType);
-                if (instance == null)
+                foreach (var row in m_HotspotRows)
                 {
-                    return;
+                    var instance = ClassUtility.CreateInstance<HotSpot>(row.HotspotType);
+                    if (instance == null)
+                    {
+                        return;
+                    }
+                    instance.Row = row;
+                    instance.dynamicObject = this;
+                    instance.LoadParamsFromJson(row.Params);
+                    m_HotSpots.Add(instance);
                 }
-                instance.Row = row;
-                instance.dynamicObject = this;
-                instance.LoadParamsFromJson(row.Params);
-                m_HotSpots.Add(instance);
             }
 
         }

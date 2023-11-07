@@ -42,6 +42,9 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("动态物体设置Hotspot")]
         DynamicObjectHotspotActive,
+
+        [LabelText("运行指令")]
+        RunInstruction,
     }
 
     [Serializable]
@@ -93,6 +96,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SetBoolVariable => true,
                     DirectInstructionTypeEnum.DynamicObjectModelActive => true,
                     DirectInstructionTypeEnum.DynamicObjectHotspotActive => true,
+                    DirectInstructionTypeEnum.RunInstruction => true,
                     _ => false,
                 };
             }
@@ -147,7 +151,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SetBoolVariable => "变量Id",
                     DirectInstructionTypeEnum.DynamicObjectModelActive => "动态物体Id",
                     DirectInstructionTypeEnum.DynamicObjectHotspotActive => "动态物体Id",
-
+                    DirectInstructionTypeEnum.RunInstruction => "指令Id",
                     _ => "Int1",
                 };
             }
@@ -205,6 +209,8 @@ namespace Pangoo.Core.VisualScripting
                     return GameSupportEditorUtility.GetDynamicObjectIds(true);
                 case DirectInstructionTypeEnum.DynamicObjectHotspotActive:
                     return GameSupportEditorUtility.GetDynamicObjectIds(true);
+                case DirectInstructionTypeEnum.RunInstruction:
+                    return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<InstructionTableOverview>();
             }
 
             return null;

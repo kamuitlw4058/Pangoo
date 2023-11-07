@@ -96,9 +96,10 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-
-
-
+        Instruction GetInstructionById(int instructionId)
+        {
+            return InstructionList.BuildInstruction(instructionId, m_InstructionTable);
+        }
 
 
 
@@ -157,6 +158,10 @@ namespace Pangoo.Core.VisualScripting
                     case DirectInstructionTypeEnum.DynamicObjectHotspotActive:
                         var InstructionDynamicObjectHotspotActive = GetDynamicObjectHotspotActive(directInstruction.Int1, directInstruction.Bool1);
                         ret.Add(InstructionDynamicObjectHotspotActive);
+                        break;
+                    case DirectInstructionTypeEnum.RunInstruction:
+                        var InstructionById = GetInstructionById(directInstruction.Int1);
+                        ret.Add(InstructionById);
                         break;
                 }
             }

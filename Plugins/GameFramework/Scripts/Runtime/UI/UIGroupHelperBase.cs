@@ -6,6 +6,7 @@
 //------------------------------------------------------------
 
 using GameFramework.UI;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using UnityEngine;
 
 namespace UnityGameFramework.Runtime
@@ -15,10 +16,35 @@ namespace UnityGameFramework.Runtime
     /// </summary>
     public abstract class UIGroupHelperBase : MonoBehaviour, IUIGroupHelper
     {
+        RectTransform rectTransform;
         /// <summary>
         /// 设置界面组深度。
         /// </summary>
         /// <param name="depth">界面组深度。</param>
         public abstract void SetDepth(int depth);
+
+        private void Start()
+        {
+            rectTransform = GetComponent<RectTransform>();
+            if (rectTransform != null)
+            {
+                rectTransform.anchorMin = Vector2.zero;
+                rectTransform.anchorMax = Vector2.one;
+                rectTransform.offsetMin = Vector2.zero;
+                rectTransform.offsetMax = Vector2.zero;
+            }
+        }
+
+        // private void Update()
+        // {
+        //     // if (rectTransform != null)
+        //     // {
+        //     //     rectTransform.anchorMin = Vector2.zero;
+        //     //     rectTransform.anchorMax = Vector2.one;
+        //     //     rectTransform.offsetMin = Vector2.zero;
+        //     //     rectTransform.offsetMax = Vector2.zero;
+        //     // }
+
+        // }
     }
 }

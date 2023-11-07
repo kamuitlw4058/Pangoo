@@ -41,8 +41,8 @@ namespace Pangoo
             LitJsonExtend.LitJsonInit();
 
             PangooEntry.UI.AddUIGroup("Default");
-            PangooEntry.UI.OpenUIForm("Assets/Plugins/Pangoo/StreamRes/Prefab/UI/SubtitlePanel.prefab", "Default");
-            PangooEntry.UI.OpenUIForm("Assets/Plugins/Pangoo/StreamRes/Prefab/UI/PlaceholderUI.prefab", "Default");
+            // PangooEntry.UI.OpenUIForm("Assets/Plugins/Pangoo/StreamRes/Prefab/UI/SubtitlePanel.prefab", "Default");
+            // PangooEntry.UI.OpenUIForm("Assets/Plugins/Pangoo/StreamRes/Prefab/UI/PlaceholderUI.prefab", "Default");
 
 
             PreloadResources();

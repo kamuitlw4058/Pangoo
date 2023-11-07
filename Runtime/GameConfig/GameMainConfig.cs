@@ -48,6 +48,10 @@ namespace Pangoo
         public float DefaultInteractRadius = 2f;
 
 
+        [LabelText("默认字幕的UIId")]
+        [ValueDropdown("GetUIId")]
+        public int DefaultSubtitlePanelId = 0;
+
 
 
 #if ENABLE_FGUI
@@ -57,6 +61,11 @@ namespace Pangoo
 #endif
 
 #if UNITY_EDITOR
+        private IEnumerable GetUIId()
+        {
+            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<SimpleUITableOverview>();
+        }
+
         private IEnumerable GetDefaultPlayer()
         {
             return GameSupportEditorUtility.GetCharacterIds(true);

@@ -315,9 +315,12 @@ namespace UnityGameFramework.Runtime
 
             uiGroupHelper.name = Utility.Text.Format("UI Group - {0}", uiGroupName);
             uiGroupHelper.gameObject.layer = LayerMask.NameToLayer("UI");
-            Transform transform = uiGroupHelper.transform;
-            transform.SetParent(m_InstanceRoot);
-            transform.localScale = Vector3.one;
+            RectTransform rectTransform = uiGroupHelper.gameObject.AddComponent<RectTransform>();
+            rectTransform.SetParent(m_InstanceRoot);
+            rectTransform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(Vector3.zero));
+            // Transform transform = uiGroupHelper.transform;
+            // transform.SetParent(m_InstanceRoot);
+            rectTransform.localScale = Vector3.one;
 
             return m_UIManager.AddUIGroup(uiGroupName, depth, uiGroupHelper);
         }

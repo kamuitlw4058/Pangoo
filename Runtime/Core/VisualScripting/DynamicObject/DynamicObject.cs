@@ -97,9 +97,8 @@ namespace Pangoo.Core.VisualScripting
                 return null;
             }
         }
+        [ShowInInspector]
         public GameObject Model { get; set; }
-
-
 
 
 

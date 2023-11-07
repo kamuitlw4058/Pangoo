@@ -10,7 +10,7 @@ namespace Pangoo
     {
         private static int s_SerialId = 0;
 
-        public static int ShowUI(this UIComponent uiComponent, UIInfo uiInfo, object userData = null)
+        public static int ShowUI(this UIComponent uiComponent, UIPanelData uiInfo)
         {
 
 
@@ -38,7 +38,7 @@ namespace Pangoo
             //     PangooEntry.Entity.AddEntityGroup(entityInfo.GroupName, (float)entityInfo.GroupInstanceAutoReleaseInterval, entityInfo.GroupInstanceCapacity, (float)entityInfo.GroupInstanceExpireTime, entityInfo.GroupInstancePriority);
             // }
 
-            return uiComponent.OpenUIForm(uiInfo.AssetPath, "Default", Constant.AssetPriority.UIFormAsset, userData);
+            return uiComponent.OpenUIForm(uiInfo.AssetPath, "Default", Constant.AssetPriority.UIFormAsset, uiInfo);
         }
 
         // private static int GenerateSerialId(this EntityComponent entityComponent)

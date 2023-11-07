@@ -115,7 +115,7 @@ namespace Pangoo
             set
             {
                 m_DirectInstructionGroups = value;
-                Debug.Log($"Set DirectInstructions");
+                // Debug.Log($"Set DirectInstructions");
             }
 
         }
@@ -123,7 +123,7 @@ namespace Pangoo
         void OnDirectInstructionsChanged()
         {
             var currentValue = DirectInstructionGroup.Save(m_DirectInstructionGroups);
-            Debug.Log($"Try Save:{currentValue}, old:{Row?.DirectInstructions}");
+            // Debug.Log($"Try Save:{currentValue}, old:{Row?.DirectInstructions}");
             if (!currentValue.Equals(Row?.DirectInstructions))
             {
                 Row.DirectInstructions = currentValue;

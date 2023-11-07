@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 using TMPro;
 using GameFramework.Event;
 using Pangoo.Core.Common;
+using GameFramework;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -16,7 +17,7 @@ namespace Pangoo.Core.VisualScripting
         public UIPlaceholderParams ParamsRaw = new UIPlaceholderParams();
 
         protected override IParams Params => ParamsRaw;
-        public TextMeshPro m_Text;
+        public TextMeshProUGUI m_Text;
 
         public float m_StartTime;
         public float m_CurrentTime;
@@ -28,26 +29,28 @@ namespace Pangoo.Core.VisualScripting
         protected override void OnOpen(object userData)
         {
             base.OnOpen(userData);
-            ParamsRaw = userData as UIPlaceholderParams;
-            if (ParamsRaw == null)
+            m_Text = GetComponentInChildren<TextMeshProUGUI>();
+            Debug.Log($"OnOpen m_Text:{m_Text}");
+            if (m_Text != null)
             {
-                return;
+                m_Text.text = ParamsRaw.MainContext;
             }
-
-            m_Text = GetComponentInChildren<TextMeshPro>();
-            m_Text.text = ParamsRaw.MainContext;
             m_Duration = ParamsRaw.KeepDuration;
-            m_StartTime = Time.time;
-            m_CurrentTime = m_StartTime;
+            m_CurrentTime = 0;
         }
 
 
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
         {
             m_CurrentTime += elapseSeconds;
-            if (m_CurrentTime > (m_StartTime + m_Duration))
+            if (m_CurrentTime > m_Duration)
             {
                 CloseSelf();
+            }
+            Debug.Log($"m_Text:{m_Text}");
+            if (m_Text != null)
+            {
+                m_Text.text = Utility.Text.Format("{0} {1}...", ParamsRaw.MainContext, (int)(m_Duration - m_CurrentTime));
             }
         }
 

@@ -5,9 +5,11 @@ namespace Pangoo
 {
     public static class TransformExtension
     {
-        public static List<Transform> Children(this Transform t, bool includesDescendants = false){
+        public static List<Transform> Children(this Transform t, bool includesDescendants = false)
+        {
             List<Transform> ret = new List<Transform>();
-            for(int i =0;i < t.childCount;i ++){
+            for (int i = 0; i < t.childCount; i++)
+            {
                 ret.Add(t.GetChild(i));
             }
             return ret;

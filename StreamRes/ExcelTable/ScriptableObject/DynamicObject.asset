@@ -33,7 +33,7 @@ MonoBehaviour:
       InteractRadius: 0
       InteractOffset: {x: 0, y: 0, z: 0}
       InteractRadian: 0
-      InteractTarget: 
+      InteractTarget: Self
       DefaultHideModel: 0
     - Id: 3
       Name: "\u65E5\u5386"
