@@ -46,6 +46,6 @@ MonoBehaviour:
       TargetListType: 0
       InstructionList: 1
       Params: '{}'
-      ConditionType: 
+      ConditionType: NoCondition
       ConditionList: 
       FailInstructionList: 

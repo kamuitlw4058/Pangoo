@@ -77,6 +77,14 @@ namespace Pangoo.Core.VisualScripting
             this.m_Instructions = instructions;
         }
 
+        public Instruction[] Instructions
+        {
+            get
+            {
+                return m_Instructions;
+            }
+        }
+
 
         public bool Start(Args args, int fromIndex = 0)
         {

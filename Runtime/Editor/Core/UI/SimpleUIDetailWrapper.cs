@@ -128,7 +128,7 @@ namespace Pangoo
             {
                 return;
             }
-            Debug.Log($"instanceType:{instanceType} Row.UIType:{Row.UIParamsType} m_Instance:{m_Instance}");
+            // Debug.Log($"instanceType:{instanceType} Row.UIType:{Row.UIParamsType} m_Instance:{m_Instance}");
 
             m_Instance.Load(Row.Params);
         }

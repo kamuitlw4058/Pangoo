@@ -64,6 +64,11 @@ namespace Pangoo.Core.VisualScripting
         {
             get
             {
+                if (dynamicObject == null)
+                {
+                    return HotsoptState.None;
+                }
+
                 if (!dynamicObject.IsHotspotActive)
                 {
                     return HotsoptState.None;

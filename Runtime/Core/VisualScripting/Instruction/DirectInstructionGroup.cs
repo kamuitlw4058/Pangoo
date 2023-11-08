@@ -40,13 +40,6 @@ namespace Pangoo.Core.VisualScripting
         [BoxGroup("组配置")]
         public bool DisableOnFinish;
 
-        public static DirectInstructionGroup Create(string s)
-        {
-            DirectInstructionGroup ret = new DirectInstructionGroup();
-            ret.DirectInstructionList = new DirectInstruction[0];
-            return ret;
-        }
-
 
         public static List<DirectInstructionGroup> CreateList(string s)
         {

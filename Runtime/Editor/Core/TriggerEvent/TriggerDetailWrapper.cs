@@ -264,57 +264,13 @@ namespace Pangoo
         }
 
 
-        // void UpdateTrigger()
-        // {
 
-        //     m_TriggerEventInstance = ClassUtility.CreateInstance<TriggerEvent>(Row.TriggerType);
-        //     if (m_TriggerEventInstance == null)
-        //     {
-        //         return;
-        //     }
-        //     m_TriggerEventInstance.Row = Row;
-        //     m_TriggerEventInstance.LoadParamsFromJson(Row.Params);
-        //     m_TriggerEventInstance.RunInstructions = GetInstructionList(InstructionIds);
-        //     m_TriggerEventInstance.FailInstructions = GetInstructionList(FailedInstructionIds);
-        //     m_TriggerEventInstance.Conditions = GetConditionList(ConditionIds);
-        // }
 
         public IEnumerable GetTriggerEvent()
         {
             return GameSupportEditorUtility.GetTriggerEvent();
         }
 
-        // [ShowInInspector]
-        // [ReadOnly]
-        // public string Params
-        // {
-        //     get
-        //     {
-        //         return Row?.Params;
-        //     }
-        //     set
-        //     {
-        //         if (Row != null && Overview != null)
-        //         {
-        //             Row.Params = value;
-        //             Save();
-        //         }
-        //     }
-        // }
-
-        // [Button("保存参数")]
-        // [TableColumnWidth(80, resizable: false)]
-        // public void SaveParams()
-        // {
-        //     Params = m_TriggerEventInstance.ParamsToJson();
-        // }
-
-        // [Button("加载参数")]
-        // [TableColumnWidth(80, resizable: false)]
-        // public void LoadParams()
-        // {
-        //     m_TriggerEventInstance.LoadParamsFromJson(Params);
-        // }
 
         [LabelText("条件Ids")]
         [ValueDropdown("ConditionIdValueDropdown", IsUniqueList = true)]
@@ -341,66 +297,112 @@ namespace Pangoo
             }
         }
 
+        DirectInstructionList m_DefaultDirectInstructions;
 
-
-        [LabelText("指令Ids")]
-        [ValueDropdown("InstructionIdValueDropdown", IsUniqueList = true)]
-        [ListDrawerSettings(Expanded = true)]
         [ShowInInspector]
         [PropertyOrder(10)]
         [TitleGroup("指令系统")]
+        [BoxGroup("指令系统/默认指令")]
+        [HideLabel]
+        [HideReferenceObjectPicker]
+        [OnValueChanged("OnDefaultDirectInstructionsChanged", includeChildren: true)]
         [ShowIf("@this.ConditionType == ConditionTypeEnum.BoolCondition || this.ConditionType == ConditionTypeEnum.NoCondition")]
 
 
-        public int[] InstructionIds
+        public DirectInstructionList DefaultDirectInstructions
         {
             get
             {
-                return Row?.InstructionList?.ToArrInt() ?? new int[0];
+                if (m_DefaultDirectInstructions == null && Row?.InstructionList != null)
+                {
+                    try
+                    {
+                        m_DefaultDirectInstructions = JsonMapper.ToObject<DirectInstructionList>(Row.InstructionList);
+                    }
+                    catch (Exception e)
+                    {
+                    }
+
+                    if (m_DefaultDirectInstructions == null)
+                    {
+                        m_DefaultDirectInstructions = new DirectInstructionList();
+                    }
+
+                }
+                return m_DefaultDirectInstructions;
             }
             set
             {
 
-                if (Row != null && Overview != null)
+                if (Row != null && Overview != null && value != null)
                 {
-                    Row.InstructionList = value.ToList().ToListString();
-                    // UpdateTrigger();
+                    Row.InstructionList = value.Save();
                     Save();
                 }
 
             }
         }
 
+        void OnDefaultDirectInstructionsChanged()
+        {
+            Row.InstructionList = m_DefaultDirectInstructions.Save();
+            Save();
+        }
 
 
-        [LabelText("失败指令Ids")]
-        [ValueDropdown("InstructionIdValueDropdown", IsUniqueList = true)]
-        [ListDrawerSettings(Expanded = true)]
+        DirectInstructionList m_FailedDirectInstructions;
+
+
         [ShowInInspector]
         [PropertyOrder(11)]
         [TitleGroup("指令系统")]
+        [BoxGroup("指令系统/失败指令")]
+        [HideLabel]
+        [HideReferenceObjectPicker]
+        [OnValueChanged("OnFailedDirectInstructionsChanged", includeChildren: true)]
         [ShowIf("ConditionType", ConditionTypeEnum.BoolCondition)]
-        public int[] FailedInstructionIds
+        public DirectInstructionList FailedDirectInstructions
         {
             get
             {
-                return Row?.FailInstructionList?.ToArrInt() ?? new int[0];
+                if (m_FailedDirectInstructions == null && Row?.FailInstructionList != null)
+                {
+                    try
+                    {
+                        m_FailedDirectInstructions = JsonMapper.ToObject<DirectInstructionList>(Row.FailInstructionList);
+                    }
+                    catch (Exception e)
+                    {
+                    }
+
+                    if (m_FailedDirectInstructions == null)
+                    {
+                        m_FailedDirectInstructions = new DirectInstructionList();
+                    }
+
+                }
+                return m_FailedDirectInstructions;
             }
             set
             {
 
-                if (Row != null && Overview != null)
+                if (Row != null && Overview != null && value != null)
                 {
-                    Row.FailInstructionList = value.ToList().ToListString();
-                    // UpdateTrigger();
+                    Row.FailInstructionList = value.Save();
                     Save();
                 }
 
             }
         }
 
+        void OnFailedDirectInstructionsChanged()
+        {
+            Row.FailInstructionList = m_FailedDirectInstructions.Save();
+            Save();
+        }
 
-        Dictionary<int, InstrctionIds> m_StateInstructionIds;
+
+        Dictionary<int, DirectInstructionList> m_StateInstructions;
 
 
         [ShowInInspector]
@@ -412,27 +414,27 @@ namespace Pangoo
         [TitleGroup("指令系统")]
         [OnValueChanged("OnStateInstructionIdsChanged", includeChildren: true)]
 
-        public Dictionary<int, InstrctionIds> StateInstructionIds
+        public Dictionary<int, DirectInstructionList> StateInstructions
         {
             get
             {
-                if (m_StateInstructionIds == null)
+                if (m_StateInstructions == null)
                 {
-                    m_StateInstructionIds = JsonMapper.ToObject<Dictionary<int, InstrctionIds>>(Row.Params);
+                    m_StateInstructions = JsonMapper.ToObject<Dictionary<int, DirectInstructionList>>(Row.Params);
                 }
 
-                return m_StateInstructionIds;
+                return m_StateInstructions;
             }
             set
             {
-                m_StateInstructionIds = value;
+                m_StateInstructions = value;
             }
         }
 
         void OnStateInstructionIdsChanged()
         {
-            Debug.Log($"OnStateInstructionIdsChanged:{JsonMapper.ToJson(StateInstructionIds)}");
-            Row.Params = JsonMapper.ToJson(StateInstructionIds);
+            Debug.Log($"OnStateInstructionIdsChanged:{JsonMapper.ToJson(StateInstructions)}");
+            Row.Params = JsonMapper.ToJson(StateInstructions);
         }
 
 
@@ -441,11 +443,10 @@ namespace Pangoo
             if (info.ChangeType == CollectionChangeType.SetKey)
             {
                 var key = (int)info.Key;
-                if (m_StateInstructionIds[key].Ids == null)
+                if (m_StateInstructions[key].DirectInstructions == null)
                 {
-                    var instrctionIds = new InstrctionIds();
-                    instrctionIds.Ids = new int[0];
-                    m_StateInstructionIds[key] = instrctionIds;
+                    var directionInstructions = new DirectInstructionList();
+                    m_StateInstructions[key] = directionInstructions;
                 }
             }
         }
@@ -462,112 +463,53 @@ namespace Pangoo
             return GameSupportEditorUtility.GetConditionIds(ConditionType);
         }
 
-        public InstructionList GetInstructionList(int[] ids)
-        {
-            if (ids.Length == 0)
-            {
-                return null;
-            }
-
-            List<Instruction> instructions = new();
-
-            foreach (var instructionId in ids)
-            {
-                var instructionRow = GameSupportEditorUtility.GetExcelTableRowWithOverviewById<InstructionTableOverview, InstructionTable.InstructionRow>(instructionId);
-                if (instructionRow == null || instructionRow.InstructionType == null)
-                {
-                    continue;
-                }
-
-                var InstructionInstance = ClassUtility.CreateInstance<Instruction>(instructionRow.InstructionType);
-                if (InstructionInstance == null)
-                {
-                    continue;
-                }
-
-
-                InstructionInstance.Load(instructionRow.Params);
-
-                instructions.Add(InstructionInstance);
-            }
-
-            return new InstructionList(instructions.ToArray());
-        }
-
-        public ConditionList GetConditionList(int[] ids)
-        {
-            if (ids.Length == 0)
-            {
-                return null;
-            }
-
-            List<Condition> items = new();
-
-            foreach (var itemId in ids)
-            {
-                var row = GameSupportEditorUtility.GetConditionRowById(itemId);
-                if (row == null || row.ConditionType == null)
-                {
-                    continue;
-                }
-
-                var instance = ClassUtility.CreateInstance<Condition>(row.ConditionType);
-                if (instance == null)
-                {
-                    continue;
-                }
-
-
-                instance.Load(row.Params);
-                items.Add(instance);
-            }
-
-            return new ConditionList(items.ToArray());
-        }
-
-        [Button("运行成功指令")]
-        [PropertyOrder(10)]
-        public void RunPass()
-        {
-            var instructionList = GetInstructionList(InstructionIds);
-            instructionList?.Start(new Args());
-        }
-
-        [Button("运行失败指令")]
-        [PropertyOrder(10)]
-        public void RunFailed()
-        {
-            var instructionList = GetInstructionList(FailedInstructionIds);
-            instructionList?.Start(new Args());
-        }
-
-        // Enum m_EnumType;
-
-        // [ShowInInspector]
-        // [TitleGroup("指令系统")]
-        // [LabelText("参考枚举")]
-        // [PropertyOrder(10)]
-        // public Enum EnumType
+        // public ConditionList GetConditionList(int[] ids)
         // {
-        //     get
+        //     if (ids.Length == 0)
         //     {
-        //         return m_EnumType;
+        //         return null;
         //     }
-        //     set
-        //     {
-        //         m_EnumType = value;
-        //         var tmp = new Dictionary<StateKey, InstrctionId[]>();
 
-        //         foreach (var kv in m_StateInstructionIds)
+        //     List<Condition> items = new();
+
+        //     foreach (var itemId in ids)
+        //     {
+        //         var row = GameSupportEditorUtility.GetConditionRowById(itemId);
+        //         if (row == null || row.ConditionType == null)
         //         {
-        //             var key = new StateKey();
-        //             key.Id = kv.Key.Id;
-        //             key.t = value.GetType();
-        //             tmp.Add(key, kv.Value);
+        //             continue;
         //         }
-        //         m_StateInstructionIds = tmp;
+
+        //         var instance = ClassUtility.CreateInstance<Condition>(row.ConditionType);
+        //         if (instance == null)
+        //         {
+        //             continue;
+        //         }
+
+
+        //         instance.Load(row.Params);
+        //         items.Add(instance);
         //     }
+
+        //     return new ConditionList(items.ToArray());
         // }
+
+        // [Button("运行成功指令")]
+        // [PropertyOrder(10)]
+        // public void RunPass()
+        // {
+        //     var instructionList = InstructionList.BuildInstructionList(InstructionIds);
+        //     instructionList?.Start(new Args());
+        // }
+
+        // [Button("运行失败指令")]
+        // [PropertyOrder(10)]
+        // public void RunFailed()
+        // {
+        //     var instructionList = InstructionList.BuildInstructionList(FailedInstructionIds);
+        //     instructionList?.Start(new Args());
+        // }
+
 
 
 

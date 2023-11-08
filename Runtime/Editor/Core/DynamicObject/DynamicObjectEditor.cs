@@ -93,7 +93,7 @@ namespace Pangoo
 
 
 
-            Debug.Log($"Row:{Row} DynamicObjectId:{m_DynamicObjectId}");
+            // Debug.Log($"Row:{Row} DynamicObjectId:{m_DynamicObjectId}");
 
             Wrapper = new DynamicObjectDetailWrapper();
             Wrapper.Overview = Overview;
@@ -101,7 +101,7 @@ namespace Pangoo
 
             transform.localPosition = Row.Position;
             transform.localRotation = Quaternion.Euler(Row.Rotation);
-            Debug.Log($"Set Wrapper.{Row.Position}");
+            // Debug.Log($"Set Wrapper.{Row.Position}");
 
 
         }

@@ -86,22 +86,44 @@ namespace Pangoo.Core.VisualScripting
             switch (triggerEvent.ConditionType)
             {
                 case ConditionTypeEnum.NoCondition:
-                    var noConditionInstruction = InstructionList.BuildInstructionList(triggerEvent.Row.GetInstructionList(), m_InstructionTable, triggerEvent);
-                    triggerEvent.ConditionInstructions.Add(1, noConditionInstruction);
+                    var instructionList = DirectInstructionList.LoadInstructionList(triggerEvent.Row.InstructionList, m_InstructionTable);
+                    if (instructionList != null)
+                    {
+                        triggerEvent.ConditionInstructions.Add(1, instructionList);
+                    }
                     break;
                 case ConditionTypeEnum.BoolCondition:
                     triggerEvent.Conditions = ConditionList.BuildConditionList(triggerEvent.Row.GetConditionList());
-                    triggerEvent.ConditionInstructions.Add(1, InstructionList.BuildInstructionList(triggerEvent.Row.GetInstructionList(), m_InstructionTable, triggerEvent));
-                    triggerEvent.ConditionInstructions.Add(0, InstructionList.BuildInstructionList(triggerEvent.Row.GetFailInstructionList(), m_InstructionTable, triggerEvent));
+                    var defaultinstructionList = DirectInstructionList.LoadInstructionList(triggerEvent.Row.InstructionList, m_InstructionTable);
+                    if (defaultinstructionList != null)
+                    {
+                        triggerEvent.ConditionInstructions.Add(1, defaultinstructionList);
+                    }
+
+                    var failedInstructionList = DirectInstructionList.LoadInstructionList(triggerEvent.Row.FailInstructionList, m_InstructionTable);
+                    if (failedInstructionList != null)
+                    {
+                        triggerEvent.ConditionInstructions.Add(0, failedInstructionList);
+                    }
+
                     break;
                 case ConditionTypeEnum.StateCondition:
                     triggerEvent.Conditions = ConditionList.BuildConditionList(triggerEvent.Row.GetConditionList());
-                    Dictionary<int, InstrctionIds> StateInstructionIds = JsonMapper.ToObject<Dictionary<int, InstrctionIds>>(triggerEvent.Row.Params);
-                    foreach (var kv in StateInstructionIds)
+                    Dictionary<int, DirectInstructionList> StateInstructions = JsonMapper.ToObject<Dictionary<int, DirectInstructionList>>(triggerEvent.Row.Params);
+                    foreach (var kv in StateInstructions)
                     {
-                        triggerEvent.ConditionInstructions.Add(kv.Key, InstructionList.BuildInstructionList(kv.Value.Ids, m_InstructionTable, triggerEvent));
+
+                        triggerEvent.ConditionInstructions.Add(kv.Key, kv.Value.ToInstructionList(m_InstructionTable));
                     }
                     break;
+            }
+
+            foreach (var kv in triggerEvent.ConditionInstructions)
+            {
+                foreach (var instruction in kv.Value.Instructions)
+                {
+                    instruction.Trigger = triggerEvent;
+                }
             }
 
         }
