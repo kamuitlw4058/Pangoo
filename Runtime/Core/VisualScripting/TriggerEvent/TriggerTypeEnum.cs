@@ -17,6 +17,8 @@ namespace Pangoo.Core.VisualScripting
         OnTriggerExit3D,
 
         OnPlayTimeline,
+        OnMouseLeft,
+
     }
 }
 

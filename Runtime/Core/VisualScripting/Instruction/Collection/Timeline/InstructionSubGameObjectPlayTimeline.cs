@@ -19,7 +19,14 @@ namespace Pangoo.Core.VisualScripting
         [HideReferenceObjectPicker]
         public InstructionSubGameObjectBoolParams ParamsRaw = new InstructionSubGameObjectBoolParams();
 
-        public override InstructionType InstructionType => InstructionType.Coroutine;
+        [ShowInInspector]
+        public override InstructionType InstructionType
+        {
+            get
+            {
+                return ParamsRaw.Val ? InstructionType.Coroutine : InstructionType.Immediate;
+            }
+        }
 
 
         public override IParams Params => this.ParamsRaw;
@@ -27,7 +34,7 @@ namespace Pangoo.Core.VisualScripting
         protected override IEnumerator Run(Args args)
         {
             var trans = args.dynamicObject.CachedTransfrom.Find(ParamsRaw.Path);
-            Debug.Log($"trans:{trans}");
+            Debug.Log($"PlayTimeline trans:{trans}");
             if (trans != null)
             {
 
@@ -40,6 +47,7 @@ namespace Pangoo.Core.VisualScripting
                 playableDirector.playOnAwake = false;
                 trans.gameObject.SetActive(true);
                 playableDirector.enabled = true;
+
                 playableDirector.Play();
                 yield return null;
 
@@ -47,7 +55,6 @@ namespace Pangoo.Core.VisualScripting
                 {
                     yield return null;
                 }
-
             }
             else
             {
@@ -57,6 +64,24 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
+            var trans = args.dynamicObject.CachedTransfrom.Find(ParamsRaw.Path);
+            Debug.Log($"PlayTimeline Immediate trans:{trans}");
+            if (trans != null)
+            {
+
+                var playableDirector = trans.GetComponent<PlayableDirector>();
+                if (playableDirector == null)
+                {
+                    return;
+                }
+
+                playableDirector.playOnAwake = false;
+                trans.gameObject.SetActive(true);
+                playableDirector.enabled = true;
+
+                playableDirector.Play();
+
+            }
         }
 
 

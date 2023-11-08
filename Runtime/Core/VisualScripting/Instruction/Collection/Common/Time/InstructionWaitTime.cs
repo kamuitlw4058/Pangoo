@@ -13,7 +13,7 @@ namespace Pangoo.Core.VisualScripting
     // [Title("Change Camera")]
     // [Description("Prints a message to the Unity Console")]
 
-    [Category("Common/SetSelfTriggerEnabled")]
+    [Category("Common/等待时间")]
 
     // [Parameter(
     //     "Message",
@@ -24,35 +24,20 @@ namespace Pangoo.Core.VisualScripting
     // [Image(typeof(IconBug), ColorTheme.Type.TextLight)]
 
     [Serializable]
-    public class InstructionSetDOTriggerEnabled : Instruction
+    public class InstructionWaitTime : Instruction
     {
         public override InstructionType InstructionType => InstructionType.Coroutine;
 
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        public InstructionDynamicObejctTriggerEventParams ParamsRaw = new InstructionDynamicObejctTriggerEventParams();
+        public InstructionFloatParams ParamsRaw = new InstructionFloatParams();
         public override IParams Params => this.ParamsRaw;
-
-
-        public InstructionSetDOTriggerEnabled()
-        { }
 
         protected override IEnumerator Run(Args args)
         {
-            if (ParamsRaw.DisableSelfTrigger && Trigger != null)
-            {
-                Trigger.Enabled = false;
-            }
-            yield return null;
-            // args.dynamicObject
-            var dynamicObjectEntity = args.dynamicObject?.DynamicObjectService?.GetLoadedEntity(ParamsRaw.DynamicObjectId);
-            if (dynamicObjectEntity != null)
-            {
-                dynamicObjectEntity?.DynamicObj?.SetTriggerEnabled(ParamsRaw.TriggerId, ParamsRaw.Enabled);
-                Debug.Log($"dynamicObjectEntity.DynamicObj.{dynamicObjectEntity},{dynamicObjectEntity?.DynamicObj},{Trigger}");
-            }
-
+            var timeMode = new TimeMode();
+            yield return WaitTime(ParamsRaw.Val, timeMode);
         }
 
         public override void RunImmediate(Args args)

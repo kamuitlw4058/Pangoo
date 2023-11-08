@@ -345,8 +345,12 @@ namespace Pangoo
 
         void OnDefaultDirectInstructionsChanged()
         {
-            Row.InstructionList = m_DefaultDirectInstructions.Save();
-            Save();
+            if (m_DefaultDirectInstructions != null)
+            {
+                Row.InstructionList = m_DefaultDirectInstructions.Save();
+                Save();
+            }
+
         }
 
 

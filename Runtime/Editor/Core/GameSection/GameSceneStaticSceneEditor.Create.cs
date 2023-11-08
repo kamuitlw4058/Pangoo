@@ -70,7 +70,7 @@ namespace Pangoo.Editor
 
             public IEnumerable StaticSceneIdValueDropdown()
             {
-                return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<StaticSceneTableOverview>(ids: new List<int> { Id });
+                return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<StaticSceneTableOverview>(excludeIds: new List<int> { Id });
             }
 
 

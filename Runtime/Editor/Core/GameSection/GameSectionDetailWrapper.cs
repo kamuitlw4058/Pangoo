@@ -47,7 +47,7 @@ namespace Pangoo
 
         public IEnumerable StaticSceneIdDynamicValueDropdown()
         {
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<StaticSceneTableOverview>(ids: KeepSceneIds.ToList());
+            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<StaticSceneTableOverview>(excludeIds: KeepSceneIds.ToList());
         }
 
 
@@ -102,7 +102,7 @@ namespace Pangoo
 
         public IEnumerable StaticSceneIdKeepValueDropdown()
         {
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<StaticSceneTableOverview>(ids: DynamicSceneIds.ToList());
+            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<StaticSceneTableOverview>(excludeIds: DynamicSceneIds.ToList());
         }
 
         public IEnumerable StaticSceneIdValueDropdown()

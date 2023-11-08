@@ -8,6 +8,7 @@ namespace Pangoo.Core.VisualScripting
         Unknown,
 
 
+
         [LabelText("动态物体播放Timeline")]
         DynamicObjectPlayTimeline,
 
@@ -44,5 +45,17 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("显示字幕")]
         ShowSubtitle,
+
+        [LabelText("关闭自身的Trigger")]
+        CloseSelfTrigger,
+
+        [LabelText("等待时间")]
+        WaitTime,
+
+        [LabelText("子物体暂停Timeline")]
+        SubGameObjectPauseTimeline,
+
+        [LabelText("动态物体的Trigger开关")]
+        DynamicObjectModelTriggerEnabled,
     }
 }

@@ -76,7 +76,7 @@ namespace Pangoo
             return ret;
         }
 
-        public static IEnumerable GetExcelTableOverviewNamedIds<T>(List<int> ids = null, string packageDir = null) where T : ExcelTableOverview
+        public static IEnumerable GetExcelTableOverviewNamedIds<T>(List<int> excludeIds = null, string packageDir = null, List<int> includeIds = null) where T : ExcelTableOverview
         {
             var ret = new ValueDropdownList<int>();
             var overviews = AssetDatabaseUtility.FindAsset<T>(packageDir);
@@ -89,13 +89,27 @@ namespace Pangoo
                 }
                 foreach (var row in namedRows)
                 {
-                    if (ids == null)
+                    if (includeIds != null && includeIds.Count != 0)
+
+                    {
+                        if (includeIds.Contains(row.Id))
+                        {
+                            ret.Add($"{row.Id}-{row.Name}", row.Id);
+                        }
+                        else
+                        {
+                            continue;
+                        }
+
+                    }
+
+                    if (excludeIds == null)
                     {
                         ret.Add($"{row.Id}-{row.Name}", row.Id);
                     }
                     else
                     {
-                        if (!ids.Contains(row.Id))
+                        if (!excludeIds.Contains(row.Id))
                         {
                             ret.Add($"{row.Id}-{row.Name}", row.Id);
                         }

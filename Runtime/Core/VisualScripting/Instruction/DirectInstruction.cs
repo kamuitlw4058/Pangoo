@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using System.Linq;
 using System.Text;
 using LitJson;
+using UnityEngine;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -29,13 +30,42 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("String1")]
         public string String1;
 
+
+
         [ValueDropdown("OnMainIntValueDropdown")]
+        [OnValueChanged("OnMainIntValueChanged")]
         [TableTitleGroup("参数")]
         [LabelText("$Int1Label")]
         [ShowIf("$IsMainIntShow")]
         [LabelWidth(50)]
         [JsonMember("Int1")]
         public int Int1;
+
+
+        [ValueDropdown("OnInt2ValueDropdown")]
+        [TableTitleGroup("参数")]
+        [LabelText("$Int2Label")]
+        [ShowIf("$IsInt2Show")]
+        [LabelWidth(50)]
+        [JsonMember("Int2")]
+        public int Int2;
+
+
+        [TableTitleGroup("参数")]
+        [LabelText("$GameObject1Label")]
+        [LabelWidth(50)]
+        [JsonNoMember]
+        [HideInInspector]
+        public GameObject Prefab;
+
+        [TableTitleGroup("参数")]
+        [LabelText("$DropdownString1Label")]
+        [ShowIf("$IsDropdownStringShow")]
+        [LabelWidth(50)]
+        [JsonMember("DropdownString1")]
+        [ValueDropdown("OnDropdownStringValueDropdown")]
+
+        public string DropdownString1;
 
         [TableTitleGroup("参数")]
         [LabelText("$Bool1Label")]
@@ -55,7 +85,7 @@ namespace Pangoo.Core.VisualScripting
 
 #if UNITY_EDITOR
         [JsonNoMember]
-        public bool IsMainIntShow
+        bool IsMainIntShow
         {
             get
             {
@@ -67,13 +97,33 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectModelActive => true,
                     DirectInstructionTypeEnum.DynamicObjectHotspotActive => true,
                     DirectInstructionTypeEnum.RunInstruction => true,
+                    DirectInstructionTypeEnum.ActiveCameraGameObject => true,
+                    DirectInstructionTypeEnum.UnactiveCameraGameObject => true,
+                    DirectInstructionTypeEnum.SubGameObjectPlayTimeline => true,
+                    DirectInstructionTypeEnum.SubGameObjectPauseTimeline => true,
+                    DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => true,
+                    DirectInstructionTypeEnum.SetGameObjectActive => true,
+
                     _ => false,
                 };
             }
         }
 
         [JsonNoMember]
-        public bool IsMainBoolShow
+        bool IsInt2Show
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => true,
+                    _ => false,
+                };
+            }
+        }
+
+        [JsonNoMember]
+        bool IsMainBoolShow
         {
             get
             {
@@ -87,6 +137,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => true,
                     DirectInstructionTypeEnum.DynamicObjectModelActive => true,
                     DirectInstructionTypeEnum.DynamicObjectHotspotActive => true,
+                    DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => true,
 
                     _ => false,
                 };
@@ -94,39 +145,55 @@ namespace Pangoo.Core.VisualScripting
         }
 
         [JsonNoMember]
-        public bool IsMainStringShow
+        bool IsMainStringShow
         {
             get
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.SetGameObjectActive => true,
+                    DirectInstructionTypeEnum.ShowSubtitle => true,
+                    _ => false,
+                };
+            }
+        }
+
+        [JsonNoMember]
+        bool IsDropdownStringShow
+        {
+            get
+            {
+                return InstructionType switch
+                {
                     DirectInstructionTypeEnum.ActiveCameraGameObject => true,
                     DirectInstructionTypeEnum.UnactiveCameraGameObject => true,
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => true,
-                    DirectInstructionTypeEnum.ShowSubtitle => true,
+                    DirectInstructionTypeEnum.SubGameObjectPauseTimeline => true,
+                    DirectInstructionTypeEnum.SetGameObjectActive => true,
 
                     _ => false,
                 };
             }
         }
 
+
         [JsonNoMember]
-        public bool IsMainFloatShow
+        bool IsMainFloatShow
         {
             get
             {
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.ShowSubtitle => true,
+                    DirectInstructionTypeEnum.WaitTime => true,
                     _ => false,
                 };
             }
         }
 
 
+
         [JsonNoMember]
-        public string Int1Label
+        string Int1Label
         {
             get
             {
@@ -138,79 +205,170 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectModelActive => "动态物体Id",
                     DirectInstructionTypeEnum.DynamicObjectHotspotActive => "动态物体Id",
                     DirectInstructionTypeEnum.RunInstruction => "指令Id",
-
+                    DirectInstructionTypeEnum.ActiveCameraGameObject => "参考动态物体",
+                    DirectInstructionTypeEnum.UnactiveCameraGameObject => "参考动态物体",
+                    DirectInstructionTypeEnum.SubGameObjectPlayTimeline => "参考动态物体",
+                    DirectInstructionTypeEnum.SubGameObjectPauseTimeline => "参考动态物体",
+                    DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => "动态物体Id",
+                    DirectInstructionTypeEnum.SetGameObjectActive => "参考动态物体",
                     _ => "Int1",
                 };
             }
         }
 
+
         [JsonNoMember]
-        public string Bool1Label
+        string Int2Label
         {
             get
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.SetBoolVariable => "设置值",
-                    DirectInstructionTypeEnum.SetGameObjectActive => "设置值",
-                    DirectInstructionTypeEnum.SetPlayerIsControllable => "设置值",
+                    DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => "触发器Id",
+                    _ => "Int1",
+                };
+            }
+        }
+
+
+        [JsonNoMember]
+        string Bool1Label
+        {
+            get
+            {
+                return InstructionType switch
+                {
                     DirectInstructionTypeEnum.ActiveCameraGameObject => "等待切换完成",
                     DirectInstructionTypeEnum.UnactiveCameraGameObject => "等待切换完成",
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => "等待切换完成",
-                    DirectInstructionTypeEnum.DynamicObjectModelActive => "设置值",
-                    DirectInstructionTypeEnum.DynamicObjectHotspotActive => "设置值",
-
-                    _ => "Bool1",
+                    _ => "设置值",
                 };
             }
         }
 
         [JsonNoMember]
-        public string String1Label
+        string String1Label
         {
             get
             {
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.SetGameObjectActive => "子对象",
-                    DirectInstructionTypeEnum.ActiveCameraGameObject => "子对象",
                     DirectInstructionTypeEnum.UnactiveCameraGameObject => "子对象",
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => "子对象",
+                    DirectInstructionTypeEnum.ShowSubtitle => "字幕内容",
                     _ => "String1",
                 };
             }
         }
 
         [JsonNoMember]
-        public string Float1Label
+        string DropdownString1Label
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.ActiveCameraGameObject => "子对象",
+                    DirectInstructionTypeEnum.UnactiveCameraGameObject => "子对象",
+                    DirectInstructionTypeEnum.SubGameObjectPlayTimeline => "子对象",
+                    DirectInstructionTypeEnum.SubGameObjectPauseTimeline => "子对象",
+                    DirectInstructionTypeEnum.SetGameObjectActive => "子对象",
+                    _ => "DropdownString1",
+                };
+            }
+        }
+
+        [JsonNoMember]
+        string Float1Label
         {
             get
             {
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.ShowSubtitle => "持续时间",
+                    DirectInstructionTypeEnum.WaitTime => "等待时长",
                     _ => "Float1",
                 };
             }
         }
 
 
+
+        public void OnMainIntValueChanged()
+        {
+            switch (InstructionType)
+            {
+                case DirectInstructionTypeEnum.ActiveCameraGameObject:
+                case DirectInstructionTypeEnum.UnactiveCameraGameObject:
+                case DirectInstructionTypeEnum.SubGameObjectPlayTimeline:
+                case DirectInstructionTypeEnum.SubGameObjectPauseTimeline:
+                case DirectInstructionTypeEnum.SetGameObjectActive:
+                    Prefab = GameSupportEditorUtility.GetPrefabByDynamicObjectId(Int1);
+                    break;
+            }
+
+        }
+
+
+        public IEnumerable OnDropdownStringValueDropdown()
+        {
+            switch (InstructionType)
+            {
+                case DirectInstructionTypeEnum.ActiveCameraGameObject:
+                case DirectInstructionTypeEnum.UnactiveCameraGameObject:
+                case DirectInstructionTypeEnum.SubGameObjectPlayTimeline:
+                case DirectInstructionTypeEnum.SubGameObjectPauseTimeline:
+                case DirectInstructionTypeEnum.SetGameObjectActive:
+                    return GameSupportEditorUtility.RefPrefabStringDropdown(Prefab);
+            }
+
+            return null;
+        }
+
+
+
         public IEnumerable OnMainIntValueDropdown()
         {
             switch (InstructionType)
             {
-                case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:
-                    return GameSupportEditorUtility.GetDynamicObjectIds(true);
+
                 case DirectInstructionTypeEnum.ChangeGameSection:
                     return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<GameSectionTableOverview>();
                 case DirectInstructionTypeEnum.SetBoolVariable:
                     return GameSupportEditorUtility.GetVariableIds(VariableValueTypeEnum.Bool.ToString());
-                case DirectInstructionTypeEnum.DynamicObjectModelActive:
-                    return GameSupportEditorUtility.GetDynamicObjectIds(true);
-                case DirectInstructionTypeEnum.DynamicObjectHotspotActive:
-                    return GameSupportEditorUtility.GetDynamicObjectIds(true);
                 case DirectInstructionTypeEnum.RunInstruction:
                     return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<InstructionTableOverview>();
+                case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:
+                case DirectInstructionTypeEnum.DynamicObjectModelActive:
+                case DirectInstructionTypeEnum.DynamicObjectHotspotActive:
+                case DirectInstructionTypeEnum.ActiveCameraGameObject:
+                case DirectInstructionTypeEnum.UnactiveCameraGameObject:
+                case DirectInstructionTypeEnum.SubGameObjectPlayTimeline:
+                case DirectInstructionTypeEnum.SubGameObjectPauseTimeline:
+                case DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled:
+                case DirectInstructionTypeEnum.SetGameObjectActive:
+                    return GameSupportEditorUtility.GetDynamicObjectIds(true);
+            }
+
+            return null;
+        }
+
+        public IEnumerable OnInt2ValueDropdown()
+        {
+            switch (InstructionType)
+            {
+                case DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled:
+                    List<int> includeIds = null;
+                    if (Int1 != 0)
+                    {
+                        var row = GameSupportEditorUtility.GetDynamicObjectRow(Int1);
+                        if (row != null)
+                        {
+                            includeIds = row.GetTriggerEventIdList();
+                        }
+                    }
+                    return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<TriggerEventTableOverview>(includeIds: includeIds);
             }
 
             return null;

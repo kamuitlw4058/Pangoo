@@ -7,6 +7,7 @@ using Sirenix.OdinInspector;
 using Pangoo.Core.Characters;
 using GameFramework;
 using UnityEngine.Rendering;
+using UnityEngine.InputSystem;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -205,6 +206,11 @@ namespace Pangoo.Core.VisualScripting
         protected override void DoUpdate()
         {
             base.DoUpdate();
+            if (Mouse.current.leftButton.wasPressedThisFrame)
+            {
+                TriggerMouseLeftEvent?.Invoke(CurrentArgs);
+            }
+
             foreach (var trigger in TriggerEvents)
             {
                 trigger.Value.OnUpdate();
@@ -214,7 +220,6 @@ namespace Pangoo.Core.VisualScripting
 
         protected override void DoDisable()
         {
-
             if (m_Tracker != null)
             {
                 Debug.Log($"Try disable ");
@@ -223,7 +228,6 @@ namespace Pangoo.Core.VisualScripting
                 GameObject.DestroyImmediate(m_Tracker);
                 m_Tracker = null;
                 Debug.Log($"Try disable m_Tracker:{m_Tracker}");
-
             }
             base.DoDisable();
         }

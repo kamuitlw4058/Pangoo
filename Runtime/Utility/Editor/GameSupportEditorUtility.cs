@@ -277,6 +277,21 @@ namespace Pangoo
 
         }
 
+        public static GameObject GetPrefabByDynamicObjectId(int id)
+        {
+            if (id == 0) return null;
+
+            var row = GameSupportEditorUtility.GetDynamicObjectRow(id);
+            if (row == null) return null;
+
+            var assetRow = GameSupportEditorUtility.GetAssetPathRowById(row.AssetPathId);
+            if (assetRow == null) return null;
+
+            var finalPath = AssetUtility.GetAssetPath(assetRow.AssetPackageDir, assetRow.AssetType, assetRow.AssetPath);
+            return AssetDatabaseUtility.LoadAssetAtPath<GameObject>(finalPath);
+
+        }
+
 
         public static IEnumerable GetPackageConfig()
         {
@@ -438,6 +453,7 @@ namespace Pangoo
 
         public static IEnumerable RefPrefabStringDropdown(GameObject prefab)
         {
+
             var ValueDropdown = new ValueDropdownList<string>();
             ValueDropdown.Add(ConstString.Self);
             if (prefab != null)

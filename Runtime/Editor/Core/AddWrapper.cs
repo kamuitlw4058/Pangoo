@@ -5,36 +5,42 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using UnityEditor;
 
-namespace Pangoo.Editor{
+namespace Pangoo.Editor
+{
 
-    public class AddWrapper<TOverview>  where TOverview :ExcelTableOverview
+    public class AddWrapper<TOverview> where TOverview : ExcelTableOverview
     {
         [ValueDropdown("GetId", ExpandAllMenuItems = true)]
-         public int RowId;
+        public int RowId;
         public delegate void ConfirmAddHandler(int id);
 
         public ConfirmAddHandler ConfirmAdd;
         List<int> ExcludedIds;
 
-        public AddWrapper(List<int> ids){
-            ExcludedIds  =ids;
+        public AddWrapper(List<int> ids)
+        {
+            ExcludedIds = ids;
         }
 
-        public IEnumerable GetId(){
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<TOverview>(ids:ExcludedIds);;
+        public IEnumerable GetId()
+        {
+            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<TOverview>(excludeIds: ExcludedIds); ;
         }
 
         [Button("添加", ButtonSizes.Large)]
-        public virtual void Create(){
-            if(RowId == 0){
+        public virtual void Create()
+        {
+            if (RowId == 0)
+            {
                 EditorUtility.DisplayDialog("错误", "Id必须填写.不能为0", "确定");
                 return;
             }
 
-            if(ConfirmAdd != null){
+            if (ConfirmAdd != null)
+            {
                 ConfirmAdd(RowId);
             }
-            
+
         }
 
     }

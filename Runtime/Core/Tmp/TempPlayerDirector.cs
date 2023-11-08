@@ -14,10 +14,12 @@ namespace Pangoo
     {
 
         public PlayableDirector playableDirector;
+        public bool AfterStart;
 
         private void Start()
         {
             playableDirector = GetComponent<PlayableDirector>();
+            AfterStart = true;
 
         }
 
@@ -26,6 +28,10 @@ namespace Pangoo
         {
             get
             {
+                if (!AfterStart)
+                {
+                    return null;
+                }
                 return playableDirector?.state;
             }
         }
@@ -35,10 +41,16 @@ namespace Pangoo
         {
             get
             {
+                if (!AfterStart)
+                {
+                    return false;
+                }
+
                 if (playableDirector?.playableAsset == null)
                 {
                     return false;
                 }
+
 
 
                 return playableDirector.time == playableDirector.playableAsset.duration;

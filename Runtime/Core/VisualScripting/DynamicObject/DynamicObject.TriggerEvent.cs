@@ -164,6 +164,10 @@ namespace Pangoo.Core.VisualScripting
                     TriggerExit3dEvent -= OnTriggerExit3dEvent;
                     TriggerExit3dEvent += OnTriggerExit3dEvent;
                     break;
+                case TriggerTypeEnum.OnMouseLeft:
+                    TriggerMouseLeftEvent -= OnInteractMouseLeft;
+                    TriggerMouseLeftEvent += OnInteractMouseLeft;
+                    break;
             }
 
             TriggerEvents.Add(ret.Row.Id, ret);

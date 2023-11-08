@@ -112,6 +112,29 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
+        Instruction GetWaitTimeInstruction(float duration)
+        {
+            var instruction = Activator.CreateInstance<InstructionWaitTime>();
+            instruction.ParamsRaw.Val = duration;
+            return instruction;
+        }
+
+        Instruction GetSubGameObjectPauseTimeline(string path)
+        {
+            var instruction = Activator.CreateInstance<InstructionSubGameObjectPauseTimeline>();
+            instruction.ParamsRaw.Path = path;
+            return instruction;
+        }
+
+        Instruction GetDynamicObjectModelTriggerEnabled(int dynamicObjectId, int triggerId, bool enabled)
+        {
+            var instruction = Activator.CreateInstance<InstructionSetDOTriggerEnabled>();
+            instruction.ParamsRaw.DynamicObjectId = dynamicObjectId;
+            instruction.ParamsRaw.TriggerId = triggerId;
+            instruction.ParamsRaw.Enabled = enabled;
+            return instruction;
+        }
+
         public Instruction ToInstruction(InstructionTable instructionTable = null)
         {
             switch (InstructionType)
@@ -125,13 +148,13 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.SetPlayerIsControllable:
                     return GetSetPlayerIsControllable(Bool1);
                 case DirectInstructionTypeEnum.SetGameObjectActive:
-                    return GetSetGameObjectActive(String1, Bool1);
+                    return GetSetGameObjectActive(DropdownString1, Bool1);
                 case DirectInstructionTypeEnum.ActiveCameraGameObject:
-                    return GetActiveCameraGameObject(String1, Bool1);
+                    return GetActiveCameraGameObject(DropdownString1, Bool1);
                 case DirectInstructionTypeEnum.UnactiveCameraGameObject:
-                    return GetUnactiveCameraGameObject(String1, Bool1);
+                    return GetUnactiveCameraGameObject(DropdownString1, Bool1);
                 case DirectInstructionTypeEnum.SubGameObjectPlayTimeline:
-                    return GetSubGameObjectPlayTimeline(String1, Bool1);
+                    return GetSubGameObjectPlayTimeline(DropdownString1, Bool1);
                 case DirectInstructionTypeEnum.DynamicObjectModelActive:
                     return GetDynamicObjectModelActive(Int1, Bool1);
                 case DirectInstructionTypeEnum.DynamicObjectHotspotActive:
@@ -140,6 +163,14 @@ namespace Pangoo.Core.VisualScripting
                     return GetInstructionById(Int1, instructionTable);
                 case DirectInstructionTypeEnum.ShowSubtitle:
                     return GetShowSubtitleInstruction(String1, Float1);
+                case DirectInstructionTypeEnum.CloseSelfTrigger:
+                    return GetSelfTriggerEnabledInstruction(false);
+                case DirectInstructionTypeEnum.WaitTime:
+                    return GetWaitTimeInstruction(Float1);
+                case DirectInstructionTypeEnum.SubGameObjectPauseTimeline:
+                    return GetSubGameObjectPauseTimeline(DropdownString1);
+                case DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled:
+                    return GetDynamicObjectModelTriggerEnabled(Int1, Int2, Bool1);
             }
 
             return null;
