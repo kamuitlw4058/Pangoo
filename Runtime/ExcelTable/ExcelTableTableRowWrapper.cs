@@ -10,7 +10,10 @@ using Sirenix.OdinInspector.Editor;
 
 namespace Pangoo
 {
-    public class ExcelTableTableRowWrapper<TOverview, TRow> : ExcelTableOverviewRowWrapper<TOverview, TRow> where TOverview : ExcelTableOverview where TRow : ExcelNamedRowBase, new()
+    public class ExcelTableTableRowWrapper<TOverview, TNewRowWrapper, TRow> : ExcelTableOverviewRowWrapper<TOverview, TRow>
+            where TOverview : ExcelTableOverview
+            where TNewRowWrapper : ExcelTableRowNewWrapper<TOverview, TRow>, new()
+            where TRow : ExcelNamedRowBase, new()
     {
         [field: NonSerialized]
         public Action<int> OnRemove;
@@ -70,7 +73,31 @@ namespace Pangoo
             }
         }
 
+        private static OdinEditorWindow m_CreateWindow;
 
+
+        [Button("复制")]
+        [TableColumnWidth(60, resizable: false)]
+        // [ShowIf("@this.ShowEditor")]
+        public void Copy()
+        {
+            var newWrapper = new TNewRowWrapper();
+            newWrapper.Row = Clone();
+            newWrapper.AfterCreate = OnAfterCreate;
+            m_CreateWindow = OdinEditorWindow.InspectObject(newWrapper);
+
+
+            // m_MenuWindow?.TrySelectMenuItemWithObject(DetailWrapper);
+        }
+
+        void OnAfterCreate(int id)
+        {
+            if (m_CreateWindow != null)
+            {
+                m_CreateWindow.Close();
+                m_CreateWindow = null;
+            }
+        }
 
 
         [Button("编辑")]

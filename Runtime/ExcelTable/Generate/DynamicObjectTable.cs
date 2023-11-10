@@ -65,10 +65,19 @@ namespace Pangoo
             /// <summary>
             /// Desc: 
             /// </summary>
+            [TableTitleGroup("缩放")]
+            [HideLabel]
+            [JsonMember("Scale")]
+            [ExcelTableCol("Scale","Scale","Vector3", "缩放",8)]
+            public Vector3 Scale ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
             [TableTitleGroup("触发事件Ids")]
             [HideLabel]
             [JsonMember("TriggerEventIds")]
-            [ExcelTableCol("TriggerEventIds","TriggerEventIds","string", "触发事件Ids",8)]
+            [ExcelTableCol("TriggerEventIds","TriggerEventIds","string", "触发事件Ids",9)]
             public string TriggerEventIds ;
 
             /// <summary>
@@ -77,7 +86,7 @@ namespace Pangoo
             [TableTitleGroup("使用热点区域")]
             [HideLabel]
             [JsonMember("UseHotspot")]
-            [ExcelTableCol("UseHotspot","UseHotspot","bool", "使用热点区域",9)]
+            [ExcelTableCol("UseHotspot","UseHotspot","bool", "使用热点区域",10)]
             public bool UseHotspot ;
 
             /// <summary>
@@ -86,7 +95,7 @@ namespace Pangoo
             [TableTitleGroup("默认关闭热点")]
             [HideLabel]
             [JsonMember("DefaultHideHotspot")]
-            [ExcelTableCol("DefaultHideHotspot","DefaultHideHotspot","bool", "默认关闭热点",10)]
+            [ExcelTableCol("DefaultHideHotspot","DefaultHideHotspot","bool", "默认关闭热点",11)]
             public bool DefaultHideHotspot ;
 
             /// <summary>
@@ -95,7 +104,7 @@ namespace Pangoo
             [TableTitleGroup("热点区域的范围")]
             [HideLabel]
             [JsonMember("HotspotRadius")]
-            [ExcelTableCol("HotspotRadius","HotspotRadius","float", "热点区域的范围",11)]
+            [ExcelTableCol("HotspotRadius","HotspotRadius","float", "热点区域的范围",12)]
             public float HotspotRadius ;
 
             /// <summary>
@@ -104,7 +113,7 @@ namespace Pangoo
             [TableTitleGroup("热点区域Ids")]
             [HideLabel]
             [JsonMember("HotspotIds")]
-            [ExcelTableCol("HotspotIds","HotspotIds","string", "热点区域Ids",12)]
+            [ExcelTableCol("HotspotIds","HotspotIds","string", "热点区域Ids",13)]
             public string HotspotIds ;
 
             /// <summary>
@@ -113,7 +122,7 @@ namespace Pangoo
             [TableTitleGroup("热点区域偏移")]
             [HideLabel]
             [JsonMember("HotspotOffset")]
-            [ExcelTableCol("HotspotOffset","HotspotOffset","Vector3", "热点区域偏移",13)]
+            [ExcelTableCol("HotspotOffset","HotspotOffset","Vector3", "热点区域偏移",14)]
             public Vector3 HotspotOffset ;
 
             /// <summary>
@@ -122,7 +131,7 @@ namespace Pangoo
             [TableTitleGroup("直接指令")]
             [HideLabel]
             [JsonMember("DirectInstructions")]
-            [ExcelTableCol("DirectInstructions","DirectInstructions","string", "直接指令",14)]
+            [ExcelTableCol("DirectInstructions","DirectInstructions","string", "直接指令",15)]
             public string DirectInstructions ;
 
             /// <summary>
@@ -131,7 +140,7 @@ namespace Pangoo
             [TableTitleGroup("子物体")]
             [HideLabel]
             [JsonMember("SubDynamicObject")]
-            [ExcelTableCol("SubDynamicObject","SubDynamicObject","string", "子物体",15)]
+            [ExcelTableCol("SubDynamicObject","SubDynamicObject","string", "子物体",16)]
             public string SubDynamicObject ;
 
             /// <summary>
@@ -140,7 +149,7 @@ namespace Pangoo
             [TableTitleGroup("可交互半径")]
             [HideLabel]
             [JsonMember("InteractRadius")]
-            [ExcelTableCol("InteractRadius","InteractRadius","float", "可交互半径",16)]
+            [ExcelTableCol("InteractRadius","InteractRadius","float", "可交互半径",17)]
             public float InteractRadius ;
 
             /// <summary>
@@ -149,7 +158,7 @@ namespace Pangoo
             [TableTitleGroup("交互点偏移")]
             [HideLabel]
             [JsonMember("InteractOffset")]
-            [ExcelTableCol("InteractOffset","InteractOffset","Vector3", "交互点偏移",17)]
+            [ExcelTableCol("InteractOffset","InteractOffset","Vector3", "交互点偏移",18)]
             public Vector3 InteractOffset ;
 
             /// <summary>
@@ -158,7 +167,7 @@ namespace Pangoo
             [TableTitleGroup("可交互角度")]
             [HideLabel]
             [JsonMember("InteractRadian")]
-            [ExcelTableCol("InteractRadian","InteractRadian","float", "可交互角度",18)]
+            [ExcelTableCol("InteractRadian","InteractRadian","float", "可交互角度",19)]
             public float InteractRadian ;
 
             /// <summary>
@@ -167,7 +176,7 @@ namespace Pangoo
             [TableTitleGroup("交互对象")]
             [HideLabel]
             [JsonMember("InteractTarget")]
-            [ExcelTableCol("InteractTarget","InteractTarget","string", "交互对象",19)]
+            [ExcelTableCol("InteractTarget","InteractTarget","string", "交互对象",20)]
             public string InteractTarget ;
 
             /// <summary>
@@ -176,7 +185,7 @@ namespace Pangoo
             [TableTitleGroup("默认隐藏模型")]
             [HideLabel]
             [JsonMember("DefaultHideModel")]
-            [ExcelTableCol("DefaultHideModel","DefaultHideModel","bool", "默认隐藏模型",20)]
+            [ExcelTableCol("DefaultHideModel","DefaultHideModel","bool", "默认隐藏模型",21)]
             public bool DefaultHideModel ;
         }
 

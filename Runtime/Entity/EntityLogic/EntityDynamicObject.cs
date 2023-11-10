@@ -57,12 +57,12 @@ namespace Pangoo
                 case Space.World:
                     transform.position = DoData.InfoRow.Position;
                     transform.rotation = DoData.InfoRow.Rotation;
-                    transform.localScale = Vector3.one;
+                    transform.localScale = DoData.InfoRow.Scale;
                     break;
                 case Space.Self:
                     transform.localPosition = DoData.InfoRow.Position;
                     transform.localRotation = DoData.InfoRow.Rotation;
-                    transform.localScale = Vector3.one;
+                    transform.localScale = DoData.InfoRow.Scale;
                     break;
             }
         }

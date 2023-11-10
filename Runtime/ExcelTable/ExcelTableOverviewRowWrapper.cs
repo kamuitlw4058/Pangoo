@@ -63,6 +63,11 @@ namespace Pangoo
             }
         }
 
+        public TRow Clone()
+        {
+            return CopyUtility.Clone<TRow>(Row);
+        }
+
 
 
         [ShowInInspector]

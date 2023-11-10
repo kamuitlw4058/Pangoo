@@ -93,6 +93,16 @@ namespace Pangoo
         }
 
 
+        public Vector3 Scale
+        {
+            get
+            {
+                return m_DynamicObjectRow.Scale;
+            }
+        }
+
+
+
 
     }
 }

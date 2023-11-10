@@ -10,7 +10,7 @@ using Pangoo.Editor;
 
 namespace Pangoo
 {
-    public class SoundRowWrapper : ExcelTableTableRowWrapper<SoundTableOverview, SoundTable.SoundRow>
+    public class SoundRowWrapper : ExcelTableTableRowWrapper<SoundTableOverview, ExcelTableRowNewWrapper<SoundTableOverview, SoundTable.SoundRow>, SoundTable.SoundRow>
     {
 
 

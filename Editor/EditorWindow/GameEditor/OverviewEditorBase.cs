@@ -12,8 +12,8 @@ namespace Pangoo.Editor
     public class OverviewEditorBase<TOverview, TRowDetailWrapper, TTableRowWrapper, TNewRowWrapper, TRow>
             where TOverview : ExcelTableOverview
             where TRowDetailWrapper : ExcelTableRowDetailWrapper<TOverview, TRow>, new()
-            where TTableRowWrapper : ExcelTableTableRowWrapper<TOverview, TRow>, new()
             where TNewRowWrapper : ExcelTableRowNewWrapper<TOverview, TRow>, new()
+            where TTableRowWrapper : ExcelTableTableRowWrapper<TOverview, TNewRowWrapper, TRow>, new()
             where TRow : ExcelNamedRowBase, new()
     {
         public OdinMenuTree Tree { get; set; }

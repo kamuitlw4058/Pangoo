@@ -50,9 +50,20 @@ namespace Pangoo
             }
         }
 
+        [ShowInInspector]
+        [PropertyOrder(3)]
+        public Vector3 Scale
+        {
+            get
+            {
+                return Row?.Scale ?? Vector3.one;
+            }
+        }
+
+
         [LabelText("资源ID")]
         [ValueDropdown("AssetPathIdValueDropdown")]
-        [PropertyOrder(3)]
+        [PropertyOrder(5)]
         [ShowInInspector]
         [InlineButton("ShowCreateAssetPath", SdfIconType.Plus, Label = "")]
         public int AssetPathId
@@ -73,7 +84,7 @@ namespace Pangoo
         }
 
         [LabelText("默认隐藏模型")]
-        [PropertyOrder(4)]
+        [PropertyOrder(6)]
         [ShowInInspector]
         public bool DefaultHideModel
         {

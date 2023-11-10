@@ -44,7 +44,7 @@ namespace Pangoo.Editor
         void InitOverviews<TOverview, TRowDetailWrapper, TTableRowWrapper, TNewRowWrapper, TRow>(OdinMenuTree tree, string menuMainKey, string menuDisplayName)
             where TOverview : ExcelTableOverview
             where TRowDetailWrapper : ExcelTableRowDetailWrapper<TOverview, TRow>, new()
-            where TTableRowWrapper : ExcelTableTableRowWrapper<TOverview, TRow>, new()
+            where TTableRowWrapper : ExcelTableTableRowWrapper<TOverview, TNewRowWrapper, TRow>, new()
             where TNewRowWrapper : ExcelTableRowNewWrapper<TOverview, TRow>, new()
             where TRow : ExcelNamedRowBase, new()
         {
@@ -66,13 +66,38 @@ namespace Pangoo.Editor
             //     tree.AddMenuItemAtPath(menuMainKey, customMenuItem);
             // }
         }
+        void InitNewOverviews<TOverview, TRowDetailWrapper, TNewRowWrapper, TRow>(OdinMenuTree tree, string menuMainKey, string menuDisplayName)
+            where TOverview : ExcelTableOverview
+            where TRowDetailWrapper : ExcelTableRowDetailWrapper<TOverview, TRow>, new()
+            where TNewRowWrapper : ExcelTableRowNewWrapper<TOverview, TRow>, new()
+             where TRow : ExcelNamedRowBase, new()
+        {
+            InitOverviews<TOverview, TRowDetailWrapper, ExcelTableTableRowWrapper<TOverview, TNewRowWrapper, TRow>, TNewRowWrapper, TRow>(tree, menuMainKey, menuDisplayName);
+        }
 
 
         void InitCommonOverviews<TOverview, TRowDetailWrapper, TTableRowWrapper, TRow>(OdinMenuTree tree, string menuMainKey, string menuDisplayName)
             where TOverview : ExcelTableOverview
             where TRowDetailWrapper : ExcelTableRowDetailWrapper<TOverview, TRow>, new()
-            where TTableRowWrapper : ExcelTableTableRowWrapper<TOverview, TRow>, new()
+            where TTableRowWrapper : ExcelTableTableRowWrapper<TOverview, ExcelTableRowNewWrapper<TOverview, TRow>, TRow>, new()
              where TRow : ExcelNamedRowBase, new()
+        {
+            InitOverviews<TOverview, TRowDetailWrapper, TTableRowWrapper, ExcelTableRowNewWrapper<TOverview, TRow>, TRow>(tree, menuMainKey, menuDisplayName);
+        }
+
+        void InitDetailOverviews<TOverview, TRowDetailWrapper, TRow>(OdinMenuTree tree, string menuMainKey, string menuDisplayName)
+            where TOverview : ExcelTableOverview
+            where TRowDetailWrapper : ExcelTableRowDetailWrapper<TOverview, TRow>, new()
+            where TRow : ExcelNamedRowBase, new()
+        {
+            InitOverviews<TOverview, TRowDetailWrapper, ExcelTableTableRowWrapper<TOverview, ExcelTableRowNewWrapper<TOverview, TRow>, TRow>, ExcelTableRowNewWrapper<TOverview, TRow>, TRow>(tree, menuMainKey, menuDisplayName);
+        }
+
+        void InitDetailRowOverviews<TOverview, TRowDetailWrapper, TTableRowWrapper, TRow>(OdinMenuTree tree, string menuMainKey, string menuDisplayName)
+            where TOverview : ExcelTableOverview
+            where TRowDetailWrapper : ExcelTableRowDetailWrapper<TOverview, TRow>, new()
+            where TTableRowWrapper : ExcelTableTableRowWrapper<TOverview, ExcelTableRowNewWrapper<TOverview, TRow>, TRow>, new()
+            where TRow : ExcelNamedRowBase, new()
         {
             InitOverviews<TOverview, TRowDetailWrapper, TTableRowWrapper, ExcelTableRowNewWrapper<TOverview, TRow>, TRow>(tree, menuMainKey, menuDisplayName);
         }
@@ -81,7 +106,7 @@ namespace Pangoo.Editor
                     where TOverview : ExcelTableOverview
                     where TRow : ExcelNamedRowBase, new()
         {
-            InitCommonOverviews<TOverview, ExcelTableRowDetailWrapper<TOverview, TRow>, ExcelTableTableRowWrapper<TOverview, TRow>, TRow>(tree, menuMainKey, menuDisplayName);
+            InitCommonOverviews<TOverview, ExcelTableRowDetailWrapper<TOverview, TRow>, ExcelTableTableRowWrapper<TOverview, ExcelTableRowNewWrapper<TOverview, TRow>, TRow>, TRow>(tree, menuMainKey, menuDisplayName);
         }
 
 
@@ -107,24 +132,24 @@ namespace Pangoo.Editor
             //         tree.AddMenuItemAtPath("Volume编辑", customMenuItem);
             //     }
             // }
-            InitOverviews<AssetPathTableOverview, AssetPathDetailWrapper, ExcelTableTableRowWrapper<AssetPathTableOverview, AssetPathTable.AssetPathRow>, AssetPathNewWrapper, AssetPathTable.AssetPathRow>(tree, "AssetPath", "资产路径");
+            InitNewOverviews<AssetPathTableOverview, AssetPathDetailWrapper, AssetPathNewWrapper, AssetPathTable.AssetPathRow>(tree, "AssetPath", "资产路径");
             // InitCommonOverviews<AssetPathTableOverview, AssetPathDetailWrapper, ExcelTableTableRowWrapper<AssetPathTableOverview, AssetPathTable.AssetPathRow>, AssetPathTable.AssetPathRow>(tree, "AssetPath");
-            InitCommonOverviews<StaticSceneTableOverview, StaticSceneDetailWrapper, ExcelTableTableRowWrapper<StaticSceneTableOverview, StaticSceneTable.StaticSceneRow>, StaticSceneTable.StaticSceneRow>(tree, "StaticScene", "静态场景");
-            InitCommonOverviews<DynamicObjectTableOverview, DynamicObjectDetailWrapper, ExcelTableTableRowWrapper<DynamicObjectTableOverview, DynamicObjectTable.DynamicObjectRow>, DynamicObjectTable.DynamicObjectRow>(tree, "DynamicObject", "动态物体");
-            InitCommonOverviews<GameSectionTableOverview, GameSectionDetailWrapper, ExcelTableTableRowWrapper<GameSectionTableOverview, GameSectionTable.GameSectionRow>, GameSectionTable.GameSectionRow>(tree, "GameSection", "游戏段落");
+            InitDetailOverviews<StaticSceneTableOverview, StaticSceneDetailWrapper, StaticSceneTable.StaticSceneRow>(tree, "StaticScene", "静态场景");
+            InitDetailOverviews<DynamicObjectTableOverview, DynamicObjectDetailWrapper, DynamicObjectTable.DynamicObjectRow>(tree, "DynamicObject", "动态物体");
+            InitDetailOverviews<GameSectionTableOverview, GameSectionDetailWrapper, GameSectionTable.GameSectionRow>(tree, "GameSection", "游戏段落");
 
-            InitCommonOverviews<TriggerEventTableOverview, TriggerDetailWrapper, ExcelTableTableRowWrapper<TriggerEventTableOverview, TriggerEventTable.TriggerEventRow>, TriggerEventTable.TriggerEventRow>(tree, "Trigger", "触发器");
-            InitCommonOverviews<InstructionTableOverview, InstructionDetailWrapper, ExcelTableTableRowWrapper<InstructionTableOverview, InstructionTable.InstructionRow>, InstructionTable.InstructionRow>(tree, "Instruction", "指令");
+            InitDetailOverviews<TriggerEventTableOverview, TriggerDetailWrapper, TriggerEventTable.TriggerEventRow>(tree, "Trigger", "触发器");
+            InitDetailOverviews<InstructionTableOverview, InstructionDetailWrapper, InstructionTable.InstructionRow>(tree, "Instruction", "指令");
 
-            InitCommonOverviews<ConditionTableOverview, ConditionDetailWrapper, ExcelTableTableRowWrapper<ConditionTableOverview, ConditionTable.ConditionRow>, ConditionTable.ConditionRow>(tree, "Condition", "条件");
+            InitDetailOverviews<ConditionTableOverview, ConditionDetailWrapper, ConditionTable.ConditionRow>(tree, "Condition", "条件");
 
-            InitCommonOverviews<CharacterTableOverview, CharacterDetailWrapper, ExcelTableTableRowWrapper<CharacterTableOverview, CharacterTable.CharacterRow>, CharacterTable.CharacterRow>(tree, "Character", "角色");
-            InitCommonOverviews<HotspotTableOverview, HotspotDetailWrapper, ExcelTableTableRowWrapper<HotspotTableOverview, HotspotTable.HotspotRow>, HotspotTable.HotspotRow>(tree, "Hotspot", "热点区域");
+            InitDetailOverviews<CharacterTableOverview, CharacterDetailWrapper, CharacterTable.CharacterRow>(tree, "Character", "角色");
+            InitDetailOverviews<HotspotTableOverview, HotspotDetailWrapper, HotspotTable.HotspotRow>(tree, "Hotspot", "热点区域");
 
-            InitCommonOverviews<VariablesTableOverview, VariablesDetailWrapper, ExcelTableTableRowWrapper<VariablesTableOverview, VariablesTable.VariablesRow>, VariablesTable.VariablesRow>(tree, "Variables", "变量");
+            InitDetailOverviews<VariablesTableOverview, VariablesDetailWrapper, VariablesTable.VariablesRow>(tree, "Variables", "变量");
 
-            InitCommonOverviews<SoundTableOverview, SoundDetailWrapper, SoundRowWrapper, SoundTable.SoundRow>(tree, "Sound", "音频");
-            InitCommonOverviews<SimpleUITableOverview, SimpleUIDetailWrapper, ExcelTableTableRowWrapper<SimpleUITableOverview, SimpleUITable.SimpleUIRow>, SimpleUITable.SimpleUIRow>(tree, "UI", "UI");
+            InitDetailRowOverviews<SoundTableOverview, SoundDetailWrapper, SoundRowWrapper, SoundTable.SoundRow>(tree, "Sound", "音频");
+            InitDetailOverviews<SimpleUITableOverview, SimpleUIDetailWrapper, SimpleUITable.SimpleUIRow>(tree, "UI", "UI");
 
 
 

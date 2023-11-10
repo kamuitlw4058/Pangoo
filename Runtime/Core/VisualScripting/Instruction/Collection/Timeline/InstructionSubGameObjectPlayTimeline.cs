@@ -38,21 +38,27 @@ namespace Pangoo.Core.VisualScripting
             if (trans != null)
             {
 
+
                 var playableDirector = trans.GetComponent<PlayableDirector>();
                 if (playableDirector == null)
                 {
+                    Debug.Log($"No Find  playableDirector:{trans}");
                     yield break;
                 }
 
                 playableDirector.playOnAwake = false;
                 trans.gameObject.SetActive(true);
                 playableDirector.enabled = true;
+                Debug.Log($"Start playableDirector:{trans}");
 
                 playableDirector.Play();
                 yield return null;
 
-                while (ParamsRaw.Val && playableDirector.time == playableDirector.playableAsset.duration)
+
+
+                while (ParamsRaw.Val && (playableDirector.time != playableDirector.playableAsset.duration) && playableDirector.time != 0)
                 {
+                    // Debug.Log($"Start playableDirector:{trans} :{ParamsRaw.Val} :{playableDirector.time} :{playableDirector.playableAsset.duration}");
                     yield return null;
                 }
             }

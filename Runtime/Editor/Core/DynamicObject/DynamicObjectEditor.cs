@@ -117,8 +117,8 @@ namespace Pangoo
         {
             Wrapper.Row.Position = transform.localPosition;
             Wrapper.Row.Rotation = transform.localRotation.eulerAngles;
+            Wrapper.Row.Scale = transform.localScale;
             Wrapper.Save();
-
         }
 
         private void OnTriggerEnter(Collider other)
