@@ -102,6 +102,8 @@ namespace UnityGameFramework.Runtime
 
             m_SoundManager.PlaySoundSuccess += OnPlaySoundSuccess;
             m_SoundManager.PlaySoundFailure += OnPlaySoundFailure;
+            m_SoundManager.PlaySoundReset += OnPlaySoundReset;
+
 
             if (m_EnablePlaySoundUpdateEvent)
             {
@@ -627,6 +629,12 @@ namespace UnityGameFramework.Runtime
             }
 
             m_EventComponent.Fire(this, PlaySoundSuccessEventArgs.Create(e));
+        }
+
+
+        private void OnPlaySoundReset(object sender, ResetSoundAgentWithSerialIdEventArgs e)
+        {
+            m_EventComponent.Fire(this, PlaySoundResetEventArgs.Create(e));
         }
 
         private void OnPlaySoundFailure(object sender, GameFramework.Sound.PlaySoundFailureEventArgs e)

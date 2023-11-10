@@ -17,158 +17,22 @@ namespace Pangoo.Core.VisualScripting
     public partial class DynamicObject
     {
 
-        Instruction GetSelfTriggerEnabledInstruction(bool val)
-        {
-            var instruction = Activator.CreateInstance<InstructionSetSelfTriggerEnabled>();
-            instruction.ParamsRaw = new InstructionBoolParams();
-            instruction.ParamsRaw.Val = val;
-            return instruction;
-        }
-
-        Instruction GetDynamicObjectPlayTimelineInstruction(int dynamicObjectId)
-        {
-            var instruction = Activator.CreateInstance<InstructionDynamicObjectPlayTimeline>();
-            instruction.ParamsRaw.DynamicObjectId = dynamicObjectId;
-            return instruction;
-        }
-
-        Instruction GetSetVariableBoolInstruction(int VariableId, bool val)
-        {
-            var instruction = Activator.CreateInstance<InstructionSetVariableBool>();
-            instruction.ParamsRaw.VariableId = VariableId;
-            instruction.ParamsRaw.Val = val;
-            return instruction;
-        }
-
-        Instruction GetSetPlayerIsControllable(bool val)
-        {
-            var instruction = Activator.CreateInstance<InstructionSetPlayerControllable>();
-            instruction.ParamsRaw.Val = val;
-            return instruction;
-        }
-
-        Instruction GetSetGameObjectActive(string path, bool val)
-        {
-            var instruction = Activator.CreateInstance<InstructionGameObjectActive>();
-            instruction.ParamsRaw.Path = path;
-            instruction.ParamsRaw.Val = val;
-            return instruction;
-        }
-
-        Instruction GetActiveCameraGameObject(string path, bool val)
-        {
-            var instruction = Activator.CreateInstance<InstructionActiveCameraGameObject>();
-            instruction.ParamsRaw.Path = path;
-            instruction.ParamsRaw.Val = val;
-            return instruction;
-        }
-
-        Instruction GetUnactiveCameraGameObject(string path, bool val)
-        {
-            var instruction = Activator.CreateInstance<InstructionUnactiveCameraGameObject>();
-            instruction.ParamsRaw.Path = path;
-            instruction.ParamsRaw.Val = val;
-            return instruction;
-        }
-
-
-        Instruction GetSubGameObjectPlayTimeline(string path, bool val)
-        {
-            var instruction = Activator.CreateInstance<InstructionSubGameObjectPlayTimeline>();
-            instruction.ParamsRaw.Path = path;
-            instruction.ParamsRaw.Val = val;
-            return instruction;
-        }
-
-        Instruction GetDynamicObjectModelActive(int dynamicObjectId, bool val)
-        {
-            var instruction = Activator.CreateInstance<InstructionDynamicObjectSetModelActive>();
-            instruction.ParamsRaw.DynamicObjectId = dynamicObjectId;
-            instruction.ParamsRaw.Val = val;
-            return instruction;
-        }
-
-        Instruction GetDynamicObjectHotspotActive(int dynamicObjectId, bool val)
-        {
-            var instruction = Activator.CreateInstance<InstructionDynamicObjectHotspotActive>();
-            instruction.ParamsRaw.DynamicObjectId = dynamicObjectId;
-            instruction.ParamsRaw.Val = val;
-            return instruction;
-        }
-
-        Instruction GetInstructionById(int instructionId)
-        {
-            return InstructionList.BuildInstruction(instructionId, m_InstructionTable);
-        }
-
-
-
-
-        Instruction GetChangeGameSectionInstruction(int val)
-        {
-            var instruction = Activator.CreateInstance<InstructionChangeGameSection>();
-            instruction.ParamsRaw.Val = val;
-            return instruction;
-        }
-
         public InstructionList GetDirectInstructionList(DirectInstructionGroup diGroup, TriggerEvent trigger)
         {
             List<Instruction> ret = new();
 
             foreach (var directInstruction in diGroup.DirectInstructionList)
             {
-                switch (directInstruction.InstructionType)
+                var instruction = directInstruction.ToInstruction(m_InstructionTable);
+                if (instruction != null)
                 {
-                    case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:
-                        var instruction = GetDynamicObjectPlayTimelineInstruction(directInstruction.Int1);
-                        ret.Add(instruction);
-                        break;
-                    case DirectInstructionTypeEnum.ChangeGameSection:
-                        var instructionGameSection = GetChangeGameSectionInstruction(directInstruction.Int1);
-                        ret.Add(instructionGameSection);
-                        break;
-                    case DirectInstructionTypeEnum.SetBoolVariable:
-                        var InstructionSetVariableBool = GetSetVariableBoolInstruction(directInstruction.Int1, directInstruction.Bool1);
-                        ret.Add(InstructionSetVariableBool);
-                        break;
-                    case DirectInstructionTypeEnum.SetPlayerIsControllable:
-                        var InstructionSetPlayerIsIsControllable = GetSetPlayerIsControllable(directInstruction.Bool1);
-                        ret.Add(InstructionSetPlayerIsIsControllable);
-                        break;
-                    case DirectInstructionTypeEnum.SetGameObjectActive:
-                        var InstructionSetGameObjectActive = GetSetGameObjectActive(directInstruction.String1, directInstruction.Bool1);
-                        ret.Add(InstructionSetGameObjectActive);
-                        break;
-                    case DirectInstructionTypeEnum.ActiveCameraGameObject:
-                        var InstructionActiveCameraGameObject = GetActiveCameraGameObject(directInstruction.String1, directInstruction.Bool1);
-                        ret.Add(InstructionActiveCameraGameObject);
-                        break;
-                    case DirectInstructionTypeEnum.UnactiveCameraGameObject:
-                        var InstructionUnactiveCameraGameObject = GetUnactiveCameraGameObject(directInstruction.String1, directInstruction.Bool1);
-                        ret.Add(InstructionUnactiveCameraGameObject);
-                        break;
-                    case DirectInstructionTypeEnum.SubGameObjectPlayTimeline:
-                        var InstructionSubGameObjectPlayTimeline = GetSubGameObjectPlayTimeline(directInstruction.String1, directInstruction.Bool1);
-                        ret.Add(InstructionSubGameObjectPlayTimeline);
-                        break;
-                    case DirectInstructionTypeEnum.DynamicObjectModelActive:
-                        var InstructionDynamicObjectModelActive = GetDynamicObjectModelActive(directInstruction.Int1, directInstruction.Bool1);
-                        ret.Add(InstructionDynamicObjectModelActive);
-                        break;
-                    case DirectInstructionTypeEnum.DynamicObjectHotspotActive:
-                        var InstructionDynamicObjectHotspotActive = GetDynamicObjectHotspotActive(directInstruction.Int1, directInstruction.Bool1);
-                        ret.Add(InstructionDynamicObjectHotspotActive);
-                        break;
-                    case DirectInstructionTypeEnum.RunInstruction:
-                        var InstructionById = GetInstructionById(directInstruction.Int1);
-                        ret.Add(InstructionById);
-                        break;
+                    ret.Add(instruction);
                 }
             }
 
             if (diGroup.DisableOnFinish)
             {
-                var instruction = GetSelfTriggerEnabledInstruction(false);
+                var instruction = DirectInstruction.GetSelfTriggerEnabledInstruction(false);
                 ret.Add(instruction);
             }
 

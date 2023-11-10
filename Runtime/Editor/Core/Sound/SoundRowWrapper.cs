@@ -28,7 +28,6 @@ namespace Pangoo
                 }
             }
         }
-        [ShowInInspector]
         public string PackageDir
         {
             get

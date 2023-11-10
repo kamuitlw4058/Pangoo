@@ -5,6 +5,7 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 
 namespace GameFramework.Sound
@@ -22,6 +23,8 @@ namespace GameFramework.Sound
             private bool m_AvoidBeingReplacedBySamePriority;
             private bool m_Mute;
             private float m_Volume;
+
+            public event EventHandler<ResetSoundAgentWithSerialIdEventArgs> ResetSoundAgent;
 
             /// <summary>
             /// 初始化声音组的新实例。
@@ -138,7 +141,9 @@ namespace GameFramework.Sound
             /// <param name="soundAgentHelper">要增加的声音代理辅助器。</param>
             public void AddSoundAgentHelper(ISoundHelper soundHelper, ISoundAgentHelper soundAgentHelper)
             {
-                m_SoundAgents.Add(new SoundAgent(this, soundHelper, soundAgentHelper));
+                var agent = new SoundAgent(this, soundHelper, soundAgentHelper);
+                agent.ResetSoundAgent += OnResetSoundAgent;
+                m_SoundAgents.Add(agent);
             }
 
             /// <summary>
@@ -298,6 +303,16 @@ namespace GameFramework.Sound
                     }
                 }
             }
+
+            private void OnResetSoundAgent(object sender, ResetSoundAgentWithSerialIdEventArgs e)
+            {
+                if (ResetSoundAgent != null)
+                {
+                    ResetSoundAgent.Invoke(this, e);
+                }
+            }
         }
+
+
     }
 }

@@ -139,6 +139,28 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
+        public bool IsStoped
+        {
+            get
+            {
+                foreach (var kv in ConditionInstructions)
+                {
+                    if (kv.Value.IsStopped)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            set
+            {
+                foreach (var kv in ConditionInstructions)
+                {
+                    kv.Value.IsStopped = value;
+                }
+            }
+        }
+
         [ShowInInspector]
         [LabelText("触发点类型")]
         public virtual TriggerTypeEnum TriggerType

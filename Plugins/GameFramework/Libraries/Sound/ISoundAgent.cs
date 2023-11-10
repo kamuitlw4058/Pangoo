@@ -1,4 +1,6 @@
-﻿//------------------------------------------------------------
+﻿using System;
+
+//------------------------------------------------------------
 // Game Framework
 // Copyright © 2013-2021 Jiang Yin. All rights reserved.
 // Homepage: https://gameframework.cn/
@@ -206,5 +208,7 @@ namespace GameFramework.Sound
         /// 重置声音代理。
         /// </summary>
         void Reset();
+
+        event EventHandler<ResetSoundAgentWithSerialIdEventArgs> ResetSoundAgent;
     }
 }

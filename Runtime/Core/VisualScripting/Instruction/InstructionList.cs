@@ -30,19 +30,17 @@ namespace Pangoo.Core.VisualScripting
             {
                 return m_IsStopped;
             }
-            private set
+            set
             {
                 m_IsStopped = value;
-                if (m_IsStopped)
+                for (int i = 0; i < m_Instructions.Length; i++)
                 {
-                    for (int i = 0; i < m_Instructions.Length; i++)
+                    if (m_Instructions[i] != null)
                     {
-                        if (m_Instructions[i] != null)
-                        {
-                            m_Instructions[i].IsCanceled = true;
-                        }
+                        m_Instructions[i].IsCanceled = m_IsStopped;
                     }
                 }
+
             }
         }
 

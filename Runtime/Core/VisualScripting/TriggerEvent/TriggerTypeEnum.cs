@@ -19,6 +19,7 @@ namespace Pangoo.Core.VisualScripting
         OnPlayTimeline,
         OnMouseLeft,
 
+        OnExecute,
     }
 }
 

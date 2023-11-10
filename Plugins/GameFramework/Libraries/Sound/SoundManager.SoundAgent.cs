@@ -25,6 +25,9 @@ namespace GameFramework.Sound
             private bool m_MuteInSoundGroup;
             private float m_VolumeInSoundGroup;
 
+            public event EventHandler<ResetSoundAgentWithSerialIdEventArgs> ResetSoundAgent;
+
+
             /// <summary>
             /// 初始化声音代理的新实例。
             /// </summary>
@@ -380,6 +383,14 @@ namespace GameFramework.Sound
                     m_SoundAsset = null;
                 }
 
+                if (ResetSoundAgent != null && SerialId != 0)
+                {
+                    var resetSoundAgentEventArgs = ResetSoundAgentWithSerialIdEventArgs.Create(SerialId);
+                    ResetSoundAgent.Invoke(this, resetSoundAgentEventArgs);
+                    ReferencePool.Release(resetSoundAgentEventArgs);
+                }
+
+                SerialId = 0;
                 m_SetSoundAssetTime = DateTime.MinValue;
                 Time = Constant.DefaultTime;
                 MuteInSoundGroup = Constant.DefaultMute;
@@ -392,6 +403,7 @@ namespace GameFramework.Sound
                 MaxDistance = Constant.DefaultMaxDistance;
                 DopplerLevel = Constant.DefaultDopplerLevel;
                 m_SoundAgentHelper.Reset();
+
             }
 
             internal bool SetSoundAsset(object soundAsset)
@@ -415,6 +427,7 @@ namespace GameFramework.Sound
             private void OnResetSoundAgent(object sender, ResetSoundAgentEventArgs e)
             {
                 Reset();
+
             }
         }
     }

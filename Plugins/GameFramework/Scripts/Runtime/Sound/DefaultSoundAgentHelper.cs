@@ -236,7 +236,6 @@ namespace UnityGameFramework.Runtime
         public override void Play(float fadeInSeconds)
         {
             StopAllCoroutines();
-
             m_AudioSource.Play();
             if (fadeInSeconds > 0f)
             {

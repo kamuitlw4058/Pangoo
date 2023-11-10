@@ -34,6 +34,9 @@ namespace GameFramework.Sound
         /// </summary>
         event EventHandler<PlaySoundFailureEventArgs> PlaySoundFailure;
 
+        event EventHandler<ResetSoundAgentWithSerialIdEventArgs> PlaySoundReset;
+
+
         /// <summary>
         /// 播放声音更新事件。
         /// </summary>

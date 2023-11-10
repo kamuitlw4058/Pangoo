@@ -57,5 +57,8 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("动态物体的Trigger开关")]
         DynamicObjectModelTriggerEnabled,
+
+        [LabelText("动态物体运行执行触发")]
+        DynamicObjectRunExecute,
     }
 }

@@ -22,6 +22,9 @@ namespace Pangoo.Core.Services
 
         public SubtitleService Subtitle = new SubtitleService();
 
+        public SoundService Sound = new SoundService();
+
+
         public MainService()
         {
             AddService(new ExcelTableService());
@@ -35,7 +38,7 @@ namespace Pangoo.Core.Services
             AddService(new DynamicObjectService());
             AddService(CharacterService);
             AddService(GameConfig);
-            AddService(new SoundService());
+            AddService(Sound);
             AddService(UI);
             AddService(Subtitle);
         }

@@ -1,4 +1,5 @@
-﻿//------------------------------------------------------------
+﻿using System;
+//------------------------------------------------------------
 // Game Framework
 // Copyright © 2013-2021 Jiang Yin. All rights reserved.
 // Homepage: https://gameframework.cn/
@@ -73,5 +74,7 @@ namespace GameFramework.Sound
         /// </summary>
         /// <param name="fadeOutSeconds">声音淡出时间，以秒为单位。</param>
         void StopAllLoadedSounds(float fadeOutSeconds);
+
+        event EventHandler<ResetSoundAgentWithSerialIdEventArgs> ResetSoundAgent;
     }
 }

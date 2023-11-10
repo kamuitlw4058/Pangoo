@@ -12,7 +12,7 @@ namespace Pangoo.Core.VisualScripting
 
     public partial struct DirectInstruction
     {
-        Instruction GetSelfTriggerEnabledInstruction(bool val)
+        public static Instruction GetSelfTriggerEnabledInstruction(bool val)
         {
             var instruction = Activator.CreateInstance<InstructionSetSelfTriggerEnabled>();
             instruction.ParamsRaw = new InstructionBoolParams();
@@ -20,14 +20,14 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        Instruction GetDynamicObjectPlayTimelineInstruction(int dynamicObjectId)
+        public static Instruction GetDynamicObjectPlayTimelineInstruction(int dynamicObjectId)
         {
             var instruction = Activator.CreateInstance<InstructionDynamicObjectPlayTimeline>();
             instruction.ParamsRaw.DynamicObjectId = dynamicObjectId;
             return instruction;
         }
 
-        Instruction GetSetVariableBoolInstruction(int VariableId, bool val)
+        public static Instruction GetSetVariableBoolInstruction(int VariableId, bool val)
         {
             var instruction = Activator.CreateInstance<InstructionSetVariableBool>();
             instruction.ParamsRaw.VariableId = VariableId;
@@ -35,14 +35,14 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        Instruction GetSetPlayerIsControllable(bool val)
+        public static Instruction GetSetPlayerIsControllable(bool val)
         {
             var instruction = Activator.CreateInstance<InstructionSetPlayerControllable>();
             instruction.ParamsRaw.Val = val;
             return instruction;
         }
 
-        Instruction GetSetGameObjectActive(string path, bool val)
+        public static Instruction GetSetGameObjectActive(string path, bool val)
         {
             var instruction = Activator.CreateInstance<InstructionGameObjectActive>();
             instruction.ParamsRaw.Path = path;
@@ -50,7 +50,7 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        Instruction GetActiveCameraGameObject(string path, bool val)
+        public static Instruction GetActiveCameraGameObject(string path, bool val)
         {
             var instruction = Activator.CreateInstance<InstructionActiveCameraGameObject>();
             instruction.ParamsRaw.Path = path;
@@ -58,7 +58,7 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        Instruction GetUnactiveCameraGameObject(string path, bool val)
+        public static Instruction GetUnactiveCameraGameObject(string path, bool val)
         {
             var instruction = Activator.CreateInstance<InstructionUnactiveCameraGameObject>();
             instruction.ParamsRaw.Path = path;
@@ -67,7 +67,7 @@ namespace Pangoo.Core.VisualScripting
         }
 
 
-        Instruction GetSubGameObjectPlayTimeline(string path, bool val)
+        public static Instruction GetSubGameObjectPlayTimeline(string path, bool val)
         {
             var instruction = Activator.CreateInstance<InstructionSubGameObjectPlayTimeline>();
             instruction.ParamsRaw.Path = path;
@@ -75,7 +75,7 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        Instruction GetDynamicObjectModelActive(int dynamicObjectId, bool val)
+        public static Instruction GetDynamicObjectModelActive(int dynamicObjectId, bool val)
         {
             var instruction = Activator.CreateInstance<InstructionDynamicObjectSetModelActive>();
             instruction.ParamsRaw.DynamicObjectId = dynamicObjectId;
@@ -83,7 +83,16 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        Instruction GetDynamicObjectHotspotActive(int dynamicObjectId, bool val)
+        public static Instruction GetDynamicObjectRunExecute(int dynamicObjectId, bool val)
+        {
+            var instruction = Activator.CreateInstance<InstructionDynamicObjectRunExecute>();
+            instruction.ParamsRaw.DynamicObjectId = dynamicObjectId;
+            instruction.ParamsRaw.Val = val;
+            return instruction;
+        }
+
+
+        public static Instruction GetDynamicObjectHotspotActive(int dynamicObjectId, bool val)
         {
             var instruction = Activator.CreateInstance<InstructionDynamicObjectHotspotActive>();
             instruction.ParamsRaw.DynamicObjectId = dynamicObjectId;
@@ -91,20 +100,20 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        Instruction GetInstructionById(int instructionId, InstructionTable instructionTable)
+        public static Instruction GetInstructionById(int instructionId, InstructionTable instructionTable)
         {
             return InstructionList.BuildInstruction(instructionId, instructionTable);
         }
 
 
-        Instruction GetChangeGameSectionInstruction(int val)
+        public static Instruction GetChangeGameSectionInstruction(int val)
         {
             var instruction = Activator.CreateInstance<InstructionChangeGameSection>();
             instruction.ParamsRaw.Val = val;
             return instruction;
         }
 
-        Instruction GetShowSubtitleInstruction(string val, float duration)
+        public static Instruction GetShowSubtitleInstruction(string val, float duration)
         {
             var instruction = Activator.CreateInstance<InstructionShowString>();
             instruction.ParamsRaw.Context = val;
@@ -112,21 +121,21 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        Instruction GetWaitTimeInstruction(float duration)
+        public static Instruction GetWaitTimeInstruction(float duration)
         {
             var instruction = Activator.CreateInstance<InstructionWaitTime>();
             instruction.ParamsRaw.Val = duration;
             return instruction;
         }
 
-        Instruction GetSubGameObjectPauseTimeline(string path)
+        public static Instruction GetSubGameObjectPauseTimeline(string path)
         {
             var instruction = Activator.CreateInstance<InstructionSubGameObjectPauseTimeline>();
             instruction.ParamsRaw.Path = path;
             return instruction;
         }
 
-        Instruction GetDynamicObjectModelTriggerEnabled(int dynamicObjectId, int triggerId, bool enabled)
+        public static Instruction GetDynamicObjectModelTriggerEnabled(int dynamicObjectId, int triggerId, bool enabled)
         {
             var instruction = Activator.CreateInstance<InstructionSetDOTriggerEnabled>();
             instruction.ParamsRaw.DynamicObjectId = dynamicObjectId;
@@ -171,6 +180,8 @@ namespace Pangoo.Core.VisualScripting
                     return GetSubGameObjectPauseTimeline(DropdownString1);
                 case DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled:
                     return GetDynamicObjectModelTriggerEnabled(Int1, Int2, Bool1);
+                case DirectInstructionTypeEnum.DynamicObjectRunExecute:
+                    return GetDynamicObjectRunExecute(Int1, Bool1);
             }
 
             return null;

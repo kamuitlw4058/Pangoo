@@ -102,6 +102,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => true,
                     DirectInstructionTypeEnum.SubGameObjectPauseTimeline => true,
                     DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => true,
+                    DirectInstructionTypeEnum.DynamicObjectRunExecute => true,
                     DirectInstructionTypeEnum.SetGameObjectActive => true,
 
                     _ => false,
@@ -138,6 +139,8 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectModelActive => true,
                     DirectInstructionTypeEnum.DynamicObjectHotspotActive => true,
                     DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => true,
+                    DirectInstructionTypeEnum.DynamicObjectRunExecute => true,
+
 
                     _ => false,
                 };
@@ -210,6 +213,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => "参考动态物体",
                     DirectInstructionTypeEnum.SubGameObjectPauseTimeline => "参考动态物体",
                     DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => "动态物体Id",
+                    DirectInstructionTypeEnum.DynamicObjectRunExecute => "动态物体Id",
                     DirectInstructionTypeEnum.SetGameObjectActive => "参考动态物体",
                     _ => "Int1",
                 };
@@ -304,6 +308,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.SubGameObjectPlayTimeline:
                 case DirectInstructionTypeEnum.SubGameObjectPauseTimeline:
                 case DirectInstructionTypeEnum.SetGameObjectActive:
+                case DirectInstructionTypeEnum.DynamicObjectRunExecute:
                     Prefab = GameSupportEditorUtility.GetPrefabByDynamicObjectId(Int1);
                     break;
             }
@@ -348,6 +353,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.SubGameObjectPauseTimeline:
                 case DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled:
                 case DirectInstructionTypeEnum.SetGameObjectActive:
+                case DirectInstructionTypeEnum.DynamicObjectRunExecute:
                     return GameSupportEditorUtility.GetDynamicObjectIds(true);
             }
 

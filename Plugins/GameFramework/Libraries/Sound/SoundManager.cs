@@ -26,6 +26,9 @@ namespace GameFramework.Sound
         private EventHandler<PlaySoundSuccessEventArgs> m_PlaySoundSuccessEventHandler;
         private EventHandler<PlaySoundFailureEventArgs> m_PlaySoundFailureEventHandler;
         private EventHandler<PlaySoundUpdateEventArgs> m_PlaySoundUpdateEventHandler;
+
+        private EventHandler<ResetSoundAgentWithSerialIdEventArgs> m_PlaySoundResetEventHandler;
+
         private EventHandler<PlaySoundDependencyAssetEventArgs> m_PlaySoundDependencyAssetEventHandler;
 
         /// <summary>
@@ -86,6 +89,22 @@ namespace GameFramework.Sound
                 m_PlaySoundFailureEventHandler -= value;
             }
         }
+
+        /// <summary>
+        /// 播放声音组件被重置。
+        /// </summary>
+        public event EventHandler<ResetSoundAgentWithSerialIdEventArgs> PlaySoundReset
+        {
+            add
+            {
+                m_PlaySoundResetEventHandler += value;
+            }
+            remove
+            {
+                m_PlaySoundResetEventHandler -= value;
+            }
+        }
+
 
         /// <summary>
         /// 播放声音更新事件。
@@ -278,6 +297,7 @@ namespace GameFramework.Sound
                 Mute = soundGroupMute,
                 Volume = soundGroupVolume
             };
+            soundGroup.ResetSoundAgent += OnResetSoundAgent;
 
             m_SoundGroups.Add(soundGroupName, soundGroup);
 
@@ -748,6 +768,14 @@ namespace GameFramework.Sound
                 PlaySoundDependencyAssetEventArgs playSoundDependencyAssetEventArgs = PlaySoundDependencyAssetEventArgs.Create(playSoundInfo.SerialId, soundAssetName, playSoundInfo.SoundGroup.Name, playSoundInfo.PlaySoundParams, dependencyAssetName, loadedCount, totalCount, playSoundInfo.UserData);
                 m_PlaySoundDependencyAssetEventHandler(this, playSoundDependencyAssetEventArgs);
                 ReferencePool.Release(playSoundDependencyAssetEventArgs);
+            }
+        }
+
+        private void OnResetSoundAgent(object sender, ResetSoundAgentWithSerialIdEventArgs e)
+        {
+            if (m_PlaySoundResetEventHandler != null)
+            {
+                m_PlaySoundResetEventHandler.Invoke(this, e);
             }
         }
     }
