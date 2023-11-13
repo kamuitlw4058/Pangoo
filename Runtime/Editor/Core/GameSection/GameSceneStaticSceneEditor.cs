@@ -75,6 +75,7 @@ namespace Pangoo.Editor
                 var asset = AssetDatabaseUtility.LoadAssetAtPath<GameObject>(assetPathRow.ToPrefabPath());
                 var go = PrefabUtility.InstantiatePrefab(asset) as GameObject;
                 go.transform.parent = transform;
+                go.name = staticScene.Name;
                 var helper = go.AddComponent<StaticSceneEditor>();
                 helper.StaticSceneId = id;
                 go.ResetTransfrom();
@@ -112,6 +113,10 @@ namespace Pangoo.Editor
 
         private void OnEnable()
         {
+            if (Application.isPlaying)
+            {
+                ClearScene();
+            }
         }
 
         private void OnDisable()
@@ -126,7 +131,10 @@ namespace Pangoo.Editor
 
         private void Update()
         {
-            UpdateGameObjectName();
+            if (!Application.isPlaying)
+            {
+                UpdateGameObjectName();
+            }
             gameObject.ResetTransfrom();
         }
 

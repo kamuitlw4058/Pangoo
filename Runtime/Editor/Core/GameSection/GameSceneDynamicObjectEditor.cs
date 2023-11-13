@@ -90,15 +90,23 @@ namespace Pangoo.Editor
 
         private void Update()
         {
-            UpdateGameObjectName();
+            if (!Application.isPlaying)
+            {
+                UpdateGameObjectName();
+            }
         }
 
         private void OnDisable()
         {
-            ClearObjects(DynamicObjects);
+            ClearObjects();
         }
 
         private void OnDestroy()
+        {
+            ClearObjects();
+        }
+
+        public void ClearObjects()
         {
             ClearObjects(DynamicObjects);
         }

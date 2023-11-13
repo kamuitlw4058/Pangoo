@@ -34,6 +34,7 @@ namespace Pangoo.Core.VisualScripting
         protected override IEnumerator Run(Args args)
         {
             var trans = args.dynamicObject.CachedTransfrom.Find(ParamsRaw.Path);
+            bool timelineStarted = false;
             Debug.Log($"PlayTimeline trans:{trans}");
             if (trans != null)
             {
@@ -49,18 +50,33 @@ namespace Pangoo.Core.VisualScripting
                 playableDirector.playOnAwake = false;
                 trans.gameObject.SetActive(true);
                 playableDirector.enabled = true;
-                Debug.Log($"Start playableDirector:{trans}");
 
                 playableDirector.Play();
                 yield return null;
+                // Debug.Log($"Start playableDirector:{trans} val:{ParamsRaw.Val} playableDirector.time:{playableDirector.time},  playableDirector.playableAsset.duration:{playableDirector.playableAsset.duration}");
 
-
-
-                while (ParamsRaw.Val && (playableDirector.time != playableDirector.playableAsset.duration) && playableDirector.time != 0)
+                switch (playableDirector.extrapolationMode)
                 {
-                    // Debug.Log($"Start playableDirector:{trans} :{ParamsRaw.Val} :{playableDirector.time} :{playableDirector.playableAsset.duration}");
-                    yield return null;
+                    case DirectorWrapMode.None:
+                        while (ParamsRaw.Val && (!timelineStarted || (timelineStarted && playableDirector.time != 0)))
+                        {
+                            // Debug.Log($"Start playableDirector:{trans} val:{ParamsRaw.Val} playableDirector.time:{playableDirector.time},  playableDirector.playableAsset.duration:{playableDirector.playableAsset.duration}");
+                            if (!timelineStarted)
+                            {
+                                timelineStarted = true;
+                            }
+                            yield return null;
+                        }
+                        break;
+                    case DirectorWrapMode.Hold:
+
+                        while (ParamsRaw.Val && (playableDirector.time != playableDirector.playableAsset.duration))
+                        {
+                            yield return null;
+                        }
+                        break;
                 }
+
             }
             else
             {

@@ -40,8 +40,9 @@ namespace Pangoo.Core.Characters
             // Debug.Log($"distance:{distance}, angle:{angle} interactive.InteractRadian:{interactive.InteractRadian},InteractRadian:{InteractRadian},{angle < InteractRadian}");
 
             if (angle < InteractRadian) return float.MaxValue;
+            // Debug.Log($"interactive:{interactive.Instance.name} distance:{distance}, angle:{angle} interactive.InteractRadian:{interactive.InteractRadian},InteractRadian:{InteractRadian},{angle < InteractRadian} angle:{angle},{1 - angle}");
 
-            return angle;
+            return (1 - angle);
         }
 
         // GIZMOS: --------------------------------------------------------------------------------

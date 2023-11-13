@@ -11,7 +11,7 @@ using System.Linq;
 namespace Pangoo.Editor
 {
 
-    [ExecuteInEditMode]
+    [ExecuteAlways]
     [DisallowMultipleComponent]
     public partial class GameSectionEditor : MonoBehaviour
     {
@@ -53,14 +53,28 @@ namespace Pangoo.Editor
             // Debug.Log($"DynamicSceneIds:{Wrapper.DynamicSceneIds.ToList().ToListString()}");
             // Debug.Log($"KeepSceneIds:{Wrapper.KeepSceneIds.ToList().ToListString()}");
 
-            m_StaticSceneEditor.SetSection(Section);
-            m_StaticSceneEditor.UpdateDynamicSceneIds(Wrapper.DynamicSceneIds);
-            m_StaticSceneEditor.UpdateKeepSceneIds(Wrapper.KeepSceneIds);
+            if (!Application.isPlaying)
+            {
+                m_StaticSceneEditor.SetSection(Section);
+                m_StaticSceneEditor.UpdateDynamicSceneIds(Wrapper.DynamicSceneIds);
+                m_StaticSceneEditor.UpdateKeepSceneIds(Wrapper.KeepSceneIds);
+            }
+            else
+            {
+                m_StaticSceneEditor.ClearScene();
+            }
 
 
+            if (!Application.isPlaying)
+            {
 
-            m_DynamicObjectEditor.SetSection(Section);
-            m_DynamicObjectEditor.UpdateObjects(Wrapper.DynamicObjectIds);
+                m_DynamicObjectEditor.SetSection(Section);
+                m_DynamicObjectEditor.UpdateObjects(Wrapper.DynamicObjectIds);
+            }
+            else
+            {
+                m_DynamicObjectEditor.ClearObjects();
+            }
         }
 
         void UpdateGameObjectName()
