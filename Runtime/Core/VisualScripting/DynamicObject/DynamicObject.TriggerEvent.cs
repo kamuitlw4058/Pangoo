@@ -93,7 +93,7 @@ namespace Pangoo.Core.VisualScripting
                     }
                     break;
                 case ConditionTypeEnum.BoolCondition:
-                    triggerEvent.Conditions = ConditionList.BuildConditionList(triggerEvent.Row.GetConditionList());
+                    triggerEvent.Conditions = ConditionList.BuildConditionList(triggerEvent.Row.GetConditionList(), m_ConditionTable);
                     var defaultinstructionList = DirectInstructionList.LoadInstructionList(triggerEvent.Row.InstructionList, m_InstructionTable);
                     if (defaultinstructionList != null)
                     {
