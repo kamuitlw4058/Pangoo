@@ -194,7 +194,7 @@ namespace Pangoo.Core.VisualScripting
 
             foreach (var triggerId in triggerIds)
             {
-                TriggerEventTable.TriggerEventRow row = TriggerEventRowExtension.GetById(triggerId);
+                TriggerEventTable.TriggerEventRow row = TriggerEventRowExtension.GetById(triggerId, m_TriggerEventTable);
                 Debug.Log($"Create TriggerId:{triggerId}  row:{row}");
                 if (row != null)
                 {
