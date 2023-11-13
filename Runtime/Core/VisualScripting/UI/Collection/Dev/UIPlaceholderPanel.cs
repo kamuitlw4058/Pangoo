@@ -47,7 +47,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 CloseSelf();
             }
-            Debug.Log($"m_Text:{m_Text}");
+            // Debug.Log($"m_Text:{m_Text}");
             if (m_Text != null)
             {
                 m_Text.text = Utility.Text.Format("{0} {1}...", ParamsRaw.MainContext, (int)(m_Duration - m_CurrentTime));
