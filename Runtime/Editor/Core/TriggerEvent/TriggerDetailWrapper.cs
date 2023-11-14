@@ -318,6 +318,7 @@ namespace Pangoo
                     try
                     {
                         m_DefaultDirectInstructions = JsonMapper.ToObject<DirectInstructionList>(Row.InstructionList);
+                        m_DefaultDirectInstructions.Init();
                     }
                     catch (Exception e)
                     {

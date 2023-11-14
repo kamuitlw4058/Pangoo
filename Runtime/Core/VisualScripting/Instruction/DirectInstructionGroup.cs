@@ -43,11 +43,21 @@ namespace Pangoo.Core.VisualScripting
 
         public static List<DirectInstructionGroup> CreateList(string s)
         {
+            List<DirectInstructionGroup> ret = null;
             if (s.IsNullOrWhiteSpace())
             {
                 return new List<DirectInstructionGroup>();
             }
-            return JsonMapper.ToObject<List<DirectInstructionGroup>>(s);
+            try
+            {
+                ret = JsonMapper.ToObject<List<DirectInstructionGroup>>(s); ;
+            }
+            catch (Exception e)
+            {
+                ret = new List<DirectInstructionGroup>();
+            }
+
+            return ret;
         }
 
         public static DirectInstructionGroup[] CreateArray(string s)

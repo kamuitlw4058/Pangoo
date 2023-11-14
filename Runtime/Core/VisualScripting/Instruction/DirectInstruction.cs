@@ -33,7 +33,6 @@ namespace Pangoo.Core.VisualScripting
 
 
         [ValueDropdown("OnMainIntValueDropdown")]
-        [OnValueChanged("OnMainIntValueChanged")]
         [TableTitleGroup("参数")]
         [LabelText("$Int1Label")]
         [ShowIf("$IsMainIntShow")]
@@ -51,12 +50,15 @@ namespace Pangoo.Core.VisualScripting
         public int Int2;
 
 
+
+
         [TableTitleGroup("参数")]
-        [LabelText("$GameObject1Label")]
-        [LabelWidth(50)]
         [JsonNoMember]
+        // [ReadOnly]
+        // [LabelWidth(80)]
+        [LabelText("参考预制体")]
         [HideInInspector]
-        public GameObject Prefab;
+        public GameObject ListPrefab;
 
         [TableTitleGroup("参数")]
         [LabelText("$DropdownString1Label")]
@@ -91,6 +93,11 @@ namespace Pangoo.Core.VisualScripting
 
 
 #if UNITY_EDITOR
+        public void SetPrefab(GameObject go)
+        {
+            ListPrefab = go;
+        }
+
         [JsonNoMember]
         bool IsMainIntShow
         {
@@ -104,13 +111,13 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectModelActive => true,
                     DirectInstructionTypeEnum.DynamicObjectHotspotActive => true,
                     DirectInstructionTypeEnum.RunInstruction => true,
-                    DirectInstructionTypeEnum.ActiveCameraGameObject => true,
-                    DirectInstructionTypeEnum.UnactiveCameraGameObject => true,
-                    DirectInstructionTypeEnum.SubGameObjectPlayTimeline => true,
-                    DirectInstructionTypeEnum.SubGameObjectPauseTimeline => true,
+                    // DirectInstructionTypeEnum.ActiveCameraGameObject => true,
+                    // DirectInstructionTypeEnum.UnactiveCameraGameObject => true,
+                    // DirectInstructionTypeEnum.SubGameObjectPlayTimeline => true,
+                    // DirectInstructionTypeEnum.SubGameObjectPauseTimeline => true,
                     DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => true,
                     DirectInstructionTypeEnum.DynamicObjectRunExecute => true,
-                    DirectInstructionTypeEnum.SetGameObjectActive => true,
+                    // DirectInstructionTypeEnum.SetGameObjectActive => true,
                     DirectInstructionTypeEnum.PlaySound => true,
                     DirectInstructionTypeEnum.StopSound => true,
                     _ => false,
@@ -238,6 +245,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectRunExecute => "动态物体Id",
                     DirectInstructionTypeEnum.SetGameObjectActive => "参考动态物体",
                     DirectInstructionTypeEnum.PlaySound => "音频Id",
+                    DirectInstructionTypeEnum.StopSound => "音频Id",
                     _ => "Int1",
                 };
             }
@@ -338,21 +346,7 @@ namespace Pangoo.Core.VisualScripting
 
 
 
-        public void OnMainIntValueChanged()
-        {
-            switch (InstructionType)
-            {
-                case DirectInstructionTypeEnum.ActiveCameraGameObject:
-                case DirectInstructionTypeEnum.UnactiveCameraGameObject:
-                case DirectInstructionTypeEnum.SubGameObjectPlayTimeline:
-                case DirectInstructionTypeEnum.SubGameObjectPauseTimeline:
-                case DirectInstructionTypeEnum.SetGameObjectActive:
-                case DirectInstructionTypeEnum.DynamicObjectRunExecute:
-                    Prefab = GameSupportEditorUtility.GetPrefabByDynamicObjectId(Int1);
-                    break;
-            }
 
-        }
 
 
         public IEnumerable OnDropdownStringValueDropdown()
@@ -364,7 +358,8 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.SubGameObjectPlayTimeline:
                 case DirectInstructionTypeEnum.SubGameObjectPauseTimeline:
                 case DirectInstructionTypeEnum.SetGameObjectActive:
-                    return GameSupportEditorUtility.RefPrefabStringDropdown(Prefab);
+                    return GameSupportEditorUtility.RefPrefabStringDropdown(ListPrefab);
+
             }
 
             return null;

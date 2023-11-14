@@ -90,6 +90,24 @@ namespace Pangoo
 
         List<DirectInstructionGroup> m_DirectInstructionGroups;
 
+        public void UpdateGroupPrefab()
+        {
+            if (m_DirectInstructionGroups != null)
+            {
+                foreach (var group in m_DirectInstructionGroups)
+                {
+                    if (group.DirectInstructionList != null)
+                    {
+                        for (int i = 0; i < group.DirectInstructionList.Length; i++)
+                        {
+                            group.DirectInstructionList[i].SetPrefab(AssetPrefab);
+                        }
+                    }
+                }
+            }
+
+        }
+
         [ShowInInspector]
 
         [LabelText("直接指令")]
@@ -107,6 +125,10 @@ namespace Pangoo
                     if (m_DirectInstructionGroups == null)
                     {
                         m_DirectInstructionGroups = new List<DirectInstructionGroup>();
+                    }
+                    else
+                    {
+                        UpdateGroupPrefab();
                     }
                 }
 
@@ -129,6 +151,7 @@ namespace Pangoo
                 Row.DirectInstructions = currentValue;
                 Save();
             }
+            UpdateGroupPrefab();
         }
 
 
