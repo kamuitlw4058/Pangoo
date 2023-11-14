@@ -159,6 +159,7 @@ namespace Pangoo
         }
 
         [Button("@PlayerText")]
+        [TableColumnWidth(60, resizable: false)]
         private void StartPlayback()
         {
             if (isPlaying)
@@ -180,6 +181,13 @@ namespace Pangoo
 
 
 
+
+        }
+
+        public override void Save()
+        {
+            Row.PackageDir = Overview.Config.PackageDir;
+            base.Save();
 
         }
 

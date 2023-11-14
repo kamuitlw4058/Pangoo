@@ -37,6 +37,14 @@ namespace UnityGameFramework.Runtime
             }
         }
 
+        public override float CurrentTime
+        {
+            get
+            {
+                return m_AudioSource.time;
+            }
+        }
+
         /// <summary>
         /// 获取声音长度。
         /// </summary>
@@ -428,6 +436,7 @@ namespace UnityGameFramework.Runtime
             }
 
             audioSource.volume = volume;
+
         }
     }
 }

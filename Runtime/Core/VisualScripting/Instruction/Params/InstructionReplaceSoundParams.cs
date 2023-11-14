@@ -6,18 +6,22 @@ using Sirenix.OdinInspector;
 
 namespace Pangoo.Core.VisualScripting
 {
-    public class InstructionPlaySoundParams : InstructionParams
+    public class InstructionReplaceSoundParams : InstructionParams
     {
-        [JsonMember("SoundId")]
+        [JsonMember("OldSoundId")]
         [ValueDropdown("OnSoundIdDropdown")]
+        public int OldSoundId;
 
-        public int SoundId;
-
-        [JsonMember("FadeTime")]
-        public float FadeTime;
+        [JsonMember("NewSoundId")]
+        [ValueDropdown("OnSoundIdDropdown")]
+        public int NewSoundId;
 
         [JsonMember("Loop")]
         public bool Loop;
+
+
+        [JsonMember("FadeTime")]
+        public float FadeTime;
 
         [JsonMember("WaitToComplete")]
         public bool WaitToComplete;
@@ -30,11 +34,13 @@ namespace Pangoo.Core.VisualScripting
 #endif
         public override void Load(string val)
         {
-            var par = JsonMapper.ToObject<InstructionPlaySoundParams>(val);
-            WaitToComplete = par.WaitToComplete;
-            SoundId = par.SoundId;
+            var par = JsonMapper.ToObject<InstructionReplaceSoundParams>(val);
+            OldSoundId = par.OldSoundId;
+            NewSoundId = par.NewSoundId;
             Loop = par.Loop;
             FadeTime = par.FadeTime;
+            WaitToComplete = par.WaitToComplete;
+
 
         }
     }

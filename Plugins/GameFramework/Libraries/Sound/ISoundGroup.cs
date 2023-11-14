@@ -56,6 +56,8 @@ namespace GameFramework.Sound
             set;
         }
 
+
+
         /// <summary>
         /// 获取声音组辅助器。
         /// </summary>
@@ -76,5 +78,8 @@ namespace GameFramework.Sound
         void StopAllLoadedSounds(float fadeOutSeconds);
 
         event EventHandler<ResetSoundAgentWithSerialIdEventArgs> ResetSoundAgent;
+
+
+        public bool GetCurrentTime(int serialId, out float val);
     }
 }

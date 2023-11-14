@@ -14,6 +14,10 @@ namespace Pangoo.Core.VisualScripting
         public int SoundId;
 
 
+        [JsonMember("FadeTime")]
+        public float FadeTime;
+
+
 #if UNITY_EDITOR
         IEnumerable OnSoundIdDropdown()
         {
@@ -24,6 +28,7 @@ namespace Pangoo.Core.VisualScripting
         {
             var par = JsonMapper.ToObject<InstructionStopSoundParams>(val);
             SoundId = par.SoundId;
+            FadeTime = par.FadeTime;
 
         }
     }

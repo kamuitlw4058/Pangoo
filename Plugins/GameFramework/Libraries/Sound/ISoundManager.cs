@@ -206,6 +206,9 @@ namespace GameFramework.Sound
         /// <returns>声音的序列编号。</returns>
         int PlaySound(string soundAssetName, string soundGroupName, int priority, PlaySoundParams playSoundParams, object userData);
 
+
+        bool SoundTime(int serialId, out float time);
+
         /// <summary>
         /// 停止播放声音。
         /// </summary>

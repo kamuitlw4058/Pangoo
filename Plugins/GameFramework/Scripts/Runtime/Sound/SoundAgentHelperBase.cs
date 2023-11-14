@@ -17,6 +17,11 @@ namespace UnityGameFramework.Runtime
     /// </summary>
     public abstract class SoundAgentHelperBase : MonoBehaviour, ISoundAgentHelper
     {
+        public abstract float CurrentTime
+        {
+            get;
+        }
+
         /// <summary>
         /// 获取当前是否正在播放。
         /// </summary>
@@ -24,6 +29,7 @@ namespace UnityGameFramework.Runtime
         {
             get;
         }
+
 
         /// <summary>
         /// 获取声音长度。

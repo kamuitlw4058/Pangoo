@@ -510,6 +510,11 @@ namespace UnityGameFramework.Runtime
             return m_SoundManager.StopSound(serialId, fadeOutSeconds);
         }
 
+        public bool SoundTime(int serialId, out float time)
+        {
+            return m_SoundManager.SoundTime(serialId, out time);
+        }
+
         /// <summary>
         /// 停止所有已加载的声音。
         /// </summary>

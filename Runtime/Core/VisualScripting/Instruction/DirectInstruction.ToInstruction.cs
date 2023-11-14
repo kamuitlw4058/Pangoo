@@ -144,6 +144,24 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
+        public static Instruction GetPlaySound(int SoundId, bool loop, bool WaitToComplete, float fadeTime)
+        {
+            var instruction = Activator.CreateInstance<InstructionPlaySound>();
+            instruction.ParamsRaw.SoundId = SoundId;
+            instruction.ParamsRaw.Loop = loop;
+            instruction.ParamsRaw.WaitToComplete = WaitToComplete;
+            instruction.ParamsRaw.FadeTime = fadeTime;
+            return instruction;
+        }
+
+        public static Instruction GetStopSound(int SoundId, float fadeTime)
+        {
+            var instruction = Activator.CreateInstance<InstructionStopSound>();
+            instruction.ParamsRaw.SoundId = SoundId;
+            instruction.ParamsRaw.FadeTime = fadeTime;
+            return instruction;
+        }
+
         public Instruction ToInstruction(InstructionTable instructionTable = null)
         {
             switch (InstructionType)
@@ -182,6 +200,10 @@ namespace Pangoo.Core.VisualScripting
                     return GetDynamicObjectModelTriggerEnabled(Int1, Int2, Bool1);
                 case DirectInstructionTypeEnum.DynamicObjectRunExecute:
                     return GetDynamicObjectRunExecute(Int1, Bool1);
+                case DirectInstructionTypeEnum.PlaySound:
+                    return GetPlaySound(Int1, Bool1, Bool2, Float1);
+                case DirectInstructionTypeEnum.StopSound:
+                    return GetStopSound(Int1, Float1);
             }
 
             return null;

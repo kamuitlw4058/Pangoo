@@ -304,6 +304,14 @@ namespace GameFramework.Sound
                 }
             }
 
+            public float CurrentTime
+            {
+                get
+                {
+                    return m_SoundAgentHelper.CurrentTime;
+                }
+            }
+
             /// <summary>
             /// 播放声音。
             /// </summary>

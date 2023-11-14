@@ -27,7 +27,7 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            args.Main.Sound.StopSound(ParamsRaw.SoundId);
+            args.Main.Sound.StopSound(ParamsRaw.SoundId, fadeOutSeconds: ParamsRaw.FadeTime);
         }
 
 

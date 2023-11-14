@@ -231,6 +231,20 @@ namespace GameFramework.Sound
                 return false;
             }
 
+            public bool GetCurrentTime(int serialId, out float val)
+            {
+                foreach (SoundAgent soundAgent in m_SoundAgents)
+                {
+                    if (soundAgent.SerialId == serialId)
+                    {
+                        val = soundAgent.CurrentTime;
+                        return true;
+                    }
+                }
+                val = 0;
+                return false;
+            }
+
             /// <summary>
             /// 暂停播放声音。
             /// </summary>

@@ -19,7 +19,7 @@ namespace Pangoo.Core.VisualScripting
         [HideLabel]
         [TableColumnWidth(200, resizable: false)]
         [JsonMember("InstructionType")]
-
+        [GUIColor(0.9f, 0.3f, 0.3f)]
         public DirectInstructionTypeEnum InstructionType;
 
         // [ValueDropdown("OnMainIntValueDropdown")]
@@ -75,6 +75,13 @@ namespace Pangoo.Core.VisualScripting
         public bool Bool1;
 
         [TableTitleGroup("参数")]
+        [LabelText("$Bool2Label")]
+        [ShowIf("$IsBool2Show")]
+        [LabelWidth(80)]
+        [JsonMember("Bool2")]
+        public bool Bool2;
+
+        [TableTitleGroup("参数")]
         [LabelText("$Float1Label")]
         [ShowIf("$IsMainFloatShow")]
         [LabelWidth(80)]
@@ -104,7 +111,8 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => true,
                     DirectInstructionTypeEnum.DynamicObjectRunExecute => true,
                     DirectInstructionTypeEnum.SetGameObjectActive => true,
-
+                    DirectInstructionTypeEnum.PlaySound => true,
+                    DirectInstructionTypeEnum.StopSound => true,
                     _ => false,
                 };
             }
@@ -140,8 +148,20 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectHotspotActive => true,
                     DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => true,
                     DirectInstructionTypeEnum.DynamicObjectRunExecute => true,
+                    DirectInstructionTypeEnum.PlaySound => true,
+                    _ => false,
+                };
+            }
+        }
 
-
+        [JsonNoMember]
+        bool IsBool2Show
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.PlaySound => true,
                     _ => false,
                 };
             }
@@ -188,6 +208,8 @@ namespace Pangoo.Core.VisualScripting
                 {
                     DirectInstructionTypeEnum.ShowSubtitle => true,
                     DirectInstructionTypeEnum.WaitTime => true,
+                    DirectInstructionTypeEnum.PlaySound => true,
+                    DirectInstructionTypeEnum.StopSound => true,
                     _ => false,
                 };
             }
@@ -215,6 +237,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => "动态物体Id",
                     DirectInstructionTypeEnum.DynamicObjectRunExecute => "动态物体Id",
                     DirectInstructionTypeEnum.SetGameObjectActive => "参考动态物体",
+                    DirectInstructionTypeEnum.PlaySound => "音频Id",
                     _ => "Int1",
                 };
             }
@@ -245,6 +268,20 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.ActiveCameraGameObject => "等待切换完成",
                     DirectInstructionTypeEnum.UnactiveCameraGameObject => "等待切换完成",
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => "等待切换完成",
+                    DirectInstructionTypeEnum.PlaySound => "是否循环",
+                    _ => "设置值",
+                };
+            }
+        }
+
+        [JsonNoMember]
+        string Bool2Label
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.PlaySound => "等待切换完成",
                     _ => "设置值",
                 };
             }
@@ -292,6 +329,8 @@ namespace Pangoo.Core.VisualScripting
                 {
                     DirectInstructionTypeEnum.ShowSubtitle => "持续时间",
                     DirectInstructionTypeEnum.WaitTime => "等待时长",
+                    DirectInstructionTypeEnum.PlaySound => "淡入时长",
+                    DirectInstructionTypeEnum.StopSound => "淡出时长",
                     _ => "Float1",
                 };
             }
@@ -355,6 +394,9 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.SetGameObjectActive:
                 case DirectInstructionTypeEnum.DynamicObjectRunExecute:
                     return GameSupportEditorUtility.GetDynamicObjectIds(true);
+                case DirectInstructionTypeEnum.PlaySound:
+                case DirectInstructionTypeEnum.StopSound:
+                    return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<SoundTableOverview>();
             }
 
             return null;

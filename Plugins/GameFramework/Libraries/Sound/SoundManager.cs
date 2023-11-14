@@ -546,6 +546,21 @@ namespace GameFramework.Sound
             return false;
         }
 
+        public bool SoundTime(int serialId, out float time)
+        {
+            foreach (KeyValuePair<string, SoundGroup> soundGroup in m_SoundGroups)
+            {
+                if (soundGroup.Value.GetCurrentTime(serialId, out float ret))
+                {
+                    time = ret;
+                    return true;
+                }
+
+            }
+            time = 0;
+            return false;
+        }
+
         /// <summary>
         /// 停止所有已加载的声音。
         /// </summary>

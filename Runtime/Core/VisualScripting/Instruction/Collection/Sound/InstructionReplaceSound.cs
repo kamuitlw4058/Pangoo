@@ -9,15 +9,15 @@ using UnityEngine.Playables;
 
 namespace Pangoo.Core.VisualScripting
 {
-    [Common.Title("PlayTimeline")]
-    [Category("Sound/播放音頻")]
+    // [Common.Title("PlayTimeline")]
+    [Category("Sound/替换音频")]
     [Serializable]
-    public class InstructionPlaySound : Instruction
+    public class InstructionReplaceSound : Instruction
     {
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        public InstructionPlaySoundParams ParamsRaw = new InstructionPlaySoundParams();
+        public InstructionReplaceSoundParams ParamsRaw = new InstructionReplaceSoundParams();
         public override IParams Params => this.ParamsRaw;
 
         [ShowInInspector]
@@ -34,11 +34,11 @@ namespace Pangoo.Core.VisualScripting
         protected override IEnumerator Run(Args args)
         {
             SoundReset = false;
-            Debug.Log($"Play Sound:{ParamsRaw.SoundId}");
-            args.Main.Sound.PlaySound(ParamsRaw.SoundId, () =>
+            Debug.Log($"Play Sound:{ParamsRaw.OldSoundId}");
+            args.Main.Sound.SoundReplace(ParamsRaw.OldSoundId, ParamsRaw.NewSoundId, 0, ParamsRaw.FadeTime, () =>
             {
                 SoundReset = true;
-            }, loop: ParamsRaw.Loop, fadeTime: ParamsRaw.FadeTime);
+            }, ParamsRaw.Loop);
             while (!SoundReset)
             {
                 yield return null;
@@ -48,7 +48,7 @@ namespace Pangoo.Core.VisualScripting
         public override void RunImmediate(Args args)
         {
             SoundReset = false;
-            args.Main.Sound.PlaySound(ParamsRaw.SoundId, loop: ParamsRaw.Loop, fadeTime: ParamsRaw.FadeTime);
+            args.Main.Sound.SoundReplace(ParamsRaw.OldSoundId, ParamsRaw.NewSoundId, 0, ParamsRaw.FadeTime, null, loop: ParamsRaw.Loop);
         }
 
 

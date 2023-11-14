@@ -160,5 +160,7 @@ namespace GameFramework.Sound
         /// <param name="soundAsset">声音资源。</param>
         /// <returns>是否设置声音资源成功。</returns>
         bool SetSoundAsset(object soundAsset);
+
+        float CurrentTime { get; }
     }
 }

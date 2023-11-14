@@ -130,7 +130,7 @@ namespace Pangoo
 
 
 
-        public void Save()
+        public virtual void Save()
         {
             EditorUtility.SetDirty(m_Overview);
             AssetDatabase.SaveAssets();

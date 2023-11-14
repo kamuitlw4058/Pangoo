@@ -55,22 +55,17 @@ namespace Pangoo.Core.Services
         }
 
         [Button("播放")]
-        public void PlaySound(int soundId, Action playResetCallback = null, bool loop = false)
+        public void PlaySound(int soundId, Action playResetCallback = null, bool loop = false, float fadeTime = 0, float offsetTime = 0)
         {
             var row = m_SoundTable.GetRowById(soundId);
             var path = AssetUtility.GetSoundAssetPath(row.PackageDir, row.SoundType, row.AssetPath);
             int serialId = 0;
-            if (loop)
-            {
-                PlaySoundParams playSoundParams = new PlaySoundParams();
-                playSoundParams.Loop = true;
-                serialId = PangooEntry.Sound.PlaySound(path, "Default", playSoundParams);
+            var playSoundParams = PlaySoundParams.Create();
+            playSoundParams.Loop = loop;
+            playSoundParams.FadeInSeconds = fadeTime;
+            playSoundParams.Time = offsetTime;
 
-            }
-            else
-            {
-                serialId = PangooEntry.Sound.PlaySound(path, "Default");
-            }
+            serialId = PangooEntry.Sound.PlaySound(path, "Default", playSoundParams);
             Debug.Log($"Start Play :{path}. serialId:{serialId}");
             if (serialId != 0)
             {
@@ -89,15 +84,44 @@ namespace Pangoo.Core.Services
         }
 
         [Button("停止")]
-        public void StopSound(int soundId)
+        public void StopSound(int soundId, float fadeOutSeconds = 0)
         {
             foreach (var kv in m_SerialPlaying)
             {
                 if (kv.Value.SoundId == soundId)
                 {
-                    PangooEntry.Sound.StopSound(kv.Key);
+                    PangooEntry.Sound.StopSound(kv.Key, fadeOutSeconds);
                 }
             }
+        }
+
+        public bool SoundTime(int soundId, out float time)
+        {
+            foreach (var kv in m_SerialPlaying)
+            {
+                if (kv.Value.SoundId == soundId)
+                {
+
+                    if (PangooEntry.Sound.SoundTime(kv.Key, out time))
+                    {
+                        return true;
+                    }
+                }
+            }
+            time = 0;
+            return false;
+        }
+
+        public void SoundReplace(int oldSoundId, int newSoundId, float offsetTime, float fadeTime = 0, Action playResetCallback = null, bool loop = false)
+        {
+            float CurrentTime = 0;
+            if (SoundTime(oldSoundId, out CurrentTime))
+            {
+                StopSound(oldSoundId, fadeTime);
+            }
+            Debug.Log($"Sound Replace CurrentTime:{CurrentTime}");
+
+            PlaySound(newSoundId, playResetCallback, loop, offsetTime: CurrentTime + offsetTime, fadeTime: fadeTime);
         }
 
         void OnPlaySoundReset(object sender, GameFrameworkEventArgs e)

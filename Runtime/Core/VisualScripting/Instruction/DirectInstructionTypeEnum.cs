@@ -60,5 +60,11 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("动态物体运行执行触发")]
         DynamicObjectRunExecute,
+
+        [LabelText("播放音频")]
+        PlaySound,
+
+        [LabelText("停止音频")]
+        StopSound,
     }
 }

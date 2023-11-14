@@ -160,6 +160,11 @@ namespace GameFramework.Sound
             get;
         }
 
+        float CurrentTime
+        {
+            get;
+        }
+
         /// <summary>
         /// 播放声音。
         /// </summary>

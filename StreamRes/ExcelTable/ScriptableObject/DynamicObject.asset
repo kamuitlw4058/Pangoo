@@ -23,6 +23,7 @@ MonoBehaviour:
       Space: Self
       Position: {x: 0, y: 0.3, z: 0}
       Rotation: {x: 0, y: 0, z: 0}
+      Scale: {x: 0, y: 0, z: 0}
       TriggerEventIds: 1
       UseHotspot: 1
       DefaultHideHotspot: 0
@@ -43,6 +44,7 @@ MonoBehaviour:
       Space: 
       Position: {x: 0, y: 0, z: 0}
       Rotation: {x: 0, y: 0, z: 0}
+      Scale: {x: 0, y: 0, z: 0}
       TriggerEventIds: 
       UseHotspot: 0
       DefaultHideHotspot: 0
@@ -54,7 +56,7 @@ MonoBehaviour:
       InteractRadius: 0
       InteractOffset: {x: 0, y: 0, z: 0}
       InteractRadian: 0
-      InteractTarget: 
+      InteractTarget: Self
       DefaultHideModel: 0
     - Id: 4
       Name: "\u6D4B\u8BD5"
@@ -63,6 +65,7 @@ MonoBehaviour:
       Space: 
       Position: {x: 0, y: 0, z: 0}
       Rotation: {x: 0, y: 0, z: 0}
+      Scale: {x: 0, y: 0, z: 0}
       TriggerEventIds: 
       UseHotspot: 0
       DefaultHideHotspot: 0
@@ -83,6 +86,7 @@ MonoBehaviour:
       Space: 
       Position: {x: 0, y: 1.03, z: 0}
       Rotation: {x: 0, y: 0, z: 0}
+      Scale: {x: 0, y: 0, z: 0}
       TriggerEventIds: 3
       UseHotspot: 0
       DefaultHideHotspot: 0
