@@ -93,7 +93,9 @@ namespace Pangoo.Core.VisualScripting
             }
             else
             {
+#if UNITY_EDITOR
                 UpdatePrefab();
+#endif
             }
 
 
