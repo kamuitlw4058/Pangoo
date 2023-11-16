@@ -42,6 +42,11 @@ namespace Pangoo
 
         }
 
+        public void ResetCameraDirection()
+        {
+            characterService?.Player?.character?.ResetCameraDirection();
+        }
+
         public void SetPlayerInput(bool val)
         {
             if (mainService == null)
