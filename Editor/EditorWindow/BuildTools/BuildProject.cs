@@ -30,13 +30,13 @@ namespace Pangoo.Editor
 
         private static bool isJenkinsBuild = true;
 
-        [MenuItem("BuildManager/BuildPC")]
+        [MenuItem("Pangoo/BuildTools/BuildPC")]
         public static async void BuildPC()
         {
             // await BuildResoure();
             // await MoveABPackgeResource();
 
-            Debug.Log("项目根目录1：" + Directory.GetParent(Application.dataPath).ToString());
+            Debug.Log("项目根目录1：" + Directory.GetParent(Application.dataPath));
 
             #region 获取jenkins参数值
 
