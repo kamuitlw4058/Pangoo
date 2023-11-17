@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using GameFramework.Event;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using Pangoo.Core.Services;
 
 namespace Pangoo
@@ -16,7 +18,7 @@ namespace Pangoo
 
         CharacterService characterService = null;
 
-
+        
         public void ChangeGameSection(int id)
         {
             if (eventHelper == null)
@@ -42,22 +44,34 @@ namespace Pangoo
 
         }
 
-        public void ResetCameraDirection()
-        {
-            characterService?.Player?.character?.ResetCameraDirection();
-        }
-
-        public void SetPlayerInput(bool val)
+        CharacterService GetCharacterService()
         {
             if (mainService == null)
             {
                 mainService = PangooEntry.Service.mainService;
             }
+            
+            return mainService?.CharacterService;
+        }
+        
+        public Vector3 rotation;
+        public void SetCameraRotation()
+        {
+            characterService=GetCharacterService();
+            Debug.Log($":{rotation} :{characterService}  :{characterService?.Player} :{characterService?.Player?.character} :{characterService?.Player?.character?.CharacterCamera}");
+            characterService?.Player?.character?.CharacterCamera?.SetDirection(rotation);
+        }
 
-            if (characterService == null)
-            {
-                characterService = mainService?.CharacterService;
-            }
+
+        public void ResetCameraDirection()
+        {
+            characterService=GetCharacterService();
+            characterService?.Player?.character?.ResetCameraDirection();
+        }
+
+        public void SetPlayerInput(bool val)
+        {
+            characterService=GetCharacterService();
 
             var player = characterService?.Player?.character;
             if (player != null) player.IsControllable = val;
