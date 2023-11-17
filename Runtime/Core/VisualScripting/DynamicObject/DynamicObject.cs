@@ -59,7 +59,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 if (m_Variables == null)
                 {
-                    m_Variables = Main.GetOrCreateDynamicObjectValue(RuntimeKey, this);
+                    m_Variables = Main?.GetOrCreateDynamicObjectValue(RuntimeKey, this);
                 }
                 return m_Variables;
             }
