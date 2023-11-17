@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Pangoo.Editor.ResourceTools;
 using UnityEditor;
 using UnityEditor.Build;
+using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityGameFramework.Editor.ResourceTools;
@@ -27,17 +28,23 @@ namespace Pangoo.Editor
         private static string buildNumber = "123";
 
         private UnityAction buildResoureceEvent;
-
+        
+        /// <summary>
+        /// 是否为在编辑器内部打包
+        /// </summary>
         private static bool isJenkinsBuild = true;
 
-        [MenuItem("BuildManager/BuildPC")]
+        private static bool isTest;
+        [MenuItem("Pangoo/BuildTools/BuildPC")]
         public static async void BuildPC()
         {
             // await BuildResoure();
             // await MoveABPackgeResource();
 
-            Debug.Log("项目根目录1：" + Directory.GetParent(Application.dataPath).ToString());
+            Debug.Log("项目根目录1：" + Directory.GetParent(Application.dataPath));
 
+            isJenkinsBuild = GetCommandLineArgValue("-outputDirPath") != null;
+            
             #region 获取jenkins参数值
 
             if (isJenkinsBuild)
@@ -46,6 +53,7 @@ namespace Pangoo.Editor
                 tagName = GetCommandLineArgValue("-tagName");
                 buildNumber = GetCommandLineArgValue("-buildNumber");
                 monthDay = GetCommandLineArgValue("-monthDay");
+                isTest = Boolean.Parse(GetCommandLineArgValue("-isTest"));
             }
             else
             {
@@ -53,6 +61,7 @@ namespace Pangoo.Editor
                 tagName = "测试";
                 buildNumber = "99";
                 monthDay = "1102";
+                isTest = true;
             }
 
             #endregion
@@ -103,9 +112,14 @@ namespace Pangoo.Editor
             #endregion
 
             Debug.Log("项目本地路径名1：" + options.locationPathName);
+
+            if (isTest)
+            {
+                EditorUserBuildSettings.development = true;
+            }
+            
             BuildPipeline.BuildPlayer(options);
         }
-
         private static string EnvironmentVariable
         {
             get
@@ -140,8 +154,7 @@ namespace Pangoo.Editor
             p.BeginOutputReadLine();
             p.WaitForExit();
         }
-
-        [MenuItem("BuildManager/AddTagAndPush")]
+        
         private static void AddTagAndPush()
         {
             //tagName = GetCommandLineArgValue("-tagName");
@@ -201,18 +214,31 @@ namespace Pangoo.Editor
         private static void BuildResoure()
         {
             Debug.Log("开始打包资源");
+            isTest = Boolean.Parse(GetCommandLineArgValue("-isTest"));
+            if (isTest)
+            {
+                string dirPath = Application.streamingAssetsPath + "/" + "GameMain";
+                string filePath=Application.streamingAssetsPath + "/" + "GameFrameworkVersion.dat";
+                if (Directory.Exists(dirPath)&&File.Exists(filePath))
+                {
+                    Debug.Log("已包含资源文件，跳过重复构建");
+                    return;
+                }
+            }
 
+            //创建存放打包资源的文件夹
             if (!Directory.Exists(abPackgePath))
             {
                 Debug.Log("创建ABs文件夹");
                 Directory.CreateDirectory(abPackgePath);
             }
-
+            
+            //刷新打包资源的信息
             ResourceRuleEditor m_resourceRule = new ResourceRuleEditor();
             m_resourceRule.RefreshResourceCollection();
             m_resourceRule.Save();
 
-            m_Builder.m_OrderBuildResources = false;
+            //m_Builder.m_OrderBuildResources = false;
 
             if (m_Controller.Load())
             {
@@ -229,6 +255,8 @@ namespace Pangoo.Editor
                     }
                 }
 
+                m_Controller.InternalResourceVersion = int.Parse(buildNumber);
+                Debug.Log("资源包版本:"+m_Controller.InternalResourceVersion);
                 m_Controller.RefreshCompressionHelper();
 
                 m_Builder.m_BuildEventHandlerTypeNameIndex = 0;
