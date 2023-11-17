@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using GameFramework.Event;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using Pangoo.Core.Services;
 
 namespace Pangoo
