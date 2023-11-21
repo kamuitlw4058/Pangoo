@@ -159,7 +159,14 @@ namespace Pangoo.Core.Characters
                 0f
             );
 
-            m_VirtualCamera.transform.rotation = rotation;
+            if (Character.IsYAxisClamp)
+            {
+                m_VirtualCamera.transform.localRotation = rotation;
+            }
+            else
+            {
+                m_VirtualCamera.transform.rotation = rotation;
+            }
             // Debug.Log($"set Rotation:{rotation}");
 
 
@@ -222,13 +229,13 @@ namespace Pangoo.Core.Characters
                 deltaTime
             );
         }
-
+        
         private void ConstrainTargetAngles()
         {
             float xAngle = Character.xAxisMaxPitch / 2f;
             
             m_AnglesTarget.x = Mathf.Clamp(m_AnglesTarget.x, -xAngle, xAngle);
-            if (Character.isClamp)
+            if (Character.IsYAxisClamp)
             {
                 float yAngle = Character.yAxisMaxPitch / 2f;
                 m_AnglesTarget.y = Mathf.Clamp(m_AnglesTarget.y, -yAngle, yAngle);
@@ -238,9 +245,9 @@ namespace Pangoo.Core.Characters
                 if (m_AnglesTarget.y < 0f) m_AnglesTarget.y += 360f;
                 if (m_AnglesTarget.y >= 360f) m_AnglesTarget.y -= 360f;
             }
+
         }
-
-
+        
         private void ComputeInput(Vector2 deltaInput)
         {
             this.m_AnglesTarget += new Vector2(

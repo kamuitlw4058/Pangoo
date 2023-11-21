@@ -74,7 +74,7 @@ namespace Pangoo
         public void SetPlayerClamp(bool val)
         {
             characterService=GetCharacterService();
-            characterService.Player.character.isClamp = val;
+            
             if (val)
             {
                 characterService.Player.character.xAxisMaxPitch = rotationClamp.x;
@@ -83,7 +83,7 @@ namespace Pangoo
             else
             {
                 characterService.Player.character.xAxisMaxPitch = 90f;
-                characterService.Player.character.yAxisMaxPitch = 0;
+                characterService.Player.character.yAxisMaxPitch = 360;
             }
         }
 
@@ -113,7 +113,7 @@ namespace Pangoo
                 m_VirtualCamera.DestroyCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
             }
         }
-
+        
         public void SetPlayerInput(bool val)
         {
             characterService=GetCharacterService();

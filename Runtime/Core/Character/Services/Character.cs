@@ -3,6 +3,7 @@ using UnityEngine;
 using Pangoo.Core.Services;
 using Pangoo.Core.Common;
 using Sirenix.OdinInspector;
+using UnityEngine.Serialization;
 
 namespace Pangoo.Core.Characters
 {
@@ -21,9 +22,22 @@ namespace Pangoo.Core.Characters
         public Vector3 CameraOffset { get; set; }
         [ShowInInspector]
         public float xAxisMaxPitch { get; set; }
+
+        [ShowInInspector] 
+        public float yAxisMaxPitch = 360;
+
         [ShowInInspector]
-        public float yAxisMaxPitch { get; set; }
-        public bool isClamp;
+        public bool IsYAxisClamp {
+            get
+            {
+                if (yAxisMaxPitch >= 360 || yAxisMaxPitch < 0)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+        }
 
         public bool IsControllable { get; set; }
 
