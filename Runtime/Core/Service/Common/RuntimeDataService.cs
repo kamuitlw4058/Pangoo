@@ -42,7 +42,8 @@ namespace Pangoo.Core.Services
         {
             if (m_VariablesDict.TryGetValue(id, out VariablesTable.VariablesRow row))
             {
-                return Get<T>(row.Key);
+                T defaultValue = row.DefaultValue.ToType<T>();
+                return Get<T>(row.Key, defaultValue);
             }
 
             return default(T);

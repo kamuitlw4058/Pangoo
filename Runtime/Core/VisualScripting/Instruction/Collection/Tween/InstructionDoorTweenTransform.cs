@@ -103,7 +103,7 @@ namespace Pangoo.Core.VisualScripting
                 }
 
             }
-            Debug.Log($"startOrigin:{startOrigin} Start:{start} End:{end},val:{val}");
+            // Debug.Log($"startOrigin:{startOrigin} Start:{start} End:{end},val:{val}");
 
             return LerpValue(start, end, val, forwardBack);
         }

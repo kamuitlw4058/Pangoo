@@ -11,7 +11,7 @@ namespace Pangoo.Core.Services
     [Serializable]
     public class MainService : NestedBaseService
     {
-        RuntimeDataService RuntimeData = new RuntimeDataService();
+        public RuntimeDataService RuntimeData = new RuntimeDataService();
 
         public CharacterService CharacterService = new CharacterService();
 
@@ -46,7 +46,7 @@ namespace Pangoo.Core.Services
 
         public DynamicObjectValue GetOrCreateDynamicObjectValue(string key, DynamicObject dynamicObject)
         {
-            var val = RuntimeData.Get<DynamicObjectValue>(key);
+            var val = RuntimeData.Get<DynamicObjectValue>(key, null);
             if (val == null)
             {
                 val = new DynamicObjectValue();
