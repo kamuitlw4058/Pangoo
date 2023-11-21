@@ -213,8 +213,17 @@ namespace Pangoo.Editor
         [MenuItem("Pangoo/BuildTools/BuildResoure")]
         private static void BuildResoure()
         {
-            Debug.Log("开始打包资源");
-            isTest = Boolean.Parse(GetCommandLineArgValue("-isTest"));
+            Debug.Log("检查是否需要构建资源");
+
+            try
+            {
+                isTest=Boolean.Parse(GetCommandLineArgValue("-isTest"));
+            }
+            catch (Exception e)
+            {
+                isTest = true;
+            }
+            
             if (isTest)
             {
                 string dirPath = Application.streamingAssetsPath + "/" + "GameMain";
@@ -225,7 +234,8 @@ namespace Pangoo.Editor
                     return;
                 }
             }
-
+            
+            Debug.Log("开始打包资源");
             //创建存放打包资源的文件夹
             if (!Directory.Exists(abPackgePath))
             {
@@ -294,17 +304,11 @@ namespace Pangoo.Editor
             Debug.Log("复制路径:" + sourceDirectoryPath);
             string targetDirectoryPath = $"{Application.streamingAssetsPath}";
             Debug.Log("目标路径:" + targetDirectoryPath);
-            // if (Directory.Exists(targetDirectoryPath))
-            // {
-            //     Debug.Log("删除目标文件夹");
-            //     Directory.Delete(targetDirectoryPath);
-            // }
 
             Debug.Log("开始拷贝文件夹");
             CopyPastFilesAndDirs(sourceDirectoryPath, targetDirectoryPath);
 
             Debug.Log("资源移动完成");
-            //return Task.CompletedTask;
         }
 
         private static void CopyPastFilesAndDirs(string srcDir, string destDir)
