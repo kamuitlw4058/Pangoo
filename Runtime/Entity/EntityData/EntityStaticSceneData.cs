@@ -12,6 +12,7 @@ namespace Pangoo
     public class EntityStaticSceneData : EntityData
     {
         // public EntityInfo Info;
+        public StaticSceneInfoRow sceneInfo;
 
         public EntityInfo EntityInfo;
 
@@ -23,17 +24,26 @@ namespace Pangoo
             }
         }
 
+        public string Name
+        {
+            get
+            {
+                return sceneInfo.Name;
+            }
+        }
+
         public StaticSceneService Service;
         public EntityStaticSceneData() : base()
         {
         }
 
-        public static EntityStaticSceneData Create(EntityInfo Info, StaticSceneService service, object userData = null)
+        public static EntityStaticSceneData Create(StaticSceneInfoRow staticSceneInfo, EntityInfo Info, StaticSceneService service, object userData = null)
         {
             EntityStaticSceneData entityData = ReferencePool.Acquire<EntityStaticSceneData>();
             entityData.EntityInfo = Info;
             entityData.Service = service;
             entityData.UserData = userData;
+            entityData.sceneInfo = staticSceneInfo;
             return entityData;
         }
 

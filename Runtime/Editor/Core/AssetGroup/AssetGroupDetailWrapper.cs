@@ -15,14 +15,25 @@ namespace Pangoo.Editor
     public class AssetGroupDetailWrapper : ExcelTableRowDetailWrapper<AssetGroupTableOverview, AssetGroupTable.AssetGroupRow>
     {
 
-        // [ShowInInspector]
-        // public string PackageDir
-        // {
-        //     get
-        //     {
-        //         return Row.AssetPackageDir;
-        //     }
-        // }
+        [ShowInInspector]
+        public string AssetGroup
+        {
+            get
+            {
+                if (Row.AssetGroup.IsNullOrWhiteSpace())
+                {
+                    Row.AssetGroup = Row.Name.ToPinyin();
+                    Save();
+                }
+
+                return Row.AssetGroup;
+            }
+            set
+            {
+                Row.AssetGroup = value;
+                Save();
+            }
+        }
 
 
         // [ShowInInspector]

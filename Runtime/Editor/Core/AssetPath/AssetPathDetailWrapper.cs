@@ -35,12 +35,47 @@ namespace Pangoo.Editor
         }
 
         [ShowInInspector]
-        public string AssetGroup
+        [ValueDropdown("OnAssetGroupDropdown")]
+        public int AssetGroup
         {
             get
             {
-                return Row.AssetGroup;
+                return GameSupportEditorUtility.GetAssetGroupIdByAssetGroup(Row.AssetGroup);
             }
+            set
+            {
+                var oldAssetGroupId = GameSupportEditorUtility.GetAssetGroupIdByAssetGroup(Row.AssetGroup);
+                if (value != oldAssetGroupId && value != oldAssetGroupId)
+                {
+
+                    var oldGroup = GameSupportEditorUtility.GetAssetGroupByAssetGroupId(oldAssetGroupId);
+                    var newGroup = GameSupportEditorUtility.GetAssetGroupByAssetGroupId(value);
+
+
+                    var oldPath = AssetUtility.GetAssetPath(Row.AssetPackageDir, Row.AssetType, Row.AssetPath, oldGroup);
+                    var groupPath = AssetUtility.GetAssetPathDir(Row.AssetPackageDir, Row.AssetType, newGroup);
+                    if (!AssetDatabase.IsValidFolder(groupPath))
+                    {
+                        var baseAssetPath = AssetUtility.GetAssetPathDir(Row.AssetPackageDir, Row.AssetType);
+                        AssetDatabase.CreateFolder(baseAssetPath, newGroup);
+                    }
+                    var newPath = AssetUtility.GetAssetPath(Row.AssetPackageDir, Row.AssetType, Row.AssetPath, newGroup);
+                    MovePrefab(oldPath, newPath);
+                    Row.AssetGroup = newGroup;
+                    Save();
+                }
+            }
+        }
+
+        public void MovePrefab(string src, string dest)
+        {
+            Debug.Log($"Src:{src} Dest:{dest}");
+
+            AssetDatabase.MoveAsset(src, dest);
+        }
+        IEnumerable OnAssetGroupDropdown()
+        {
+            return GameSupportEditorUtility.GetAssetGroupIdDropdown();
         }
 
         [ShowInInspector]
@@ -54,11 +89,11 @@ namespace Pangoo.Editor
 
 
         [ShowInInspector]
-        public string FullPath
+        public string PrefabPath
         {
             get
             {
-                return Row.ToFullPath();
+                return Row.ToPrefabPath();
             }
         }
 
@@ -74,6 +109,8 @@ namespace Pangoo.Editor
                 return GameSupportEditorUtility.GetPrefabByAssetPathId(Row.Id);
             }
         }
+
+
 
 
 

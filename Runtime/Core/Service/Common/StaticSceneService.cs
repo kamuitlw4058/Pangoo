@@ -249,7 +249,7 @@ namespace Pangoo.Core.Services
             }
             else
             {
-                EntityStaticSceneData data = EntityStaticSceneData.Create(sceneInfo.CreateEntityInfo(m_EntityGroupRow), this);
+                EntityStaticSceneData data = EntityStaticSceneData.Create(sceneInfo, sceneInfo.CreateEntityInfo(m_EntityGroupRow), this);
                 m_LoadingAssetIds.Add(AssetPathId);
                 Loader.ShowEntity(EnumEntity.StaticScene,
                     (o) =>

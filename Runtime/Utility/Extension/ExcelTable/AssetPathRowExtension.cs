@@ -12,17 +12,13 @@ namespace Pangoo
     {
         public static string ToDirPath(this AssetPathTable.AssetPathRow row)
         {
-            return Utility.Text.Format("{0}/StreamRes/Prefab/{1}", row.AssetPackageDir, row.AssetType);
+            return AssetUtility.GetAssetPathDir(row.AssetPackageDir, row.AssetType, row.AssetGroup);
         }
 
-        public static string ToFullPath(this AssetPathTable.AssetPathRow row)
-        {
-            return Utility.Text.Format("{0}/StreamRes/Prefab/{1}/{2}", row.AssetPackageDir, row.AssetType, row.AssetPath);
-        }
 
         public static string ToPrefabPath(this AssetPathTable.AssetPathRow row)
         {
-            return Utility.Text.Format("{0}/StreamRes/Prefab/{1}/{2}", row.AssetPackageDir, row.AssetType, row.AssetPath);
+            return AssetUtility.GetAssetPath(row.AssetPackageDir, row.AssetType, row.AssetPath, row.AssetGroup);
         }
 
 
