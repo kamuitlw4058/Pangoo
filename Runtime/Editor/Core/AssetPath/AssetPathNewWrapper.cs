@@ -226,6 +226,8 @@ namespace Pangoo
             }
         }
 
+
+
         public static AssetPathNewWrapper Create(AssetPathTableOverview overview, int id = 0, string assetType = "", string name = "", string fileType = "prefab", Action<int> afterCreateAsset = null, string assetGroup = null)
         {
             var wrapper = new AssetPathNewWrapper();
@@ -242,14 +244,10 @@ namespace Pangoo
             return wrapper;
         }
 
-
-        public void ConfirmCreateNew(int id, string name, string assetType, int assetGroupId, string assetName, GameObject prefab, string fileType)
+        public AssetPathTable.AssetPathRow CreateNewRow(int id, string name, string assetType, int assetGroupId, string assetName, string fileType)
         {
-
-
             var fileName = $"{assetName}";
             var fullFileName = $"{fileName}.{fileType}";
-
 
             var assetPathRow = new AssetPathTable.AssetPathRow();
             assetPathRow.Id = id;
@@ -258,9 +256,21 @@ namespace Pangoo
             assetPathRow.AssetType = assetType;
             assetPathRow.Name = name;
             assetPathRow.AssetGroup = GameSupportEditorUtility.GetAssetGroupByAssetGroupId(assetGroupId);
+            return assetPathRow;
+
+        }
+
+
+        public void ConfirmCreateNew(int id, string name, string assetType, int assetGroupId, string assetName, GameObject prefab, string fileType)
+        {
+
+            var fileName = $"{assetName}";
+            var fullFileName = $"{fileName}.{fileType}";
+
+
+            var assetPathRow = CreateNewRow(id, name, assetType, assetGroupId, assetName, fileType);
             Overview.Data.Rows.Add(assetPathRow);
             EditorUtility.SetDirty(Overview);
-
 
 
             var go = new GameObject(fileName);
@@ -300,18 +310,10 @@ namespace Pangoo
         public void ConfirmCreateRef(int id, string name, string assetType, int assetGroupId, string assetName, string fileType)
         {
 
-
             var fileName = $"{assetName}";
             var fullFileName = $"{fileName}.{fileType}";
 
-            var assetPathRow = new AssetPathTable.AssetPathRow();
-            assetPathRow.Id = id;
-            assetPathRow.AssetPackageDir = Overview.Config.PackageDir;
-            assetPathRow.AssetPath = fullFileName;
-            assetPathRow.AssetType = assetType;
-            assetPathRow.Name = name;
-            assetPathRow.AssetGroup = GameSupportEditorUtility.GetAssetGroupByAssetGroupId(assetGroupId);
-
+            var assetPathRow = CreateNewRow(id, name, assetType, assetGroupId, assetName, fileType);
             Overview.Data.Rows.Add(assetPathRow);
             EditorUtility.SetDirty(Overview);
             AssetDatabase.SaveAssets();
