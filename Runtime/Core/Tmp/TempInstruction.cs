@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
 using GameFramework.Event;
 using Pangoo.Core.Services;
+using Sirenix.OdinInspector;
 
 namespace Pangoo
 {
@@ -52,12 +54,11 @@ namespace Pangoo
             
             return mainService?.CharacterService;
         }
-        
+        [Title("设置相机旋转角度")]
         public Vector3 rotation;
         public void SetCameraRotation()
         {
             characterService=GetCharacterService();
-            Debug.Log($":{rotation} :{characterService}  :{characterService?.Player} :{characterService?.Player?.character} :{characterService?.Player?.character?.CharacterCamera}");
             characterService?.Player?.character?.CharacterCamera?.SetDirection(rotation);
         }
 
@@ -66,6 +67,51 @@ namespace Pangoo
         {
             characterService=GetCharacterService();
             characterService?.Player?.character?.ResetCameraDirection();
+        }
+        
+        [Title("限制相机旋转角度")]
+        public Vector2 rotationClamp;
+        public void SetPlayerClamp(bool val)
+        {
+            characterService=GetCharacterService();
+            characterService.Player.character.isClamp = val;
+            if (val)
+            {
+                characterService.Player.character.xAxisMaxPitch = rotationClamp.x;
+                characterService.Player.character.yAxisMaxPitch = rotationClamp.y;
+            }
+            else
+            {
+                characterService.Player.character.xAxisMaxPitch = 90f;
+                characterService.Player.character.yAxisMaxPitch = 0;
+            }
+        }
+
+        [Title("选择相机抖动的方式")]
+        public NoiseSettings noiseSettings;
+
+        public float amplitudeGain = 1;
+        public float frequencyGain = 1;
+        public void SetCameraNoise(bool val)
+        {
+            characterService=GetCharacterService();
+            var m_VirtualCamera = characterService.Player.character.CharacterCamera.Camera;
+            CinemachineBasicMultiChannelPerlin noise=m_VirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            if (val)
+            {
+                if (m_VirtualCamera
+                    .GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>()==null)
+                {
+                    noise=m_VirtualCamera.AddCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+                }
+                noise.m_NoiseProfile = noiseSettings;
+                noise.m_AmplitudeGain = amplitudeGain;
+                noise.m_FrequencyGain = frequencyGain;
+            }
+            else
+            {
+                m_VirtualCamera.DestroyCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            }
         }
 
         public void SetPlayerInput(bool val)

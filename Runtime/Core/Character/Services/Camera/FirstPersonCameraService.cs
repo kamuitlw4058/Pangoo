@@ -32,7 +32,7 @@ namespace Pangoo.Core.Characters
         public float TopClamp = 90.0f;
         [Tooltip("How far in degrees can you move the camera down")]
         public float BottomClamp = -90.0f;
-
+        
         public bool reverse = false;
 
         public FirstPersonCameraService(NestedBaseService parent) : base(parent)
@@ -225,11 +225,19 @@ namespace Pangoo.Core.Characters
 
         private void ConstrainTargetAngles()
         {
-            float angle = Character.MaxPitch / 2f;
-            m_AnglesTarget.x = Mathf.Clamp(m_AnglesTarget.x, -angle, angle);
-
-            if (m_AnglesTarget.y < 0f) m_AnglesTarget.y += 360f;
-            if (m_AnglesTarget.y >= 360f) m_AnglesTarget.y -= 360f;
+            float xAngle = Character.xAxisMaxPitch / 2f;
+            
+            m_AnglesTarget.x = Mathf.Clamp(m_AnglesTarget.x, -xAngle, xAngle);
+            if (Character.isClamp)
+            {
+                float yAngle = Character.yAxisMaxPitch / 2f;
+                m_AnglesTarget.y = Mathf.Clamp(m_AnglesTarget.y, -yAngle, yAngle);
+            }
+            else
+            {
+                if (m_AnglesTarget.y < 0f) m_AnglesTarget.y += 360f;
+                if (m_AnglesTarget.y >= 360f) m_AnglesTarget.y -= 360f;
+            }
         }
 
 
