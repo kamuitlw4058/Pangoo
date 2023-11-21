@@ -195,9 +195,9 @@ namespace Pangoo.Editor
             string[] commandLineArgs = System.Environment.GetCommandLineArgs();
             for (int i = 0; i < commandLineArgs.Length - 1; i++)
             {
-                Debug.Log($"命令行内容:{commandLineArgs[i]}");
                 if (commandLineArgs[i].ToLower() == argName.ToLower())
                 {
+                    Debug.Log($"命令行内容:{commandLineArgs[i]}");
                     return commandLineArgs[i + 1];
                 }
             }
