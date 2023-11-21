@@ -133,6 +133,8 @@ namespace Pangoo.Editor
             //     }
             // }
             InitNewOverviews<AssetPathTableOverview, AssetPathDetailWrapper, AssetPathNewWrapper, AssetPathTable.AssetPathRow>(tree, "AssetPath", "资产路径");
+            InitDetailOverviews<AssetGroupTableOverview, AssetGroupDetailWrapper, AssetGroupTable.AssetGroupRow>(tree, "AssetGroup", "资产组");
+
             // InitCommonOverviews<AssetPathTableOverview, AssetPathDetailWrapper, ExcelTableTableRowWrapper<AssetPathTableOverview, AssetPathTable.AssetPathRow>, AssetPathTable.AssetPathRow>(tree, "AssetPath");
             InitDetailOverviews<StaticSceneTableOverview, StaticSceneDetailWrapper, StaticSceneTable.StaticSceneRow>(tree, "StaticScene", "静态场景");
             InitDetailOverviews<DynamicObjectTableOverview, DynamicObjectDetailWrapper, DynamicObjectTable.DynamicObjectRow>(tree, "DynamicObject", "动态物体");

@@ -14,6 +14,17 @@ namespace Pangoo.Editor
 {
     public class AssetPathDetailWrapper : ExcelTableRowDetailWrapper<AssetPathTableOverview, AssetPathTable.AssetPathRow>
     {
+
+        [ShowInInspector]
+        public string PackageDir
+        {
+            get
+            {
+                return Row.AssetPackageDir;
+            }
+        }
+
+
         [ShowInInspector]
         public string AssetType
         {
@@ -24,6 +35,25 @@ namespace Pangoo.Editor
         }
 
         [ShowInInspector]
+        public string AssetGroup
+        {
+            get
+            {
+                return Row.AssetGroup;
+            }
+        }
+
+        [ShowInInspector]
+        public string AssetPath
+        {
+            get
+            {
+                return Row.AssetPath;
+            }
+        }
+
+
+        [ShowInInspector]
         public string FullPath
         {
             get
@@ -31,6 +61,21 @@ namespace Pangoo.Editor
                 return Row.ToFullPath();
             }
         }
+
+
+
+
+        [ShowInInspector]
+        [LabelText("资源预制体")]
+        public GameObject AssetPrefab
+        {
+            get
+            {
+                return GameSupportEditorUtility.GetPrefabByAssetPathId(Row.Id);
+            }
+        }
+
+
 
     }
 }

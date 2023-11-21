@@ -34,6 +34,8 @@ namespace Pangoo.Editor
             tree.Config.AutoScrollOnSelectionChanged = false;
 
             tree.Add("引用查找", new ReferenceEditor(this));
+            tree.Add("Id查找", new HierarchyIdEditor());
+
             return tree;
         }
 
