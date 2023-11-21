@@ -19,7 +19,7 @@ namespace Pangoo.Core.VisualScripting
         [HideLabel]
         [TableColumnWidth(200, resizable: false)]
         [JsonMember("InstructionType")]
-        [GUIColor(0.9f, 0.3f, 0.3f)]
+        [GUIColor(0.3f, 0.9f, 0.3f)]
         public DirectInstructionTypeEnum InstructionType;
 
         // [ValueDropdown("OnMainIntValueDropdown")]

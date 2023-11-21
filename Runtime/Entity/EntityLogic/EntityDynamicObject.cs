@@ -80,7 +80,7 @@ namespace Pangoo
             UpdateDefaultTransform();
 
 
-            Name = Utility.Text.Format("{0}[{1}]", DoData.EntityInfo.AssetName, DoData.InfoRow.Id);
+            Name = Utility.Text.Format("{0}[{1}]", DoData.InfoRow.Name, DoData.InfoRow.Id);
 
             Debug.Log($"Create DynamicObject:{DoData.InfoRow.Id}");
             DynamicObj = DynamicObject.Create(gameObject);
@@ -110,14 +110,20 @@ namespace Pangoo
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log($"EntityDynamicObject OnTriggerEnter");
-            DynamicObj?.TriggerEnter3d(other);
+            if (other.tag.Equals("Player"))
+            {
+                Debug.Log($"EntityDynamicObject OnTriggerEnter,{DoData.InfoRow.Name},{other.gameObject.name}");
+                DynamicObj?.TriggerEnter3d(other);
+            }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            Debug.Log($"EntityDynamicObject OnTriggerExit");
-            DynamicObj?.TriggerExit3d(other);
+            if (other.tag.Equals("Player"))
+            {
+                Debug.Log($"EntityDynamicObject OnTriggerExit");
+                DynamicObj?.TriggerExit3d(other);
+            }
         }
 
         public void OnPointerEnter(PointerEventData pointerEventData)
