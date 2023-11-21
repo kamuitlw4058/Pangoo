@@ -210,7 +210,7 @@ namespace Pangoo.Editor
         static string abPackgePath = $"{Directory.GetParent(Application.dataPath)?.ToString()}/ABs";
         public static string copyPath;
 
-        [MenuItem("BuildManager/BuildResoure")]
+        [MenuItem("Pangoo/BuildTools/BuildResoure")]
         private static void BuildResoure()
         {
             Debug.Log("开始打包资源");
