@@ -149,6 +149,28 @@ namespace Pangoo.Core.Characters
 
         }
 
+        public void SetCameraNoise(bool isOpen,NoiseSettings noiseSettings,float amplitudeGain,float frequencyGain)
+        {
+            CinemachineBasicMultiChannelPerlin noise=Camera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+            if (isOpen)
+            {
+                if (Camera
+                        .GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>()==null)
+                {
+                    noise=Camera.AddCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+                }
+                noise.m_NoiseProfile = noiseSettings;
+                noise.m_AmplitudeGain = amplitudeGain;
+                noise.m_FrequencyGain = frequencyGain;
+            }
+            else
+            {
+                Camera.DestroyCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            }
+            
+        }
+
 
     }
 }

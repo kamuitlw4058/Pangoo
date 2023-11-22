@@ -92,26 +92,10 @@ namespace Pangoo
 
         public float amplitudeGain = 1;
         public float frequencyGain = 1;
-        public void SetCameraNoise(bool val)
+        public void SetCameraNoise(bool isOpen)
         {
             characterService=GetCharacterService();
-            var m_VirtualCamera = characterService.Player.character.CharacterCamera.Camera;
-            CinemachineBasicMultiChannelPerlin noise=m_VirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-            if (val)
-            {
-                if (m_VirtualCamera
-                    .GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>()==null)
-                {
-                    noise=m_VirtualCamera.AddCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-                }
-                noise.m_NoiseProfile = noiseSettings;
-                noise.m_AmplitudeGain = amplitudeGain;
-                noise.m_FrequencyGain = frequencyGain;
-            }
-            else
-            {
-                m_VirtualCamera.DestroyCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-            }
+            characterService.Player.character.CharacterCamera.SetCameraNoise(isOpen,noiseSettings,amplitudeGain,frequencyGain);
         }
         
         public void SetPlayerInput(bool val)
