@@ -195,9 +195,9 @@ namespace Pangoo.Editor
             string[] commandLineArgs = System.Environment.GetCommandLineArgs();
             for (int i = 0; i < commandLineArgs.Length - 1; i++)
             {
-                Debug.Log($"命令行内容:{commandLineArgs[i]}");
                 if (commandLineArgs[i].ToLower() == argName.ToLower())
                 {
+                    Debug.Log($"命令行内容:{commandLineArgs[i]}");
                     return commandLineArgs[i + 1];
                 }
             }
@@ -210,11 +210,20 @@ namespace Pangoo.Editor
         static string abPackgePath = $"{Directory.GetParent(Application.dataPath)?.ToString()}/ABs";
         public static string copyPath;
 
-        [MenuItem("BuildManager/BuildResoure")]
+        [MenuItem("Pangoo/BuildTools/BuildResoure")]
         private static void BuildResoure()
         {
-            Debug.Log("开始打包资源");
-            isTest = Boolean.Parse(GetCommandLineArgValue("-isTest"));
+            Debug.Log("检查是否需要构建资源");
+
+            try
+            {
+                isTest=Boolean.Parse(GetCommandLineArgValue("-isTest"));
+            }
+            catch (Exception e)
+            {
+                isTest = true;
+            }
+            
             if (isTest)
             {
                 string dirPath = Application.streamingAssetsPath + "/" + "GameMain";
@@ -225,7 +234,8 @@ namespace Pangoo.Editor
                     return;
                 }
             }
-
+            
+            Debug.Log("开始打包资源");
             //创建存放打包资源的文件夹
             if (!Directory.Exists(abPackgePath))
             {
@@ -294,17 +304,11 @@ namespace Pangoo.Editor
             Debug.Log("复制路径:" + sourceDirectoryPath);
             string targetDirectoryPath = $"{Application.streamingAssetsPath}";
             Debug.Log("目标路径:" + targetDirectoryPath);
-            // if (Directory.Exists(targetDirectoryPath))
-            // {
-            //     Debug.Log("删除目标文件夹");
-            //     Directory.Delete(targetDirectoryPath);
-            // }
 
             Debug.Log("开始拷贝文件夹");
             CopyPastFilesAndDirs(sourceDirectoryPath, targetDirectoryPath);
 
             Debug.Log("资源移动完成");
-            //return Task.CompletedTask;
         }
 
         private static void CopyPastFilesAndDirs(string srcDir, string destDir)
