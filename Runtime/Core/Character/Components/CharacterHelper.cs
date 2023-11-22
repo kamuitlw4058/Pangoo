@@ -61,7 +61,7 @@ namespace Pangoo.Core.Characters
             characterContainer.SetIsPlayer(m_IsPlayer);
             characterContainer.SetMotionInfo(m_MotionInfo);
             characterContainer.CameraOffset = m_CameraOffset;
-            characterContainer.MaxPitch = m_MaxPitch;
+            characterContainer.xAxisMaxPitch = m_MaxPitch;
             characterContainer.IsControllable = IsControllable;
             characterContainer.Awake();
 

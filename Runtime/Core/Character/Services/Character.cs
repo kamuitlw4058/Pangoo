@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using Pangoo.Core.Services;
 using Pangoo.Core.Common;
+using Sirenix.OdinInspector;
+using UnityEngine.Serialization;
 
 namespace Pangoo.Core.Characters
 {
@@ -18,8 +20,24 @@ namespace Pangoo.Core.Characters
         [SerializeField] MotionInfo m_MotionInfo;
 
         public Vector3 CameraOffset { get; set; }
+        [ShowInInspector]
+        public float xAxisMaxPitch { get; set; }
 
-        public float MaxPitch { get; set; }
+        [ShowInInspector] 
+        public float yAxisMaxPitch = 360;
+
+        [ShowInInspector]
+        public bool IsYAxisClamp {
+            get
+            {
+                if (yAxisMaxPitch >= 360 || yAxisMaxPitch < 0)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+        }
 
         public bool IsControllable { get; set; }
 

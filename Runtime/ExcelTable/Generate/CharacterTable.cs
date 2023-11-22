@@ -67,9 +67,18 @@ namespace Pangoo
             /// </summary>
             [TableTitleGroup("俯仰范围")]
             [HideLabel]
-            [JsonMember("MaxPitch")]
-            [ExcelTableCol("MaxPitch","MaxPitch","float", "俯仰范围",8)]
-            public float MaxPitch ;
+            [JsonMember("XMaxPitch")]
+            [ExcelTableCol("XMaxPitch","XMaxPitch","float", "俯仰范围",8)]
+            public float XMaxPitch ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("左右范围")]
+            [HideLabel]
+            [JsonMember("YMaxPitch")]
+            [ExcelTableCol("YMaxPitch","YMaxPitch","float", "左右范围",9)]
+            public float YMaxPitch ;
 
             /// <summary>
             /// Desc: 
@@ -77,7 +86,7 @@ namespace Pangoo
             [TableTitleGroup("只使用相机")]
             [HideLabel]
             [JsonMember("CameraOnly")]
-            [ExcelTableCol("CameraOnly","CameraOnly","bool", "只使用相机",9)]
+            [ExcelTableCol("CameraOnly","CameraOnly","bool", "只使用相机",10)]
             public bool CameraOnly ;
         }
 
