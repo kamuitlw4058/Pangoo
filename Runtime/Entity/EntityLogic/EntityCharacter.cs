@@ -75,7 +75,8 @@ namespace Pangoo
 
             character.SetMotionInfo(motionInfo);
             character.CameraOffset = EntityData.InfoRow.m_CharacterRow.CameraOffset;
-            character.xAxisMaxPitch = EntityData.InfoRow.m_CharacterRow.MaxPitch;
+            character.xAxisMaxPitch = EntityData.InfoRow.m_CharacterRow.XMaxPitch;
+            character.yAxisMaxPitch = EntityData.InfoRow.m_CharacterRow.YMaxPitch;
             character.IsControllable = true;
 
             character.Awake();
