@@ -159,6 +159,11 @@ namespace Pangoo.Core.Characters
                 {
                     noise=Camera.AddCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
                 }
+
+                if (noiseSettings==default)
+                {
+                    Debug.LogWarning("不是有效的NoiseSettings,请确认配置是否正确");
+                }
                 noise.m_NoiseProfile = noiseSettings;
                 noise.m_AmplitudeGain = amplitudeGain;
                 noise.m_FrequencyGain = frequencyGain;
