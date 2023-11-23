@@ -13,9 +13,9 @@ namespace Pangoo
 {
     public class ServiceComponent : GameFrameworkComponent
     {
-        [ShowInInspector]
-        [TableList]
-        public List<IBaseServiceContainer> ServiceContainers = new List<IBaseServiceContainer>();
+        // [ShowInInspector]
+        // [TableList]
+        // public List<IBaseServiceContainer> ServiceContainers = new List<IBaseServiceContainer>();
 
 
         public MainService mainService;

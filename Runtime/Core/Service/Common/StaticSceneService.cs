@@ -10,6 +10,7 @@ using Sirenix.OdinInspector;
 
 namespace Pangoo.Core.Services
 {
+    [Serializable]
     public class StaticSceneService : BaseService
     {
         public override int Priority => 5;

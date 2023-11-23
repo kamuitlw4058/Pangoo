@@ -162,6 +162,20 @@ namespace Pangoo.Core.VisualScripting
             Model?.SetActive(val);
         }
 
+        public void SetSubGameObjectActive(string path, bool val)
+        {
+            if (path.IsNullOrWhiteSpace())
+            {
+                return;
+            }
+
+            var childTransform = CachedTransfrom.Find(path);
+            if (childTransform != null)
+            {
+                childTransform.gameObject.SetActive(val);
+            }
+        }
+
         protected override void DoStart()
         {
             if (Variables != null)

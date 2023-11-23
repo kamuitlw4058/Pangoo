@@ -110,14 +110,11 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SetBoolVariable => true,
                     DirectInstructionTypeEnum.DynamicObjectModelActive => true,
                     DirectInstructionTypeEnum.DynamicObjectHotspotActive => true,
+                    DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => true,
                     DirectInstructionTypeEnum.RunInstruction => true,
-                    // DirectInstructionTypeEnum.ActiveCameraGameObject => true,
-                    // DirectInstructionTypeEnum.UnactiveCameraGameObject => true,
-                    // DirectInstructionTypeEnum.SubGameObjectPlayTimeline => true,
-                    // DirectInstructionTypeEnum.SubGameObjectPauseTimeline => true,
+
                     DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => true,
                     DirectInstructionTypeEnum.DynamicObjectRunExecute => true,
-                    // DirectInstructionTypeEnum.SetGameObjectActive => true,
                     DirectInstructionTypeEnum.PlaySound => true,
                     DirectInstructionTypeEnum.StopSound => true,
                     _ => false,
@@ -155,6 +152,8 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectHotspotActive => true,
                     DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => true,
                     DirectInstructionTypeEnum.DynamicObjectRunExecute => true,
+                    DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => true,
+
                     DirectInstructionTypeEnum.PlaySound => true,
                     _ => false,
                 };
@@ -199,6 +198,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => true,
                     DirectInstructionTypeEnum.SubGameObjectPauseTimeline => true,
                     DirectInstructionTypeEnum.SetGameObjectActive => true,
+                    DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => true,
 
                     _ => false,
                 };
@@ -243,6 +243,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SubGameObjectPauseTimeline => "参考动态物体",
                     DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => "动态物体Id",
                     DirectInstructionTypeEnum.DynamicObjectRunExecute => "动态物体Id",
+                    DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => "动态物体Id",
                     DirectInstructionTypeEnum.SetGameObjectActive => "参考动态物体",
                     DirectInstructionTypeEnum.PlaySound => "音频Id",
                     DirectInstructionTypeEnum.StopSound => "音频Id",
@@ -273,9 +274,9 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.ActiveCameraGameObject => "等待切换完成",
-                    DirectInstructionTypeEnum.UnactiveCameraGameObject => "等待切换完成",
-                    DirectInstructionTypeEnum.SubGameObjectPlayTimeline => "等待切换完成",
+                    DirectInstructionTypeEnum.ActiveCameraGameObject => "等待完成",
+                    DirectInstructionTypeEnum.UnactiveCameraGameObject => "等待完成",
+                    DirectInstructionTypeEnum.SubGameObjectPlayTimeline => "等待完成",
                     DirectInstructionTypeEnum.PlaySound => "是否循环",
                     _ => "设置值",
                 };
@@ -323,6 +324,8 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => "子对象",
                     DirectInstructionTypeEnum.SubGameObjectPauseTimeline => "子对象",
                     DirectInstructionTypeEnum.SetGameObjectActive => "子对象",
+                    DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => "子对象",
+
                     _ => "DropdownString1",
                 };
             }
@@ -347,8 +350,6 @@ namespace Pangoo.Core.VisualScripting
 
 
 
-
-
         public IEnumerable OnDropdownStringValueDropdown()
         {
             switch (InstructionType)
@@ -359,6 +360,9 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.SubGameObjectPauseTimeline:
                 case DirectInstructionTypeEnum.SetGameObjectActive:
                     return GameSupportEditorUtility.RefPrefabStringDropdown(ListPrefab);
+                case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
+                    var prefab = GameSupportEditorUtility.GetPrefabByDynamicObjectId(Int1);
+                    return GameSupportEditorUtility.RefPrefabStringDropdown(prefab);
 
             }
 
@@ -388,6 +392,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled:
                 case DirectInstructionTypeEnum.SetGameObjectActive:
                 case DirectInstructionTypeEnum.DynamicObjectRunExecute:
+                case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
                     return GameSupportEditorUtility.GetDynamicObjectIds(true);
                 case DirectInstructionTypeEnum.PlaySound:
                 case DirectInstructionTypeEnum.StopSound:

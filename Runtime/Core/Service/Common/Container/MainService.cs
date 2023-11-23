@@ -25,10 +25,13 @@ namespace Pangoo.Core.Services
         public SoundService Sound = new SoundService();
 
 
+        public StaticSceneService StaticScene = new StaticSceneService();
+
+
         public MainService()
         {
             AddService(new ExcelTableService());
-            AddService(new StaticSceneService());
+            AddService(StaticScene);
             AddService(new GameSectionService());
             AddService(new GlobalDataService());
             AddService(new SaveLoadService());

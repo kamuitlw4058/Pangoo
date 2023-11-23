@@ -57,7 +57,15 @@ namespace Pangoo.Core.Services
             }
         }
 
+        public VariableTypeEnum? GetVariableType(int id)
+        {
+            if (m_VariablesDict.TryGetValue(id, out VariablesTable.VariablesRow row))
+            {
+                return row.VariableType.ToEnum<VariableTypeEnum>();
+            }
 
+            return null;
+        }
 
     }
 }

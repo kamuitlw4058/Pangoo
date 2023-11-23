@@ -9,62 +9,65 @@ namespace Pangoo.Core.VisualScripting
 
 
 
-        [LabelText("动态物体播放Timeline")]
+        [LabelText("动态物体/动态物体播放Timeline")]
         DynamicObjectPlayTimeline,
 
-        [LabelText("切换GameSection")]
+        [LabelText("GameSection/切换GameSection")]
         ChangeGameSection,
 
-        [LabelText("设置Bool变量")]
+        [LabelText("变量/设置Bool变量")]
         SetBoolVariable,
 
-        [LabelText("设置玩家是否可以被控制")]
+        [LabelText("玩家/设置是否可以被控制")]
         SetPlayerIsControllable,
 
-        [LabelText("设置子GameObject激活")]
+        [LabelText("动态物体自身/设置子GameObject激活")]
         SetGameObjectActive,
 
-        [LabelText("激活相机GameObject")]
+        [LabelText("动态物体自身/激活相机GameObject")]
         ActiveCameraGameObject,
 
-        [LabelText("关闭相机GameObject")]
+        [LabelText("动态物体自身/关闭相机GameObject")]
         UnactiveCameraGameObject,
 
-        [LabelText("子物体播放Timeline")]
+        [LabelText("动态物体自身/子物体播放Timeline")]
         SubGameObjectPlayTimeline,
 
 
-        [LabelText("设置动态物体模型的Active")]
+        [LabelText("动态物体/模型的Active")]
         DynamicObjectModelActive,
 
-        [LabelText("动态物体设置Hotspot")]
+        [LabelText("动态物体/设置Hotspot")]
         DynamicObjectHotspotActive,
 
-        [LabelText("运行指令")]
+        [LabelText("通用/运行指令")]
         RunInstruction,
 
-        [LabelText("显示字幕")]
+        [LabelText("UI/显示字幕")]
         ShowSubtitle,
 
-        [LabelText("关闭自身的Trigger")]
+        [LabelText("动态物体自身/关闭自身的Trigger")]
         CloseSelfTrigger,
 
-        [LabelText("等待时间")]
+        [LabelText("通用/等待时间")]
         WaitTime,
 
-        [LabelText("子物体暂停Timeline")]
+        [LabelText("动态物体自身/子物体暂停Timeline")]
         SubGameObjectPauseTimeline,
 
-        [LabelText("动态物体的Trigger开关")]
+        [LabelText("动态物体/Trigger开关")]
         DynamicObjectModelTriggerEnabled,
 
-        [LabelText("动态物体运行执行触发")]
+        [LabelText("动态物体/运行执行触发")]
         DynamicObjectRunExecute,
 
-        [LabelText("播放音频")]
+        [LabelText("音频/播放音频")]
         PlaySound,
 
-        [LabelText("停止音频")]
+        [LabelText("音频/停止音频")]
         StopSound,
+
+        [LabelText("动态物体/子物体开关")]
+        DynamicObjectSubGameObjectEnabled,
     }
 }
