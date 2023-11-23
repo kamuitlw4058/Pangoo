@@ -77,6 +77,20 @@ namespace Pangoo
 
 #if UNITY_EDITOR
 
+        public int GetMaxId()
+        {
+            int ret = 0;
+            foreach (var row in Table.BaseRows)
+            {
+                if (row.Id > ret)
+                {
+                    ret = row.Id;
+                }
+            }
+
+            return ret;
+        }
+
 
         public virtual void LoadFromJson()
         {
