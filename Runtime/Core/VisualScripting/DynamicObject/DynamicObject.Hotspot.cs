@@ -92,13 +92,10 @@ namespace Pangoo.Core.VisualScripting
         [ShowInInspector]
         public float Radius
         {
-            get => this.Row.HotspotRadius >= 0 ? this.Row.HotspotRadius : float.MaxValue;
+            get => this.Row.HotspotRadius > 0 ?
+                 this.Row.HotspotRadius : this.Main.DefaultHotspotRadius;
         }
 
-        public float InteractRadius
-        {
-            get => this.Row.InteractRadius >= 0 ? this.Row.InteractRadius : float.MaxValue;
-        }
 
         [ShowInInspector]
         List<HotSpot> m_HotSpots = new List<HotSpot>();

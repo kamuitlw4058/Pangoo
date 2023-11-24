@@ -29,7 +29,7 @@ namespace Pangoo.Core.Characters
                 interactive.Position
             );
 
-            var InteractRadius = interactive.InteractRadius == 0 ? character.Main.GameConfig.GetGameMainConfig().DefaultInteractRadius : interactive.InteractRadius;
+            var InteractRadius = interactive.InteractRadius > 0 ? interactive.InteractRadius : character.Main.DefaultInteractRadius;
             if (InteractRadius > 0 && distance > InteractRadius) return float.MaxValue;
 
             // Debug.Log($"distance:{distance}, InteractRadius:{InteractRadius},interactive.InteractRadius:{interactive.InteractRadius}");

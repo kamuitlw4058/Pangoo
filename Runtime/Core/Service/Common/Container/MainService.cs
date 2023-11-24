@@ -72,5 +72,26 @@ namespace Pangoo.Core.Services
             return ExcelTable.GetExcelTable<T>();
         }
 
+
+        public float DefaultInteractRadius
+        {
+            get
+            {
+                var radius = GameConfig.GetGameMainConfig()?.DefaultInteractRadius;
+                if (radius == null || (radius != null && radius <= 0)) return float.MaxValue;
+                return radius.Value;
+            }
+        }
+
+        public float DefaultHotspotRadius
+        {
+            get
+            {
+                var radius = GameConfig.GetGameMainConfig()?.DefaultHotspotRadius;
+                if (radius == null || (radius != null && radius <= 0)) return float.MaxValue;
+                return radius.Value;
+            }
+        }
+
     }
 }

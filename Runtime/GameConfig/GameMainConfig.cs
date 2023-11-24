@@ -47,6 +47,9 @@ namespace Pangoo
         [LabelText("默认交互范围")]
         public float DefaultInteractRadius = 2f;
 
+        [LabelText("默认Hotspot范围")]
+        public float DefaultHotspotRadius = 3f;
+
 
         [LabelText("默认字幕的UIId")]
         [ValueDropdown("GetUIId")]
