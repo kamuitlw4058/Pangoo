@@ -20,7 +20,7 @@ namespace Pangoo.Core.VisualScripting
 
         void OnInteractMouseLeft(Args eventParams)
         {
-            Debug.Log($"OnInteractMouseLeft:{gameObject.name}");
+            // Debug.Log($"OnInteractMouseLeft:{gameObject.name}");
             foreach (var trigger in TriggerEvents.Values)
             {
                 if (!trigger.Enabled)

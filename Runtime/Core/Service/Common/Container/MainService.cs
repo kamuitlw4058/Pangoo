@@ -28,9 +28,12 @@ namespace Pangoo.Core.Services
         public StaticSceneService StaticScene = new StaticSceneService();
 
 
+        public ExcelTableService ExcelTable = new ExcelTableService();
+
+
         public MainService()
         {
-            AddService(new ExcelTableService());
+            AddService(ExcelTable);
             AddService(StaticScene);
             AddService(new GameSectionService());
             AddService(new GlobalDataService());
@@ -57,6 +60,16 @@ namespace Pangoo.Core.Services
                 RuntimeData.Set<DynamicObjectValue>(key, val);
             }
             return val;
+        }
+
+        public InstructionTable GetInstructionTable()
+        {
+            return ExcelTable.GetInstructionTable();
+        }
+
+        public T GetExcelTable<T>() where T : ExcelTableBase
+        {
+            return ExcelTable.GetExcelTable<T>();
         }
 
     }

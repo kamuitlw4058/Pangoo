@@ -12,5 +12,11 @@ namespace Pangoo.Core.Services
             return PangooEntry.ExcelTable.GetExcelTable<T>();
         }
 
+
+        public InstructionTable GetInstructionTable()
+        {
+            return GetExcelTable<InstructionTable>();
+        }
+
     }
 }
