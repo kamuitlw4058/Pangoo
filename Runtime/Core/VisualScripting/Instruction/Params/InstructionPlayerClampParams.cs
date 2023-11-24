@@ -33,7 +33,8 @@ namespace Pangoo.Core.VisualScripting
         
         [Title("选择相机抖动的方式")]
         [JsonMember("NoiseSettings")]
-        public NoiseSettings NoiseSettings;
+        [ValueDropdown("GetNoiseSettings")]
+        public string NoiseSettings;
         [LabelText("振幅增益")]
         [JsonMember("AmplitudeGain")]
         public float AmplitudeGain = 1;
@@ -59,6 +60,11 @@ namespace Pangoo.Core.VisualScripting
         public IEnumerable GetCharacterIds()
         {
             return GameSupportEditorUtility.GetCharacterIds(onlyPlayer: true, hasDefault: true);
+        }
+
+        public IEnumerable GetNoiseSettings()
+        {
+            return GameSupportEditorUtility.GetNoiseSettings();
         }
 #endif
     }

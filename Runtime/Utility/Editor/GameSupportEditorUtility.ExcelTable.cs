@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Cinemachine;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using GameFramework;
 using Pangoo.Core.VisualScripting;
+using UnityEngine;
 
 namespace Pangoo
 {
@@ -461,7 +463,17 @@ namespace Pangoo
             return ret;
         }
 
-
+        public static IEnumerable GetNoiseSettings()
+        {
+            var ret = new ValueDropdownList<string>();
+            
+            var noiseSettingsAssets = Resources.LoadAll<NoiseSettings>("NoiseSettings");
+            foreach (var assets in noiseSettingsAssets)
+            {
+                ret.Add(assets.name);
+            }
+            return ret;
+        }
 
 
         public static GameSectionTable.GameSectionRow GetGameSectionRowById(int id)

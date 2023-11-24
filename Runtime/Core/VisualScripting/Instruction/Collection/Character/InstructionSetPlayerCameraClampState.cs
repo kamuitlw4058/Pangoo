@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using Pangoo.Core.Common;
 using Pangoo.Core.Services;
 using Sirenix.OdinInspector;
@@ -81,7 +82,8 @@ namespace Pangoo.Core.VisualScripting
         
         public void SetCameraNoise(bool isOpen)
         {
-            m_CharacterService.Player.character.CharacterCamera.SetCameraNoise(isOpen,ParamsRaw.NoiseSettings,ParamsRaw.AmplitudeGain,ParamsRaw.FrequencyGain);
+            NoiseSettings noiseSettings = Resources.Load<NoiseSettings>($"NoiseSettings/{ParamsRaw.NoiseSettings}");
+            m_CharacterService.Player.character.CharacterCamera.SetCameraNoise(isOpen,noiseSettings,ParamsRaw.AmplitudeGain,ParamsRaw.FrequencyGain);
         }
     }
 }

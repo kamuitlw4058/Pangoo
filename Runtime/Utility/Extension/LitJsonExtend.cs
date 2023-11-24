@@ -19,7 +19,6 @@ public class LitJsonExtend
         joinV3IntType();
         joinV2Type();
         joinTileType();
-        JoinNoiseSettingsType();
     }
 
     /// <summary>
@@ -172,35 +171,6 @@ public class LitJsonExtend
 
         // Debug.Log("Tile加入成功");
     }
-
-    static void JoinNoiseSettingsType()
-    {
-        Action<NoiseSettings, JsonWriter> writeType = (v, w) =>
-        {
-            w.Write($"{v.name}");
-        };
-
-        JsonMapper.RegisterExporter<NoiseSettings>((v, w) =>
-        {
-            writeType(v, w);
-        });
-        
-        JsonMapper.RegisterImporter<string, NoiseSettings>((str) =>
-        {
-            NoiseSettings noiseSettings;
-            try
-            {
-                noiseSettings=Resources.Load<NoiseSettings>($"NoiseSettings/{str}");
-                return noiseSettings;
-            }
-            catch (Exception e)
-            {
-                
-            }
-
-            return null;
-        });
-    }
-
+    
 }
 
