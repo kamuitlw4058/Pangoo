@@ -11,6 +11,14 @@ namespace Pangoo.Core.Services
     [Serializable]
     public class RuntimeDataService : KeyValueService
     {
+        public Dictionary<string, object> KeyValues
+        {
+            get
+            {
+                return m_KeyValueDict;
+            }
+        }
+
         VariablesTable m_VariablesTable;
 
         Dictionary<int, VariablesTable.VariablesRow> m_VariablesDict = new Dictionary<int, VariablesTable.VariablesRow>();

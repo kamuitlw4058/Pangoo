@@ -363,7 +363,7 @@ namespace UnityGameFramework.Runtime
                 names.Add("<b>Close</b>");
             }
 
-            int toolbarIndex = GUILayout.Toolbar(debuggerWindowGroup.SelectedIndex, names.ToArray(), GUILayout.Height(30f), GUILayout.MaxWidth(Screen.width));
+            int toolbarIndex = GUILayout.Toolbar(debuggerWindowGroup.SelectedIndex, names.ToArray(), GUILayout.Height(20f), GUILayout.MaxWidth(Screen.width));
             if (toolbarIndex >= debuggerWindowGroup.DebuggerWindowCount)
             {
                 m_ShowFullWindow = false;

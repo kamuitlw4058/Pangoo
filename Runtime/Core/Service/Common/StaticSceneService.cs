@@ -32,8 +32,25 @@ namespace Pangoo.Core.Services
         [ShowInInspector]
         Dictionary<int, int> m_EnterAssetCountDict;
 
+        public Dictionary<int, int> EnterAssetCountDict
+        {
+            get
+            {
+                return m_EnterAssetCountDict;
+            }
+        }
+
         [ShowInInspector]
         Dictionary<int, EntityStaticScene> m_LoadedSceneAssetDict;
+
+
+        public Dictionary<int, EntityStaticScene> LoadedSceneAssetDict
+        {
+            get
+            {
+                return m_LoadedSceneAssetDict;
+            }
+        }
 
         [ShowInInspector]
         List<int> m_LoadingAssetIds;
