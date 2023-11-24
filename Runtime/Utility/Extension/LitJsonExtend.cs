@@ -1,6 +1,7 @@
 using UnityEngine;
 using LitJson;
 using System;
+using Cinemachine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -18,6 +19,7 @@ public class LitJsonExtend
         joinV3IntType();
         joinV2Type();
         joinTileType();
+        JoinNoiseSettingsType();
     }
 
     /// <summary>
@@ -104,6 +106,7 @@ public class LitJsonExtend
             return Vector3Int.zero;
 
         });
+        
 
     }
 
@@ -114,22 +117,37 @@ public class LitJsonExtend
     {
         Action<Vector2, JsonWriter> writeType = (v, w) =>
         {
-            w.WriteObjectStart();//开始写入对象
-
-            w.WritePropertyName("x");//写入属性名
-            w.Write(v.x.ToString());//写入值
-
-            w.WritePropertyName("y");
-            w.Write(v.y.ToString());
-
-            w.WriteObjectEnd();
+            w.Write($"{v.x}|{v.y}");
         };
 
         JsonMapper.RegisterExporter<Vector2>((v, w) =>
         {
             writeType(v, w);
         });
+        JsonMapper.RegisterImporter<string, Vector2>((str) =>
+        {
+            if (str.IsNullOrWhiteSpace())
+            {
+                return Vector2.zero;
+            }
 
+            var strs = str.Split("|");
+            if (strs.Length != 2)
+            {
+                return Vector2.zero;
+            }
+
+            try
+            {
+                return new Vector2(int.Parse(strs[0]), int.Parse(strs[1]));
+            }
+            catch
+            {
+
+            }
+            return Vector2.zero;
+
+        });
         // Debug.Log("Vector2加入成功");
     }
 
@@ -153,6 +171,35 @@ public class LitJsonExtend
         });
 
         // Debug.Log("Tile加入成功");
+    }
+
+    static void JoinNoiseSettingsType()
+    {
+        Action<NoiseSettings, JsonWriter> writeType = (v, w) =>
+        {
+            w.Write($"{v.name}");
+        };
+
+        JsonMapper.RegisterExporter<NoiseSettings>((v, w) =>
+        {
+            writeType(v, w);
+        });
+        
+        JsonMapper.RegisterImporter<string, NoiseSettings>((str) =>
+        {
+            NoiseSettings noiseSettings;
+            try
+            {
+                noiseSettings=Resources.Load<NoiseSettings>($"NoiseSettings/{str}");
+                return noiseSettings;
+            }
+            catch (Exception e)
+            {
+                
+            }
+
+            return null;
+        });
     }
 
 }
