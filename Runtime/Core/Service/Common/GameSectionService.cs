@@ -66,6 +66,19 @@ namespace Pangoo.Core.Services
         {
             Debug.Log($"OnInitSceneLoaded");
             var GameSection = m_GameSectionTable.GetGameSectionRow(LatestId);
+#if UNITY_EDITOR
+            var editorInstructionIds = GameSection.EditorInitedInstructionIds.ToListInt();
+            if (editorInstructionIds.Count > 0)
+            {
+                var instructions = InstructionList.BuildInstructionList(editorInstructionIds, m_InstructionTable);
+                var args = new Args();
+                args.Main = Parent as MainService;
+                instructions.Start(args);
+            }
+
+#endif
+
+
             var instructionIds = GameSection.InitedInstructionIds.ToListInt();
             if (instructionIds.Count > 0)
             {

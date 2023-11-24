@@ -70,6 +70,15 @@ namespace Pangoo
             [JsonMember("InitedInstructionIds")]
             [ExcelTableCol("InitedInstructionIds","InitedInstructionIds","string", "初始化后执行的指令",8)]
             public string InitedInstructionIds ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
+            [TableTitleGroup("编辑器初始化后执行的指令")]
+            [HideLabel]
+            [JsonMember("EditorInitedInstructionIds")]
+            [ExcelTableCol("EditorInitedInstructionIds","EditorInitedInstructionIds","string", "编辑器初始化后执行的指令",9)]
+            public string EditorInitedInstructionIds ;
         }
 
 
