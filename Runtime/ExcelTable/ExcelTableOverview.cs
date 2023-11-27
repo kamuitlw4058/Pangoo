@@ -91,6 +91,11 @@ namespace Pangoo
             return ret;
         }
 
+        public int GetNextId(int offset = 1)
+        {
+            return GetMaxId() + 1;
+        }
+
 
         public virtual void LoadFromJson()
         {

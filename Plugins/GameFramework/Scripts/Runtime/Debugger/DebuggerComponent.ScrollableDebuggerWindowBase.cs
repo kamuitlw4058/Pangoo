@@ -5,6 +5,7 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
+using System;
 using GameFramework;
 using GameFramework.Debugger;
 using UnityEngine;
@@ -61,6 +62,22 @@ namespace UnityGameFramework.Runtime
                 }
                 GUILayout.EndHorizontal();
             }
+
+            protected static void DrawButtonItem(string title, string content, string buttonDisplay, Action callback, float titleWidth = 100)
+            {
+                GUILayout.BeginHorizontal();
+                {
+                    GUILayout.Label(title, GUILayout.Width(titleWidth));
+                    GUILayout.Label(content);
+                    if (GUILayout.Button(buttonDisplay))
+                    {
+                        Debug.Log("Button");
+                        callback?.Invoke();
+                    }
+                }
+                GUILayout.EndHorizontal();
+            }
+
 
             protected static string GetByteLengthString(long byteLength)
             {

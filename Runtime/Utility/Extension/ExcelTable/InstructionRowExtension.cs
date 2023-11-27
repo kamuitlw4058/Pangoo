@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System.Text;
 using GameFramework;
+using Pangoo.Core.VisualScripting;
 
 namespace Pangoo
 {
@@ -36,6 +37,19 @@ namespace Pangoo
             return instructionRow;
         }
 
+
+        public static Instruction ToInstruction(this InstructionTable.InstructionRow row, InstructionTable table = null, TriggerEvent trigger = null)
+        {
+            if (row == null || row.Id == 0 || row.InstructionType.IsNullOrWhiteSpace())
+            {
+                return null;
+            }
+
+            var instructionInstance = ClassUtility.CreateInstance<Instruction>(row.InstructionType);
+            instructionInstance.Load(row.Params);
+            instructionInstance.Trigger = trigger;
+            return instructionInstance;
+        }
 
 
 

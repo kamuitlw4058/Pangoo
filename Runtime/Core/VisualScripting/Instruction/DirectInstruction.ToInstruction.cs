@@ -109,7 +109,7 @@ namespace Pangoo.Core.VisualScripting
         public static Instruction GetChangeGameSectionInstruction(int val)
         {
             var instruction = Activator.CreateInstance<InstructionChangeGameSection>();
-            instruction.ParamsRaw.Val = val;
+            instruction.ParamsRaw.GameSectionId = val;
             return instruction;
         }
 

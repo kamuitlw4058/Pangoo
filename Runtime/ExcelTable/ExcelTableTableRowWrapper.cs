@@ -83,11 +83,10 @@ namespace Pangoo
         {
             var newWrapper = new TNewRowWrapper();
             newWrapper.Row = Clone();
+            newWrapper.Row.Id = Overview.GetNextId();
             newWrapper.AfterCreate = OnAfterCreate;
             m_CreateWindow = OdinEditorWindow.InspectObject(newWrapper);
 
-
-            // m_MenuWindow?.TrySelectMenuItemWithObject(DetailWrapper);
         }
 
         void OnAfterCreate(int id)
