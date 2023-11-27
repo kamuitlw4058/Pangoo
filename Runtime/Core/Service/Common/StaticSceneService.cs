@@ -82,7 +82,7 @@ namespace Pangoo.Core.Services
         public Tuple<int, int> m_SectionChange;
 
 
-        public bool m_SectionInited = false;
+        public bool SectionInited = false;
 
         public Action OnInitSceneLoaded;
 
@@ -155,7 +155,7 @@ namespace Pangoo.Core.Services
 
         public void SetGameScetion(List<int> dynamicIds, List<int> holdIds, List<int> initIds)
         {
-            m_SectionInited = false;
+            SectionInited = false;
             m_DynamicStaticSceneIds.Clear();
             m_DynamicStaticSceneIds.AddRange(dynamicIds);
 
@@ -279,7 +279,7 @@ namespace Pangoo.Core.Services
                         }
                         m_LoadedSceneAssetDict.Add(AssetPathId, o.Logic as EntityStaticScene);
 
-                        if (!m_SectionInited)
+                        if (!SectionInited)
                         {
                             bool allInited = IsLoadedScene(m_HoldStaticSceneIds);
                             Log.Info($"Hold Loaded:{allInited}");
@@ -291,9 +291,10 @@ namespace Pangoo.Core.Services
 
                             if (allInited)
                             {
+                                SectionInited = true;
                                 OnInitSceneLoaded?.Invoke();
                                 Log.Info($"ON Loaded");
-                                m_SectionInited = true;
+
                             }
                         }
 

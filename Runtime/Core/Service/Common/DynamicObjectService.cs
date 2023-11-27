@@ -136,7 +136,7 @@ namespace Pangoo.Core.Services
 
 
         [Button("Show")]
-        public void ShowDynamicObject(int id)
+        public void ShowDynamicObject(int id, Action<int> callback = null)
         {
             if (Loader == null)
             {
@@ -170,6 +170,7 @@ namespace Pangoo.Core.Services
                             m_LoadingAssetIds.Remove(id);
                         }
                         m_LoadedAssetDict.Add(id, o.Logic as EntityDynamicObject);
+                        callback?.Invoke(id);
                     },
                     data.EntityInfo,
                     data);

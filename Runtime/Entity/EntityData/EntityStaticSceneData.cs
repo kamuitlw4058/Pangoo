@@ -24,6 +24,14 @@ namespace Pangoo
             }
         }
 
+        public int Id
+        {
+            get
+            {
+                return sceneInfo.Id;
+            }
+        }
+
         public string Name
         {
             get

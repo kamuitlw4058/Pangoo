@@ -50,11 +50,11 @@ namespace UnityGameFramework.Runtime
 
             protected abstract void OnDrawScrollableWindow();
 
-            protected static void DrawItem(string title, string content)
+            protected static void DrawItem(string title, string content, float titleWidth = TitleWidth)
             {
                 GUILayout.BeginHorizontal();
                 {
-                    GUILayout.Label(title, GUILayout.Width(TitleWidth));
+                    GUILayout.Label(title, GUILayout.Width(titleWidth));
                     if (GUILayout.Button(content, "label"))
                     {
                         CopyToClipboard(content);

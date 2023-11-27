@@ -35,7 +35,7 @@ namespace Pangoo
             for (int i = 0; i < LoadedSceneAssetDictKeys.Count; i++)
             {
                 var entity = LoadedSceneAssetDict[LoadedSceneAssetDictKeys[i]];
-                DrawItem(entity.Name, entity.ToString());
+                DrawItem(entity.Name, $"静态场景:{entity.SceneData.Id},资源Id:{entity.SceneData.AssetPathId}", titleWidth: 120);
             }
             GUILayout.EndVertical();
 
