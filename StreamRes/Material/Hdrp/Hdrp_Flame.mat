@@ -154,7 +154,8 @@ Material:
     - _ATDistance: 1
     - _AddPrecomputedVelocity: 0
     - _AlbedoAffectEmissive: 0
-    - _AlpahPower: 0.6
+    - _AlpahPower: 1
+    - _AlpahStep: 2
     - _AlphaCutoff: 0.5
     - _AlphaCutoffEnable: 1
     - _AlphaCutoffPostpass: 0.5
@@ -164,7 +165,7 @@ Material:
     - _AlphaSrcBlend: 1
     - _AlphaToMask: 0
     - _AlphaToMaskInspectorValue: 0
-    - _Alpha_Clip_Threshold: 0.2
+    - _Alpha_Clip_Threshold: 0.11
     - _Anisotropy: 0
     - _BlendMode: 0
     - _BrightnessMultiplier: 2.2
