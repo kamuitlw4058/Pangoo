@@ -30,6 +30,8 @@ namespace Pangoo.Core.Services
 
         public ExcelTableService ExcelTable = new ExcelTableService();
 
+        public DynamicObjectService DynamicObject = new DynamicObjectService();
+
 
         public MainService()
         {
@@ -41,7 +43,7 @@ namespace Pangoo.Core.Services
             AddService(RuntimeData);
             AddService(new DataContainerService());
             AddService(new GameInfoService());
-            AddService(new DynamicObjectService());
+            AddService(DynamicObject);
             AddService(CharacterService);
             AddService(GameConfig);
             AddService(Sound);
