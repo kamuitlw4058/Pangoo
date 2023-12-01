@@ -29,18 +29,23 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
+            if (ParamsRaw.Path == null)
+            {
+                Debug.LogWarning($"Set SubGameObjectActive DynamicObjectId:{ParamsRaw.DynamicObjectId}  Active:{ParamsRaw.Val} Path Is Null");
+                return;
+            }
 
             var dynamicObject = args.dynamicObject;
             if (ParamsRaw.DynamicObjectId == 0)
             {
-                dynamicObject?.SetSubGameObjectActive(ParamsRaw.Path, ParamsRaw.Val);
+                dynamicObject?.SetSubGameObjectsActive(ParamsRaw.Path, ParamsRaw.Val);
                 Debug.Log($"DynamicObject Set Self ModelActive:{ParamsRaw.Val} ");
             }
             else
             {
                 var DynamicObjectService = dynamicObject.DynamicObjectService;
                 var targetEntity = DynamicObjectService.GetLoadedEntity(ParamsRaw.DynamicObjectId);
-                targetEntity?.DynamicObj?.SetSubGameObjectActive(ParamsRaw.Path, ParamsRaw.Val);
+                targetEntity?.DynamicObj?.SetSubGameObjectsActive(ParamsRaw.Path, ParamsRaw.Val);
                 Debug.Log($"DynamicObjectId:{ParamsRaw.DynamicObjectId}  SetPath:{ParamsRaw.Path} Active:{ParamsRaw.Val} ");
             }
 

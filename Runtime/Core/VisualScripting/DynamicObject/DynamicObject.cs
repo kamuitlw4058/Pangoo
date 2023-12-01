@@ -162,6 +162,18 @@ namespace Pangoo.Core.VisualScripting
             Model?.SetActive(val);
         }
 
+        public void SetSubGameObjectsActive(string[] paths, bool val)
+        {
+            if (paths == null) return;
+
+            for (int i = 0; i < paths.Length; i++)
+            {
+                SetSubGameObjectActive(paths[i], val);
+            }
+        }
+
+
+
         public void SetSubGameObjectActive(string path, bool val)
         {
             if (path.IsNullOrWhiteSpace())

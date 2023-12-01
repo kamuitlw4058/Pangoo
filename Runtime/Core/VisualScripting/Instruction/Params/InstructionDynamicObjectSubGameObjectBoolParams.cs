@@ -14,18 +14,37 @@ namespace Pangoo.Core.VisualScripting
     {
         [JsonMember("DynamicObjectId")]
         [ValueDropdown("OnDynamicObjectIdDropdown")]
+        [LabelText("动态物体")]
         public int DynamicObjectId;
 
         [JsonMember("Path")]
-        public string Path;
+        [LabelText("路径列表")]
+        [ValueDropdown("OnDynamicObjectPathDropdown")]
+        [ListDrawerSettings(Expanded = true)]
+        public string[] Path;
 
         [JsonMember("Val")]
+        [LabelText("设置值")]
         public bool Val;
 
 #if UNITY_EDITOR
         IEnumerable OnDynamicObjectIdDropdown()
         {
             return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<DynamicObjectTableOverview>();
+        }
+
+        IEnumerable OnDynamicObjectPathDropdown()
+        {
+            var prefab = GameSupportEditorUtility.GetPrefabByDynamicObjectId(DynamicObjectId);
+            if (prefab != null)
+            {
+                return GameSupportEditorUtility.RefPrefabStringDropdown(prefab);
+            }
+            else
+            {
+                return null;
+            }
+
         }
 #endif
 

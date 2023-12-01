@@ -166,7 +166,7 @@ namespace Pangoo.Core.VisualScripting
         {
             var instruction = Activator.CreateInstance<InstructionDynamicObjectSetSubGameObejctActive>();
             instruction.ParamsRaw.DynamicObjectId = dynamicObjectId;
-            instruction.ParamsRaw.Path = path;
+            instruction.ParamsRaw.Path = !path.IsNullOrWhiteSpace() ? new string[] { path } : null;
             instruction.ParamsRaw.Val = enabled;
             return instruction;
         }
