@@ -21,12 +21,17 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("Rotation")]
         public Vector3 Rotation;
 
+
+        [JsonMember("Height")]
+        public float Height = -1;
+
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionPlayerPostionParams>(val);
             CharacterId = par.CharacterId;
             Position = par.Position;
             Rotation = par.Rotation;
+            Height = par.Height;
         }
 
 #if UNITY_EDITOR

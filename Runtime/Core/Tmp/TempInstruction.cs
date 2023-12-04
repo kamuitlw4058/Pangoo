@@ -19,7 +19,7 @@ namespace Pangoo
 
         CharacterService characterService = null;
 
-        
+
         public void ChangeGameSection(int id)
         {
             if (eventHelper == null)
@@ -41,7 +41,7 @@ namespace Pangoo
                 characterService = mainService?.CharacterService;
             }
 
-            characterService?.Player?.character?.SetCameraOffset(new Vector3(0, height, 0));
+            characterService?.SetPlayerHeight(height);
 
         }
 
@@ -51,30 +51,30 @@ namespace Pangoo
             {
                 mainService = PangooEntry.Service.mainService;
             }
-            
+
             return mainService?.CharacterService;
         }
         [Title("设置相机旋转角度")]
         public Vector3 rotation;
         public void SetCameraRotation()
         {
-            characterService=GetCharacterService();
+            characterService = GetCharacterService();
             characterService?.Player?.character?.CharacterCamera?.SetDirection(rotation);
         }
 
 
         public void ResetCameraDirection()
         {
-            characterService=GetCharacterService();
+            characterService = GetCharacterService();
             characterService?.Player?.character?.ResetCameraDirection();
         }
-        
+
         [Title("限制相机旋转角度")]
         public Vector2 rotationClamp;
         public void SetPlayerClamp(bool val)
         {
-            characterService=GetCharacterService();
-            
+            characterService = GetCharacterService();
+
             if (val)
             {
                 characterService.Player.character.xAxisMaxPitch = rotationClamp.x;
@@ -94,13 +94,13 @@ namespace Pangoo
         public float frequencyGain = 1;
         public void SetCameraNoise(bool isOpen)
         {
-            characterService=GetCharacterService();
-            characterService.Player.character.CharacterCamera.SetCameraNoise(isOpen,noiseSettings,amplitudeGain,frequencyGain);
+            characterService = GetCharacterService();
+            characterService.Player.character.CharacterCamera.SetCameraNoise(isOpen, noiseSettings, amplitudeGain, frequencyGain);
         }
-        
+
         public void SetPlayerInput(bool val)
         {
-            characterService=GetCharacterService();
+            characterService = GetCharacterService();
 
             var player = characterService?.Player?.character;
             if (player != null) player.IsControllable = val;
