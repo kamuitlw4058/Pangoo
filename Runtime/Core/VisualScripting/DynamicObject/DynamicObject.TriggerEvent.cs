@@ -108,7 +108,7 @@ namespace Pangoo.Core.VisualScripting
 
                     break;
                 case ConditionTypeEnum.StateCondition:
-                    triggerEvent.Conditions = ConditionList.BuildConditionList(triggerEvent.Row.GetConditionList());
+                    triggerEvent.Conditions = ConditionList.BuildConditionList(triggerEvent.Row.GetConditionList(), m_ConditionTable);
                     Dictionary<int, DirectInstructionList> StateInstructions = JsonMapper.ToObject<Dictionary<int, DirectInstructionList>>(triggerEvent.Row.Params);
                     foreach (var kv in StateInstructions)
                     {

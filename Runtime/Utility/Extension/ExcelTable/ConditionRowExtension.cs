@@ -28,7 +28,7 @@ namespace Pangoo
 #else
             if (table == null)
             {
-                Debug.LogError($"InstructionRow Get Table is Null");
+                Debug.LogError($" Get ConditionTable is Null");
             }
             else
             {
