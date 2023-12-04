@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using GameFramework.Event;
 using Pangoo.Core.Services;
+using Pangoo.Core.VisualScripting;
 using Sirenix.OdinInspector;
 
 namespace Pangoo
@@ -104,6 +105,25 @@ namespace Pangoo
 
             var player = characterService?.Player?.character;
             if (player != null) player.IsControllable = val;
+        }
+
+        [Title("设置全局布尔变量")]
+        public int VariableId;
+        public bool Val;
+        public void SetBool()
+        {
+            if (mainService == null)
+            {
+                mainService = PangooEntry.Service.mainService;
+            }
+            var VariableType = mainService.RuntimeData.GetVariableType(VariableId);
+
+            if (VariableType != null && VariableType == VariableTypeEnum.Global)
+            {
+                mainService.RuntimeData.SetVariable<bool>(VariableId, Val);
+            }
+            
+            
         }
     }
 }
