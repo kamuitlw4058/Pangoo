@@ -13,7 +13,7 @@ namespace Pangoo.Editor
     public class AssetsEditor : OdinMenuEditorWindow
     {
 
-        [MenuItem("Pangoo/Unity资源编辑", false, 6)]
+        [MenuItem("Pangoo/工具/Unity资源编辑", false, 6)]
         public static void ShowWindow()
         {
             var window = GetWindow<AssetsEditor>();

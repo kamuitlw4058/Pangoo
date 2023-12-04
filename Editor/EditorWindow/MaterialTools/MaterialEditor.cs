@@ -14,7 +14,7 @@ namespace Pangoo.Editor
     public class MaterialEditor : OdinMenuEditorWindow
     {
 
-        [MenuItem("Pangoo/Material编辑", false, 6)]
+        [MenuItem("Pangoo/工具/Material", false, 6)]
         public static void ShowWindow()
         {
             var window = GetWindow<MaterialEditor>();
@@ -36,7 +36,7 @@ namespace Pangoo.Editor
 
 
             var TextureBuild = new BuildTextureTools();
-            tree.Add("Texture生成",TextureBuild);
+            tree.Add("Texture生成", TextureBuild);
             return tree;
         }
 

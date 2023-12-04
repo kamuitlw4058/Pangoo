@@ -16,7 +16,7 @@ namespace Pangoo.Editor
     public class HierarchyEditor : OdinMenuEditorWindow
     {
 
-        [MenuItem("Pangoo/场景工具", false, 10)]
+        [MenuItem("Pangoo/工具/场景工具", false, 10)]
         private static void OpenWindow()
         {
             var window = GetWindow<HierarchyEditor>();

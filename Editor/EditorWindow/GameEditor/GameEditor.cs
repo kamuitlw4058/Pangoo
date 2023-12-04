@@ -18,7 +18,7 @@ namespace Pangoo.Editor
             var window = GetWindow<GameEditor>();
             window.position = GUIHelper.GetEditorWindowRect().AlignCenter(1100, 700);
             window.titleContent = new GUIContent("资源编辑器");
-            window.MenuWidth = 200;
+            window.MenuWidth = 250;
         }
         protected override void OnBeginDrawEditors()
         {
