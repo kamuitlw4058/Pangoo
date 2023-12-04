@@ -66,7 +66,7 @@ namespace Pangoo.Core.VisualScripting
                     }
 
                 }
-                characterService?.ShowCharacter(characterId, ParamsRaw.Position, ParamsRaw.Rotation, ParamsRaw.Height);
+                characterService?.ShowCharacter(characterId, ParamsRaw.Position, ParamsRaw.Rotation, ParamsRaw.Height, ParamsRaw.IsInteractive);
             }
 
         }

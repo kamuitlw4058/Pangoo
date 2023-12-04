@@ -63,6 +63,7 @@ namespace Pangoo
             character = new Character(gameObject, EntityData.CameraOnly);
             character.SetIsPlayer(EntityData.IsPlayer);
             character.Main = EntityData.Service.Parent as MainService;
+            character.IsInteractive = EntityData.IsInteractive;
 
             MotionInfo motionInfo = new MotionInfo();
             motionInfo.RotationSpeedX = 80;

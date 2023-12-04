@@ -23,11 +23,12 @@ namespace Pangoo.Core.Characters
         [ShowInInspector]
         public float xAxisMaxPitch { get; set; }
 
-        [ShowInInspector] 
+        [ShowInInspector]
         public float yAxisMaxPitch = 360;
 
         [ShowInInspector]
-        public bool IsYAxisClamp {
+        public bool IsYAxisClamp
+        {
             get
             {
                 if (yAxisMaxPitch >= 360 || yAxisMaxPitch < 0)
@@ -40,6 +41,9 @@ namespace Pangoo.Core.Characters
         }
 
         public bool IsControllable { get; set; }
+
+        [ShowInInspector]
+        public bool IsInteractive { get; set; } = true;
 
         public MotionInfo MotionInfo
         {

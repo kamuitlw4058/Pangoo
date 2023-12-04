@@ -25,6 +25,9 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("Height")]
         public float Height = -1;
 
+        [JsonMember("IsInteractive")]
+        public bool IsInteractive = true;
+
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionPlayerPostionParams>(val);
@@ -32,6 +35,7 @@ namespace Pangoo.Core.VisualScripting
             Position = par.Position;
             Rotation = par.Rotation;
             Height = par.Height;
+            IsInteractive = par.IsInteractive;
         }
 
 #if UNITY_EDITOR
