@@ -20,8 +20,6 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public class InstructionCreateOrMovePlayer : Instruction
     {
-        [ShowInInspector]
-        public Args LastestArgs { get; set; }
 
         [SerializeField]
         [LabelText("参数")]
@@ -48,7 +46,6 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            LastestArgs = args;
             Debug.Log($"InstructionCreateOrMovePlayer:{this.ParamsRaw.CharacterId},{args?.Main}");
 
             if (args?.Main != null)
