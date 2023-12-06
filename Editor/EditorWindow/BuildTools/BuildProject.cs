@@ -35,12 +35,10 @@ namespace Pangoo.Editor
         private static bool isJenkinsBuild = true;
 
         private static bool isTest;
+        private static string devPackageOptions;
         [MenuItem("Pangoo/BuildTools/BuildPC")]
         public static async void BuildPC()
         {
-            // await BuildResoure();
-            // await MoveABPackgeResource();
-
             Debug.Log("项目根目录1：" + Directory.GetParent(Application.dataPath));
 
             isJenkinsBuild = GetCommandLineArgValue("-outputDirPath") != null;
@@ -54,6 +52,7 @@ namespace Pangoo.Editor
                 buildNumber = GetCommandLineArgValue("-buildNumber");
                 monthDay = GetCommandLineArgValue("-monthDay");
                 isTest = Boolean.Parse(GetCommandLineArgValue("-isTest"));
+                devPackageOptions=GetCommandLineArgValue("-devPackageOptions");
             }
             else
             {
@@ -62,10 +61,35 @@ namespace Pangoo.Editor
                 buildNumber = "99";
                 monthDay = "1102";
                 isTest = true;
+                devPackageOptions = "只打Build";
             }
 
             #endregion
+            
+            // await BuildResoure();
+            // await MoveABPackgeResource();
 
+            if (isTest)
+            {
+                BuildSettingAndRun();
+            }
+            else
+            {
+                if (devPackageOptions!="只打Build")
+                {
+                    BuildResoure();
+                    MoveABPackgeResource();
+                }
+                if (devPackageOptions != "只打AB包")
+                {
+                    BuildSettingAndRun();
+                }
+            }
+        }
+
+        private static void BuildSettingAndRun()
+        {
+            Debug.Log("开始设置构建参数并执行构建");
             #region 构建设置
 
             BuildPlayerOptions options = new BuildPlayerOptions();
@@ -117,9 +141,10 @@ namespace Pangoo.Editor
             {
                 EditorUserBuildSettings.development = true;
             }
-            
+
             BuildPipeline.BuildPlayer(options);
         }
+
         private static string EnvironmentVariable
         {
             get
@@ -298,6 +323,7 @@ namespace Pangoo.Editor
 
         private static void MoveABPackgeResource()
         {
+            Debug.Log("开始移动资源包");
             m_Controller.Load();
 
             string sourceDirectoryPath = $"{copyPath}/Windows";
