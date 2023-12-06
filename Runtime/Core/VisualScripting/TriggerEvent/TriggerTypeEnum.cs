@@ -20,6 +20,8 @@ namespace Pangoo.Core.VisualScripting
         OnMouseLeft,
 
         OnExecute,
+        OnExternalInstruction,
+
     }
 }
 

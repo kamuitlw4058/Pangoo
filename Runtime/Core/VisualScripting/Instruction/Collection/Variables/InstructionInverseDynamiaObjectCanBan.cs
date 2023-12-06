@@ -55,7 +55,7 @@ namespace Pangoo.Core.VisualScripting
         public override void RunImmediate(Args args)
         {
             // Debug.Log($"Set CanBan To:{ParamsRaw.Val} Old:{args.dynamicObject.CanHotspotBan}");
-            args.dynamicObject.CanHotspotBan = !args.dynamicObject.CanHotspotBan;
+            args.dynamicObject.CanHotspotBan = ParamsRaw.Val;
         }
 
 

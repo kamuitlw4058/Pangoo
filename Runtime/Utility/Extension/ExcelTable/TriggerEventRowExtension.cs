@@ -75,6 +75,19 @@ namespace Pangoo
             row.InstructionList = list.ToListString();
         }
 
+        public static void AddInstructionIds(this TriggerEventTable.TriggerEventRow row, List<int> ids)
+        {
+            if (row == null)
+            {
+                Debug.LogError(Utility.Text.Format("row is null.{0}", row));
+                return;
+            }
+
+            var list = row.GetInstructionList();
+            list.AddRange(ids);
+            row.InstructionList = list.ToListString();
+        }
+
         public static void RemoveInstructionId(this TriggerEventTable.TriggerEventRow row, int id)
         {
             if (row == null)

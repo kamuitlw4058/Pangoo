@@ -34,6 +34,7 @@ namespace Pangoo.Core.VisualScripting
         public InstructionListParams ParamsRaw = new InstructionListParams();
         public override IParams Params => this.ParamsRaw;
 
+        [HideInEditorMode]
         public InstructionList InstructionList;
 
         protected override IEnumerator Run(Args args)
