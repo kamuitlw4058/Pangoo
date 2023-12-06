@@ -28,6 +28,11 @@ MonoBehaviour:
   ExcelList:
   - Build: 1
     IsPangooTable: 1
+    ExcelName: AssetGroup
+    BaseNamespace: 
+    Named: 1
+  - Build: 1
+    IsPangooTable: 1
     ExcelName: AssetPath
     BaseNamespace: 
     Named: 1

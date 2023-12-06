@@ -30,7 +30,7 @@ namespace Pangoo.Core.VisualScripting
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        public InstructionIntParams ParamsRaw = new InstructionIntParams();
+        public InstructionGameSectionParams ParamsRaw = new InstructionGameSectionParams();
         public override IParams Params => this.ParamsRaw;
 
         public InstructionChangeGameSection()
@@ -43,7 +43,14 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            args.dynamicObject.Event.Fire(this, GameSectionChangeEventArgs.Create(ParamsRaw.Val));
+            if (args.dynamicObject != null)
+            {
+                args.dynamicObject.Event.Fire(this, GameSectionChangeEventArgs.Create(ParamsRaw.GameSectionId));
+            }
+            else
+            {
+                PangooEntry.Event.Fire(this, GameSectionChangeEventArgs.Create(ParamsRaw.GameSectionId));
+            }
             return;
         }
 

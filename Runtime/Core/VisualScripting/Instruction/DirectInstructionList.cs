@@ -53,8 +53,12 @@ namespace Pangoo.Core.VisualScripting
 
         public void OnRefDynamicObjectIdChanged()
         {
-            Debug.Log($"RefDynamicObjectId Changed:{RefDynamicObjectId}");
+            // Debug.Log($"RefDynamicObjectId Changed:{RefDynamicObjectId}");
             RefPrefab = GameSupportEditorUtility.GetPrefabByDynamicObjectId(RefDynamicObjectId);
+            if (RefDynamicObjectId != 0)
+            {
+                UpdatePrefab();
+            }
 
         }
 

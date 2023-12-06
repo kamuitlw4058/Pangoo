@@ -13,7 +13,7 @@ namespace Pangoo.Editor
     public class ModelEditor : OdinMenuEditorWindow
     {
 
-        [MenuItem("Pangoo/模型编辑", false, 6)]
+        // [MenuItem("Pangoo/模型编辑", false, 6)]
         public static void ShowWindow()
         {
             var window = GetWindow<ModelEditor>();
@@ -30,9 +30,10 @@ namespace Pangoo.Editor
             tree.Config.DrawSearchToolbar = true;
             tree.Config.AutoScrollOnSelectionChanged = false;
             var exporter = AssetDatabaseUtility.FindAssetFirst<ModelExporter>();
-            if(exporter == null){
+            if (exporter == null)
+            {
                 exporter = ScriptableObject.CreateInstance<ModelExporter>();
-                AssetDatabase.CreateAsset(exporter,"Assets/test.asset");
+                AssetDatabase.CreateAsset(exporter, "Assets/test.asset");
             }
 
             var tool = exporter;

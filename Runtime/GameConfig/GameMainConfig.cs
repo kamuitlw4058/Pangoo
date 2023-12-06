@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Pangoo.Core.VisualScripting;
+
 #if UNITY_EDITOR
 using System.Linq;
 #endif
@@ -47,10 +49,18 @@ namespace Pangoo
         [LabelText("默认交互范围")]
         public float DefaultInteractRadius = 2f;
 
+        [LabelText("默认Hotspot范围")]
+        public float DefaultHotspotRadius = 3f;
+
 
         [LabelText("默认字幕的UIId")]
         [ValueDropdown("GetUIId")]
         public int DefaultSubtitlePanelId = 0;
+
+        [LabelText("调试指令")]
+        [ValueDropdown("GetInstructions")]
+        [ListDrawerSettings(Expanded = true)]
+        public int[] DebuggerInstructions;
 
 
 
@@ -61,6 +71,11 @@ namespace Pangoo
 #endif
 
 #if UNITY_EDITOR
+        private IEnumerable GetInstructions()
+        {
+            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<InstructionTableOverview>();
+        }
+
         private IEnumerable GetUIId()
         {
             return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<SimpleUITableOverview>();

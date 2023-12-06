@@ -62,8 +62,14 @@ namespace Pangoo.Core.Services
         }
 
 
+        public void SetPlayerHeight(float height)
+        {
+            Player?.character?.SetCameraOffset(new Vector3(0, height, 0));
+        }
 
-        public void ShowCharacter(int infoId, Vector3 positon, Vector3 rotation)
+
+
+        public void ShowCharacter(int infoId, Vector3 positon, Vector3 rotation, float height = -1f, bool IsInteractive = true)
         {
             if (infoId == 0)
             {
@@ -85,6 +91,12 @@ namespace Pangoo.Core.Services
                 character.transform.position = positon;
                 character.transform.rotation = Quaternion.Euler(rotation);
                 character.character.ResetCameraDirection();
+                character.character.IsInteractive = IsInteractive;
+                if (height >= 0)
+                {
+                    character.character.SetCameraOffset(new Vector3(0, height, 0));
+                }
+
                 Physics.SyncTransforms();
                 return;
             }
@@ -98,6 +110,8 @@ namespace Pangoo.Core.Services
             else
             {
                 EntityCharacterData data = EntityCharacterData.Create(infoRow.CreateEntityInfo(m_EntityGroupRow), this, infoRow, positon, rotation);
+                data.Height = height;
+                data.IsInteractive = IsInteractive;
                 m_LoadingEntityIds.Add(infoId);
                 Loader.ShowEntity(EnumEntity.Character,
                     (o) =>

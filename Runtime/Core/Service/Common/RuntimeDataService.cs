@@ -11,6 +11,14 @@ namespace Pangoo.Core.Services
     [Serializable]
     public class RuntimeDataService : KeyValueService
     {
+        public Dictionary<string, object> KeyValues
+        {
+            get
+            {
+                return m_KeyValueDict;
+            }
+        }
+
         VariablesTable m_VariablesTable;
 
         Dictionary<int, VariablesTable.VariablesRow> m_VariablesDict = new Dictionary<int, VariablesTable.VariablesRow>();
@@ -42,7 +50,8 @@ namespace Pangoo.Core.Services
         {
             if (m_VariablesDict.TryGetValue(id, out VariablesTable.VariablesRow row))
             {
-                return Get<T>(row.Key);
+                T defaultValue = row.DefaultValue.ToType<T>();
+                return Get<T>(row.Key, defaultValue);
             }
 
             return default(T);
@@ -56,7 +65,15 @@ namespace Pangoo.Core.Services
             }
         }
 
+        public VariableTypeEnum? GetVariableType(int id)
+        {
+            if (m_VariablesDict.TryGetValue(id, out VariablesTable.VariablesRow row))
+            {
+                return row.VariableType.ToEnum<VariableTypeEnum>();
+            }
 
+            return null;
+        }
 
     }
 }

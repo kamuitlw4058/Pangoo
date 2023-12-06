@@ -119,18 +119,38 @@ namespace Pangoo.Editor
 
         [ShowInInspector]
         [DelayedProperty]
-        public float MaxPitch
+        public float XMaxPitch
         {
             get
             {
-                return Row?.MaxPitch ?? 90;
+                return Row?.XMaxPitch ?? 90;
 
             }
             set
             {
                 if (Row != null && Overview != null)
                 {
-                    Row.MaxPitch = value;
+                    Row.XMaxPitch = value;
+                    Save();
+                }
+
+            }
+        }
+        
+        [ShowInInspector]
+        [DelayedProperty]
+        public float YMaxPitch
+        {
+            get
+            {
+                return Row?.YMaxPitch ?? 360;
+
+            }
+            set
+            {
+                if (Row != null && Overview != null)
+                {
+                    Row.YMaxPitch = value;
                     Save();
                 }
 

@@ -14,7 +14,7 @@ namespace Pangoo.Editor
     public class EventEditor : OdinMenuEditorWindow
     {
 
-        [MenuItem("Pangoo/事件编辑", false, 6)]
+        [MenuItem("Pangoo/工具/事件编辑", false, 6)]
         public static void ShowWindow()
         {
             var window = GetWindow<EventEditor>();

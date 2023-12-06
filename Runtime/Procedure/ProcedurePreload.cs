@@ -41,9 +41,13 @@ namespace Pangoo
             LitJsonExtend.LitJsonInit();
 
             PangooEntry.UI.AddUIGroup("Default");
+            PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/SystemInfo", new PangooSystemInformationWindow());
+            PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/RuntimeData", new DebugWindowRuntimeData());
+            PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/StaticScene", new DebugWindowStaticScene());
+            PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/指令", new DebugWindowInstructions());
+
             // PangooEntry.UI.OpenUIForm("Assets/Plugins/Pangoo/StreamRes/Prefab/UI/SubtitlePanel.prefab", "Default");
             // PangooEntry.UI.OpenUIForm("Assets/Plugins/Pangoo/StreamRes/Prefab/UI/PlaceholderUI.prefab", "Default");
-
 
             PreloadResources();
         }

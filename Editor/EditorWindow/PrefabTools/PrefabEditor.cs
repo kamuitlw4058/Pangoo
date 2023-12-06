@@ -13,7 +13,7 @@ namespace Pangoo.Editor
     public class PrefabEditor : OdinMenuEditorWindow
     {
 
-        [MenuItem("Pangoo/预制体编辑", false, 6)]
+        [MenuItem("Pangoo/工具/预制体编辑", false, 6)]
         public static void ShowWindow()
         {
             var window = GetWindow<PrefabEditor>();

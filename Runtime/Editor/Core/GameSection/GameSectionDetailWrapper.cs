@@ -159,6 +159,29 @@ namespace Pangoo
             }
         }
 
+        [LabelText("编辑器初始化完成指令")]
+        [ValueDropdown("InstructionIdValueDropdown", IsUniqueList = true)]
+        [ListDrawerSettings(Expanded = true)]
+        [ShowInInspector]
+        [PropertyOrder(5)]
+        public int[] EditorInstructionIds
+        {
+            get
+            {
+                return Row?.EditorInitedInstructionIds?.ToArrInt() ?? new int[0];
+            }
+            set
+            {
+
+                if (Row != null && Overview != null)
+                {
+                    Row.EditorInitedInstructionIds = value.ToList().ToListString();
+                    Save();
+                }
+            }
+        }
+
+
         public IEnumerable DynamicObjectIdValueDropdown()
         {
             return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<DynamicObjectTableOverview>();

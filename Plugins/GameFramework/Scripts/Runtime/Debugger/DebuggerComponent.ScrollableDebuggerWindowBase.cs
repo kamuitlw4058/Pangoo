@@ -5,6 +5,7 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
+using System;
 using GameFramework;
 using GameFramework.Debugger;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace UnityGameFramework.Runtime
 {
     public sealed partial class DebuggerComponent : GameFrameworkComponent
     {
-        private abstract class ScrollableDebuggerWindowBase : IDebuggerWindow
+        public abstract class ScrollableDebuggerWindowBase : IDebuggerWindow
         {
             private const float TitleWidth = 240f;
             private Vector2 m_ScrollPosition = Vector2.zero;
@@ -49,11 +50,11 @@ namespace UnityGameFramework.Runtime
 
             protected abstract void OnDrawScrollableWindow();
 
-            protected static void DrawItem(string title, string content)
+            protected static void DrawItem(string title, string content, float titleWidth = TitleWidth)
             {
                 GUILayout.BeginHorizontal();
                 {
-                    GUILayout.Label(title, GUILayout.Width(TitleWidth));
+                    GUILayout.Label(title, GUILayout.Width(titleWidth));
                     if (GUILayout.Button(content, "label"))
                     {
                         CopyToClipboard(content);
@@ -61,6 +62,22 @@ namespace UnityGameFramework.Runtime
                 }
                 GUILayout.EndHorizontal();
             }
+
+            protected static void DrawButtonItem(string title, string content, string buttonDisplay, Action callback, float titleWidth = 100)
+            {
+                GUILayout.BeginHorizontal();
+                {
+                    GUILayout.Label(title, GUILayout.Width(titleWidth));
+                    GUILayout.Label(content);
+                    if (GUILayout.Button(buttonDisplay))
+                    {
+                        Debug.Log("Button");
+                        callback?.Invoke();
+                    }
+                }
+                GUILayout.EndHorizontal();
+            }
+
 
             protected static string GetByteLengthString(long byteLength)
             {

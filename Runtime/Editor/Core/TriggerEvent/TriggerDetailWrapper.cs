@@ -144,6 +144,20 @@ namespace Pangoo
 
         string[] m_Targets;
 
+        void SetTarget(string[] l)
+        {
+            Row.Targets = l.ToListString();
+            if (Row.Targets.IsNullOrWhiteSpace())
+            {
+                m_Targets = new string[0];
+            }
+            else
+            {
+                m_Targets = Row?.Targets?.Split("|");
+            }
+        }
+
+
         [ShowInInspector]
         [LabelText("目标")]
         [TitleGroup("目标")]
@@ -172,7 +186,8 @@ namespace Pangoo
             {
                 if (Row != null && Overview != null)
                 {
-                    Row.Targets = value.ToListString();
+                    // Debug.Log($"Changed Targets,{value.Length}");
+                    SetTarget(value);
                     Save();
                 }
 
@@ -206,6 +221,7 @@ namespace Pangoo
 
         public void UpdateTargets()
         {
+            // Debug.Log($"Changed Targets on Update,{m_Targets.Length}");
             Row.Targets = m_Targets.ToListString();
             Save();
         }

@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Cinemachine;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using GameFramework;
 using Pangoo.Core.VisualScripting;
+using UnityEngine;
 
 namespace Pangoo
 {
@@ -351,6 +353,92 @@ namespace Pangoo
             return ret;
         }
 
+        public static string GetAssetGroupByAssetGroupId(int assetGroupId)
+        {
+            if (assetGroupId == 0)
+            {
+                return null;
+            }
+
+
+            var overviews = AssetDatabaseUtility.FindAsset<AssetGroupTableOverview>();
+            foreach (var overview in overviews)
+            {
+                var namedRows = overview.Data.Rows;
+                if (namedRows == null)
+                {
+                    continue;
+                }
+                foreach (var row in namedRows)
+                {
+
+                    if (row.Id.Equals(assetGroupId))
+                    {
+                        return row.AssetGroup;
+                    }
+                }
+            }
+            return null;
+        }
+
+        public static int GetAssetGroupIdByAssetGroup(string AssetGroup)
+        {
+            if (AssetGroup.IsNullOrWhiteSpace())
+            {
+                return 0;
+            }
+
+            var overviews = AssetDatabaseUtility.FindAsset<AssetGroupTableOverview>();
+            foreach (var overview in overviews)
+            {
+                var namedRows = overview.Data.Rows;
+                if (namedRows == null)
+                {
+                    continue;
+                }
+                foreach (var row in namedRows)
+                {
+
+                    if (row.AssetGroup.Equals(AssetGroup))
+                    {
+                        return row.Id;
+                    }
+                }
+            }
+            return 0;
+        }
+
+        public static IEnumerable GetAssetGroupIdDropdown(string AssetGroup = null)
+        {
+            var ret = new ValueDropdownList<int>();
+            ret.Add("Default", 0);
+
+            var overviews = AssetDatabaseUtility.FindAsset<AssetGroupTableOverview>();
+            foreach (var overview in overviews)
+            {
+                var namedRows = overview.Data.Rows;
+                if (namedRows == null)
+                {
+                    continue;
+                }
+                foreach (var row in namedRows)
+                {
+                    if (AssetGroup == null)
+                    {
+                        ret.Add($"{row.Id}-{row.Name}", row.Id);
+                    }
+                    else
+                    {
+                        if (!row.AssetGroup.Equals(AssetGroup))
+                        {
+                            ret.Add($"{row.Id}-{row.Name}", row.Id);
+                        }
+                    }
+                }
+            }
+            return ret;
+        }
+
 
         public static IEnumerable GetConditionIds(ConditionTypeEnum valueType, List<int> ids = null)
         {
@@ -375,7 +463,17 @@ namespace Pangoo
             return ret;
         }
 
-
+        public static IEnumerable GetNoiseSettings()
+        {
+            var ret = new ValueDropdownList<string>();
+            
+            var noiseSettingsAssets = Resources.LoadAll<NoiseSettings>("NoiseSettings");
+            foreach (var assets in noiseSettingsAssets)
+            {
+                ret.Add(assets.name);
+            }
+            return ret;
+        }
 
 
         public static GameSectionTable.GameSectionRow GetGameSectionRowById(int id)

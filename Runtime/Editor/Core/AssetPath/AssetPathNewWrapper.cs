@@ -168,6 +168,26 @@ namespace Pangoo
             }
         }
 
+        [ShowInInspector]
+        [ValueDropdown("OnAssetGroupDropdown")]
+        public int AssetGroup
+        {
+            get
+            {
+                return GameSupportEditorUtility.GetAssetGroupIdByAssetGroup(Row.AssetGroup);
+            }
+            set
+            {
+                var newGroup = GameSupportEditorUtility.GetAssetGroupByAssetGroupId(value);
+                Row.AssetGroup = newGroup;
+            }
+        }
+
+        IEnumerable OnAssetGroupDropdown()
+        {
+            return GameSupportEditorUtility.GetAssetGroupIdDropdown();
+        }
+
 
 
         [LabelText("模型预制体")]
@@ -204,10 +224,11 @@ namespace Pangoo
             {
                 AssetName = GetPrefixByAssetType(AssetType) + ModelPrefab.name;
             }
-
         }
 
-        public static AssetPathNewWrapper Create(AssetPathTableOverview overview, int id = 0, string assetType = "", string name = "", string fileType = "prefab", Action<int> afterCreateAsset = null)
+
+
+        public static AssetPathNewWrapper Create(AssetPathTableOverview overview, int id = 0, string assetType = "", string name = "", string fileType = "prefab", Action<int> afterCreateAsset = null, string assetGroup = null)
         {
             var wrapper = new AssetPathNewWrapper();
             wrapper.Overview = overview;
@@ -219,17 +240,14 @@ namespace Pangoo
             wrapper.AfterCreate = afterCreateAsset;
             wrapper.AssetName = GetPrefixByAssetType(assetType) + name.ToPinyin();
             wrapper.ShowCreateButton = false;
+            wrapper.AssetGroup = GameSupportEditorUtility.GetAssetGroupIdByAssetGroup(assetGroup);
             return wrapper;
         }
 
-
-        public void ConfirmCreateNew(int id, string name, string assetType, string assetName, GameObject prefab, string fileType)
+        public AssetPathTable.AssetPathRow CreateNewRow(int id, string name, string assetType, int assetGroupId, string assetName, string fileType)
         {
-
-
             var fileName = $"{assetName}";
             var fullFileName = $"{fileName}.{fileType}";
-
 
             var assetPathRow = new AssetPathTable.AssetPathRow();
             assetPathRow.Id = id;
@@ -237,9 +255,22 @@ namespace Pangoo
             assetPathRow.AssetPath = fullFileName;
             assetPathRow.AssetType = assetType;
             assetPathRow.Name = name;
+            assetPathRow.AssetGroup = GameSupportEditorUtility.GetAssetGroupByAssetGroupId(assetGroupId);
+            return assetPathRow;
+
+        }
+
+
+        public void ConfirmCreateNew(int id, string name, string assetType, int assetGroupId, string assetName, GameObject prefab, string fileType)
+        {
+
+            var fileName = $"{assetName}";
+            var fullFileName = $"{fileName}.{fileType}";
+
+
+            var assetPathRow = CreateNewRow(id, name, assetType, assetGroupId, assetName, fileType);
             Overview.Data.Rows.Add(assetPathRow);
             EditorUtility.SetDirty(Overview);
-
 
 
             var go = new GameObject(fileName);
@@ -276,19 +307,13 @@ namespace Pangoo
 
         }
 
-        public void ConfirmCreateRef(int id, string name, string assetType, string assetName, string fileType)
+        public void ConfirmCreateRef(int id, string name, string assetType, int assetGroupId, string assetName, string fileType)
         {
-
 
             var fileName = $"{assetName}";
             var fullFileName = $"{fileName}.{fileType}";
 
-            var assetPathRow = new AssetPathTable.AssetPathRow();
-            assetPathRow.Id = id;
-            assetPathRow.AssetPackageDir = Overview.Config.PackageDir;
-            assetPathRow.AssetPath = fullFileName;
-            assetPathRow.AssetType = assetType;
-            assetPathRow.Name = name;
+            var assetPathRow = CreateNewRow(id, name, assetType, assetGroupId, assetName, fileType);
             Overview.Data.Rows.Add(assetPathRow);
             EditorUtility.SetDirty(Overview);
             AssetDatabase.SaveAssets();
@@ -365,7 +390,7 @@ namespace Pangoo
                 return;
             }
 
-            ConfirmCreateNew(Id, Name, AssetType, AssetName, ModelPrefab, FileType);
+            ConfirmCreateNew(Id, Name, AssetType, AssetGroup, AssetName, ModelPrefab, FileType);
         }
 
 
@@ -379,7 +404,7 @@ namespace Pangoo
                 return;
             }
 
-            ConfirmCreateRef(Id, Name, AssetType, RefAssetName, FileType);
+            ConfirmCreateRef(Id, Name, AssetType, AssetGroup, RefAssetName, FileType);
         }
 
 

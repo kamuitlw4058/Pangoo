@@ -11,7 +11,7 @@ namespace Pangoo.Core.Services
     [Serializable]
     public class MainService : NestedBaseService
     {
-        RuntimeDataService RuntimeData = new RuntimeDataService();
+        public RuntimeDataService RuntimeData = new RuntimeDataService();
 
         public CharacterService CharacterService = new CharacterService();
 
@@ -25,17 +25,25 @@ namespace Pangoo.Core.Services
         public SoundService Sound = new SoundService();
 
 
+        public StaticSceneService StaticScene = new StaticSceneService();
+
+
+        public ExcelTableService ExcelTable = new ExcelTableService();
+
+        public DynamicObjectService DynamicObject = new DynamicObjectService();
+
+
         public MainService()
         {
-            AddService(new ExcelTableService());
-            AddService(new StaticSceneService());
+            AddService(ExcelTable);
+            AddService(StaticScene);
             AddService(new GameSectionService());
             AddService(new GlobalDataService());
             AddService(new SaveLoadService());
             AddService(RuntimeData);
             AddService(new DataContainerService());
             AddService(new GameInfoService());
-            AddService(new DynamicObjectService());
+            AddService(DynamicObject);
             AddService(CharacterService);
             AddService(GameConfig);
             AddService(Sound);
@@ -46,7 +54,7 @@ namespace Pangoo.Core.Services
 
         public DynamicObjectValue GetOrCreateDynamicObjectValue(string key, DynamicObject dynamicObject)
         {
-            var val = RuntimeData.Get<DynamicObjectValue>(key);
+            var val = RuntimeData.Get<DynamicObjectValue>(key, null);
             if (val == null)
             {
                 val = new DynamicObjectValue();
@@ -54,6 +62,37 @@ namespace Pangoo.Core.Services
                 RuntimeData.Set<DynamicObjectValue>(key, val);
             }
             return val;
+        }
+
+        public InstructionTable GetInstructionTable()
+        {
+            return ExcelTable.GetInstructionTable();
+        }
+
+        public T GetExcelTable<T>() where T : ExcelTableBase
+        {
+            return ExcelTable.GetExcelTable<T>();
+        }
+
+
+        public float DefaultInteractRadius
+        {
+            get
+            {
+                var radius = GameConfig.GetGameMainConfig()?.DefaultInteractRadius;
+                if (radius == null || (radius != null && radius <= 0)) return float.MaxValue;
+                return radius.Value;
+            }
+        }
+
+        public float DefaultHotspotRadius
+        {
+            get
+            {
+                var radius = GameConfig.GetGameMainConfig()?.DefaultHotspotRadius;
+                if (radius == null || (radius != null && radius <= 0)) return float.MaxValue;
+                return radius.Value;
+            }
         }
 
     }

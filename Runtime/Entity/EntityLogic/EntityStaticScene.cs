@@ -68,7 +68,7 @@ namespace Pangoo
                 return;
             }
 
-            Name = Utility.Text.Format("{0}[{1}]", SceneData.EntityInfo.AssetName, Id);
+            Name = Utility.Text.Format("{0}[{1}]", SceneData.Name, Id);
 #if USE_HDRP
             PlanarProbes = GetComponentsInChildren<PlanarReflectionProbe>();
             SetProbeEnabled(false);

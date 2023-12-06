@@ -272,7 +272,7 @@ namespace Pangoo
             var row = GameSupportEditorUtility.GetAssetPathRowById(id);
             if (row == null) return null;
 
-            var finalPath = AssetUtility.GetAssetPath(row.AssetPackageDir, row.AssetType, row.AssetPath);
+            var finalPath = AssetUtility.GetAssetPath(row.AssetPackageDir, row.AssetType, row.AssetPath, row.AssetGroup);
             return AssetDatabaseUtility.LoadAssetAtPath<GameObject>(finalPath);
 
         }

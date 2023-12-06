@@ -38,9 +38,9 @@ namespace Pangoo.Core.VisualScripting
                 switch (row.VariableType.ToEnum<VariableTypeEnum>())
                 {
                     case VariableTypeEnum.DynamicObject:
-                        return Variables.Get<T>(row.Key);
+                        return Variables.Get<T>(row.Key, row.DefaultValue.ToType<T>());
                     case VariableTypeEnum.Global:
-                        return RuntimeData.Get<T>(row.Key);
+                        return RuntimeData.Get<T>(row.Key, row.DefaultValue.ToType<T>());
                 }
             }
 

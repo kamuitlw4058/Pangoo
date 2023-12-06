@@ -6,6 +6,8 @@ using UnityEditor;
 using UnityEngine;
 #endif
 
+using GameFramework;
+
 namespace Pangoo
 {
     public static class AssetUtility
@@ -136,14 +138,22 @@ namespace Pangoo
             return $"{packageDir}/StreamRes/Prefab/DynamicObject/{name}";
         }
 
-        public static string GetAssetPath(string packageDir, string assetType, string name)
+        public static string GetAssetPath(string packageDir, string assetType, string name, string assetGroup = null)
         {
-            return $"{GetAssetPathDir(packageDir, assetType)}/{name}";
+
+            return Utility.Text.Format("{0}/{1}", GetAssetPathDir(packageDir, assetType, assetGroup), name);
         }
 
-        public static string GetAssetPathDir(string packageDir, string assetType)
+        public static string GetAssetPathDir(string packageDir, string assetType, string assetGroup = null)
         {
-            return $"{packageDir}/StreamRes/Prefab/{assetType}";
+            if (assetGroup.IsNullOrWhiteSpace())
+            {
+                return Utility.Text.Format("{0}/StreamRes/Prefab/{1}", packageDir, assetType);
+            }
+            else
+            {
+                return Utility.Text.Format("{0}/StreamRes/Prefab/{1}/{2}", packageDir, assetType, assetGroup);
+            }
         }
 
         public static string GetPrefabPath(string packageDir, string assetType, string name)

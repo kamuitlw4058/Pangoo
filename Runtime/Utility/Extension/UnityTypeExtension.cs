@@ -46,6 +46,35 @@ namespace Pangoo
             return false;
         }
 
+        public static T ToType<T>(this string val)
+        {
+            var type = typeof(T);
+
+            if (type == typeof(bool))
+            {
+                return (T)((object)val.ToBoolForce());
+            }
+
+            if (type == typeof(float))
+            {
+                return (T)((object)val.ToFloatForce());
+            }
+
+
+            if (type == typeof(int))
+            {
+                return (T)((object)val.ToIntForce());
+            }
+
+            if (type == typeof(string))
+            {
+                return (T)(object)val;
+            }
+
+            return default(T);
+        }
+
+
 
 
         #region  Vector3

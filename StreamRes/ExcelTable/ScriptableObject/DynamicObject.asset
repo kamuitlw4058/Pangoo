@@ -30,7 +30,7 @@ MonoBehaviour:
       HotspotRadius: 2
       HotspotIds: 1
       HotspotOffset: {x: 0, y: 0, z: 0}
-      DirectInstructions: 
+      DirectInstructions: '[]'
       SubDynamicObject: 
       InteractRadius: 0
       InteractOffset: {x: 0, y: 0, z: 0}

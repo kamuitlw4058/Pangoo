@@ -17,6 +17,10 @@ namespace Pangoo
 
         public CharacterInfoRow InfoRow;
 
+        public float Height { get; set; } = -1f;
+
+        public bool IsInteractive { get; set; } = true;
+
 
         public int AssetPathId
         {

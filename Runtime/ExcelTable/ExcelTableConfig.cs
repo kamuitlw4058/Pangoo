@@ -241,15 +241,18 @@ namespace Pangoo
                 if (File.Exists(path))
                 {
                     so = AssetDatabaseUtility.LoadAssetAtPath<ExcelTableOverview>(path);
+                    Debug.Log($"获取So{path}");
                 }
                 else
                 {
                     so = ScriptableObject.CreateInstance($"{classNamesapce}.{className}Overview") as ExcelTableOverview;
                     AssetDatabase.CreateAsset(so, path);
+                    so.Config = PackConfig;
+                    so.LoadExcelFile(false);
+                    Debug.Log($"创建SO成功：{path}");
                 }
-                so.Config = PackConfig;
-                so.LoadExcelFile(false);
-                Debug.Log($"创建SO成功：{path}");
+                // so.Config = PackConfig;
+                // so.LoadExcelFile(false);
             }
 
             AssetDatabase.SaveAssets();

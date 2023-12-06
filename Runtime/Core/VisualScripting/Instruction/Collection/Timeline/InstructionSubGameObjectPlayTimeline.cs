@@ -33,9 +33,9 @@ namespace Pangoo.Core.VisualScripting
 
         protected override IEnumerator Run(Args args)
         {
-            var trans = args.dynamicObject.CachedTransfrom.Find(ParamsRaw.Path);
+            Transform trans = InstructionArgsExtension.GetTransformByPath(args, ParamsRaw.Path);
             bool timelineStarted = false;
-            Debug.Log($"PlayTimeline trans:{trans}");
+            Debug.Log($"PlayTimeline path:{ParamsRaw.Path} trans:{trans}");
             if (trans != null)
             {
 

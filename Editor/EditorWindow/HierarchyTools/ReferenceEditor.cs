@@ -49,6 +49,11 @@ namespace Pangoo.Editor
 
         private void OnSelectionChange()
         {
+            if (Selection.activeGameObject == null)
+            {
+                return;
+            }
+
             if (Selection.activeGameObject.InScene())
             {
                 gameObject = Selection.activeGameObject;

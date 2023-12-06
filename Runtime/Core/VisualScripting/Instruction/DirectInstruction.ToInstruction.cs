@@ -109,7 +109,7 @@ namespace Pangoo.Core.VisualScripting
         public static Instruction GetChangeGameSectionInstruction(int val)
         {
             var instruction = Activator.CreateInstance<InstructionChangeGameSection>();
-            instruction.ParamsRaw.Val = val;
+            instruction.ParamsRaw.GameSectionId = val;
             return instruction;
         }
 
@@ -162,6 +162,16 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
+        public static Instruction GetDynamicObjectSubGameObjectEnabled(int dynamicObjectId, string path, bool enabled)
+        {
+            var instruction = Activator.CreateInstance<InstructionDynamicObjectSetSubGameObejctActive>();
+            instruction.ParamsRaw.DynamicObjectId = dynamicObjectId;
+            instruction.ParamsRaw.Path = !path.IsNullOrWhiteSpace() ? new string[] { path } : null;
+            instruction.ParamsRaw.Val = enabled;
+            return instruction;
+        }
+
+
         public Instruction ToInstruction(InstructionTable instructionTable = null)
         {
             switch (InstructionType)
@@ -204,6 +214,8 @@ namespace Pangoo.Core.VisualScripting
                     return GetPlaySound(Int1, Bool1, Bool2, Float1);
                 case DirectInstructionTypeEnum.StopSound:
                     return GetStopSound(Int1, Float1);
+                case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
+                    return GetDynamicObjectSubGameObjectEnabled(Int1, DropdownString1, Bool1);
             }
 
             return null;

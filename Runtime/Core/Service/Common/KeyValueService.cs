@@ -22,7 +22,7 @@ namespace Pangoo
             m_KeyValueDict = new Dictionary<string, object>();
             m_ExcelTableService = Parent.GetService<ExcelTableService>();
         }
-        public virtual T Get<T>(string key)
+        public virtual T Get<T>(string key, T defaultValue)
         {
             object value = null;
             if (m_KeyValueDict.ContainsKey(key))
@@ -32,7 +32,7 @@ namespace Pangoo
                 return (T)value;
             }
 
-            return (T)value;
+            return defaultValue;
         }
 
 
@@ -47,10 +47,10 @@ namespace Pangoo
             return false;
         }
 
-        public virtual float? GetFloat(string key)
-        {
-            return Get<float?>(key);
-        }
+        // public virtual float? GetFloat(string key)
+        // {
+        //     return Get<float?>(key);
+        // }
 
         public virtual void Set<T>(string key, T value)
         {

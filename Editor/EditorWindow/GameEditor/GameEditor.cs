@@ -18,7 +18,7 @@ namespace Pangoo.Editor
             var window = GetWindow<GameEditor>();
             window.position = GUIHelper.GetEditorWindowRect().AlignCenter(1100, 700);
             window.titleContent = new GUIContent("资源编辑器");
-            window.MenuWidth = 200;
+            window.MenuWidth = 250;
         }
         protected override void OnBeginDrawEditors()
         {
@@ -133,6 +133,8 @@ namespace Pangoo.Editor
             //     }
             // }
             InitNewOverviews<AssetPathTableOverview, AssetPathDetailWrapper, AssetPathNewWrapper, AssetPathTable.AssetPathRow>(tree, "AssetPath", "资产路径");
+            InitDetailOverviews<AssetGroupTableOverview, AssetGroupDetailWrapper, AssetGroupTable.AssetGroupRow>(tree, "AssetGroup", "资产组");
+
             // InitCommonOverviews<AssetPathTableOverview, AssetPathDetailWrapper, ExcelTableTableRowWrapper<AssetPathTableOverview, AssetPathTable.AssetPathRow>, AssetPathTable.AssetPathRow>(tree, "AssetPath");
             InitDetailOverviews<StaticSceneTableOverview, StaticSceneDetailWrapper, StaticSceneTable.StaticSceneRow>(tree, "StaticScene", "静态场景");
             InitDetailOverviews<DynamicObjectTableOverview, DynamicObjectDetailWrapper, DynamicObjectTable.DynamicObjectRow>(tree, "DynamicObject", "动态物体");

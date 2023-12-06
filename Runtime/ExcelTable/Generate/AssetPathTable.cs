@@ -47,10 +47,19 @@ namespace Pangoo
             /// <summary>
             /// Desc: 
             /// </summary>
+            [TableTitleGroup("")]
+            [HideLabel]
+            [JsonMember("AssetGroup")]
+            [ExcelTableCol("AssetGroup","AssetGroup","string", "",6)]
+            public string AssetGroup ;
+
+            /// <summary>
+            /// Desc: 
+            /// </summary>
             [TableTitleGroup("资源描述")]
             [HideLabel]
             [JsonMember("Desc")]
-            [ExcelTableCol("Desc","Desc","string", "资源描述",6)]
+            [ExcelTableCol("Desc","Desc","string", "资源描述",7)]
             public string Desc ;
         }
 

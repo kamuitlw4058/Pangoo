@@ -63,6 +63,7 @@ namespace Pangoo
             character = new Character(gameObject, EntityData.CameraOnly);
             character.SetIsPlayer(EntityData.IsPlayer);
             character.Main = EntityData.Service.Parent as MainService;
+            character.IsInteractive = EntityData.IsInteractive;
 
             MotionInfo motionInfo = new MotionInfo();
             motionInfo.RotationSpeedX = 80;
@@ -75,7 +76,12 @@ namespace Pangoo
 
             character.SetMotionInfo(motionInfo);
             character.CameraOffset = EntityData.InfoRow.m_CharacterRow.CameraOffset;
-            character.MaxPitch = EntityData.InfoRow.m_CharacterRow.MaxPitch;
+            if (EntityData.Height >= 0)
+            {
+                character.CameraOffset = new Vector3(0, EntityData.Height, 0);
+            }
+            character.xAxisMaxPitch = EntityData.InfoRow.m_CharacterRow.XMaxPitch;
+            character.yAxisMaxPitch = EntityData.InfoRow.m_CharacterRow.YMaxPitch;
             character.IsControllable = true;
 
             character.Awake();

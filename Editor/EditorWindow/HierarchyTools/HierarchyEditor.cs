@@ -16,7 +16,7 @@ namespace Pangoo.Editor
     public class HierarchyEditor : OdinMenuEditorWindow
     {
 
-        [MenuItem("Pangoo/场景工具", false, 10)]
+        [MenuItem("Pangoo/工具/场景工具", false, 10)]
         private static void OpenWindow()
         {
             var window = GetWindow<HierarchyEditor>();
@@ -34,6 +34,8 @@ namespace Pangoo.Editor
             tree.Config.AutoScrollOnSelectionChanged = false;
 
             tree.Add("引用查找", new ReferenceEditor(this));
+            tree.Add("Id查找", new HierarchyIdEditor());
+
             return tree;
         }
 

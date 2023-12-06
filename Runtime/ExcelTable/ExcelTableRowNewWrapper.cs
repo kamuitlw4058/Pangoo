@@ -68,6 +68,10 @@ namespace Pangoo
         {
             get
             {
+                if (m_Row.Id == 0)
+                {
+                    m_Row.Id = Overview.GetMaxId() + 1;
+                }
 
                 return m_Row.Id;
             }

@@ -10,6 +10,7 @@ using Sirenix.OdinInspector;
 
 namespace Pangoo.Core.Services
 {
+    [Serializable]
     public class StaticSceneService : BaseService
     {
         public override int Priority => 5;
@@ -31,8 +32,25 @@ namespace Pangoo.Core.Services
         [ShowInInspector]
         Dictionary<int, int> m_EnterAssetCountDict;
 
+        public Dictionary<int, int> EnterAssetCountDict
+        {
+            get
+            {
+                return m_EnterAssetCountDict;
+            }
+        }
+
         [ShowInInspector]
         Dictionary<int, EntityStaticScene> m_LoadedSceneAssetDict;
+
+
+        public Dictionary<int, EntityStaticScene> LoadedSceneAssetDict
+        {
+            get
+            {
+                return m_LoadedSceneAssetDict;
+            }
+        }
 
         [ShowInInspector]
         List<int> m_LoadingAssetIds;
@@ -64,7 +82,7 @@ namespace Pangoo.Core.Services
         public Tuple<int, int> m_SectionChange;
 
 
-        public bool m_SectionInited = false;
+        public bool SectionInited = false;
 
         public Action OnInitSceneLoaded;
 
@@ -137,7 +155,7 @@ namespace Pangoo.Core.Services
 
         public void SetGameScetion(List<int> dynamicIds, List<int> holdIds, List<int> initIds)
         {
-            m_SectionInited = false;
+            SectionInited = false;
             m_DynamicStaticSceneIds.Clear();
             m_DynamicStaticSceneIds.AddRange(dynamicIds);
 
@@ -249,7 +267,7 @@ namespace Pangoo.Core.Services
             }
             else
             {
-                EntityStaticSceneData data = EntityStaticSceneData.Create(sceneInfo.CreateEntityInfo(m_EntityGroupRow), this);
+                EntityStaticSceneData data = EntityStaticSceneData.Create(sceneInfo, sceneInfo.CreateEntityInfo(m_EntityGroupRow), this);
                 m_LoadingAssetIds.Add(AssetPathId);
                 Loader.ShowEntity(EnumEntity.StaticScene,
                     (o) =>
@@ -261,7 +279,7 @@ namespace Pangoo.Core.Services
                         }
                         m_LoadedSceneAssetDict.Add(AssetPathId, o.Logic as EntityStaticScene);
 
-                        if (!m_SectionInited)
+                        if (!SectionInited)
                         {
                             bool allInited = IsLoadedScene(m_HoldStaticSceneIds);
                             Log.Info($"Hold Loaded:{allInited}");
@@ -273,9 +291,10 @@ namespace Pangoo.Core.Services
 
                             if (allInited)
                             {
+                                SectionInited = true;
                                 OnInitSceneLoaded?.Invoke();
                                 Log.Info($"ON Loaded");
-                                m_SectionInited = true;
+
                             }
                         }
 

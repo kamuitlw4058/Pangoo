@@ -59,7 +59,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 if (m_Variables == null)
                 {
-                    m_Variables = Main.GetOrCreateDynamicObjectValue(RuntimeKey, this);
+                    m_Variables = Main?.GetOrCreateDynamicObjectValue(RuntimeKey, this);
                 }
                 return m_Variables;
             }
@@ -160,6 +160,32 @@ namespace Pangoo.Core.VisualScripting
         public void SetModelActive(bool val)
         {
             Model?.SetActive(val);
+        }
+
+        public void SetSubGameObjectsActive(string[] paths, bool val)
+        {
+            if (paths == null) return;
+
+            for (int i = 0; i < paths.Length; i++)
+            {
+                SetSubGameObjectActive(paths[i], val);
+            }
+        }
+
+
+
+        public void SetSubGameObjectActive(string path, bool val)
+        {
+            if (path.IsNullOrWhiteSpace())
+            {
+                return;
+            }
+
+            var childTransform = CachedTransfrom.Find(path);
+            if (childTransform != null)
+            {
+                childTransform.gameObject.SetActive(val);
+            }
         }
 
         protected override void DoStart()

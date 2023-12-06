@@ -26,6 +26,7 @@ namespace Pangoo.Core.Services
         InstructionTable m_InstructionTable;
 
 
+
         public int LatestId = -1;
 
 
@@ -62,11 +63,48 @@ namespace Pangoo.Core.Services
             SetGameSection(enterGameSectionId);
         }
 
-        void OnInitSceneLoaded()
+        bool CheckDynamicObjectLoaded(GameSectionTable.GameSectionRow row)
         {
-            Debug.Log($"OnInitSceneLoaded");
-            var GameSection = m_GameSectionTable.GetGameSectionRow(LatestId);
-            var instructionIds = GameSection.InitedInstructionIds.ToListInt();
+            var doIds = row.DynamicObjectIds.ToListInt();
+            foreach (var doId in doIds)
+            {
+                if (m_DynamicObjectService.GetLoadedEntity(doId) == null)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
+        bool CheckGameSectionLoadedCompleted(GameSectionTable.GameSectionRow row)
+        {
+            bool IsDynamicObjectLoaded = CheckDynamicObjectLoaded(row);
+            Debug.Log($"CheckGameSectionLoadedCompleted IsSceneLoaded:{m_StaticSceneService.SectionInited} IsDynamicObjectLoaded:{IsDynamicObjectLoaded}");
+            if (m_StaticSceneService.SectionInited && CheckDynamicObjectLoaded(row))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        void RunLoadedInstructions(GameSectionTable.GameSectionRow GameSectionRow)
+        {
+#if UNITY_EDITOR
+            var editorInstructionIds = GameSectionRow.EditorInitedInstructionIds.ToListInt();
+            if (editorInstructionIds.Count > 0)
+            {
+                var instructions = InstructionList.BuildInstructionList(editorInstructionIds, m_InstructionTable);
+                var args = new Args();
+                args.Main = Parent as MainService;
+                instructions.Start(args);
+            }
+
+#endif
+
+
+            var instructionIds = GameSectionRow.InitedInstructionIds.ToListInt();
             if (instructionIds.Count > 0)
             {
 
@@ -74,6 +112,18 @@ namespace Pangoo.Core.Services
                 var args = new Args();
                 args.Main = Parent as MainService;
                 instructions.Start(args);
+            }
+        }
+
+
+
+
+        void OnInitSceneLoaded()
+        {
+            var GameSection = m_GameSectionTable.GetGameSectionRow(LatestId);
+            if (CheckGameSectionLoadedCompleted(GameSection))
+            {
+                RunLoadedInstructions(GameSection);
             }
         }
 
@@ -117,7 +167,13 @@ namespace Pangoo.Core.Services
                 var doIds = GameSection.DynamicObjectIds.ToListInt();
                 foreach (var doId in doIds)
                 {
-                    m_DynamicObjectService.ShowDynamicObject(doId);
+                    m_DynamicObjectService.ShowDynamicObject(doId, (dynamicObjectId) =>
+                    {
+                        if (CheckGameSectionLoadedCompleted(GameSection))
+                        {
+                            RunLoadedInstructions(GameSection);
+                        }
+                    });
                 }
 
                 Log.Info($"Update Static Scene:{GameSection.Id} KeepSceneIds:{GameSection.KeepSceneIds} DynamicSceneIds:{GameSection.DynamicSceneIds}");
