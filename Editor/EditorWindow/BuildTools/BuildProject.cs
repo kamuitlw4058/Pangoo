@@ -86,7 +86,7 @@ namespace Pangoo.Editor
                 if (isBuildFail)
                 {
                     Debug.LogError("资源包打包错误");
-                    return;
+                    Application.Quit();
                 }
                 
                 if (devPackageOptions != "只打AB包")
