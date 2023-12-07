@@ -82,7 +82,7 @@ namespace Pangoo.Editor
                     BuildResoure();
                     MoveABPackgeResource();
                 }
-
+                Debug.Log($"打资源包失败{isBuildFail}");
                 if (isBuildFail)
                 {
                     Debug.LogError("资源包打包错误");
@@ -249,25 +249,25 @@ namespace Pangoo.Editor
         {
             Debug.Log("检查是否需要构建资源");
 
-            try
-            {
-                isTest=Boolean.Parse(GetCommandLineArgValue("-isTest"));
-            }
-            catch (Exception e)
-            {
-                isTest = true;
-            }
-            
-            if (isTest)
-            {
-                string dirPath = Application.streamingAssetsPath + "/" + "GameMain";
-                string filePath=Application.streamingAssetsPath + "/" + "GameFrameworkVersion.dat";
-                if (Directory.Exists(dirPath)&&File.Exists(filePath))
-                {
-                    Debug.Log("已包含资源文件，跳过重复构建");
-                    return;
-                }
-            }
+            // try
+            // {
+            //     isTest=Boolean.Parse(GetCommandLineArgValue("-isTest"));
+            // }
+            // catch (Exception e)
+            // {
+            //     isTest = true;
+            // }
+            //
+            // if (isTest)
+            // {
+            //     string dirPath = Application.streamingAssetsPath + "/" + "GameMain";
+            //     string filePath=Application.streamingAssetsPath + "/" + "GameFrameworkVersion.dat";
+            //     if (Directory.Exists(dirPath)&&File.Exists(filePath))
+            //     {
+            //         Debug.Log("已包含资源文件，跳过重复构建");
+            //         return;
+            //     }
+            // }
             
             Debug.Log("开始打包资源");
             //创建存放打包资源的文件夹
