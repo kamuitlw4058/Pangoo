@@ -32,7 +32,7 @@ namespace Pangoo.Core.Characters
         public float TopClamp = 90.0f;
         [Tooltip("How far in degrees can you move the camera down")]
         public float BottomClamp = -90.0f;
-        
+
         public bool reverse = false;
 
         public FirstPersonCameraService(NestedBaseService parent) : base(parent)
@@ -192,10 +192,26 @@ namespace Pangoo.Core.Characters
             // }
         }
 
+        public CinemachineTransposer GetCinemachineTransposer()
+        {
+            var transposer = m_VirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+            if (transposer == null)
+            {
+                transposer = m_VirtualCamera.AddCinemachineComponent<CinemachineTransposer>();
+                transposer.m_BindingMode = CinemachineTransposer.BindingMode.LockToTarget;
+                transposer.m_FollowOffset = Character.CameraOffset;
+                transposer.m_XDamping = 0;
+                transposer.m_YawDamping = 0;
+                transposer.m_YDamping = 0;
+                transposer.m_ZDamping = 0;
+            }
+            return transposer;
+        }
+
         public void SetCameraOffset(Vector3 offset)
         {
-            var transposer = m_VirtualCamera.AddCinemachineComponent<CinemachineTransposer>();
 
+            var transposer = GetCinemachineTransposer();
             transposer.m_FollowOffset = offset;
 
         }
@@ -207,14 +223,7 @@ namespace Pangoo.Core.Characters
             Debug.Log($"Character:{Character.CachedTransfrom} Character.CameraOffset:{Character.CameraOffset}");
             m_VirtualCamera.Follow = Character.CachedTransfrom;
             m_VirtualCamera.DestroyCinemachineComponent<CinemachineComposer>();
-            var transposer = m_VirtualCamera.AddCinemachineComponent<CinemachineTransposer>();
-            transposer.m_BindingMode = CinemachineTransposer.BindingMode.LockToTarget;
-            transposer.m_FollowOffset = Character.CameraOffset;
-            transposer.m_XDamping = 0;
-            transposer.m_YawDamping = 0;
-            transposer.m_YDamping = 0;
-            transposer.m_ZDamping = 0;
-
+            var transposer = GetCinemachineTransposer();
         }
 
         private float GetRotationDamp(float current, float target, ref float velocity,
@@ -229,11 +238,11 @@ namespace Pangoo.Core.Characters
                 deltaTime
             );
         }
-        
+
         private void ConstrainTargetAngles()
         {
             float xAngle = Character.xAxisMaxPitch / 2f;
-            
+
             m_AnglesTarget.x = Mathf.Clamp(m_AnglesTarget.x, -xAngle, xAngle);
             if (Character.IsYAxisClamp)
             {
@@ -247,7 +256,7 @@ namespace Pangoo.Core.Characters
             }
 
         }
-        
+
         private void ComputeInput(Vector2 deltaInput)
         {
             this.m_AnglesTarget += new Vector2(
