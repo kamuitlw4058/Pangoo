@@ -36,6 +36,8 @@ namespace Pangoo.Editor
 
         private static bool isTest;
         private static string devPackageOptions;
+
+        public static bool isBuildFail;
         [MenuItem("Pangoo/BuildTools/BuildPC")]
         public static async void BuildPC()
         {
@@ -80,6 +82,13 @@ namespace Pangoo.Editor
                     BuildResoure();
                     MoveABPackgeResource();
                 }
+
+                if (isBuildFail)
+                {
+                    Debug.LogError("资源包打包错误");
+                    return;
+                }
+                
                 if (devPackageOptions != "只打AB包")
                 {
                     BuildSettingAndRun();
@@ -314,9 +323,11 @@ namespace Pangoo.Editor
 
             Debug.Log("配置中输出目录:" + m_Controller.OutputDirectory);
             m_Controller.OutputDirectory = abPackgePath;
+            
             copyPath = m_Controller.OutputPackagePath;
+            
             m_Builder.BuildResources(m_Controller);
-
+            
             MoveABPackgeResource();
             //return Task.CompletedTask;
         }
