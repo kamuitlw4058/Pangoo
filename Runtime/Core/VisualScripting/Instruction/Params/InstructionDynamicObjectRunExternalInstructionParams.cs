@@ -5,7 +5,6 @@ using UnityEngine;
 using Pangoo.Core.Common;
 using LitJson;
 using Sirenix.OdinInspector;
-using Unity.VisualScripting.YamlDotNet.Core;
 
 namespace Pangoo.Core.VisualScripting
 {
