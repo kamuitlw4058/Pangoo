@@ -4,6 +4,11 @@ using Pangoo.Editor;
 using UnityEditor;
 using UnityEngine;
 using UnityGameFramework.Editor.ResourceTools;
+using GameFramework;
+
+namespace  Pangoo
+{
+    
 
 public class TryCatchBuildEventHandler : IBuildEventHandler
 {
@@ -47,6 +52,7 @@ public class TryCatchBuildEventHandler : IBuildEventHandler
         if (!isSuccess)
         {
             BuildProject.isBuildFail = true;
+            Debug.Log($"资源包打包失败:{BuildProject.isBuildFail}");
         }
     }
 
@@ -59,4 +65,5 @@ public class TryCatchBuildEventHandler : IBuildEventHandler
         bool outputPackedSelected, string outputPackedPath, string buildReportPath)
     {
     }
+}
 }
