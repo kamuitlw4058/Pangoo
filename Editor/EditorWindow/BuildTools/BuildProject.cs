@@ -40,7 +40,7 @@ namespace Pangoo.Editor
         public static bool isBuildFail;
 
         [MenuItem("Pangoo/BuildTools/BuildPC")]
-        public static async void BuildPC()
+        public static void BuildPC()
         {
             m_Controller.BuildResourceError += OnBuildResourceError;
             Debug.Log("项目根目录1：" + Directory.GetParent(Application.dataPath));
@@ -73,28 +73,22 @@ namespace Pangoo.Editor
             // await BuildResoure();
             // await MoveABPackgeResource();
 
-            if (isTest)
+            if (devPackageOptions!="只打Build")
+            {
+                BuildResoure();
+                MoveABPackgeResource();
+            }
+            Debug.Log($"构建资源包失败{isBuildFail}");
+            if (isBuildFail)
+            {
+                Debug.LogError("资源包打包失败!!!");
+                Application.Quit();
+                return;
+            }
+                
+            if (devPackageOptions != "只打AB包")
             {
                 BuildSettingAndRun();
-            }
-            else
-            {
-                if (devPackageOptions!="只打Build")
-                {
-                    BuildResoure();
-                    MoveABPackgeResource();
-                }
-                Debug.Log($"打资源包失败{isBuildFail}");
-                if (isBuildFail)
-                {
-                    Debug.LogError("资源包打包错误");
-                    Application.Quit();
-                }
-                
-                if (devPackageOptions != "只打AB包")
-                {
-                    BuildSettingAndRun();
-                }
             }
         }
 
@@ -251,26 +245,6 @@ namespace Pangoo.Editor
         {
             Debug.Log("检查是否需要构建资源");
 
-            // try
-            // {
-            //     isTest=Boolean.Parse(GetCommandLineArgValue("-isTest"));
-            // }
-            // catch (Exception e)
-            // {
-            //     isTest = true;
-            // }
-            //
-            // if (isTest)
-            // {
-            //     string dirPath = Application.streamingAssetsPath + "/" + "GameMain";
-            //     string filePath=Application.streamingAssetsPath + "/" + "GameFrameworkVersion.dat";
-            //     if (Directory.Exists(dirPath)&&File.Exists(filePath))
-            //     {
-            //         Debug.Log("已包含资源文件，跳过重复构建");
-            //         return;
-            //     }
-            // }
-            
             Debug.Log("开始打包资源");
             //创建存放打包资源的文件夹
             if (!Directory.Exists(abPackgePath))
@@ -283,8 +257,6 @@ namespace Pangoo.Editor
             ResourceRuleEditor m_resourceRule = new ResourceRuleEditor();
             m_resourceRule.RefreshResourceCollection();
             m_resourceRule.Save();
-
-            //m_Builder.m_OrderBuildResources = false;
 
             if (m_Controller.Load())
             {
@@ -327,11 +299,17 @@ namespace Pangoo.Editor
             m_Controller.OutputDirectory = abPackgePath;
             
             copyPath = m_Controller.OutputPackagePath;
-            m_Controller.BuildEventHandlerTypeName = "TryCatchBuildEventHandler";
+            m_Controller.BuildEventHandlerTypeName = "Pangoo.TryCatchBuildEventHandler";
             m_Builder.BuildResources(m_Controller);
+
+            if (isBuildFail)
+            {
+                Debug.Log("资源包构建失败!!!");
+                Application.Quit();
+                return;
+            }
             
             MoveABPackgeResource();
-            //return Task.CompletedTask;
         }
 
         private static void MoveABPackgeResource()
