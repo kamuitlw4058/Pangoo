@@ -24,11 +24,10 @@ namespace Pangoo.Editor
         private static string outputDirPath = @"C:\Users\ASUS\Desktop";
         private static string dirPath;
         private static string tagName = "A0";
-        private static string monthDay = "0918";
         private static string buildNumber = "123";
 
         private UnityAction buildResoureceEvent;
-        
+
         /// <summary>
         /// 是否为在编辑器内部打包
         /// </summary>
@@ -54,7 +53,6 @@ namespace Pangoo.Editor
                 outputDirPath = GetCommandLineArgValue("-outputDirPath");
                 tagName = GetCommandLineArgValue("-tagName");
                 buildNumber = GetCommandLineArgValue("-buildNumber");
-                monthDay = GetCommandLineArgValue("-monthDay");
                 isTest = Boolean.Parse(GetCommandLineArgValue("-isTest"));
                 devPackageOptions=GetCommandLineArgValue("-devPackageOptions");
             }
@@ -63,36 +61,28 @@ namespace Pangoo.Editor
                 outputDirPath = @"C:\Users\ugmax\Desktop\FangLing_HDRP_Package";
                 tagName = "测试";
                 buildNumber = "99";
-                monthDay = "1102";
                 isTest = true;
                 devPackageOptions = "完整包";
             }
 
             #endregion
-            
-            // await BuildResoure();
-            // await MoveABPackgeResource();
 
-            if (devPackageOptions!="只打Build")
+            switch (devPackageOptions)
             {
-                BuildResoure();
-                MoveABPackgeResource();
-            }
-            Debug.Log($"构建资源包失败{isBuildFail}");
-            if (isBuildFail)
-            {
-                Debug.LogError("资源包打包失败!!!");
-                Application.Quit();
-                return;
-            }
-                
-            if (devPackageOptions != "只打AB包")
-            {
-                BuildSettingAndRun();
+                case "只打Game":
+                    BuildGame();
+                    break;
+                case "只打AB包":
+                    BuildResoure();
+                    break;
+                case "完整包":
+                    BuildResoure();
+                    BuildGame();
+                    break;
             }
         }
 
-        private static void BuildSettingAndRun()
+        private static void BuildGame()
         {
             Debug.Log("开始设置构建参数并执行构建");
             #region 构建设置
@@ -308,11 +298,11 @@ namespace Pangoo.Editor
                 Application.Quit();
                 return;
             }
-            
-            MoveABPackgeResource();
+
+            MoveResourceToGame();
         }
 
-        private static void MoveABPackgeResource()
+        private static void MoveResourceToGame()
         {
             Debug.Log("开始移动资源包");
             m_Controller.Load();
