@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace Pangoo
+namespace ClassGenerator
 {
     public class JsonClassGeneratorFieldInfo
     {

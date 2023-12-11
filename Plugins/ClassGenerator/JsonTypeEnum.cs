@@ -1,4 +1,4 @@
-﻿namespace Pangoo
+﻿namespace ClassGenerator
 {
     public enum JsonTypeEnum
     {

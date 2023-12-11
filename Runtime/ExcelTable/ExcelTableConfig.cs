@@ -9,6 +9,7 @@ using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Object = System.Object;
+using ClassGenerator;
 
 #if UNITY_EDITOR
 using System.Reflection;
