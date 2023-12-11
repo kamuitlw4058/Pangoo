@@ -18,6 +18,22 @@ namespace ClassGenerator
         public string TargetFolder { get; set; }
         public string Namespace { get; set; }
         public string MainClass { get; set; }
+
+        public string BaseClass { get; set; }
+        public string[] BaseFields { get; set; }
+
+        public bool IsUseUnityEditor { get; set; }
+        public bool IsAddCreateAssetMenu { get; set; }
+
+        public bool IsSerializable { get; set; }
+
+        public bool IsWriteFileHeader { get; set; }
+
+
+        public string AssetMenuPrefix { get; set; }
+
+        public bool UseJsonMember { get; set; }
+
         public bool UsePascalCase { get; set; }
         public bool ApplyObfuscationAttributes { get; set; }
         public ICodeWriter CodeWriter { get; set; }
@@ -291,7 +307,20 @@ namespace ClassGenerator
             "本文件使用工具自动生成，请勿进行手动修改！",
         };
 
-        public static string GeneratorCodeString(string codeJson, string nameSpace, ICodeWriter codeWriter, string className, string path, string jsonPath = null)
+        public static string GeneratorCodeString(string codeJson,
+                                                string nameSpace,
+                                                ICodeWriter codeWriter,
+                                                string className,
+                                                string path,
+                                                string jsonPath = null,
+                                                string baseClass = null,
+                                                string[] baseFields = null,
+                                                bool useJsonMember = false,
+                                                bool isAddCreateAssetMenu = false,
+                                                string assetMenuPrefix = null,
+                                                bool isSerializable = true,
+                                                bool isWriteFileHeader = true
+                                                )
         {
             string OutputCode;
             var gen = new JsonClassGenerator
@@ -301,6 +330,13 @@ namespace ClassGenerator
                 Namespace = nameSpace,
                 TargetFolder = null,
                 MainClass = className,
+                BaseClass = baseClass,
+                BaseFields = baseFields,
+                UseJsonMember = useJsonMember,
+                IsAddCreateAssetMenu = isAddCreateAssetMenu,
+                AssetMenuPrefix = assetMenuPrefix,
+                IsSerializable = isSerializable,
+                IsWriteFileHeader = isWriteFileHeader,
                 UsePascalCase = true,
                 ApplyObfuscationAttributes = false,
                 ExamplesInDocumentation = false,

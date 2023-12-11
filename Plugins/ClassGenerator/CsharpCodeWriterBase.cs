@@ -82,9 +82,12 @@ namespace ClassGenerator
 
         public virtual void WriteFileStart(IJsonClassGeneratorConfig config, TextWriter sw)
         {
-            foreach (var line in JsonClassGenerator.FileHeader)
+            if (config.IsWriteFileHeader)
             {
-                sw.WriteLine("// " + line);
+                foreach (var line in JsonClassGenerator.FileHeader)
+                {
+                    sw.WriteLine("// " + line);
+                }
             }
 
             sw.WriteLine();
