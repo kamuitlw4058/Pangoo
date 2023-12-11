@@ -38,9 +38,11 @@ namespace Pangoo.Editor
         private static string devPackageOptions;
 
         public static bool isBuildFail;
+
         [MenuItem("Pangoo/BuildTools/BuildPC")]
         public static async void BuildPC()
         {
+            m_Controller.BuildResourceError += OnBuildResourceError;
             Debug.Log("项目根目录1：" + Directory.GetParent(Application.dataPath));
 
             isJenkinsBuild = GetCommandLineArgValue("-outputDirPath") != null;
@@ -63,7 +65,7 @@ namespace Pangoo.Editor
                 buildNumber = "99";
                 monthDay = "1102";
                 isTest = true;
-                devPackageOptions = "只打Build";
+                devPackageOptions = "完整包";
             }
 
             #endregion
@@ -377,6 +379,11 @@ namespace Pangoo.Editor
                 Debug.Log("<>DirName=" + directory.Name);
                 CopyPastFilesAndDirs(path, newDir);
             }
+        }
+        private static void OnBuildResourceError(string errorMessage)
+        {
+            isBuildFail = true;
+            Debug.Log("资源构建失败");
         }
     }
 }
