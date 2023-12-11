@@ -67,18 +67,26 @@ namespace Pangoo.Editor
 
             #endregion
 
-            switch (devPackageOptions)
+            if (isTest)
             {
-                case "只打Game":
-                    BuildGame();
-                    break;
-                case "只打AB包":
-                    BuildResoure();
-                    break;
-                case "完整包":
-                    BuildResoure();
-                    BuildGame();
-                    break;
+                switch (devPackageOptions)
+                {
+                    case "只打Game":
+                        BuildGame();
+                        break;
+                    case "只打AB包":
+                        BuildResoure();
+                        break;
+                    case "完整包":
+                        BuildResoure();
+                        BuildGame();
+                        break;
+                }
+            }
+            else
+            {
+                BuildResoure();
+                BuildGame();
             }
         }
 
