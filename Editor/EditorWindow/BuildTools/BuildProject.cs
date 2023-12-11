@@ -24,11 +24,10 @@ namespace Pangoo.Editor
         private static string outputDirPath = @"C:\Users\ASUS\Desktop";
         private static string dirPath;
         private static string tagName = "A0";
-        private static string monthDay = "0918";
         private static string buildNumber = "123";
 
         private UnityAction buildResoureceEvent;
-        
+
         /// <summary>
         /// 是否为在编辑器内部打包
         /// </summary>
@@ -36,9 +35,13 @@ namespace Pangoo.Editor
 
         private static bool isTest;
         private static string devPackageOptions;
+
+        public static bool isBuildFail;
+
         [MenuItem("Pangoo/BuildTools/BuildPC")]
-        public static async void BuildPC()
+        public static void BuildPC()
         {
+            m_Controller.BuildResourceError += OnBuildResourceError;
             Debug.Log("项目根目录1：" + Directory.GetParent(Application.dataPath));
 
             isJenkinsBuild = GetCommandLineArgValue("-outputDirPath") != null;
@@ -50,7 +53,6 @@ namespace Pangoo.Editor
                 outputDirPath = GetCommandLineArgValue("-outputDirPath");
                 tagName = GetCommandLineArgValue("-tagName");
                 buildNumber = GetCommandLineArgValue("-buildNumber");
-                monthDay = GetCommandLineArgValue("-monthDay");
                 isTest = Boolean.Parse(GetCommandLineArgValue("-isTest"));
                 devPackageOptions=GetCommandLineArgValue("-devPackageOptions");
             }
@@ -59,35 +61,28 @@ namespace Pangoo.Editor
                 outputDirPath = @"C:\Users\ugmax\Desktop\FangLing_HDRP_Package";
                 tagName = "测试";
                 buildNumber = "99";
-                monthDay = "1102";
                 isTest = true;
-                devPackageOptions = "只打Build";
+                devPackageOptions = "完整包";
             }
 
             #endregion
-            
-            // await BuildResoure();
-            // await MoveABPackgeResource();
 
-            if (isTest)
+            switch (devPackageOptions)
             {
-                BuildSettingAndRun();
-            }
-            else
-            {
-                if (devPackageOptions!="只打Build")
-                {
+                case "只打Game":
+                    BuildGame();
+                    break;
+                case "只打AB包":
                     BuildResoure();
-                    MoveABPackgeResource();
-                }
-                if (devPackageOptions != "只打AB包")
-                {
-                    BuildSettingAndRun();
-                }
+                    break;
+                case "完整包":
+                    BuildResoure();
+                    BuildGame();
+                    break;
             }
         }
 
-        private static void BuildSettingAndRun()
+        private static void BuildGame()
         {
             Debug.Log("开始设置构建参数并执行构建");
             #region 构建设置
@@ -240,26 +235,6 @@ namespace Pangoo.Editor
         {
             Debug.Log("检查是否需要构建资源");
 
-            try
-            {
-                isTest=Boolean.Parse(GetCommandLineArgValue("-isTest"));
-            }
-            catch (Exception e)
-            {
-                isTest = true;
-            }
-            
-            if (isTest)
-            {
-                string dirPath = Application.streamingAssetsPath + "/" + "GameMain";
-                string filePath=Application.streamingAssetsPath + "/" + "GameFrameworkVersion.dat";
-                if (Directory.Exists(dirPath)&&File.Exists(filePath))
-                {
-                    Debug.Log("已包含资源文件，跳过重复构建");
-                    return;
-                }
-            }
-            
             Debug.Log("开始打包资源");
             //创建存放打包资源的文件夹
             if (!Directory.Exists(abPackgePath))
@@ -272,8 +247,6 @@ namespace Pangoo.Editor
             ResourceRuleEditor m_resourceRule = new ResourceRuleEditor();
             m_resourceRule.RefreshResourceCollection();
             m_resourceRule.Save();
-
-            //m_Builder.m_OrderBuildResources = false;
 
             if (m_Controller.Load())
             {
@@ -314,14 +287,22 @@ namespace Pangoo.Editor
 
             Debug.Log("配置中输出目录:" + m_Controller.OutputDirectory);
             m_Controller.OutputDirectory = abPackgePath;
+            
             copyPath = m_Controller.OutputPackagePath;
+            m_Controller.BuildEventHandlerTypeName = "Pangoo.TryCatchBuildEventHandler";
             m_Builder.BuildResources(m_Controller);
 
-            MoveABPackgeResource();
-            //return Task.CompletedTask;
+            if (isBuildFail)
+            {
+                Debug.Log("资源包构建失败!!!");
+                Application.Quit();
+                return;
+            }
+
+            MoveResourceToGame();
         }
 
-        private static void MoveABPackgeResource()
+        private static void MoveResourceToGame()
         {
             Debug.Log("开始移动资源包");
             m_Controller.Load();
@@ -366,6 +347,11 @@ namespace Pangoo.Editor
                 Debug.Log("<>DirName=" + directory.Name);
                 CopyPastFilesAndDirs(path, newDir);
             }
+        }
+        private static void OnBuildResourceError(string errorMessage)
+        {
+            isBuildFail = true;
+            Debug.Log("资源构建失败");
         }
     }
 }
