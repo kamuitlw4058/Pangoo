@@ -15,6 +15,7 @@ namespace ClassGenerator
         string[] BaseFields { get; set; }
 
         bool IsUseUnityEditor { get; set; }
+        bool IsTotalEditor { get; set; }
 
         bool IsAddCreateAssetMenu { get; set; }
 

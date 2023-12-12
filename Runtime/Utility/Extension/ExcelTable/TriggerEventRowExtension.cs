@@ -66,7 +66,7 @@ namespace Pangoo
         {
             if (row == null)
             {
-                Debug.LogError(Utility.Text.Format("row is null.{0}", row));
+                Debug.LogError(GameFramework.Utility.Text.Format("row is null.{0}", row));
                 return;
             }
 

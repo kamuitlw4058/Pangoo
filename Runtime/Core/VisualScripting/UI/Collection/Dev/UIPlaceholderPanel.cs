@@ -50,7 +50,7 @@ namespace Pangoo.Core.VisualScripting
             // Debug.Log($"m_Text:{m_Text}");
             if (m_Text != null)
             {
-                m_Text.text = Utility.Text.Format("{0} {1}...", ParamsRaw.MainContext, (int)(m_Duration - m_CurrentTime));
+                m_Text.text = GameFramework.Utility.Text.Format("{0} {1}...", ParamsRaw.MainContext, (int)(m_Duration - m_CurrentTime));
             }
         }
 

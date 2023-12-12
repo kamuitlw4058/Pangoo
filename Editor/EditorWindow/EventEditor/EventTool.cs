@@ -9,6 +9,7 @@ using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 using ClassGenerator;
+using Pangoo.Common;
 
 
 namespace Pangoo.Editor

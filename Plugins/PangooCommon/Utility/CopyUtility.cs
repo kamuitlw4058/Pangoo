@@ -1,19 +1,15 @@
-#if UNITY_EDITOR
-using System.Linq;
-using UnityEditor;
-using UnityEngine;
-#endif
+
 using System.IO;
 using System.Xml.Serialization;
 
-namespace Pangoo
+namespace Pangoo.Common
 {
     public static class CopyUtility
     {
 
         public static T Clone<T>(T RealObject)
         {
-            using (System.IO.Stream stream = new MemoryStream())
+            using (Stream stream = new MemoryStream())
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(T));
                 serializer.Serialize(stream, RealObject);

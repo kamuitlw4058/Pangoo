@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using LitJson;
 using UnityEngine;
-
+using Pangoo.Common;
 
 namespace Pangoo.Core.VisualScripting
 {

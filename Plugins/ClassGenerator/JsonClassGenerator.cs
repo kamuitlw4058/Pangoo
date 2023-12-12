@@ -23,6 +23,8 @@ namespace ClassGenerator
         public string[] BaseFields { get; set; }
 
         public bool IsUseUnityEditor { get; set; }
+
+        public bool IsTotalEditor { get; set; }
         public bool IsAddCreateAssetMenu { get; set; }
 
         public bool IsSerializable { get; set; }
@@ -319,7 +321,9 @@ namespace ClassGenerator
                                                 bool isAddCreateAssetMenu = false,
                                                 string assetMenuPrefix = null,
                                                 bool isSerializable = true,
-                                                bool isWriteFileHeader = true
+                                                bool isWriteFileHeader = true,
+                                                bool isUseUnityEditor = false,
+                                                bool isTotalEditor = false
                                                 )
         {
             string OutputCode;
@@ -337,6 +341,8 @@ namespace ClassGenerator
                 AssetMenuPrefix = assetMenuPrefix,
                 IsSerializable = isSerializable,
                 IsWriteFileHeader = isWriteFileHeader,
+                IsUseUnityEditor = isUseUnityEditor,
+                IsTotalEditor = isTotalEditor,
                 UsePascalCase = true,
                 ApplyObfuscationAttributes = false,
                 ExamplesInDocumentation = false,

@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Object = System.Object;
 using ClassGenerator;
+using Pangoo.Common;
 
 #if UNITY_EDITOR
 using System.Reflection;
@@ -68,7 +69,7 @@ namespace Pangoo
             "System.IO",
             "System.Collections.Generic",
             "LitJson",
-            "Pangoo",
+            "Pangoo.Common",
             "UnityEngine",
             "Sirenix.OdinInspector",
             "System.Xml.Serialization"

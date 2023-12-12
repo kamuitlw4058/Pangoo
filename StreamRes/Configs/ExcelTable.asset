@@ -138,4 +138,4 @@ MonoBehaviour:
   - LitJson
   - UnityEngine
   - Sirenix.OdinInspector
-  - Pangoo
+  - Pangoo.Common
