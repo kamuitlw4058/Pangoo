@@ -26,6 +26,9 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("TweenDuration")]
         public double TweenDuration;
 
+        [JsonMember("InverseForwardBack")]
+        public bool InverseForwardBack;
+
         [JsonMember("ForwardBack")]
         public bool ForwardBack;
 
@@ -57,6 +60,7 @@ namespace Pangoo.Core.VisualScripting
             TweenMaxBack = par.TweenMaxBack;
             OpenDirectionAxis = par.OpenDirectionAxis;
             SetFinalTransform = par.SetFinalTransform;
+            InverseForwardBack = par.InverseForwardBack;
         }
 
 

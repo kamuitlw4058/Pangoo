@@ -210,13 +210,16 @@ namespace Pangoo.Core.VisualScripting
                         break;
                 }
 
+
+
                 if (finalDistance >= 0)
                 {
-                    IsForward = true;
+
+                    IsForward = ParamsRaw.InverseForwardBack ? false : true;
                 }
                 else
                 {
-                    IsForward = false;
+                    IsForward = ParamsRaw.InverseForwardBack ? true : false;
                 }
                 m_TargetTransform = args.Target.transform;
                 m_StartPosition = m_TargetTransform.localPosition;
