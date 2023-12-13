@@ -28,7 +28,10 @@ MonoBehaviour:
   - MetaTable
   Entries:
   - Config: {fileID: 11400000}
+    MetaTableType: 0
     TableName: AssetGroup
+    RefConfig: {fileID: 0}
+    RefTableName: 
     Columns:
     - Name: Uuid
       Type: string
@@ -38,12 +41,15 @@ MonoBehaviour:
       CnName: Name
     - Name: AssetGroup
       Type: string
-      CnName: 
+      CnName: "\u8D44\u6E90\u7EC4"
     - Name: Desc
       Type: string
-      CnName: "\u8D44\u6E90\u63CF\u8FF0"
+      CnName: "\u8D44\u6E90\u7EC4\u63CF\u8FF0"
   - Config: {fileID: 11400000}
+    MetaTableType: 0
     TableName: AssetPath
+    RefConfig: {fileID: 0}
+    RefTableName: 
     Columns:
     - Name: Uuid
       Type: string
@@ -62,12 +68,15 @@ MonoBehaviour:
       CnName: "\u8D44\u6E90\u8DEF\u5F84"
     - Name: AssetGroup
       Type: string
-      CnName: 
+      CnName: "\u8D44\u6E90\u7EC4Uuid"
     - Name: Desc
       Type: string
       CnName: "\u8D44\u6E90\u63CF\u8FF0"
   - Config: {fileID: 11400000}
+    MetaTableType: 0
     TableName: Character
+    RefConfig: {fileID: 0}
+    RefTableName: 
     Columns:
     - Name: Uuid
       Type: string
@@ -100,7 +109,10 @@ MonoBehaviour:
       Type: bool
       CnName: "\u53EA\u4F7F\u7528\u76F8\u673A"
   - Config: {fileID: 11400000}
+    MetaTableType: 0
     TableName: Condition
+    RefConfig: {fileID: 0}
+    RefTableName: 
     Columns:
     - Name: Uuid
       Type: string
@@ -115,7 +127,10 @@ MonoBehaviour:
       Type: string
       CnName: "\u6761\u4EF6\u53C2\u6570"
   - Config: {fileID: 11400000}
+    MetaTableType: 0
     TableName: DynamicObject
+    RefConfig: {fileID: 0}
+    RefTableName: 
     Columns:
     - Name: Uuid
       Type: string
@@ -181,7 +196,10 @@ MonoBehaviour:
       Type: bool
       CnName: "\u9ED8\u8BA4\u9690\u85CF\u6A21\u578B"
   - Config: {fileID: 11400000}
+    MetaTableType: 0
     TableName: EntityGroup
+    RefConfig: {fileID: 0}
+    RefTableName: 
     Columns:
     - Name: Uuid
       Type: string
@@ -202,7 +220,10 @@ MonoBehaviour:
       Type: int
       CnName: "\u5B9E\u4F53\u7EC4\u5B9E\u4F8B\u5BF9\u8C61\u6C60\u7684\u4F18\u5148\u7EA7"
   - Config: {fileID: 11400000}
+    MetaTableType: 0
     TableName: GameSection
+    RefConfig: {fileID: 0}
+    RefTableName: 
     Columns:
     - Name: Uuid
       Type: string
@@ -232,7 +253,10 @@ MonoBehaviour:
       Type: string
       CnName: "\u7F16\u8F91\u5668\u521D\u59CB\u5316\u540E\u6267\u884C\u7684\u6307\u4EE4"
   - Config: {fileID: 11400000}
+    MetaTableType: 0
     TableName: GlobalData
+    RefConfig: {fileID: 0}
+    RefTableName: 
     Columns:
     - Name: Uuid
       Type: string
@@ -250,7 +274,10 @@ MonoBehaviour:
       Type: string
       CnName: "\u503C"
   - Config: {fileID: 11400000}
+    MetaTableType: 0
     TableName: Hotspot
+    RefConfig: {fileID: 0}
+    RefTableName: 
     Columns:
     - Name: Uuid
       Type: string
@@ -265,7 +292,10 @@ MonoBehaviour:
       Type: string
       CnName: "\u53C2\u6570"
   - Config: {fileID: 11400000}
+    MetaTableType: 0
     TableName: Instruction
+    RefConfig: {fileID: 0}
+    RefTableName: 
     Columns:
     - Name: Uuid
       Type: string
@@ -280,7 +310,10 @@ MonoBehaviour:
       Type: string
       CnName: "\u6307\u4EE4\u53C2\u6570"
   - Config: {fileID: 11400000}
+    MetaTableType: 0
     TableName: PangooEvents
+    RefConfig: {fileID: 0}
+    RefTableName: 
     Columns:
     - Name: Uuid
       Type: string
@@ -298,7 +331,10 @@ MonoBehaviour:
       Type: string
       CnName: "\u63CF\u8FF0"
   - Config: {fileID: 11400000}
+    MetaTableType: 0
     TableName: RuntimeData
+    RefConfig: {fileID: 0}
+    RefTableName: 
     Columns:
     - Name: Uuid
       Type: string
@@ -316,7 +352,10 @@ MonoBehaviour:
       Type: string
       CnName: "\u503C"
   - Config: {fileID: 11400000}
+    MetaTableType: 0
     TableName: SaveLoad
+    RefConfig: {fileID: 0}
+    RefTableName: 
     Columns:
     - Name: Uuid
       Type: string
@@ -337,7 +376,10 @@ MonoBehaviour:
       Type: float
       CnName: "Float\u7C7B\u578B\u7684\u503C"
   - Config: {fileID: 11400000}
+    MetaTableType: 0
     TableName: SimpleUI
+    RefConfig: {fileID: 0}
+    RefTableName: 
     Columns:
     - Name: Uuid
       Type: string
@@ -361,7 +403,10 @@ MonoBehaviour:
       Type: string
       CnName: "UI\u53C2\u6570"
   - Config: {fileID: 11400000}
+    MetaTableType: 0
     TableName: Sound
+    RefConfig: {fileID: 0}
+    RefTableName: 
     Columns:
     - Name: Uuid
       Type: string
@@ -379,7 +424,10 @@ MonoBehaviour:
       Type: string
       CnName: "\u8D44\u6E90\u8DEF\u5F84"
   - Config: {fileID: 11400000}
+    MetaTableType: 0
     TableName: StaticScene
+    RefConfig: {fileID: 0}
+    RefTableName: 
     Columns:
     - Name: Uuid
       Type: string
@@ -400,7 +448,10 @@ MonoBehaviour:
       Type: string
       CnName: "\u52A0\u8F7D\u573A\u666F"
   - Config: {fileID: 11400000}
+    MetaTableType: 0
     TableName: TriggerEvent
+    RefConfig: {fileID: 0}
+    RefTableName: 
     Columns:
     - Name: Uuid
       Type: string
@@ -436,7 +487,10 @@ MonoBehaviour:
       Type: string
       CnName: "\u5931\u8D25\u6307\u4EE4\u5217\u8868"
   - Config: {fileID: 11400000}
+    MetaTableType: 0
     TableName: Variables
+    RefConfig: {fileID: 0}
+    RefTableName: 
     Columns:
     - Name: Uuid
       Type: string
