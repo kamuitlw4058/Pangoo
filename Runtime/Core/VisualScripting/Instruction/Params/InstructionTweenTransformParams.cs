@@ -18,6 +18,13 @@ namespace Pangoo.Core.VisualScripting
         RotationZ = 1 << 6,
     }
 
+    public enum TweenTransformAxis
+    {
+        X,
+        Y,
+        Z,
+    }
+
     public enum TweenTransformStartTypeEnum
     {
         [LabelText("相对原始值")]

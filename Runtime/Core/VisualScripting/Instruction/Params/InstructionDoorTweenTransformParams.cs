@@ -19,6 +19,9 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("TweenType")]
         public TweenTransformType TweenType;
 
+        [JsonMember("OpenDirectionAxis")]
+        public TweenTransformAxis OpenDirectionAxis;
+
 
         [JsonMember("TweenDuration")]
         public double TweenDuration;
@@ -52,7 +55,7 @@ namespace Pangoo.Core.VisualScripting
             TweenMin = par.TweenMin;
             TweenMaxForward = par.TweenMaxForward;
             TweenMaxBack = par.TweenMaxBack;
-
+            OpenDirectionAxis = par.OpenDirectionAxis;
             SetFinalTransform = par.SetFinalTransform;
         }
 

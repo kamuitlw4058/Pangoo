@@ -194,8 +194,23 @@ namespace Pangoo.Core.VisualScripting
             // Debug.Log($"args.Target:{args.Target}");
             if (args.Target != null)
             {
-                var angle = args.dynamicObject.CachedTransfrom.InverseTransformPoint(args.Main.CharacterService.Player.CachedTransform.position);
-                if (angle.x >= 0)
+                var playerLocalPosition = args.dynamicObject.CachedTransfrom.InverseTransformPoint(args.Main.CharacterService.Player.CachedTransform.position);
+                var finalDistance = 0f;
+
+                switch (ParamsRaw.OpenDirectionAxis)
+                {
+                    case TweenTransformAxis.X:
+                        finalDistance = playerLocalPosition.x;
+                        break;
+                    case TweenTransformAxis.Y:
+                        finalDistance = playerLocalPosition.y;
+                        break;
+                    case TweenTransformAxis.Z:
+                        finalDistance = playerLocalPosition.z;
+                        break;
+                }
+
+                if (finalDistance >= 0)
                 {
                     IsForward = true;
                 }

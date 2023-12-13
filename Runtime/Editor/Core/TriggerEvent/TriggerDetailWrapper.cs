@@ -116,22 +116,22 @@ namespace Pangoo
         public GameObject RefPrefab { get; set; }
 
         [ShowInInspector]
-        [LabelText("参考动态物体资产Id")]
+        [LabelText("参考动态物体Id")]
         [ValueDropdown("OnDynamicObjectIdDropdown")]
         [OnValueChanged("OnDynamicObjectIdChanged")]
         [TitleGroup("目标")]
-        public int DynamicObjectAssetPathId { get; set; }
+        public int RefDynamicObjectId { get; set; }
 
 
         void OnDynamicObjectIdChanged()
         {
-            RefPrefab = GameSupportEditorUtility.GetPrefabByAssetPathId(DynamicObjectAssetPathId);
+            RefPrefab = GameSupportEditorUtility.GetPrefabByDynamicObjectId(RefDynamicObjectId);
         }
 
 
         IEnumerable OnDynamicObjectIdDropdown()
         {
-            return GameSupportEditorUtility.GetAssetPathIds(assetTypes: new List<string> { "DynamicObject" });
+            return GameSupportEditorUtility.GetDynamicObjectIds(hasDefault: false);
         }
 
         IEnumerable OnTargetsDropdown()
