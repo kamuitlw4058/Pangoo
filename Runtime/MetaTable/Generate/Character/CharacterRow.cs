@@ -56,6 +56,11 @@ namespace Pangoo.MetaTable
         [LabelText("只使用相机")]
         public bool CameraOnly ;
 
+        [JsonMember("Id")]
+        [MetaTableRowColumn("Id","int", "Id",11)]
+        [LabelText("Id")]
+        public int Id ;
+
     }
 }
 

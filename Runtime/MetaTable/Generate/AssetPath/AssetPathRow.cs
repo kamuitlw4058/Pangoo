@@ -36,6 +36,11 @@ namespace Pangoo.MetaTable
         [LabelText("资源组")]
         public string AssetGroup ;
 
+        [JsonMember("Id")]
+        [MetaTableRowColumn("Id","int", "Id",7)]
+        [LabelText("Id")]
+        public int Id ;
+
     }
 }
 

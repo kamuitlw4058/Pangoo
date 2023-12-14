@@ -111,6 +111,9 @@ MonoBehaviour:
     - Name: CameraOnly
       Type: bool
       CnName: "\u53EA\u4F7F\u7528\u76F8\u673A"
+    - Name: Id
+      Type: int
+      CnName: Id
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Condition

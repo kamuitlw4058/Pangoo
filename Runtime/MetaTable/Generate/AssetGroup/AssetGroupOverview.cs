@@ -16,7 +16,7 @@ using UnityEditor;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-        [CreateAssetMenu(fileName = "AssetGroupOverview", menuName = "MetaTable/AssetGroupOverview")]
+    [CreateAssetMenu(fileName = "AssetGroupOverview", menuName = "MetaTable/AssetGroupOverview")]
     public partial class AssetGroupOverview : MetaTableOverview
     {
 
@@ -26,48 +26,49 @@ namespace Pangoo.MetaTable
 
         public override string TableName => "AssetGroup";
 
-         public override IReadOnlyList<MetaTableUnityRow> UnityBaseRows => Rows;
+        public override IReadOnlyList<MetaTableUnityRow> UnityBaseRows => Rows;
 
         public override MetaTableBase ToTable()
         {
-           return ToTable<AssetGroupTable>();
+            return ToTable<AssetGroupTable>();
         }
 #if UNITY_EDITOR
 
         public override void AddRow(MetaTableUnityRow unityRow)
         {
-           AddRow<UnityAssetGroupRow>(unityRow);
-           Rows.Add(unityRow as UnityAssetGroupRow);
+            AddRow<UnityAssetGroupRow>(unityRow);
+            Rows.Add(unityRow as UnityAssetGroupRow);
         }
 
         public override void AddBaseRow(MetaTableRow row)
         {
-           var unityRow = ScriptableObject.CreateInstance<UnityAssetGroupRow>();
-           unityRow.Row = row as AssetGroupRow;
-           AddRow<UnityAssetGroupRow>(unityRow);
+            var unityRow = ScriptableObject.CreateInstance<UnityAssetGroupRow>();
+            unityRow.Row = row as AssetGroupRow;
+            AddRow<UnityAssetGroupRow>(unityRow);
         }
 
         [Button("添加行")]
         public void AddRow()
         {
-           var unityRow = AddRow<UnityAssetGroupRow>();
-           Rows.Add(unityRow);
+            var unityRow = AddRow<UnityAssetGroupRow>();
+            Rows.Add(unityRow);
         }
 
         [Button("刷新行")]
         public override void RefreshRows()
         {
-           Rows = RefreshRows<UnityAssetGroupRow>();
+            Rows = RefreshRows<UnityAssetGroupRow>();
         }
 
         public override void RemoveByUuid(string uuid)
         {
-           for (int i = 0; i < Rows.Count; i++)
-           {
-               if (Rows[i].Row.Uuid.Equals(uuid)){
-                   Rows.Remove(Rows[i]);
-               }
-           }
+            for (int i = 0; i < Rows.Count; i++)
+            {
+                if (Rows[i].Row.Uuid.Equals(uuid))
+                {
+                    Rows.Remove(Rows[i]);
+                }
+            }
         }
 #endif
     }
