@@ -7,16 +7,16 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using System.Xml.Serialization;
 using Pangoo.Common;
+using MetaTable;
 
 namespace Pangoo.MetaTable
 {
-    public partial class UnityAssetPathRow
+    public partial class AssetPathRow
     {
         public string ToPrefabPath()
         {
-            return Row.ToPrefabPath();
+            return AssetUtility.GetAssetPath(AssetPackageDir, AssetType, AssetPath, AssetGroup);
         }
-
     }
 }
 

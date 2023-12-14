@@ -114,6 +114,9 @@ MonoBehaviour:
     - Name: Id
       Type: int
       CnName: Id
+    - Name: AssetPathId
+      Type: int
+      CnName: AssetPathId
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Condition

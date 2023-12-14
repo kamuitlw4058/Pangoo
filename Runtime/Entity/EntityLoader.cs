@@ -91,6 +91,11 @@ namespace Pangoo
             dicSerial2Entity.Remove(serialId);
             dicCallback.Remove(serialId);
 
+            if (entity == null)
+            {
+                return;
+            }
+
             Entity[] entities = PangooEntry.Entity.GetChildEntities(entity);
             if (entities != null)
             {

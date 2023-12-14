@@ -20,7 +20,7 @@ namespace Pangoo.Editor
         private static void OpenWindow()
         {
             var window = GetWindow<MetaTableEditor>();
-            window.position = GUIHelper.GetEditorWindowRect().AlignCenter(1100, 700);
+            window.position = GUIHelper.GetEditorWindowRect().AlignCenter(1600, 700);
             window.titleContent = new GUIContent("MetaTable");
             window.MenuWidth = 250;
         }
@@ -71,6 +71,10 @@ namespace Pangoo.Editor
             tree.Config.AutoScrollOnSelectionChanged = false;
 
             InitOverviews<AssetGroupOverview, AssetGroupDetailRowWrapper, AssetGroupRowWrapper, AssetGroupNewRowWrapper, UnityAssetGroupRow>(tree, null, "资源组");
+            InitOverviews<Pangoo.MetaTable.AssetPathOverview, Pangoo.MetaTable.AssetPathDetailRowWrapper, Pangoo.MetaTable.AssetPathRowWrapper, Pangoo.MetaTable.AssetPathNewRowWrapper, UnityAssetPathRow>(tree, null, "资源路径");
+            InitOverviews<Pangoo.MetaTable.CharacterOverview, Pangoo.MetaTable.CharacterDetailRowWrapper, Pangoo.MetaTable.CharacterRowWrapper, Pangoo.MetaTable.CharacterNewRowWrapper, UnityCharacterRow>(tree, null, "角色");
+
+
 
             return tree;
         }
