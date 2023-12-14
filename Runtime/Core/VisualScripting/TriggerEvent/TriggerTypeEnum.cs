@@ -20,6 +20,9 @@ namespace Pangoo.Core.VisualScripting
         OnMouseLeft,
 
         OnExecute,
+        OnPointerEnter,
+        OnPointerExit,
+        OnPointerClick,
     }
 }
 

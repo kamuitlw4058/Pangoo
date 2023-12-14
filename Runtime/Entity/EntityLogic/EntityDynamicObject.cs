@@ -17,7 +17,7 @@ using UnityEngine.Rendering.HighDefinition;
 
 namespace Pangoo
 {
-    public class EntityDynamicObject : EntityBase
+    public class EntityDynamicObject : EntityBase,IPointerEnterHandler,IPointerExitHandler,IPointerClickHandler
     {
         [ShowInInspector]
         public EntityInfo Info
@@ -91,7 +91,6 @@ namespace Pangoo
             DynamicObj.Entity = this;
             DynamicObj.Awake();
             DynamicObj.Start();
-
         }
 
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
@@ -128,14 +127,17 @@ namespace Pangoo
 
         public void OnPointerEnter(PointerEventData pointerEventData)
         {
-            DynamicObj?.PointerEnter(pointerEventData);
+            DynamicObj?.OnPointerEnter(pointerEventData);
         }
 
         public void OnPointerExit(PointerEventData pointerEventData)
         {
-            DynamicObj?.PointerExit(pointerEventData);
+            DynamicObj?.OnPointerExit(pointerEventData);
         }
-
-
+        
+        public void OnPointerClick(PointerEventData pointerEventData)
+        {
+            DynamicObj?.OnPointerClick(pointerEventData);
+        }
     }
 }

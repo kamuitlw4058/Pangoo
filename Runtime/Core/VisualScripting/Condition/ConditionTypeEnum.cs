@@ -14,7 +14,10 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("状态条件")]
         StateCondition,
+        /*[LabelText("输入条件")]
+        InputCondition,*/
     }
 }
 
 
+ 

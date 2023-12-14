@@ -58,6 +58,7 @@ namespace Pangoo.Core.VisualScripting
                 }
             }
         }
+        
         public T CreateTriggerEvent<T>(TriggerEventTable.TriggerEventRow row) where T : TriggerEvent
         {
             var ret = Activator.CreateInstance<T>();
@@ -167,6 +168,18 @@ namespace Pangoo.Core.VisualScripting
                 case TriggerTypeEnum.OnMouseLeft:
                     TriggerMouseLeftEvent -= OnInteractMouseLeft;
                     TriggerMouseLeftEvent += OnInteractMouseLeft;
+                    break;
+                case TriggerTypeEnum.OnPointerEnter:
+                    PointerEnterEvent -= OnPointerEnterEvent;
+                    PointerEnterEvent += OnPointerEnterEvent;
+                    break;
+                case TriggerTypeEnum.OnPointerExit:
+                    PointerExitEvent -= OnPointerExitEvent;
+                    PointerExitEvent += OnPointerExitEvent;
+                    break;
+                case TriggerTypeEnum.OnPointerClick:
+                    PointerClickEvent -= OnPointerClickEvent;
+                    PointerClickEvent += OnPointerClickEvent;
                     break;
             }
 

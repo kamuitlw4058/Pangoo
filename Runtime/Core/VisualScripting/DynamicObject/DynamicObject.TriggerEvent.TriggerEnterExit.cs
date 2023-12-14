@@ -69,10 +69,6 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
-
-
-
-
         public void TriggerEnter3d(Collider collider)
         {
             IsEnterTrigger = true;
@@ -85,9 +81,5 @@ namespace Pangoo.Core.VisualScripting
             IsEnterTrigger = false;
             TriggerExit3dEvent?.Invoke(CurrentArgs);
         }
-
-
-
-
     }
 }
