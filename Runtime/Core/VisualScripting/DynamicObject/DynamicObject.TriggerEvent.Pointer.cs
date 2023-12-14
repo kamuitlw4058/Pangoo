@@ -22,6 +22,7 @@ namespace Pangoo.Core.VisualScripting
 
         protected override void DoPointerEnter(PointerEventData pointerEventData)
         {
+            // Debug.Log($"DoPointerEnter:{gameObject.name}");
             base.DoPointerEnter(pointerEventData);
             CurrentArgs.PointerData = pointerEventData;
             TriggerInovke(TriggerTypeEnum.OnPointerEnter);
@@ -29,6 +30,8 @@ namespace Pangoo.Core.VisualScripting
 
         protected override void DoPointerExit(PointerEventData pointerEventData)
         {
+            // Debug.Log($"DoPointerExit:{gameObject.name}");
+
             base.DoPointerExit(pointerEventData);
             CurrentArgs.PointerData = pointerEventData;
             TriggerInovke(TriggerTypeEnum.OnPointerExit);
@@ -38,7 +41,17 @@ namespace Pangoo.Core.VisualScripting
         {
             base.DoPointerClick(pointerEventData);
             CurrentArgs.PointerData = pointerEventData;
-            TriggerInovke(TriggerTypeEnum.OnPointerEnter);
+            TriggerInovke(TriggerTypeEnum.OnPointerClick);
+
+            if (pointerEventData.button == PointerEventData.InputButton.Left)
+            {
+                TriggerInovke(TriggerTypeEnum.OnPointerClickLeft);
+            }
+
+            if (pointerEventData.button == PointerEventData.InputButton.Right)
+            {
+                TriggerInovke(TriggerTypeEnum.OnPointerClickRight);
+            }
         }
 
 

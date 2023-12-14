@@ -47,6 +47,9 @@ namespace Pangoo.Core.VisualScripting
         OnExit,
 
         OnButtonE,
+
+        OnPointerClickLeft,
+        OnPointerClickRight,
     }
 }
 
