@@ -82,8 +82,8 @@ namespace Pangoo
         {
             DoService = new DynamicObject(gameObject);
             DoService.Row = Row;
-            DoService.Awake();
-            DoService.Start();
+            // DoService.Awake();
+            // DoService.Start();
         }
 
         // public Func<TriggerEventParams, bool> CheckInteract;
@@ -136,7 +136,15 @@ namespace Pangoo
                 var asset = AssetDatabaseUtility.LoadAssetAtPath<GameObject>(assetPathRow.ToPrefabPath());
                 var go = PrefabUtility.InstantiatePrefab(asset) as GameObject;
                 go.name = row.Name;
-                var subTarget = transform.Find(subDo.Path);
+                Transform subTarget;
+                if (subDo.Path.Equals("Self"))
+                {
+                    subTarget = transform;
+                }
+                else
+                {
+                    subTarget = transform.Find(subDo.Path);
+                }
                 if (subTarget != null)
                 {
                     go.transform.SetParent(subTarget);
