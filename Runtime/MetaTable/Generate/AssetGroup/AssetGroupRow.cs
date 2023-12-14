@@ -17,14 +17,19 @@ namespace Pangoo.MetaTable
     {
 
         [JsonMember("AssetGroup")]
-        [MetaTableRowColumn("AssetGroup","string", "",3)]
-        [LabelText("")]
+        [MetaTableRowColumn("AssetGroup","string", "资源组",3)]
+        [LabelText("资源组")]
         public string AssetGroup ;
 
         [JsonMember("Desc")]
-        [MetaTableRowColumn("Desc","string", "资源描述",4)]
-        [LabelText("资源描述")]
+        [MetaTableRowColumn("Desc","string", "资源组描述",4)]
+        [LabelText("资源组描述")]
         public string Desc ;
+
+        [JsonMember("Id")]
+        [MetaTableRowColumn("Id","int", "Id",5)]
+        [LabelText("Id")]
+        public int Id ;
 
     }
 }

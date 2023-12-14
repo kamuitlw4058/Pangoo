@@ -16,48 +16,48 @@ using UnityEditor;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-        [CreateAssetMenu(fileName = "AssetPathOverview", menuName = "MetaTable/AssetPathOverview")]
-    public partial class AssetPathOverview : MetaTableOverview
+        [CreateAssetMenu(fileName = "ConditionOverview", menuName = "MetaTable/ConditionOverview")]
+    public partial class ConditionOverview : MetaTableOverview
     {
 
 
         [TableList(AlwaysExpanded = true)]
-        public List<UnityAssetPathRow> Rows = new();
+        public List<UnityConditionRow> Rows = new();
 
-        public override string TableName => "AssetPath";
+        public override string TableName => "Condition";
 
          public override IReadOnlyList<MetaTableUnityRow> UnityBaseRows => Rows;
 
         public override MetaTableBase ToTable()
         {
-           return ToTable<AssetPathTable>();
+           return ToTable<ConditionTable>();
         }
 #if UNITY_EDITOR
 
         public override void AddRow(MetaTableUnityRow unityRow)
         {
-           AddRow<UnityAssetPathRow>(unityRow);
-           Rows.Add(unityRow as UnityAssetPathRow);
+           AddRow<UnityConditionRow>(unityRow);
+           Rows.Add(unityRow as UnityConditionRow);
         }
 
         public override void AddBaseRow(MetaTableRow row)
         {
-           var unityRow = ScriptableObject.CreateInstance<UnityAssetPathRow>();
-           unityRow.Row = row as AssetPathRow;
-           AddRow<UnityAssetPathRow>(unityRow);
+           var unityRow = ScriptableObject.CreateInstance<UnityConditionRow>();
+           unityRow.Row = row as ConditionRow;
+           AddRow<UnityConditionRow>(unityRow);
         }
 
         [Button("添加行")]
         public void AddRow()
         {
-           var unityRow = AddRow<UnityAssetPathRow>();
+           var unityRow = AddRow<UnityConditionRow>();
            Rows.Add(unityRow);
         }
 
         [Button("刷新行")]
         public override void RefreshRows()
         {
-           Rows = RefreshRows<UnityAssetPathRow>();
+           Rows = RefreshRows<UnityConditionRow>();
         }
 
         public override void RemoveByUuid(string uuid)
