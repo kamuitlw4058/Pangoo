@@ -4,6 +4,7 @@ using UnityEngine;
 using Pangoo.Core.Characters;
 using Sirenix.OdinInspector;
 using LitJson;
+using Pangoo.Core.Common;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -24,22 +25,21 @@ namespace Pangoo.Core.VisualScripting
 
 
 
-        [HideReferenceObjectPicker]
-        public Dictionary<int, TriggerEvent> TriggerEvents = new();
-
-
-
-
+        [ShowInInspector]
         public bool IsRunningTriggers
         {
             get
             {
-                foreach (var triggerEvent in TriggerEvents.Values)
+                foreach (var triggers in TriggerDict.Values)
                 {
-                    if (triggerEvent.IsRunning)
+                    foreach (var trigger in triggers)
                     {
-                        return true;
+                        if (trigger.IsRunning)
+                        {
+                            return true;
+                        }
                     }
+
                 }
                 return false;
             }
@@ -47,17 +47,7 @@ namespace Pangoo.Core.VisualScripting
 
 
 
-        public void SetTriggerEnabled(int id, bool val)
-        {
-            Debug.Log($"SetTriggerEnabled:{id}:{val}");
-            foreach (var trigger in TriggerEvents)
-            {
-                if (trigger.Value.Row.Id == id)
-                {
-                    trigger.Value.Enabled = val;
-                }
-            }
-        }
+
         public T CreateTriggerEvent<T>(TriggerEventTable.TriggerEventRow row) where T : TriggerEvent
         {
             var ret = Activator.CreateInstance<T>();
@@ -156,21 +146,8 @@ namespace Pangoo.Core.VisualScripting
                     ret.EventRunInstructionsEnd -= OnInteractEnd;
                     ret.EventRunInstructionsEnd += OnInteractEnd;
                     break;
-                case TriggerTypeEnum.OnTriggerEnter3D:
-                    TriggerEnter3dEvent -= OnTriggerEnter3dEvent;
-                    TriggerEnter3dEvent += OnTriggerEnter3dEvent;
-                    break;
-                case TriggerTypeEnum.OnTriggerExit3D:
-                    TriggerExit3dEvent -= OnTriggerExit3dEvent;
-                    TriggerExit3dEvent += OnTriggerExit3dEvent;
-                    break;
-                case TriggerTypeEnum.OnMouseLeft:
-                    TriggerMouseLeftEvent -= OnInteractMouseLeft;
-                    TriggerMouseLeftEvent += OnInteractMouseLeft;
-                    break;
             }
-
-            TriggerEvents.Add(ret.Row.Id, ret);
+            TriggerRegister(ret);
             return ret;
         }
 
@@ -186,7 +163,6 @@ namespace Pangoo.Core.VisualScripting
 
             var triggerIds = Row.GetTriggerEventIdList();
             TriggerEventRows.Clear();
-            TriggerEvents.Clear();
 
             DoAwakeTimeline();
 
@@ -205,14 +181,12 @@ namespace Pangoo.Core.VisualScripting
             foreach (var triggerRow in TriggerEventRows)
             {
                 CreateTriggerEvent(triggerRow);
-
             }
 
             DoAwakeDirectionInstruction();
 
             if (m_Tracker != null)
             {
-                InteractEvent += OnInteractEvent;
                 m_Tracker.EventInteract += OnInteract;
                 m_Tracker.InteractOffset = Row.InteractOffset;
                 m_Tracker.InteractRadian = Row.InteractRadian;

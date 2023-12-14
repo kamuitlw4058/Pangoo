@@ -14,15 +14,12 @@ namespace Pangoo.Core.VisualScripting
 
     public partial class DynamicObject
     {
-
+        public const int ExternalInstructionId = -100;
         public void StartExternalInstruction(int instructionId, string targets = null)
         {
-            if (TriggerEvents.ContainsKey(-100))
-            {
-                TriggerEvents.Remove(-100);
-            }
+
             TriggerEventTable.TriggerEventRow row = new TriggerEventTable.TriggerEventRow();
-            row.Id = -100;
+            row.Id = ExternalInstructionId;
             DirectInstructionList directInstructionList = new DirectInstructionList();
             directInstructionList.DirectInstructions = new DirectInstruction[1];
             directInstructionList.DirectInstructions[0] = new DirectInstruction
@@ -37,47 +34,22 @@ namespace Pangoo.Core.VisualScripting
             row.ConditionType = ConditionTypeEnum.NoCondition.ToString();
             row.Enabled = true;
 
+            TriggerClear(TriggerTypeEnum.OnExternalInstruction);
             var triggerEvent = CreateTriggerEvent(row, true);
-            triggerEvent?.OnInvoke(CurrentArgs);
+            TriggerInovke(TriggerTypeEnum.OnExternalInstruction, ExternalInstructionId);
         }
 
         public void StartExecuteEvent()
         {
-            Debug.Log($"OnExecuteEvent:{gameObject.name}");
-            foreach (var trigger in TriggerEvents.Values)
-            {
-                if (!trigger.Enabled)
-                {
-                    continue;
-                }
-
-                switch (trigger.TriggerType)
-                {
-                    case TriggerTypeEnum.OnExecute:
-                        Debug.Log($"Trigger:{trigger?.Row?.Id} inovke ");
-                        trigger.OnInvoke(CurrentArgs);
-                        break;
-                }
-            }
+            Debug.Log($"On StartExecuteEvent:{gameObject.name}");
+            TriggerInovke(TriggerTypeEnum.OnExecute);
         }
 
         public void StopExecuteEvent()
         {
-            Debug.Log($"OnExecuteEvent:{gameObject.name}");
-            foreach (var trigger in TriggerEvents.Values)
-            {
-                switch (trigger.TriggerType)
-                {
-                    case TriggerTypeEnum.OnExecute:
-                        trigger.IsStoped = true;
-                        break;
-                }
-            }
+            Debug.Log($"On StopExecuteEvent:{gameObject.name}");
+            TriggerStop(TriggerTypeEnum.OnExecute);
         }
-
-
-
-
 
 
     }

@@ -150,5 +150,19 @@ namespace Pangoo.Core.Services
 
             DoPointerExit(pointerEventData);
         }
+
+        public override void PointerClick(PointerEventData pointerEventData)
+        {
+            if (m_ChildernArray != null)
+            {
+                for (int i = 0; i < m_ChildernArray.Length; i++)
+                {
+                    m_ChildernArray[i].PointerClick(pointerEventData);
+                }
+            }
+
+            DoPointerClick(pointerEventData);
+        }
+
     }
 }

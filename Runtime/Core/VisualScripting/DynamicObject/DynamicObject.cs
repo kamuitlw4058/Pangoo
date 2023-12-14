@@ -125,14 +125,13 @@ namespace Pangoo.Core.VisualScripting
             m_TriggerEventTable = null;
             m_InstructionTable = null;
             TriggerEventRows.Clear();
-            TriggerEvents.Clear();
             SubDynamicObjectDict.Clear();
             LoadingDynamicObject.Clear();
             m_Tracker = null;
             m_CachedTransfrom = null;
             m_SubDynamicObjectInfo = null;
-            TriggerEnter3dEvent -= OnTriggerEnter3dEvent;
-            TriggerExit3dEvent -= OnTriggerExit3dEvent;
+            TriggerDict.Clear();
+
         }
 
 
@@ -213,18 +212,13 @@ namespace Pangoo.Core.VisualScripting
 
                 foreach (var kv in Variables.TriggerEnabledDict)
                 {
-                    if (TriggerEvents.ContainsKey(kv.Key))
-                    {
-                        TriggerEvents[kv.Key].SetEnabled(kv.Value);
-                    }
+                    TriggerEnabled(kv.Key, kv.Value);
+
                 }
 
                 foreach (var kv in Variables.TriggerIndexDict)
                 {
-                    if (TriggerEvents.ContainsKey(kv.Key))
-                    {
-                        TriggerEvents[kv.Key].SetTargetIndex(kv.Value);
-                    }
+                    TriggerSetTargetIndex(kv.Key, kv.Value);
                 }
             }
         }
@@ -234,13 +228,21 @@ namespace Pangoo.Core.VisualScripting
             base.DoUpdate();
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
-                TriggerMouseLeftEvent?.Invoke(CurrentArgs);
+                TriggerInovke(TriggerTypeEnum.OnMouseLeft);
             }
 
-            foreach (var trigger in TriggerEvents)
+            if (Input.GetKey(KeyCode.Escape))
             {
-                trigger.Value.OnUpdate();
+                TriggerInovke(TriggerTypeEnum.OnExit);
             }
+
+            if (Input.GetKey(KeyCode.E))
+            {
+                TriggerInovke(TriggerTypeEnum.OnButtonE);
+            }
+
+            TriggerUpdate();
+
             DoUpdateHotspot();
         }
 
@@ -250,7 +252,6 @@ namespace Pangoo.Core.VisualScripting
             {
                 Debug.Log($"Try disable ");
                 m_Tracker.EventInteract -= OnInteract;
-                InteractEvent -= OnInteractEvent;
                 GameObject.DestroyImmediate(m_Tracker);
                 m_Tracker = null;
                 Debug.Log($"Try disable m_Tracker:{m_Tracker}");
@@ -265,7 +266,6 @@ namespace Pangoo.Core.VisualScripting
             if (m_Tracker != null)
             {
                 m_Tracker.EventInteract -= OnInteract;
-                InteractEvent -= OnInteractEvent;
             }
         }
 

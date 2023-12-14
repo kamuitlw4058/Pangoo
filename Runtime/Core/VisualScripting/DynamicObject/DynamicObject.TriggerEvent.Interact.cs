@@ -26,20 +26,13 @@ namespace Pangoo.Core.VisualScripting
 
         public InteractionItemTracker m_Tracker = null;
 
-        public Action<Args> InteractEvent;
-
 
         void OnInteract(Characters.Character character, IInteractive interactive)
         {
 
-            Debug.Log($"OnInteract:{gameObject.name}");
-            if (InteractEvent != null)
-            {
-                InteractEvent.Invoke(CurrentArgs);
-            }
+            TriggerInovke(TriggerTypeEnum.OnInteract);
+
         }
-
-
 
 
         [Button("触发交互指令")]
@@ -52,42 +45,12 @@ namespace Pangoo.Core.VisualScripting
 
         void OnInteractEnd()
         {
-            bool allFinish = true;
-            foreach (var trigger in TriggerEvents.Values)
-            {
-                if (trigger.TriggerType == TriggerTypeEnum.OnInteract && trigger.IsRunning)
-                {
-                    allFinish = false;
-                    break;
-                }
-            }
-            if (allFinish)
+            bool isRunning = TriggerIsRunning(TriggerTypeEnum.OnInteract);
+            if (!isRunning)
             {
                 m_Tracker?.Stop();
             }
         }
-
-        void OnInteractEvent(Args eventParams)
-        {
-            Debug.Log($"OnInteractEvent:{gameObject.name}");
-            foreach (var trigger in TriggerEvents.Values)
-            {
-                if (!trigger.Enabled)
-                {
-                    continue;
-                }
-
-                switch (trigger.TriggerType)
-                {
-                    case TriggerTypeEnum.OnInteract:
-                        Debug.Log($"Trigger:{trigger?.Row?.Id} inovke ");
-                        trigger.OnInvoke(eventParams);
-                        break;
-                }
-            }
-        }
-
-
 
 
     }

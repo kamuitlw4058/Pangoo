@@ -49,7 +49,7 @@ namespace Pangoo.Core.VisualScripting
             var dynamicObjectEntity = args.dynamicObject?.DynamicObjectService?.GetLoadedEntity(ParamsRaw.DynamicObjectId);
             if (dynamicObjectEntity != null)
             {
-                dynamicObjectEntity?.DynamicObj?.SetTriggerEnabled(ParamsRaw.TriggerId, ParamsRaw.Enabled);
+                dynamicObjectEntity?.DynamicObj?.TriggerEnabled(ParamsRaw.TriggerId, ParamsRaw.Enabled);
                 Debug.Log($"dynamicObjectEntity.DynamicObj.{dynamicObjectEntity},{dynamicObjectEntity?.DynamicObj},{Trigger}");
             }
 

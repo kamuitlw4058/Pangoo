@@ -17,7 +17,7 @@ using UnityEngine.Rendering.HighDefinition;
 
 namespace Pangoo
 {
-    public class EntityDynamicObject : EntityBase
+    public class EntityDynamicObject : EntityBase, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
         [ShowInInspector]
         public EntityInfo Info
@@ -152,6 +152,9 @@ namespace Pangoo
             DynamicObj?.PointerExit(pointerEventData);
         }
 
-
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            DynamicObj?.PointerClick(eventData);
+        }
     }
 }
