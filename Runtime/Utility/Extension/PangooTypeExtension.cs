@@ -23,7 +23,7 @@ namespace Pangoo
         {
             // var Postion = Utility.Text.Format("{0}|{1}|{2}", val., val.y, val.z);
             // return Utility.Text.Format("{0}|{1}|{2}", .x, val.y, val.z);
-            return Utility.Text.Format("{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}",
+            return GameFramework.Utility.Text.Format("{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}",
                              val.Postion.x, val.Postion.y, val.Postion.z,
                              val.Rotation.x, val.Rotation.y, val.Rotation.z,
                              val.Scale.x, val.Scale.y, val.Scale.z

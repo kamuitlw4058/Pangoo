@@ -81,7 +81,7 @@ namespace Pangoo
 
         public static string ToSave(this Vector3 val)
         {
-            return Utility.Text.Format("{0}|{1}|{2}", val.x, val.y, val.z);
+            return GameFramework.Utility.Text.Format("{0}|{1}|{2}", val.x, val.y, val.z);
 
         }
 

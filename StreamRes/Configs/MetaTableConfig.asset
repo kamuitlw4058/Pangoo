@@ -1,0 +1,515 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e658555fcd96924fbf076e550e054b3, type: 3}
+  m_Name: MetaTableConfig
+  m_EditorClassIdentifier: 
+  Namespace: Pangoo.MetaTable
+  PackageDir: Assets/Plugins/Pangoo
+  ScriptDir: Runtime
+  StreamResDir: StreamRes
+  UsingNamespace:
+  - System
+  - System.IO
+  - System.Collections.Generic
+  - LitJson
+  - UnityEngine
+  - Sirenix.OdinInspector
+  - System.Xml.Serialization
+  - Pangoo.Common
+  - MetaTable
+  Entries:
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: AssetGroup
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: Uuid
+      Type: string
+      CnName: Uuid
+    - Name: Name
+      Type: string
+      CnName: Name
+    - Name: AssetGroup
+      Type: string
+      CnName: "\u8D44\u6E90\u7EC4"
+    - Name: Desc
+      Type: string
+      CnName: "\u8D44\u6E90\u7EC4\u63CF\u8FF0"
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: AssetPath
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: Uuid
+      Type: string
+      CnName: Uuid
+    - Name: Name
+      Type: string
+      CnName: Name
+    - Name: AssetPackageDir
+      Type: string
+      CnName: "\u8D44\u6E90\u5305Id"
+    - Name: AssetType
+      Type: string
+      CnName: "\u8D44\u6E90\u7C7B\u578B"
+    - Name: AssetPath
+      Type: string
+      CnName: "\u8D44\u6E90\u8DEF\u5F84"
+    - Name: AssetGroup
+      Type: string
+      CnName: "\u8D44\u6E90\u7EC4Uuid"
+    - Name: Desc
+      Type: string
+      CnName: "\u8D44\u6E90\u63CF\u8FF0"
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: Character
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: Uuid
+      Type: string
+      CnName: Uuid
+    - Name: Name
+      Type: string
+      CnName: Name
+    - Name: AssetPathId
+      Type: int
+      CnName: "\u8D44\u6E90\u8DEF\u5F84"
+    - Name: IsPlayer
+      Type: bool
+      CnName: "\u662F\u5426\u662F\u73A9\u5BB6"
+    - Name: MoveSpeed
+      Type: float
+      CnName: "\u79FB\u52A8\u901F\u5EA6"
+    - Name: Height
+      Type: float
+      CnName: "\u9AD8\u5EA6"
+    - Name: CameraOffset
+      Type: Vector3
+      CnName: "\u76F8\u673A\u504F\u79FB"
+    - Name: XMaxPitch
+      Type: float
+      CnName: "\u4FEF\u4EF0\u8303\u56F4"
+    - Name: YMaxPitch
+      Type: float
+      CnName: "\u5DE6\u53F3\u8303\u56F4"
+    - Name: CameraOnly
+      Type: bool
+      CnName: "\u53EA\u4F7F\u7528\u76F8\u673A"
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: Condition
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: Uuid
+      Type: string
+      CnName: Uuid
+    - Name: Name
+      Type: string
+      CnName: Name
+    - Name: ConditionType
+      Type: string
+      CnName: "\u6761\u4EF6\u7C7B\u578B"
+    - Name: Params
+      Type: string
+      CnName: "\u6761\u4EF6\u53C2\u6570"
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: DynamicObject
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: Uuid
+      Type: string
+      CnName: Uuid
+    - Name: Name
+      Type: string
+      CnName: Name
+    - Name: AssetPathId
+      Type: int
+      CnName: "\u8D44\u6E90\u8DEF\u5F84"
+    - Name: NameCn
+      Type: string
+      CnName: "\u4E2D\u6587\u540D"
+    - Name: Space
+      Type: string
+      CnName: "\u4F4D\u7F6E\u7A7A\u95F4"
+    - Name: Position
+      Type: Vector3
+      CnName: "\u4F4D\u7F6E"
+    - Name: Rotation
+      Type: Vector3
+      CnName: "\u65CB\u8F6C"
+    - Name: Scale
+      Type: Vector3
+      CnName: "\u7F29\u653E"
+    - Name: TriggerEventIds
+      Type: string
+      CnName: "\u89E6\u53D1\u4E8B\u4EF6Ids"
+    - Name: UseHotspot
+      Type: bool
+      CnName: "\u4F7F\u7528\u70ED\u70B9\u533A\u57DF"
+    - Name: DefaultHideHotspot
+      Type: bool
+      CnName: "\u9ED8\u8BA4\u5173\u95ED\u70ED\u70B9"
+    - Name: HotspotRadius
+      Type: float
+      CnName: "\u70ED\u70B9\u533A\u57DF\u7684\u8303\u56F4"
+    - Name: HotspotIds
+      Type: string
+      CnName: "\u70ED\u70B9\u533A\u57DFIds"
+    - Name: HotspotOffset
+      Type: Vector3
+      CnName: "\u70ED\u70B9\u533A\u57DF\u504F\u79FB"
+    - Name: DirectInstructions
+      Type: string
+      CnName: "\u76F4\u63A5\u6307\u4EE4"
+    - Name: SubDynamicObject
+      Type: string
+      CnName: "\u5B50\u7269\u4F53"
+    - Name: InteractRadius
+      Type: float
+      CnName: "\u53EF\u4EA4\u4E92\u534A\u5F84"
+    - Name: InteractOffset
+      Type: Vector3
+      CnName: "\u4EA4\u4E92\u70B9\u504F\u79FB"
+    - Name: InteractRadian
+      Type: float
+      CnName: "\u53EF\u4EA4\u4E92\u89D2\u5EA6"
+    - Name: InteractTarget
+      Type: string
+      CnName: "\u4EA4\u4E92\u5BF9\u8C61"
+    - Name: DefaultHideModel
+      Type: bool
+      CnName: "\u9ED8\u8BA4\u9690\u85CF\u6A21\u578B"
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: EntityGroup
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: Uuid
+      Type: string
+      CnName: Uuid
+    - Name: Name
+      Type: string
+      CnName: Name
+    - Name: InstanceAutoReleaseInterval
+      Type: double
+      CnName: "\u81EA\u52A8\u91CA\u653E\u53EF\u91CA\u653E\u5BF9\u8C61\u7684\u95F4\u9694\u79D2\u6570"
+    - Name: InstanceCapacity
+      Type: int
+      CnName: "\u5B9E\u4F8B\u5BF9\u8C61\u6C60\u7684\u5BB9\u91CF"
+    - Name: InstanceExpireTime
+      Type: double
+      CnName: "\u5BF9\u8C61\u6C60\u5BF9\u8C61\u8FC7\u671F\u79D2\u6570"
+    - Name: InstancePriority
+      Type: int
+      CnName: "\u5B9E\u4F53\u7EC4\u5B9E\u4F8B\u5BF9\u8C61\u6C60\u7684\u4F18\u5148\u7EA7"
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: GameSection
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: Uuid
+      Type: string
+      CnName: Uuid
+    - Name: Name
+      Type: string
+      CnName: Name
+    - Name: DynamicSceneIds
+      Type: string
+      CnName: "\u52A8\u6001\u52A0\u8F7D\u573A\u666F"
+    - Name: KeepSceneIds
+      Type: string
+      CnName: "\u6301\u7EED\u52A0\u8F7D\u573A\u666F"
+    - Name: SectionJumpByScene
+      Type: string
+      CnName: "\u7AE0\u8282\u8DF3\u8F6C\u7684\u573A\u666F"
+    - Name: InitSceneIds
+      Type: string
+      CnName: "\u8FDB\u5165\u7AE0\u8282\u9ED8\u8BA4\u52A0\u8F7D\u7684\u573A\u666F"
+    - Name: DynamicObjectIds
+      Type: string
+      CnName: "\u52A8\u6001\u7269\u4F53"
+    - Name: InitedInstructionIds
+      Type: string
+      CnName: "\u521D\u59CB\u5316\u540E\u6267\u884C\u7684\u6307\u4EE4"
+    - Name: EditorInitedInstructionIds
+      Type: string
+      CnName: "\u7F16\u8F91\u5668\u521D\u59CB\u5316\u540E\u6267\u884C\u7684\u6307\u4EE4"
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: GlobalData
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: Uuid
+      Type: string
+      CnName: Uuid
+    - Name: Name
+      Type: string
+      CnName: Name
+    - Name: Key
+      Type: string
+      CnName: "\u952E"
+    - Name: Type
+      Type: string
+      CnName: "\u7C7B\u578B"
+    - Name: Value
+      Type: string
+      CnName: "\u503C"
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: Hotspot
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: Uuid
+      Type: string
+      CnName: Uuid
+    - Name: Name
+      Type: string
+      CnName: Name
+    - Name: HotspotType
+      Type: string
+      CnName: "\u70ED\u70B9\u533A\u57DF\u7C7B\u578B"
+    - Name: Params
+      Type: string
+      CnName: "\u53C2\u6570"
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: Instruction
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: Uuid
+      Type: string
+      CnName: Uuid
+    - Name: Name
+      Type: string
+      CnName: Name
+    - Name: InstructionType
+      Type: string
+      CnName: "\u6307\u4EE4\u7C7B\u578B"
+    - Name: Params
+      Type: string
+      CnName: "\u6307\u4EE4\u53C2\u6570"
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: PangooEvents
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: Uuid
+      Type: string
+      CnName: Uuid
+    - Name: Name
+      Type: string
+      CnName: Name
+    - Name: Namesapce
+      Type: string
+      CnName: "\u4E8B\u4EF6\u7684\u547D\u540D\u7A7A\u95F4"
+    - Name: EventName
+      Type: string
+      CnName: "\u4E8B\u4EF6\u540D\u79F0"
+    - Name: desc
+      Type: string
+      CnName: "\u63CF\u8FF0"
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: RuntimeData
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: Uuid
+      Type: string
+      CnName: Uuid
+    - Name: Name
+      Type: string
+      CnName: Name
+    - Name: Key
+      Type: string
+      CnName: "\u952E"
+    - Name: Type
+      Type: string
+      CnName: "\u7C7B\u578B"
+    - Name: Value
+      Type: string
+      CnName: "\u503C"
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: SaveLoad
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: Uuid
+      Type: string
+      CnName: Uuid
+    - Name: Name
+      Type: string
+      CnName: Name
+    - Name: int_key
+      Type: string
+      CnName: "Int\u7C7B\u578B\u7684\u952E"
+    - Name: int_value
+      Type: int
+      CnName: "Int\u7C7B\u578B\u7684\u503C"
+    - Name: float_key
+      Type: string
+      CnName: "Flaot\u7C7B\u578B\u7684\u952E"
+    - Name: float_value
+      Type: float
+      CnName: "Float\u7C7B\u578B\u7684\u503C"
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: SimpleUI
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: Uuid
+      Type: string
+      CnName: Uuid
+    - Name: Name
+      Type: string
+      CnName: Name
+    - Name: AssetPathId
+      Type: int
+      CnName: "\u8D44\u6E90\u8DEF\u5F84"
+    - Name: SortingLayer
+      Type: string
+      CnName: "\u6392\u5E8F\u5C42"
+    - Name: SortingOrder
+      Type: int
+      CnName: "\u6392\u5E8F\u7D22\u5F15"
+    - Name: UIParamsType
+      Type: string
+      CnName: "UI\u53C2\u6570\u7C7B"
+    - Name: Params
+      Type: string
+      CnName: "UI\u53C2\u6570"
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: Sound
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: Uuid
+      Type: string
+      CnName: Uuid
+    - Name: Name
+      Type: string
+      CnName: Name
+    - Name: PackageDir
+      Type: string
+      CnName: "\u5305\u76EE\u5F55"
+    - Name: SoundType
+      Type: string
+      CnName: "\u97F3\u9891\u7C7B\u578B"
+    - Name: AssetPath
+      Type: string
+      CnName: "\u8D44\u6E90\u8DEF\u5F84"
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: StaticScene
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: Uuid
+      Type: string
+      CnName: Uuid
+    - Name: Name
+      Type: string
+      CnName: Name
+    - Name: NameCn
+      Type: string
+      CnName: "\u4E2D\u6587\u540D"
+    - Name: AssetPathId
+      Type: int
+      CnName: "\u8D44\u6E90\u8DEF\u5F84"
+    - Name: EntityGroupId
+      Type: int
+      CnName: "\u5B9E\u4F53\u7EC4"
+    - Name: LoadSceneIds
+      Type: string
+      CnName: "\u52A0\u8F7D\u573A\u666F"
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: TriggerEvent
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: Uuid
+      Type: string
+      CnName: Uuid
+    - Name: Name
+      Type: string
+      CnName: Name
+    - Name: Enabled
+      Type: bool
+      CnName: "\u662F\u5426\u6253\u5F00"
+    - Name: TriggerType
+      Type: string
+      CnName: "\u89E6\u53D1\u7C7B\u578B"
+    - Name: Targets
+      Type: string
+      CnName: "\u89E6\u53D1\u5BF9\u8C61\u5217\u8868"
+    - Name: TargetListType
+      Type: int
+      CnName: "\u76EE\u6807\u5217\u8868\u7C7B\u578B"
+    - Name: InstructionList
+      Type: string
+      CnName: "\u6307\u4EE4\u5217\u8868"
+    - Name: Params
+      Type: string
+      CnName: "\u89E6\u53D1\u5668\u53C2\u6570"
+    - Name: ConditionType
+      Type: string
+      CnName: "\u6761\u4EF6\u7C7B\u578B"
+    - Name: ConditionList
+      Type: string
+      CnName: "\u6761\u4EF6\u5217\u8868"
+    - Name: FailInstructionList
+      Type: string
+      CnName: "\u5931\u8D25\u6307\u4EE4\u5217\u8868"
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: Variables
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: Uuid
+      Type: string
+      CnName: Uuid
+    - Name: Name
+      Type: string
+      CnName: Name
+    - Name: VariableType
+      Type: string
+      CnName: "\u53D8\u91CF\u7C7B\u578B"
+    - Name: Key
+      Type: string
+      CnName: "\u5173\u952E\u5B57"
+    - Name: ValueType
+      Type: string
+      CnName: "\u503C\u7C7B\u578B"
+    - Name: DefaultValue
+      Type: string
+      CnName: "\u9ED8\u8BA4\u503C"
+    - Name: NeedSave
+      Type: bool
+      CnName: "\u662F\u5426\u9700\u8981\u5B58\u6863"

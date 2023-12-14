@@ -116,8 +116,10 @@ namespace Pangoo.Core.Characters
                 m_Instance = value;
             }
         }
-
+        [ShowInInspector]
         public bool InteractCanBan { get; set; }
+
+        [ShowInInspector]
         public bool InteractTriggerEnter { get; set; }
 
         public void Interact(Character character)

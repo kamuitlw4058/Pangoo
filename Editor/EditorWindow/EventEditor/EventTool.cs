@@ -8,6 +8,8 @@ using Pangoo;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
+using ClassGenerator;
+using Pangoo.Common;
 
 
 namespace Pangoo.Editor
@@ -57,41 +59,44 @@ namespace Pangoo.Editor
             {
                 var scriptDir = Path.Join(config.PackageDir, config.ScriptsMainDir, ModuleName).Replace("\\", "/");
                 var scriptGenerateDir = Path.Join(scriptDir, "Generate").Replace("\\", "/");
-                
+
                 DirectoryUtility.ExistsOrCreate(scriptDir);
                 DirectoryUtility.ExistsOrCreate(scriptGenerateDir);
 
-            //     foreach (PangooEventsTableOverview overview in config.EventOverviews)
-            //     {
-            //         if (overview == null)
-            //         {
-            //             continue;
-            //         }
-            //         foreach(var data in overview.Data.Rows){
-            //                 var className = $"{data.EventName}EventArgs";
-            //                 EventList.Add(new EventEntry
-            //             {
-            //                 NameSpace = config.MainNamespace,
-            //                 EventName = data.EventName,
-            //                 EventClassName = className,
-            //                 Overview = overview,
-            //                 ScriptPath = $"{scriptGenerateDir}/{className}.cs",
+                //     foreach (PangooEventsTableOverview overview in config.EventOverviews)
+                //     {
+                //         if (overview == null)
+                //         {
+                //             continue;
+                //         }
+                //         foreach(var data in overview.Data.Rows){
+                //                 var className = $"{data.EventName}EventArgs";
+                //                 EventList.Add(new EventEntry
+                //             {
+                //                 NameSpace = config.MainNamespace,
+                //                 EventName = data.EventName,
+                //                 EventClassName = className,
+                //                 Overview = overview,
+                //                 ScriptPath = $"{scriptGenerateDir}/{className}.cs",
 
-                            
-            //             });
-            //         }
 
-            //     }
+                //             });
+                //         }
+
+                //     }
             }
         }
-        
+
         [Button("生成代码")]
-        void Build(){
-            foreach(var PangooEvent in EventList){
-                if(!File.Exists(PangooEvent.ScriptPath) || PangooEvent.Overwrite){
-                    JsonClassGenerator.GeneratorCodeString("{}",PangooEvent.NameSpace,new CSharpEventCodeWriter(Headers),PangooEvent.EventClassName,PangooEvent.ScriptPath);
+        void Build()
+        {
+            foreach (var PangooEvent in EventList)
+            {
+                if (!File.Exists(PangooEvent.ScriptPath) || PangooEvent.Overwrite)
+                {
+                    JsonClassGenerator.GeneratorCodeString("{}", PangooEvent.NameSpace, new CSharpEventCodeWriter(Headers), PangooEvent.EventClassName, PangooEvent.ScriptPath);
                 }
-                
+
             }
             AssetDatabase.Refresh();
         }

@@ -36,6 +36,7 @@ namespace UnityGameFramework.Editor
             "UnityGameFramework.Editor",
 #endif
             "Pangoo",
+            "Pangoo.Editor"
         };
 
         /// <summary>

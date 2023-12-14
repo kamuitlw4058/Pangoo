@@ -5,6 +5,7 @@ using Pangoo;
 using Pangoo.Core.VisualScripting;
 using Pangoo.Core.Services;
 using Sirenix.OdinInspector;
+using UnityEngine.EventSystems;
 
 namespace Pangoo.Core.Common
 {
@@ -33,6 +34,8 @@ namespace Pangoo.Core.Common
 
         [ShowInInspector]
         [field: NonSerialized] public MainService Main { get; set; }
+
+        public PointerEventData PointerData { get; set; }
 
 
         public Args Clone => new Args(dynamicObject, this.Self, this.Target);

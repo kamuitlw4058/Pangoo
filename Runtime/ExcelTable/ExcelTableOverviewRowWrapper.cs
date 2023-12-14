@@ -9,6 +9,7 @@ using System.IO;
 using System.Text;
 using UnityEditor;
 using Sirenix.OdinInspector.Editor;
+using Pangoo.Common;
 
 
 namespace Pangoo

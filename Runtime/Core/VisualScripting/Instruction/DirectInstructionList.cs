@@ -53,8 +53,12 @@ namespace Pangoo.Core.VisualScripting
 
         public void OnRefDynamicObjectIdChanged()
         {
-            Debug.Log($"RefDynamicObjectId Changed:{RefDynamicObjectId}");
+            // Debug.Log($"RefDynamicObjectId Changed:{RefDynamicObjectId}");
             RefPrefab = GameSupportEditorUtility.GetPrefabByDynamicObjectId(RefDynamicObjectId);
+            if (RefDynamicObjectId != 0)
+            {
+                UpdatePrefab();
+            }
 
         }
 
@@ -112,7 +116,7 @@ namespace Pangoo.Core.VisualScripting
             for (int i = 0; i < DirectInstructions.Length; i++)
             {
                 var instruction = DirectInstructions[i].ToInstruction(table);
-                Debug.Log($"Instruction:{instruction}");
+                // Debug.Log($"Instruction:{instruction}");
                 if (instruction != null)
                 {
                     ret.Add(instruction);
@@ -126,7 +130,7 @@ namespace Pangoo.Core.VisualScripting
         {
             List<Instruction> ret = new List<Instruction>();
             var directInstructions = JsonMapper.ToObject<DirectInstructionList>(val);
-            Debug.Log($"directInstructions:{directInstructions},{directInstructions.DirectInstructions.Length}");
+            // Debug.Log($"directInstructions:{directInstructions},{directInstructions?.DirectInstructions?.Length}");
             if (directInstructions != null)
             {
                 return directInstructions.ToInstructionList(table);

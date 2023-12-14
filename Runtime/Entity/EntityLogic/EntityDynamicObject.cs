@@ -17,7 +17,7 @@ using UnityEngine.Rendering.HighDefinition;
 
 namespace Pangoo
 {
-    public class EntityDynamicObject : EntityBase,IPointerEnterHandler,IPointerExitHandler,IPointerClickHandler
+    public class EntityDynamicObject : EntityBase, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
         [ShowInInspector]
         public EntityInfo Info
@@ -57,12 +57,28 @@ namespace Pangoo
                 case Space.World:
                     transform.position = DoData.InfoRow.Position;
                     transform.rotation = DoData.InfoRow.Rotation;
-                    transform.localScale = DoData.InfoRow.Scale;
+                    if (DoData.InfoRow.Scale == Vector3.zero)
+                    {
+                        transform.localScale = Vector3.one;
+                    }
+                    else
+                    {
+                        transform.localScale = DoData.InfoRow.Scale;
+                    }
+
+
                     break;
                 case Space.Self:
                     transform.localPosition = DoData.InfoRow.Position;
                     transform.localRotation = DoData.InfoRow.Rotation;
-                    transform.localScale = DoData.InfoRow.Scale;
+                    if (DoData.InfoRow.Scale == Vector3.zero)
+                    {
+                        transform.localScale = Vector3.one;
+                    }
+                    else
+                    {
+                        transform.localScale = DoData.InfoRow.Scale;
+                    }
                     break;
             }
         }
@@ -91,6 +107,7 @@ namespace Pangoo
             DynamicObj.Entity = this;
             DynamicObj.Awake();
             DynamicObj.Start();
+
         }
 
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
@@ -127,17 +144,17 @@ namespace Pangoo
 
         public void OnPointerEnter(PointerEventData pointerEventData)
         {
-            DynamicObj?.OnPointerEnter(pointerEventData);
+            DynamicObj?.PointerEnter(pointerEventData);
         }
 
         public void OnPointerExit(PointerEventData pointerEventData)
         {
-            DynamicObj?.OnPointerExit(pointerEventData);
+            DynamicObj?.PointerExit(pointerEventData);
         }
-        
-        public void OnPointerClick(PointerEventData pointerEventData)
+
+        public void OnPointerClick(PointerEventData eventData)
         {
-            DynamicObj?.OnPointerClick(pointerEventData);
+            DynamicObj?.PointerClick(eventData);
         }
     }
 }

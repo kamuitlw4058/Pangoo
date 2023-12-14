@@ -69,5 +69,10 @@ namespace Pangoo.Core.Services
             DoPointerExit(pointerEventData);
         }
 
+        public virtual void PointerClick(PointerEventData pointerEventData)
+        {
+            DoPointerClick(pointerEventData);
+        }
+
     }
 }

@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using LitJson;
-using Newtonsoft.Json;
+using ClassGenerator;
 
 namespace Pangoo.Editor
 {
@@ -15,7 +14,7 @@ namespace Pangoo.Editor
         {
             m_Headers = headers;
         }
-        
+
 
         public override void WriteMainClassStart(IJsonClassGeneratorConfig config, TextWriter sw)
         {

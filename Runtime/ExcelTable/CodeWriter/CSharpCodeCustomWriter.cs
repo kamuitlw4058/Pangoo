@@ -5,13 +5,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
+using ClassGenerator;
 
 namespace Pangoo
 {
     public class CSharpCodeCustomWriter : CsharpCodeWriterBase
     {
         ExcelTableData m_ExcelData;
-        
+
         public CSharpCodeCustomWriter(List<string> headers = null, ExcelTableData excelData = null)
         {
             m_Headers = headers;

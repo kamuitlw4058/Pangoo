@@ -45,6 +45,7 @@ namespace Pangoo.Core.VisualScripting
 
 
         bool m_CanHotspotBan;
+        [ShowInInspector]
         public bool CanHotspotBan
         {
             get

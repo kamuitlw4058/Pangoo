@@ -57,5 +57,10 @@ namespace Pangoo.Core.Services
         {
 
         }
+
+        protected virtual void DoPointerClick(PointerEventData pointerEventData)
+        {
+
+        }
     }
 }

@@ -20,9 +20,33 @@ namespace Pangoo.Core.VisualScripting
         OnMouseLeft,
 
         OnExecute,
+        OnExternalInstruction,
+
         OnPointerEnter,
         OnPointerExit,
         OnPointerClick,
+
+        OnPointerDown,
+        OnPointerUp,
+
+        OnBeginDrag,
+        OnDrag,
+
+        OnEndDrag,
+        OnDrop,
+
+        OnSelect,
+        OnDeselect,
+
+        OnScroll,
+        OnUpdateSelect,
+        OnMove,
+        OnSubmit,
+        OnCanel,
+
+        OnExit,
+
+        OnButtonE,
     }
 }
 
