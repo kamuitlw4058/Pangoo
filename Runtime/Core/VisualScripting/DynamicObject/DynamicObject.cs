@@ -221,6 +221,8 @@ namespace Pangoo.Core.VisualScripting
                     TriggerSetTargetIndex(kv.Key, kv.Value);
                 }
             }
+
+            TriggerInovke(TriggerTypeEnum.OnStart);
         }
 
         protected override void DoUpdate()
