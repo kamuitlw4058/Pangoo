@@ -21,7 +21,7 @@ namespace Pangoo.Core.VisualScripting
         ConditionInputMouseParams m_Params = new ConditionInputMouseParams();
         public override IParams Params => m_Params;
         
-        public override ConditionTypeEnum ConditionType => ConditionTypeEnum.StateCondition;
+        public override ConditionTypeEnum ConditionType => ConditionTypeEnum.BoolCondition;
 
         protected override int Run(Args args)
         {
