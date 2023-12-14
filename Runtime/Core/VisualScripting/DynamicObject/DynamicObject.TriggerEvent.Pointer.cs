@@ -53,7 +53,5 @@ namespace Pangoo.Core.VisualScripting
                 TriggerInovke(TriggerTypeEnum.OnPointerClickRight);
             }
         }
-
-
     }
 }
