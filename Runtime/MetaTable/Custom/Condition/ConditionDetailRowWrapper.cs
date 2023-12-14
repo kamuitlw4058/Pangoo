@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 
 using System;
 using System.IO;
@@ -7,16 +8,15 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using System.Xml.Serialization;
 using Pangoo.Common;
+using MetaTable;
 
 namespace Pangoo.MetaTable
 {
-    public partial class UnityAssetPathRow
+    [Serializable]
+    public partial class ConditionDetailRowWrapper : MetaTableDetailRowWrapper<ConditionOverview,UnityConditionRow>
     {
-        public string ToPrefabPath()
-        {
-            return Row.ToPrefabPath();
-        }
 
     }
 }
+#endif
 

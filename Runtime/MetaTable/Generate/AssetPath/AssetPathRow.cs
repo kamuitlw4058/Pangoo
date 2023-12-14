@@ -17,8 +17,8 @@ namespace Pangoo.MetaTable
     {
 
         [JsonMember("AssetPackageDir")]
-        [MetaTableRowColumn("AssetPackageDir","string", "资源包Id",3)]
-        [LabelText("资源包Id")]
+        [MetaTableRowColumn("AssetPackageDir","string", "资源包路径",3)]
+        [LabelText("资源包路径")]
         public string AssetPackageDir ;
 
         [JsonMember("AssetType")]
@@ -32,14 +32,14 @@ namespace Pangoo.MetaTable
         public string AssetPath ;
 
         [JsonMember("AssetGroup")]
-        [MetaTableRowColumn("AssetGroup","string", "",6)]
-        [LabelText("")]
+        [MetaTableRowColumn("AssetGroup","string", "资源组",6)]
+        [LabelText("资源组")]
         public string AssetGroup ;
 
-        [JsonMember("Desc")]
-        [MetaTableRowColumn("Desc","string", "资源描述",7)]
-        [LabelText("资源描述")]
-        public string Desc ;
+        [JsonMember("Id")]
+        [MetaTableRowColumn("Id","int", "Id",7)]
+        [LabelText("Id")]
+        public int Id ;
 
     }
 }

@@ -16,7 +16,7 @@ namespace Pangoo.Editor
         private static void OpenWindow()
         {
             var window = GetWindow<GameEditor>();
-            window.position = GUIHelper.GetEditorWindowRect().AlignCenter(1100, 700);
+            window.position = GUIHelper.GetEditorWindowRect().AlignCenter(1600, 700);
             window.titleContent = new GUIContent("资源编辑器");
             window.MenuWidth = 250;
         }

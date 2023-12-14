@@ -45,6 +45,9 @@ MonoBehaviour:
     - Name: Desc
       Type: string
       CnName: "\u8D44\u6E90\u7EC4\u63CF\u8FF0"
+    - Name: Id
+      Type: int
+      CnName: Id
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: AssetPath
@@ -59,7 +62,7 @@ MonoBehaviour:
       CnName: Name
     - Name: AssetPackageDir
       Type: string
-      CnName: "\u8D44\u6E90\u5305Id"
+      CnName: "\u8D44\u6E90\u5305\u8DEF\u5F84"
     - Name: AssetType
       Type: string
       CnName: "\u8D44\u6E90\u7C7B\u578B"
@@ -68,10 +71,10 @@ MonoBehaviour:
       CnName: "\u8D44\u6E90\u8DEF\u5F84"
     - Name: AssetGroup
       Type: string
-      CnName: "\u8D44\u6E90\u7EC4Uuid"
-    - Name: Desc
-      Type: string
-      CnName: "\u8D44\u6E90\u63CF\u8FF0"
+      CnName: "\u8D44\u6E90\u7EC4"
+    - Name: Id
+      Type: int
+      CnName: Id
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Character
@@ -84,9 +87,9 @@ MonoBehaviour:
     - Name: Name
       Type: string
       CnName: Name
-    - Name: AssetPathId
-      Type: int
-      CnName: "\u8D44\u6E90\u8DEF\u5F84"
+    - Name: AssetPathUuid
+      Type: string
+      CnName: "\u8D44\u6E90Uuid"
     - Name: IsPlayer
       Type: bool
       CnName: "\u662F\u5426\u662F\u73A9\u5BB6"
@@ -108,6 +111,12 @@ MonoBehaviour:
     - Name: CameraOnly
       Type: bool
       CnName: "\u53EA\u4F7F\u7528\u76F8\u673A"
+    - Name: Id
+      Type: int
+      CnName: Id
+    - Name: AssetPathId
+      Type: int
+      CnName: AssetPathId
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Condition

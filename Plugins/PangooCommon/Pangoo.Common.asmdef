@@ -1,7 +1,9 @@
 {
     "name": "Pangoo.Common",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:a29fadd16bab1344f8fc3f39d1ac7b57"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

@@ -20,7 +20,7 @@ namespace Pangoo.Editor
         private static void OpenWindow()
         {
             var window = GetWindow<MetaTableEditor>();
-            window.position = GUIHelper.GetEditorWindowRect().AlignCenter(1100, 700);
+            window.position = GUIHelper.GetEditorWindowRect().AlignCenter(1600, 700);
             window.titleContent = new GUIContent("MetaTable");
             window.MenuWidth = 250;
         }
@@ -53,7 +53,7 @@ namespace Pangoo.Editor
             where TRow : MetaTableUnityRow, new()
         {
             var overviews = AssetDatabaseUtility.FindAsset<TOverview>().ToList();
-            var overviewEditor = new MetaTableOverviewEditor<TOverview, TRowDetailWrapper, TTableRowWrapper, TNewRowWrapper, TRow>();
+            var overviewEditor = new MetaTableOverviewWrapper<TOverview, TRowDetailWrapper, TTableRowWrapper, TNewRowWrapper, TRow>();
             overviewEditor.Overviews = overviews;
             overviewEditor.MenuWindow = this;
             // overviewEditor.MenuKey = menuMainKey;
@@ -64,13 +64,40 @@ namespace Pangoo.Editor
 
         }
 
+        void InitOverviewWrapper<T, TOverview, TRowDetailWrapper, TTableRowWrapper, TNewRowWrapper, TRow>(OdinMenuTree tree, string menuMainKey, string menuDisplayName)
+    where T : MetaTableOverviewWrapper<TOverview, TRowDetailWrapper, TTableRowWrapper, TNewRowWrapper, TRow>, new()
+    where TOverview : MetaTableOverview
+    where TRowDetailWrapper : MetaTableDetailRowWrapper<TOverview, TRow>, new()
+    where TTableRowWrapper : MetaTableRowWrapper<TOverview, TNewRowWrapper, TRow>, new()
+    where TNewRowWrapper : MetaTableNewRowWrapper<TOverview, TRow>, new()
+    where TRow : MetaTableUnityRow, new()
+        {
+            var overviews = AssetDatabaseUtility.FindAsset<TOverview>().ToList();
+            var overviewEditor = new T();
+            overviewEditor.Overviews = overviews;
+            overviewEditor.MenuWindow = this;
+            // overviewEditor.MenuKey = menuMainKey;
+            overviewEditor.MenuDisplayName = menuDisplayName;
+            overviewEditor.Tree = tree;
+            overviewEditor.InitWrappers();
+            tree.Add(menuDisplayName, overviewEditor);
+
+        }
+
+
         protected override OdinMenuTree BuildMenuTree()
         {
             var tree = new OdinMenuTree(false);
             tree.Config.DrawSearchToolbar = true;
             tree.Config.AutoScrollOnSelectionChanged = false;
 
-            InitOverviews<AssetGroupOverview, AssetGroupDetailRowWrapper, AssetGroupRowWrapper, AssetGroupNewRowWrapper, UnityAssetGroupRow>(tree, null, "资源组");
+            InitOverviewWrapper<AssetGroupOverviewWrapper, AssetGroupOverview, AssetGroupDetailRowWrapper, AssetGroupRowWrapper, AssetGroupNewRowWrapper, UnityAssetGroupRow>(tree, null, "资源组");
+
+            // InitOverviews<AssetGroupOverview, AssetGroupDetailRowWrapper, AssetGroupRowWrapper, AssetGroupNewRowWrapper, UnityAssetGroupRow>(tree, null, "资源组");
+            InitOverviews<Pangoo.MetaTable.AssetPathOverview, Pangoo.MetaTable.AssetPathDetailRowWrapper, Pangoo.MetaTable.AssetPathRowWrapper, Pangoo.MetaTable.AssetPathNewRowWrapper, UnityAssetPathRow>(tree, null, "资源路径");
+            InitOverviewWrapper<CharacterOverviewWrapper, Pangoo.MetaTable.CharacterOverview, Pangoo.MetaTable.CharacterDetailRowWrapper, Pangoo.MetaTable.CharacterRowWrapper, Pangoo.MetaTable.CharacterNewRowWrapper, UnityCharacterRow>(tree, null, "角色");
+
+
 
             return tree;
         }

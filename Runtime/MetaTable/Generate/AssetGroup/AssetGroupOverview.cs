@@ -40,6 +40,13 @@ namespace Pangoo.MetaTable
            Rows.Add(unityRow as UnityAssetGroupRow);
         }
 
+        public override void AddBaseRow(MetaTableRow row)
+        {
+           var unityRow = ScriptableObject.CreateInstance<UnityAssetGroupRow>();
+           unityRow.Row = row as AssetGroupRow;
+           AddRow<UnityAssetGroupRow>(unityRow);
+        }
+
         [Button("添加行")]
         public void AddRow()
         {

@@ -3,9 +3,8 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
-using GameFramework;
 
-namespace Pangoo
+namespace Pangoo.Common
 {
     public static class ClassUtility
     {
@@ -20,13 +19,24 @@ namespace Pangoo
             {
                 return null;
             }
-            var triggerType = Utility.Assembly.GetType(className);
-            if (triggerType == null)
+            var type = AssemblyUtility.GetType(className);
+            if (type == null)
             {
                 return null;
             }
 
-            return Activator.CreateInstance(triggerType);
+            return CreateInstance(type);
+        }
+
+        public static Object CreateInstance(Type type)
+        {
+            if (type == null)
+            {
+                return null;
+            }
+
+            return Activator.CreateInstance(type);
+
         }
     }
 }
