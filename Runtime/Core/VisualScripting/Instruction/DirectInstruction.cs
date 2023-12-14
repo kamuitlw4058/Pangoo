@@ -90,6 +90,13 @@ namespace Pangoo.Core.VisualScripting
         [LabelWidth(80)]
         [JsonMember("Float1")]
         public float Float1;
+        
+        [TableTitleGroup("参数")]
+        [LabelText("$Float2Label")]
+        [ShowIf("$IsFloat2Show")]
+        [LabelWidth(80)]
+        [JsonMember("Float2")]
+        public float Float2;
 
 
 
@@ -154,7 +161,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => true,
                     DirectInstructionTypeEnum.DynamicObjectRunExecute => true,
                     DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => true,
-
+                    DirectInstructionTypeEnum.ShowHideCursor => true,
                     DirectInstructionTypeEnum.PlaySound => true,
                     _ => false,
                 };
@@ -218,11 +225,24 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.WaitTime => true,
                     DirectInstructionTypeEnum.PlaySound => true,
                     DirectInstructionTypeEnum.StopSound => true,
+                    DirectInstructionTypeEnum.ImageFade => true,
                     _ => false,
                 };
             }
         }
-
+        
+        [JsonNoMember]
+        bool IsFloat2Show
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.ImageFade => true,
+                    _ => false,
+                };
+            }
+        }
 
 
         [JsonNoMember]
@@ -279,6 +299,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.UnactiveCameraGameObject => "等待完成",
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => "等待完成",
                     DirectInstructionTypeEnum.PlaySound => "是否循环",
+                    DirectInstructionTypeEnum.ShowHideCursor => "显示鼠标光标",
                     _ => "设置值",
                 };
             }
@@ -343,6 +364,20 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.WaitTime => "等待时长",
                     DirectInstructionTypeEnum.PlaySound => "淡入时长",
                     DirectInstructionTypeEnum.StopSound => "淡出时长",
+                    DirectInstructionTypeEnum.ImageFade=>"目标Alpha值",
+                    _ => "Float1",
+                };
+            }
+        }
+        
+        [JsonNoMember]
+        string Float2Label
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.ImageFade=>"过渡时间",
                     _ => "Float1",
                 };
             }

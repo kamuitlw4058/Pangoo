@@ -120,6 +120,14 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.Duration = duration;
             return instruction;
         }
+        
+        public static Instruction GetImageFadeInstruction(float alphaValue, float tweenTime)
+        {
+            var instruction = Activator.CreateInstance<InstructionImageFade>();
+            instruction.ParamsRaw.AlphaValue = alphaValue;
+            instruction.ParamsRaw.TweenTime = tweenTime;
+            return instruction;
+        }
 
         public static Instruction GetWaitTimeInstruction(float duration)
         {
@@ -171,6 +179,12 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
+        public static Instruction GetShowHideCursor(bool isShow)
+        {
+            var instruction = Activator.CreateInstance<InstructionShowHideCursor>();
+            instruction.ParamsRaw.IsShow = isShow;
+            return instruction;
+        }
 
         public Instruction ToInstruction(InstructionTable instructionTable = null)
         {
@@ -216,6 +230,10 @@ namespace Pangoo.Core.VisualScripting
                     return GetStopSound(Int1, Float1);
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
                     return GetDynamicObjectSubGameObjectEnabled(Int1, DropdownString1, Bool1);
+                case DirectInstructionTypeEnum.ImageFade:
+                    return GetImageFadeInstruction(Float1, Float2);
+                case DirectInstructionTypeEnum.ShowHideCursor:
+                    return GetShowHideCursor(Bool1);
             }
 
             return null;

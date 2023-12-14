@@ -69,5 +69,11 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("动态物体/子物体开关")]
         DynamicObjectSubGameObjectEnabled,
+        
+        [LabelText("UI/ImageFade")]
+        ImageFade,
+        
+        [LabelText("通用/显示或隐藏光标")]
+        ShowHideCursor,
     }
 }
