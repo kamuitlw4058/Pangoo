@@ -31,8 +31,8 @@ namespace Pangoo.Core.VisualScripting
         
         protected override IEnumerator Run(Args args)
         {
-            Image iamge = args.Target.GetComponent<Image>();
-            iamge.DOFade(ParamsRaw.AlphaValue,ParamsRaw.TweenTime).SetId(ParamsRaw.TweenID);
+            Image image = args.Target.GetComponent<Image>();
+            image.DOFade(ParamsRaw.AlphaValue,ParamsRaw.TweenTime).SetId(ParamsRaw.TweenID);
             Debug.Log("FadeRun");
             return null;
         }

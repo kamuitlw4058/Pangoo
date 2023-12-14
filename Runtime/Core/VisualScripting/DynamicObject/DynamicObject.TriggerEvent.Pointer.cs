@@ -40,7 +40,5 @@ namespace Pangoo.Core.VisualScripting
             CurrentArgs.PointerData = pointerEventData;
             TriggerInovke(TriggerTypeEnum.OnPointerEnter);
         }
-
-
     }
 }
