@@ -121,9 +121,19 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
         
-        public static Instruction GetImageFadeInstruction(float alphaValue, float tweenTime)
+        public static Instruction GetImageFadeInstruction(string targetName,float alphaValue, float tweenTime)
         {
             var instruction = Activator.CreateInstance<InstructionImageFade>();
+            instruction.ParamsRaw.TargetName = targetName;
+            instruction.ParamsRaw.AlphaValue = alphaValue;
+            instruction.ParamsRaw.TweenTime = tweenTime;
+            return instruction;
+        }
+        
+        public static Instruction GetCanvasGroupFadeInstruction(string targetName,float alphaValue, float tweenTime)
+        {
+            var instruction = Activator.CreateInstance<InstructionCanvasGroupFade>();
+            instruction.ParamsRaw.TargetName = targetName;
             instruction.ParamsRaw.AlphaValue = alphaValue;
             instruction.ParamsRaw.TweenTime = tweenTime;
             return instruction;
@@ -231,9 +241,11 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
                     return GetDynamicObjectSubGameObjectEnabled(Int1, DropdownString1, Bool1);
                 case DirectInstructionTypeEnum.ImageFade:
-                    return GetImageFadeInstruction(Float1, Float2);
+                    return GetImageFadeInstruction(String1,Float1, Float2);
                 case DirectInstructionTypeEnum.ShowHideCursor:
                     return GetShowHideCursor(Bool1);
+                case DirectInstructionTypeEnum.CanvasGroup:
+                    return GetCanvasGroupFadeInstruction(String1,Float1,Float2);
             }
 
             return null;

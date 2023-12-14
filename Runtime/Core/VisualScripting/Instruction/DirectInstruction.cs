@@ -189,6 +189,8 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.ShowSubtitle => true,
+                    DirectInstructionTypeEnum.ImageFade=>true,
+                    DirectInstructionTypeEnum.CanvasGroup=>true,
                     _ => false,
                 };
             }
@@ -226,6 +228,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.PlaySound => true,
                     DirectInstructionTypeEnum.StopSound => true,
                     DirectInstructionTypeEnum.ImageFade => true,
+                    DirectInstructionTypeEnum.CanvasGroup=>true,
                     _ => false,
                 };
             }
@@ -239,6 +242,7 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.ImageFade => true,
+                    DirectInstructionTypeEnum.CanvasGroup=>true,
                     _ => false,
                 };
             }
@@ -329,6 +333,8 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.UnactiveCameraGameObject => "子对象",
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => "子对象",
                     DirectInstructionTypeEnum.ShowSubtitle => "字幕内容",
+                    DirectInstructionTypeEnum.ImageFade=>"目标节点名字",
+                    DirectInstructionTypeEnum.CanvasGroup=>"目标节点名字",
                     _ => "String1",
                 };
             }
@@ -365,6 +371,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.PlaySound => "淡入时长",
                     DirectInstructionTypeEnum.StopSound => "淡出时长",
                     DirectInstructionTypeEnum.ImageFade=>"目标Alpha值",
+                    DirectInstructionTypeEnum.CanvasGroup=>"目标Alpha值",
                     _ => "Float1",
                 };
             }
@@ -378,6 +385,7 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.ImageFade=>"过渡时间",
+                    DirectInstructionTypeEnum.CanvasGroup=>"过渡时间",
                     _ => "Float1",
                 };
             }

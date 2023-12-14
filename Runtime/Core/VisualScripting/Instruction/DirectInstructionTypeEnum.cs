@@ -75,5 +75,8 @@ namespace Pangoo.Core.VisualScripting
         
         [LabelText("通用/显示或隐藏光标")]
         ShowHideCursor,
+        
+        [LabelText("UI/CanvasGroup")]
+        CanvasGroup,
     }
 }
