@@ -13,8 +13,29 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class AssetGroupDetailRowWrapper : MetaTableDetailRowWrapper<AssetGroupOverview,UnityAssetGroupRow>
+    public partial class AssetGroupDetailRowWrapper : MetaTableDetailRowWrapper<AssetGroupOverview, UnityAssetGroupRow>
     {
+
+        [ShowInInspector]
+        public string AssetGroup
+        {
+            get
+            {
+                if (UnityRow.Row.AssetGroup.IsNullOrWhiteSpace())
+                {
+                    UnityRow.Row.AssetGroup = UnityRow.Row.Name.ToPinyin();
+                    Save();
+                }
+
+                return UnityRow.Row.AssetGroup;
+            }
+            set
+            {
+                UnityRow.Row.AssetGroup = value;
+                Save();
+            }
+        }
+
 
     }
 }

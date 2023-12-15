@@ -136,6 +136,9 @@ MonoBehaviour:
     - Name: Params
       Type: string
       CnName: "\u6761\u4EF6\u53C2\u6570"
+    - Name: Id
+      Type: int
+      CnName: Id
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: DynamicObject
@@ -433,6 +436,9 @@ MonoBehaviour:
     - Name: AssetPath
       Type: string
       CnName: "\u8D44\u6E90\u8DEF\u5F84"
+    - Name: Id
+      Type: int
+      CnName: Id
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: StaticScene
