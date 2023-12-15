@@ -12,6 +12,7 @@ namespace Pangoo.Core.Services
 {
     public class DynamicObjectService : BaseService
     {
+        public override string ServiceName => "DynamicObject";
         public override int Priority => 6;
 
         ExcelTableService m_ExcelTableService;
@@ -103,7 +104,7 @@ namespace Pangoo.Core.Services
                 return;
             }
 
-            Log.Info($"ShowDynamicObject:{dynamicObjectId}");
+            Log($"ShowDynamicObject:{dynamicObjectId}");
 
             // 这边有一个假设，同一个时间不会反复加载不同的章节下的同一个场景。
             if (m_LoadingAssetIds.Contains(dynamicObjectId))
@@ -151,7 +152,7 @@ namespace Pangoo.Core.Services
                 return;
             }
 
-            Log.Info($"ShowDynamicObject:{id}");
+            Log($"ShowDynamicObject:{id}");
 
             // 这边有一个假设，同一个时间不会反复加载不同的章节下的同一个场景。
             if (m_LoadingAssetIds.Contains(id))

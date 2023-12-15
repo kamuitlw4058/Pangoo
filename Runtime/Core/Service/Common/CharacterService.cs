@@ -101,7 +101,7 @@ namespace Pangoo.Core.Services
                 return;
             }
 
-            Log.Info($"Show Character Row Id:{infoId}");
+            Log($"Show Character Row Id:{infoId}");
             // 这边有一个假设，同一个时间不会反复加载不同的章节下的同一个场景。
             if (m_LoadingEntityIds.Contains(infoId))
             {
@@ -116,7 +116,7 @@ namespace Pangoo.Core.Services
                 Loader.ShowEntity(EnumEntity.Character,
                     (o) =>
                     {
-                        Log.Info($"Character Loaded:{infoId}");
+                        Log($"Character Loaded:{infoId}");
                         if (m_LoadingEntityIds.Contains(infoId))
                         {
                             m_LoadingEntityIds.Remove(infoId);

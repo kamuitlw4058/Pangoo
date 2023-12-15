@@ -13,6 +13,7 @@ namespace Pangoo.Core.Services
     [Serializable]
     public class StaticSceneService : BaseService
     {
+        public override string ServiceName => "StaticScene";
         public override int Priority => 5;
 
         ExcelTableService m_ExcelTableService;
@@ -184,7 +185,7 @@ namespace Pangoo.Core.Services
         {
             int count;
 
-            Log.Debug($"EnterSceneAsset:{assetPathId} {m_EnterAssetCountDict.Count}");
+            Log($"EnterSceneAsset:{assetPathId} {m_EnterAssetCountDict.Count}");
             if (!m_EnterAssetCountDict.TryGetValue(assetPathId, out count))
             {
                 m_EnterAssetCountDict.Add(assetPathId, 1);
@@ -208,7 +209,7 @@ namespace Pangoo.Core.Services
         public void ExitSceneAsset(int assetPathId)
         {
             int count;
-            Log.Debug($"ExitSceneAsset:{assetPathId},{m_EnterAssetCountDict.Count}");
+            Log($"ExitSceneAsset:{assetPathId},{m_EnterAssetCountDict.Count}");
             if (m_EnterAssetCountDict.TryGetValue(assetPathId, out count))
             {
                 count -= 1;
@@ -258,7 +259,7 @@ namespace Pangoo.Core.Services
                 return;
             }
 
-            Log.Info($"ShowStaticScene:{staticSceneId}");
+            Log($"ShowStaticScene:{staticSceneId}");
 
             // 这边有一个假设，同一个时间不会反复加载不同的章节下的同一个场景。
             if (m_LoadingAssetIds.Contains(AssetPathId))
@@ -272,7 +273,7 @@ namespace Pangoo.Core.Services
                 Loader.ShowEntity(EnumEntity.StaticScene,
                     (o) =>
                     {
-                        Log.Info($"ShowStaticScene Loaded:{staticSceneId}-{sceneInfo.Name}");
+                        Log($"ShowStaticScene Loaded:{staticSceneId}-{sceneInfo.Name}");
                         if (m_LoadingAssetIds.Contains(AssetPathId))
                         {
                             m_LoadingAssetIds.Remove(AssetPathId);
@@ -282,18 +283,18 @@ namespace Pangoo.Core.Services
                         if (!SectionInited)
                         {
                             bool allInited = IsLoadedScene(m_HoldStaticSceneIds);
-                            Log.Info($"Hold Loaded:{allInited}");
+                            Log($"Hold Loaded:{allInited}");
                             if (allInited)
                             {
                                 allInited = IsLoadedScene(m_InitStaticSceneIds);
-                                Log.Info($"Init Loaded:{allInited}");
+                                Log($"Init Loaded:{allInited}");
                             }
 
                             if (allInited)
                             {
                                 SectionInited = true;
                                 OnInitSceneLoaded?.Invoke();
-                                Log.Info($"ON Loaded");
+                                Log($"ON Loaded");
 
                             }
                         }
@@ -369,7 +370,7 @@ namespace Pangoo.Core.Services
                     if (Loader.GetEntity(item.Value.Id))
                     {
                         Loader.HideEntity(item.Value.Id);
-                        Log.Info($"HideEntity:{item.Key}");
+                        Log($"HideEntity:{item.Key}");
                     }
                     removeScene.Add(item.Key);
                 }
@@ -384,7 +385,7 @@ namespace Pangoo.Core.Services
 
         public void DumpStr()
         {
-            Log.Info("load :{}");
+            Log("load :{}");
         }
 
         protected override void DoUpdate()

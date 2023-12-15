@@ -15,6 +15,7 @@ namespace Pangoo.Core.Services
 {
     public class GameSectionService : BaseService
     {
+        public override string ServiceName => "GameSection";
         public override int Priority => 10;
 
         ExcelTableService m_ExcelTableService;
@@ -57,7 +58,7 @@ namespace Pangoo.Core.Services
 
         protected override void DoStart()
         {
-            Debug.Log($"DoStart GameSectionService");
+            Log("DoStart");
             m_GameSectionTable = m_ExcelTableService.GetExcelTable<GameSectionTable>();
             m_InstructionTable = m_ExcelTableService.GetExcelTable<InstructionTable>();
             m_StaticSceneService.OnInitSceneLoaded += OnInitSceneLoaded;
@@ -82,7 +83,7 @@ namespace Pangoo.Core.Services
         bool CheckGameSectionLoadedCompleted(GameSectionTable.GameSectionRow row)
         {
             bool IsDynamicObjectLoaded = CheckDynamicObjectLoaded(row);
-            Debug.Log($"CheckGameSectionLoadedCompleted IsSceneLoaded:{m_StaticSceneService.SectionInited} IsDynamicObjectLoaded:{IsDynamicObjectLoaded}");
+            Log($"CheckGameSectionLoadedCompleted IsSceneLoaded:{m_StaticSceneService.SectionInited} IsDynamicObjectLoaded:{IsDynamicObjectLoaded}");
             if (m_StaticSceneService.SectionInited && CheckDynamicObjectLoaded(row))
             {
                 return true;
@@ -131,9 +132,10 @@ namespace Pangoo.Core.Services
 
         public void SetGameSection(int id)
         {
-            Debug.Log($"SetGameSection is :{id}");
+            Log($"SetGameSection is :{id}");
             if (id <= 0)
             {
+                LogError($"SetGameSection Failed id <= 0:{id}");
                 return;
             }
 
@@ -145,7 +147,7 @@ namespace Pangoo.Core.Services
                 var GameSection = m_GameSectionTable.GetGameSectionRow(LatestId);
                 if (GameSection == null)
                 {
-                    Debug.LogError($"GameSection is null:{GameSection}");
+                    LogError($"GameSection is null:{GameSection}");
                 }
 
                 Tuple<int, int> sectionChange = new Tuple<int, int>(0, 0);
@@ -171,6 +173,7 @@ namespace Pangoo.Core.Services
                 {
                     m_DynamicObjectService.ShowDynamicObject(doId, (dynamicObjectId) =>
                     {
+                        Log($"Loaded DynamicObject Finish:{dynamicObjectId}");
                         if (CheckGameSectionLoadedCompleted(GameSection))
                         {
                             RunLoadedInstructions(GameSection);
@@ -178,7 +181,7 @@ namespace Pangoo.Core.Services
                     });
                 }
 
-                Log.Info($"Update Static Scene:{GameSection.Id} KeepSceneIds:{GameSection.KeepSceneIds} DynamicSceneIds:{GameSection.DynamicSceneIds}");
+                Log($"Update Static Scene:{GameSection.Id} KeepSceneIds:{GameSection.KeepSceneIds} DynamicSceneIds:{GameSection.DynamicSceneIds}");
             }
         }
 
