@@ -17,7 +17,7 @@ using GameFramework;
 using UnityEditor;
 using Sirenix.OdinInspector.Editor;
 using LitJson;
-
+using Pangoo.Common;
 
 
 namespace Pangoo
@@ -299,7 +299,7 @@ namespace Pangoo
         {
             get
             {
-                return Row?.ConditionList?.ToArrInt() ?? new int[0];
+                return Row?.ConditionList?.ToSplitArr<int>() ?? new int[0];
             }
             set
             {

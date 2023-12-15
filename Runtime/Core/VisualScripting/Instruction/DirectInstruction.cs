@@ -97,7 +97,7 @@ namespace Pangoo.Core.VisualScripting
         [LabelWidth(80)]
         [JsonMember("Float1")]
         public float Float1;
-        
+
         [TableTitleGroup("参数")]
         [LabelText("$Float2Label")]
         [ShowIf("$IsFloat2Show")]
@@ -183,7 +183,6 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.PlaySound => true,
-                    DirectInstructionTypeEnum.SetGameObjectActive=>true,
                     _ => false,
                 };
             }
@@ -196,7 +195,6 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.SetGameObjectActive => true,
                     DirectInstructionTypeEnum.ShowSubtitle => true,
                     DirectInstructionTypeEnum.ImageFade=>true,
                     DirectInstructionTypeEnum.CanvasGroup=>true,
@@ -216,6 +214,8 @@ namespace Pangoo.Core.VisualScripting
                 {
                     DirectInstructionTypeEnum.SetGameObjectActive => true,
                     DirectInstructionTypeEnum.ImageFade=>true,
+                    DirectInstructionTypeEnum.CanvasGroup => true,
+                    DirectInstructionTypeEnum.WaitMsg => true,
                     _ => false,
                 };
             }
@@ -232,6 +232,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.UnactiveCameraGameObject => true,
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => true,
                     DirectInstructionTypeEnum.SubGameObjectPauseTimeline => true,
+                    DirectInstructionTypeEnum.SetGameObjectActive => true,
                     DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => true,
 
                     _ => false,
@@ -252,12 +253,12 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.PlaySound => true,
                     DirectInstructionTypeEnum.StopSound => true,
                     DirectInstructionTypeEnum.ImageFade => true,
-                    DirectInstructionTypeEnum.CanvasGroup=>true,
+                    DirectInstructionTypeEnum.CanvasGroup => true,
                     _ => false,
                 };
             }
         }
-        
+
         [JsonNoMember]
         bool IsFloat2Show
         {
@@ -266,7 +267,7 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.ImageFade => true,
-                    DirectInstructionTypeEnum.CanvasGroup=>true,
+                    DirectInstructionTypeEnum.CanvasGroup => true,
                     _ => false,
                 };
             }
@@ -341,7 +342,6 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.PlaySound => "等待切换完成",
-                    DirectInstructionTypeEnum.SetGameObjectActive=>"是否为全局搜索",
                     _ => "设置值",
                 };
             }
@@ -354,7 +354,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.SetGameObjectActive => "根节点",
+                    DirectInstructionTypeEnum.SetGameObjectActive => "子对象",
                     DirectInstructionTypeEnum.UnactiveCameraGameObject => "子对象",
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => "子对象",
                     DirectInstructionTypeEnum.ShowSubtitle => "字幕内容",
@@ -366,7 +366,7 @@ namespace Pangoo.Core.VisualScripting
                 };
             }
         }
-        
+
         [JsonNoMember]
         string String2Label
         {
@@ -392,6 +392,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.UnactiveCameraGameObject => "子对象",
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => "子对象",
                     DirectInstructionTypeEnum.SubGameObjectPauseTimeline => "子对象",
+                    DirectInstructionTypeEnum.SetGameObjectActive => "子对象",
                     DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => "子对象",
 
                     _ => "DropdownString1",
@@ -410,13 +411,13 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.WaitTime => "等待时长",
                     DirectInstructionTypeEnum.PlaySound => "淡入时长",
                     DirectInstructionTypeEnum.StopSound => "淡出时长",
-                    DirectInstructionTypeEnum.ImageFade=>"目标Alpha值",
-                    DirectInstructionTypeEnum.CanvasGroup=>"目标Alpha值",
+                    DirectInstructionTypeEnum.ImageFade => "目标Alpha值",
+                    DirectInstructionTypeEnum.CanvasGroup => "目标Alpha值",
                     _ => "Float1",
                 };
             }
         }
-        
+
         [JsonNoMember]
         string Float2Label
         {
@@ -424,8 +425,8 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.ImageFade=>"过渡时间",
-                    DirectInstructionTypeEnum.CanvasGroup=>"过渡时间",
+                    DirectInstructionTypeEnum.ImageFade => "过渡时间",
+                    DirectInstructionTypeEnum.CanvasGroup => "过渡时间",
                     _ => "Float1",
                 };
             }

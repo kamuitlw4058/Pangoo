@@ -13,7 +13,7 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class AssetPathNewRowWrapper : MetaTableNewRowWrapper<AssetPathOverview,UnityAssetPathRow>
+    public partial class AssetPathNewRowWrapper : MetaTableNewRowWrapper<AssetPathOverview, UnityAssetPathRow>
     {
 
     }

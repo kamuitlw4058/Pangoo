@@ -2,6 +2,7 @@ using System;
 using GameFramework;
 using Sirenix.OdinInspector;
 using UnityEngine.EventSystems;
+using UnityEngine;
 
 namespace Pangoo.Core.Services
 {
@@ -11,6 +12,20 @@ namespace Pangoo.Core.Services
 
         protected bool IsStarted = false;
 
+
+        public virtual string ServiceName => "Service";
+
+
+        public void Log(string message)
+        {
+            Debug.Log($"{ServiceName}-> {message}");
+        }
+
+
+        public void LogError(string message)
+        {
+            Debug.LogError($"{ServiceName}-> {message}");
+        }
 
 
         public virtual void Awake()

@@ -34,6 +34,16 @@ namespace Pangoo.MetaTable
         }
 #if UNITY_EDITOR
 
+         public override void RemoveRow(string uuid)
+        {
+           var unityRow = GetUnityRowByName(uuid) as UnityCharacterRow;
+            if(unityRow != null)
+            {
+                 Rows.Remove(unityRow);
+                 AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(unityRow));
+            }
+        }
+
         public override void AddRow(MetaTableUnityRow unityRow)
         {
            AddRow<UnityCharacterRow>(unityRow);
@@ -45,6 +55,20 @@ namespace Pangoo.MetaTable
            var unityRow = ScriptableObject.CreateInstance<UnityCharacterRow>();
            unityRow.Row = row as CharacterRow;
            AddRow<UnityCharacterRow>(unityRow);
+           Rows.Add(unityRow);
+        }
+
+        public override void UpdateRow(string uuid, MetaTableRow baseRow)
+        {
+           foreach (var row in Rows)
+            {
+               if (row.Uuid.Equals(uuid))
+                {
+                   row.Row = baseRow as CharacterRow;
+                   row.Row.Uuid = uuid;
+                   return;
+                }
+            }
         }
 
         [Button("添加行")]

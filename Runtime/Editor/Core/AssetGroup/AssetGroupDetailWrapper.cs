@@ -36,56 +36,6 @@ namespace Pangoo.Editor
         }
 
 
-        // [ShowInInspector]
-        // public string AssetType
-        // {
-        //     get
-        //     {
-        //         return Row.AssetType;
-        //     }
-        // }
-
-        // [ShowInInspector]
-        // public string AssetGroup
-        // {
-        //     get
-        //     {
-        //         return Row.AssetGroup;
-        //     }
-        // }
-
-        // [ShowInInspector]
-        // public string AssetPath
-        // {
-        //     get
-        //     {
-        //         return Row.AssetPath;
-        //     }
-        // }
-
-
-        // [ShowInInspector]
-        // public string FullPath
-        // {
-        //     get
-        //     {
-        //         return Row.ToFullPath();
-        //     }
-        // }
-
-
-
-
-        // [ShowInInspector]
-        // [LabelText("资源预制体")]
-        // public GameObject AssetPrefab
-        // {
-        //     get
-        //     {
-        //         return GameSupportEditorUtility.GetPrefabByAssetPathId(Row.Id);
-        //     }
-        // }
-
 
 
     }

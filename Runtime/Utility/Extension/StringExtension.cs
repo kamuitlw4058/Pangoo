@@ -18,6 +18,8 @@ namespace Pangoo
         private const NumberStyles HEX = NumberStyles.HexNumber;
 
         private static readonly TextInfo TXT_INFO = CultureInfo.InvariantCulture.TextInfo;
+
+
         public static List<int> ToListInt(this string s, string split = "|")
         {
             if (string.IsNullOrEmpty(s))

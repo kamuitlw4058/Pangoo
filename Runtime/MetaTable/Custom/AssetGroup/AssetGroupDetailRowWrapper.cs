@@ -15,8 +15,8 @@ namespace Pangoo.MetaTable
     [Serializable]
     public partial class AssetGroupDetailRowWrapper : MetaTableDetailRowWrapper<AssetGroupOverview, UnityAssetGroupRow>
     {
+
         [ShowInInspector]
-        [DelayedProperty]
         public string AssetGroup
         {
             get
@@ -35,6 +35,7 @@ namespace Pangoo.MetaTable
                 Save();
             }
         }
+
 
     }
 }

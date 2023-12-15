@@ -1,14 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Cinemachine;
+using System.Reflection;
+
 using Sirenix.OdinInspector;
-using UnityEditor;
 using GameFramework;
 using Pangoo.Core.VisualScripting;
 using UnityEngine;
 using MetaTable;
+using Pangoo.Common;
+using Pangoo.Core.Common;
 
 namespace Pangoo.MetaTable
 {
@@ -193,25 +194,135 @@ namespace Pangoo.MetaTable
                             continue;
                         }
                     }
-                    bool flag = false;
-                    if (excludeUuid == null)
-                    {
-                        flag = true;
-                    }
-                    else
-                    {
-                        if (!excludeUuid.Contains(row.UuidShort))
-                        {
-                            flag = true;
-                        }
-                    }
-
+                    bool flag = excludeUuid == null ? true : !excludeUuid.Contains(row.Row.Uuid) ? true : false;
                     if (flag)
                     {
                         ret.Add($"{row.UuidShort}-{row.Name}", row.Uuid);
                     }
+                }
+            }
+            return ret;
+        }
+
+        public static IEnumerable GetStaticSceneIds(List<int> excludeIds = null, string packageDir = null)
+        {
+            var ret = new ValueDropdownList<int>();
+            var overviews = AssetDatabaseUtility.FindAsset<StaticSceneOverview>(packageDir);
+            foreach (var overview in overviews)
+            {
+
+                foreach (var row in overview.Rows)
+                {
+                    bool flag = excludeIds == null ? true : !excludeIds.Contains(row.Row.Id) ? true : false;
+                    if (flag)
+                    {
+                        ret.Add($"{row.Row.Id}-{row.Name}", row.Row.Id);
+                    }
+                }
+            }
+            return ret;
+        }
+
+        public static IEnumerable GetStaticSceneUuids(List<string> excludeUuid = null, string packageDir = null)
+        {
+            var ret = new ValueDropdownList<string>();
+            var overviews = AssetDatabaseUtility.FindAsset<StaticSceneOverview>(packageDir);
+            foreach (var overview in overviews)
+            {
+
+                foreach (var row in overview.Rows)
+                {
+                    bool flag = excludeUuid == null ? true : !excludeUuid.Contains(row.Row.Uuid) ? true : false;
+                    if (flag)
+                    {
+                        ret.Add($"{row.UuidShort}-{row.Name}", row.Uuid);
+                    }
+                }
+            }
+            return ret;
+        }
+
+        public static UnityStaticSceneRow GetStaticSceneById(int id, string packageDir = null)
+        {
+            UnityStaticSceneRow ret = null;
+            var overviews = AssetDatabaseUtility.FindAsset<StaticSceneOverview>(packageDir);
+            foreach (var overview in overviews)
+            {
+
+                foreach (var row in overview.Rows)
+                {
+                    if (row.Row.Id == id)
+                    {
+                        ret = row;
+                    }
 
                 }
+            }
+            return ret;
+        }
+
+        public static UnityStaticSceneRow GetStaticSceneByUuid(string uuid, string packageDir = null)
+        {
+            UnityStaticSceneRow ret = null;
+            var overviews = AssetDatabaseUtility.FindAsset<StaticSceneOverview>(packageDir);
+            foreach (var overview in overviews)
+            {
+
+                foreach (var row in overview.Rows)
+                {
+                    if (row.Row.Uuid == uuid)
+                    {
+                        ret = row;
+                    }
+
+                }
+            }
+            return ret;
+        }
+
+        public static IEnumerable GetUIParamsType(string currentTypeStr = null)
+        {
+            var types = Utility.Assembly.GetTypes(typeof(UIPanelParams));
+            Type currentType = null;
+            if (currentTypeStr != null)
+            {
+                currentType = Utility.Assembly.GetType(currentTypeStr);
+            }
+
+            ValueDropdownList<string> ret = new();
+            for (int i = 0; i < types.Length; i++)
+            {
+                var type = types[i];
+                if (type == currentType)
+                {
+                    continue;
+                }
+                var attr = type.GetCustomAttribute(typeof(Pangoo.Core.Common.CategoryAttribute));
+                string key = attr != null ? attr.ToString() : types[i].ToString();
+                ret.Add(key, types[i].ToString());
+            }
+            return ret;
+        }
+
+        public static IEnumerable GetInstructionType(string currentTypeStr = null)
+        {
+            var types = AssemblyUtility.GetTypes(typeof(Instruction));
+            Type currentType = null;
+            if (currentTypeStr != null)
+            {
+                currentType = AssemblyUtility.GetType(currentTypeStr);
+            }
+
+            ValueDropdownList<string> ret = new();
+            for (int i = 0; i < types.Length; i++)
+            {
+                var type = types[i];
+                if (type == currentType)
+                {
+                    continue;
+                }
+                var attr = type.GetCustomAttribute(typeof(CategoryAttribute));
+                ret.Add(attr.ToString(), types[i].ToString());
             }
             return ret;
         }

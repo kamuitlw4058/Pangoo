@@ -9,10 +9,13 @@ using UnityEngine;
 using Pangoo.Core.Common;
 using Pangoo.Core.VisualScripting;
 
+using Pangoo.Common;
+
 namespace Pangoo.Core.Services
 {
     public class GameSectionService : BaseService
     {
+        public override string ServiceName => "GameSection";
         public override int Priority => 10;
 
         ExcelTableService m_ExcelTableService;
@@ -55,7 +58,7 @@ namespace Pangoo.Core.Services
 
         protected override void DoStart()
         {
-            Debug.Log($"DoStart GameSectionService");
+            Log("DoStart");
             m_GameSectionTable = m_ExcelTableService.GetExcelTable<GameSectionTable>();
             m_InstructionTable = m_ExcelTableService.GetExcelTable<InstructionTable>();
             m_StaticSceneService.OnInitSceneLoaded += OnInitSceneLoaded;
@@ -65,7 +68,7 @@ namespace Pangoo.Core.Services
 
         bool CheckDynamicObjectLoaded(GameSectionTable.GameSectionRow row)
         {
-            var doIds = row.DynamicObjectIds.ToListInt();
+            var doIds = row.DynamicObjectIds.ToSplitList<int>();
             foreach (var doId in doIds)
             {
                 if (m_DynamicObjectService.GetLoadedEntity(doId) == null)
@@ -80,7 +83,7 @@ namespace Pangoo.Core.Services
         bool CheckGameSectionLoadedCompleted(GameSectionTable.GameSectionRow row)
         {
             bool IsDynamicObjectLoaded = CheckDynamicObjectLoaded(row);
-            Debug.Log($"CheckGameSectionLoadedCompleted IsSceneLoaded:{m_StaticSceneService.SectionInited} IsDynamicObjectLoaded:{IsDynamicObjectLoaded}");
+            Log($"CheckGameSectionLoadedCompleted IsSceneLoaded:{m_StaticSceneService.SectionInited} IsDynamicObjectLoaded:{IsDynamicObjectLoaded}");
             if (m_StaticSceneService.SectionInited && CheckDynamicObjectLoaded(row))
             {
                 return true;
@@ -92,7 +95,7 @@ namespace Pangoo.Core.Services
         void RunLoadedInstructions(GameSectionTable.GameSectionRow GameSectionRow)
         {
 #if UNITY_EDITOR
-            var editorInstructionIds = GameSectionRow.EditorInitedInstructionIds.ToListInt();
+            var editorInstructionIds = GameSectionRow.EditorInitedInstructionIds.ToSplitList<int>();
             if (editorInstructionIds.Count > 0)
             {
                 var instructions = InstructionList.BuildInstructionList(editorInstructionIds, m_InstructionTable);
@@ -104,7 +107,7 @@ namespace Pangoo.Core.Services
 #endif
 
 
-            var instructionIds = GameSectionRow.InitedInstructionIds.ToListInt();
+            var instructionIds = GameSectionRow.InitedInstructionIds.ToSplitList<int>();
             if (instructionIds.Count > 0)
             {
 
@@ -129,9 +132,10 @@ namespace Pangoo.Core.Services
 
         public void SetGameSection(int id)
         {
-            Debug.Log($"SetGameSection is :{id}");
+            Log($"SetGameSection is :{id}");
             if (id <= 0)
             {
+                LogError($"SetGameSection Failed id <= 0:{id}");
                 return;
             }
 
@@ -143,13 +147,13 @@ namespace Pangoo.Core.Services
                 var GameSection = m_GameSectionTable.GetGameSectionRow(LatestId);
                 if (GameSection == null)
                 {
-                    Debug.LogError($"GameSection is null:{GameSection}");
+                    LogError($"GameSection is null:{GameSection}");
                 }
 
                 Tuple<int, int> sectionChange = new Tuple<int, int>(0, 0);
                 if (!string.IsNullOrEmpty(GameSection.SectionJumpByScene))
                 {
-                    var itemList = GameSection.SectionJumpByScene.ToListInt("#");
+                    var itemList = GameSection.SectionJumpByScene.ToSplitList<int>("#");
                     if (itemList.Count == 2)
                     {
                         sectionChange = new Tuple<int, int>(itemList[0], itemList[1]);
@@ -158,17 +162,18 @@ namespace Pangoo.Core.Services
 
                 m_StaticSceneService.SetGameSectionChange(sectionChange);
                 m_StaticSceneService.SetGameScetion(
-                    GameSection.DynamicSceneIds.ToListInt(),
-                    GameSection.KeepSceneIds.ToListInt(),
-                    GameSection.InitSceneIds.ToListInt()
+                    GameSection.DynamicSceneIds.ToSplitList<int>(),
+                    GameSection.KeepSceneIds.ToSplitList<int>(),
+                    GameSection.InitSceneIds.ToSplitList<int>()
                     );
 
                 m_DynamicObjectService.HideAllLoaded();
-                var doIds = GameSection.DynamicObjectIds.ToListInt();
+                var doIds = GameSection.DynamicObjectIds.ToSplitList<int>();
                 foreach (var doId in doIds)
                 {
                     m_DynamicObjectService.ShowDynamicObject(doId, (dynamicObjectId) =>
                     {
+                        Log($"Loaded DynamicObject Finish:{dynamicObjectId}");
                         if (CheckGameSectionLoadedCompleted(GameSection))
                         {
                             RunLoadedInstructions(GameSection);
@@ -176,7 +181,7 @@ namespace Pangoo.Core.Services
                     });
                 }
 
-                Log.Info($"Update Static Scene:{GameSection.Id} KeepSceneIds:{GameSection.KeepSceneIds} DynamicSceneIds:{GameSection.DynamicSceneIds}");
+                Log($"Update Static Scene:{GameSection.Id} KeepSceneIds:{GameSection.KeepSceneIds} DynamicSceneIds:{GameSection.DynamicSceneIds}");
             }
         }
 

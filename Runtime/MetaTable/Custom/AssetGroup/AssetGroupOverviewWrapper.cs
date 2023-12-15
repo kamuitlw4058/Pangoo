@@ -13,7 +13,7 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class AssetGroupOverviewWrapper : MetaTableOverviewWrapper<AssetGroupOverview, AssetGroupDetailRowWrapper, AssetGroupRowWrapper, AssetGroupNewRowWrapper, UnityAssetGroupRow>
+    public partial class AssetGroupOverviewWrapper : MetaTableOverviewWrapper<AssetGroupOverview,AssetGroupDetailRowWrapper,AssetGroupRowWrapper,AssetGroupNewRowWrapper,UnityAssetGroupRow>
     {
 
     }
