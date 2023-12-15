@@ -1,10 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Cinemachine;
+using System.Reflection;
+
 using Sirenix.OdinInspector;
-using UnityEditor;
 using GameFramework;
 using Pangoo.Core.VisualScripting;
 using UnityEngine;
@@ -279,7 +278,29 @@ namespace Pangoo.MetaTable
             return ret;
         }
 
+        public static IEnumerable GetUIParamsType(string currentTypeStr = null)
+        {
+            var types = Utility.Assembly.GetTypes(typeof(UIPanelParams));
+            Type currentType = null;
+            if (currentTypeStr != null)
+            {
+                currentType = Utility.Assembly.GetType(currentTypeStr);
+            }
 
+            ValueDropdownList<string> ret = new();
+            for (int i = 0; i < types.Length; i++)
+            {
+                var type = types[i];
+                if (type == currentType)
+                {
+                    continue;
+                }
+                var attr = type.GetCustomAttribute(typeof(Pangoo.Core.Common.CategoryAttribute));
+                string key = attr != null ? attr.ToString() : types[i].ToString();
+                ret.Add(key, types[i].ToString());
+            }
+            return ret;
+        }
 
 
 #endif

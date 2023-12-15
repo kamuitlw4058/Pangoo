@@ -40,6 +40,7 @@ namespace Pangoo.MetaTable
             if(unityRow == null)
             {
                  Rows.Remove(unityRow);
+                 AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(unityRow));
             }
         }
 

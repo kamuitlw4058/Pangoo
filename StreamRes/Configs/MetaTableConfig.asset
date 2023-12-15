@@ -267,27 +267,6 @@ MonoBehaviour:
       CnName: "\u7F16\u8F91\u5668\u521D\u59CB\u5316\u540E\u6267\u884C\u7684\u6307\u4EE4"
   - Config: {fileID: 11400000}
     MetaTableType: 0
-    TableName: GlobalData
-    RefConfig: {fileID: 0}
-    RefTableName: 
-    Columns:
-    - Name: Uuid
-      Type: string
-      CnName: Uuid
-    - Name: Name
-      Type: string
-      CnName: Name
-    - Name: Key
-      Type: string
-      CnName: "\u952E"
-    - Name: Type
-      Type: string
-      CnName: "\u7C7B\u578B"
-    - Name: Value
-      Type: string
-      CnName: "\u503C"
-  - Config: {fileID: 11400000}
-    MetaTableType: 0
     TableName: Hotspot
     RefConfig: {fileID: 0}
     RefTableName: 
@@ -304,6 +283,9 @@ MonoBehaviour:
     - Name: Params
       Type: string
       CnName: "\u53C2\u6570"
+    - Name: Id
+      Type: int
+      CnName: Id
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Instruction
@@ -322,72 +304,6 @@ MonoBehaviour:
     - Name: Params
       Type: string
       CnName: "\u6307\u4EE4\u53C2\u6570"
-  - Config: {fileID: 11400000}
-    MetaTableType: 0
-    TableName: PangooEvents
-    RefConfig: {fileID: 0}
-    RefTableName: 
-    Columns:
-    - Name: Uuid
-      Type: string
-      CnName: Uuid
-    - Name: Name
-      Type: string
-      CnName: Name
-    - Name: Namesapce
-      Type: string
-      CnName: "\u4E8B\u4EF6\u7684\u547D\u540D\u7A7A\u95F4"
-    - Name: EventName
-      Type: string
-      CnName: "\u4E8B\u4EF6\u540D\u79F0"
-    - Name: desc
-      Type: string
-      CnName: "\u63CF\u8FF0"
-  - Config: {fileID: 11400000}
-    MetaTableType: 0
-    TableName: RuntimeData
-    RefConfig: {fileID: 0}
-    RefTableName: 
-    Columns:
-    - Name: Uuid
-      Type: string
-      CnName: Uuid
-    - Name: Name
-      Type: string
-      CnName: Name
-    - Name: Key
-      Type: string
-      CnName: "\u952E"
-    - Name: Type
-      Type: string
-      CnName: "\u7C7B\u578B"
-    - Name: Value
-      Type: string
-      CnName: "\u503C"
-  - Config: {fileID: 11400000}
-    MetaTableType: 0
-    TableName: SaveLoad
-    RefConfig: {fileID: 0}
-    RefTableName: 
-    Columns:
-    - Name: Uuid
-      Type: string
-      CnName: Uuid
-    - Name: Name
-      Type: string
-      CnName: Name
-    - Name: int_key
-      Type: string
-      CnName: "Int\u7C7B\u578B\u7684\u952E"
-    - Name: int_value
-      Type: int
-      CnName: "Int\u7C7B\u578B\u7684\u503C"
-    - Name: float_key
-      Type: string
-      CnName: "Flaot\u7C7B\u578B\u7684\u952E"
-    - Name: float_value
-      Type: float
-      CnName: "Float\u7C7B\u578B\u7684\u503C"
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: SimpleUI
@@ -415,6 +331,9 @@ MonoBehaviour:
     - Name: Params
       Type: string
       CnName: "UI\u53C2\u6570"
+    - Name: Id
+      Type: int
+      CnName: Id
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Sound

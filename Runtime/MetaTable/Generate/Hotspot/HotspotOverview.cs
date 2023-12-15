@@ -16,28 +16,28 @@ using UnityEditor;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-        [CreateAssetMenu(fileName = "AssetGroupOverview", menuName = "MetaTable/AssetGroupOverview")]
-    public partial class AssetGroupOverview : MetaTableOverview
+        [CreateAssetMenu(fileName = "HotspotOverview", menuName = "MetaTable/HotspotOverview")]
+    public partial class HotspotOverview : MetaTableOverview
     {
 
 
         [TableList(AlwaysExpanded = true)]
-        public List<UnityAssetGroupRow> Rows = new();
+        public List<UnityHotspotRow> Rows = new();
 
-        public override string TableName => "AssetGroup";
+        public override string TableName => "Hotspot";
 
          public override IReadOnlyList<MetaTableUnityRow> UnityBaseRows => Rows;
 
         public override MetaTableBase ToTable()
         {
-           return ToTable<AssetGroupTable>();
+           return ToTable<HotspotTable>();
         }
 #if UNITY_EDITOR
 
          public override void RemoveRow(string uuid)
         {
-           var unityRow = GetUnityRowByName(uuid) as UnityAssetGroupRow;
-            if(unityRow != null)
+           var unityRow = GetUnityRowByName(uuid) as UnityHotspotRow;
+            if(unityRow == null)
             {
                  Rows.Remove(unityRow);
                  AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(unityRow));
@@ -46,15 +46,15 @@ namespace Pangoo.MetaTable
 
         public override void AddRow(MetaTableUnityRow unityRow)
         {
-           AddRow<UnityAssetGroupRow>(unityRow);
-           Rows.Add(unityRow as UnityAssetGroupRow);
+           AddRow<UnityHotspotRow>(unityRow);
+           Rows.Add(unityRow as UnityHotspotRow);
         }
 
         public override void AddBaseRow(MetaTableRow row)
         {
-           var unityRow = ScriptableObject.CreateInstance<UnityAssetGroupRow>();
-           unityRow.Row = row as AssetGroupRow;
-           AddRow<UnityAssetGroupRow>(unityRow);
+           var unityRow = ScriptableObject.CreateInstance<UnityHotspotRow>();
+           unityRow.Row = row as HotspotRow;
+           AddRow<UnityHotspotRow>(unityRow);
            Rows.Add(unityRow);
         }
 
@@ -64,7 +64,7 @@ namespace Pangoo.MetaTable
             {
                if (row.Uuid.Equals(uuid))
                 {
-                   row.Row = baseRow as AssetGroupRow;
+                   row.Row = baseRow as HotspotRow;
                    row.Row.Uuid = uuid;
                    return;
                 }
@@ -74,14 +74,14 @@ namespace Pangoo.MetaTable
         [Button("添加行")]
         public void AddRow()
         {
-           var unityRow = AddRow<UnityAssetGroupRow>();
+           var unityRow = AddRow<UnityHotspotRow>();
            Rows.Add(unityRow);
         }
 
         [Button("刷新行")]
         public override void RefreshRows()
         {
-           Rows = RefreshRows<UnityAssetGroupRow>();
+           Rows = RefreshRows<UnityHotspotRow>();
         }
 
         public override void RemoveByUuid(string uuid)
