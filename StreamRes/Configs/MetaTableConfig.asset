@@ -15,6 +15,7 @@ MonoBehaviour:
   Namespace: Pangoo.MetaTable
   PackageDir: Assets/Plugins/Pangoo
   ScriptDir: Runtime
+  EditorDir: Editor
   StreamResDir: StreamRes
   UsingNamespace:
   - System
