@@ -21,7 +21,7 @@ namespace Pangoo.Core.VisualScripting
         [LabelText("玩家/设置是否可以被控制")]
         SetPlayerIsControllable,
 
-        [LabelText("动态物体自身/设置子GameObject激活")]
+        [LabelText("动态物体自身/设置GameObject激活")]
         SetGameObjectActive,
 
         [LabelText("动态物体自身/激活相机GameObject")]
@@ -75,5 +75,8 @@ namespace Pangoo.Core.VisualScripting
         
         [LabelText("通用/显示或隐藏光标")]
         ShowHideCursor,
+        
+        [LabelText("UI/CanvasGroup")]
+        CanvasGroup,
     }
 }

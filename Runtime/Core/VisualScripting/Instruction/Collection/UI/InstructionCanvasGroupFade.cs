@@ -5,21 +5,19 @@ using DG.Tweening;
 using Pangoo.Core.Common;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Pangoo.Core.VisualScripting
 {
-    [Category("UI/ImageFade")]
+    [Category("UI/CanvasGroupFade")]
     [Serializable]
-    public class InstructionImageFade : Instruction
+    public class InstructionCanvasGroupFade : Instruction
     {
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        public InstructionImageFadeParams ParamsRaw = new InstructionImageFadeParams();
-        public override IParams Params => this.ParamsRaw;
-        
-        
+        public InstructionCanvasGroupFadeParams ParamsRaw = new InstructionCanvasGroupFadeParams();
+
+        public override IParams Params => ParamsRaw;
         [ShowInInspector]
         public override InstructionType InstructionType
         {
@@ -32,24 +30,24 @@ namespace Pangoo.Core.VisualScripting
         protected override IEnumerator Run(Args args)
         {
             Transform target=args.dynamicObject.CachedTransfrom.Find(ParamsRaw.TargetName);
-            if (!target.GetComponent<Image>())
+            if (!target.GetComponent<CanvasGroup>())
             {
                 return null;
             }
-            Image image=target.GetComponent<Image>();
-            image.DOFade(ParamsRaw.AlphaValue,ParamsRaw.TweenTime).SetId(ParamsRaw.TweenID);
+            CanvasGroup canvasGroup = target.GetComponent<CanvasGroup>();
+            DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, ParamsRaw.AlphaValue, ParamsRaw.TweenTime);
             return null;
         }
 
         public override void RunImmediate(Args args)
         {
             Transform target=args.dynamicObject.CachedTransfrom.Find(ParamsRaw.TargetName);
-            if (!target.GetComponent<Image>())
+            if (!target.GetComponent<CanvasGroup>())
             {
                 return;
             }
-            Image image=target.GetComponent<Image>();
-            image.DOFade(ParamsRaw.AlphaValue,ParamsRaw.TweenTime).SetId(ParamsRaw.TweenID);
+            CanvasGroup canvasGroup = target.GetComponent<CanvasGroup>();
+            DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, ParamsRaw.AlphaValue, ParamsRaw.TweenTime);
         }
     }
 }
