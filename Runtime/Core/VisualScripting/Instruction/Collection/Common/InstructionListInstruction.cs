@@ -45,9 +45,10 @@ namespace Pangoo.Core.VisualScripting
             while (InstructionList.IsRunning)
             {
                 InstructionList.OnUpdate();
-                Debug.Log($"Instructions:{InstructionList.IsRunning}");
+                // Debug.Log($"Instructions:{InstructionList.IsRunning}");
                 yield return null;
             }
+
         }
 
         public override void RunImmediate(Args args)
