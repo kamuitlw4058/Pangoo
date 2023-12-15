@@ -9,6 +9,8 @@ using UnityEngine;
 using Pangoo.Core.Common;
 using Pangoo.Core.VisualScripting;
 
+using Pangoo.Common;
+
 namespace Pangoo.Core.Services
 {
     public class GameSectionService : BaseService
@@ -65,7 +67,7 @@ namespace Pangoo.Core.Services
 
         bool CheckDynamicObjectLoaded(GameSectionTable.GameSectionRow row)
         {
-            var doIds = row.DynamicObjectIds.ToListInt();
+            var doIds = row.DynamicObjectIds.ToSplitList<int>();
             foreach (var doId in doIds)
             {
                 if (m_DynamicObjectService.GetLoadedEntity(doId) == null)
@@ -92,7 +94,7 @@ namespace Pangoo.Core.Services
         void RunLoadedInstructions(GameSectionTable.GameSectionRow GameSectionRow)
         {
 #if UNITY_EDITOR
-            var editorInstructionIds = GameSectionRow.EditorInitedInstructionIds.ToListInt();
+            var editorInstructionIds = GameSectionRow.EditorInitedInstructionIds.ToSplitList<int>();
             if (editorInstructionIds.Count > 0)
             {
                 var instructions = InstructionList.BuildInstructionList(editorInstructionIds, m_InstructionTable);
@@ -104,7 +106,7 @@ namespace Pangoo.Core.Services
 #endif
 
 
-            var instructionIds = GameSectionRow.InitedInstructionIds.ToListInt();
+            var instructionIds = GameSectionRow.InitedInstructionIds.ToSplitList<int>();
             if (instructionIds.Count > 0)
             {
 
@@ -149,7 +151,7 @@ namespace Pangoo.Core.Services
                 Tuple<int, int> sectionChange = new Tuple<int, int>(0, 0);
                 if (!string.IsNullOrEmpty(GameSection.SectionJumpByScene))
                 {
-                    var itemList = GameSection.SectionJumpByScene.ToListInt("#");
+                    var itemList = GameSection.SectionJumpByScene.ToSplitList<int>("#");
                     if (itemList.Count == 2)
                     {
                         sectionChange = new Tuple<int, int>(itemList[0], itemList[1]);
@@ -158,13 +160,13 @@ namespace Pangoo.Core.Services
 
                 m_StaticSceneService.SetGameSectionChange(sectionChange);
                 m_StaticSceneService.SetGameScetion(
-                    GameSection.DynamicSceneIds.ToListInt(),
-                    GameSection.KeepSceneIds.ToListInt(),
-                    GameSection.InitSceneIds.ToListInt()
+                    GameSection.DynamicSceneIds.ToSplitList<int>(),
+                    GameSection.KeepSceneIds.ToSplitList<int>(),
+                    GameSection.InitSceneIds.ToSplitList<int>()
                     );
 
                 m_DynamicObjectService.HideAllLoaded();
-                var doIds = GameSection.DynamicObjectIds.ToListInt();
+                var doIds = GameSection.DynamicObjectIds.ToSplitList<int>();
                 foreach (var doId in doIds)
                 {
                     m_DynamicObjectService.ShowDynamicObject(doId, (dynamicObjectId) =>

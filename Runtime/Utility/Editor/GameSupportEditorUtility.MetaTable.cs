@@ -193,28 +193,93 @@ namespace Pangoo.MetaTable
                             continue;
                         }
                     }
-                    bool flag = false;
-                    if (excludeUuid == null)
-                    {
-                        flag = true;
-                    }
-                    else
-                    {
-                        if (!excludeUuid.Contains(row.UuidShort))
-                        {
-                            flag = true;
-                        }
-                    }
-
+                    bool flag = excludeUuid == null ? true : !excludeUuid.Contains(row.Row.Uuid) ? true : false;
                     if (flag)
                     {
                         ret.Add($"{row.UuidShort}-{row.Name}", row.Uuid);
+                    }
+                }
+            }
+            return ret;
+        }
+
+        public static IEnumerable GetStaticSceneIds(List<int> excludeIds = null, string packageDir = null)
+        {
+            var ret = new ValueDropdownList<int>();
+            var overviews = AssetDatabaseUtility.FindAsset<StaticSceneOverview>(packageDir);
+            foreach (var overview in overviews)
+            {
+
+                foreach (var row in overview.Rows)
+                {
+                    bool flag = excludeIds == null ? true : !excludeIds.Contains(row.Row.Id) ? true : false;
+                    if (flag)
+                    {
+                        ret.Add($"{row.Row.Id}-{row.Name}", row.Row.Id);
+                    }
+                }
+            }
+            return ret;
+        }
+
+        public static IEnumerable GetStaticSceneUuids(List<string> excludeUuid = null, string packageDir = null)
+        {
+            var ret = new ValueDropdownList<string>();
+            var overviews = AssetDatabaseUtility.FindAsset<StaticSceneOverview>(packageDir);
+            foreach (var overview in overviews)
+            {
+
+                foreach (var row in overview.Rows)
+                {
+                    bool flag = excludeUuid == null ? true : !excludeUuid.Contains(row.Row.Uuid) ? true : false;
+                    if (flag)
+                    {
+                        ret.Add($"{row.UuidShort}-{row.Name}", row.Uuid);
+                    }
+                }
+            }
+            return ret;
+        }
+
+        public static UnityStaticSceneRow GetStaticSceneById(int id, string packageDir = null)
+        {
+            UnityStaticSceneRow ret = null;
+            var overviews = AssetDatabaseUtility.FindAsset<StaticSceneOverview>(packageDir);
+            foreach (var overview in overviews)
+            {
+
+                foreach (var row in overview.Rows)
+                {
+                    if (row.Row.Id == id)
+                    {
+                        ret = row;
                     }
 
                 }
             }
             return ret;
         }
+
+        public static UnityStaticSceneRow GetStaticSceneByUuid(string uuid, string packageDir = null)
+        {
+            UnityStaticSceneRow ret = null;
+            var overviews = AssetDatabaseUtility.FindAsset<StaticSceneOverview>(packageDir);
+            foreach (var overview in overviews)
+            {
+
+                foreach (var row in overview.Rows)
+                {
+                    if (row.Row.Uuid == uuid)
+                    {
+                        ret = row;
+                    }
+
+                }
+            }
+            return ret;
+        }
+
+
 
 
 #endif

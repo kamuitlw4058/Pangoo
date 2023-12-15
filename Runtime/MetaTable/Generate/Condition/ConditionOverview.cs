@@ -47,6 +47,19 @@ namespace Pangoo.MetaTable
            AddRow<UnityConditionRow>(unityRow);
         }
 
+        public override void UpdateRow(string uuid, MetaTableRow baseRow)
+        {
+           foreach (var row in Rows)
+            {
+               if (row.Uuid.Equals(uuid))
+                {
+                   row.Row = baseRow as ConditionRow;
+                   row.Row.Uuid = uuid;
+                   return;
+                }
+            }
+        }
+
         [Button("添加行")]
         public void AddRow()
         {

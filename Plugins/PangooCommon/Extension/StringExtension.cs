@@ -18,6 +18,27 @@ namespace Pangoo.Common
         private const NumberStyles HEX = NumberStyles.HexNumber;
 
         private static readonly TextInfo TXT_INFO = CultureInfo.InvariantCulture.TextInfo;
+
+
+        public static IEnumerable<T> ToSplitIEnumerable<T>(this string s, string split = "|")
+        {
+
+            if (string.IsNullOrEmpty(s))
+            {
+                return null;
+            }
+            return s.Split(split).Select(o => o.ToValue<T>());
+        }
+
+        public static T[] ToSplitArr<T>(this string s, string split = "|")
+        {
+            return ToSplitIEnumerable<T>(s, split)?.ToArray();
+        }
+        public static List<T> ToSplitList<T>(this string s, string split = "|")
+        {
+            return ToSplitIEnumerable<T>(s, split)?.ToList();
+        }
+
         public static List<int> ToListInt(this string s, string split = "|")
         {
             if (string.IsNullOrEmpty(s))
@@ -169,6 +190,12 @@ namespace Pangoo.Common
                 }
             }
             return sb.ToString().Replace("-", "_");
+        }
+
+        public static T ToValue<T>(this string str)
+        {
+            var type = typeof(T);
+            return (T)str.ToValue(type);
         }
 
 

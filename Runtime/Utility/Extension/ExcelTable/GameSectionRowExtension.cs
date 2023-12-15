@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System.Text;
 using GameFramework;
+using Pangoo.Common;
 
 namespace Pangoo
 {
@@ -17,7 +18,7 @@ namespace Pangoo
             {
                 return new List<int>();
             }
-            return row.DynamicObjectIds.ToListInt();
+            return row.DynamicObjectIds.ToSplitList<int>();
         }
 
 
@@ -52,7 +53,7 @@ namespace Pangoo
             {
                 return new List<int>();
             }
-            return row.DynamicSceneIds.ToListInt();
+            return row.DynamicSceneIds.ToSplitList<int>();
         }
 
 

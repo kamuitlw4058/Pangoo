@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System.Text;
 using GameFramework;
+using Pangoo.Common;
 
 namespace Pangoo
 {
@@ -41,7 +42,7 @@ namespace Pangoo
             {
                 return new List<int>();
             }
-            return row.InstructionList.ToListInt();
+            return row.InstructionList.ToSplitList<int>();
         }
 
         public static List<int> GetFailInstructionList(this TriggerEventTable.TriggerEventRow row)
@@ -50,7 +51,7 @@ namespace Pangoo
             {
                 return new List<int>();
             }
-            return row.FailInstructionList.ToListInt();
+            return row.FailInstructionList.ToSplitList<int>();
         }
 
         public static List<int> GetConditionList(this TriggerEventTable.TriggerEventRow row)
@@ -59,7 +60,7 @@ namespace Pangoo
             {
                 return new List<int>();
             }
-            return row.ConditionList.ToListInt();
+            return row.ConditionList.ToSplitList<int>();
         }
 
         public static void AddInstructionId(this TriggerEventTable.TriggerEventRow row, int id)

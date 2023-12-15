@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System.Text;
 using GameFramework;
+using Pangoo.Common;
 
 namespace Pangoo
 {
@@ -16,7 +17,7 @@ namespace Pangoo
             {
                 return new List<int>();
             }
-            return row.TriggerEventIds.ToListInt();
+            return row.TriggerEventIds.ToSplitList<int>();
         }
 
         public static List<int> GetHotspotIdList(this DynamicObjectTable.DynamicObjectRow row)
@@ -25,7 +26,7 @@ namespace Pangoo
             {
                 return new List<int>();
             }
-            return row.HotspotIds.ToListInt();
+            return row.HotspotIds.ToSplitList<int>();
         }
 
         public static void AddTriggerEventId(this DynamicObjectTable.DynamicObjectRow row, int id)
