@@ -339,7 +339,7 @@ namespace Pangoo.Editor
 
             if (Directory.Exists(directoryPath))
             {
-                Directory.Delete(directoryPath);
+                Directory.Delete(directoryPath,true);
             }
         }
         
