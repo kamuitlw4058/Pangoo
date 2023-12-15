@@ -34,7 +34,7 @@ namespace Pangoo.Core.VisualScripting
         [TableTitleGroup("参数")]
         [LabelText("$String2Label")]
         [ShowIf("$IsString2Show")]
-        [LabelWidth(50)]
+        [LabelWidth(80)]
         [JsonMember("String2")]
         public string String2;
 
