@@ -200,6 +200,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.ShowSubtitle => true,
                     DirectInstructionTypeEnum.ImageFade=>true,
                     DirectInstructionTypeEnum.CanvasGroup=>true,
+                    DirectInstructionTypeEnum.WaitMsg=>true,
                     _ => false,
                 };
             }
@@ -357,6 +358,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.ShowSubtitle => "字幕内容",
                     DirectInstructionTypeEnum.ImageFade=>"目标节点名字",
                     DirectInstructionTypeEnum.CanvasGroup=>"目标节点名字",
+                    DirectInstructionTypeEnum.WaitMsg=>"消息内容",
                     _ => "String1",
                 };
             }

@@ -78,5 +78,8 @@ namespace Pangoo.Core.VisualScripting
         
         [LabelText("UI/CanvasGroup")]
         CanvasGroup,
+        
+        [LabelText("通用/等待消息")]
+        WaitMsg,
     }
 }

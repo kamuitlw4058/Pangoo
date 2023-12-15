@@ -198,6 +198,13 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
+        public static Instruction GetWaitMsg(string conditionString)
+        {
+            var instruction = Activator.CreateInstance<InstructionWaitMsg>();
+            instruction.ParamsRaw.ConditionString = conditionString;
+            return instruction;
+        }
+
         public Instruction ToInstruction(InstructionTable instructionTable = null)
         {
             switch (InstructionType)
@@ -249,6 +256,8 @@ namespace Pangoo.Core.VisualScripting
                     return GetShowHideCursor(Bool1);
                 case DirectInstructionTypeEnum.CanvasGroup:
                     return GetCanvasGroupFadeInstruction(String1,Float1,Float2);
+                case DirectInstructionTypeEnum.WaitMsg:
+                    return GetWaitMsg(String1);
             }
 
             return null;
