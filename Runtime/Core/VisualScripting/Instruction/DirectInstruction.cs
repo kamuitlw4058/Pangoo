@@ -201,6 +201,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.ImageFade=>true,
                     DirectInstructionTypeEnum.CanvasGroup=>true,
                     DirectInstructionTypeEnum.WaitMsg=>true,
+                    DirectInstructionTypeEnum.DoTweenKill=>true,
                     _ => false,
                 };
             }
@@ -214,6 +215,7 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.SetGameObjectActive => true,
+                    DirectInstructionTypeEnum.ImageFade=>true,
                     _ => false,
                 };
             }
@@ -359,6 +361,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.ImageFade=>"目标节点名字",
                     DirectInstructionTypeEnum.CanvasGroup=>"目标节点名字",
                     DirectInstructionTypeEnum.WaitMsg=>"消息内容",
+                    DirectInstructionTypeEnum.DoTweenKill=>"TweenID",
                     _ => "String1",
                 };
             }
@@ -372,6 +375,7 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.SetGameObjectActive => "对象路径",
+                    DirectInstructionTypeEnum.ImageFade=>"TweenID",
                     _ => "String2",
                 };
             }

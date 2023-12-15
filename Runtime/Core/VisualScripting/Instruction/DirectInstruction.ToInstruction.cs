@@ -123,12 +123,13 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
         
-        public static Instruction GetImageFadeInstruction(string targetName,float alphaValue, float tweenTime)
+        public static Instruction GetImageFadeInstruction(string targetName,float alphaValue, float tweenTime,string tweenID)
         {
             var instruction = Activator.CreateInstance<InstructionImageFade>();
             instruction.ParamsRaw.TargetName = targetName;
             instruction.ParamsRaw.AlphaValue = alphaValue;
             instruction.ParamsRaw.TweenTime = tweenTime;
+            instruction.ParamsRaw.TweenID = tweenID;
             return instruction;
         }
         
@@ -204,6 +205,13 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.ConditionString = conditionString;
             return instruction;
         }
+        
+        public static Instruction GetDoTweenKill(string tweenID)
+        {
+            var instruction = Activator.CreateInstance<InstructionDoTweenKill>();
+            instruction.ParamsRaw.TweenID = tweenID;
+            return instruction;
+        }
 
         public Instruction ToInstruction(InstructionTable instructionTable = null)
         {
@@ -219,7 +227,6 @@ namespace Pangoo.Core.VisualScripting
                     return GetSetPlayerIsControllable(Bool1);
                 case DirectInstructionTypeEnum.SetGameObjectActive:
                     return GetSetGameObjectActive(String1,String2, Bool1,Bool2);
-                
                 case DirectInstructionTypeEnum.ActiveCameraGameObject:
                     return GetActiveCameraGameObject(DropdownString1, Bool1);
                 case DirectInstructionTypeEnum.UnactiveCameraGameObject:
@@ -251,13 +258,15 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
                     return GetDynamicObjectSubGameObjectEnabled(Int1, DropdownString1, Bool1);
                 case DirectInstructionTypeEnum.ImageFade:
-                    return GetImageFadeInstruction(String1,Float1, Float2);
+                    return GetImageFadeInstruction(String1,Float1, Float2,String2);
                 case DirectInstructionTypeEnum.ShowHideCursor:
                     return GetShowHideCursor(Bool1);
                 case DirectInstructionTypeEnum.CanvasGroup:
                     return GetCanvasGroupFadeInstruction(String1,Float1,Float2);
                 case DirectInstructionTypeEnum.WaitMsg:
                     return GetWaitMsg(String1);
+                case DirectInstructionTypeEnum.DoTweenKill:
+                    return GetDoTweenKill(String1);
             }
 
             return null;
