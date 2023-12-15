@@ -34,6 +34,16 @@ namespace Pangoo.MetaTable
         }
 #if UNITY_EDITOR
 
+         public override void RemoveRow(string uuid)
+        {
+           var unityRow = GetUnityRowByName(uuid) as UnityConditionRow;
+            if(unityRow == null)
+            {
+                 Rows.Remove(unityRow);
+                 AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(unityRow));
+            }
+        }
+
         public override void AddRow(MetaTableUnityRow unityRow)
         {
            AddRow<UnityConditionRow>(unityRow);
@@ -45,6 +55,7 @@ namespace Pangoo.MetaTable
            var unityRow = ScriptableObject.CreateInstance<UnityConditionRow>();
            unityRow.Row = row as ConditionRow;
            AddRow<UnityConditionRow>(unityRow);
+           Rows.Add(unityRow);
         }
 
         public override void UpdateRow(string uuid, MetaTableRow baseRow)

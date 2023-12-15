@@ -25,7 +25,7 @@ namespace Pangoo.Common
 
             if (string.IsNullOrEmpty(s))
             {
-                return null;
+                return new List<T>();
             }
             return s.Split(split).Select(o => o.ToValue<T>());
         }

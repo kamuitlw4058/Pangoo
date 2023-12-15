@@ -13,8 +13,22 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class StaticSceneRowWrapper : MetaTableRowWrapper<StaticSceneOverview,StaticSceneNewRowWrapper,UnityStaticSceneRow>
+    public partial class StaticSceneRowWrapper : MetaTableRowWrapper<StaticSceneOverview, StaticSceneNewRowWrapper, UnityStaticSceneRow>
     {
+        GameObject m_AssetPrefab;
+        [ShowInInspector]
+        [LabelText("资源预制体")]
+        public GameObject AssetPrefab
+        {
+            get
+            {
+                if (m_AssetPrefab == null)
+                {
+                    m_AssetPrefab = GameSupportEditorUtility.GetPrefabByAssetPathUuid(UnityRow.Row.AssetPathUuid);
+                }
+                return m_AssetPrefab;
+            }
+        }
 
     }
 }

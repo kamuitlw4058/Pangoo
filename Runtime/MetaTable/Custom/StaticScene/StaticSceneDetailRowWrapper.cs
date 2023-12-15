@@ -128,6 +128,11 @@ namespace Pangoo.MetaTable
         public void UpgradeToUuuid()
         {
             var row = GameSupportEditorUtility.GetAssetPathById(AssetPathId);
+            if (row == null)
+            {
+                Debug.Log($"AssetPathId:{AssetPathId} no found:{Name}");
+                return;
+            }
             AssetPathUuid = row.Uuid;
 
             List<string> loadUuids = new List<string>();
