@@ -50,6 +50,15 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.Val = val;
             return instruction;
         }
+        
+        public static Instruction GetSetGlobalGameObjectActive(string root,string rootChild, bool val)
+        {
+            var instruction = Activator.CreateInstance<InstructionGlobalGameObjectActive>();
+            instruction.ParamsRaw.Root = root;
+            instruction.ParamsRaw.RootChild = rootChild;
+            instruction.ParamsRaw.Val = val;
+            return instruction;
+        }
 
         public static Instruction GetActiveCameraGameObject(string path, bool val)
         {
@@ -265,6 +274,8 @@ namespace Pangoo.Core.VisualScripting
                     return GetWaitMsg(String1);
                 case DirectInstructionTypeEnum.DoTweenKill:
                     return GetDoTweenKill(String1);
+                case DirectInstructionTypeEnum.SetGlobalGameObjectActive:
+                    return GetSetGlobalGameObjectActive(String1, String2, Bool1);
             }
 
             return null;

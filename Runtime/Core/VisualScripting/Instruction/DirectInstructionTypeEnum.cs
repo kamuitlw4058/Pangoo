@@ -83,6 +83,9 @@ namespace Pangoo.Core.VisualScripting
         WaitMsg,
         
         [LabelText("Tween/KillID")]
-        DoTweenKill
+        DoTweenKill,
+        
+        [LabelText("场景对象/设置GameObject激活")]
+        SetGlobalGameObjectActive,
     }
 }

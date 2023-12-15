@@ -170,6 +170,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => true,
                     DirectInstructionTypeEnum.ShowHideCursor => true,
                     DirectInstructionTypeEnum.PlaySound => true,
+                    DirectInstructionTypeEnum.SetGlobalGameObjectActive=>true,
                     _ => false,
                 };
             }
@@ -200,6 +201,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.CanvasGroup=>true,
                     DirectInstructionTypeEnum.WaitMsg=>true,
                     DirectInstructionTypeEnum.DoTweenKill=>true,
+                    DirectInstructionTypeEnum.SetGlobalGameObjectActive=>true,
                     _ => false,
                 };
             }
@@ -216,6 +218,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.ImageFade=>true,
                     DirectInstructionTypeEnum.CanvasGroup => true,
                     DirectInstructionTypeEnum.WaitMsg => true,
+                    DirectInstructionTypeEnum.SetGlobalGameObjectActive=>true,
                     _ => false,
                 };
             }
@@ -329,6 +332,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => "等待完成",
                     DirectInstructionTypeEnum.PlaySound => "是否循环",
                     DirectInstructionTypeEnum.ShowHideCursor => "显示鼠标光标",
+                    DirectInstructionTypeEnum.SetGlobalGameObjectActive=>"状态",
                     _ => "设置值",
                 };
             }
@@ -362,6 +366,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.CanvasGroup=>"目标节点名字",
                     DirectInstructionTypeEnum.WaitMsg=>"消息内容",
                     DirectInstructionTypeEnum.DoTweenKill=>"TweenID",
+                    DirectInstructionTypeEnum.SetGlobalGameObjectActive=>"根节点",
                     _ => "String1",
                 };
             }
@@ -376,6 +381,7 @@ namespace Pangoo.Core.VisualScripting
                 {
                     DirectInstructionTypeEnum.SetGameObjectActive => "对象路径",
                     DirectInstructionTypeEnum.ImageFade=>"TweenID",
+                    DirectInstructionTypeEnum.SetGlobalGameObjectActive=>"根节点子对象",
                     _ => "String2",
                 };
             }
