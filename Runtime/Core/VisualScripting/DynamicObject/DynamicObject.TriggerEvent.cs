@@ -25,6 +25,8 @@ namespace Pangoo.Core.VisualScripting
 
 
 
+
+
         [ShowInInspector]
         public bool IsRunningTriggers
         {
@@ -151,8 +153,21 @@ namespace Pangoo.Core.VisualScripting
             return ret;
         }
 
-        public
-
+        [ShowInInspector]
+        public bool InteractEnable
+        {
+            get
+            {
+                return m_Tracker?.InteractEnable ?? false;
+            }
+            set
+            {
+                if (m_Tracker != null)
+                {
+                    m_Tracker.InteractEnable = value;
+                }
+            }
+        }
 
         void DoAwakeTriggerEvent()
         {
@@ -160,6 +175,7 @@ namespace Pangoo.Core.VisualScripting
             m_InstructionTable = TableService?.GetExcelTable<InstructionTable>();
             m_ConditionTable = TableService?.GetExcelTable<ConditionTable>();
             m_VariablesTable = TableService?.GetExcelTable<VariablesTable>();
+
 
             var triggerIds = Row.GetTriggerEventIdList();
             TriggerEventRows.Clear();
@@ -187,6 +203,14 @@ namespace Pangoo.Core.VisualScripting
 
             if (m_Tracker != null)
             {
+                if (Row.DefaultDisableInteract)
+                {
+                    m_Tracker.InteractEnable = false;
+                }
+                else
+                {
+                    m_Tracker.InteractEnable = true;
+                }
                 m_Tracker.EventInteract += OnInteract;
                 m_Tracker.InteractOffset = Row.InteractOffset;
                 m_Tracker.InteractRadian = Row.InteractRadian;

@@ -18,6 +18,9 @@ namespace Pangoo.Core.Characters
         [NonSerialized] private bool m_IsInteracting;
 
         [ShowInInspector]
+        public bool InteractEnable { get; set; } = true;
+
+        [ShowInInspector]
         public bool IsInteracting
         {
             get
@@ -81,7 +84,7 @@ namespace Pangoo.Core.Characters
         {
             get
             {
-                if (InteractCanBan && InteractTriggerEnter)
+                if ((InteractCanBan && InteractTriggerEnter) || !InteractEnable)
                 {
                     return true;
                 }

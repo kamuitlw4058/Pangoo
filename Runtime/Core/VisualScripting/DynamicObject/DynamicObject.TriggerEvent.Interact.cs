@@ -14,7 +14,16 @@ namespace Pangoo.Core.VisualScripting
 
     public partial class DynamicObject
     {
+        [ShowInInspector]
+        public bool? IsInteractDisable
+        {
+            get
+            {
+                return m_Tracker?.InteractDisabled;
+            }
+        }
 
+        [ShowInInspector]
         public bool IsInteracting
         {
             get

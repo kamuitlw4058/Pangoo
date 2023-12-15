@@ -50,8 +50,8 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.Val = val;
             return instruction;
         }
-        
-        public static Instruction GetSetGlobalGameObjectActive(string root,string rootChild, bool val)
+
+        public static Instruction GetSetGlobalGameObjectActive(string root, string rootChild, bool val)
         {
             var instruction = Activator.CreateInstance<InstructionGlobalGameObjectActive>();
             instruction.ParamsRaw.Root = root;
@@ -130,7 +130,7 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.Duration = duration;
             return instruction;
         }
-        public static Instruction GetImageFadeInstruction(string targetName,float alphaValue, float tweenTime,string tweenID)
+        public static Instruction GetImageFadeInstruction(string targetName, float alphaValue, float tweenTime, string tweenID)
         {
             var instruction = Activator.CreateInstance<InstructionImageFade>();
             instruction.ParamsRaw.TargetName = targetName;
@@ -212,11 +212,19 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.ConditionString = conditionString;
             return instruction;
         }
-        
+
         public static Instruction GetDoTweenKill(string tweenID)
         {
             var instruction = Activator.CreateInstance<InstructionDoTweenKill>();
             instruction.ParamsRaw.TweenID = tweenID;
+            return instruction;
+        }
+
+        public static Instruction GetDynamicObjectInteractEnable(int dynamicObjectId, bool val)
+        {
+            var instruction = Activator.CreateInstance<InstructionDynamicObjectInteractEnable>();
+            instruction.ParamsRaw.DynamicObjectId = dynamicObjectId;
+            instruction.ParamsRaw.Val = val;
             return instruction;
         }
 
@@ -265,7 +273,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
                     return GetDynamicObjectSubGameObjectEnabled(Int1, DropdownString1, Bool1);
                 case DirectInstructionTypeEnum.ImageFade:
-                    return GetImageFadeInstruction(String1,Float1, Float2,String2);
+                    return GetImageFadeInstruction(String1, Float1, Float2, String2);
                 case DirectInstructionTypeEnum.ShowHideCursor:
                     return GetShowHideCursor(Bool1);
                 case DirectInstructionTypeEnum.CanvasGroup:
@@ -276,6 +284,8 @@ namespace Pangoo.Core.VisualScripting
                     return GetDoTweenKill(String1);
                 case DirectInstructionTypeEnum.SetGlobalGameObjectActive:
                     return GetSetGlobalGameObjectActive(String1, String2, Bool1);
+                case DirectInstructionTypeEnum.DynamicObjectInteractEnable:
+                    return GetDynamicObjectInteractEnable(Int1, Bool1);
             }
 
             return null;

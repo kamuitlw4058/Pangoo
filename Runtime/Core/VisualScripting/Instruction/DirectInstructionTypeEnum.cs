@@ -69,23 +69,26 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("动态物体/子物体开关")]
         DynamicObjectSubGameObjectEnabled,
-        
+
         [LabelText("Tween/ImageFade")]
         ImageFade,
-        
+
         [LabelText("通用/显示或隐藏光标")]
         ShowHideCursor,
-        
+
         [LabelText("Tween/CanvasGroup")]
         CanvasGroup,
-        
+
         [LabelText("通用/等待消息")]
         WaitMsg,
-        
+
         [LabelText("Tween/KillID")]
         DoTweenKill,
-        
+
         [LabelText("场景对象/设置GameObject激活")]
         SetGlobalGameObjectActive,
+
+        [LabelText("动态物体/设置是否可以交互")]
+        DynamicObjectInteractEnable,
     }
 }

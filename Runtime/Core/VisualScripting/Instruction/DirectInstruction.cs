@@ -30,7 +30,7 @@ namespace Pangoo.Core.VisualScripting
         [LabelWidth(50)]
         [JsonMember("String1")]
         public string String1;
-        
+
         [TableTitleGroup("参数")]
         [LabelText("$String2Label")]
         [ShowIf("$IsString2Show")]
@@ -126,6 +126,8 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectModelActive => true,
                     DirectInstructionTypeEnum.DynamicObjectHotspotActive => true,
                     DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => true,
+                    DirectInstructionTypeEnum.DynamicObjectInteractEnable => true,
+
                     DirectInstructionTypeEnum.RunInstruction => true,
 
                     DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => true,
@@ -168,9 +170,11 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => true,
                     DirectInstructionTypeEnum.DynamicObjectRunExecute => true,
                     DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => true,
+                    DirectInstructionTypeEnum.DynamicObjectInteractEnable => true,
+
                     DirectInstructionTypeEnum.ShowHideCursor => true,
                     DirectInstructionTypeEnum.PlaySound => true,
-                    DirectInstructionTypeEnum.SetGlobalGameObjectActive=>true,
+                    DirectInstructionTypeEnum.SetGlobalGameObjectActive => true,
                     _ => false,
                 };
             }
@@ -197,16 +201,16 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.ShowSubtitle => true,
-                    DirectInstructionTypeEnum.ImageFade=>true,
-                    DirectInstructionTypeEnum.CanvasGroup=>true,
-                    DirectInstructionTypeEnum.WaitMsg=>true,
-                    DirectInstructionTypeEnum.DoTweenKill=>true,
-                    DirectInstructionTypeEnum.SetGlobalGameObjectActive=>true,
+                    DirectInstructionTypeEnum.ImageFade => true,
+                    DirectInstructionTypeEnum.CanvasGroup => true,
+                    DirectInstructionTypeEnum.WaitMsg => true,
+                    DirectInstructionTypeEnum.DoTweenKill => true,
+                    DirectInstructionTypeEnum.SetGlobalGameObjectActive => true,
                     _ => false,
                 };
             }
         }
-        
+
         [JsonNoMember]
         bool IsString2Show
         {
@@ -215,10 +219,10 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.SetGameObjectActive => true,
-                    DirectInstructionTypeEnum.ImageFade=>true,
+                    DirectInstructionTypeEnum.ImageFade => true,
                     DirectInstructionTypeEnum.CanvasGroup => true,
                     DirectInstructionTypeEnum.WaitMsg => true,
-                    DirectInstructionTypeEnum.SetGlobalGameObjectActive=>true,
+                    DirectInstructionTypeEnum.SetGlobalGameObjectActive => true,
                     _ => false,
                 };
             }
@@ -332,7 +336,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => "等待完成",
                     DirectInstructionTypeEnum.PlaySound => "是否循环",
                     DirectInstructionTypeEnum.ShowHideCursor => "显示鼠标光标",
-                    DirectInstructionTypeEnum.SetGlobalGameObjectActive=>"状态",
+                    DirectInstructionTypeEnum.SetGlobalGameObjectActive => "状态",
                     _ => "设置值",
                 };
             }
@@ -362,11 +366,11 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.UnactiveCameraGameObject => "子对象",
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => "子对象",
                     DirectInstructionTypeEnum.ShowSubtitle => "字幕内容",
-                    DirectInstructionTypeEnum.ImageFade=>"目标节点名字",
-                    DirectInstructionTypeEnum.CanvasGroup=>"目标节点名字",
-                    DirectInstructionTypeEnum.WaitMsg=>"消息内容",
-                    DirectInstructionTypeEnum.DoTweenKill=>"TweenID",
-                    DirectInstructionTypeEnum.SetGlobalGameObjectActive=>"根节点",
+                    DirectInstructionTypeEnum.ImageFade => "目标节点名字",
+                    DirectInstructionTypeEnum.CanvasGroup => "目标节点名字",
+                    DirectInstructionTypeEnum.WaitMsg => "消息内容",
+                    DirectInstructionTypeEnum.DoTweenKill => "TweenID",
+                    DirectInstructionTypeEnum.SetGlobalGameObjectActive => "根节点",
                     _ => "String1",
                 };
             }
@@ -380,8 +384,8 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.SetGameObjectActive => "对象路径",
-                    DirectInstructionTypeEnum.ImageFade=>"TweenID",
-                    DirectInstructionTypeEnum.SetGlobalGameObjectActive=>"根节点子对象",
+                    DirectInstructionTypeEnum.ImageFade => "TweenID",
+                    DirectInstructionTypeEnum.SetGlobalGameObjectActive => "根节点子对象",
                     _ => "String2",
                 };
             }
