@@ -321,11 +321,28 @@ namespace Pangoo.Editor
             Debug.Log("目标路径:" + targetDirectoryPath);
 
             Debug.Log("开始拷贝文件夹");
+            DeleteStreamingAssetsPathResource();
             CopyPastFilesAndDirs(sourceDirectoryPath, targetDirectoryPath);
 
             Debug.Log("资源移动完成");
         }
 
+        private static void DeleteStreamingAssetsPathResource()
+        {
+            string filePath=$"{Application.streamingAssetsPath}/GameFrameworkVersion.dat";
+            string directoryPath=$"{Application.streamingAssetsPath}/GameMain";
+
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+
+            if (Directory.Exists(directoryPath))
+            {
+                Directory.Delete(directoryPath);
+            }
+        }
+        
         private static void CopyPastFilesAndDirs(string srcDir, string destDir)
         {
             if (!Directory.Exists(destDir)) //若目标文件夹不存在
@@ -335,7 +352,7 @@ namespace Pangoo.Editor
 
             string newPath;
             FileInfo fileInfo;
-            Directory.CreateDirectory(destDir); //创建目标文件夹                                                  
+            //Directory.CreateDirectory(destDir); //创建目标文件夹                                                  
             string[] files = Directory.GetFiles(srcDir); //获取源文件夹中的所有文件完整路径
             foreach (string path in files) //遍历文件     
             {
@@ -344,11 +361,6 @@ namespace Pangoo.Editor
                 
                 Debug.Log("新文件路径:" + newPath);
                 Debug.Log("<>fileName=" + fileInfo.Name);
-
-                if (File.Exists(newPath))
-                {
-                    File.Delete(newPath);
-                }
                 
                 File.Copy(path, newPath, true);
             }
@@ -360,12 +372,7 @@ namespace Pangoo.Editor
                 string newDir = Path.Combine(destDir, directory.Name);
                 Debug.Log("新目录路径:" + newDir);
                 Debug.Log("<>DirName=" + directory.Name);
-                
-                if (Directory.Exists(newDir))
-                {
-                    Directory.Delete(newDir);
-                }
-                
+
                 CopyPastFilesAndDirs(path, newDir);
             }
         }
