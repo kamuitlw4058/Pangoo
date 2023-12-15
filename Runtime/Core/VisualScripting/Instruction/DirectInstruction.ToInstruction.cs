@@ -42,11 +42,13 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetSetGameObjectActive(string path, bool val)
+        public static Instruction GetSetGameObjectActive(string root,string path, bool val,bool isGlobal)
         {
             var instruction = Activator.CreateInstance<InstructionGameObjectActive>();
+            instruction.ParamsRaw.Root = root;
             instruction.ParamsRaw.Path = path;
             instruction.ParamsRaw.Val = val;
+            instruction.ParamsRaw.IsGlobal = isGlobal;
             return instruction;
         }
 
@@ -209,7 +211,8 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.SetPlayerIsControllable:
                     return GetSetPlayerIsControllable(Bool1);
                 case DirectInstructionTypeEnum.SetGameObjectActive:
-                    return GetSetGameObjectActive(DropdownString1, Bool1);
+                    return GetSetGameObjectActive(String1,String2, Bool1,Bool2);
+                
                 case DirectInstructionTypeEnum.ActiveCameraGameObject:
                     return GetActiveCameraGameObject(DropdownString1, Bool1);
                 case DirectInstructionTypeEnum.UnactiveCameraGameObject:

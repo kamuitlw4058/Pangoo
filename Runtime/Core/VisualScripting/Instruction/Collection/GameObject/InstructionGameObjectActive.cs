@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using Pangoo.Core.Common;
 using UnityEngine;
 using Sirenix.OdinInspector;
@@ -13,7 +14,7 @@ namespace Pangoo.Core.VisualScripting
     // [Title("Change Camera")]
     // [Description("Prints a message to the Unity Console")]
 
-    [Category("Common/SetSelfTriggerEnabled")]
+    [Category("Common/SetGameObjectActive")]
 
     // [Parameter(
     //     "Message",
@@ -44,7 +45,16 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            var trans = args.dynamicObject.CachedTransfrom.Find(ParamsRaw.Path);
+            Transform trans=null;
+            if (!ParamsRaw.IsGlobal)
+            {
+                trans = args.dynamicObject.CachedTransfrom.Find(ParamsRaw.Path);
+            }
+            else
+            {
+                trans = GameObject.Find(ParamsRaw.Root).transform.Find(ParamsRaw.Path);
+            }
+            Debug.Log("节点:"+ParamsRaw.Root+"<>"+ParamsRaw.Path);
             if (trans != null)
             {
                 trans.gameObject.SetActive(ParamsRaw.Val);

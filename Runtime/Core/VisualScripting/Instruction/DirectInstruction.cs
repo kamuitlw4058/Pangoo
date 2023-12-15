@@ -30,6 +30,13 @@ namespace Pangoo.Core.VisualScripting
         [LabelWidth(50)]
         [JsonMember("String1")]
         public string String1;
+        
+        [TableTitleGroup("参数")]
+        [LabelText("$String2Label")]
+        [ShowIf("$IsString2Show")]
+        [LabelWidth(50)]
+        [JsonMember("String2")]
+        public string String2;
 
 
 
@@ -176,6 +183,7 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.PlaySound => true,
+                    DirectInstructionTypeEnum.SetGameObjectActive=>true,
                     _ => false,
                 };
             }
@@ -188,9 +196,23 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
+                    DirectInstructionTypeEnum.SetGameObjectActive => true,
                     DirectInstructionTypeEnum.ShowSubtitle => true,
                     DirectInstructionTypeEnum.ImageFade=>true,
                     DirectInstructionTypeEnum.CanvasGroup=>true,
+                    _ => false,
+                };
+            }
+        }
+        
+        [JsonNoMember]
+        bool IsString2Show
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.SetGameObjectActive => true,
                     _ => false,
                 };
             }
@@ -207,7 +229,6 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.UnactiveCameraGameObject => true,
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => true,
                     DirectInstructionTypeEnum.SubGameObjectPauseTimeline => true,
-                    DirectInstructionTypeEnum.SetGameObjectActive => true,
                     DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => true,
 
                     _ => false,
@@ -317,6 +338,7 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.PlaySound => "等待切换完成",
+                    DirectInstructionTypeEnum.SetGameObjectActive=>"是否为全局搜索",
                     _ => "设置值",
                 };
             }
@@ -329,13 +351,26 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.SetGameObjectActive => "子对象",
+                    DirectInstructionTypeEnum.SetGameObjectActive => "根节点",
                     DirectInstructionTypeEnum.UnactiveCameraGameObject => "子对象",
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => "子对象",
                     DirectInstructionTypeEnum.ShowSubtitle => "字幕内容",
                     DirectInstructionTypeEnum.ImageFade=>"目标节点名字",
                     DirectInstructionTypeEnum.CanvasGroup=>"目标节点名字",
                     _ => "String1",
+                };
+            }
+        }
+        
+        [JsonNoMember]
+        string String2Label
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.SetGameObjectActive => "对象路径",
+                    _ => "String2",
                 };
             }
         }
@@ -351,7 +386,6 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.UnactiveCameraGameObject => "子对象",
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => "子对象",
                     DirectInstructionTypeEnum.SubGameObjectPauseTimeline => "子对象",
-                    DirectInstructionTypeEnum.SetGameObjectActive => "子对象",
                     DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => "子对象",
 
                     _ => "DropdownString1",
