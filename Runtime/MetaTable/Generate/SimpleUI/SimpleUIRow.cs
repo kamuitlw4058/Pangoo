@@ -46,6 +46,11 @@ namespace Pangoo.MetaTable
         [LabelText("Id")]
         public int Id ;
 
+        [JsonMember("AssetPathUuid")]
+        [MetaTableRowColumn("AssetPathUuid","string", "资源路径Uuid",9)]
+        [LabelText("资源路径Uuid")]
+        public string AssetPathUuid ;
+
     }
 }
 

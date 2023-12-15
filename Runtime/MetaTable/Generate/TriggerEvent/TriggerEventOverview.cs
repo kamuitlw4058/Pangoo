@@ -37,9 +37,10 @@ namespace Pangoo.MetaTable
          public override void RemoveRow(string uuid)
         {
            var unityRow = GetUnityRowByName(uuid) as UnityTriggerEventRow;
-            if(unityRow == null)
+            if(unityRow != null)
             {
                  Rows.Remove(unityRow);
+                 AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(unityRow));
             }
         }
 

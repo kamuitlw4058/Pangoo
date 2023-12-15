@@ -334,6 +334,9 @@ MonoBehaviour:
     - Name: Id
       Type: int
       CnName: Id
+    - Name: AssetPathUuid
+      Type: string
+      CnName: "\u8D44\u6E90\u8DEF\u5F84Uuid"
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Sound

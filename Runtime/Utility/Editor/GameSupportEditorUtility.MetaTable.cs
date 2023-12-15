@@ -8,6 +8,8 @@ using GameFramework;
 using Pangoo.Core.VisualScripting;
 using UnityEngine;
 using MetaTable;
+using Pangoo.Common;
+using Pangoo.Core.Common;
 
 namespace Pangoo.MetaTable
 {
@@ -298,6 +300,29 @@ namespace Pangoo.MetaTable
                 var attr = type.GetCustomAttribute(typeof(Pangoo.Core.Common.CategoryAttribute));
                 string key = attr != null ? attr.ToString() : types[i].ToString();
                 ret.Add(key, types[i].ToString());
+            }
+            return ret;
+        }
+
+        public static IEnumerable GetInstructionType(string currentTypeStr = null)
+        {
+            var types = AssemblyUtility.GetTypes(typeof(Instruction));
+            Type currentType = null;
+            if (currentTypeStr != null)
+            {
+                currentType = AssemblyUtility.GetType(currentTypeStr);
+            }
+
+            ValueDropdownList<string> ret = new();
+            for (int i = 0; i < types.Length; i++)
+            {
+                var type = types[i];
+                if (type == currentType)
+                {
+                    continue;
+                }
+                var attr = type.GetCustomAttribute(typeof(CategoryAttribute));
+                ret.Add(attr.ToString(), types[i].ToString());
             }
             return ret;
         }

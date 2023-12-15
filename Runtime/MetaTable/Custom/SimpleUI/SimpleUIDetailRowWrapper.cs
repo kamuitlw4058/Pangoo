@@ -17,6 +17,26 @@ namespace Pangoo.MetaTable
     [Serializable]
     public partial class SimpleUIDetailRowWrapper : MetaTableDetailRowWrapper<SimpleUIOverview, UnitySimpleUIRow>
     {
+
+        [LabelText("资源Uuid")]
+        [ValueDropdown("AssetPathUuidValueDropdown")]
+        [PropertyOrder(0)]
+        [ShowInInspector]
+        public string AssetPathUuid
+        {
+            get
+            {
+                return UnityRow.Row?.AssetPathUuid;
+            }
+            set
+            {
+
+                UnityRow.Row.AssetPathUuid = value;
+                Save();
+            }
+
+        }
+
         [LabelText("资源ID")]
         [ValueDropdown("AssetPathIdValueDropdown")]
         [PropertyOrder(0)]
@@ -42,6 +62,12 @@ namespace Pangoo.MetaTable
             return GameSupportEditorUtility.GetAssetPathIds(assetTypes: new List<string> { "UI" });
         }
 
+        public IEnumerable AssetPathUuidValueDropdown()
+        {
+            return GameSupportEditorUtility.GetAssetPathUuids(assetTypes: new List<string> { "UI" });
+        }
+
+
 
         // void ShowCreateAssetPath()
         // {
@@ -57,7 +83,7 @@ namespace Pangoo.MetaTable
         }
 
         [ShowInInspector]
-        // [ValueDropdown("GetUIParamsType")]
+        [ValueDropdown("GetUIParamsType")]
         public string UIParamsType
         {
             get
@@ -79,10 +105,10 @@ namespace Pangoo.MetaTable
             }
         }
 
-        // public IEnumerable GetUIParamsType()
-        // {
-        //     return GameSupportEditorUtility.GetUIParamsType();
-        // }
+        public IEnumerable GetUIParamsType()
+        {
+            return GameSupportEditorUtility.GetUIParamsType();
+        }
 
 
 
@@ -157,6 +183,16 @@ namespace Pangoo.MetaTable
         public void LoadParams()
         {
             Instance.Load(UnityRow.Row.Params);
+        }
+
+        [Button("升级到Uuid")]
+        public void UpgradeUuid()
+        {
+            var row = GameSupportEditorUtility.GetAssetPathById(AssetPathId);
+            if (row != null)
+            {
+                AssetPathUuid = row.Uuid;
+            }
         }
     }
 }
