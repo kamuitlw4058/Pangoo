@@ -39,8 +39,8 @@ namespace Pangoo.Core.VisualScripting
 
         protected override IEnumerator Run(Args args)
         {
+            RunImmediate(args);
             yield break;
-
         }
 
         public override void RunImmediate(Args args)
@@ -59,7 +59,6 @@ namespace Pangoo.Core.VisualScripting
             {
                 trans.gameObject.SetActive(ParamsRaw.Val);
             }
-            return;
         }
 
 

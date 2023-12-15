@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
@@ -122,8 +123,24 @@ namespace Pangoo
             {
                 mainService.RuntimeData.SetVariable<bool>(VariableId, Val);
             }
-            
-            
+        }
+        
+        [Title("发送消息内容")]
+        public string conditionString;
+        public void SendMsg(float time)
+        {
+            if (mainService == null)
+            {
+                mainService = PangooEntry.Service.mainService;
+            }
+
+            StartCoroutine(waitTime(time));
+        }
+
+        IEnumerator waitTime(float time)
+        {
+            yield return new WaitForSeconds(time);
+            mainService.Event.Fire(this,EventTriggerEventArgs.Create(conditionString));
         }
     }
 }

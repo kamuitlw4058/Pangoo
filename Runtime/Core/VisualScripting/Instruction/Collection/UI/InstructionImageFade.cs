@@ -31,14 +31,8 @@ namespace Pangoo.Core.VisualScripting
         
         protected override IEnumerator Run(Args args)
         {
-            Transform target=args.dynamicObject.CachedTransfrom.Find(ParamsRaw.TargetName);
-            if (!target.GetComponent<Image>())
-            {
-                return null;
-            }
-            Image image=target.GetComponent<Image>();
-            image.DOFade(ParamsRaw.AlphaValue,ParamsRaw.TweenTime).SetId(ParamsRaw.TweenID);
-            return null;
+            RunImmediate(args);
+            yield break;
         }
 
         public override void RunImmediate(Args args)
