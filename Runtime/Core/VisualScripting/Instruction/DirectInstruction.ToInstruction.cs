@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using LitJson;
 using Sirenix.Utilities;
+using UnityEngine;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -199,10 +200,11 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetShowHideCursor(bool isShow)
+        public static Instruction GetShowHideCursor(bool isShow,CursorLockMode cursorLockMode)
         {
             var instruction = Activator.CreateInstance<InstructionShowHideCursor>();
-            instruction.ParamsRaw.IsShow = isShow;
+            instruction.ParamsRaw.Visible = isShow;
+            instruction.ParamsRaw.CursorLockMode = cursorLockMode;
             return instruction;
         }
 
@@ -217,6 +219,14 @@ namespace Pangoo.Core.VisualScripting
         {
             var instruction = Activator.CreateInstance<InstructionDoTweenKill>();
             instruction.ParamsRaw.TweenID = tweenID;
+            return instruction;
+        }
+        
+        public static Instruction GetCheckBoolVariableList(List<int> variableList,int setVariableID)
+        {
+            var instruction = Activator.CreateInstance<InstructionCheckVariableBoolList>();
+            instruction.ParamsRaw.VariableIdList = variableList;
+            instruction.ParamsRaw.SetVariableID = setVariableID;
             return instruction;
         }
 
@@ -275,7 +285,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.ImageFade:
                     return GetImageFadeInstruction(String1, Float1, Float2, String2);
                 case DirectInstructionTypeEnum.ShowHideCursor:
-                    return GetShowHideCursor(Bool1);
+                    return GetShowHideCursor(Bool1,CursorLockMode1);
                 case DirectInstructionTypeEnum.CanvasGroup:
                     return GetCanvasGroupFadeInstruction(String1, Float1, Float2);
                 case DirectInstructionTypeEnum.WaitMsg:
@@ -284,6 +294,8 @@ namespace Pangoo.Core.VisualScripting
                     return GetDoTweenKill(String1);
                 case DirectInstructionTypeEnum.SetGlobalGameObjectActive:
                     return GetSetGlobalGameObjectActive(String1, String2, Bool1);
+                case DirectInstructionTypeEnum.CheckBoolVariableList:
+                    return GetCheckBoolVariableList(ListInt1,Int1);
                 case DirectInstructionTypeEnum.DynamicObjectInteractEnable:
                     return GetDynamicObjectInteractEnable(Int1, Bool1);
             }

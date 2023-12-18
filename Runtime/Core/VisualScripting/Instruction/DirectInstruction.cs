@@ -39,12 +39,19 @@ namespace Pangoo.Core.VisualScripting
         public string String2;
 
 
+        [ValueDropdown("OnMainIntValueDropdown")]
+        [TableTitleGroup("参数")]
+        [LabelText("$ListInt1Label")]
+        [ShowIf("$IsMainListIntShow")]
+        [LabelWidth(80)]
+        [JsonMember("ListInt1")]
+        public List<int> ListInt1;
 
         [ValueDropdown("OnMainIntValueDropdown")]
         [TableTitleGroup("参数")]
         [LabelText("$Int1Label")]
         [ShowIf("$IsMainIntShow")]
-        [LabelWidth(50)]
+        [LabelWidth(80)]
         [JsonMember("Int1")]
         public int Int1;
 
@@ -56,8 +63,8 @@ namespace Pangoo.Core.VisualScripting
         [LabelWidth(50)]
         [JsonMember("Int2")]
         public int Int2;
-
-
+        
+        
 
 
         [TableTitleGroup("参数")]
@@ -105,6 +112,13 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("Float2")]
         public float Float2;
 
+        [TableTitleGroup("参数")]
+        //[LabelText("$CursorLockMode1Label")]
+        [ShowIf("$IsMainCursorLockModeShow")]
+        [LabelWidth(120)]
+        [JsonMember("CursorLockMode1")]
+        public CursorLockMode CursorLockMode1;
+
 
 
 #if UNITY_EDITOR
@@ -134,6 +148,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectRunExecute => true,
                     DirectInstructionTypeEnum.PlaySound => true,
                     DirectInstructionTypeEnum.StopSound => true,
+                    DirectInstructionTypeEnum.CheckBoolVariableList=>true,
                     _ => false,
                 };
             }
@@ -147,6 +162,19 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => true,
+                    _ => false,
+                };
+            }
+        }
+
+        [JsonNoMember]
+        bool IsMainListIntShow
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.CheckBoolVariableList => true,
                     _ => false,
                 };
             }
@@ -219,8 +247,7 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.SetGameObjectActive => true,
-                    DirectInstructionTypeEnum.ImageFade => true,
-                    DirectInstructionTypeEnum.CanvasGroup => true,
+                    DirectInstructionTypeEnum.ImageFade=>true,
                     DirectInstructionTypeEnum.WaitMsg => true,
                     DirectInstructionTypeEnum.SetGlobalGameObjectActive => true,
                     _ => false,
@@ -280,6 +307,19 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
+        [JsonNoMember]
+        bool IsMainCursorLockModeShow
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.ShowHideCursor => true,
+                    _ => false,
+                };
+            }
+        }
+
 
         [JsonNoMember]
         string Int1Label
@@ -304,6 +344,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SetGameObjectActive => "参考动态物体",
                     DirectInstructionTypeEnum.PlaySound => "音频Id",
                     DirectInstructionTypeEnum.StopSound => "音频Id",
+                    DirectInstructionTypeEnum.CheckBoolVariableList=>"设置变量ID",
                     _ => "Int1",
                 };
             }
@@ -319,6 +360,19 @@ namespace Pangoo.Core.VisualScripting
                 {
                     DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => "触发器Id",
                     _ => "Int1",
+                };
+            }
+        }
+        
+        [JsonNoMember]
+        string ListInt1Label
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.CheckBoolVariableList => "检查列表",
+                    _ => "ListInt1",
                 };
             }
         }
@@ -492,6 +546,8 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.PlaySound:
                 case DirectInstructionTypeEnum.StopSound:
                     return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<SoundTableOverview>();
+                case DirectInstructionTypeEnum.CheckBoolVariableList:
+                    return GameSupportEditorUtility.GetVariableIds(VariableValueTypeEnum.Bool.ToString());
             }
 
             return null;

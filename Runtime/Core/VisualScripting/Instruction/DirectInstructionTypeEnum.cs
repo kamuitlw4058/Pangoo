@@ -88,6 +88,9 @@ namespace Pangoo.Core.VisualScripting
         [LabelText("场景对象/设置GameObject激活")]
         SetGlobalGameObjectActive,
 
+        [LabelText("变量/检查Bool变量列表")]
+        CheckBoolVariableList,
+
         [LabelText("动态物体/设置是否可以交互")]
         DynamicObjectInteractEnable,
     }

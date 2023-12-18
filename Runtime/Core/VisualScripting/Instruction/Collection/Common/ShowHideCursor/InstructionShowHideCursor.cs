@@ -20,15 +20,14 @@ namespace Pangoo.Core.VisualScripting
         
         protected override IEnumerator Run(Args args)
         {
-            Cursor.visible = this.ParamsRaw.IsShow;
-            Cursor.lockState = CursorLockMode.Confined;
-            return null;
+            RunImmediate(args);
+            yield break;
         }
 
         public override void RunImmediate(Args args)
         {
-            Cursor.visible = this.ParamsRaw.IsShow;
-            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = this.ParamsRaw.Visible;
+            Cursor.lockState = ParamsRaw.CursorLockMode;
         }
     }
 }
