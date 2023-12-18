@@ -57,6 +57,31 @@ namespace Pangoo.MetaTable
 
         }
 
+        GameObject m_Prefab;
+
+
+        [ShowInInspector]
+        [LabelText("资源预制体")]
+        [ReadOnly]
+        public GameObject Prefab
+        {
+            get
+            {
+                if (m_Prefab == null)
+                {
+                    m_Prefab = GameSupportEditorUtility.GetPrefabByAssetPathUuid(UnityRow.Row.AssetPathUuid);
+                }
+                return m_Prefab;
+            }
+            set
+            {
+
+            }
+        }
+
+
+
+
         public IEnumerable AssetPathIdValueDropdown()
         {
             return GameSupportEditorUtility.GetAssetPathIds(assetTypes: new List<string> { "UI" });

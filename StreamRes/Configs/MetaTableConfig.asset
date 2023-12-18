@@ -208,6 +208,12 @@ MonoBehaviour:
     - Name: DefaultHideModel
       Type: bool
       CnName: "\u9ED8\u8BA4\u9690\u85CF\u6A21\u578B"
+    - Name: AssetPathUuid
+      Type: string
+      CnName: AssetPathUuid
+    - Name: DefaultDisableInteract
+      Type: bool
+      CnName: "\u9ED8\u8BA4\u5173\u95ED\u4EA4\u4E92"
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: EntityGroup

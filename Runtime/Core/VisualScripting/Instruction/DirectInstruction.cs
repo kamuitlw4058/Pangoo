@@ -542,6 +542,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.SetGameObjectActive:
                 case DirectInstructionTypeEnum.DynamicObjectRunExecute:
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
+                case DirectInstructionTypeEnum.DynamicObjectInteractEnable:
                     return GameSupportEditorUtility.GetDynamicObjectIds(true);
                 case DirectInstructionTypeEnum.PlaySound:
                 case DirectInstructionTypeEnum.StopSound:

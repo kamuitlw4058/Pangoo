@@ -94,7 +94,10 @@ namespace Pangoo.Editor
             InitOverviewWrapper<AssetGroupOverviewWrapper, AssetGroupOverview, AssetGroupDetailRowWrapper, AssetGroupRowWrapper, AssetGroupNewRowWrapper, UnityAssetGroupRow>(tree, null, "资源组");
 
             InitOverviewWrapper<AssetPathOverviewWrapper, Pangoo.MetaTable.AssetPathOverview, Pangoo.MetaTable.AssetPathDetailRowWrapper, Pangoo.MetaTable.AssetPathRowWrapper, Pangoo.MetaTable.AssetPathNewRowWrapper, UnityAssetPathRow>(tree, null, "资源路径");
+            InitOverviewWrapper<DynamicObjectOverviewWrapper, Pangoo.MetaTable.DynamicObjectOverview, Pangoo.MetaTable.DynamicObjectDetailRowWrapper, Pangoo.MetaTable.DynamicObjectRowWrapper, Pangoo.MetaTable.DynamicObjectNewRowWrapper, UnityDynamicObjectRow>(tree, null, "动态物体");
+
             InitOverviewWrapper<CharacterOverviewWrapper, Pangoo.MetaTable.CharacterOverview, Pangoo.MetaTable.CharacterDetailRowWrapper, Pangoo.MetaTable.CharacterRowWrapper, Pangoo.MetaTable.CharacterNewRowWrapper, UnityCharacterRow>(tree, null, "角色");
+
             InitOverviewWrapper<ConditionOverviewWrapper, Pangoo.MetaTable.ConditionOverview, Pangoo.MetaTable.ConditionDetailRowWrapper, Pangoo.MetaTable.ConditionRowWrapper, Pangoo.MetaTable.ConditionNewRowWrapper, UnityConditionRow>(tree, null, "条件");
             InitOverviewWrapper<StaticSceneOverviewWrapper, Pangoo.MetaTable.StaticSceneOverview, Pangoo.MetaTable.StaticSceneDetailRowWrapper, Pangoo.MetaTable.StaticSceneRowWrapper, Pangoo.MetaTable.StaticSceneNewRowWrapper, UnityStaticSceneRow>(tree, null, "静态场景");
             InitOverviewWrapper<InstructionOverviewWrapper, Pangoo.MetaTable.InstructionOverview, Pangoo.MetaTable.InstructionDetailRowWrapper, Pangoo.MetaTable.InstructionRowWrapper, Pangoo.MetaTable.InstructionNewRowWrapper, UnityInstructionRow>(tree, null, "指令");

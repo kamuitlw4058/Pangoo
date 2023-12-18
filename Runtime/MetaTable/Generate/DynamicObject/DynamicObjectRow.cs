@@ -111,6 +111,16 @@ namespace Pangoo.MetaTable
         [LabelText("默认隐藏模型")]
         public bool DefaultHideModel ;
 
+        [JsonMember("AssetPathUuid")]
+        [MetaTableRowColumn("AssetPathUuid","string", "AssetPathUuid",22)]
+        [LabelText("AssetPathUuid")]
+        public string AssetPathUuid ;
+
+        [JsonMember("DefaultDisableInteract")]
+        [MetaTableRowColumn("DefaultDisableInteract","bool", "默认关闭交互",23)]
+        [LabelText("默认关闭交互")]
+        public bool DefaultDisableInteract ;
+
     }
 }
 

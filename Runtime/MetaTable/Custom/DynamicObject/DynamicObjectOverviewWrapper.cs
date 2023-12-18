@@ -13,8 +13,18 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class DynamicObjectOverviewWrapper : MetaTableOverviewWrapper<DynamicObjectOverview,DynamicObjectDetailRowWrapper,DynamicObjectRowWrapper,DynamicObjectNewRowWrapper,UnityDynamicObjectRow>
+    public partial class DynamicObjectOverviewWrapper : MetaTableOverviewWrapper<DynamicObjectOverview, DynamicObjectDetailRowWrapper, DynamicObjectRowWrapper, DynamicObjectNewRowWrapper, UnityDynamicObjectRow>
     {
+        [Button("更新AssetPathUuid通过Id")]
+        public void UpdateAssetPathUuidByAssetPathId()
+        {
+            foreach (var wrapper in m_AllWrappers)
+            {
+                var detailRowWrapper = wrapper.DetailWrapper as DynamicObjectDetailRowWrapper;
+                detailRowWrapper.UpdateAssetPathUuidByAssetPathId();
+
+            }
+        }
 
     }
 }

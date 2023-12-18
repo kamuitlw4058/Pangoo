@@ -54,6 +54,28 @@ namespace Pangoo.MetaTable
 
         }
 
+        GameObject m_Prefab;
+
+
+        [ShowInInspector]
+        [LabelText("资源预制体")]
+        [ReadOnly]
+        public GameObject Prefab
+        {
+            get
+            {
+                if (m_Prefab == null)
+                {
+                    m_Prefab = GameSupportEditorUtility.GetPrefabByAssetPathUuid(UnityRow.Row.AssetPathUuid);
+                }
+                return m_Prefab;
+            }
+            set
+            {
+
+            }
+        }
+
         [Button("更新AssetPathUuid通过Id")]
         public void UpdateAssetPathUuidByAssetPathId()
         {
