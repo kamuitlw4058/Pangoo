@@ -246,7 +246,6 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.SetGameObjectActive => true,
                     DirectInstructionTypeEnum.ImageFade=>true,
                     DirectInstructionTypeEnum.WaitMsg => true,
                     DirectInstructionTypeEnum.SetGlobalGameObjectActive => true,
@@ -437,7 +436,6 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.SetGameObjectActive => "对象路径",
                     DirectInstructionTypeEnum.ImageFade => "TweenID",
                     DirectInstructionTypeEnum.SetGlobalGameObjectActive => "根节点子对象",
                     _ => "String2",
