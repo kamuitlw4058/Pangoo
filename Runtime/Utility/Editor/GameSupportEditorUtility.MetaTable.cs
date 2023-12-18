@@ -460,6 +460,44 @@ namespace Pangoo.MetaTable
             return ret;
         }
 
+        public static UnityDynamicObjectRow GetDynamicObjectId(int id, string packageDir = null)
+        {
+            var overviews = AssetDatabaseUtility.FindAsset<DynamicObjectOverview>(packageDir);
+            foreach (var overview in overviews)
+            {
+
+                foreach (var row in overview.Rows)
+                {
+                    if (row.Row.Id == id)
+                    {
+                        return row;
+                    }
+
+                }
+            }
+            return null;
+        }
+
+        public static UnityInstructionRow GetInstructionId(int id, string packageDir = null)
+        {
+            var overviews = AssetDatabaseUtility.FindAsset<InstructionOverview>(packageDir);
+            foreach (var overview in overviews)
+            {
+
+                foreach (var row in overview.Rows)
+                {
+                    if (row.Row.Id == id)
+                    {
+                        return row;
+                    }
+
+                }
+            }
+            return null;
+        }
+
+
+
         public static UnityHotspotRow GetHotspotByUuid(string uuid, string packageDir = null)
         {
             UnityHotspotRow ret = null;
@@ -556,11 +594,11 @@ namespace Pangoo.MetaTable
         public static IEnumerable GetUuids<T>(List<string> excludeUuids = null, string packageDir = null) where T : MetaTableOverview
         {
             var ret = new ValueDropdownList<string>();
-            var overviews = AssetDatabaseUtility.FindAsset<DynamicObjectOverview>(packageDir);
+            var overviews = AssetDatabaseUtility.FindAsset<T>(packageDir);
             foreach (var overview in overviews)
             {
 
-                foreach (var row in overview.Rows)
+                foreach (var row in overview.BaseRows)
                 {
                     bool flag = excludeUuids == null ? true : !excludeUuids.Contains(row.Uuid) ? true : false;
                     if (flag)
@@ -602,6 +640,57 @@ namespace Pangoo.MetaTable
         public static IEnumerable GetInstructionUuids(List<string> excludeUuids = null, string packageDir = null)
         {
             return GetUuids<InstructionOverview>(excludeUuids: excludeUuids, packageDir: packageDir);
+        }
+
+        public static string[] ConvertStaticSceneId2Uuid(int[] ids)
+        {
+            string[] ret = null;
+            List<string> outpuuUuids = new();
+            foreach (var inpuIds in ids)
+            {
+
+                var dynamicScene = GameSupportEditorUtility.GetStaticSceneById(inpuIds);
+                if (dynamicScene != null)
+                {
+                    outpuuUuids.Add(dynamicScene.Uuid);
+                }
+            }
+            ret = outpuuUuids.ToArray();
+            return ret;
+        }
+
+        public static string[] ConvertDynamicObjectId2Uuid(int[] ids)
+        {
+            string[] ret = null;
+            List<string> dynamicSceneUuids = new();
+            foreach (var dynamicSceneId in ids)
+            {
+
+                var dynamicScene = GameSupportEditorUtility.GetDynamicObjectId(dynamicSceneId);
+                if (dynamicScene != null)
+                {
+                    dynamicSceneUuids.Add(dynamicScene.Uuid);
+                }
+            }
+            ret = dynamicSceneUuids.ToArray();
+            return ret;
+        }
+
+        public static string[] ConvertInstructionId2Uuid(int[] ids)
+        {
+            string[] ret = null;
+            List<string> outputUuids = new();
+            foreach (var inputId in ids)
+            {
+
+                var unityRow = GameSupportEditorUtility.GetInstructionId(inputId);
+                if (unityRow != null)
+                {
+                    outputUuids.Add(unityRow.Uuid);
+                }
+            }
+            ret = outputUuids.ToArray();
+            return ret;
         }
 
 #endif

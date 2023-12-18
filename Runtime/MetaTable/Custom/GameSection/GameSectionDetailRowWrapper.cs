@@ -133,7 +133,7 @@ namespace Pangoo.MetaTable
             }
         }
 
-        [LabelText("初始化场景")]
+        [LabelText("初始化场景Uuid")]
         [ValueDropdown("StaticSceneUuidValueDropdown", IsUniqueList = true)]
         [ListDrawerSettings(Expanded = true)]
 
@@ -143,11 +143,11 @@ namespace Pangoo.MetaTable
         {
             get
             {
-                return UnityRow.Row.InitedInstructionUuids?.ToSplitArr<string>();
+                return UnityRow.Row.InitSceneUuids?.ToSplitArr<string>();
             }
             set
             {
-                UnityRow.Row.InitedInstructionUuids = value.ToListString();
+                UnityRow.Row.InitSceneUuids = value.ToListString();
                 Save();
             }
         }
@@ -187,7 +187,7 @@ namespace Pangoo.MetaTable
 
 
         [LabelText("动态物体Uuids")]
-        [ValueDropdown("DynamicObjectIdValueDropdown", IsUniqueList = true)]
+        [ValueDropdown("DynamicObjectUuidValueDropdown", IsUniqueList = true)]
         [ListDrawerSettings(Expanded = true)]
 
         [ShowInInspector]
@@ -309,6 +309,27 @@ namespace Pangoo.MetaTable
         public IEnumerable InstructionUuidsValueDropdown()
         {
             return GameSupportEditorUtility.GetInstructionUuids();
+        }
+
+        [Button("更新AssetPathUuid通过Id")]
+        public void UpdateAssetPathUuidByAssetPathId()
+        {
+
+            DynamicSceneUuids = GameSupportEditorUtility.ConvertStaticSceneId2Uuid(DynamicSceneIds);
+
+            KeepSceneUuids = GameSupportEditorUtility.ConvertStaticSceneId2Uuid(KeepSceneIds);
+
+            InitSceneUuids = GameSupportEditorUtility.ConvertStaticSceneId2Uuid(InitSceneIds);
+
+            DynamicObjectUuids = GameSupportEditorUtility.ConvertDynamicObjectId2Uuid(DynamicObjectIds);
+
+
+            InstructionUuids = GameSupportEditorUtility.ConvertInstructionId2Uuid(InstructionIds);
+
+
+            EditorInstructionUuids = GameSupportEditorUtility.ConvertInstructionId2Uuid(EditorInstructionIds);
+
+
         }
     }
 }
