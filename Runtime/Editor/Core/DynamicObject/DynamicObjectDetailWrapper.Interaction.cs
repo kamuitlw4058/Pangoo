@@ -15,6 +15,24 @@ namespace Pangoo
 {
     public partial class DynamicObjectDetailWrapper
     {
+        [ShowInInspector]
+        [LabelText("默认关闭交互")]
+        [TabGroup("交互系统")]
+        [PropertyOrder(1)]
+        public bool DefaultDisableInteract
+        {
+            get
+            {
+
+                return Row.DefaultDisableInteract;
+            }
+            set
+            {
+                Row.DefaultDisableInteract = value;
+                Save();
+            }
+        }
+
 
         [ShowInInspector]
         [LabelText("交互对象")]

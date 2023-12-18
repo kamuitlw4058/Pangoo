@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using LitJson;
 using UnityEngine;
-using Sirenix.OdinInspector; 
+using Sirenix.OdinInspector;
 using Pangoo.Common;
 
 namespace Pangoo

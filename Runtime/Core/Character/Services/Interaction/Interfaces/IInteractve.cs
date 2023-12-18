@@ -35,6 +35,8 @@ namespace Pangoo.Core.Characters
         /// </summary>
         void Stop();
 
+        bool InteractEnable { get; set; }
+
         bool InteractCanBan { get; set; }
 
         bool InteractTriggerEnter { get; set; }
