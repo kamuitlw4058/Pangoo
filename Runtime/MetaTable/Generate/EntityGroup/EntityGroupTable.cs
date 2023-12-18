@@ -20,6 +20,7 @@ namespace Pangoo.MetaTable
         {
             return GetRowByUuid<EntityGroupRow>(uuid);
         }
+        public override string TableName => "EntityGroup";
     }
 }
 

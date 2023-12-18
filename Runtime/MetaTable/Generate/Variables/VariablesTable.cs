@@ -20,6 +20,7 @@ namespace Pangoo.MetaTable
         {
             return GetRowByUuid<VariablesRow>(uuid);
         }
+        public override string TableName => "Variables";
     }
 }
 

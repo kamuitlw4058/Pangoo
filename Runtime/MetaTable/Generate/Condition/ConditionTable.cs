@@ -20,6 +20,7 @@ namespace Pangoo.MetaTable
         {
             return GetRowByUuid<ConditionRow>(uuid);
         }
+        public override string TableName => "Condition";
     }
 }
 

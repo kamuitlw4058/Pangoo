@@ -20,6 +20,7 @@ namespace Pangoo.MetaTable
         {
             return GetRowByUuid<SimpleUIRow>(uuid);
         }
+        public override string TableName => "SimpleUI";
     }
 }
 

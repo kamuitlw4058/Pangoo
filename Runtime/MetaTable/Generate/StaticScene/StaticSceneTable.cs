@@ -20,6 +20,7 @@ namespace Pangoo.MetaTable
         {
             return GetRowByUuid<StaticSceneRow>(uuid);
         }
+        public override string TableName => "StaticScene";
     }
 }
 

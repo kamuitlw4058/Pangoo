@@ -20,6 +20,7 @@ namespace Pangoo.MetaTable
         {
             return GetRowByUuid<SoundRow>(uuid);
         }
+        public override string TableName => "Sound";
     }
 }
 

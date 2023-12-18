@@ -20,11 +20,14 @@ namespace Pangoo
 
         public static FGUIComponent FGUI { get; private set; }
 
-        public static PlayerComponent Player{get;private set;}
+        public static PlayerComponent Player { get; private set; }
 
-        public static ServiceComponent Service {get ;set;}
+        public static ServiceComponent Service { get; set; }
 
-        public static GameInfoComponent GameInfo {get ;set;}
+        public static GameInfoComponent GameInfo { get; set; }
+
+
+        public static MetaTableComponent MetaTable { get; set; }
 
 
 
@@ -43,6 +46,9 @@ namespace Pangoo
             Service = UnityGameFramework.Runtime.GameEntry.GetComponent<ServiceComponent>();
 
             GameInfo = UnityGameFramework.Runtime.GameEntry.GetComponent<GameInfoComponent>();
+
+            MetaTable = UnityGameFramework.Runtime.GameEntry.GetComponent<MetaTableComponent>();
+
 
 
         }

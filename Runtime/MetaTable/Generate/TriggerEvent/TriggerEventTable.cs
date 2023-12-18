@@ -20,6 +20,7 @@ namespace Pangoo.MetaTable
         {
             return GetRowByUuid<TriggerEventRow>(uuid);
         }
+        public override string TableName => "TriggerEvent";
     }
 }
 

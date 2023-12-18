@@ -20,6 +20,7 @@ namespace Pangoo.MetaTable
         {
             return GetRowByUuid<AssetPathRow>(uuid);
         }
+        public override string TableName => "AssetPath";
     }
 }
 

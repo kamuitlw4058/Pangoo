@@ -20,6 +20,7 @@ namespace Pangoo.MetaTable
         {
             return GetRowByUuid<GameSectionRow>(uuid);
         }
+        public override string TableName => "GameSection";
     }
 }
 

@@ -20,6 +20,7 @@ namespace Pangoo.MetaTable
         {
             return GetRowByUuid<HotspotRow>(uuid);
         }
+        public override string TableName => "Hotspot";
     }
 }
 

@@ -20,6 +20,7 @@ namespace Pangoo.MetaTable
         {
             return GetRowByUuid<DynamicObjectRow>(uuid);
         }
+        public override string TableName => "DynamicObject";
     }
 }
 
