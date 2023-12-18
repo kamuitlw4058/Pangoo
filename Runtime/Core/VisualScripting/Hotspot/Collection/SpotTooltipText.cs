@@ -50,16 +50,12 @@ namespace Pangoo.Core.VisualScripting
         [HideInEditorMode]
         private GameObject m_Tooltip;
 
-        private Image m_Eye;
-        private Image m_Point;
 
         private const float TRANSITION_SMOOTH_TIME = 0.25f;
 
-        [NonSerialized] private Text m_TooltipText;
-        [NonSerialized] private TMP_Text m_TooltipTMPText;
-
 
         [ShowInInspector]
+        [HideInEditorMode]
         public HotsoptState SpotState
         {
             get

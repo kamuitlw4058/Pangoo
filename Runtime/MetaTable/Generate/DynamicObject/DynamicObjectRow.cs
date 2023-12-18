@@ -121,6 +121,16 @@ namespace Pangoo.MetaTable
         [LabelText("默认关闭交互")]
         public bool DefaultDisableInteract ;
 
+        [JsonMember("TriggerEventUuids")]
+        [MetaTableRowColumn("TriggerEventUuids","string", "TriggerEventUuids",24)]
+        [LabelText("TriggerEventUuids")]
+        public string TriggerEventUuids ;
+
+        [JsonMember("HotspotUuids")]
+        [MetaTableRowColumn("HotspotUuids","string", "HotspotUuids",25)]
+        [LabelText("HotspotUuids")]
+        public string HotspotUuids ;
+
     }
 }
 

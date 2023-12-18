@@ -61,6 +61,11 @@ namespace Pangoo.MetaTable
         [LabelText("失败指令列表")]
         public string FailInstructionList ;
 
+        [JsonMember("Id")]
+        [MetaTableRowColumn("Id","int", "Id",12)]
+        [LabelText("Id")]
+        public int Id ;
+
     }
 }
 

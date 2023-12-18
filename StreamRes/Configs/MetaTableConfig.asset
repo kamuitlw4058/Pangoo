@@ -214,6 +214,12 @@ MonoBehaviour:
     - Name: DefaultDisableInteract
       Type: bool
       CnName: "\u9ED8\u8BA4\u5173\u95ED\u4EA4\u4E92"
+    - Name: TriggerEventUuids
+      Type: string
+      CnName: TriggerEventUuids
+    - Name: HotspotUuids
+      Type: string
+      CnName: HotspotUuids
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: EntityGroup
@@ -439,6 +445,9 @@ MonoBehaviour:
     - Name: FailInstructionList
       Type: string
       CnName: "\u5931\u8D25\u6307\u4EE4\u5217\u8868"
+    - Name: Id
+      Type: int
+      CnName: Id
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Variables

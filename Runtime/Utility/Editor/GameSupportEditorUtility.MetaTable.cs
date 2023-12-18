@@ -91,6 +91,8 @@ namespace Pangoo.MetaTable
             return ret;
         }
 
+
+
         public static GameObject GetPrefabByAssetPathUuid(string uuid)
         {
             if (uuid.IsNullOrWhiteSpace()) return null;
@@ -178,6 +180,8 @@ namespace Pangoo.MetaTable
             return ret;
         }
 
+
+
         public static IEnumerable GetAssetPathUuids(List<string> excludeUuid = null, List<string> assetTypes = null, string packageDir = null)
         {
             var ret = new ValueDropdownList<string>();
@@ -261,6 +265,8 @@ namespace Pangoo.MetaTable
             return ret;
         }
 
+
+
         public static UnityStaticSceneRow GetStaticSceneByUuid(string uuid, string packageDir = null)
         {
             UnityStaticSceneRow ret = null;
@@ -325,6 +331,233 @@ namespace Pangoo.MetaTable
                 ret.Add(attr.ToString(), types[i].ToString());
             }
             return ret;
+        }
+
+        public static UnityTriggerEventRow GetTriggerEventById(int id, string packageDir = null)
+        {
+            UnityTriggerEventRow ret = null;
+            var overviews = AssetDatabaseUtility.FindAsset<TriggerEventOverview>(packageDir);
+            foreach (var overview in overviews)
+            {
+
+                foreach (var row in overview.Rows)
+                {
+                    if (row.Row.Id == id)
+                    {
+                        ret = row;
+                    }
+
+                }
+            }
+            return ret;
+        }
+
+        public static UnityTriggerEventRow GetTriggerEventByUuid(string uuid, string packageDir = null)
+        {
+            UnityTriggerEventRow ret = null;
+            var overviews = AssetDatabaseUtility.FindAsset<TriggerEventOverview>(packageDir);
+            foreach (var overview in overviews)
+            {
+
+                foreach (var row in overview.Rows)
+                {
+                    if (row.Uuid == uuid)
+                    {
+                        ret = row;
+                    }
+
+                }
+            }
+            return ret;
+        }
+
+        public static (UnityTriggerEventRow, TriggerEventOverview) GetTriggerEventByUuidWithOverview(string uuid, string packageDir = null)
+        {
+            var overviews = AssetDatabaseUtility.FindAsset<TriggerEventOverview>(packageDir);
+            foreach (var overview in overviews)
+            {
+
+                foreach (var row in overview.Rows)
+                {
+                    if (row.Uuid == uuid)
+                    {
+                        return (row, overview);
+                    }
+
+                }
+            }
+            return (null, null);
+        }
+
+
+
+
+
+        public static IEnumerable GetTriggerEventIds(List<int> excludeIds = null, string packageDir = null)
+        {
+            var ret = new ValueDropdownList<int>();
+            var overviews = AssetDatabaseUtility.FindAsset<TriggerEventOverview>(packageDir);
+            foreach (var overview in overviews)
+            {
+
+                foreach (var row in overview.Rows)
+                {
+                    bool flag = excludeIds == null ? true : !excludeIds.Contains(row.Row.Id) ? true : false;
+                    if (flag)
+                    {
+                        ret.Add($"{row.Row.Id}-{row.Name}", row.Row.Id);
+                    }
+                }
+            }
+            return ret;
+        }
+
+        public static IEnumerable GetTriggerEventUuids(List<string> excludeUuids = null, string packageDir = null)
+        {
+            var ret = new ValueDropdownList<string>();
+            var overviews = AssetDatabaseUtility.FindAsset<TriggerEventOverview>(packageDir);
+            foreach (var overview in overviews)
+            {
+
+                foreach (var row in overview.Rows)
+                {
+                    bool flag = excludeUuids == null ? true : !excludeUuids.Contains(row.Row.Uuid) ? true : false;
+                    if (flag)
+                    {
+                        ret.Add($"{row.UuidShort}-{row.Name}", row.Row.Uuid);
+                    }
+                }
+            }
+            return ret;
+        }
+
+
+        public static IEnumerable GetHotspotType(string currentTypeStr = null)
+        {
+            var types = AssemblyUtility.GetTypes(typeof(HotSpot));
+            Type currentType = null;
+            if (currentTypeStr != null)
+            {
+                currentType = Utility.Assembly.GetType(currentTypeStr);
+            }
+
+            ValueDropdownList<string> ret = new();
+            for (int i = 0; i < types.Length; i++)
+            {
+                var type = types[i];
+                if (type == currentType)
+                {
+                    continue;
+                }
+                var attr = type.GetCustomAttribute(typeof(Pangoo.Core.Common.CategoryAttribute));
+                string key = attr != null ? attr.ToString() : types[i].ToString();
+                ret.Add(key, types[i].ToString());
+            }
+            return ret;
+        }
+        public static UnityHotspotRow GetHotspotById(int id, string packageDir = null)
+        {
+            UnityHotspotRow ret = null;
+            var overviews = AssetDatabaseUtility.FindAsset<HotspotOverview>(packageDir);
+            foreach (var overview in overviews)
+            {
+
+                foreach (var row in overview.Rows)
+                {
+                    if (row.Row.Id == id)
+                    {
+                        ret = row;
+                    }
+
+                }
+            }
+            return ret;
+        }
+
+        public static UnityHotspotRow GetHotspotByUuid(string uuid, string packageDir = null)
+        {
+            UnityHotspotRow ret = null;
+            var overviews = AssetDatabaseUtility.FindAsset<HotspotOverview>(packageDir);
+            foreach (var overview in overviews)
+            {
+
+                foreach (var row in overview.Rows)
+                {
+                    if (row.Uuid == uuid)
+                    {
+                        ret = row;
+                    }
+
+                }
+            }
+            return ret;
+        }
+
+
+        public static IEnumerable GetHotspotIds(List<int> excludeIds = null, string packageDir = null)
+        {
+            var ret = new ValueDropdownList<int>();
+            var overviews = AssetDatabaseUtility.FindAsset<HotspotOverview>(packageDir);
+            foreach (var overview in overviews)
+            {
+
+                foreach (var row in overview.Rows)
+                {
+                    bool flag = excludeIds == null ? true : !excludeIds.Contains(row.Row.Id) ? true : false;
+                    if (flag)
+                    {
+                        ret.Add($"{row.Row.Id}-{row.Name}", row.Row.Id);
+                    }
+                }
+            }
+            return ret;
+        }
+
+
+        public static IEnumerable GetHotspotUuids(List<string> excludeUuids = null, string packageDir = null)
+        {
+            var ret = new ValueDropdownList<string>();
+            var overviews = AssetDatabaseUtility.FindAsset<HotspotOverview>(packageDir);
+            foreach (var overview in overviews)
+            {
+
+                foreach (var row in overview.Rows)
+                {
+                    bool flag = excludeUuids == null ? true : !excludeUuids.Contains(row.Row.Uuid) ? true : false;
+                    if (flag)
+                    {
+                        ret.Add($"{row.UuidShort}-{row.Name}", row.Row.Uuid);
+                    }
+                }
+            }
+            return ret;
+        }
+
+        public static void AddPrefabStringDropdownList(ValueDropdownList<string> ret, Transform trans, string prefix)
+        {
+            foreach (var child in trans.Children())
+            {
+                var path = $"{prefix}/{child.name}";
+                if (prefix == string.Empty)
+                {
+                    path = child.name;
+                }
+                ret.Add(path);
+                AddPrefabStringDropdownList(ret, child, path);
+            }
+        }
+
+
+        public static IEnumerable RefPrefabStringDropdown(GameObject prefab)
+        {
+
+            var ValueDropdown = new ValueDropdownList<string>();
+            ValueDropdown.Add(ConstString.Self);
+            if (prefab != null)
+            {
+                AddPrefabStringDropdownList(ValueDropdown, prefab.transform, string.Empty);
+            }
+            return ValueDropdown;
         }
 
 
