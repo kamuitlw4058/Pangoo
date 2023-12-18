@@ -51,6 +51,41 @@ namespace Pangoo.MetaTable
         [LabelText("编辑器初始化后执行的指令")]
         public string EditorInitedInstructionIds ;
 
+        [JsonMember("DynamicSceneUuids")]
+        [MetaTableRowColumn("DynamicSceneUuids","string", "动态加载场景Uuids",10)]
+        [LabelText("动态加载场景Uuids")]
+        public string DynamicSceneUuids ;
+
+        [JsonMember("KeepSceneUuids")]
+        [MetaTableRowColumn("KeepSceneUuids","string", "持续加载场景Uuids",11)]
+        [LabelText("持续加载场景Uuids")]
+        public string KeepSceneUuids ;
+
+        [JsonMember("InitSceneUuids")]
+        [MetaTableRowColumn("InitSceneUuids","string", "进入章节默认加载的场景Uuids",12)]
+        [LabelText("进入章节默认加载的场景Uuids")]
+        public string InitSceneUuids ;
+
+        [JsonMember("DynamicObjectUuids")]
+        [MetaTableRowColumn("DynamicObjectUuids","string", "动态物体Uuids",13)]
+        [LabelText("动态物体Uuids")]
+        public string DynamicObjectUuids ;
+
+        [JsonMember("InitedInstructionUuids")]
+        [MetaTableRowColumn("InitedInstructionUuids","string", "初始化后执行的指令Uuids",14)]
+        [LabelText("初始化后执行的指令Uuids")]
+        public string InitedInstructionUuids ;
+
+        [JsonMember("EditorInitedInstructionUuids")]
+        [MetaTableRowColumn("EditorInitedInstructionUuids","string", "编辑器初始化后执行的指令Uuids",15)]
+        [LabelText("编辑器初始化后执行的指令Uuids")]
+        public string EditorInitedInstructionUuids ;
+
+        [JsonMember("Id")]
+        [MetaTableRowColumn("Id","int", "Id",16)]
+        [LabelText("Id")]
+        public int Id ;
+
     }
 }
 

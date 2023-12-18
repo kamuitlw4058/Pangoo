@@ -26,6 +26,11 @@ namespace Pangoo.MetaTable
         [LabelText("指令参数")]
         public string Params ;
 
+        [JsonMember("Id")]
+        [MetaTableRowColumn("Id","int", "Id",5)]
+        [LabelText("Id")]
+        public int Id ;
+
     }
 }
 

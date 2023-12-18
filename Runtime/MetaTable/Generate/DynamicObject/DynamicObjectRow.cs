@@ -131,6 +131,11 @@ namespace Pangoo.MetaTable
         [LabelText("HotspotUuids")]
         public string HotspotUuids ;
 
+        [JsonMember("Id")]
+        [MetaTableRowColumn("Id","int", "Id",26)]
+        [LabelText("Id")]
+        public int Id ;
+
     }
 }
 

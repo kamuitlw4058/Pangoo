@@ -414,21 +414,7 @@ namespace Pangoo.MetaTable
 
         public static IEnumerable GetTriggerEventUuids(List<string> excludeUuids = null, string packageDir = null)
         {
-            var ret = new ValueDropdownList<string>();
-            var overviews = AssetDatabaseUtility.FindAsset<TriggerEventOverview>(packageDir);
-            foreach (var overview in overviews)
-            {
-
-                foreach (var row in overview.Rows)
-                {
-                    bool flag = excludeUuids == null ? true : !excludeUuids.Contains(row.Row.Uuid) ? true : false;
-                    if (flag)
-                    {
-                        ret.Add($"{row.UuidShort}-{row.Name}", row.Row.Uuid);
-                    }
-                }
-            }
-            return ret;
+            return GetUuids<TriggerEventOverview>(excludeUuids: excludeUuids, packageDir: packageDir);
         }
 
 
@@ -516,21 +502,7 @@ namespace Pangoo.MetaTable
 
         public static IEnumerable GetHotspotUuids(List<string> excludeUuids = null, string packageDir = null)
         {
-            var ret = new ValueDropdownList<string>();
-            var overviews = AssetDatabaseUtility.FindAsset<HotspotOverview>(packageDir);
-            foreach (var overview in overviews)
-            {
-
-                foreach (var row in overview.Rows)
-                {
-                    bool flag = excludeUuids == null ? true : !excludeUuids.Contains(row.Row.Uuid) ? true : false;
-                    if (flag)
-                    {
-                        ret.Add($"{row.UuidShort}-{row.Name}", row.Row.Uuid);
-                    }
-                }
-            }
-            return ret;
+            return GetUuids<HotspotOverview>(excludeUuids: excludeUuids, packageDir: packageDir);
         }
 
         public static void AddPrefabStringDropdownList(ValueDropdownList<string> ret, Transform trans, string prefix)
@@ -560,6 +532,77 @@ namespace Pangoo.MetaTable
             return ValueDropdown;
         }
 
+
+
+        public static IEnumerable GetDynamicObjectIds(List<int> excludeIds = null, string packageDir = null)
+        {
+            var ret = new ValueDropdownList<int>();
+            var overviews = AssetDatabaseUtility.FindAsset<DynamicObjectOverview>(packageDir);
+            foreach (var overview in overviews)
+            {
+
+                foreach (var row in overview.Rows)
+                {
+                    bool flag = excludeIds == null ? true : !excludeIds.Contains(row.Row.Id) ? true : false;
+                    if (flag)
+                    {
+                        ret.Add($"{row.Row.Id}-{row.Name}", row.Row.Id);
+                    }
+                }
+            }
+            return ret;
+        }
+
+        public static IEnumerable GetUuids<T>(List<string> excludeUuids = null, string packageDir = null) where T : MetaTableOverview
+        {
+            var ret = new ValueDropdownList<string>();
+            var overviews = AssetDatabaseUtility.FindAsset<DynamicObjectOverview>(packageDir);
+            foreach (var overview in overviews)
+            {
+
+                foreach (var row in overview.Rows)
+                {
+                    bool flag = excludeUuids == null ? true : !excludeUuids.Contains(row.Uuid) ? true : false;
+                    if (flag)
+                    {
+                        ret.Add($"{row.UuidShort}-{row.Name}", row.Uuid);
+                    }
+                }
+            }
+            return ret;
+        }
+
+
+
+        public static IEnumerable GetDynamicObjectUuids(List<string> excludeUuids = null, string packageDir = null)
+        {
+            return GetUuids<DynamicObjectOverview>(excludeUuids: excludeUuids, packageDir: packageDir);
+        }
+
+        public static IEnumerable GetInstructionIds(List<int> excludeIds = null, string packageDir = null)
+        {
+            var ret = new ValueDropdownList<int>();
+            var overviews = AssetDatabaseUtility.FindAsset<InstructionOverview>(packageDir);
+            foreach (var overview in overviews)
+            {
+
+                foreach (var row in overview.Rows)
+                {
+                    bool flag = excludeIds == null ? true : !excludeIds.Contains(row.Row.Id) ? true : false;
+                    if (flag)
+                    {
+                        ret.Add($"{row.Row.Id}-{row.Name}", row.Row.Id);
+                    }
+                }
+            }
+            return ret;
+        }
+
+
+        public static IEnumerable GetInstructionUuids(List<string> excludeUuids = null, string packageDir = null)
+        {
+            return GetUuids<InstructionOverview>(excludeUuids: excludeUuids, packageDir: packageDir);
+        }
 
 #endif
     }

@@ -95,6 +95,7 @@ namespace Pangoo.Editor
 
             InitOverviewWrapper<AssetPathOverviewWrapper, Pangoo.MetaTable.AssetPathOverview, Pangoo.MetaTable.AssetPathDetailRowWrapper, Pangoo.MetaTable.AssetPathRowWrapper, Pangoo.MetaTable.AssetPathNewRowWrapper, UnityAssetPathRow>(tree, null, "资源路径");
             InitOverviewWrapper<CharacterOverviewWrapper, Pangoo.MetaTable.CharacterOverview, Pangoo.MetaTable.CharacterDetailRowWrapper, Pangoo.MetaTable.CharacterRowWrapper, Pangoo.MetaTable.CharacterNewRowWrapper, UnityCharacterRow>(tree, null, "角色");
+            InitOverviewWrapper<GameSectionOverviewWrapper, Pangoo.MetaTable.GameSectionOverview, Pangoo.MetaTable.GameSectionDetailRowWrapper, Pangoo.MetaTable.GameSectionRowWrapper, Pangoo.MetaTable.GameSectionNewRowWrapper, UnityGameSectionRow>(tree, null, "游戏段落");
 
             InitOverviewWrapper<DynamicObjectOverviewWrapper, Pangoo.MetaTable.DynamicObjectOverview, Pangoo.MetaTable.DynamicObjectDetailRowWrapper, Pangoo.MetaTable.DynamicObjectRowWrapper, Pangoo.MetaTable.DynamicObjectNewRowWrapper, UnityDynamicObjectRow>(tree, null, "动态物体");
             InitOverviewWrapper<HotspotOverviewWrapper, Pangoo.MetaTable.HotspotOverview, Pangoo.MetaTable.HotspotDetailRowWrapper, Pangoo.MetaTable.HotspotRowWrapper, Pangoo.MetaTable.HotspotNewRowWrapper, UnityHotspotRow>(tree, null, "交互UI");
