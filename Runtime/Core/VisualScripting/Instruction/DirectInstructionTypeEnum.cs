@@ -87,5 +87,8 @@ namespace Pangoo.Core.VisualScripting
         
         [LabelText("场景对象/设置GameObject激活")]
         SetGlobalGameObjectActive,
+        
+        [LabelText("变量/检查Bool变量列表")]
+        CheckBoolVariableList,
     }
 }
