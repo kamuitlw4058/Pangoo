@@ -10,6 +10,7 @@ using Pangoo.Core.Common;
 using Pangoo.Core.VisualScripting;
 
 using Pangoo.Common;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Core.Services
 {
@@ -20,7 +21,6 @@ namespace Pangoo.Core.Services
 
 
 
-        GameSectionTable m_GameSectionTable;
 
         InstructionTable m_InstructionTable;
 
@@ -46,7 +46,6 @@ namespace Pangoo.Core.Services
         protected override void DoStart()
         {
             Log("DoStart");
-            m_GameSectionTable = ExcelTableSrv.GetExcelTable<GameSectionTable>();
             m_InstructionTable = ExcelTableSrv.GetExcelTable<InstructionTable>();
 
             StaticSceneSrv.OnInitSceneLoaded += OnInitSceneLoaded;
@@ -54,7 +53,7 @@ namespace Pangoo.Core.Services
             SetGameSection(enterGameSectionId);
         }
 
-        bool CheckDynamicObjectLoaded(GameSectionTable.GameSectionRow row)
+        bool CheckDynamicObjectLoaded(IGameSectionRow row)
         {
             var doIds = row.DynamicObjectIds.ToSplitList<int>();
             foreach (var doId in doIds)
@@ -68,7 +67,7 @@ namespace Pangoo.Core.Services
         }
 
 
-        bool CheckGameSectionLoadedCompleted(GameSectionTable.GameSectionRow row)
+        bool CheckGameSectionLoadedCompleted(IGameSectionRow row)
         {
             bool IsDynamicObjectLoaded = CheckDynamicObjectLoaded(row);
             Log($"CheckGameSectionLoadedCompleted IsSceneLoaded:{StaticSceneSrv.SectionInited} IsDynamicObjectLoaded:{IsDynamicObjectLoaded}");
@@ -80,7 +79,7 @@ namespace Pangoo.Core.Services
             return false;
         }
 
-        void RunLoadedInstructions(GameSectionTable.GameSectionRow GameSectionRow)
+        void RunLoadedInstructions(IGameSectionRow GameSectionRow)
         {
 #if UNITY_EDITOR
             var editorInstructionIds = GameSectionRow.EditorInitedInstructionIds.ToSplitList<int>();
@@ -111,7 +110,7 @@ namespace Pangoo.Core.Services
 
         void OnInitSceneLoaded()
         {
-            var GameSection = m_GameSectionTable.GetGameSectionRow(LatestId);
+            var GameSection = ExcelTableSrv.GetGameSectionById(LatestId);
             if (CheckGameSectionLoadedCompleted(GameSection))
             {
                 RunLoadedInstructions(GameSection);
@@ -132,7 +131,7 @@ namespace Pangoo.Core.Services
             {
                 LatestId = id;
 
-                var GameSection = m_GameSectionTable.GetGameSectionRow(LatestId);
+                var GameSection = ExcelTableSrv.GetGameSectionById(LatestId);
                 if (GameSection == null)
                 {
                     LogError($"GameSection is null:{GameSection}");
