@@ -63,9 +63,58 @@ public class ZhiRenMixer : MonoBehaviour
 
     public float Distance;
 
+    public bool AtRoom;
+
+    public bool IsOpenedDoor;
+
+    public bool NotOptState;
+
 
     void Update()
     {
+        if (PangooEntry.Service.mainService.StaticScene.EnterAssetCountDict.ContainsKey(21006))
+        {
+            AtRoom = true;
+        }
+        else
+        {
+            AtRoom = false;
+        }
+        var dynamicObejctEntity = PangooEntry.Service.mainService.DynamicObject.GetLoadedEntity(10015);
+        if (dynamicObejctEntity != null)
+        {
+            var val = dynamicObejctEntity.DynamicObj.GetVariable<bool>(10003);
+            if (val)
+            {
+                IsOpenedDoor = true;
+            }
+            else
+            {
+                IsOpenedDoor = false;
+            }
+        }
+        else
+        {
+            IsOpenedDoor = false;
+        }
+
+        if (!NotOptState)
+        {
+            if (AtRoom && IsOpenedDoor)
+            {
+                mixerState = MixerState.BlendRoomMain;
+            }
+            else if (AtRoom && !IsOpenedDoor)
+            {
+                mixerState = MixerState.RoomOnly;
+            }
+            else if (!AtRoom)
+            {
+                mixerState = MixerState.MainOnly;
+            }
+        }
+
+
         if (mixerState != lastestMixerState)
         {
             switch (mixerState)
@@ -116,9 +165,8 @@ public class ZhiRenMixer : MonoBehaviour
                 }
             }
 
-
-            var currentRoom = MathUtility.Remap(Mathf.Pow(Value, WeightPower), new Vector2(0, 1), new Vector2(-80, RoomMaxVolume));
-            var currentMain = MathUtility.Remap(Mathf.Pow(1 - Value, WeightPower), new Vector2(0, 1), new Vector2(-80, MainMaxVolume));
+            var currentRoom = MathUtility.Remap(Mathf.Pow(1 - Value, WeightPower), new Vector2(0, 1), new Vector2(-80, RoomMaxVolume));
+            var currentMain = MathUtility.Remap(Mathf.Pow(Value, WeightPower), new Vector2(0, 1), new Vector2(-80, MainMaxVolume));
 
             Mixer.SetFloat(MainKey, currentMain);
             Mixer.SetFloat(RoomKey, currentRoom);
