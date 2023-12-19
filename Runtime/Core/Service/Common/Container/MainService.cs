@@ -30,12 +30,16 @@ namespace Pangoo.Core.Services
 
         public ExcelTableService ExcelTable = new ExcelTableService();
 
+
+        public MetaTableService MetaTable = new MetaTableService();
+
         public DynamicObjectService DynamicObject = new DynamicObjectService();
 
 
         public MainService()
         {
             AddService(ExcelTable);
+            AddService(MetaTable);
             AddService(StaticScene);
             AddService(new GameSectionService());
             AddService(new GlobalDataService());

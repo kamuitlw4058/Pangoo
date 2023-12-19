@@ -1,4 +1,5 @@
-using Pangoo;
+using MetaTable;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Core.Services
 {
@@ -7,16 +8,16 @@ namespace Pangoo.Core.Services
         public override int Priority => -1;
 
 
-        // public T GetExcelTable<T>() where T : ExcelTableBase
-        // {
-        //     return PangooEntry.ExcelTable.GetExcelTable<T>();
-        // }
+        public T GetMetaTable<T>() where T : MetaTableBase
+        {
+            return PangooEntry.MetaTable.GetMetaTable<T>();
+        }
 
 
-        // public InstructionTable GetInstructionTable()
-        // {
-        //     return GetExcelTable<InstructionTable>();
-        // }
+        public Pangoo.MetaTable.InstructionTable GetInstructionTable()
+        {
+            return GetMetaTable<Pangoo.MetaTable.InstructionTable>();
+        }
 
     }
 }

@@ -74,7 +74,7 @@ namespace Pangoo.Core.Services
             }
 
             var info = m_UIInfo.GetRowById<UIInfoRow>(uiId);
-            if (m_LoadingAssetIds.Contains(uiId))
+            if (m_LoadingAssetIds.Contains(uiId) || m_LoadedAssetDict.ContainsKey(uiId))
             {
                 return;
             }

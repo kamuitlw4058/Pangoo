@@ -13,21 +13,16 @@ using Pangoo.Common;
 
 namespace Pangoo.Core.Services
 {
-    public class GameSectionService : BaseService
+    public class GameSectionService : MainSubService
     {
         public override string ServiceName => "GameSection";
         public override int Priority => 10;
 
-        ExcelTableService m_ExcelTableService;
-        StaticSceneService m_StaticSceneService;
-        DynamicObjectService m_DynamicObjectService;
 
-        GameMainConfigService m_GameMainConfigService;
 
         GameSectionTable m_GameSectionTable;
 
         InstructionTable m_InstructionTable;
-
 
 
         public int LatestId = -1;
@@ -36,12 +31,6 @@ namespace Pangoo.Core.Services
         protected override void DoAwake()
         {
             base.DoAwake();
-            m_StaticSceneService = Parent.GetService<StaticSceneService>();
-            m_ExcelTableService = Parent.GetService<ExcelTableService>();
-            m_StaticSceneService = Parent.GetService<StaticSceneService>();
-            m_GameMainConfigService = Parent.GetService<GameMainConfigService>();
-
-            m_DynamicObjectService = Parent.GetService<DynamicObjectService>();
 
             Event.Subscribe(GameSectionChangeEventArgs.EventId, OnGameSectionChangeEvent);
 
@@ -59,10 +48,11 @@ namespace Pangoo.Core.Services
         protected override void DoStart()
         {
             Log("DoStart");
-            m_GameSectionTable = m_ExcelTableService.GetExcelTable<GameSectionTable>();
-            m_InstructionTable = m_ExcelTableService.GetExcelTable<InstructionTable>();
-            m_StaticSceneService.OnInitSceneLoaded += OnInitSceneLoaded;
-            var enterGameSectionId = m_GameMainConfigService.GetGameMainConfig().EnterGameSectionId;
+            m_GameSectionTable = ExcelTableSrv.GetExcelTable<GameSectionTable>();
+            m_InstructionTable = ExcelTableSrv.GetExcelTable<InstructionTable>();
+
+            StaticSceneSrv.OnInitSceneLoaded += OnInitSceneLoaded;
+            var enterGameSectionId = GameMainConfigSrv.GetGameMainConfig().EnterGameSectionId;
             SetGameSection(enterGameSectionId);
         }
 
@@ -71,7 +61,7 @@ namespace Pangoo.Core.Services
             var doIds = row.DynamicObjectIds.ToSplitList<int>();
             foreach (var doId in doIds)
             {
-                if (m_DynamicObjectService.GetLoadedEntity(doId) == null)
+                if (DynamicObjectSrv.GetLoadedEntity(doId) == null)
                 {
                     return false;
                 }
@@ -83,8 +73,8 @@ namespace Pangoo.Core.Services
         bool CheckGameSectionLoadedCompleted(GameSectionTable.GameSectionRow row)
         {
             bool IsDynamicObjectLoaded = CheckDynamicObjectLoaded(row);
-            Log($"CheckGameSectionLoadedCompleted IsSceneLoaded:{m_StaticSceneService.SectionInited} IsDynamicObjectLoaded:{IsDynamicObjectLoaded}");
-            if (m_StaticSceneService.SectionInited && CheckDynamicObjectLoaded(row))
+            Log($"CheckGameSectionLoadedCompleted IsSceneLoaded:{StaticSceneSrv.SectionInited} IsDynamicObjectLoaded:{IsDynamicObjectLoaded}");
+            if (StaticSceneSrv.SectionInited && CheckDynamicObjectLoaded(row))
             {
                 return true;
             }
@@ -160,18 +150,18 @@ namespace Pangoo.Core.Services
                     }
                 }
 
-                m_StaticSceneService.SetGameSectionChange(sectionChange);
-                m_StaticSceneService.SetGameScetion(
+                StaticSceneSrv.SetGameSectionChange(sectionChange);
+                StaticSceneSrv.SetGameScetion(
                     GameSection.DynamicSceneIds.ToSplitList<int>(),
                     GameSection.KeepSceneIds.ToSplitList<int>(),
                     GameSection.InitSceneIds.ToSplitList<int>()
                     );
 
-                m_DynamicObjectService.HideAllLoaded();
+                DynamicObjectSrv.HideAllLoaded();
                 var doIds = GameSection.DynamicObjectIds.ToSplitList<int>();
                 foreach (var doId in doIds)
                 {
-                    m_DynamicObjectService.ShowDynamicObject(doId, (dynamicObjectId) =>
+                    DynamicObjectSrv.ShowDynamicObject(doId, (dynamicObjectId) =>
                     {
                         Log($"Loaded DynamicObject Finish:{dynamicObjectId}");
                         if (CheckGameSectionLoadedCompleted(GameSection))
@@ -188,9 +178,9 @@ namespace Pangoo.Core.Services
 
         protected override void DoDestroy()
         {
-            if (m_StaticSceneService != null)
+            if (StaticSceneSrv != null)
             {
-                m_StaticSceneService.OnInitSceneLoaded -= OnInitSceneLoaded;
+                StaticSceneSrv.OnInitSceneLoaded -= OnInitSceneLoaded;
 
             }
             base.DoDestroy();
