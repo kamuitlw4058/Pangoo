@@ -1,9 +1,10 @@
 using MetaTable;
+using OfficeOpenXml.Table;
 using Pangoo.MetaTable;
 
 namespace Pangoo.Core.Services
 {
-    public class MetaTableService : BaseService
+    public class MetaTableService : MainSubService
     {
         public override int Priority => -1;
 
@@ -18,6 +19,11 @@ namespace Pangoo.Core.Services
         {
             return GetMetaTable<Pangoo.MetaTable.InstructionTable>();
         }
+
+        // public IGameSectionRow GetGameSectionById(int id)
+        // {
+        //     // ExcelTableSrv.GetExcelTable<>
+        // }
 
     }
 }

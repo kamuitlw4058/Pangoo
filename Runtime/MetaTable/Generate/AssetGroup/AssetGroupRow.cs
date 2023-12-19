@@ -14,7 +14,7 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class AssetGroupRow : MetaTableRow
+    public partial class AssetGroupRow : MetaTableRow,IAssetGroupRow
     {
 
         [JsonMember("AssetGroup")]
@@ -22,15 +22,21 @@ namespace Pangoo.MetaTable
         [LabelText("资源组")]
         public string AssetGroup ;
 
+        string IAssetGroupRow.AssetGroup {get => AssetGroup; set => AssetGroup = value;}
+
         [JsonMember("Desc")]
         [MetaTableRowColumn("Desc","string", "资源组描述",4)]
         [LabelText("资源组描述")]
         public string Desc ;
 
+        string IAssetGroupRow.Desc {get => Desc; set => Desc = value;}
+
         [JsonMember("Id")]
         [MetaTableRowColumn("Id","int", "Id",5)]
         [LabelText("Id")]
         public int Id ;
+
+        int IAssetGroupRow.Id {get => Id; set => Id = value;}
 
     }
 }

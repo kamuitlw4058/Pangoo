@@ -14,7 +14,7 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class HotspotRow : MetaTableRow
+    public partial class HotspotRow : MetaTableRow,IHotspotRow
     {
 
         [JsonMember("HotspotType")]
@@ -22,15 +22,21 @@ namespace Pangoo.MetaTable
         [LabelText("热点区域类型")]
         public string HotspotType ;
 
+        string IHotspotRow.HotspotType {get => HotspotType; set => HotspotType = value;}
+
         [JsonMember("Params")]
         [MetaTableRowColumn("Params","string", "参数",4)]
         [LabelText("参数")]
         public string Params ;
 
+        string IHotspotRow.Params {get => Params; set => Params = value;}
+
         [JsonMember("Id")]
         [MetaTableRowColumn("Id","int", "Id",5)]
         [LabelText("Id")]
         public int Id ;
+
+        int IHotspotRow.Id {get => Id; set => Id = value;}
 
     }
 }

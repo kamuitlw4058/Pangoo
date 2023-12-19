@@ -31,9 +31,7 @@ namespace Pangoo.Core.Services
         protected override void DoAwake()
         {
             base.DoAwake();
-
             Event.Subscribe(GameSectionChangeEventArgs.EventId, OnGameSectionChangeEvent);
-
         }
 
         void OnGameSectionChangeEvent(object sender, GameFrameworkEventArgs e)

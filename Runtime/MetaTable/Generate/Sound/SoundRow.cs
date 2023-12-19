@@ -14,7 +14,7 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class SoundRow : MetaTableRow
+    public partial class SoundRow : MetaTableRow,ISoundRow
     {
 
         [JsonMember("PackageDir")]
@@ -22,20 +22,28 @@ namespace Pangoo.MetaTable
         [LabelText("包目录")]
         public string PackageDir ;
 
+        string ISoundRow.PackageDir {get => PackageDir; set => PackageDir = value;}
+
         [JsonMember("SoundType")]
         [MetaTableRowColumn("SoundType","string", "音频类型",4)]
         [LabelText("音频类型")]
         public string SoundType ;
+
+        string ISoundRow.SoundType {get => SoundType; set => SoundType = value;}
 
         [JsonMember("AssetPath")]
         [MetaTableRowColumn("AssetPath","string", "资源路径",5)]
         [LabelText("资源路径")]
         public string AssetPath ;
 
+        string ISoundRow.AssetPath {get => AssetPath; set => AssetPath = value;}
+
         [JsonMember("Id")]
         [MetaTableRowColumn("Id","int", "Id",6)]
         [LabelText("Id")]
         public int Id ;
+
+        int ISoundRow.Id {get => Id; set => Id = value;}
 
     }
 }

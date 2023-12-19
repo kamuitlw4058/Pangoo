@@ -14,7 +14,7 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class InstructionRow : MetaTableRow
+    public partial class InstructionRow : MetaTableRow,IInstructionRow
     {
 
         [JsonMember("InstructionType")]
@@ -22,15 +22,21 @@ namespace Pangoo.MetaTable
         [LabelText("指令类型")]
         public string InstructionType ;
 
+        string IInstructionRow.InstructionType {get => InstructionType; set => InstructionType = value;}
+
         [JsonMember("Params")]
         [MetaTableRowColumn("Params","string", "指令参数",4)]
         [LabelText("指令参数")]
         public string Params ;
 
+        string IInstructionRow.Params {get => Params; set => Params = value;}
+
         [JsonMember("Id")]
         [MetaTableRowColumn("Id","int", "Id",5)]
         [LabelText("Id")]
         public int Id ;
+
+        int IInstructionRow.Id {get => Id; set => Id = value;}
 
     }
 }

@@ -14,7 +14,7 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class ConditionRow : MetaTableRow
+    public partial class ConditionRow : MetaTableRow,IConditionRow
     {
 
         [JsonMember("ConditionType")]
@@ -22,15 +22,21 @@ namespace Pangoo.MetaTable
         [LabelText("条件类型")]
         public string ConditionType ;
 
+        string IConditionRow.ConditionType {get => ConditionType; set => ConditionType = value;}
+
         [JsonMember("Params")]
         [MetaTableRowColumn("Params","string", "条件参数",4)]
         [LabelText("条件参数")]
         public string Params ;
 
+        string IConditionRow.Params {get => Params; set => Params = value;}
+
         [JsonMember("Id")]
         [MetaTableRowColumn("Id","int", "Id",5)]
         [LabelText("Id")]
         public int Id ;
+
+        int IConditionRow.Id {get => Id; set => Id = value;}
 
     }
 }

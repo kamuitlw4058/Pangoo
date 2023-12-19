@@ -63,6 +63,20 @@ namespace Pangoo.Core.Services
         }
 
 
+        MetaTableService m_MetaTableService;
+        public MetaTableService MetaTableSrv
+        {
+            get
+            {
+                if (m_MetaTableService == null)
+                {
+                    m_MetaTableService = Parent.GetService<MetaTableService>();
+                }
+                return m_MetaTableService;
+            }
+        }
+
+
 
 
         protected override void DoAwake()
