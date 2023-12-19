@@ -65,7 +65,14 @@ namespace Pangoo.Core.VisualScripting
             return JsonMapper.ToObject<DirectInstructionGroup[]>(s);
         }
 
-
+        public void UpdateUuidById()
+        {
+            if (DirectInstructionList == null) return;
+            for (int i = 0; i < DirectInstructionList.Length; i++)
+            {
+                DirectInstructionList[i].UpdateUuidById();
+            }
+        }
 
         public string Save()
         {

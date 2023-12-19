@@ -13,9 +13,13 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class InstructionRowWrapper : MetaTableRowWrapper<InstructionOverview,InstructionNewRowWrapper,UnityInstructionRow>
+    public partial class InstructionRowWrapper : MetaTableRowWrapper<InstructionOverview, InstructionNewRowWrapper, UnityInstructionRow>
     {
-
+        [ShowInInspector]
+        public int Id
+        {
+            get { return UnityRow.Row.Id; }
+        }
     }
 }
 #endif

@@ -19,6 +19,15 @@ namespace Pangoo.MetaTable
         VariableTypeEnum? m_VariableType;
 
         [ShowInInspector]
+        public int Id
+        {
+            get
+            {
+                return UnityRow.Row.Id;
+            }
+        }
+
+        [ShowInInspector]
         [LabelText("变量值类型")]
 
         public VariableTypeEnum VariableType

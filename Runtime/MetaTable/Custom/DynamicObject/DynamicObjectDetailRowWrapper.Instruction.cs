@@ -137,6 +137,16 @@ namespace Pangoo.MetaTable
             }
             UpdateGroupPrefab();
         }
+        [Button("升级Int到Uuid")]
+        [TabGroup("指令系统")]
+        public void UpdateDirectInstructionGroupId2Uuid()
+        {
+            foreach (var group in m_DirectInstructionGroups)
+            {
+                group.UpdateUuidById();
+            }
+            OnDirectInstructionsChanged();
+        }
 
 
 

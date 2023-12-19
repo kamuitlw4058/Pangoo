@@ -19,6 +19,7 @@ MonoBehaviour:
   StreamResDir: StreamRes
   UsingNamespace:
   - System
+  - System.Collections
   - System.IO
   - System.Collections.Generic
   - LitJson

@@ -7,6 +7,8 @@ using System.Text;
 using LitJson;
 using UnityEngine;
 using Pangoo.Common;
+using Pangoo.MetaTable;
+using MetaTable;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -16,12 +18,22 @@ namespace Pangoo.Core.VisualScripting
     public partial struct DirectInstruction
     {
 
+
+
         [TableTitleGroup("指令类型")]
         [HideLabel]
         [TableColumnWidth(200, resizable: false)]
         [JsonMember("InstructionType")]
         [GUIColor(0.3f, 0.9f, 0.3f)]
         public DirectInstructionTypeEnum InstructionType;
+
+        [TableTitleGroup("参数")]
+        [LabelText("Uuid")]
+        [ShowIf("$IsUuidShow")]
+        [LabelWidth(50)]
+        [JsonMember("Uuid")]
+        [ValueDropdown("OnUuidDropdown")]
+        public string Uuid;
 
         // [ValueDropdown("OnMainIntValueDropdown")]
         [TableTitleGroup("参数")]
@@ -63,8 +75,8 @@ namespace Pangoo.Core.VisualScripting
         [LabelWidth(50)]
         [JsonMember("Int2")]
         public int Int2;
-        
-        
+
+
 
 
         [TableTitleGroup("参数")]
@@ -148,7 +160,34 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectRunExecute => true,
                     DirectInstructionTypeEnum.PlaySound => true,
                     DirectInstructionTypeEnum.StopSound => true,
-                    DirectInstructionTypeEnum.CheckBoolVariableList=>true,
+                    DirectInstructionTypeEnum.CheckBoolVariableList => true,
+                    _ => false,
+                };
+            }
+        }
+
+        [JsonNoMember]
+        bool IsUuidShow
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.DynamicObjectPlayTimeline => true,
+                    DirectInstructionTypeEnum.ChangeGameSection => true,
+                    DirectInstructionTypeEnum.SetBoolVariable => true,
+                    DirectInstructionTypeEnum.DynamicObjectModelActive => true,
+                    DirectInstructionTypeEnum.DynamicObjectHotspotActive => true,
+                    DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => true,
+                    DirectInstructionTypeEnum.DynamicObjectInteractEnable => true,
+
+                    DirectInstructionTypeEnum.RunInstruction => true,
+
+                    DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => true,
+                    DirectInstructionTypeEnum.DynamicObjectRunExecute => true,
+                    DirectInstructionTypeEnum.PlaySound => true,
+                    DirectInstructionTypeEnum.StopSound => true,
+                    DirectInstructionTypeEnum.CheckBoolVariableList => true,
                     _ => false,
                 };
             }
@@ -246,7 +285,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.ImageFade=>true,
+                    DirectInstructionTypeEnum.ImageFade => true,
                     DirectInstructionTypeEnum.WaitMsg => true,
                     DirectInstructionTypeEnum.SetGlobalGameObjectActive => true,
                     _ => false,
@@ -343,7 +382,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SetGameObjectActive => "参考动态物体",
                     DirectInstructionTypeEnum.PlaySound => "音频Id",
                     DirectInstructionTypeEnum.StopSound => "音频Id",
-                    DirectInstructionTypeEnum.CheckBoolVariableList=>"设置变量ID",
+                    DirectInstructionTypeEnum.CheckBoolVariableList => "设置变量ID",
                     _ => "Int1",
                 };
             }
@@ -362,7 +401,7 @@ namespace Pangoo.Core.VisualScripting
                 };
             }
         }
-        
+
         [JsonNoMember]
         string ListInt1Label
         {
@@ -550,6 +589,83 @@ namespace Pangoo.Core.VisualScripting
             }
 
             return null;
+        }
+
+        public IEnumerable OnUuidDropdown()
+        {
+            switch (InstructionType)
+            {
+
+                case DirectInstructionTypeEnum.ChangeGameSection:
+                    return GameSectionOverview.GetUuidDropdown();
+                case DirectInstructionTypeEnum.SetBoolVariable:
+                    return VariablesOverview.GetUuidDropdown();
+                case DirectInstructionTypeEnum.RunInstruction:
+                    return InstructionOverview.GetUuidDropdown();
+                case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:
+                case DirectInstructionTypeEnum.DynamicObjectModelActive:
+                case DirectInstructionTypeEnum.DynamicObjectHotspotActive:
+                case DirectInstructionTypeEnum.ActiveCameraGameObject:
+                case DirectInstructionTypeEnum.UnactiveCameraGameObject:
+                case DirectInstructionTypeEnum.SubGameObjectPlayTimeline:
+                case DirectInstructionTypeEnum.SubGameObjectPauseTimeline:
+                case DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled:
+                case DirectInstructionTypeEnum.SetGameObjectActive:
+                case DirectInstructionTypeEnum.DynamicObjectRunExecute:
+                case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
+                case DirectInstructionTypeEnum.DynamicObjectInteractEnable:
+                    return DynamicObjectOverview.GetUuidDropdown();
+                case DirectInstructionTypeEnum.PlaySound:
+                case DirectInstructionTypeEnum.StopSound:
+                    return SoundOverview.GetUuidDropdown();
+                case DirectInstructionTypeEnum.CheckBoolVariableList:
+                    return GameSupportEditorUtility.GetVariableIds(VariableValueTypeEnum.Bool.ToString());
+            }
+
+            return null;
+        }
+
+        public void UpdateUuidById()
+        {
+            MetaTableUnityRow row = null;
+            switch (InstructionType)
+            {
+
+                case DirectInstructionTypeEnum.ChangeGameSection:
+                    row = GameSectionOverview.GetUnityRowById(Int1) as MetaTableUnityRow;
+                    break;
+                case DirectInstructionTypeEnum.SetBoolVariable:
+                case DirectInstructionTypeEnum.CheckBoolVariableList:
+                    row = VariablesOverview.GetUnityRowById(Int1) as MetaTableUnityRow;
+                    break;
+                case DirectInstructionTypeEnum.RunInstruction:
+                    row = InstructionOverview.GetUnityRowById(Int1) as MetaTableUnityRow;
+                    break;
+                case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:
+                case DirectInstructionTypeEnum.DynamicObjectModelActive:
+                case DirectInstructionTypeEnum.DynamicObjectHotspotActive:
+                case DirectInstructionTypeEnum.ActiveCameraGameObject:
+                case DirectInstructionTypeEnum.UnactiveCameraGameObject:
+                case DirectInstructionTypeEnum.SubGameObjectPlayTimeline:
+                case DirectInstructionTypeEnum.SubGameObjectPauseTimeline:
+                case DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled:
+                case DirectInstructionTypeEnum.SetGameObjectActive:
+                case DirectInstructionTypeEnum.DynamicObjectRunExecute:
+                case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
+                case DirectInstructionTypeEnum.DynamicObjectInteractEnable:
+                    row = DynamicObjectOverview.GetUnityRowById(Int1) as MetaTableUnityRow;
+                    break;
+                case DirectInstructionTypeEnum.PlaySound:
+                case DirectInstructionTypeEnum.StopSound:
+                    row = SoundOverview.GetUnityRowById(Int1) as MetaTableUnityRow;
+                    break;
+
+            }
+
+            if (row != null)
+            {
+                Uuid = row.Uuid;
+            }
         }
 
         public IEnumerable OnInt2ValueDropdown()

@@ -1,6 +1,7 @@
 // 本文件使用工具自动生成，请勿进行手动修改！
 
 using System;
+using System.Collections;
 using System.IO;
 using System.Collections.Generic;
 using LitJson;
@@ -33,6 +34,16 @@ namespace Pangoo.MetaTable
            return ToTable<EntityGroupTable>();
         }
 #if UNITY_EDITOR
+
+        public static IEnumerable GetUuidDropdown(List<string> excludeUuids = null, string packageDir = null)
+        {
+           return GetUuidDropdown<EntityGroupOverview>(excludeUuids: excludeUuids, packageDir: packageDir);
+        }
+
+        public static UnityEntityGroupRow GetUnityRowByUuid(string uuid, string packageDir = null)
+        {
+           return GetUnityRowByUuid<EntityGroupOverview, UnityEntityGroupRow>(uuid);
+        }
 
          public override void RemoveRow(string uuid)
         {

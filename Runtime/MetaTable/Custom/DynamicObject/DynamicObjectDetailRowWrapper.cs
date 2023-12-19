@@ -208,6 +208,8 @@ namespace Pangoo.MetaTable
                 }
             }
             HotspotUuids = hotSpotUuids.ToArray();
+
+            UpdateDirectInstructionGroupId2Uuid();
         }
 
     }

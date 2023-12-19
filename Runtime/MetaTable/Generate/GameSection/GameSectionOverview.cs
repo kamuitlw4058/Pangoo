@@ -1,6 +1,7 @@
 // 本文件使用工具自动生成，请勿进行手动修改！
 
 using System;
+using System.Collections;
 using System.IO;
 using System.Collections.Generic;
 using LitJson;
@@ -33,6 +34,50 @@ namespace Pangoo.MetaTable
            return ToTable<GameSectionTable>();
         }
 #if UNITY_EDITOR
+
+        public static UnityGameSectionRow GetUnityRowById(int id, string packageDir = null)
+        {
+           var overviews = AssetDatabaseUtility.FindAsset<GameSectionOverview>(packageDir);
+           foreach (var overview in overviews)
+            {
+               foreach (var row in overview.Rows)
+                {
+                   if (row.Row.Id == id)
+                    {
+                       return row;
+                    }
+                }
+            }
+             return null; 
+        }
+
+        public static IEnumerable GetIdDropdown(List<int> excludeIds = null, string packageDir = null)
+        {
+           var ret = new ValueDropdownList<int>();
+           var overviews = AssetDatabaseUtility.FindAsset<GameSectionOverview>(packageDir);
+           foreach (var overview in overviews)
+            {
+               foreach (var row in overview.Rows)
+                {
+                   bool flag = excludeIds == null ? true : !excludeIds.Contains(row.Row.Id) ? true : false;
+                    if (flag)
+                    {
+                       ret.Add($"{row.Row.Id}-{row.Name}", row.Row.Id);
+                    }
+                }
+            }
+            return ret;
+        }
+
+        public static IEnumerable GetUuidDropdown(List<string> excludeUuids = null, string packageDir = null)
+        {
+           return GetUuidDropdown<GameSectionOverview>(excludeUuids: excludeUuids, packageDir: packageDir);
+        }
+
+        public static UnityGameSectionRow GetUnityRowByUuid(string uuid, string packageDir = null)
+        {
+           return GetUnityRowByUuid<GameSectionOverview, UnityGameSectionRow>(uuid);
+        }
 
          public override void RemoveRow(string uuid)
         {
