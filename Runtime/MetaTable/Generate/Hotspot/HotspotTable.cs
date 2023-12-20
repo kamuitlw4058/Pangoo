@@ -14,18 +14,18 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class HotspotTable : MetaTableBase
+    public partial class HotspotTable : MetaTableBase,IHotspotTable
     {
 
 
-        public HotspotRow GetRowByUuid(string uuid)
+        public IHotspotRow GetRowByUuid(string uuid)
         {
-            return GetRowByUuid<HotspotRow>(uuid);
+            return GetRowByUuid<IHotspotRow>(uuid);
         }
 
-        public HotspotRow GetRowById(int id)
+        public IHotspotRow GetRowById(int id)
         {
-            return GetRowById<HotspotRow>(id);
+            return GetRowById<IHotspotRow>(id);
         }
 
         public override string TableName => "Hotspot";

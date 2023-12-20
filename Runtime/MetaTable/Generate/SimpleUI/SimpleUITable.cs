@@ -14,18 +14,18 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class SimpleUITable : MetaTableBase
+    public partial class SimpleUITable : MetaTableBase,ISimpleUITable
     {
 
 
-        public SimpleUIRow GetRowByUuid(string uuid)
+        public ISimpleUIRow GetRowByUuid(string uuid)
         {
-            return GetRowByUuid<SimpleUIRow>(uuid);
+            return GetRowByUuid<ISimpleUIRow>(uuid);
         }
 
-        public SimpleUIRow GetRowById(int id)
+        public ISimpleUIRow GetRowById(int id)
         {
-            return GetRowById<SimpleUIRow>(id);
+            return GetRowById<ISimpleUIRow>(id);
         }
 
         public override string TableName => "SimpleUI";

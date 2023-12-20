@@ -14,18 +14,18 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class StaticSceneTable : MetaTableBase
+    public partial class StaticSceneTable : MetaTableBase,IStaticSceneTable
     {
 
 
-        public StaticSceneRow GetRowByUuid(string uuid)
+        public IStaticSceneRow GetRowByUuid(string uuid)
         {
-            return GetRowByUuid<StaticSceneRow>(uuid);
+            return GetRowByUuid<IStaticSceneRow>(uuid);
         }
 
-        public StaticSceneRow GetRowById(int id)
+        public IStaticSceneRow GetRowById(int id)
         {
-            return GetRowById<StaticSceneRow>(id);
+            return GetRowById<IStaticSceneRow>(id);
         }
 
         public override string TableName => "StaticScene";

@@ -14,18 +14,18 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class VariablesTable : MetaTableBase
+    public partial class VariablesTable : MetaTableBase,IVariablesTable
     {
 
 
-        public VariablesRow GetRowByUuid(string uuid)
+        public IVariablesRow GetRowByUuid(string uuid)
         {
-            return GetRowByUuid<VariablesRow>(uuid);
+            return GetRowByUuid<IVariablesRow>(uuid);
         }
 
-        public VariablesRow GetRowById(int id)
+        public IVariablesRow GetRowById(int id)
         {
-            return GetRowById<VariablesRow>(id);
+            return GetRowById<IVariablesRow>(id);
         }
 
         public override string TableName => "Variables";

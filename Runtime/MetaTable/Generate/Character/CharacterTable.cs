@@ -14,18 +14,18 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class CharacterTable : MetaTableBase
+    public partial class CharacterTable : MetaTableBase,ICharacterTable
     {
 
 
-        public CharacterRow GetRowByUuid(string uuid)
+        public ICharacterRow GetRowByUuid(string uuid)
         {
-            return GetRowByUuid<CharacterRow>(uuid);
+            return GetRowByUuid<ICharacterRow>(uuid);
         }
 
-        public CharacterRow GetRowById(int id)
+        public ICharacterRow GetRowById(int id)
         {
-            return GetRowById<CharacterRow>(id);
+            return GetRowById<ICharacterRow>(id);
         }
 
         public override string TableName => "Character";

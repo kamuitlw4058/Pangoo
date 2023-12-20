@@ -14,18 +14,18 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class InstructionTable : MetaTableBase
+    public partial class InstructionTable : MetaTableBase,IInstructionTable
     {
 
 
-        public InstructionRow GetRowByUuid(string uuid)
+        public IInstructionRow GetRowByUuid(string uuid)
         {
-            return GetRowByUuid<InstructionRow>(uuid);
+            return GetRowByUuid<IInstructionRow>(uuid);
         }
 
-        public InstructionRow GetRowById(int id)
+        public IInstructionRow GetRowById(int id)
         {
-            return GetRowById<InstructionRow>(id);
+            return GetRowById<IInstructionRow>(id);
         }
 
         public override string TableName => "Instruction";

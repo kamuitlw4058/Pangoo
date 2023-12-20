@@ -14,18 +14,18 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class DynamicObjectTable : MetaTableBase
+    public partial class DynamicObjectTable : MetaTableBase,IDynamicObjectTable
     {
 
 
-        public DynamicObjectRow GetRowByUuid(string uuid)
+        public IDynamicObjectRow GetRowByUuid(string uuid)
         {
-            return GetRowByUuid<DynamicObjectRow>(uuid);
+            return GetRowByUuid<IDynamicObjectRow>(uuid);
         }
 
-        public DynamicObjectRow GetRowById(int id)
+        public IDynamicObjectRow GetRowById(int id)
         {
-            return GetRowById<DynamicObjectRow>(id);
+            return GetRowById<IDynamicObjectRow>(id);
         }
 
         public override string TableName => "DynamicObject";

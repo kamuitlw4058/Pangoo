@@ -14,18 +14,18 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class ConditionTable : MetaTableBase
+    public partial class ConditionTable : MetaTableBase,IConditionTable
     {
 
 
-        public ConditionRow GetRowByUuid(string uuid)
+        public IConditionRow GetRowByUuid(string uuid)
         {
-            return GetRowByUuid<ConditionRow>(uuid);
+            return GetRowByUuid<IConditionRow>(uuid);
         }
 
-        public ConditionRow GetRowById(int id)
+        public IConditionRow GetRowById(int id)
         {
-            return GetRowById<ConditionRow>(id);
+            return GetRowById<IConditionRow>(id);
         }
 
         public override string TableName => "Condition";

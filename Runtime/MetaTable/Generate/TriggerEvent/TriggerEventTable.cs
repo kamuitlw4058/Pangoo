@@ -14,18 +14,18 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class TriggerEventTable : MetaTableBase
+    public partial class TriggerEventTable : MetaTableBase,ITriggerEventTable
     {
 
 
-        public TriggerEventRow GetRowByUuid(string uuid)
+        public ITriggerEventRow GetRowByUuid(string uuid)
         {
-            return GetRowByUuid<TriggerEventRow>(uuid);
+            return GetRowByUuid<ITriggerEventRow>(uuid);
         }
 
-        public TriggerEventRow GetRowById(int id)
+        public ITriggerEventRow GetRowById(int id)
         {
-            return GetRowById<TriggerEventRow>(id);
+            return GetRowById<ITriggerEventRow>(id);
         }
 
         public override string TableName => "TriggerEvent";

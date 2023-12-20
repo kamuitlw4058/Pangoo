@@ -14,18 +14,18 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class GameSectionTable : MetaTableBase
+    public partial class GameSectionTable : MetaTableBase,IGameSectionTable
     {
 
 
-        public GameSectionRow GetRowByUuid(string uuid)
+        public IGameSectionRow GetRowByUuid(string uuid)
         {
-            return GetRowByUuid<GameSectionRow>(uuid);
+            return GetRowByUuid<IGameSectionRow>(uuid);
         }
 
-        public GameSectionRow GetRowById(int id)
+        public IGameSectionRow GetRowById(int id)
         {
-            return GetRowById<GameSectionRow>(id);
+            return GetRowById<IGameSectionRow>(id);
         }
 
         public override string TableName => "GameSection";

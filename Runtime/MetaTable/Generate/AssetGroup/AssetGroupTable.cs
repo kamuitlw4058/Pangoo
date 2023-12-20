@@ -14,18 +14,18 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class AssetGroupTable : MetaTableBase
+    public partial class AssetGroupTable : MetaTableBase,IAssetGroupTable
     {
 
 
-        public AssetGroupRow GetRowByUuid(string uuid)
+        public IAssetGroupRow GetRowByUuid(string uuid)
         {
-            return GetRowByUuid<AssetGroupRow>(uuid);
+            return GetRowByUuid<IAssetGroupRow>(uuid);
         }
 
-        public AssetGroupRow GetRowById(int id)
+        public IAssetGroupRow GetRowById(int id)
         {
-            return GetRowById<AssetGroupRow>(id);
+            return GetRowById<IAssetGroupRow>(id);
         }
 
         public override string TableName => "AssetGroup";

@@ -14,18 +14,18 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class SoundTable : MetaTableBase
+    public partial class SoundTable : MetaTableBase,ISoundTable
     {
 
 
-        public SoundRow GetRowByUuid(string uuid)
+        public ISoundRow GetRowByUuid(string uuid)
         {
-            return GetRowByUuid<SoundRow>(uuid);
+            return GetRowByUuid<ISoundRow>(uuid);
         }
 
-        public SoundRow GetRowById(int id)
+        public ISoundRow GetRowById(int id)
         {
-            return GetRowById<SoundRow>(id);
+            return GetRowById<ISoundRow>(id);
         }
 
         public override string TableName => "Sound";
