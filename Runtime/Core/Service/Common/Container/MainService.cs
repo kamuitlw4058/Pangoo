@@ -68,9 +68,9 @@ namespace Pangoo.Core.Services
             return val;
         }
 
-        public InstructionTable GetInstructionTable()
+        public InstructionGetRowByIdHandler GetInstructionRowByIdHandler()
         {
-            return ExcelTable.GetInstructionTable();
+            return ExcelTable.GetInstructionById;
         }
 
         public T GetExcelTable<T>() where T : ExcelTableBase

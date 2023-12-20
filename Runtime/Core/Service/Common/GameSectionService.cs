@@ -85,7 +85,7 @@ namespace Pangoo.Core.Services
             var editorInstructionIds = GameSectionRow.EditorInitedInstructionIds.ToSplitList<int>();
             if (editorInstructionIds.Count > 0)
             {
-                var instructions = InstructionList.BuildInstructionList(editorInstructionIds, m_InstructionTable);
+                var instructions = InstructionList.BuildInstructionList(editorInstructionIds, ExcelTableSrv.GetInstructionById);
                 var args = new Args();
                 args.Main = Parent as MainService;
                 instructions.Start(args);
@@ -98,14 +98,12 @@ namespace Pangoo.Core.Services
             if (instructionIds.Count > 0)
             {
 
-                var instructions = InstructionList.BuildInstructionList(instructionIds, m_InstructionTable);
+                var instructions = InstructionList.BuildInstructionList(instructionIds, ExcelTableSrv.GetInstructionById);
                 var args = new Args();
                 args.Main = Parent as MainService;
                 instructions.Start(args);
             }
         }
-
-
 
 
         void OnInitSceneLoaded()

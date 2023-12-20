@@ -123,7 +123,7 @@ namespace Pangoo.Core.VisualScripting
             TableService = null;
             m_Variables = null;
             m_TriggerEventTable = null;
-            m_InstructionTable = null;
+            m_InstructionHandler = null;
             TriggerEventRows.Clear();
             SubDynamicObjectDict.Clear();
             LoadingDynamicObject.Clear();

@@ -72,6 +72,11 @@ public class ZhiRenMixer : MonoBehaviour
 
     void Update()
     {
+        if (Mixer == null)
+        {
+            return;
+        }
+
         if (PangooEntry.Service.mainService.StaticScene.EnterAssetCountDict.ContainsKey(21006))
         {
             AtRoom = true;

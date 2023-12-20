@@ -23,7 +23,7 @@ namespace Pangoo.Core.VisualScripting
 
             foreach (var directInstruction in diGroup.DirectInstructionList)
             {
-                var instruction = directInstruction.ToInstruction(m_InstructionTable);
+                var instruction = directInstruction.ToInstruction(m_InstructionHandler);
                 if (instruction != null)
                 {
                     ret.Add(instruction);

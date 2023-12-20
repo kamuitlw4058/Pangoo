@@ -17,7 +17,7 @@ namespace Pangoo.Core.VisualScripting
         List<TriggerEventTable.TriggerEventRow> TriggerEventRows = new();
 
         TriggerEventTable m_TriggerEventTable;
-        InstructionTable m_InstructionTable;
+        InstructionGetRowByIdHandler m_InstructionHandler;
 
         ConditionTable m_ConditionTable;
 
@@ -78,7 +78,7 @@ namespace Pangoo.Core.VisualScripting
             switch (triggerEvent.ConditionType)
             {
                 case ConditionTypeEnum.NoCondition:
-                    var instructionList = DirectInstructionList.LoadInstructionList(triggerEvent.Row.InstructionList, m_InstructionTable);
+                    var instructionList = DirectInstructionList.LoadInstructionList(triggerEvent.Row.InstructionList, m_InstructionHandler);
                     if (instructionList != null)
                     {
                         triggerEvent.ConditionInstructions.Add(1, instructionList);
@@ -86,13 +86,13 @@ namespace Pangoo.Core.VisualScripting
                     break;
                 case ConditionTypeEnum.BoolCondition:
                     triggerEvent.Conditions = ConditionList.BuildConditionList(triggerEvent.Row.GetConditionList(), m_ConditionTable);
-                    var defaultinstructionList = DirectInstructionList.LoadInstructionList(triggerEvent.Row.InstructionList, m_InstructionTable);
+                    var defaultinstructionList = DirectInstructionList.LoadInstructionList(triggerEvent.Row.InstructionList, m_InstructionHandler);
                     if (defaultinstructionList != null)
                     {
                         triggerEvent.ConditionInstructions.Add(1, defaultinstructionList);
                     }
 
-                    var failedInstructionList = DirectInstructionList.LoadInstructionList(triggerEvent.Row.FailInstructionList, m_InstructionTable);
+                    var failedInstructionList = DirectInstructionList.LoadInstructionList(triggerEvent.Row.FailInstructionList, m_InstructionHandler);
                     if (failedInstructionList != null)
                     {
                         triggerEvent.ConditionInstructions.Add(0, failedInstructionList);
@@ -105,7 +105,7 @@ namespace Pangoo.Core.VisualScripting
                     foreach (var kv in StateInstructions)
                     {
 
-                        triggerEvent.ConditionInstructions.Add(kv.Key, kv.Value.ToInstructionList(m_InstructionTable));
+                        triggerEvent.ConditionInstructions.Add(kv.Key, kv.Value.ToInstructionList(m_InstructionHandler));
                     }
                     break;
             }
@@ -172,7 +172,10 @@ namespace Pangoo.Core.VisualScripting
         void DoAwakeTriggerEvent()
         {
             m_TriggerEventTable = TableService?.GetExcelTable<TriggerEventTable>();
-            m_InstructionTable = TableService?.GetExcelTable<InstructionTable>();
+            if (TableService != null)
+            {
+                m_InstructionHandler = TableService.GetInstructionById;
+            }
             m_ConditionTable = TableService?.GetExcelTable<ConditionTable>();
             m_VariablesTable = TableService?.GetExcelTable<VariablesTable>();
 

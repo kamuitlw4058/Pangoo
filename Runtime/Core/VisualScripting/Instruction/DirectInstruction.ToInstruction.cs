@@ -111,9 +111,9 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetInstructionById(int instructionId, InstructionTable instructionTable)
+        public static Instruction GetInstructionById(int instructionId, InstructionGetRowByIdHandler handler)
         {
-            return InstructionList.BuildInstruction(instructionId, instructionTable);
+            return InstructionList.BuildInstruction(instructionId, handler);
         }
 
 
@@ -200,7 +200,7 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetShowHideCursor(bool isShow,CursorLockMode cursorLockMode)
+        public static Instruction GetShowHideCursor(bool isShow, CursorLockMode cursorLockMode)
         {
             var instruction = Activator.CreateInstance<InstructionShowHideCursor>();
             instruction.ParamsRaw.Visible = isShow;
@@ -221,8 +221,8 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.TweenID = tweenID;
             return instruction;
         }
-        
-        public static Instruction GetCheckBoolVariableList(List<int> variableList,int setVariableID)
+
+        public static Instruction GetCheckBoolVariableList(List<int> variableList, int setVariableID)
         {
             var instruction = Activator.CreateInstance<InstructionCheckVariableBoolList>();
             instruction.ParamsRaw.VariableIdList = variableList;
@@ -238,7 +238,7 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public Instruction ToInstruction(InstructionTable instructionTable = null)
+        public Instruction ToInstruction(InstructionGetRowByIdHandler handler = null)
         {
             switch (InstructionType)
             {
@@ -263,7 +263,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.DynamicObjectHotspotActive:
                     return GetDynamicObjectHotspotActive(Int1, Bool1);
                 case DirectInstructionTypeEnum.RunInstruction:
-                    return GetInstructionById(Int1, instructionTable);
+                    return GetInstructionById(Int1, handler);
                 case DirectInstructionTypeEnum.ShowSubtitle:
                     return GetShowSubtitleInstruction(String1, Float1);
                 case DirectInstructionTypeEnum.CloseSelfTrigger:
@@ -285,7 +285,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.ImageFade:
                     return GetImageFadeInstruction(String1, Float1, Float2, String2);
                 case DirectInstructionTypeEnum.ShowHideCursor:
-                    return GetShowHideCursor(Bool1,CursorLockMode1);
+                    return GetShowHideCursor(Bool1, CursorLockMode1);
                 case DirectInstructionTypeEnum.CanvasGroup:
                     return GetCanvasGroupFadeInstruction(String1, Float1, Float2);
                 case DirectInstructionTypeEnum.WaitMsg:
@@ -295,7 +295,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.SetGlobalGameObjectActive:
                     return GetSetGlobalGameObjectActive(String1, String2, Bool1);
                 case DirectInstructionTypeEnum.CheckBoolVariableList:
-                    return GetCheckBoolVariableList(ListInt1,Int1);
+                    return GetCheckBoolVariableList(ListInt1, Int1);
                 case DirectInstructionTypeEnum.DynamicObjectInteractEnable:
                     return GetDynamicObjectInteractEnable(Int1, Bool1);
             }

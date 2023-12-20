@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pangoo.Core.Common;
+using Pangoo.MetaTable;
+
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -144,6 +146,20 @@ namespace Pangoo.Core.VisualScripting
         public virtual void Load(string val)
         {
             Params.Load(val);
+        }
+
+
+        public static Instruction BuildFromRow(IInstructionRow row, TriggerEvent trigger = null)
+        {
+            if (row == null || row.Id == 0 || row.InstructionType.IsNullOrWhiteSpace())
+            {
+                return null;
+            }
+
+            var instructionInstance = ClassUtility.CreateInstance<Instruction>(row.InstructionType);
+            instructionInstance.Load(row.Params);
+            instructionInstance.Trigger = trigger;
+            return instructionInstance;
         }
     }
 }

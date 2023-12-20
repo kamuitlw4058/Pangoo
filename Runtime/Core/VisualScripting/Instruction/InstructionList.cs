@@ -6,6 +6,7 @@ using Pangoo.Core.Common;
 using Sirenix.Utilities;
 using System.Linq;
 using Sirenix.OdinInspector;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -228,9 +229,10 @@ namespace Pangoo.Core.VisualScripting
             return this.m_Instructions[index];
         }
 
-        public static Instruction BuildInstruction(int instructionId, InstructionTable table = null, TriggerEvent trigger = null)
+
+        public static Instruction BuildInstruction(int instructionId, InstructionGetRowByIdHandler handler = null, TriggerEvent trigger = null)
         {
-            InstructionTable.InstructionRow instructionRow = InstructionRowExtension.GetById(instructionId, table);
+            IInstructionRow instructionRow = InstructionRowExtension.GetById(instructionId, handler);
             if (instructionRow == null || instructionRow.InstructionType == null)
             {
                 return null;
@@ -242,13 +244,13 @@ namespace Pangoo.Core.VisualScripting
             return instructionInstance;
         }
 
-        public static InstructionList BuildInstructionList(IEnumerable<int> ids, InstructionTable table = null, TriggerEvent trigger = null)
+        public static InstructionList BuildInstructionList(IEnumerable<int> ids, InstructionGetRowByIdHandler handler = null, TriggerEvent trigger = null)
         {
             List<Instruction> instructions = new();
 
             foreach (var instructionId in ids)
             {
-                Instruction instruction = BuildInstruction(instructionId, table, trigger);
+                Instruction instruction = BuildInstruction(instructionId, handler, trigger);
                 if (instruction == null)
                 {
                     continue;

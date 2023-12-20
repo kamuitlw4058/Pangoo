@@ -105,7 +105,7 @@ namespace Pangoo.Core.VisualScripting
 
         }
 
-        public InstructionList ToInstructionList(InstructionTable table = null)
+        public InstructionList ToInstructionList(InstructionGetRowByIdHandler handler = null)
         {
             if (DirectInstructions == null || DirectInstructions.Length == 0)
             {
@@ -115,7 +115,7 @@ namespace Pangoo.Core.VisualScripting
             List<Instruction> ret = new List<Instruction>();
             for (int i = 0; i < DirectInstructions.Length; i++)
             {
-                var instruction = DirectInstructions[i].ToInstruction(table);
+                var instruction = DirectInstructions[i].ToInstruction(handler);
                 // Debug.Log($"Instruction:{instruction}");
                 if (instruction != null)
                 {
@@ -126,14 +126,14 @@ namespace Pangoo.Core.VisualScripting
         }
 
 
-        public static InstructionList LoadInstructionList(string val, InstructionTable table = null)
+        public static InstructionList LoadInstructionList(string val, InstructionGetRowByIdHandler handler = null)
         {
             List<Instruction> ret = new List<Instruction>();
             var directInstructions = JsonMapper.ToObject<DirectInstructionList>(val);
             // Debug.Log($"directInstructions:{directInstructions},{directInstructions?.DirectInstructions?.Length}");
             if (directInstructions != null)
             {
-                return directInstructions.ToInstructionList(table);
+                return directInstructions.ToInstructionList(handler);
             }
             Debug.Log($"directInstructions: return null");
 
