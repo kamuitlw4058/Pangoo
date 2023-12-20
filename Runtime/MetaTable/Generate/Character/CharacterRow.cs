@@ -73,13 +73,6 @@ namespace Pangoo.MetaTable
 
         bool ICharacterRow.CameraOnly {get => CameraOnly; set => CameraOnly = value;}
 
-        [JsonMember("Id")]
-        [MetaTableRowColumn("Id","int", "Id",11)]
-        [LabelText("Id")]
-        public int Id ;
-
-        int ICharacterRow.Id {get => Id; set => Id = value;}
-
         [JsonMember("AssetPathId")]
         [MetaTableRowColumn("AssetPathId","int", "AssetPathId",12)]
         [LabelText("AssetPathId")]

@@ -42,8 +42,6 @@ namespace Pangoo.MetaTable
 
         public string EditorInitedInstructionUuids{ get; set; }
 
-        public int Id{ get; set; }
-
     }
 }
 

@@ -31,13 +31,6 @@ namespace Pangoo.MetaTable
 
         string IConditionRow.Params {get => Params; set => Params = value;}
 
-        [JsonMember("Id")]
-        [MetaTableRowColumn("Id","int", "Id",5)]
-        [LabelText("Id")]
-        public int Id ;
-
-        int IConditionRow.Id {get => Id; set => Id = value;}
-
     }
 }
 

@@ -32,8 +32,6 @@ namespace Pangoo.MetaTable
 
         public bool CameraOnly{ get; set; }
 
-        public int Id{ get; set; }
-
         public int AssetPathId{ get; set; }
 
     }

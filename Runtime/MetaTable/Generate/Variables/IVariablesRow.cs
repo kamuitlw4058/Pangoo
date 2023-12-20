@@ -26,8 +26,6 @@ namespace Pangoo.MetaTable
 
         public bool NeedSave{ get; set; }
 
-        public int Id{ get; set; }
-
     }
 }
 

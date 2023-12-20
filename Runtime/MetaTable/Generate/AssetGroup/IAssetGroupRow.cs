@@ -20,8 +20,6 @@ namespace Pangoo.MetaTable
 
         public string Desc{ get; set; }
 
-        public int Id{ get; set; }
-
     }
 }
 

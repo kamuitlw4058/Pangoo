@@ -80,13 +80,6 @@ namespace Pangoo.MetaTable
 
         string ITriggerEventRow.FailInstructionList {get => FailInstructionList; set => FailInstructionList = value;}
 
-        [JsonMember("Id")]
-        [MetaTableRowColumn("Id","int", "Id",12)]
-        [LabelText("Id")]
-        public int Id ;
-
-        int ITriggerEventRow.Id {get => Id; set => Id = value;}
-
     }
 }
 

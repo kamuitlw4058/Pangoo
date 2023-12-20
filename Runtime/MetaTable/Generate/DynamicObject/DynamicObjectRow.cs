@@ -178,13 +178,6 @@ namespace Pangoo.MetaTable
 
         string IDynamicObjectRow.HotspotUuids {get => HotspotUuids; set => HotspotUuids = value;}
 
-        [JsonMember("Id")]
-        [MetaTableRowColumn("Id","int", "Id",26)]
-        [LabelText("Id")]
-        public int Id ;
-
-        int IDynamicObjectRow.Id {get => Id; set => Id = value;}
-
     }
 }
 

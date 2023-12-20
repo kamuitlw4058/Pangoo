@@ -24,8 +24,6 @@ namespace Pangoo.MetaTable
 
         public string AssetGroup{ get; set; }
 
-        public int Id{ get; set; }
-
     }
 }
 

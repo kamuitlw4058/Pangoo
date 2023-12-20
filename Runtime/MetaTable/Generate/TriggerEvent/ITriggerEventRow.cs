@@ -34,8 +34,6 @@ namespace Pangoo.MetaTable
 
         public string FailInstructionList{ get; set; }
 
-        public int Id{ get; set; }
-
     }
 }
 

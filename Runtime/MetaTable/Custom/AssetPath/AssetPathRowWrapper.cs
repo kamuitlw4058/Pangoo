@@ -15,11 +15,7 @@ namespace Pangoo.MetaTable
     [Serializable]
     public partial class AssetPathRowWrapper : MetaTableRowWrapper<AssetPathOverview, AssetPathNewRowWrapper, UnityAssetPathRow>
     {
-        [ShowInInspector]
-        public int Id
-        {
-            get { return UnityRow.Row.Id; }
-        }
+
 
         [ShowInInspector]
         public string AssetType

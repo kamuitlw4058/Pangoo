@@ -79,16 +79,6 @@ namespace Pangoo.MetaTable
            return GetUnityRowByUuid<InstructionOverview, UnityInstructionRow>(uuid);
         }
 
-         public override void RemoveRow(string uuid)
-        {
-           var unityRow = GetUnityRowByName(uuid) as UnityInstructionRow;
-            if(unityRow != null)
-            {
-                 Rows.Remove(unityRow);
-                 AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(unityRow));
-            }
-        }
-
         public override void AddRow(MetaTableUnityRow unityRow)
         {
            AddRow<UnityInstructionRow>(unityRow);
@@ -131,12 +121,12 @@ namespace Pangoo.MetaTable
 
         public override void RemoveByUuid(string uuid)
         {
-           for (int i = 0; i < Rows.Count; i++)
-           {
-               if (Rows[i].Row.Uuid.Equals(uuid)){
-                   Rows.Remove(Rows[i]);
-               }
-           }
+           var unityRow = GetUnityRowByUuid(uuid) as UnityInstructionRow;
+            if(unityRow != null)
+            {
+                 Rows.Remove(unityRow);
+                 AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(unityRow));
+            }
         }
 #endif
     }

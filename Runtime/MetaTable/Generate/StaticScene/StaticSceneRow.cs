@@ -45,13 +45,6 @@ namespace Pangoo.MetaTable
 
         string IStaticSceneRow.LoadSceneIds {get => LoadSceneIds; set => LoadSceneIds = value;}
 
-        [JsonMember("Id")]
-        [MetaTableRowColumn("Id","int", "Id",7)]
-        [LabelText("Id")]
-        public int Id ;
-
-        int IStaticSceneRow.Id {get => Id; set => Id = value;}
-
         [JsonMember("AssetPathUuid")]
         [MetaTableRowColumn("AssetPathUuid","string", "资源路径Uuid",8)]
         [LabelText("资源路径Uuid")]

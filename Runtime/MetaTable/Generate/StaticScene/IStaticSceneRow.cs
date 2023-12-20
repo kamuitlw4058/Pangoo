@@ -24,8 +24,6 @@ namespace Pangoo.MetaTable
 
         public string LoadSceneIds{ get; set; }
 
-        public int Id{ get; set; }
-
         public string AssetPathUuid{ get; set; }
 
         public string LoadSceneUuids{ get; set; }

@@ -16,14 +16,7 @@ namespace Pangoo.MetaTable
     [Serializable]
     public partial class VariablesRowWrapper : MetaTableRowWrapper<VariablesOverview, VariablesNewRowWrapper, UnityVariablesRow>
     {
-        [ShowInInspector]
-        public int Id
-        {
-            get
-            {
-                return UnityRow.Row.Id;
-            }
-        }
+
 
         [ShowInInspector]
         // [LabelText("变量值类型")]

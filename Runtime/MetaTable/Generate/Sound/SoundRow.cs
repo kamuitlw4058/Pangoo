@@ -38,13 +38,6 @@ namespace Pangoo.MetaTable
 
         string ISoundRow.AssetPath {get => AssetPath; set => AssetPath = value;}
 
-        [JsonMember("Id")]
-        [MetaTableRowColumn("Id","int", "Id",6)]
-        [LabelText("Id")]
-        public int Id ;
-
-        int ISoundRow.Id {get => Id; set => Id = value;}
-
     }
 }
 

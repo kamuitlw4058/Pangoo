@@ -15,11 +15,7 @@ namespace Pangoo.MetaTable
     [Serializable]
     public partial class DynamicObjectRowWrapper : MetaTableRowWrapper<DynamicObjectOverview, DynamicObjectNewRowWrapper, UnityDynamicObjectRow>
     {
-        [ShowInInspector]
-        public int Id
-        {
-            get { return UnityRow.Row.Id; }
-        }
+
     }
 }
 #endif

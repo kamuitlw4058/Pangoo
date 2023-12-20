@@ -62,8 +62,6 @@ namespace Pangoo.MetaTable
 
         public string HotspotUuids{ get; set; }
 
-        public int Id{ get; set; }
-
     }
 }
 

@@ -108,13 +108,6 @@ namespace Pangoo.MetaTable
 
         string IGameSectionRow.EditorInitedInstructionUuids {get => EditorInitedInstructionUuids; set => EditorInitedInstructionUuids = value;}
 
-        [JsonMember("Id")]
-        [MetaTableRowColumn("Id","int", "Id",16)]
-        [LabelText("Id")]
-        public int Id ;
-
-        int IGameSectionRow.Id {get => Id; set => Id = value;}
-
     }
 }
 

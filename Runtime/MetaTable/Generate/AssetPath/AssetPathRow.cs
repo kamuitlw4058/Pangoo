@@ -45,13 +45,6 @@ namespace Pangoo.MetaTable
 
         string IAssetPathRow.AssetGroup {get => AssetGroup; set => AssetGroup = value;}
 
-        [JsonMember("Id")]
-        [MetaTableRowColumn("Id","int", "Id",7)]
-        [LabelText("Id")]
-        public int Id ;
-
-        int IAssetPathRow.Id {get => Id; set => Id = value;}
-
     }
 }
 

@@ -52,13 +52,6 @@ namespace Pangoo.MetaTable
 
         bool IVariablesRow.NeedSave {get => NeedSave; set => NeedSave = value;}
 
-        [JsonMember("Id")]
-        [MetaTableRowColumn("Id","int", "Id",8)]
-        [LabelText("Id")]
-        public int Id ;
-
-        int IVariablesRow.Id {get => Id; set => Id = value;}
-
     }
 }
 
