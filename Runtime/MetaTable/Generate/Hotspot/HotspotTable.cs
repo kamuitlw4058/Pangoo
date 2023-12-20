@@ -17,10 +17,17 @@ namespace Pangoo.MetaTable
     public partial class HotspotTable : MetaTableBase
     {
 
+
         public HotspotRow GetRowByUuid(string uuid)
         {
             return GetRowByUuid<HotspotRow>(uuid);
         }
+
+        public HotspotRow GetRowById(int id)
+        {
+            return GetRowById<HotspotRow>(id);
+        }
+
         public override string TableName => "Hotspot";
     }
 }

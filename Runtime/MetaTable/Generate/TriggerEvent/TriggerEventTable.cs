@@ -17,10 +17,17 @@ namespace Pangoo.MetaTable
     public partial class TriggerEventTable : MetaTableBase
     {
 
+
         public TriggerEventRow GetRowByUuid(string uuid)
         {
             return GetRowByUuid<TriggerEventRow>(uuid);
         }
+
+        public TriggerEventRow GetRowById(int id)
+        {
+            return GetRowById<TriggerEventRow>(id);
+        }
+
         public override string TableName => "TriggerEvent";
     }
 }

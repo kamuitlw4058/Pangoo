@@ -17,10 +17,17 @@ namespace Pangoo.MetaTable
     public partial class SimpleUITable : MetaTableBase
     {
 
+
         public SimpleUIRow GetRowByUuid(string uuid)
         {
             return GetRowByUuid<SimpleUIRow>(uuid);
         }
+
+        public SimpleUIRow GetRowById(int id)
+        {
+            return GetRowById<SimpleUIRow>(id);
+        }
+
         public override string TableName => "SimpleUI";
     }
 }

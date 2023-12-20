@@ -17,10 +17,17 @@ namespace Pangoo.MetaTable
     public partial class GameSectionTable : MetaTableBase
     {
 
+
         public GameSectionRow GetRowByUuid(string uuid)
         {
             return GetRowByUuid<GameSectionRow>(uuid);
         }
+
+        public GameSectionRow GetRowById(int id)
+        {
+            return GetRowById<GameSectionRow>(id);
+        }
+
         public override string TableName => "GameSection";
     }
 }

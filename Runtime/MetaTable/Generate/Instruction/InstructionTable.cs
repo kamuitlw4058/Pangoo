@@ -17,10 +17,17 @@ namespace Pangoo.MetaTable
     public partial class InstructionTable : MetaTableBase
     {
 
+
         public InstructionRow GetRowByUuid(string uuid)
         {
             return GetRowByUuid<InstructionRow>(uuid);
         }
+
+        public InstructionRow GetRowById(int id)
+        {
+            return GetRowById<InstructionRow>(id);
+        }
+
         public override string TableName => "Instruction";
     }
 }

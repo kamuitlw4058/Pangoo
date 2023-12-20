@@ -17,10 +17,17 @@ namespace Pangoo.MetaTable
     public partial class VariablesTable : MetaTableBase
     {
 
+
         public VariablesRow GetRowByUuid(string uuid)
         {
             return GetRowByUuid<VariablesRow>(uuid);
         }
+
+        public VariablesRow GetRowById(int id)
+        {
+            return GetRowById<VariablesRow>(id);
+        }
+
         public override string TableName => "Variables";
     }
 }

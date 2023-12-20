@@ -17,10 +17,17 @@ namespace Pangoo.MetaTable
     public partial class SoundTable : MetaTableBase
     {
 
+
         public SoundRow GetRowByUuid(string uuid)
         {
             return GetRowByUuid<SoundRow>(uuid);
         }
+
+        public SoundRow GetRowById(int id)
+        {
+            return GetRowById<SoundRow>(id);
+        }
+
         public override string TableName => "Sound";
     }
 }

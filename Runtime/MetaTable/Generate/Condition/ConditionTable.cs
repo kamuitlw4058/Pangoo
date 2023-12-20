@@ -17,10 +17,17 @@ namespace Pangoo.MetaTable
     public partial class ConditionTable : MetaTableBase
     {
 
+
         public ConditionRow GetRowByUuid(string uuid)
         {
             return GetRowByUuid<ConditionRow>(uuid);
         }
+
+        public ConditionRow GetRowById(int id)
+        {
+            return GetRowById<ConditionRow>(id);
+        }
+
         public override string TableName => "Condition";
     }
 }

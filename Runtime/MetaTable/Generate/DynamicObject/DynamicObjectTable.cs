@@ -17,10 +17,17 @@ namespace Pangoo.MetaTable
     public partial class DynamicObjectTable : MetaTableBase
     {
 
+
         public DynamicObjectRow GetRowByUuid(string uuid)
         {
             return GetRowByUuid<DynamicObjectRow>(uuid);
         }
+
+        public DynamicObjectRow GetRowById(int id)
+        {
+            return GetRowById<DynamicObjectRow>(id);
+        }
+
         public override string TableName => "DynamicObject";
     }
 }

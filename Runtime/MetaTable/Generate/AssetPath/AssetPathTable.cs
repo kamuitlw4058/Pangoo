@@ -17,10 +17,17 @@ namespace Pangoo.MetaTable
     public partial class AssetPathTable : MetaTableBase
     {
 
+
         public AssetPathRow GetRowByUuid(string uuid)
         {
             return GetRowByUuid<AssetPathRow>(uuid);
         }
+
+        public AssetPathRow GetRowById(int id)
+        {
+            return GetRowById<AssetPathRow>(id);
+        }
+
         public override string TableName => "AssetPath";
     }
 }

@@ -17,10 +17,17 @@ namespace Pangoo.MetaTable
     public partial class EntityGroupTable : MetaTableBase
     {
 
+
         public EntityGroupRow GetRowByUuid(string uuid)
         {
             return GetRowByUuid<EntityGroupRow>(uuid);
         }
+
+        public EntityGroupRow GetRowById(int id)
+        {
+            return GetRowById<EntityGroupRow>(id);
+        }
+
         public override string TableName => "EntityGroup";
     }
 }

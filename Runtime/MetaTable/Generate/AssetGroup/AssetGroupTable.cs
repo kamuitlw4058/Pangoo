@@ -17,10 +17,17 @@ namespace Pangoo.MetaTable
     public partial class AssetGroupTable : MetaTableBase
     {
 
+
         public AssetGroupRow GetRowByUuid(string uuid)
         {
             return GetRowByUuid<AssetGroupRow>(uuid);
         }
+
+        public AssetGroupRow GetRowById(int id)
+        {
+            return GetRowById<AssetGroupRow>(id);
+        }
+
         public override string TableName => "AssetGroup";
     }
 }

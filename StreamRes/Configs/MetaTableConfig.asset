@@ -33,7 +33,6 @@ MonoBehaviour:
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: AssetGroup
-    IsGenerateInterface: 1
     RefConfig: {fileID: 0}
     RefTableName: 
     Columns:
@@ -55,7 +54,6 @@ MonoBehaviour:
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: AssetPath
-    IsGenerateInterface: 1
     RefConfig: {fileID: 0}
     RefTableName: 
     Columns:
@@ -83,7 +81,6 @@ MonoBehaviour:
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Character
-    IsGenerateInterface: 1
     RefConfig: {fileID: 0}
     RefTableName: 
     Columns:
@@ -126,7 +123,6 @@ MonoBehaviour:
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Condition
-    IsGenerateInterface: 1
     RefConfig: {fileID: 0}
     RefTableName: 
     Columns:
@@ -148,7 +144,6 @@ MonoBehaviour:
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: DynamicObject
-    IsGenerateInterface: 1
     RefConfig: {fileID: 0}
     RefTableName: 
     Columns:
@@ -233,7 +228,6 @@ MonoBehaviour:
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: EntityGroup
-    IsGenerateInterface: 1
     RefConfig: {fileID: 0}
     RefTableName: 
     Columns:
@@ -258,7 +252,6 @@ MonoBehaviour:
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: GameSection
-    IsGenerateInterface: 1
     RefConfig: {fileID: 0}
     RefTableName: 
     Columns:
@@ -313,7 +306,6 @@ MonoBehaviour:
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Hotspot
-    IsGenerateInterface: 1
     RefConfig: {fileID: 0}
     RefTableName: 
     Columns:
@@ -335,7 +327,6 @@ MonoBehaviour:
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Instruction
-    IsGenerateInterface: 1
     RefConfig: {fileID: 0}
     RefTableName: 
     Columns:
@@ -357,7 +348,6 @@ MonoBehaviour:
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: SimpleUI
-    IsGenerateInterface: 1
     RefConfig: {fileID: 0}
     RefTableName: 
     Columns:
@@ -391,7 +381,6 @@ MonoBehaviour:
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Sound
-    IsGenerateInterface: 1
     RefConfig: {fileID: 0}
     RefTableName: 
     Columns:
@@ -416,7 +405,6 @@ MonoBehaviour:
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: StaticScene
-    IsGenerateInterface: 1
     RefConfig: {fileID: 0}
     RefTableName: 
     Columns:
@@ -450,7 +438,6 @@ MonoBehaviour:
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: TriggerEvent
-    IsGenerateInterface: 1
     RefConfig: {fileID: 0}
     RefTableName: 
     Columns:
@@ -493,7 +480,6 @@ MonoBehaviour:
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Variables
-    IsGenerateInterface: 1
     RefConfig: {fileID: 0}
     RefTableName: 
     Columns:

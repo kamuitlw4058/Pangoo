@@ -17,10 +17,17 @@ namespace Pangoo.MetaTable
     public partial class StaticSceneTable : MetaTableBase
     {
 
+
         public StaticSceneRow GetRowByUuid(string uuid)
         {
             return GetRowByUuid<StaticSceneRow>(uuid);
         }
+
+        public StaticSceneRow GetRowById(int id)
+        {
+            return GetRowById<StaticSceneRow>(id);
+        }
+
         public override string TableName => "StaticScene";
     }
 }
