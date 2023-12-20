@@ -7,6 +7,7 @@ using Sirenix.OdinInspector;
 using Pangoo.Core.Characters;
 using GameFramework;
 using UnityEngine.Rendering;
+using Pangoo.MetaTable;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -14,9 +15,8 @@ namespace Pangoo.Core.VisualScripting
 
     public partial class DynamicObject
     {
-        HotspotTable m_HotspotTable;
+        HotspotGetRowByIdHandler m_HotspotHandler;
 
-        List<HotspotTable.HotspotRow> m_HotspotRows = new();
 
 
         private const float TRANSITION_SMOOTH_TIME = 0.25f;
@@ -105,10 +105,14 @@ namespace Pangoo.Core.VisualScripting
 
         void DoAwakeHotspot()
         {
-            m_HotspotTable = TableService?.GetExcelTable<HotspotTable>();
+
+            if (TableService != null)
+            {
+                m_HotspotHandler = TableService.GetHotspotById;
+
+            }
 
             var ids = Row.GetHotspotIdList();
-            m_HotspotRows.Clear();
             m_HotSpots.Clear();
             if (Row.UseHotspot && !Row.DefaultHideHotspot)
             {
@@ -123,25 +127,20 @@ namespace Pangoo.Core.VisualScripting
             {
                 foreach (var valId in ids)
                 {
-                    HotspotTable.HotspotRow row = GetHotspotRow(valId);
+                    IHotspotRow row = HotspotRowExtension.GetById(valId, m_HotspotHandler);
                     Debug.Log($"Create Hotspot:{valId}  row:{row}");
                     if (row != null)
                     {
-                        m_HotspotRows.Add(row);
+                        var instance = ClassUtility.CreateInstance<HotSpot>(row.HotspotType);
+                        if (instance == null)
+                        {
+                            return;
+                        }
+                        instance.Row = row;
+                        instance.dynamicObject = this;
+                        instance.LoadParamsFromJson(row.Params);
+                        m_HotSpots.Add(instance);
                     }
-                }
-
-                foreach (var row in m_HotspotRows)
-                {
-                    var instance = ClassUtility.CreateInstance<HotSpot>(row.HotspotType);
-                    if (instance == null)
-                    {
-                        return;
-                    }
-                    instance.Row = row;
-                    instance.dynamicObject = this;
-                    instance.LoadParamsFromJson(row.Params);
-                    m_HotSpots.Add(instance);
                 }
             }
 
@@ -189,23 +188,6 @@ namespace Pangoo.Core.VisualScripting
             // }
         }
 
-        public HotspotTable.HotspotRow GetHotspotRow(int id)
-        {
-            HotspotTable.HotspotRow row = null;
-#if UNITY_EDITOR
-            if (Application.isPlaying && m_HotspotTable != null)
-            {
-                row = m_HotspotTable.GetRowById(id);
-            }
-            else
-            {
-                row = GameSupportEditorUtility.GetHotspotRowById(id);
-            }
-#else
-            row = m_HotspotTable.GetRowById(id);
-#endif
-            return row;
-        }
 
 
 

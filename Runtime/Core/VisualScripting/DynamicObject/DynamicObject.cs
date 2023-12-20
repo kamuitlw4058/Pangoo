@@ -8,6 +8,7 @@ using Pangoo.Core.Characters;
 using GameFramework;
 using UnityEngine.Rendering;
 using UnityEngine.InputSystem;
+using Pangoo.MetaTable;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -80,7 +81,7 @@ namespace Pangoo.Core.VisualScripting
         }
 
         [ShowInInspector]
-        public DynamicObjectTable.DynamicObjectRow Row { get; set; }
+        public IDynamicObjectRow Row { get; set; }
 
         [ShowInInspector]
 

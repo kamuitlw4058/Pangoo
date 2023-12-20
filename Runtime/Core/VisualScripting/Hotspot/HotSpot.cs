@@ -1,6 +1,7 @@
 ﻿using System;
 using Pangoo.Core.Common;
 using Pangoo.Core.Services;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -9,7 +10,7 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public abstract class HotSpot : MonoSubService<DynamicObject>
     {
-        public HotspotTable.HotspotRow Row { get; set; }
+        public IHotspotRow Row { get; set; }
 
         public DynamicObject dynamicObject { get; set; }
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System.Text;
 using GameFramework;
+using Pangoo.MetaTable;
 
 namespace Pangoo
 {
@@ -21,6 +22,11 @@ namespace Pangoo
             return AssetUtility.GetAssetPath(row.AssetPackageDir, row.AssetType, row.AssetPath, row.AssetGroup);
         }
 
+        public static IAssetPathRow ToInterface(this AssetPathTable.AssetPathRow row)
+        {
+            var json = LitJson.JsonMapper.ToJson(row);
+            return LitJson.JsonMapper.ToObject<Pangoo.MetaTable.AssetPathRow>(json);
+        }
 
     }
 }

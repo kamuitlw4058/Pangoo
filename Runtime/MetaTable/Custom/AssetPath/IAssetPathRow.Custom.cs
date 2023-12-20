@@ -12,8 +12,9 @@ using MetaTable;
 
 namespace Pangoo.MetaTable
 {
-    public partial interface IAssetPathRow 
+    public partial interface IAssetPathRow
     {
+        public string ToPrefabPath();
 
     }
 }

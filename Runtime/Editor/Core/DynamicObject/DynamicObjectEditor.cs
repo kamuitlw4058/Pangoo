@@ -81,7 +81,7 @@ namespace Pangoo
         void Start()
         {
             DoService = new DynamicObject(gameObject);
-            DoService.Row = Row;
+            DoService.Row = Row.ToInterface();
         }
 
         // public Func<TriggerEventParams, bool> CheckInteract;
@@ -223,67 +223,6 @@ namespace Pangoo
 
         }
 
-        // protected override void DoUpdate()
-        // {
-        //     base.DoUpdate();
-
-        //     GameObject instance = this.RequireInstance();
-        //     if (instance == null) return;
-
-        //     Vector3 offset = this.m_Params.Space switch
-        //     {
-        //         Space.World => this.m_Params.Offset,
-        //         Space.Self => dynamicObject.CachedTransfrom.TransformDirection(this.m_Params.Offset),
-        //         _ => throw new ArgumentOutOfRangeException()
-        //     };
-
-        //     instance.transform.SetPositionAndRotation(
-        //         dynamicObject.HotspotInteractPosition + offset,
-        //         ShortcutMainCamera.Transform.rotation
-        //     );
-
-        //     bool isActive = this.EnableInstance();
-        //     instance.SetActive(isActive);
-
-        //     if (CurrentSpotState != SpotState)
-        //     {
-        //         Transition = 0;
-        //         m_Velocity = 0;
-        //         if (IsTransitioning)
-        //         {
-        //             UpdateState(1, true);
-        //             LastestSpotState = CurrentSpotState;
-        //         }
-        //         CurrentSpotState = SpotState;
-        //         IsTransitioning = true;
-
-        //     }
-        //     else
-        //     {
-        //         if (LastestSpotState != CurrentSpotState)
-        //         {
-        //             if (IsTransitioning)
-        //             {
-        //                 this.Transition = Mathf.SmoothDamp(
-        //                     this.Transition,
-        //                    1,
-        //                     ref this.m_Velocity,
-        //                     TRANSITION_SMOOTH_TIME
-        //                 );
-
-        //                 UpdateState(Transition);
-
-        //                 if (Transition == 1)
-        //                 {
-        //                     IsTransitioning = false;
-        //                     LastestSpotState = CurrentSpotState;
-        //                 }
-        //             }
-        //         }
-
-        //     }
-
-        // }
 
 
         [Button("SetTransfrom")]

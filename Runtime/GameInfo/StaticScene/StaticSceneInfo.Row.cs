@@ -10,12 +10,12 @@ namespace Pangoo
 {
     public class StaticSceneInfoRow : BaseInfoRow
     {
-        public StaticSceneTable.StaticSceneRow m_StaticSceneRow;
-        public AssetPathTable.AssetPathRow m_AssetPathRow;
+        public IStaticSceneRow m_StaticSceneRow;
+        public IAssetPathRow m_AssetPathRow;
 
         public EntityInfo m_EntityInfo;
 
-        public StaticSceneInfoRow(StaticSceneTable.StaticSceneRow scene, AssetPathTable.AssetPathRow assetPathRow)
+        public StaticSceneInfoRow(IStaticSceneRow scene, IAssetPathRow assetPathRow)
         {
             this.m_StaticSceneRow = scene;
             this.m_AssetPathRow = assetPathRow;

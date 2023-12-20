@@ -11,12 +11,12 @@ namespace Pangoo
 
     public class CharacterInfoRow : BaseInfoRow
     {
-        public CharacterTable.CharacterRow m_CharacterRow;
-        public AssetPathTable.AssetPathRow m_AssetPathRow;
+        public ICharacterRow m_CharacterRow;
+        public IAssetPathRow m_AssetPathRow;
 
         public EntityInfo m_EntityInfo;
 
-        public CharacterInfoRow(CharacterTable.CharacterRow character, AssetPathTable.AssetPathRow assetPathRow)
+        public CharacterInfoRow(ICharacterRow character, IAssetPathRow assetPathRow)
         {
             this.m_CharacterRow = character;
             this.m_AssetPathRow = assetPathRow;

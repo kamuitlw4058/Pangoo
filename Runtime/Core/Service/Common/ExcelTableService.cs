@@ -37,6 +37,22 @@ namespace Pangoo.Core.Services
         }
 
 
+        HotspotTable m_HotspotTable;
+
+        public HotspotTable HotspotTab
+        {
+            get
+            {
+                if (m_HotspotTable == null)
+                {
+                    m_HotspotTable = GetExcelTable<HotspotTable>();
+                }
+                return m_HotspotTable;
+            }
+        }
+
+
+
         public T GetExcelTable<T>() where T : ExcelTableBase
         {
             return PangooEntry.ExcelTable.GetExcelTable<T>();
@@ -76,6 +92,21 @@ namespace Pangoo.Core.Services
 
             return null;
         }
+
+
+        public IHotspotRow GetHotspotById(int id)
+        {
+
+            var row = HotspotTab?.GetRowById(id);
+            if (row != null)
+            {
+                var json = LitJson.JsonMapper.ToJson(row);
+                return LitJson.JsonMapper.ToObject<Pangoo.MetaTable.HotspotRow>(json);
+            }
+
+            return null;
+        }
+
 
 
     }

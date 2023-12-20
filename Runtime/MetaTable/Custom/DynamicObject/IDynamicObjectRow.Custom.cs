@@ -12,9 +12,11 @@ using MetaTable;
 
 namespace Pangoo.MetaTable
 {
-    public partial interface IDynamicObjectRow 
+    public partial interface IDynamicObjectRow
     {
+        List<int> GetHotspotIdList();
 
+        List<int> GetTriggerEventIdList();
     }
 }
 

@@ -16,11 +16,9 @@ namespace Pangoo.Core.Services
     {
         public override int Priority => 5;
 
-        ExcelTableService m_ExcelTableService;
 
         GameInfoService m_GameInfoService;
 
-        EntityGroupTable m_EntityGroupTable;
 
         IEntityGroupRow m_EntityGroupRow;
 
@@ -46,8 +44,6 @@ namespace Pangoo.Core.Services
         protected override void DoAwake()
         {
             base.DoAwake();
-
-            m_ExcelTableService = Parent.GetService<ExcelTableService>();
             m_GameInfoService = Parent.GetService<GameInfoService>();
 
         }
@@ -58,7 +54,6 @@ namespace Pangoo.Core.Services
 
             // m_StaticSceneTable = m_ExcelTableService.GetExcelTable<StaticSceneTable>();
             m_CharacterInfo = m_GameInfoService.GetGameInfo<CharacterInfo>();
-            m_EntityGroupTable = m_ExcelTableService.GetExcelTable<EntityGroupTable>();
             m_EntityGroupRow = EntityGroupRowExtension.CreateCharacterGroup();
         }
 

@@ -11,16 +11,14 @@ namespace Pangoo
     [Serializable]
     public partial class AssetPathInfo : BaseInfo
     {
-
         AssetPathTable m_AssetPathTable;
-        // AssetPackageTable m_AssetPackageTable;
         protected override void OnInit()
         {
             m_AssetPathTable = PangooEntry.ExcelTable.GetExcelTable<AssetPathTable>();
 
             foreach (var row in m_AssetPathTable.Rows)
             {
-                IdDict.Add(row.Id, new AssetPathInfoRow(row));
+                IdDict.Add(row.Id, new AssetPathInfoRow(row.ToInterface()));
             }
         }
 

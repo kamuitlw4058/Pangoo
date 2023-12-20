@@ -21,7 +21,7 @@ namespace Pangoo
             foreach (var row in m_Table.Rows)
             {
                 var assetPath = m_AssetPathTable.GetRowById(row.AssetPathId);
-                IdDict.Add(row.Id, new CharacterInfoRow(row, assetPath));
+                IdDict.Add(row.Id, new CharacterInfoRow(row.ToInterface(), assetPath.ToInterface()));
             }
         }
 

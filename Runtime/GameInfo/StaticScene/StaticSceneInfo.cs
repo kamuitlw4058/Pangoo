@@ -13,17 +13,14 @@ namespace Pangoo
 
         AssetPathTable m_AssetPathTable;
         StaticSceneTable m_StaticSceneTable;
-        EntityGroupTable m_EntityGroupTable;
         protected override void OnInit()
         {
             m_AssetPathTable = PangooEntry.ExcelTable.GetExcelTable<AssetPathTable>();
             m_StaticSceneTable = PangooEntry.ExcelTable.GetExcelTable<StaticSceneTable>();
-            m_EntityGroupTable = PangooEntry.ExcelTable.GetExcelTable<EntityGroupTable>();
             foreach (var staticScene in m_StaticSceneTable.Rows)
             {
                 var assetPath = m_AssetPathTable.GetRowById(staticScene.AssetPathId);
-                var entityGroup = m_EntityGroupTable.GetRowById(staticScene.EntityGroupId);
-                IdDict.Add(staticScene.Id, new StaticSceneInfoRow(staticScene, assetPath));
+                IdDict.Add(staticScene.Id, new StaticSceneInfoRow(staticScene.ToInterface(), assetPath.ToInterface()));
             }
 
         }

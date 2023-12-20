@@ -11,7 +11,7 @@ namespace Pangoo
     public sealed class EntityInfo : IReference
     {
 
-        public AssetPathTable.AssetPathRow AssetPathRow;
+        public IAssetPathRow AssetPathRow;
         public IEntityGroupRow EntityGroupRow;
 
 
@@ -82,7 +82,7 @@ namespace Pangoo
             }
         }
 
-        public static EntityInfo Create(AssetPathTable.AssetPathRow assetPath, IEntityGroupRow entityGroup)
+        public static EntityInfo Create(IAssetPathRow assetPath, IEntityGroupRow entityGroup)
         {
             var info = ReferencePool.Acquire<EntityInfo>();
             info.AssetPathRow = assetPath;

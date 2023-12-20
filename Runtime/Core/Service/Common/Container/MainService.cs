@@ -42,10 +42,7 @@ namespace Pangoo.Core.Services
             AddService(MetaTable);
             AddService(StaticScene);
             AddService(new GameSectionService());
-            AddService(new GlobalDataService());
-            AddService(new SaveLoadService());
             AddService(RuntimeData);
-            AddService(new DataContainerService());
             AddService(new GameInfoService());
             AddService(DynamicObject);
             AddService(CharacterService);

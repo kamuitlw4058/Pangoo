@@ -20,9 +20,8 @@ namespace Pangoo
             foreach (var row in m_DynamicObjectTable.Rows)
             {
                 var assetPath = m_AssetPathTable.GetRowById(row.AssetPathId);
-                IdDict.Add(row.Id, new DynamicObjectInfoRow(row, assetPath));
+                IdDict.Add(row.Id, new DynamicObjectInfoRow(row.ToInterface(), assetPath.ToInterface()));
             }
-
         }
 
     }

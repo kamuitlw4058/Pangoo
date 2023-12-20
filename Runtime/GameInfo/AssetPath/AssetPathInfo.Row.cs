@@ -3,20 +3,18 @@ using System;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using GameFramework;
+using Pangoo.MetaTable;
 
 namespace Pangoo
 {
 
     public class AssetPathInfoRow : BaseInfoRow
     {
-        AssetPathTable.AssetPathRow m_AssetPathRow;
-        // AssetPackageTable.AssetPackageRow m_AssetPackageRow;
+        IAssetPathRow m_AssetPathRow;
 
-        public AssetPathInfoRow(AssetPathTable.AssetPathRow assetPathRow)
-        // public AssetPathInfoRow(AssetPathTable.AssetPathRow assetPathRow, AssetPackageTable.AssetPackageRow assetPackageRow)
+        public AssetPathInfoRow(IAssetPathRow assetPathRow)
         {
             this.m_AssetPathRow = assetPathRow;
-            // this.m_AssetPackageRow = assetPackageRow;
         }
 
 

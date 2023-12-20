@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using GameFramework;
 using Pangoo.Common;
+using Pangoo.MetaTable;
 
 namespace Pangoo
 {
@@ -29,33 +30,11 @@ namespace Pangoo
             return row.HotspotIds.ToSplitList<int>();
         }
 
-        public static void AddTriggerEventId(this DynamicObjectTable.DynamicObjectRow row, int id)
+        public static IDynamicObjectRow ToInterface(this DynamicObjectTable.DynamicObjectRow row)
         {
-            if (row == null)
-            {
-                Debug.LogError(Utility.Text.Format("row is null.{0}", row));
-                return;
-            }
-
-            var list = row.GetTriggerEventIdList();
-            list.Add(id);
-            row.TriggerEventIds = list.ToListString();
+            var json = LitJson.JsonMapper.ToJson(row);
+            return LitJson.JsonMapper.ToObject<Pangoo.MetaTable.DynamicObjectRow>(json);
         }
-
-        public static void RemoveTriggerEventId(this DynamicObjectTable.DynamicObjectRow row, int id)
-        {
-            if (row == null)
-            {
-                Debug.LogError(Utility.Text.Format("row is null.{0}", row));
-                return;
-            }
-
-            var list = row.GetTriggerEventIdList();
-            list.Remove(id);
-            row.TriggerEventIds = list.ToListString();
-
-        }
-
 
 
     }
