@@ -507,3 +507,21 @@ MonoBehaviour:
     - Name: Id
       Type: int
       CnName: Id
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: EntityGroup
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: InstanceAutoReleaseInterval
+      Type: double
+      CnName: "\u81EA\u52A8\u91CA\u653E\u53EF\u91CA\u653E\u5BF9\u8C61\u7684\u95F4\u9694\u79D2\u6570"
+    - Name: InstanceCapacity
+      Type: int
+      CnName: "\u5B9E\u4F8B\u5BF9\u8C61\u6C60\u7684\u5BB9\u91CF"
+    - Name: InstanceExpireTime
+      Type: double
+      CnName: "\u5BF9\u8C61\u6C60\u5BF9\u8C61\u8FC7\u671F\u79D2\u6570"
+    - Name: InstancePriority
+      Type: int
+      CnName: "\u5B9E\u4F53\u7EC4\u5B9E\u4F8B\u5BF9\u8C61\u6C60\u7684\u4F18\u5148\u7EA7"

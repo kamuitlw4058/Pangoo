@@ -141,6 +141,11 @@ namespace Pangoo.MetaTable
         [TabGroup("指令系统")]
         public void UpdateDirectInstructionGroupId2Uuid()
         {
+            if (m_DirectInstructionGroups == null)
+            {
+                return;
+            }
+
             foreach (var group in m_DirectInstructionGroups)
             {
                 group.UpdateUuidById();

@@ -13,8 +13,25 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class CharacterRowWrapper : MetaTableRowWrapper<CharacterOverview,CharacterNewRowWrapper,UnityCharacterRow>
+    public partial class CharacterRowWrapper : MetaTableRowWrapper<CharacterOverview, CharacterNewRowWrapper, UnityCharacterRow>
     {
+        [ShowInInspector]
+        public int AssetPathId
+        {
+            get
+            {
+                return UnityRow.Row.AssetPathId;
+            }
+        }
+
+        [ShowInInspector]
+        public string AssetPathUuid
+        {
+            get
+            {
+                return UnityRow.Row.AssetPathUuid;
+            }
+        }
 
     }
 }

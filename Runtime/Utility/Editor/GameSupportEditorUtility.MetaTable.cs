@@ -572,9 +572,13 @@ namespace Pangoo.MetaTable
 
 
 
-        public static IEnumerable GetDynamicObjectIds(List<int> excludeIds = null, string packageDir = null)
+        public static IEnumerable GetDynamicObjectIds(List<int> excludeIds = null, string packageDir = null, bool hasDefault = false)
         {
             var ret = new ValueDropdownList<int>();
+            if (hasDefault)
+            {
+                ret.Add("Default", 0);
+            }
             var overviews = AssetDatabaseUtility.FindAsset<DynamicObjectOverview>(packageDir);
             foreach (var overview in overviews)
             {
@@ -691,6 +695,21 @@ namespace Pangoo.MetaTable
             }
             ret = outputUuids.ToArray();
             return ret;
+        }
+
+
+        public static GameObject GetPrefabByDynamicObjectId(int id)
+        {
+            if (id == 0) return null;
+
+            var row = DynamicObjectOverview.GetUnityRowById(id);
+            if (row == null) return null;
+
+            var assetRow = AssetPathOverview.GetUnityRowByUuid(row.Row.AssetPathUuid);
+            if (assetRow == null) return null;
+
+            var finalPath = AssetUtility.GetAssetPath(assetRow.Row.AssetPackageDir, assetRow.Row.AssetType, assetRow.Row.AssetPath, assetRow.Row.AssetGroup);
+            return AssetDatabaseUtility.LoadAssetAtPath<GameObject>(finalPath);
         }
 
 #endif
