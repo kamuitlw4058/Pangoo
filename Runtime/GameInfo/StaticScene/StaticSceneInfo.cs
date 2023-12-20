@@ -23,7 +23,7 @@ namespace Pangoo
             {
                 var assetPath = m_AssetPathTable.GetRowById(staticScene.AssetPathId);
                 var entityGroup = m_EntityGroupTable.GetRowById(staticScene.EntityGroupId);
-                IdDict.Add(staticScene.Id, new StaticSceneInfoRow(staticScene, assetPath, entityGroup));
+                IdDict.Add(staticScene.Id, new StaticSceneInfoRow(staticScene, assetPath));
             }
 
         }

@@ -7,6 +7,7 @@ using UnityGameFramework.Runtime;
 using System.Linq;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Core.Services
 {
@@ -29,7 +30,7 @@ namespace Pangoo.Core.Services
 
         EntityGroupTable m_EntityGroupTable;
 
-        EntityGroupTable.EntityGroupRow m_EntityGroupRow;
+        IEntityGroupRow m_EntityGroupRow;
 
 
         DynamicObjectTable m_DynamicObjectTable;

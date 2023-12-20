@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using GameFramework;
-
+using Pangoo.MetaTable;
 
 namespace Pangoo
 {
@@ -12,15 +12,13 @@ namespace Pangoo
     {
         public StaticSceneTable.StaticSceneRow m_StaticSceneRow;
         public AssetPathTable.AssetPathRow m_AssetPathRow;
-        public EntityGroupTable.EntityGroupRow m_EntityGroupRow;
 
         public EntityInfo m_EntityInfo;
 
-        public StaticSceneInfoRow(StaticSceneTable.StaticSceneRow scene, AssetPathTable.AssetPathRow assetPathRow, EntityGroupTable.EntityGroupRow entityGroupRow)
+        public StaticSceneInfoRow(StaticSceneTable.StaticSceneRow scene, AssetPathTable.AssetPathRow assetPathRow)
         {
             this.m_StaticSceneRow = scene;
             this.m_AssetPathRow = assetPathRow;
-            this.m_EntityGroupRow = entityGroupRow;
         }
 
 
@@ -45,23 +43,9 @@ namespace Pangoo
             }
         }
 
-        public EntityInfo CreateEntityInfo(EntityGroupTable.EntityGroupRow entityGroupRow)
+        public EntityInfo CreateEntityInfo(IEntityGroupRow entityGroupRow)
         {
             return EntityInfo.Create(m_AssetPathRow, entityGroupRow);
-        }
-
-        public EntityInfo EntityInfo
-        {
-            get
-            {
-                if (m_EntityInfo == null)
-                {
-                    m_EntityInfo = EntityInfo.Create(m_AssetPathRow, m_EntityGroupRow);
-                }
-
-                return m_EntityInfo;
-            }
-
         }
 
         public List<int> LoadSceneIds

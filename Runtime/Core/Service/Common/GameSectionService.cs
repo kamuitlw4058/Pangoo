@@ -21,10 +21,6 @@ namespace Pangoo.Core.Services
 
 
 
-
-        InstructionTable m_InstructionTable;
-
-
         public int LatestId = -1;
 
 
@@ -46,7 +42,6 @@ namespace Pangoo.Core.Services
         protected override void DoStart()
         {
             Log("DoStart");
-            m_InstructionTable = ExcelTableSrv.GetExcelTable<InstructionTable>();
 
             StaticSceneSrv.OnInitSceneLoaded += OnInitSceneLoaded;
             var enterGameSectionId = GameMainConfigSrv.GetGameMainConfig().EnterGameSectionId;

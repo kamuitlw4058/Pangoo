@@ -18,28 +18,28 @@ namespace Pangoo.MetaTable
     {
 
         [JsonMember("InstanceAutoReleaseInterval")]
-        [MetaTableRowColumn("InstanceAutoReleaseInterval","double", "自动释放可释放对象的间隔秒数",3)]
+        [MetaTableRowColumn("InstanceAutoReleaseInterval","double", "自动释放可释放对象的间隔秒数",1)]
         [LabelText("自动释放可释放对象的间隔秒数")]
         public double InstanceAutoReleaseInterval ;
 
         double IEntityGroupRow.InstanceAutoReleaseInterval {get => InstanceAutoReleaseInterval; set => InstanceAutoReleaseInterval = value;}
 
         [JsonMember("InstanceCapacity")]
-        [MetaTableRowColumn("InstanceCapacity","int", "实例对象池的容量",4)]
+        [MetaTableRowColumn("InstanceCapacity","int", "实例对象池的容量",2)]
         [LabelText("实例对象池的容量")]
         public int InstanceCapacity ;
 
         int IEntityGroupRow.InstanceCapacity {get => InstanceCapacity; set => InstanceCapacity = value;}
 
         [JsonMember("InstanceExpireTime")]
-        [MetaTableRowColumn("InstanceExpireTime","double", "对象池对象过期秒数",5)]
+        [MetaTableRowColumn("InstanceExpireTime","double", "对象池对象过期秒数",3)]
         [LabelText("对象池对象过期秒数")]
         public double InstanceExpireTime ;
 
         double IEntityGroupRow.InstanceExpireTime {get => InstanceExpireTime; set => InstanceExpireTime = value;}
 
         [JsonMember("InstancePriority")]
-        [MetaTableRowColumn("InstancePriority","int", "实体组实例对象池的优先级",6)]
+        [MetaTableRowColumn("InstancePriority","int", "实体组实例对象池的优先级",4)]
         [LabelText("实体组实例对象池的优先级")]
         public int InstancePriority ;
 

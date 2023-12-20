@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using GameFramework;
 using UnityEngine;
+using Pangoo.MetaTable;
 
 
 namespace Pangoo
@@ -43,23 +44,9 @@ namespace Pangoo
             }
         }
 
-        public EntityInfo CreateEntityInfo(EntityGroupTable.EntityGroupRow entityGroupRow)
+        public EntityInfo CreateEntityInfo(IEntityGroupRow entityGroupRow)
         {
             return EntityInfo.Create(m_AssetPathRow, entityGroupRow);
-        }
-
-        public EntityInfo EntityInfo
-        {
-            get
-            {
-                if (m_EntityInfo == null)
-                {
-                    m_EntityInfo = EntityInfo.Create(m_AssetPathRow, m_EntityGroupRow);
-                }
-
-                return m_EntityInfo;
-            }
-
         }
 
 

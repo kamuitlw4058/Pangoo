@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using GameFramework;
+using Pangoo.MetaTable;
 
 namespace Pangoo
 {
@@ -11,8 +12,7 @@ namespace Pangoo
     {
 
         public AssetPathTable.AssetPathRow AssetPathRow;
-        public EntityGroupTable.EntityGroupRow EntityGroupRow;
-
+        public IEntityGroupRow EntityGroupRow;
 
 
         public int AssetPathId
@@ -82,7 +82,7 @@ namespace Pangoo
             }
         }
 
-        public static EntityInfo Create(AssetPathTable.AssetPathRow assetPath, EntityGroupTable.EntityGroupRow entityGroup)
+        public static EntityInfo Create(AssetPathTable.AssetPathRow assetPath, IEntityGroupRow entityGroup)
         {
             var info = ReferencePool.Acquire<EntityInfo>();
             info.AssetPathRow = assetPath;

@@ -4,15 +4,16 @@ using UnityEngine;
 using System.Linq;
 using System.Text;
 using GameFramework;
+using Pangoo.MetaTable;
 
 namespace Pangoo
 {
 
     public static class EntityGroupRowExtension
     {
-        public static EntityGroupTable.EntityGroupRow CreateDynamicObjectGroup()
+        public static IEntityGroupRow CreateDynamicObjectGroup()
         {
-            var row = new EntityGroupTable.EntityGroupRow();
+            var row = new EntityGroupRow();
             row.Id = 0;
             row.Name = "DynamicObject";
             row.InstanceAutoReleaseInterval = 0;
@@ -22,9 +23,9 @@ namespace Pangoo
             return row;
         }
 
-        public static EntityGroupTable.EntityGroupRow CreateStaticSceneGroup()
+        public static IEntityGroupRow CreateStaticSceneGroup()
         {
-            var row = new EntityGroupTable.EntityGroupRow();
+            var row = new EntityGroupRow();
             row.Id = 0;
             row.Name = "StaticScene";
             row.InstanceAutoReleaseInterval = 0;
@@ -34,9 +35,9 @@ namespace Pangoo
             return row;
         }
 
-        public static EntityGroupTable.EntityGroupRow CreateCharacterGroup()
+        public static IEntityGroupRow CreateCharacterGroup()
         {
-            var row = new EntityGroupTable.EntityGroupRow();
+            var row = new EntityGroupRow();
             row.Id = 0;
             row.Name = "Character";
             row.InstanceAutoReleaseInterval = 0;

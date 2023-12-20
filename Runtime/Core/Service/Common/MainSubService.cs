@@ -77,6 +77,21 @@ namespace Pangoo.Core.Services
         }
 
 
+        GameInfoService m_GameInfoService;
+
+
+        public GameInfoService GameInfoSrv
+        {
+            get
+            {
+                if (m_GameInfoService == null)
+                {
+                    m_GameInfoService = Parent.GetService<GameInfoService>();
+                }
+                return m_GameInfoService;
+            }
+        }
+
 
 
         protected override void DoAwake()

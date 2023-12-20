@@ -7,22 +7,17 @@ using UnityGameFramework.Runtime;
 using System.Linq;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Core.Services
 {
     [Serializable]
-    public class StaticSceneService : BaseService
+    public class StaticSceneService : MainSubService
     {
         public override string ServiceName => "StaticScene";
         public override int Priority => 5;
 
-        ExcelTableService m_ExcelTableService;
-
-        GameInfoService m_GameInfoService;
-
-        EntityGroupTable m_EntityGroupTable;
-
-        EntityGroupTable.EntityGroupRow m_EntityGroupRow;
+        IEntityGroupRow m_EntityGroupRow;
 
         // StaticSceneTable m_StaticSceneTable;
 
@@ -100,8 +95,6 @@ namespace Pangoo.Core.Services
             NeedLoadDict = new Dictionary<int, int>();
             m_SectionSceneInfos = new Dictionary<int, StaticSceneInfoRow>();
 
-            m_ExcelTableService = Parent.GetService<ExcelTableService>();
-            m_GameInfoService = Parent.GetService<GameInfoService>();
 
             m_LoadedSceneAssetDict = new Dictionary<int, EntityStaticScene>();
             m_EnterAssetCountDict = new Dictionary<int, int>();
@@ -126,8 +119,7 @@ namespace Pangoo.Core.Services
         {
 
             // m_StaticSceneTable = m_ExcelTableService.GetExcelTable<StaticSceneTable>();
-            m_StaticSceneInfo = m_GameInfoService.GetGameInfo<StaticSceneInfo>();
-            m_EntityGroupTable = m_ExcelTableService.GetExcelTable<EntityGroupTable>();
+            m_StaticSceneInfo = GameInfoSrv.GetGameInfo<StaticSceneInfo>();
             m_EntityGroupRow = EntityGroupRowExtension.CreateStaticSceneGroup();
             Debug.Log($"DoStart StaticSceneService :{m_EntityGroupRow} m_EntityGroupRow:{m_EntityGroupRow.Name}");
         }
