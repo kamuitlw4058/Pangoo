@@ -17,12 +17,10 @@ namespace Pangoo
         {
             m_AssetPathTable = PangooEntry.ExcelTable.GetExcelTable<AssetPathTable>();
             m_DynamicObjectTable = PangooEntry.ExcelTable.GetExcelTable<DynamicObjectTable>();
-            m_EntityGroupTable = PangooEntry.ExcelTable.GetExcelTable<EntityGroupTable>();
             foreach (var row in m_DynamicObjectTable.Rows)
             {
                 var assetPath = m_AssetPathTable.GetRowById(row.AssetPathId);
-                var entityGroup = m_EntityGroupTable.GetRowById(1);
-                IdDict.Add(row.Id, new DynamicObjectInfoRow(row, assetPath, entityGroup));
+                IdDict.Add(row.Id, new DynamicObjectInfoRow(row, assetPath));
             }
 
         }

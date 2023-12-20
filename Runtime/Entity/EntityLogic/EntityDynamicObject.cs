@@ -32,7 +32,6 @@ namespace Pangoo
             }
         }
 
-        [SerializeField] Collider EnterCollider;
 
         [ShowInInspector]
         public EntityDynamicObjectData DoData;

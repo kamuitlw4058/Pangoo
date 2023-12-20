@@ -82,8 +82,6 @@ namespace Pangoo
         {
             DoService = new DynamicObject(gameObject);
             DoService.Row = Row;
-            // DoService.Awake();
-            // DoService.Start();
         }
 
         // public Func<TriggerEventParams, bool> CheckInteract;

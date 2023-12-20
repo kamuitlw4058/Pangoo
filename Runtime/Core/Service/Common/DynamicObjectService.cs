@@ -11,35 +11,24 @@ using Pangoo.MetaTable;
 
 namespace Pangoo.Core.Services
 {
-    public class DynamicObjectService : BaseService
+    public class DynamicObjectService : MainSubService
     {
         public override string ServiceName => "DynamicObject";
         public override int Priority => 6;
-
-        ExcelTableService m_ExcelTableService;
-
 
         public ExcelTableService TableService
         {
             get
             {
-                return m_ExcelTableService;
+                return ExcelTableSrv;
             }
         }
 
 
-        EntityGroupTable m_EntityGroupTable;
 
         IEntityGroupRow m_EntityGroupRow;
 
-
-        DynamicObjectTable m_DynamicObjectTable;
-
-
         EntityLoader Loader = null;
-
-        GameInfoService m_GameInfoService;
-
 
         DynamicObjectInfo m_DynamicObjectInfo;
 
@@ -47,24 +36,13 @@ namespace Pangoo.Core.Services
         Dictionary<int, EntityDynamicObject> m_LoadedAssetDict = new Dictionary<int, EntityDynamicObject>();
         List<int> m_LoadingAssetIds = new List<int>();
 
-        protected override void DoAwake()
-        {
-            base.DoAwake();
-
-            m_ExcelTableService = Parent.GetService<ExcelTableService>();
-            m_GameInfoService = Parent.GetService<GameInfoService>();
-        }
-
 
         protected override void DoStart()
         {
 
-            m_DynamicObjectTable = m_ExcelTableService.GetExcelTable<DynamicObjectTable>();
-            m_EntityGroupTable = m_ExcelTableService.GetExcelTable<EntityGroupTable>();
 
             m_EntityGroupRow = EntityGroupRowExtension.CreateDynamicObjectGroup();
-
-            m_DynamicObjectInfo = m_GameInfoService.GetGameInfo<DynamicObjectInfo>();
+            m_DynamicObjectInfo = GameInfoSrv.GetGameInfo<DynamicObjectInfo>();
             Debug.Log($"DoStart DynamicObjectService :{m_EntityGroupRow} m_EntityGroupRow:{m_EntityGroupRow.Name}");
         }
 

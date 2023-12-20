@@ -14,15 +14,13 @@ namespace Pangoo
     {
         public DynamicObjectTable.DynamicObjectRow m_DynamicObjectRow;
         public AssetPathTable.AssetPathRow m_AssetPathRow;
-        public EntityGroupTable.EntityGroupRow m_EntityGroupRow;
 
         public EntityInfo m_EntityInfo;
 
-        public DynamicObjectInfoRow(DynamicObjectTable.DynamicObjectRow scene, AssetPathTable.AssetPathRow assetPathRow, EntityGroupTable.EntityGroupRow entityGroupRow)
+        public DynamicObjectInfoRow(DynamicObjectTable.DynamicObjectRow scene, AssetPathTable.AssetPathRow assetPathRow)
         {
             this.m_DynamicObjectRow = scene;
             this.m_AssetPathRow = assetPathRow;
-            this.m_EntityGroupRow = entityGroupRow;
         }
 
 
