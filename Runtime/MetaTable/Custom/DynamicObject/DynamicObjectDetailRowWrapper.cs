@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
 using System.Xml.Serialization;
 using Pangoo.Common;
 using MetaTable;
@@ -65,7 +66,7 @@ namespace Pangoo.MetaTable
         [ValueDropdown("AssetPathIdValueDropdown")]
         [PropertyOrder(5)]
         [ShowInInspector]
-        // [InlineButton("ShowCreateAssetPath", SdfIconType.Plus, Label = "")]
+        [InlineButton("AddAssetPath", SdfIconType.Plus, Label = "")]
         public int AssetPathId
         {
             get
@@ -124,17 +125,22 @@ namespace Pangoo.MetaTable
 
         }
 
-        // void ShowCreateAssetPath()
-        // {
-        //     var assetOverview = GameSupportEditorUtility.GetExcelTableOverviewByConfig<AssetPathTableOverview>(Overview.Config);
-        //     var assetNewObject = AssetPathNewWrapper.Create(assetOverview, Id, ConstExcelTable.DynamicObjectAssetTypeName, Name, afterCreateAsset: OnAfterCreateAsset);
-        //     var window = OdinEditorWindow.InspectObject(assetNewObject);
-        //     assetNewObject.Window = window;
-        // }
-
-        public void OnAfterCreateAsset(int id)
+        void AddAssetPath()
         {
-            AssetPathId = id;
+            var assetOverview = AssetDatabaseUtility.FindAssetFirst<AssetPathOverview>(Overview.Config.StreamResScriptableObjectDir);
+            Debug.Log($"assetOverview:{assetOverview} Overview.RowDirPath:{Overview.RowDirPath}");
+            if (assetOverview != null)
+            {
+                var assetNewObject = AssetPathNewRowWrapper.Create(assetOverview, ConstExcelTable.DynamicObjectAssetTypeName, Name, afterCreateAsset: OnAfterCreateAsset);
+                assetNewObject.MenuWindow = MenuWindow;
+                var window = OdinEditorWindow.InspectObject(assetNewObject);
+                assetNewObject.OpenWindow = window;
+            }
+        }
+
+        public void OnAfterCreateAsset(string uuid)
+        {
+            AssetPathUuid = Uuid;
         }
 
 

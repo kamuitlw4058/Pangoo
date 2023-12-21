@@ -13,9 +13,9 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class AssetPathOverviewWrapper : MetaTableOverviewWrapper<AssetPathOverview,AssetPathDetailRowWrapper,AssetPathRowWrapper,AssetPathNewRowWrapper,UnityAssetPathRow>
+    public partial class AssetPathOverviewWrapper : MetaTableOverviewWrapper<AssetPathOverview, AssetPathDetailRowWrapper, AssetPathRowWrapper, AssetPathNewRowWrapper, UnityAssetPathRow>
     {
-
+        public override bool ShowNewButton => false;
     }
 }
 #endif

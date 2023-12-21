@@ -17,6 +17,10 @@ namespace Pangoo.MetaTable
             return Row.ToPrefabPath();
         }
 
+        public string ToDirPath()
+        {
+            return Row.ToDirPath();
+        }
     }
 }
 

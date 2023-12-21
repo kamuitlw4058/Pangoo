@@ -17,6 +17,12 @@ namespace Pangoo.MetaTable
         {
             return AssetUtility.GetAssetPath(AssetPackageDir, AssetType, AssetPath, AssetGroup);
         }
+
+        public string ToDirPath()
+        {
+            return AssetUtility.GetAssetPathDir(AssetPackageDir, AssetType, AssetGroup);
+        }
+
     }
 }
 
