@@ -31,7 +31,7 @@ namespace Pangoo.Core.VisualScripting
         {
 
             var dynamicObject = args.dynamicObject;
-            if (ParamsRaw.DynamicObjectId == 0)
+            if (ParamsRaw.DynamicObjectUuid.IsNullOrWhiteSpace() || ParamsRaw.DynamicObjectUuid.Equals("Self"))
             {
                 if (ParamsRaw.Val)
                 {
@@ -47,7 +47,7 @@ namespace Pangoo.Core.VisualScripting
             else
             {
                 var DynamicObjectService = dynamicObject.DynamicObjectService;
-                var targetEntity = DynamicObjectService.GetLoadedEntity(ParamsRaw.DynamicObjectId);
+                var targetEntity = DynamicObjectService.GetLoadedEntity(ParamsRaw.DynamicObjectUuid);
                 if (ParamsRaw.Val)
                 {
                     targetEntity?.DynamicObj?.StartExecuteEvent();

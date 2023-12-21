@@ -6,6 +6,7 @@ using Pangoo.Core.Common;
 using LitJson;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -13,19 +14,19 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public class InstructionGameSectionParams : InstructionParams
     {
-        [JsonMember("GameSectionId")]
-        [ValueDropdown("OnGameSectionIdDropdown")]
-        public int GameSectionId;
+        [JsonMember("GameSectionUuid")]
+        [ValueDropdown("OnGameSectionUuiDropdown")]
+        public string GameSectionUuid;
 #if UNITY_EDITOR
-        IEnumerable OnGameSectionIdDropdown()
+        IEnumerable OnGameSectionUuiDropdown()
         {
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<GameSectionTableOverview>();
+            return GameSectionOverview.GetUuidDropdown();
         }
 #endif
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionGameSectionParams>(val);
-            GameSectionId = par.GameSectionId;
+            GameSectionUuid = par.GameSectionUuid;
         }
     }
 }

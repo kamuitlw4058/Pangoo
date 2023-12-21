@@ -33,8 +33,8 @@ namespace Pangoo.Core.Services
         DynamicObjectInfo m_DynamicObjectInfo;
 
         [ShowInInspector]
-        Dictionary<int, EntityDynamicObject> m_LoadedAssetDict = new Dictionary<int, EntityDynamicObject>();
-        List<int> m_LoadingAssetIds = new List<int>();
+        Dictionary<string, EntityDynamicObject> m_LoadedAssetDict = new Dictionary<string, EntityDynamicObject>();
+        List<string> m_LoadingAssetIds = new List<string>();
 
 
         protected override void DoStart()
@@ -46,9 +46,9 @@ namespace Pangoo.Core.Services
             Debug.Log($"DoStart DynamicObjectService :{m_EntityGroupRow} m_EntityGroupRow:{m_EntityGroupRow.Name}");
         }
 
-        public EntityDynamicObject GetLoadedEntity(int id)
+        public EntityDynamicObject GetLoadedEntity(string uuid)
         {
-            if (m_LoadedAssetDict.TryGetValue(id, out EntityDynamicObject var))
+            if (m_LoadedAssetDict.TryGetValue(uuid, out EntityDynamicObject var))
             {
                 return var;
             }
@@ -65,7 +65,7 @@ namespace Pangoo.Core.Services
             }
         }
 
-        public void ShowSubDynamicObject(int dynamicObjectId, int parentEntityId, string path, Action<EntityDynamicObject> onShowSuccess)
+        public void ShowSubDynamicObject(string dynamicObjectUuid, int parentEntityId, string path, Action<EntityDynamicObject> onShowSuccess)
         {
             if (Loader == null)
             {
@@ -73,20 +73,20 @@ namespace Pangoo.Core.Services
             }
 
             //通过路径ID去判断是否被加载。用来在不同的章节下用了不用的静态场景ID,但是使用不同的加载Ids
-            var info = m_DynamicObjectInfo.GetRowById<DynamicObjectInfoRow>(dynamicObjectId);
+            var info = m_DynamicObjectInfo.GetRowByUuid<DynamicObjectInfoRow>(dynamicObjectUuid);
 
             EntityDynamicObject entity;
 
-            if (m_LoadedAssetDict.TryGetValue(dynamicObjectId, out entity))
+            if (m_LoadedAssetDict.TryGetValue(dynamicObjectUuid, out entity))
             {
                 Loader.AttachEntity(entity.Entity, parentEntityId, path);
                 return;
             }
 
-            Log($"ShowDynamicObject:{dynamicObjectId}");
+            Log($"ShowDynamicObject:{dynamicObjectUuid}");
 
             // 这边有一个假设，同一个时间不会反复加载不同的章节下的同一个场景。
-            if (m_LoadingAssetIds.Contains(dynamicObjectId))
+            if (m_LoadingAssetIds.Contains(dynamicObjectUuid))
             {
 
                 return;
@@ -94,16 +94,16 @@ namespace Pangoo.Core.Services
             else
             {
                 EntityDynamicObjectData data = EntityDynamicObjectData.Create(info.CreateEntityInfo(m_EntityGroupRow), this, info);
-                m_LoadingAssetIds.Add(dynamicObjectId);
+                m_LoadingAssetIds.Add(dynamicObjectUuid);
                 Loader.ShowEntity(EnumEntity.DynamicObject,
                     (o) =>
                     {
-                        if (m_LoadingAssetIds.Contains(dynamicObjectId))
+                        if (m_LoadingAssetIds.Contains(dynamicObjectUuid))
                         {
-                            m_LoadingAssetIds.Remove(dynamicObjectId);
+                            m_LoadingAssetIds.Remove(dynamicObjectUuid);
                         }
                         var showedEntity = o.Logic as EntityDynamicObject;
-                        m_LoadedAssetDict.Add(dynamicObjectId, showedEntity);
+                        m_LoadedAssetDict.Add(dynamicObjectUuid, showedEntity);
                         Loader.AttachEntity(showedEntity.Entity, parentEntityId, path);
                         showedEntity.UpdateDefaultTransform();
                         onShowSuccess?.Invoke(o.Logic as EntityDynamicObject);
@@ -116,7 +116,7 @@ namespace Pangoo.Core.Services
 
 
         [Button("Show")]
-        public void ShowDynamicObject(int id, Action<int> callback = null)
+        public void ShowDynamicObject(string uuid, Action<string> callback = null)
         {
             if (Loader == null)
             {
@@ -124,33 +124,33 @@ namespace Pangoo.Core.Services
             }
 
             //通过路径ID去判断是否被加载。用来在不同的章节下用了不用的静态场景ID,但是使用不同的加载Ids
-            var info = m_DynamicObjectInfo.GetRowById<DynamicObjectInfoRow>(id);
-            var AssetPathId = info.AssetPathId;
-            if (m_LoadedAssetDict.ContainsKey(id))
+            var info = m_DynamicObjectInfo.GetRowByUuid<DynamicObjectInfoRow>(uuid);
+            var AssetPathId = info.AssetPathUuid;
+            if (m_LoadedAssetDict.ContainsKey(uuid))
             {
                 return;
             }
 
-            Log($"ShowDynamicObject:{id}");
+            Log($"ShowDynamicObject:{uuid}");
 
             // 这边有一个假设，同一个时间不会反复加载不同的章节下的同一个场景。
-            if (m_LoadingAssetIds.Contains(id))
+            if (m_LoadingAssetIds.Contains(uuid))
             {
                 return;
             }
             else
             {
                 EntityDynamicObjectData data = EntityDynamicObjectData.Create(info.CreateEntityInfo(m_EntityGroupRow), this, info);
-                m_LoadingAssetIds.Add(id);
+                m_LoadingAssetIds.Add(uuid);
                 Loader.ShowEntity(EnumEntity.DynamicObject,
                     (o) =>
                     {
-                        if (m_LoadingAssetIds.Contains(id))
+                        if (m_LoadingAssetIds.Contains(uuid))
                         {
-                            m_LoadingAssetIds.Remove(id);
+                            m_LoadingAssetIds.Remove(uuid);
                         }
-                        m_LoadedAssetDict.Add(id, o.Logic as EntityDynamicObject);
-                        callback?.Invoke(id);
+                        m_LoadedAssetDict.Add(uuid, o.Logic as EntityDynamicObject);
+                        callback?.Invoke(uuid);
                     },
                     data.EntityInfo,
                     data);
@@ -158,14 +158,14 @@ namespace Pangoo.Core.Services
         }
 
         [Button("Hide")]
-        public void Hide(int id)
+        public void Hide(string uuid)
         {
-            var entity = GetLoadedEntity(id);
+            var entity = GetLoadedEntity(uuid);
             if (entity != null)
             {
                 Loader.HideEntity(entity.Id);
             }
-            m_LoadedAssetDict.Remove(id);
+            m_LoadedAssetDict.Remove(uuid);
         }
 
 

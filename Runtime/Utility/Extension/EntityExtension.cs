@@ -64,7 +64,7 @@ namespace Pangoo
 
             // 真是的去创建实体。
             var serialId = entityComponent.GenerateSerialId();
-            Debug.Log($"entityComponent:{entityComponent} entityInfo:{entityInfo} entityInfo:{entityInfo.GroupName}");
+            // Debug.Log($"entityComponent:{entityComponent} entityInfo:{entityInfo} entityInfo:{entityInfo.GroupName}");
             if (!entityComponent.HasEntityGroup(entityInfo.GroupName))
             {
                 // PoolParamData poolParamData = entityData.EntityGroupData.PoolParamData;

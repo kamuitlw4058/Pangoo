@@ -11,6 +11,7 @@ using Pangoo.Core.Characters;
 using System;
 using UnityEngine.UI;
 using Pangoo.Core.Common;
+using Pangoo.MetaTable;
 
 namespace Pangoo
 {
@@ -27,28 +28,28 @@ namespace Pangoo
         private const float SIZE_Y = 1f;
 
         [ReadOnly]
-        public int m_DynamicObjectId;
+        public string m_DynamicObjectUuid;
 
         [ReadOnly]
         [ShowInInspector]
-        [ValueDropdown("DynamicObjectIdValueDropdown")]
+        [ValueDropdown("DynamicObjectUuidValueDropdown")]
         [PropertyOrder(0)]
-        public int DynamicObjectId
+        public string DynamicObjectUuid
         {
             get
             {
-                return m_DynamicObjectId;
+                return m_DynamicObjectUuid;
             }
             set
             {
-                m_DynamicObjectId = value;
+                m_DynamicObjectUuid = value;
                 OnValueChanged();
             }
         }
 
-        public IEnumerable DynamicObjectIdValueDropdown()
+        public IEnumerable DynamicObjectUuidValueDropdown()
         {
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<DynamicObjectTableOverview>();
+            return DynamicObjectOverview.GetUuidDropdown();
         }
 
         [ReadOnly]
@@ -123,14 +124,14 @@ namespace Pangoo
             // ClearObjects(DynamicObjects);
             foreach (var subDo in subDynamicObjects)
             {
-                var row = GameSupportEditorUtility.GetDynamicObjectRow(subDo.DynamicObjectId);
+                var row = DynamicObjectOverview.GetUnityRowByUuid(subDo.DynamicObjectUuid);
                 if (row == null)
                 {
-                    Debug.LogError($"staticScene Id:{subDo.DynamicObjectId} is null");
+                    Debug.LogError($"staticScene Id:{subDo.DynamicObjectUuid} is null");
                     continue;
                 }
 
-                var assetPathRow = GameSupportEditorUtility.GetAssetPathRowById(row.AssetPathId);
+                var assetPathRow = AssetPathOverview.GetUnityRowByUuid(row.Row.AssetPathUuid);
                 var asset = AssetDatabaseUtility.LoadAssetAtPath<GameObject>(assetPathRow.ToPrefabPath());
                 var go = PrefabUtility.InstantiatePrefab(asset) as GameObject;
                 go.name = row.Name;
@@ -147,7 +148,7 @@ namespace Pangoo
                 {
                     go.transform.SetParent(subTarget);
                     var helper = go.AddComponent<DynamicObjectEditor>();
-                    helper.DynamicObjectId = subDo.DynamicObjectId;
+                    helper.DynamicObjectUuid = subDo.DynamicObjectUuid;
                     DynamicObjects.Add(go);
                 }
 
@@ -195,21 +196,21 @@ namespace Pangoo
 
         public void OnValueChanged()
         {
-            if (m_DynamicObjectId == 0) return;
+            if (m_DynamicObjectUuid.IsNullOrWhiteSpace()) return;
 
-            Overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<DynamicObjectTableOverview>(m_DynamicObjectId);
-            Row = GameSupportEditorUtility.GetDynamicObjectRow(m_DynamicObjectId);
-
-
-            Wrapper = new DynamicObjectDetailWrapper();
-            Wrapper.Overview = Overview;
-            Wrapper.Row = Row;
-            ClearObjects(DynamicObjects);
-            UpdateObjects(Wrapper.SubDynamicObjects);
+            // Overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<DynamicObjectTableOverview>(m_DynamicObjectUuid);
+            // Row = GameSupportEditorUtility.GetDynamicObjectRow(m_DynamicObjectUuid);
 
 
-            transform.localPosition = Row.Position;
-            transform.localRotation = Quaternion.Euler(Row.Rotation);
+            // Wrapper = new DynamicObjectDetailWrapper();
+            // Wrapper.Overview = Overview;
+            // Wrapper.Row = Row;
+            // ClearObjects(DynamicObjects);
+            // UpdateObjects(Wrapper.SubDynamicObjects);
+
+
+            // transform.localPosition = Row.Position;
+            // transform.localRotation = Quaternion.Euler(Row.Rotation);
 
         }
 

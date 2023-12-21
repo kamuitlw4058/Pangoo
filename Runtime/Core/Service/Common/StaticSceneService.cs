@@ -26,9 +26,9 @@ namespace Pangoo.Core.Services
         EntityLoader Loader = null;
 
         [ShowInInspector]
-        Dictionary<int, int> m_EnterAssetCountDict;
+        Dictionary<string, int> m_EnterAssetCountDict = new Dictionary<string, int>();
 
-        public Dictionary<int, int> EnterAssetCountDict
+        public Dictionary<string, int> EnterAssetCountDict
         {
             get
             {
@@ -37,10 +37,10 @@ namespace Pangoo.Core.Services
         }
 
         [ShowInInspector]
-        Dictionary<int, EntityStaticScene> m_LoadedSceneAssetDict;
+        Dictionary<string, EntityStaticScene> m_LoadedSceneAssetDict = new Dictionary<string, EntityStaticScene>();
 
 
-        public Dictionary<int, EntityStaticScene> LoadedSceneAssetDict
+        public Dictionary<string, EntityStaticScene> LoadedSceneAssetDict
         {
             get
             {
@@ -49,33 +49,33 @@ namespace Pangoo.Core.Services
         }
 
         [ShowInInspector]
-        List<int> m_LoadingAssetIds;
+        List<string> m_LoadingAssetUuids = new List<string>();
 
 
         [ShowInInspector]
 
-        Dictionary<int, StaticSceneInfoRow> m_SectionSceneInfos;
+        Dictionary<string, StaticSceneInfoRow> m_SectionSceneInfos = new Dictionary<string, StaticSceneInfoRow>();
 
         [ShowInInspector]
-        List<int> m_DynamicStaticSceneIds;
+        List<string> m_DynamicStaticSceneIds = new List<string>();
 
         [ShowInInspector]
-        List<int> m_HoldStaticSceneIds;
+        List<string> m_HoldStaticSceneUuids = new List<string>();
 
 
         [ShowInInspector]
-        List<int> m_InitStaticSceneIds;
+        List<string> m_InitStaticSceneUuids = new List<string>();
 
 
         // 需要加载的场景列表。 Key: StaticSceneId Value:AssetPathId
         [ShowInInspector]
-        Dictionary<int, int> NeedLoadDict;
+        Dictionary<string, string> NeedLoadDict = new Dictionary<string, string>();
 
 
 
 
 
-        public Tuple<int, int> m_SectionChange;
+        public Tuple<string, string> m_SectionChange;
 
 
         public bool SectionInited = false;
@@ -87,17 +87,6 @@ namespace Pangoo.Core.Services
         protected override void DoAwake()
         {
             base.DoAwake();
-            m_LoadingAssetIds = new List<int>();
-            m_DynamicStaticSceneIds = new List<int>();
-            m_HoldStaticSceneIds = new List<int>();
-            m_InitStaticSceneIds = new List<int>();
-
-            NeedLoadDict = new Dictionary<int, int>();
-            m_SectionSceneInfos = new Dictionary<int, StaticSceneInfoRow>();
-
-
-            m_LoadedSceneAssetDict = new Dictionary<int, EntityStaticScene>();
-            m_EnterAssetCountDict = new Dictionary<int, int>();
 
             Event.Subscribe(EnterStaticSceneEventArgs.EventId, OnEnterStaticSceneEvent);
             Event.Subscribe(ExitStaticSceneEventArgs.EventId, OnExitStaticSceneEvent);
@@ -106,13 +95,13 @@ namespace Pangoo.Core.Services
         void OnEnterStaticSceneEvent(object sender, GameFrameworkEventArgs e)
         {
             var args = e as EnterStaticSceneEventArgs;
-            EnterSceneAsset(args.AssetPathId);
+            EnterSceneAsset(args.AssetPathUuid);
         }
 
         void OnExitStaticSceneEvent(object sender, GameFrameworkEventArgs e)
         {
             var args = e as ExitStaticSceneEventArgs;
-            ExitSceneAsset(args.AssetPathId);
+            ExitSceneAsset(args.AssetPathUuid);
         }
 
         protected override void DoStart()
@@ -125,19 +114,19 @@ namespace Pangoo.Core.Services
         }
 
 
-        public bool IsInGameSectionConfig(int id)
+        public bool IsInGameSectionConfig(string uuid)
         {
-            if (m_InitStaticSceneIds.Contains(id))
+            if (m_InitStaticSceneUuids.Contains(uuid))
             {
                 return true;
             }
 
-            if (m_HoldStaticSceneIds.Contains(id))
+            if (m_HoldStaticSceneUuids.Contains(uuid))
             {
                 return true;
             }
 
-            if (m_DynamicStaticSceneIds.Contains(id))
+            if (m_DynamicStaticSceneIds.Contains(uuid))
             {
                 return true;
             }
@@ -146,83 +135,75 @@ namespace Pangoo.Core.Services
         }
 
 
-        public void SetGameScetion(List<int> dynamicIds, List<int> holdIds, List<int> initIds)
+        public void SetGameScetion(List<string> dynamicUuids, List<string> holdIds, List<string> initIds)
         {
             SectionInited = false;
             m_DynamicStaticSceneIds.Clear();
-            m_DynamicStaticSceneIds.AddRange(dynamicIds);
+            m_DynamicStaticSceneIds.AddRange(dynamicUuids);
 
             m_SectionSceneInfos.Clear();
-            foreach (var id in dynamicIds)
+            foreach (var uuid in dynamicUuids)
             {
-                var sceneInfo = m_StaticSceneInfo.GetRowById<StaticSceneInfoRow>(id);
-                m_SectionSceneInfos.Add(sceneInfo.AssetPathId, sceneInfo);
+                var sceneInfo = m_StaticSceneInfo.GetRowByUuid<StaticSceneInfoRow>(uuid);
+                Debug.Log($"uuid{uuid}, sceneInfo:{sceneInfo}");
+                m_SectionSceneInfos.Add(sceneInfo.AssetPathUuid, sceneInfo);
             }
 
-            m_HoldStaticSceneIds.Clear();
-            m_HoldStaticSceneIds.AddRange(holdIds);
+            m_HoldStaticSceneUuids.Clear();
+            m_HoldStaticSceneUuids.AddRange(holdIds);
 
-            m_InitStaticSceneIds.Clear();
-            m_InitStaticSceneIds.AddRange(initIds);
+            m_InitStaticSceneUuids.Clear();
+            m_InitStaticSceneUuids.AddRange(initIds);
         }
 
-        public void SetGameSectionChange(Tuple<int, int> value)
+        public void SetGameSectionChange(Tuple<string, string> value)
         {
             m_SectionChange = value;
         }
 
 
 
-        public void EnterSceneAsset(int assetPathId)
+        public void EnterSceneAsset(string assetPathUuid)
         {
             int count;
 
-            Log($"EnterSceneAsset:{assetPathId} {m_EnterAssetCountDict.Count}");
-            if (!m_EnterAssetCountDict.TryGetValue(assetPathId, out count))
+            Log($"EnterSceneAsset:{assetPathUuid} {m_EnterAssetCountDict.Count}");
+            if (!m_EnterAssetCountDict.TryGetValue(assetPathUuid, out count))
             {
-                m_EnterAssetCountDict.Add(assetPathId, 1);
+                m_EnterAssetCountDict.Add(assetPathUuid, 1);
             }
             else
             {
-                m_EnterAssetCountDict[assetPathId] = count + 1;
-            }
-
-            StaticSceneInfoRow staticSceneInfo;
-            if (m_SectionSceneInfos.TryGetValue(assetPathId, out staticSceneInfo))
-            {
-                if (staticSceneInfo.Id == m_SectionChange.Item1)
-                {
-                    Event.Fire(this, GameSectionChangeEventArgs.Create(m_SectionChange.Item2));
-                }
+                m_EnterAssetCountDict[assetPathUuid] = count + 1;
             }
 
         }
 
-        public void ExitSceneAsset(int assetPathId)
+        public void ExitSceneAsset(string assetPathUuid)
         {
             int count;
-            Log($"ExitSceneAsset:{assetPathId},{m_EnterAssetCountDict.Count}");
-            if (m_EnterAssetCountDict.TryGetValue(assetPathId, out count))
+            Log($"ExitSceneAsset:{assetPathUuid},{m_EnterAssetCountDict.Count}");
+            if (m_EnterAssetCountDict.TryGetValue(assetPathUuid, out count))
             {
                 count -= 1;
                 if (count <= 0)
                 {
-                    m_EnterAssetCountDict.Remove(assetPathId);
+                    m_EnterAssetCountDict.Remove(assetPathUuid);
                 }
                 else
                 {
-                    m_EnterAssetCountDict[assetPathId] = count;
+                    m_EnterAssetCountDict[assetPathUuid] = count;
                 }
             }
         }
 
-        public bool IsLoadedScene(List<int> ids)
+        public bool IsLoadedScene(List<string> uuids)
         {
             bool allInited = true;
-            foreach (var sceneId in ids)
+            foreach (var sceneUuid in uuids)
             {
-                var info = m_StaticSceneInfo.GetRowById<StaticSceneInfoRow>(sceneId);
-                if (!m_LoadedSceneAssetDict.ContainsKey(info.AssetPathId))
+                var info = m_StaticSceneInfo.GetRowByUuid<StaticSceneInfoRow>(sceneUuid);
+                if (!m_LoadedSceneAssetDict.ContainsKey(info.AssetPathUuid))
                 {
                     allInited = false;
                     break;
@@ -231,7 +212,7 @@ namespace Pangoo.Core.Services
             return allInited;
         }
 
-        public void ShowStaticScene(int staticSceneId)
+        public void ShowStaticScene(string staticSceneUuid)
         {
             if (Loader == null)
             {
@@ -239,46 +220,46 @@ namespace Pangoo.Core.Services
             }
 
             //通过路径ID去判断是否被加载。用来在不同的章节下用了不用的静态场景ID,但是使用不同的加载Ids
-            var sceneInfo = m_StaticSceneInfo.GetRowById<StaticSceneInfoRow>(staticSceneId);
-            var AssetPathId = sceneInfo.AssetPathId;
-            if (m_LoadedSceneAssetDict.ContainsKey(AssetPathId))
+            var sceneInfo = m_StaticSceneInfo.GetRowByUuid<StaticSceneInfoRow>(staticSceneUuid);
+            var AssetPathUuid = sceneInfo.AssetPathUuid;
+            if (m_LoadedSceneAssetDict.ContainsKey(AssetPathUuid))
             {
                 return;
             }
 
-            if (!IsInGameSectionConfig(staticSceneId))
+            if (!IsInGameSectionConfig(staticSceneUuid))
             {
                 return;
             }
 
-            Log($"ShowStaticScene:{staticSceneId}");
+            Log($"ShowStaticScene:{staticSceneUuid}");
 
             // 这边有一个假设，同一个时间不会反复加载不同的章节下的同一个场景。
-            if (m_LoadingAssetIds.Contains(AssetPathId))
+            if (m_LoadingAssetUuids.Contains(AssetPathUuid))
             {
                 return;
             }
             else
             {
                 EntityStaticSceneData data = EntityStaticSceneData.Create(sceneInfo, sceneInfo.CreateEntityInfo(m_EntityGroupRow), this);
-                m_LoadingAssetIds.Add(AssetPathId);
+                m_LoadingAssetUuids.Add(AssetPathUuid);
                 Loader.ShowEntity(EnumEntity.StaticScene,
                     (o) =>
                     {
-                        Log($"ShowStaticScene Loaded:{staticSceneId}-{sceneInfo.Name}");
-                        if (m_LoadingAssetIds.Contains(AssetPathId))
+                        Log($"ShowStaticScene Loaded:{staticSceneUuid}-{sceneInfo.Name}");
+                        if (m_LoadingAssetUuids.Contains(AssetPathUuid))
                         {
-                            m_LoadingAssetIds.Remove(AssetPathId);
+                            m_LoadingAssetUuids.Remove(AssetPathUuid);
                         }
-                        m_LoadedSceneAssetDict.Add(AssetPathId, o.Logic as EntityStaticScene);
+                        m_LoadedSceneAssetDict.Add(AssetPathUuid, o.Logic as EntityStaticScene);
 
                         if (!SectionInited)
                         {
-                            bool allInited = IsLoadedScene(m_HoldStaticSceneIds);
+                            bool allInited = IsLoadedScene(m_HoldStaticSceneUuids);
                             Log($"Hold Loaded:{allInited}");
                             if (allInited)
                             {
-                                allInited = IsLoadedScene(m_InitStaticSceneIds);
+                                allInited = IsLoadedScene(m_InitStaticSceneUuids);
                                 Log($"Init Loaded:{allInited}");
                             }
 
@@ -303,21 +284,22 @@ namespace Pangoo.Core.Services
             NeedLoadDict.Clear();
 
             //章节服务会设置常驻的场景ID。用来打开该场景下通用的设置。
-            foreach (var keepSceneId in m_HoldStaticSceneIds)
+            foreach (var keepSceneUuid in m_HoldStaticSceneUuids)
             {
-                StaticSceneInfoRow sceneInfo = m_StaticSceneInfo.GetRowById<StaticSceneInfoRow>(keepSceneId);
-                if (!NeedLoadDict.ContainsKey(sceneInfo.Id))
+                StaticSceneInfoRow sceneInfo = m_StaticSceneInfo.GetRowByUuid<StaticSceneInfoRow>(keepSceneUuid);
+                if (!NeedLoadDict.ContainsKey(sceneInfo.Uuid))
                 {
-                    NeedLoadDict.Add(sceneInfo.Id, sceneInfo.AssetPathId);
+                    NeedLoadDict.Add(sceneInfo.Uuid, sceneInfo.AssetPathUuid);
                 }
             }
 
             if (m_EnterAssetCountDict.Count == 0)
             {
-                foreach (var staticSceneId in m_InitStaticSceneIds)
+                foreach (var staticSceneUuid in m_InitStaticSceneUuids)
                 {
-                    var loadSceneInfo = m_StaticSceneInfo.GetRowById<StaticSceneInfoRow>(staticSceneId);
-                    NeedLoadDict.Add(staticSceneId, loadSceneInfo.AssetPathId);
+                    var loadSceneInfo = m_StaticSceneInfo.GetRowByUuid<StaticSceneInfoRow>(staticSceneUuid);
+                    // Debug.Log($"loadSceneInfo:{loadSceneInfo} staticSceneUuid:{staticSceneUuid}");
+                    NeedLoadDict.Add(staticSceneUuid, loadSceneInfo.AssetPathUuid);
                 }
                 return;
             }
@@ -328,17 +310,17 @@ namespace Pangoo.Core.Services
                 StaticSceneInfoRow sceneInfo;
                 if (m_SectionSceneInfos.TryGetValue(enterAssetId, out sceneInfo))
                 {
-                    foreach (var id in sceneInfo.LoadSceneIds)
+                    foreach (var loadSceneUuid in sceneInfo.LoadSceneUuids)
                     {
-                        if (!NeedLoadDict.ContainsKey(id))
+                        if (!NeedLoadDict.ContainsKey(loadSceneUuid))
                         {
-                            var loadSceneInfo = m_StaticSceneInfo.GetRowById<StaticSceneInfoRow>(id);
-                            NeedLoadDict.Add(id, loadSceneInfo.AssetPathId);
+                            var loadSceneInfo = m_StaticSceneInfo.GetRowByUuid<StaticSceneInfoRow>(loadSceneUuid);
+                            NeedLoadDict.Add(loadSceneUuid, loadSceneInfo.AssetPathUuid);
                         }
                     }
-                    if (!NeedLoadDict.ContainsKey(sceneInfo.Id))
+                    if (!NeedLoadDict.ContainsKey(sceneInfo.Uuid))
                     {
-                        NeedLoadDict.Add(sceneInfo.Id, sceneInfo.AssetPathId);
+                        NeedLoadDict.Add(sceneInfo.Uuid, sceneInfo.AssetPathUuid);
                     }
                 }
             }
@@ -346,15 +328,15 @@ namespace Pangoo.Core.Services
 
         public void UpdateAutoLoad()
         {
-            foreach (var loadId in NeedLoadDict.Keys)
+            foreach (var loadUuid in NeedLoadDict.Keys)
             {
-                ShowStaticScene(loadId);
+                ShowStaticScene(loadUuid);
             }
         }
 
         public void UpdateAutoRelease()
         {
-            List<int> removeScene = new List<int>();
+            List<string> removeScene = new List<string>();
             foreach (var item in m_LoadedSceneAssetDict)
             {
                 if (!NeedLoadDict.ContainsValue(item.Key) && !m_EnterAssetCountDict.ContainsKey(item.Key))
@@ -368,9 +350,9 @@ namespace Pangoo.Core.Services
                 }
             }
 
-            foreach (var id in removeScene)
+            foreach (var removeUuid in removeScene)
             {
-                m_LoadedSceneAssetDict.Remove(id);
+                m_LoadedSceneAssetDict.Remove(removeUuid);
             }
 
         }

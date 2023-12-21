@@ -17,11 +17,11 @@ namespace Pangoo
 
         public DynamicObjectInfoRow InfoRow;
 
-        public int AssetPathId
+        public string AssetPathUuid
         {
             get
             {
-                return EntityInfo.AssetPathId;
+                return EntityInfo.AssetPathUuid;
             }
         }
 

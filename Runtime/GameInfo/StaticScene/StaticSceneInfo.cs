@@ -4,23 +4,24 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using GameFramework;
+using Pangoo.MetaTable;
 
 namespace Pangoo
 {
     public partial class StaticSceneInfo : BaseInfo
     {
 
-
-        AssetPathTable m_AssetPathTable;
-        StaticSceneTable m_StaticSceneTable;
+        MetaTable.AssetPathTable m_AssetPathTable;
+        MetaTable.StaticSceneTable m_StaticSceneTable;
         protected override void OnInit()
         {
-            m_AssetPathTable = PangooEntry.ExcelTable.GetExcelTable<AssetPathTable>();
-            m_StaticSceneTable = PangooEntry.ExcelTable.GetExcelTable<StaticSceneTable>();
-            foreach (var staticScene in m_StaticSceneTable.Rows)
+            m_AssetPathTable = PangooEntry.MetaTable.GetMetaTable<MetaTable.AssetPathTable>();
+            m_StaticSceneTable = PangooEntry.MetaTable.GetMetaTable<MetaTable.StaticSceneTable>();
+            foreach (var staticScene in m_StaticSceneTable.BaseRows)
             {
-                var assetPath = m_AssetPathTable.GetRowById(staticScene.AssetPathId);
-                IdDict.Add(staticScene.Id, new StaticSceneInfoRow(staticScene.ToInterface(), assetPath.ToInterface()));
+                var staticSceneRow = staticScene as StaticSceneRow;
+                var assetPath = m_AssetPathTable.GetRowByUuid(staticSceneRow.AssetPathUuid);
+                IdDict.Add(staticScene.Uuid, new StaticSceneInfoRow(staticScene as StaticSceneRow, assetPath));
             }
 
         }

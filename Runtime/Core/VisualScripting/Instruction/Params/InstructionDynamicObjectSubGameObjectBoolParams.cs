@@ -5,6 +5,7 @@ using UnityEngine;
 using Pangoo.Core.Common;
 using LitJson;
 using Sirenix.OdinInspector;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -12,10 +13,10 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public class InstructionDynamicObjectSubGameObjectBoolParams : InstructionParams
     {
-        [JsonMember("DynamicObjectId")]
-        [ValueDropdown("OnDynamicObjectIdDropdown")]
+        [JsonMember("DynamicObjectUuid")]
+        [ValueDropdown("OnDynamicObjectUuidDropdown")]
         [LabelText("动态物体")]
-        public int DynamicObjectId;
+        public string DynamicObjectUuid;
 
         [JsonMember("Path")]
         [LabelText("路径列表")]
@@ -28,14 +29,14 @@ namespace Pangoo.Core.VisualScripting
         public bool Val;
 
 #if UNITY_EDITOR
-        IEnumerable OnDynamicObjectIdDropdown()
+        IEnumerable OnDynamicObjectUuidDropdown()
         {
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<DynamicObjectTableOverview>();
+            return DynamicObjectOverview.GetUuidDropdown();
         }
 
         IEnumerable OnDynamicObjectPathDropdown()
         {
-            var prefab = GameSupportEditorUtility.GetPrefabByDynamicObjectId(DynamicObjectId);
+            var prefab = GameSupportEditorUtility.GetPrefabByDynamicObjectUuid(DynamicObjectUuid);
             if (prefab != null)
             {
                 return GameSupportEditorUtility.RefPrefabStringDropdown(prefab);
@@ -53,7 +54,7 @@ namespace Pangoo.Core.VisualScripting
             var par = JsonMapper.ToObject<InstructionDynamicObjectSubGameObjectBoolParams>(val);
             Val = par.Val;
             Path = par.Path;
-            DynamicObjectId = par.DynamicObjectId;
+            DynamicObjectUuid = par.DynamicObjectUuid;
 
         }
     }

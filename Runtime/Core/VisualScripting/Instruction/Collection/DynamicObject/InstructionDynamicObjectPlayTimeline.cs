@@ -31,7 +31,7 @@ namespace Pangoo.Core.VisualScripting
         {
 
             var dynamicObject = args.dynamicObject;
-            if (ParamsRaw.DynamicObjectId == 0)
+            if (ParamsRaw.DynamicObjectUuid.IsNullOrWhiteSpace() || ParamsRaw.DynamicObjectUuid.Equals("Self"))
             {
                 dynamicObject?.PlayTimeline();
                 Debug.Log($"DynamicObject Self PlayTimeline:");
@@ -39,9 +39,9 @@ namespace Pangoo.Core.VisualScripting
             else
             {
                 var DynamicObjectService = dynamicObject.DynamicObjectService;
-                var targetEntity = DynamicObjectService.GetLoadedEntity(ParamsRaw.DynamicObjectId);
+                var targetEntity = DynamicObjectService.GetLoadedEntity(ParamsRaw.DynamicObjectUuid);
                 targetEntity?.DynamicObj?.PlayTimeline();
-                Debug.Log($"DynamicObjectId:{ParamsRaw.DynamicObjectId}  Play Timeline:{ParamsRaw.Val} ");
+                Debug.Log($"DynamicObjectId:{ParamsRaw.DynamicObjectUuid}  Play Timeline:{ParamsRaw.Val} ");
             }
         }
 

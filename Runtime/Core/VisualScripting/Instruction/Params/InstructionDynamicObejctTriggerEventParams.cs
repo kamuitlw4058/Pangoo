@@ -13,11 +13,11 @@ namespace Pangoo.Core.VisualScripting
     {
 
 
-        [JsonMember("DynamicObjectId")]
-        public int DynamicObjectId;
+        [JsonMember("DynamicObjectUuid")]
+        public string DynamicObjectUuid;
 
-        [JsonMember("TriggerId")]
-        public int TriggerId;
+        [JsonMember("TriggerEventUuid")]
+        public string TriggerEventUuid;
 
         [JsonMember("Enabled")]
         public bool Enabled;
@@ -29,8 +29,8 @@ namespace Pangoo.Core.VisualScripting
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionDynamicObejctTriggerEventParams>(val);
-            DynamicObjectId = par.DynamicObjectId;
-            TriggerId = par.TriggerId;
+            DynamicObjectUuid = par.DynamicObjectUuid;
+            TriggerEventUuid = par.TriggerEventUuid;
             Enabled = par.Enabled;
             DisableSelfTrigger = par.DisableSelfTrigger;
         }

@@ -31,12 +31,12 @@ namespace Pangoo.Core.VisualScripting
         {
             if (ParamsRaw.Path == null)
             {
-                Debug.LogWarning($"Set SubGameObjectActive DynamicObjectId:{ParamsRaw.DynamicObjectId}  Active:{ParamsRaw.Val} Path Is Null");
+                Debug.LogWarning($"Set SubGameObjectActive DynamicObjectId:{ParamsRaw.DynamicObjectUuid}  Active:{ParamsRaw.Val} Path Is Null");
                 return;
             }
 
             var dynamicObject = args.dynamicObject;
-            if (ParamsRaw.DynamicObjectId == 0)
+            if (ParamsRaw.DynamicObjectUuid.IsNullOrWhiteSpace() || ParamsRaw.DynamicObjectUuid.Equals("Self"))
             {
                 dynamicObject?.SetSubGameObjectsActive(ParamsRaw.Path, ParamsRaw.Val);
                 Debug.Log($"DynamicObject Set Self ModelActive:{ParamsRaw.Val} ");
@@ -44,9 +44,9 @@ namespace Pangoo.Core.VisualScripting
             else
             {
                 var DynamicObjectService = args.Main.DynamicObject;
-                var targetEntity = DynamicObjectService.GetLoadedEntity(ParamsRaw.DynamicObjectId);
+                var targetEntity = DynamicObjectService.GetLoadedEntity(ParamsRaw.DynamicObjectUuid);
                 targetEntity?.DynamicObj?.SetSubGameObjectsActive(ParamsRaw.Path, ParamsRaw.Val);
-                Debug.Log($"DynamicObjectId:{ParamsRaw.DynamicObjectId}  SetPath:{ParamsRaw.Path} Active:{ParamsRaw.Val} ");
+                Debug.Log($"DynamicObjectId:{ParamsRaw.DynamicObjectUuid}  SetPath:{ParamsRaw.Path} Active:{ParamsRaw.Val} ");
             }
 
         }

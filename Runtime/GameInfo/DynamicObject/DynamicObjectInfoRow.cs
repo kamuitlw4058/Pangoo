@@ -48,13 +48,14 @@ namespace Pangoo
         }
 
 
-        public int AssetPathId
+        public string AssetPathUuid
         {
             get
             {
-                return m_AssetPathRow.Id;
+                return m_AssetPathRow.Uuid;
             }
         }
+
 
         public override void Remove()
         {

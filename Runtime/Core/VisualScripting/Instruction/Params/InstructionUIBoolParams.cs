@@ -5,6 +5,7 @@ using UnityEngine;
 using Pangoo.Core.Common;
 using LitJson;
 using Sirenix.OdinInspector;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -12,17 +13,17 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public class InstructionUIBoolParams : InstructionParams
     {
-        [JsonMember("UIId")]
-        [ValueDropdown("OnUIIdDropdown")]
-        public int UIId;
+        [JsonMember("UIUuid")]
+        [ValueDropdown("OnUIUuidDropdown")]
+        public string UIUuid;
 
         [JsonMember("WaitClosed")]
         public bool WaitClosed;
 
 #if UNITY_EDITOR
-        IEnumerable OnUIIdDropdown()
+        IEnumerable OnUIUuidDropdown()
         {
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<SimpleUITableOverview>();
+            return SimpleUIOverview.GetUuidDropdown();
         }
 #endif
 
@@ -30,7 +31,7 @@ namespace Pangoo.Core.VisualScripting
         {
             var par = JsonMapper.ToObject<InstructionUIBoolParams>(val);
             WaitClosed = par.WaitClosed;
-            UIId = par.UIId;
+            UIUuid = par.UIUuid;
 
         }
     }

@@ -4,22 +4,24 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using GameFramework;
+using Pangoo.MetaTable;
 
 namespace Pangoo
 {
     public partial class UIInfo : BaseInfo
     {
 
-        AssetPathTable m_AssetPathTable;
-        SimpleUITable m_SimpleUITable;
+        MetaTable.AssetPathTable m_AssetPathTable;
+        MetaTable.SimpleUITable m_SimpleUITable;
         protected override void OnInit()
         {
-            m_AssetPathTable = PangooEntry.ExcelTable.GetExcelTable<AssetPathTable>();
-            m_SimpleUITable = PangooEntry.ExcelTable.GetExcelTable<SimpleUITable>();
-            foreach (var row in m_SimpleUITable.Rows)
+            m_AssetPathTable = PangooEntry.MetaTable.GetMetaTable<MetaTable.AssetPathTable>();
+            m_SimpleUITable = PangooEntry.MetaTable.GetMetaTable<MetaTable.SimpleUITable>();
+            foreach (var row in m_SimpleUITable.BaseRows)
             {
-                var assetPath = m_AssetPathTable.GetRowById(row.AssetPathId);
-                IdDict.Add(row.Id, new UIInfoRow(row, assetPath));
+                var uiRow = row as SimpleUIRow;
+                var assetPath = m_AssetPathTable.GetRowByUuid(uiRow.AssetPathUuid);
+                IdDict.Add(row.Uuid, new UIInfoRow(uiRow, assetPath));
             }
 
         }

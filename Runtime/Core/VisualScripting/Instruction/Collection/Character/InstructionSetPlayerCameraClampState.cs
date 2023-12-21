@@ -19,15 +19,15 @@ namespace Pangoo.Core.VisualScripting
 
         public InstructionPlayerClampParams ParamsRaw = new InstructionPlayerClampParams();
         public override IParams Params => this.ParamsRaw;
-        
+
         // PROPERTIES: ----------------------------------------------------------------------------
 
-        public override string Title => $"Character: {this.ParamsRaw.CharacterId}";
-        
+        public override string Title => $"Character: {this.ParamsRaw.CharacterUuid}";
+
         // PRIVATE: -------------------------------------------------------------------------------
 
         private CharacterService m_CharacterService;
-        
+
         // CONSTRUCTORS: --------------------------------------------------------------------------
 
         protected override IEnumerator Run(Args args)
@@ -35,20 +35,20 @@ namespace Pangoo.Core.VisualScripting
             RunImmediate(args);
             yield break;
         }
-        
+
         public override void RunImmediate(Args args)
         {
             LastestArgs = args;
-            
+
             if (args?.Main != null)
             {
                 m_CharacterService = args.Main.CharacterService;
-                var characterId = this.ParamsRaw.CharacterId;
-                
-                if (characterId == 0)
+                var characterUuid = this.ParamsRaw.CharacterUuid;
+
+                if (characterUuid.IsNullOrWhiteSpace())
                 {
-                    characterId = args.Main?.GameConfig?.GetGameMainConfig()?.DefaultPlayer ?? 0;
-                    if (characterId == 0)
+                    characterUuid = args.Main?.GameConfig?.GetGameMainConfig()?.DefaultPlayer;
+                    if (characterUuid.IsNullOrWhiteSpace())
                     {
                         Debug.LogError("Get Player Id failed!");
                         return;
@@ -60,7 +60,7 @@ namespace Pangoo.Core.VisualScripting
                 SetCameraNoise(ParamsRaw.OpenCameraNoise);
             }
         }
-        
+
         public void SetPlayerClamp(bool val)
         {
             if (val)
@@ -74,16 +74,16 @@ namespace Pangoo.Core.VisualScripting
                 m_CharacterService.Player.character.yAxisMaxPitch = 360;
             }
         }
-        
+
         public void ResetCameraRotation()
         {
-            m_CharacterService?.Player?.character?.CharacterCamera?.SetDirection(new Vector3(0,0,0));
+            m_CharacterService?.Player?.character?.CharacterCamera?.SetDirection(new Vector3(0, 0, 0));
         }
-        
+
         public void SetCameraNoise(bool isOpen)
         {
             NoiseSettings noiseSettings = Resources.Load<NoiseSettings>($"NoiseSettings/{ParamsRaw.NoiseSettings}");
-            m_CharacterService.Player.character.CharacterCamera.SetCameraNoise(isOpen,noiseSettings,ParamsRaw.AmplitudeGain,ParamsRaw.FrequencyGain);
+            m_CharacterService.Player.character.CharacterCamera.SetCameraNoise(isOpen, noiseSettings, ParamsRaw.AmplitudeGain, ParamsRaw.FrequencyGain);
         }
     }
 }

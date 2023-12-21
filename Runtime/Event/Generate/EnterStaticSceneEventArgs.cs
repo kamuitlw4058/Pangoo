@@ -12,7 +12,7 @@ using GameFramework.Event;
 
 namespace Pangoo
 {
-     [Serializable]
+    [Serializable]
     public partial class EnterStaticSceneEventArgs : GameEventArgs
     {
 
@@ -23,25 +23,26 @@ namespace Pangoo
         public override int Id => EventId;
 
 
-        public int AssetPathId;
+        public string AssetPathUuid;
 
 
-        public static EnterStaticSceneEventArgs Create(int assetPathId)
+        public static EnterStaticSceneEventArgs Create(string assetPathUuid)
         {
             var args = ReferencePool.Acquire<EnterStaticSceneEventArgs>();
-            args.AssetPathId = assetPathId;
-              return args;
+            args.AssetPathUuid = assetPathUuid;
+            return args;
         }
 
 
-        public override void Clear(){
-            AssetPathId = 0;
+        public override void Clear()
+        {
+            AssetPathUuid = string.Empty;
         }
 
 
         public EnterStaticSceneEventArgs()
         {
-              Clear();
+            Clear();
         }
 
     }

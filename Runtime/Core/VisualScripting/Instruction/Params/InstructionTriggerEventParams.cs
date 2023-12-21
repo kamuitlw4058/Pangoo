@@ -11,8 +11,8 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public class InstructionTriggerEventParams : InstructionParams
     {
-        [JsonMember("TriggerId")]
-        public int TriggerId;
+        [JsonMember("TriggerEventUuid")]
+        public string TriggerEventUuid;
 
         [JsonMember("Enabled")]
         public bool Enabled;
@@ -24,7 +24,7 @@ namespace Pangoo.Core.VisualScripting
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionTriggerEventParams>(val);
-            TriggerId = par.TriggerId;
+            TriggerEventUuid = par.TriggerEventUuid;
             Enabled = par.Enabled;
             DisableSelfTrigger = par.DisableSelfTrigger;
         }

@@ -7,6 +7,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using System.Linq;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Editor
 {
@@ -31,7 +32,7 @@ namespace Pangoo.Editor
 
         [HideLabel]
         [SerializeReference]
-        public GameSectionDetailWrapper Wrapper;
+        public GameSectionDetailRowWrapper Wrapper;
 
 
         GameSceneStaticSceneEditor m_StaticSceneEditor;
@@ -43,38 +44,38 @@ namespace Pangoo.Editor
 
             // Debug.Log($"OnSectionChange");
 
-            Overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<GameSectionTableOverview>(Section);
-            SectionRow = GameSupportEditorUtility.GetGameSectionRowById(Section);
+            // Overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<GameSectionTableOverview>(Section);
+            // SectionRow = GameSupportEditorUtility.GetGameSectionRowById(Section);
 
-            Wrapper = new GameSectionDetailWrapper();
-            Wrapper.Overview = Overview;
-            Wrapper.Row = SectionRow;
+            // Wrapper = new GameSectionDetailRowWrapper();
+            // Wrapper.Overview = Overview;
+            // Wrapper.Row = SectionRow;
 
-            // Debug.Log($"DynamicSceneIds:{Wrapper.DynamicSceneIds.ToList().ToListString()}");
-            // Debug.Log($"KeepSceneIds:{Wrapper.KeepSceneIds.ToList().ToListString()}");
+            // // Debug.Log($"DynamicSceneIds:{Wrapper.DynamicSceneIds.ToList().ToListString()}");
+            // // Debug.Log($"KeepSceneIds:{Wrapper.KeepSceneIds.ToList().ToListString()}");
 
-            if (!Application.isPlaying)
-            {
-                m_StaticSceneEditor.SetSection(Section);
-                m_StaticSceneEditor.UpdateDynamicSceneIds(Wrapper.DynamicSceneIds);
-                m_StaticSceneEditor.UpdateKeepSceneIds(Wrapper.KeepSceneIds);
-            }
-            else
-            {
-                m_StaticSceneEditor.ClearScene();
-            }
+            // if (!Application.isPlaying)
+            // {
+            //     m_StaticSceneEditor.SetSection(Section);
+            //     m_StaticSceneEditor.UpdateDynamicSceneIds(Wrapper.DynamicSceneIds);
+            //     m_StaticSceneEditor.UpdateKeepSceneIds(Wrapper.KeepSceneIds);
+            // }
+            // else
+            // {
+            //     m_StaticSceneEditor.ClearScene();
+            // }
 
 
-            if (!Application.isPlaying)
-            {
+            // if (!Application.isPlaying)
+            // {
 
-                m_DynamicObjectEditor.SetSection(Section);
-                m_DynamicObjectEditor.UpdateObjects(Wrapper.DynamicObjectIds);
-            }
-            else
-            {
-                m_DynamicObjectEditor.ClearObjects();
-            }
+            //     m_DynamicObjectEditor.SetSection(Section);
+            //     m_DynamicObjectEditor.UpdateObjects(Wrapper.DynamicObjectIds);
+            // }
+            // else
+            // {
+            //     m_DynamicObjectEditor.ClearObjects();
+            // }
         }
 
         void UpdateGameObjectName()

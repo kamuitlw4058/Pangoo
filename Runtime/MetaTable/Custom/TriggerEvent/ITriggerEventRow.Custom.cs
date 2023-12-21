@@ -12,9 +12,9 @@ using MetaTable;
 
 namespace Pangoo.MetaTable
 {
-    public partial interface ITriggerEventRow 
+    public partial interface ITriggerEventRow
     {
-
+        List<string> GetConditionList();
     }
 }
 

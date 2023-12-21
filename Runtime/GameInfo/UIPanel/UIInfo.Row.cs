@@ -5,19 +5,20 @@ using System;
 using System.Linq;
 using GameFramework;
 using Pangoo.Core.Services;
+using Pangoo.MetaTable;
 
 
 namespace Pangoo
 {
     public class UIInfoRow : BaseInfoRow
     {
-        public SimpleUITable.SimpleUIRow m_SimpleUIRow;
-        public AssetPathTable.AssetPathRow m_AssetPathRow;
+        public ISimpleUIRow m_SimpleUIRow;
+        public IAssetPathRow m_AssetPathRow;
 
         private UIPanelData m_UIPanelInfo;
 
 
-        public UIInfoRow(SimpleUITable.SimpleUIRow row, AssetPathTable.AssetPathRow assetPathRow)
+        public UIInfoRow(ISimpleUIRow row, IAssetPathRow assetPathRow)
         {
             this.m_SimpleUIRow = row;
             this.m_AssetPathRow = assetPathRow;

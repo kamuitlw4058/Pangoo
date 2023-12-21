@@ -47,7 +47,7 @@ namespace Pangoo.Core.VisualScripting
                 Trigger.Enabled = false;
             }
             yield return null;
-            args.dynamicObject?.TriggerEnabled(ParamsRaw.TriggerId, ParamsRaw.Enabled);
+            args.dynamicObject?.TriggerEnabled(ParamsRaw.TriggerEventUuid, ParamsRaw.Enabled);
             Debug.Log($"args.{args.Self},{args.dynamicObject},{Trigger}");
         }
 

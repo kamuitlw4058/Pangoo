@@ -46,10 +46,10 @@ namespace Pangoo.Core.VisualScripting
             }
             yield return null;
             // args.dynamicObject
-            var dynamicObjectEntity = args.dynamicObject?.DynamicObjectService?.GetLoadedEntity(ParamsRaw.DynamicObjectId);
+            var dynamicObjectEntity = args.dynamicObject?.DynamicObjectService?.GetLoadedEntity(ParamsRaw.DynamicObjectUuid);
             if (dynamicObjectEntity != null)
             {
-                dynamicObjectEntity?.DynamicObj?.TriggerEnabled(ParamsRaw.TriggerId, ParamsRaw.Enabled);
+                dynamicObjectEntity?.DynamicObj?.TriggerEnabled(ParamsRaw.TriggerEventUuid, ParamsRaw.Enabled);
                 Debug.Log($"dynamicObjectEntity.DynamicObj.{dynamicObjectEntity},{dynamicObjectEntity?.DynamicObj},{Trigger}");
             }
 

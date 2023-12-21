@@ -105,7 +105,7 @@ namespace Pangoo.Core.VisualScripting
 
         }
 
-        public InstructionList ToInstructionList(InstructionGetRowByIdHandler handler = null)
+        public InstructionList ToInstructionList(InstructionGetRowByUuidHandler handler = null)
         {
             if (DirectInstructions == null || DirectInstructions.Length == 0)
             {
@@ -126,7 +126,7 @@ namespace Pangoo.Core.VisualScripting
         }
 
 
-        public static InstructionList LoadInstructionList(string val, InstructionGetRowByIdHandler handler = null)
+        public static InstructionList LoadInstructionList(string val, InstructionGetRowByUuidHandler handler = null)
         {
             List<Instruction> ret = new List<Instruction>();
             var directInstructions = JsonMapper.ToObject<DirectInstructionList>(val);

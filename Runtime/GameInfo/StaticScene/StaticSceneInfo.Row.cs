@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using GameFramework;
 using Pangoo.MetaTable;
+using Pangoo.Common;
 
 namespace Pangoo
 {
@@ -25,13 +26,13 @@ namespace Pangoo
         public EntityGroupTable.EntityGroupRow EntityGroupRow;
 
 
-        List<int> m_LoadSceneIds = null;
+        List<string> m_LoadSceneUuids = null;
 
-        public int Id
+        public string Uuid
         {
             get
             {
-                return m_StaticSceneRow.Id;
+                return m_StaticSceneRow.Uuid;
             }
         }
 
@@ -48,23 +49,23 @@ namespace Pangoo
             return EntityInfo.Create(m_AssetPathRow, entityGroupRow);
         }
 
-        public List<int> LoadSceneIds
+        public List<string> LoadSceneUuids
         {
             get
             {
-                if (m_LoadSceneIds == null)
+                if (m_LoadSceneUuids == null)
                 {
-                    m_LoadSceneIds = m_StaticSceneRow.LoadSceneIds.Split("|").Select(row => int.Parse(row)).ToList();
+                    m_LoadSceneUuids = m_StaticSceneRow.LoadSceneUuids.ToSplitList<string>();
                 }
-                return m_LoadSceneIds;
+                return m_LoadSceneUuids;
             }
         }
 
-        public int AssetPathId
+        public string AssetPathUuid
         {
             get
             {
-                return m_AssetPathRow.Id;
+                return m_AssetPathRow.Uuid;
             }
         }
 

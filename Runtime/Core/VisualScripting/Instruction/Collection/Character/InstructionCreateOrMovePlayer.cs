@@ -31,7 +31,7 @@ namespace Pangoo.Core.VisualScripting
 
         // PROPERTIES: ----------------------------------------------------------------------------
 
-        public override string Title => $"Character: {this.ParamsRaw.CharacterId}";
+        public override string Title => $"Character: {this.ParamsRaw.CharacterUuid}";
 
         // CONSTRUCTORS: --------------------------------------------------------------------------
 
@@ -46,24 +46,24 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            Debug.Log($"InstructionCreateOrMovePlayer:{this.ParamsRaw.CharacterId},{args?.Main}");
+            Debug.Log($"InstructionCreateOrMovePlayer:{this.ParamsRaw.CharacterUuid},{args?.Main}");
 
             if (args?.Main != null)
             {
                 var characterService = args.Main.CharacterService;
-                var characterId = this.ParamsRaw.CharacterId;
-                Debug.Log($"InstructionCreateOrMovePlayer  get characterService:{characterService} characterId:{characterId}");
-                if (characterId == 0)
+                var characterUuid = this.ParamsRaw.CharacterUuid;
+                Debug.Log($"InstructionCreateOrMovePlayer  get characterService:{characterService} characterId:{characterUuid}");
+                if (characterUuid.IsNullOrWhiteSpace())
                 {
-                    characterId = args.Main?.GameConfig?.GetGameMainConfig()?.DefaultPlayer ?? 0;
-                    if (characterId == 0)
+                    characterUuid = args.Main?.GameConfig?.GetGameMainConfig()?.DefaultPlayer;
+                    if (characterUuid.IsNullOrWhiteSpace())
                     {
                         Debug.LogError("Get Player Id failed!");
                         return;
                     }
 
                 }
-                characterService?.ShowCharacter(characterId, ParamsRaw.Position, ParamsRaw.Rotation, ParamsRaw.Height, ParamsRaw.IsInteractive);
+                characterService?.ShowCharacter(characterUuid, ParamsRaw.Position, ParamsRaw.Rotation, ParamsRaw.Height, ParamsRaw.IsInteractive);
             }
 
         }

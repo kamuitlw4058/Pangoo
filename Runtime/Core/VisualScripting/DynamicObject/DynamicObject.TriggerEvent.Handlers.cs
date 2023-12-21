@@ -38,10 +38,9 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
-        public const int InvalidTriggerId = -999;
 
 
-        public void TriggerInovke(TriggerTypeEnum triggerType, int id = InvalidTriggerId)
+        public void TriggerInovke(TriggerTypeEnum triggerType, string uuid = null)
         {
             if (TriggerDict.TryGetValue(triggerType, out List<TriggerEvent> triggers))
             {
@@ -49,11 +48,11 @@ namespace Pangoo.Core.VisualScripting
                 {
                     if (o.Enabled)
                     {
-                        if (id == InvalidTriggerId)
+                        if (uuid.IsNullOrWhiteSpace())
                         {
                             o.OnInvoke(CurrentArgs);
                         }
-                        else if (id == o.Row.Id)
+                        else if (uuid.Equals(Row.Uuid))
                         {
                             o.OnInvoke(CurrentArgs);
                         }
@@ -75,13 +74,13 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
-        public void TriggerEnabled(int id, bool val)
+        public void TriggerEnabled(string uuid, bool val)
         {
             foreach (var triggers in TriggerDict.Values)
             {
                 foreach (var trigger in triggers)
                 {
-                    if (trigger.Row.Id == id)
+                    if (trigger.Row.Uuid.Equals(uuid))
                     {
                         trigger.Enabled = val;
                     }
@@ -89,13 +88,13 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
-        public void TriggerSetTargetIndex(int id, int index)
+        public void TriggerSetTargetIndex(string uuid, int index)
         {
             foreach (var triggers in TriggerDict.Values)
             {
                 foreach (var trigger in triggers)
                 {
-                    if (trigger.Row.Id == id)
+                    if (trigger.Row.Uuid.Equals(uuid))
                     {
                         trigger.SetTargetIndex(index);
                     }

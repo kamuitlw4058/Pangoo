@@ -69,7 +69,7 @@ namespace Pangoo
         {
             Debug.Log($"OnSubDynamicObjectsAdd");
             var obj = new SubDynamicObject();
-            obj.DynamicObjectId = 0;
+            obj.DynamicObjectUuid = string.Empty;
             obj.Path = string.Empty;
             obj.gameObject = AssetPrefab;
             m_SubDynamicObject.Add(obj);

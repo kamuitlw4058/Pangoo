@@ -31,7 +31,7 @@ namespace Pangoo.Core.VisualScripting
         {
 
             var dynamicObject = args.dynamicObject;
-            if (ParamsRaw.DynamicObjectId == 0)
+            if (ParamsRaw.DynamicObjectUuid.IsNullOrWhiteSpace() || ParamsRaw.DynamicObjectUuid.Equals("Self"))
             {
                 dynamicObject.InteractEnable = ParamsRaw.Val;
                 Debug.Log($"DynamicObject :{dynamicObject},{dynamicObject.Row.Name} Set Interact:{ParamsRaw.Val} ");
@@ -39,12 +39,12 @@ namespace Pangoo.Core.VisualScripting
             else
             {
                 var DynamicObjectService = dynamicObject.DynamicObjectService;
-                var targetEntity = DynamicObjectService.GetLoadedEntity(ParamsRaw.DynamicObjectId);
+                var targetEntity = DynamicObjectService.GetLoadedEntity(ParamsRaw.DynamicObjectUuid);
                 var targetDynamicObject = targetEntity?.DynamicObj;
                 if (targetDynamicObject != null)
                 {
                     targetDynamicObject.InteractEnable = ParamsRaw.Val;
-                    Debug.Log($"DynamicObjectId:{ParamsRaw.DynamicObjectId}  SetModelActive:{ParamsRaw.Val} ");
+                    Debug.Log($"DynamicObjectId:{ParamsRaw.DynamicObjectUuid}  SetModelActive:{ParamsRaw.Val} ");
                 }
 
             }

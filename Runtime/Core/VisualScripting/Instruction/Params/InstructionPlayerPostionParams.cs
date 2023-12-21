@@ -3,6 +3,7 @@ using UnityEngine;
 using LitJson;
 using System.Collections;
 using Sirenix.OdinInspector;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -10,9 +11,9 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public class InstructionPlayerPostionParams : InstructionParams
     {
-        [JsonMember("Id")]
+        [JsonMember("CharacterUuid")]
         [ValueDropdown("GetCharacterIds", IsUniqueList = true)]
-        public int CharacterId;
+        public string CharacterUuid;
 
         [JsonMember("Position")]
         public Vector3 Position;
@@ -31,7 +32,7 @@ namespace Pangoo.Core.VisualScripting
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionPlayerPostionParams>(val);
-            CharacterId = par.CharacterId;
+            CharacterUuid = par.CharacterUuid;
             Position = par.Position;
             Rotation = par.Rotation;
             Height = par.Height;
@@ -41,7 +42,7 @@ namespace Pangoo.Core.VisualScripting
 #if UNITY_EDITOR
         public IEnumerable GetCharacterIds()
         {
-            return GameSupportEditorUtility.GetCharacterIds(onlyPlayer: true, hasDefault: true);
+            return CharacterOverview.GetUuidDropdown();
         }
 #endif
 

@@ -12,6 +12,7 @@ using GameFramework;
 using Pangoo.Core.Common;
 using Pangoo.Core.VisualScripting;
 using System;
+using Pangoo.MetaTable;
 
 namespace Pangoo
 {
@@ -277,6 +278,18 @@ namespace Pangoo
 
         }
 
+        public static GameObject GetPrefabByAssetPathUuid(string uuid)
+        {
+            if (uuid.IsNullOrWhiteSpace()) return null;
+
+            var row = AssetPathOverview.GetUnityRowByUuid(uuid);
+            if (row == null) return null;
+
+            var finalPath = row.ToPrefabPath();
+            return AssetDatabaseUtility.LoadAssetAtPath<GameObject>(finalPath);
+
+        }
+
         public static GameObject GetPrefabByDynamicObjectId(int id)
         {
             if (id == 0) return null;
@@ -288,6 +301,22 @@ namespace Pangoo
             if (assetRow == null) return null;
 
             var finalPath = AssetUtility.GetAssetPath(assetRow.AssetPackageDir, assetRow.AssetType, assetRow.AssetPath, assetRow.AssetGroup);
+            return AssetDatabaseUtility.LoadAssetAtPath<GameObject>(finalPath);
+
+        }
+
+
+        public static GameObject GetPrefabByDynamicObjectUuid(string uuid)
+        {
+            if (uuid.IsNullOrWhiteSpace()) return null;
+
+            var row = DynamicObjectOverview.GetUnityRowByUuid(uuid);
+            if (row == null) return null;
+
+            var assetRow = AssetPathOverview.GetUnityRowByUuid(row.Row.AssetPathUuid);
+            if (assetRow == null) return null;
+
+            var finalPath = assetRow.ToPrefabPath();
             return AssetDatabaseUtility.LoadAssetAtPath<GameObject>(finalPath);
 
         }

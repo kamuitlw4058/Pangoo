@@ -15,11 +15,11 @@ namespace Pangoo
         public IEntityGroupRow EntityGroupRow;
 
 
-        public int AssetPathId
+        public string AssetPathUuid
         {
             get
             {
-                return AssetPathRow.Id;
+                return AssetPathRow.Uuid;
             }
         }
 

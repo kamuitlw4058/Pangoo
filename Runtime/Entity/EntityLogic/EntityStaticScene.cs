@@ -100,7 +100,7 @@ namespace Pangoo
             if (other.tag == "Player")
             {
                 EnterCollider = other;
-                EventHelper.Fire(this, EnterStaticSceneEventArgs.Create(SceneData.AssetPathId));
+                EventHelper.Fire(this, EnterStaticSceneEventArgs.Create(SceneData.AssetPathUuid));
             }
 
         }
@@ -111,7 +111,7 @@ namespace Pangoo
             if (other.tag == "Player")
             {
                 EnterCollider = null;
-                EventHelper.Fire(this, ExitStaticSceneEventArgs.Create(SceneData.AssetPathId));
+                EventHelper.Fire(this, ExitStaticSceneEventArgs.Create(SceneData.AssetPathUuid));
             }
         }
 

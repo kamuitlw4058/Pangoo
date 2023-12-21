@@ -13,10 +13,9 @@ namespace Pangoo.Core.VisualScripting
     {
         List<SubDynamicObject> m_SubDynamicObjectInfo;
 
-        public List<int> LoadingDynamicObject = new List<int>();
+        public List<string> LoadingDynamicObject = new List<string>();
 
-        public Dictionary<int, DynamicObject> SubDynamicObjectDict = new Dictionary<int, DynamicObject>();
-
+        public Dictionary<string, DynamicObject> SubDynamicObjectDict = new Dictionary<string, DynamicObject>();
 
 
         void DoAwakeSubDynamicObject()
@@ -32,25 +31,25 @@ namespace Pangoo.Core.VisualScripting
 
             foreach (var subDo in m_SubDynamicObjectInfo)
             {
-                if (subDo.DynamicObjectId == 0)
+                if (subDo.DynamicObjectUuid.IsNullOrWhiteSpace())
                 {
                     continue;
                 }
 
-                DynamicObjectService.ShowSubDynamicObject(subDo.DynamicObjectId, Entity.Id, subDo.Path, (o) =>
+                DynamicObjectService.ShowSubDynamicObject(subDo.DynamicObjectUuid, Entity.Id, subDo.Path, (o) =>
                 {
-                    if (LoadingDynamicObject.Contains(subDo.DynamicObjectId))
+                    if (LoadingDynamicObject.Contains(subDo.DynamicObjectUuid))
                     {
-                        LoadingDynamicObject.Remove(subDo.DynamicObjectId);
+                        LoadingDynamicObject.Remove(subDo.DynamicObjectUuid);
                     }
-                    SubDynamicObjectDict.Add(subDo.DynamicObjectId, o.DynamicObj);
+                    SubDynamicObjectDict.Add(subDo.DynamicObjectUuid, o.DynamicObj);
                     if (LoadingDynamicObject.Count == 0)
                     {
                         OnSubDynamicObjectLoadFinish();
                     }
                 });
 
-                LoadingDynamicObject.Add(subDo.DynamicObjectId);
+                LoadingDynamicObject.Add(subDo.DynamicObjectUuid);
             }
 
         }

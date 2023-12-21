@@ -477,6 +477,9 @@ MonoBehaviour:
     - Name: Id
       Type: int
       CnName: Id
+    - Name: ConditionUuidList
+      Type: string
+      CnName: ConditionUuidList
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Variables

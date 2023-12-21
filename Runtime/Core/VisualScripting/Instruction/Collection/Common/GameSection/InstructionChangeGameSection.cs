@@ -45,11 +45,11 @@ namespace Pangoo.Core.VisualScripting
         {
             if (args.dynamicObject != null)
             {
-                args.dynamicObject.Event.Fire(this, GameSectionChangeEventArgs.Create(ParamsRaw.GameSectionId));
+                args.dynamicObject.Event.Fire(this, GameSectionChangeEventArgs.Create(ParamsRaw.GameSectionUuid));
             }
             else
             {
-                PangooEntry.Event.Fire(this, GameSectionChangeEventArgs.Create(ParamsRaw.GameSectionId));
+                PangooEntry.Event.Fire(this, GameSectionChangeEventArgs.Create(ParamsRaw.GameSectionUuid));
             }
             return;
         }

@@ -67,7 +67,7 @@ namespace Pangoo.MetaTable
         {
             Debug.Log($"OnSubDynamicObjectsAdd");
             var obj = new SubDynamicObject();
-            obj.DynamicObjectId = 0;
+            obj.DynamicObjectUuid = string.Empty;
             obj.Path = string.Empty;
             obj.gameObject = Prefab;
             m_SubDynamicObject.Add(obj);

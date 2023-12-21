@@ -9,7 +9,7 @@ namespace Pangoo
 
     public abstract class BaseInfo : IInfo
     {
-        protected Dictionary<int, object> IdDict = new Dictionary<int, object>();
+        protected Dictionary<string, object> IdDict = new Dictionary<string, object>();
 
         public virtual string Name
         {
@@ -45,10 +45,10 @@ namespace Pangoo
         }
 
 
-        public T GetRowById<T>(int id) where T : BaseInfoRow
+        public T GetRowByUuid<T>(string uuid) where T : BaseInfoRow
         {
             object ret;
-            if (IdDict.TryGetValue(id, out ret))
+            if (IdDict.TryGetValue(uuid, out ret))
             {
                 return (T)ret;
             }

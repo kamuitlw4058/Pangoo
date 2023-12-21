@@ -5,6 +5,8 @@ using Pangoo.Core.Characters;
 using Sirenix.OdinInspector;
 using LitJson;
 using Pangoo.Core.Common;
+using Pangoo.MetaTable;
+using MetaTable;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -12,14 +14,13 @@ namespace Pangoo.Core.VisualScripting
 
     public partial class DynamicObject
     {
-        [ShowInInspector]
-        [ReadOnly]
-        List<TriggerEventTable.TriggerEventRow> TriggerEventRows = new();
 
-        TriggerEventTable m_TriggerEventTable;
-        InstructionGetRowByIdHandler m_InstructionHandler;
 
-        ConditionTable m_ConditionTable;
+        TriggerEventRowByUuidHandler m_TriggerHandler;
+        InstructionGetRowByUuidHandler m_InstructionHandler;
+
+        ConditionGetRowByUuidHandler m_ConditionHandler;
+
 
         VariablesTable m_VariablesTable;
 
@@ -50,21 +51,6 @@ namespace Pangoo.Core.VisualScripting
 
 
 
-        public T CreateTriggerEvent<T>(TriggerEventTable.TriggerEventRow row) where T : TriggerEvent
-        {
-            var ret = Activator.CreateInstance<T>();
-            if (ret == null)
-            {
-                return null;
-            }
-            ret.Row = row;
-            ret.Parent = gameObject;
-            ret.dynamicObject = this;
-            ret.SetEnabled(row.Enabled);
-            ret.IsDirectInstuction = true;
-            return ret;
-        }
-
 
         public T CreateInstruction<T>() where T : Instruction
         {
@@ -85,7 +71,7 @@ namespace Pangoo.Core.VisualScripting
                     }
                     break;
                 case ConditionTypeEnum.BoolCondition:
-                    triggerEvent.Conditions = ConditionList.BuildConditionList(triggerEvent.Row.GetConditionList(), m_ConditionTable);
+                    triggerEvent.Conditions = ConditionList.BuildConditionList(triggerEvent.Row.GetConditionList(), m_ConditionHandler);
                     var defaultinstructionList = DirectInstructionList.LoadInstructionList(triggerEvent.Row.InstructionList, m_InstructionHandler);
                     if (defaultinstructionList != null)
                     {
@@ -100,7 +86,7 @@ namespace Pangoo.Core.VisualScripting
 
                     break;
                 case ConditionTypeEnum.StateCondition:
-                    triggerEvent.Conditions = ConditionList.BuildConditionList(triggerEvent.Row.GetConditionList(), m_ConditionTable);
+                    triggerEvent.Conditions = ConditionList.BuildConditionList(triggerEvent.Row.GetConditionList(), m_ConditionHandler);
                     Dictionary<int, DirectInstructionList> StateInstructions = JsonMapper.ToObject<Dictionary<int, DirectInstructionList>>(triggerEvent.Row.Params);
                     foreach (var kv in StateInstructions)
                     {
@@ -122,7 +108,7 @@ namespace Pangoo.Core.VisualScripting
 
 
 
-        public TriggerEvent CreateTriggerEvent(TriggerEventTable.TriggerEventRow row, bool buildInstructions = true)
+        public TriggerEvent CreateTriggerEvent(ITriggerEventRow row, bool buildInstructions = true)
         {
             var ret = new TriggerEvent();
             ret.Row = row;
@@ -171,36 +157,32 @@ namespace Pangoo.Core.VisualScripting
 
         void DoAwakeTriggerEvent()
         {
-            m_TriggerEventTable = TableService?.GetExcelTable<TriggerEventTable>();
-            if (TableService != null)
+            if (Main.MetaTable != null)
             {
-                m_InstructionHandler = TableService.GetInstructionById;
+                m_InstructionHandler = Main.MetaTable.GetInstructionByUuid;
+                m_ConditionHandler = Main.MetaTable.GetConditionByUuid;
+                m_TriggerHandler = Main.MetaTable.GetTriggerEventByUuid;
             }
-            m_ConditionTable = TableService?.GetExcelTable<ConditionTable>();
             m_VariablesTable = TableService?.GetExcelTable<VariablesTable>();
 
 
-            var triggerIds = Row.GetTriggerEventIdList();
-            TriggerEventRows.Clear();
+            var triggerUuids = Row.GetTriggerEventUuidList();
 
             DoAwakeTimeline();
 
-            Debug.Log($"triggerIds:{triggerIds.Count}");
+            Debug.Log($"triggerIds:{triggerUuids.Count}");
 
-            foreach (var triggerId in triggerIds)
+            foreach (var triggerUuid in triggerUuids)
             {
-                TriggerEventTable.TriggerEventRow row = TriggerEventRowExtension.GetById(triggerId, m_TriggerEventTable);
-                Debug.Log($"Create TriggerId:{triggerId}  row:{row}");
+                ITriggerEventRow row = TriggerEventRowExtension.GetByUuid(triggerUuid, m_TriggerHandler);
+                Debug.Log($"Create TriggerId:{triggerUuid}  row:{row}");
                 if (row != null)
                 {
-                    TriggerEventRows.Add(row);
+                    CreateTriggerEvent(row);
                 }
             }
 
-            foreach (var triggerRow in TriggerEventRows)
-            {
-                CreateTriggerEvent(triggerRow);
-            }
+
 
             DoAwakeDirectionInstruction();
 

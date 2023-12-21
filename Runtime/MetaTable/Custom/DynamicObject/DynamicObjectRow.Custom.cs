@@ -32,6 +32,25 @@ namespace Pangoo.MetaTable
             return TriggerEventIds.ToSplitList<int>();
         }
 
+        public List<string> GetHotspotUuidList()
+        {
+            if (HotspotUuids.IsNullOrWhiteSpace())
+            {
+                return new List<string>();
+            }
+            return HotspotUuids.ToSplitList<string>();
+        }
+
+
+        public List<string> GetTriggerEventUuidList()
+        {
+            if (TriggerEventUuids.IsNullOrWhiteSpace())
+            {
+                return new List<string>();
+            }
+            return TriggerEventUuids.ToSplitList<string>();
+        }
+
     }
 }
 

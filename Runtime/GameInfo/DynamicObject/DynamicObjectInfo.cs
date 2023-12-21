@@ -10,17 +10,18 @@ namespace Pangoo
     public partial class DynamicObjectInfo : BaseInfo
     {
 
-        AssetPathTable m_AssetPathTable;
-        DynamicObjectTable m_DynamicObjectTable;
-        EntityGroupTable m_EntityGroupTable;
+        MetaTable.AssetPathTable m_AssetPathTable;
+        MetaTable.DynamicObjectTable m_DynamicObjectTable;
+        MetaTable.EntityGroupTable m_EntityGroupTable;
         protected override void OnInit()
         {
-            m_AssetPathTable = PangooEntry.ExcelTable.GetExcelTable<AssetPathTable>();
-            m_DynamicObjectTable = PangooEntry.ExcelTable.GetExcelTable<DynamicObjectTable>();
-            foreach (var row in m_DynamicObjectTable.Rows)
+            m_AssetPathTable = PangooEntry.MetaTable.GetMetaTable<MetaTable.AssetPathTable>();
+            m_DynamicObjectTable = PangooEntry.MetaTable.GetMetaTable<MetaTable.DynamicObjectTable>();
+            foreach (var baseRow in m_DynamicObjectTable.BaseRows)
             {
-                var assetPath = m_AssetPathTable.GetRowById(row.AssetPathId);
-                IdDict.Add(row.Id, new DynamicObjectInfoRow(row.ToInterface(), assetPath.ToInterface()));
+                var dynamicObejctRow = baseRow as MetaTable.DynamicObjectRow;
+                var assetPath = m_AssetPathTable.GetRowByUuid(dynamicObejctRow.AssetPathUuid);
+                IdDict.Add(baseRow.Uuid, new DynamicObjectInfoRow(dynamicObejctRow, assetPath));
             }
         }
 

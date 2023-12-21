@@ -56,7 +56,7 @@ namespace Pangoo.Core.VisualScripting
         SubGameObjectPauseTimeline,
 
         [LabelText("动态物体/Trigger开关")]
-        DynamicObjectModelTriggerEnabled,
+        DynamicObjectTriggerEnabled,
 
         [LabelText("动态物体/运行执行触发")]
         DynamicObjectRunExecute,

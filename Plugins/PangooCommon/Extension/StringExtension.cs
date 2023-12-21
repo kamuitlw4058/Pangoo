@@ -242,7 +242,7 @@ namespace Pangoo.Common
             }
             else if (typeof(Vector3).Equals(type))
             {
-                string[] posValue = str.Split(",");
+                string[] posValue = str.Trim(new char[] { '(', ')' }).Split(",");
                 float x = 0f;
                 float y = 0f;
                 float z = 0f;

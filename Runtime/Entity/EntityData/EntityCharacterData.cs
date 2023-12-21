@@ -22,11 +22,11 @@ namespace Pangoo
         public bool IsInteractive { get; set; } = true;
 
 
-        public int AssetPathId
+        public string AssetPathUuid
         {
             get
             {
-                return EntityInfo.AssetPathId;
+                return EntityInfo.AssetPathUuid;
             }
         }
 

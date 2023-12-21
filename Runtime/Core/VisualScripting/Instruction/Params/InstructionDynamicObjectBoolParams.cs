@@ -5,6 +5,7 @@ using UnityEngine;
 using Pangoo.Core.Common;
 using LitJson;
 using Sirenix.OdinInspector;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -12,17 +13,17 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public class InstructionDynamicObjectBoolParams : InstructionParams
     {
-        [JsonMember("DynamicObjectId")]
+        [JsonMember("DynamicObjectUuid")]
         [ValueDropdown("OnDynamicObjectIdDropdown")]
-        public int DynamicObjectId;
+        public string DynamicObjectUuid;
 
         [JsonMember("Val")]
         public bool Val;
 
 #if UNITY_EDITOR
-        IEnumerable OnDynamicObjectIdDropdown()
+        IEnumerable OnDynamicObjectUuidDropdown()
         {
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<DynamicObjectTableOverview>();
+            return DynamicObjectOverview.GetUuidDropdown();
         }
 #endif
 
@@ -30,7 +31,7 @@ namespace Pangoo.Core.VisualScripting
         {
             var par = JsonMapper.ToObject<InstructionDynamicObjectBoolParams>(val);
             Val = par.Val;
-            DynamicObjectId = par.DynamicObjectId;
+            DynamicObjectUuid = par.DynamicObjectUuid;
 
         }
     }

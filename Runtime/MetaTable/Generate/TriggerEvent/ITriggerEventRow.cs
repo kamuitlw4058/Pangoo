@@ -34,6 +34,8 @@ namespace Pangoo.MetaTable
 
         public string FailInstructionList{ get; set; }
 
+        public string ConditionUuidList{ get; set; }
+
     }
 }
 

@@ -22,10 +22,10 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetDynamicObjectPlayTimelineInstruction(int dynamicObjectId)
+        public static Instruction GetDynamicObjectPlayTimelineInstruction(string dynamicObjectUuid)
         {
             var instruction = Activator.CreateInstance<InstructionDynamicObjectPlayTimeline>();
-            instruction.ParamsRaw.DynamicObjectId = dynamicObjectId;
+            instruction.ParamsRaw.DynamicObjectUuid = dynamicObjectUuid;
             return instruction;
         }
 
@@ -86,41 +86,41 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetDynamicObjectModelActive(int dynamicObjectId, bool val)
+        public static Instruction GetDynamicObjectModelActive(string dynamicObjectUuid, bool val)
         {
             var instruction = Activator.CreateInstance<InstructionDynamicObjectSetModelActive>();
-            instruction.ParamsRaw.DynamicObjectId = dynamicObjectId;
+            instruction.ParamsRaw.DynamicObjectUuid = dynamicObjectUuid;
             instruction.ParamsRaw.Val = val;
             return instruction;
         }
 
-        public static Instruction GetDynamicObjectRunExecute(int dynamicObjectId, bool val)
+        public static Instruction GetDynamicObjectRunExecute(string dynamicObjectUuid, bool val)
         {
             var instruction = Activator.CreateInstance<InstructionDynamicObjectRunExecute>();
-            instruction.ParamsRaw.DynamicObjectId = dynamicObjectId;
+            instruction.ParamsRaw.DynamicObjectUuid = dynamicObjectUuid;
             instruction.ParamsRaw.Val = val;
             return instruction;
         }
 
 
-        public static Instruction GetDynamicObjectHotspotActive(int dynamicObjectId, bool val)
+        public static Instruction GetDynamicObjectHotspotActive(string dynamicObjectUuid, bool val)
         {
             var instruction = Activator.CreateInstance<InstructionDynamicObjectHotspotActive>();
-            instruction.ParamsRaw.DynamicObjectId = dynamicObjectId;
+            instruction.ParamsRaw.DynamicObjectUuid = dynamicObjectUuid;
             instruction.ParamsRaw.Val = val;
             return instruction;
         }
 
-        public static Instruction GetInstructionById(int instructionId, InstructionGetRowByIdHandler handler)
+        public static Instruction GetInstructionById(string uuid, InstructionGetRowByUuidHandler handler)
         {
-            return InstructionList.BuildInstruction(instructionId, handler);
+            return InstructionList.BuildInstruction(uuid, handler);
         }
 
 
-        public static Instruction GetChangeGameSectionInstruction(int val)
+        public static Instruction GetChangeGameSectionInstruction(string uuid)
         {
             var instruction = Activator.CreateInstance<InstructionChangeGameSection>();
-            instruction.ParamsRaw.GameSectionId = val;
+            instruction.ParamsRaw.GameSectionUuid = uuid;
             return instruction;
         }
 
@@ -164,11 +164,11 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetDynamicObjectModelTriggerEnabled(int dynamicObjectId, int triggerId, bool enabled)
+        public static Instruction GetDynamicObjectTriggerEnabled(string dynamicObjectUuid, string TriggerEventUuid, bool enabled)
         {
             var instruction = Activator.CreateInstance<InstructionSetDOTriggerEnabled>();
-            instruction.ParamsRaw.DynamicObjectId = dynamicObjectId;
-            instruction.ParamsRaw.TriggerId = triggerId;
+            instruction.ParamsRaw.DynamicObjectUuid = dynamicObjectUuid;
+            instruction.ParamsRaw.TriggerEventUuid = TriggerEventUuid;
             instruction.ParamsRaw.Enabled = enabled;
             return instruction;
         }
@@ -191,10 +191,10 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetDynamicObjectSubGameObjectEnabled(int dynamicObjectId, string path, bool enabled)
+        public static Instruction GetDynamicObjectSubGameObjectEnabled(string dynamicObjectUuid, string path, bool enabled)
         {
             var instruction = Activator.CreateInstance<InstructionDynamicObjectSetSubGameObejctActive>();
-            instruction.ParamsRaw.DynamicObjectId = dynamicObjectId;
+            instruction.ParamsRaw.DynamicObjectUuid = dynamicObjectUuid;
             instruction.ParamsRaw.Path = !path.IsNullOrWhiteSpace() ? new string[] { path } : null;
             instruction.ParamsRaw.Val = enabled;
             return instruction;
@@ -230,22 +230,22 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetDynamicObjectInteractEnable(int dynamicObjectId, bool val)
+        public static Instruction GetDynamicObjectInteractEnable(string dynamicObjectUuid, bool val)
         {
             var instruction = Activator.CreateInstance<InstructionDynamicObjectInteractEnable>();
-            instruction.ParamsRaw.DynamicObjectId = dynamicObjectId;
+            instruction.ParamsRaw.DynamicObjectUuid = dynamicObjectUuid;
             instruction.ParamsRaw.Val = val;
             return instruction;
         }
 
-        public Instruction ToInstruction(InstructionGetRowByIdHandler handler = null)
+        public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
             switch (InstructionType)
             {
                 case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:
-                    return GetDynamicObjectPlayTimelineInstruction(Int1);
+                    return GetDynamicObjectPlayTimelineInstruction(Uuid);
                 case DirectInstructionTypeEnum.ChangeGameSection:
-                    return GetChangeGameSectionInstruction(Int1);
+                    return GetChangeGameSectionInstruction(Uuid);
                 case DirectInstructionTypeEnum.SetBoolVariable:
                     return GetSetVariableBoolInstruction(Int1, Bool1);
                 case DirectInstructionTypeEnum.SetPlayerIsControllable:
@@ -259,11 +259,11 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.SubGameObjectPlayTimeline:
                     return GetSubGameObjectPlayTimeline(DropdownString1, Bool1);
                 case DirectInstructionTypeEnum.DynamicObjectModelActive:
-                    return GetDynamicObjectModelActive(Int1, Bool1);
+                    return GetDynamicObjectModelActive(Uuid, Bool1);
                 case DirectInstructionTypeEnum.DynamicObjectHotspotActive:
-                    return GetDynamicObjectHotspotActive(Int1, Bool1);
+                    return GetDynamicObjectHotspotActive(Uuid, Bool1);
                 case DirectInstructionTypeEnum.RunInstruction:
-                    return GetInstructionById(Int1, handler);
+                    return GetInstructionById(Uuid, handler);
                 case DirectInstructionTypeEnum.ShowSubtitle:
                     return GetShowSubtitleInstruction(String1, Float1);
                 case DirectInstructionTypeEnum.CloseSelfTrigger:
@@ -272,16 +272,16 @@ namespace Pangoo.Core.VisualScripting
                     return GetWaitTimeInstruction(Float1);
                 case DirectInstructionTypeEnum.SubGameObjectPauseTimeline:
                     return GetSubGameObjectPauseTimeline(DropdownString1);
-                case DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled:
-                    return GetDynamicObjectModelTriggerEnabled(Int1, Int2, Bool1);
+                case DirectInstructionTypeEnum.DynamicObjectTriggerEnabled:
+                    return GetDynamicObjectTriggerEnabled(Uuid, Uuid2, Bool1);
                 case DirectInstructionTypeEnum.DynamicObjectRunExecute:
-                    return GetDynamicObjectRunExecute(Int1, Bool1);
+                    return GetDynamicObjectRunExecute(Uuid, Bool1);
                 case DirectInstructionTypeEnum.PlaySound:
                     return GetPlaySound(Int1, Bool1, Bool2, Float1);
                 case DirectInstructionTypeEnum.StopSound:
                     return GetStopSound(Int1, Float1);
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
-                    return GetDynamicObjectSubGameObjectEnabled(Int1, DropdownString1, Bool1);
+                    return GetDynamicObjectSubGameObjectEnabled(Uuid, DropdownString1, Bool1);
                 case DirectInstructionTypeEnum.ImageFade:
                     return GetImageFadeInstruction(String1, Float1, Float2, String2);
                 case DirectInstructionTypeEnum.ShowHideCursor:
@@ -297,7 +297,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.CheckBoolVariableList:
                     return GetCheckBoolVariableList(ListInt1, Int1);
                 case DirectInstructionTypeEnum.DynamicObjectInteractEnable:
-                    return GetDynamicObjectInteractEnable(Int1, Bool1);
+                    return GetDynamicObjectInteractEnable(Uuid, Bool1);
             }
 
             return null;

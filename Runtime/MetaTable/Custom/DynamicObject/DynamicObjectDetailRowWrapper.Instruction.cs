@@ -143,7 +143,7 @@ namespace Pangoo.MetaTable
         {
             if (m_DirectInstructionGroups == null)
             {
-                return;
+                m_DirectInstructionGroups = DirectInstructionGroup.CreateList(UnityRow.Row?.DirectInstructions);
             }
 
             foreach (var group in m_DirectInstructionGroups)

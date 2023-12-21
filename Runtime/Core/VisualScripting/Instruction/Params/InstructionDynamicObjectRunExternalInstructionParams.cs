@@ -5,6 +5,7 @@ using UnityEngine;
 using Pangoo.Core.Common;
 using LitJson;
 using Sirenix.OdinInspector;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -12,16 +13,16 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public class InstructionDynamicObjectRunExternalInstructionParams : InstructionParams
     {
-        [JsonMember("DynamicObjectId")]
-        [ValueDropdown("OnDynamicObjectIdDropdown")]
+        [JsonMember("DynamicObjectUuid")]
+        [ValueDropdown("OnDynamicObjectUuidDropdown")]
         [LabelText("动态物体")]
-        public int DynamicObjectId;
+        public string DynamicObjectUuid;
 
-        [JsonMember("InstruciontId")]
-        [LabelText("指令Id")]
-        [ValueDropdown("OnInstructionIdDropdown")]
+        [JsonMember("InstruciontUuid")]
+        [LabelText("指令Uuid")]
+        [ValueDropdown("OnInstructionUuidDropdown")]
         [ListDrawerSettings(Expanded = true)]
-        public int InstruciontId;
+        public string InstruciontUuid;
 
         [JsonMember("Targets")]
         [LabelText("目标列表")]
@@ -32,19 +33,19 @@ namespace Pangoo.Core.VisualScripting
 
 
 #if UNITY_EDITOR
-        IEnumerable OnDynamicObjectIdDropdown()
+        IEnumerable OnDynamicObjectUuidDropdown()
         {
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<DynamicObjectTableOverview>();
+            return DynamicObjectOverview.GetUuidDropdown();
         }
 
-        IEnumerable OnInstructionIdDropdown()
+        IEnumerable OnInstructionUuidDropdown()
         {
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<InstructionTableOverview>();
+            return InstructionOverview.GetUuidDropdown();
         }
 
         IEnumerable OnTargetDropdown()
         {
-            var prefab = GameSupportEditorUtility.GetPrefabByDynamicObjectId(DynamicObjectId);
+            var prefab = GameSupportEditorUtility.GetPrefabByDynamicObjectUuid(DynamicObjectUuid);
             if (prefab != null)
             {
                 return GameSupportEditorUtility.RefPrefabStringDropdown(prefab);
@@ -59,8 +60,8 @@ namespace Pangoo.Core.VisualScripting
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionDynamicObjectRunExternalInstructionParams>(val);
-            InstruciontId = par.InstruciontId;
-            DynamicObjectId = par.DynamicObjectId;
+            InstruciontUuid = par.InstruciontUuid;
+            DynamicObjectUuid = par.DynamicObjectUuid;
             Targets = par.Targets;
 
         }

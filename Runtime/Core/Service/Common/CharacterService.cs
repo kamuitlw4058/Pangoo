@@ -23,12 +23,12 @@ namespace Pangoo.Core.Services
         IEntityGroupRow m_EntityGroupRow;
 
         [ShowInInspector]
-        Dictionary<int, EntityCharacter> m_LoadedEntityDict = new Dictionary<int, EntityCharacter>();
+        Dictionary<string, EntityCharacter> m_LoadedEntityDict = new Dictionary<string, EntityCharacter>();
 
         public EntityCharacter Player = null;
 
         [ShowInInspector]
-        List<int> m_LoadingEntityIds = new List<int>();
+        List<string> m_LoadingEntityIds = new List<string>();
 
         EntityLoader Loader = null;
         CharacterInfo m_CharacterInfo;
@@ -65,9 +65,9 @@ namespace Pangoo.Core.Services
 
 
 
-        public void ShowCharacter(int infoId, Vector3 positon, Vector3 rotation, float height = -1f, bool IsInteractive = true)
+        public void ShowCharacter(string infoUuid, Vector3 positon, Vector3 rotation, float height = -1f, bool IsInteractive = true)
         {
-            if (infoId == 0)
+            if (infoUuid.IsNullOrWhiteSpace())
             {
                 Debug.LogError("ShowCharacter Id is 0");
                 return;
@@ -77,13 +77,14 @@ namespace Pangoo.Core.Services
             {
                 Loader = EntityLoader.Create(this);
             }
-            Debug.Log($"ShowCharacter:{infoId},{positon},{rotation},{m_LoadedEntityDict.ContainsKey(infoId)}");
+            Debug.Log($"ShowCharacter:{infoUuid},{positon},{rotation},{m_LoadedEntityDict.ContainsKey(infoUuid)}");
 
             //通过路径ID去判断是否被加载。用来在不同的章节下用了不用的静态场景ID,但是使用不同的加载Ids
-            var infoRow = m_CharacterInfo.GetRowById<CharacterInfoRow>(infoId);
-            if (m_LoadedEntityDict.ContainsKey(infoId))
+            var infoRow = m_CharacterInfo.GetRowByUuid<CharacterInfoRow>(infoUuid);
+            Debug.Log($"infoRow:{infoRow} infoUuid:{infoUuid}");
+            if (m_LoadedEntityDict.ContainsKey(infoUuid))
             {
-                var character = m_LoadedEntityDict[infoId];
+                var character = m_LoadedEntityDict[infoUuid];
                 character.transform.position = positon;
                 character.transform.rotation = Quaternion.Euler(rotation);
                 character.character.ResetCameraDirection();
@@ -97,9 +98,9 @@ namespace Pangoo.Core.Services
                 return;
             }
 
-            Log($"Show Character Row Id:{infoId}");
+            Log($"Show Character Row Id:{infoUuid}");
             // 这边有一个假设，同一个时间不会反复加载不同的章节下的同一个场景。
-            if (m_LoadingEntityIds.Contains(infoId))
+            if (m_LoadingEntityIds.Contains(infoUuid))
             {
                 return;
             }
@@ -108,16 +109,16 @@ namespace Pangoo.Core.Services
                 EntityCharacterData data = EntityCharacterData.Create(infoRow.CreateEntityInfo(m_EntityGroupRow), this, infoRow, positon, rotation);
                 data.Height = height;
                 data.IsInteractive = IsInteractive;
-                m_LoadingEntityIds.Add(infoId);
+                m_LoadingEntityIds.Add(infoUuid);
                 Loader.ShowEntity(EnumEntity.Character,
                     (o) =>
                     {
-                        Log($"Character Loaded:{infoId}");
-                        if (m_LoadingEntityIds.Contains(infoId))
+                        Log($"Character Loaded:{infoUuid}");
+                        if (m_LoadingEntityIds.Contains(infoUuid))
                         {
-                            m_LoadingEntityIds.Remove(infoId);
+                            m_LoadingEntityIds.Remove(infoUuid);
                         }
-                        m_LoadedEntityDict.Add(infoId, o.Logic as EntityCharacter);
+                        m_LoadedEntityDict.Add(infoUuid, o.Logic as EntityCharacter);
                         if (infoRow.IsPlayer)
                         {
                             Player = o.Logic as EntityCharacter;

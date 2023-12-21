@@ -69,14 +69,19 @@ namespace Pangoo.MetaTable
             return ret;
         }
 
-        public static IEnumerable GetUuidDropdown(List<string> excludeUuids = null, string packageDir = null)
+        public static IEnumerable GetUuidDropdown(List<string> excludeUuids = null, string packageDir = null, List<Tuple<string, string>> AdditionalOptions = null, List<string> includeUuids = null)
         {
-           return GetUuidDropdown<CharacterOverview>(excludeUuids: excludeUuids, packageDir: packageDir);
+           return GetUuidDropdown<CharacterOverview>(excludeUuids: excludeUuids, packageDir: packageDir,AdditionalOptions:AdditionalOptions,includeUuids:includeUuids);
         }
 
         public static UnityCharacterRow GetUnityRowByUuid(string uuid, string packageDir = null)
         {
            return GetUnityRowByUuid<CharacterOverview, UnityCharacterRow>(uuid);
+        }
+
+        public static CharacterOverview GetOverviewByUuid(string uuid, string packageDir = null)
+        {
+           return GetOverviewByUuid<CharacterOverview>(uuid);
         }
 
         public override void AddRow(MetaTableUnityRow unityRow)

@@ -104,6 +104,8 @@ namespace Pangoo
             string[] texts = new string[cols.Length];
             for (int i = 0; i < texts.Length; i++)
             {
+                var fieldInfo = item.GetType().GetField(cols[i].Name);
+
                 object valueText = item.GetType().GetField(cols[i].Name).GetValue(item);
                 texts[i] = valueText != null ? valueText.ToString() : string.Empty;
             }

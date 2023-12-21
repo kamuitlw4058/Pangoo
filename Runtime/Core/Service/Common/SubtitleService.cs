@@ -32,11 +32,11 @@ namespace Pangoo.Core.Services
         protected override void DoStart()
         {
             base.DoAwake();
-            var subtitleId = m_GameMainConfigService?.GetGameMainConfig()?.DefaultSubtitlePanelId ?? 0;
+            var subtitleUuid = m_GameMainConfigService?.GetGameMainConfig()?.DefaultSubtitlePanelUuid;
 
-            if (subtitleId != 0)
+            if (!subtitleUuid.IsNullOrWhiteSpace())
             {
-                m_UIService.ShowUI(subtitleId);
+                m_UIService.ShowUI(subtitleUuid);
             }
 
         }

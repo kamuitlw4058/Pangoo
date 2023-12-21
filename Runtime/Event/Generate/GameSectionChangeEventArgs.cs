@@ -12,7 +12,7 @@ using GameFramework.Event;
 
 namespace Pangoo
 {
-     [Serializable]
+    [Serializable]
     public partial class GameSectionChangeEventArgs : GameEventArgs
     {
 
@@ -22,25 +22,26 @@ namespace Pangoo
 
         public override int Id => EventId;
 
-        public int GameSectionId;
+        public string GameSectionUuid;
 
 
-        public static GameSectionChangeEventArgs Create(int gameSectionId)
+        public static GameSectionChangeEventArgs Create(string uuid)
         {
             var args = ReferencePool.Acquire<GameSectionChangeEventArgs>();
-            args.GameSectionId = gameSectionId;
-              return args;
+            args.GameSectionUuid = uuid;
+            return args;
         }
 
 
-        public override void Clear(){
-            GameSectionId = 0;
+        public override void Clear()
+        {
+            GameSectionUuid = string.Empty;
         }
 
 
         public GameSectionChangeEventArgs()
         {
-              Clear();
+            Clear();
         }
 
     }

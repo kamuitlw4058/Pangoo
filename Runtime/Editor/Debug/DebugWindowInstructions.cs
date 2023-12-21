@@ -20,11 +20,11 @@ namespace Pangoo
 
             GUILayout.Label("<b>进入的场景资源Id</b>");
             GUILayout.BeginVertical("box");
-            var InstructionsIds = main.GameConfig.GetGameMainConfig().DebuggerInstructions;
-            var InstructionHandler = main.GetInstructionRowByIdHandler();
-            for (int i = 0; i < InstructionsIds.Length; i++)
+            var InstructionsUuids = main.GameConfig.GetGameMainConfig().DebuggerInstructions;
+            var InstructionHandler = main.GetInstructionRowByUuidHandler();
+            for (int i = 0; i < InstructionsUuids.Length; i++)
             {
-                var row = InstructionHandler(InstructionsIds[i]);
+                var row = InstructionHandler(InstructionsUuids[i]);
                 DrawButtonItem(row.Id.ToString(), row.Name, "运行", () =>
                 {
                     var instruction = Instruction.BuildFromRow(row);

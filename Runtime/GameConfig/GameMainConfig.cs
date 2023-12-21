@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using Pangoo.Core.VisualScripting;
+using Pangoo.MetaTable;
+
 
 #if UNITY_EDITOR
 using System.Linq;
@@ -35,13 +37,13 @@ namespace Pangoo
         [ValueDropdown("GetProcedureType")]
         public string EntryProcedure;
 
-        [ValueDropdown("GetGameSectionIds")]
+        [ValueDropdown("GetGameSectionUuid")]
         [LabelText("默认进入游戏段落")]
-        public int EnterGameSectionId;
+        public string EnterGameSectionUuid;
 
         [ValueDropdown("GetDefaultPlayer")]
         [LabelText("默认玩家")]
-        public int DefaultPlayer;
+        public string DefaultPlayer;
 
         [LabelText("默认交互夹角")]
         public float DefaultInteractRadian = 0.45f;
@@ -55,12 +57,12 @@ namespace Pangoo
 
         [LabelText("默认字幕的UIId")]
         [ValueDropdown("GetUIId")]
-        public int DefaultSubtitlePanelId = 0;
+        public string DefaultSubtitlePanelUuid = string.Empty;
 
         [LabelText("调试指令")]
         [ValueDropdown("GetInstructions")]
         [ListDrawerSettings(Expanded = true)]
-        public int[] DebuggerInstructions;
+        public string[] DebuggerInstructions;
 
 
 
@@ -73,17 +75,19 @@ namespace Pangoo
 #if UNITY_EDITOR
         private IEnumerable GetInstructions()
         {
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<InstructionTableOverview>();
+            return InstructionOverview.GetUuidDropdown();
         }
 
         private IEnumerable GetUIId()
         {
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<SimpleUITableOverview>();
+            return SimpleUIOverview.GetUuidDropdown();
         }
 
         private IEnumerable GetDefaultPlayer()
         {
-            return GameSupportEditorUtility.GetCharacterIds(true);
+            return CharacterOverview.GetUuidDropdown(AdditionalOptions: new List<Tuple<string, string>>(){
+                new Tuple<string, string>("Default","Default"),
+            });
         }
 
         private IEnumerable GetProcedureType()
@@ -96,10 +100,9 @@ namespace Pangoo
         public bool InitUnloadScene = true;
 
 
-        private IEnumerable GetGameSectionIds()
+        private IEnumerable GetGameSectionUuid()
         {
-            var typeList = GameSupportEditorUtility.GetExcelTableOverviewNamedIds<GameSectionTableOverview>();
-            return typeList;
+            return GameSectionOverview.GetUuidDropdown();
         }
 
 

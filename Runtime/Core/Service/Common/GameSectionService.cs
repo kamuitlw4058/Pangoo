@@ -21,7 +21,7 @@ namespace Pangoo.Core.Services
 
 
 
-        public int LatestId = -1;
+        public string LatestUuid = null;
 
 
         protected override void DoAwake()
@@ -33,9 +33,9 @@ namespace Pangoo.Core.Services
         void OnGameSectionChangeEvent(object sender, GameFrameworkEventArgs e)
         {
             var args = e as GameSectionChangeEventArgs;
-            if (args.GameSectionId != 0)
+            if (!args.GameSectionUuid.IsNullOrWhiteSpace())
             {
-                SetGameSection(args.GameSectionId);
+                SetGameSection(args.GameSectionUuid);
             }
         }
 
@@ -44,16 +44,15 @@ namespace Pangoo.Core.Services
             Log("DoStart");
 
             StaticSceneSrv.OnInitSceneLoaded += OnInitSceneLoaded;
-            var enterGameSectionId = GameMainConfigSrv.GetGameMainConfig().EnterGameSectionId;
-            SetGameSection(enterGameSectionId);
+            SetGameSection(GameMainConfigSrv.GetGameMainConfig().EnterGameSectionUuid);
         }
 
         bool CheckDynamicObjectLoaded(IGameSectionRow row)
         {
-            var doIds = row.DynamicObjectIds.ToSplitList<int>();
-            foreach (var doId in doIds)
+            var uuids = row.DynamicObjectUuids.ToSplitList<string>();
+            foreach (var dynamicObjectUuid in uuids)
             {
-                if (DynamicObjectSrv.GetLoadedEntity(doId) == null)
+                if (DynamicObjectSrv.GetLoadedEntity(dynamicObjectUuid) == null)
                 {
                     return false;
                 }
@@ -77,10 +76,10 @@ namespace Pangoo.Core.Services
         void RunLoadedInstructions(IGameSectionRow GameSectionRow)
         {
 #if UNITY_EDITOR
-            var editorInstructionIds = GameSectionRow.EditorInitedInstructionIds.ToSplitList<int>();
-            if (editorInstructionIds.Count > 0)
+            var editorInstructionUuids = GameSectionRow.EditorInitedInstructionUuids.ToSplitList<string>();
+            if (editorInstructionUuids.Count > 0)
             {
-                var instructions = InstructionList.BuildInstructionList(editorInstructionIds, ExcelTableSrv.GetInstructionById);
+                var instructions = InstructionList.BuildInstructionList(editorInstructionUuids, MetaTableSrv.GetInstructionByUuid);
                 var args = new Args();
                 args.Main = Parent as MainService;
                 instructions.Start(args);
@@ -89,11 +88,11 @@ namespace Pangoo.Core.Services
 #endif
 
 
-            var instructionIds = GameSectionRow.InitedInstructionIds.ToSplitList<int>();
-            if (instructionIds.Count > 0)
+            var instructionUuids = GameSectionRow.InitedInstructionUuids.ToSplitList<string>();
+            if (instructionUuids.Count > 0)
             {
 
-                var instructions = InstructionList.BuildInstructionList(instructionIds, ExcelTableSrv.GetInstructionById);
+                var instructions = InstructionList.BuildInstructionList(instructionUuids, MetaTableSrv.GetInstructionByUuid);
                 var args = new Args();
                 args.Main = Parent as MainService;
                 instructions.Start(args);
@@ -103,57 +102,57 @@ namespace Pangoo.Core.Services
 
         void OnInitSceneLoaded()
         {
-            var GameSection = ExcelTableSrv.GetGameSectionById(LatestId);
+            var GameSection = MetaTableSrv.GetGameSectionByUuid(LatestUuid);
             if (CheckGameSectionLoadedCompleted(GameSection))
             {
                 RunLoadedInstructions(GameSection);
             }
         }
 
-        public void SetGameSection(int id)
+        public void SetGameSection(string uuid)
         {
-            Log($"SetGameSection is :{id}");
-            if (id <= 0)
+            Log($"SetGameSection is :{uuid}");
+            if (uuid.IsNullOrWhiteSpace())
             {
-                LogError($"SetGameSection Failed id <= 0:{id}");
+                LogError($"SetGameSection Failed id <= 0:{uuid}");
                 return;
             }
 
 
-            if (LatestId != id)
+            if (LatestUuid != uuid)
             {
-                LatestId = id;
+                LatestUuid = uuid;
 
-                var GameSection = ExcelTableSrv.GetGameSectionById(LatestId);
+                var GameSection = MetaTableSrv.GetGameSectionByUuid(LatestUuid);
                 if (GameSection == null)
                 {
                     LogError($"GameSection is null:{GameSection}");
                 }
 
-                Tuple<int, int> sectionChange = new Tuple<int, int>(0, 0);
-                if (!string.IsNullOrEmpty(GameSection.SectionJumpByScene))
-                {
-                    var itemList = GameSection.SectionJumpByScene.ToSplitList<int>("#");
-                    if (itemList.Count == 2)
-                    {
-                        sectionChange = new Tuple<int, int>(itemList[0], itemList[1]);
-                    }
-                }
+                // Tuple<string, string> sectionChange = null;
+                // if (!string.IsNullOrEmpty(GameSection.SectionJumpByScene))
+                // {
+                //     var itemList = GameSection.SectionJumpByScene.ToSplitList<int>("#");
+                //     if (itemList.Count == 2)
+                //     {
+                //         sectionChange = new Tuple<int, int>(itemList[0], itemList[1]);
+                //     }
+                // }
 
-                StaticSceneSrv.SetGameSectionChange(sectionChange);
+                // StaticSceneSrv.SetGameSectionChange(sectionChange);
                 StaticSceneSrv.SetGameScetion(
-                    GameSection.DynamicSceneIds.ToSplitList<int>(),
-                    GameSection.KeepSceneIds.ToSplitList<int>(),
-                    GameSection.InitSceneIds.ToSplitList<int>()
+                    GameSection.DynamicSceneUuids.ToSplitList<string>(),
+                    GameSection.KeepSceneUuids.ToSplitList<string>(),
+                    GameSection.InitSceneUuids.ToSplitList<string>()
                     );
 
                 DynamicObjectSrv.HideAllLoaded();
-                var doIds = GameSection.DynamicObjectIds.ToSplitList<int>();
-                foreach (var doId in doIds)
+                var doUuids = GameSection.DynamicObjectUuids.ToSplitList<string>();
+                foreach (var doUuid in doUuids)
                 {
-                    DynamicObjectSrv.ShowDynamicObject(doId, (dynamicObjectId) =>
+                    DynamicObjectSrv.ShowDynamicObject(doUuid, (dynamicObjectUuid) =>
                     {
-                        Log($"Loaded DynamicObject Finish:{dynamicObjectId}");
+                        Log($"Loaded DynamicObject Finish:{dynamicObjectUuid}");
                         if (CheckGameSectionLoadedCompleted(GameSection))
                         {
                             RunLoadedInstructions(GameSection);

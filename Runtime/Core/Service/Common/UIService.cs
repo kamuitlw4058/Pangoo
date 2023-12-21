@@ -15,6 +15,8 @@ namespace Pangoo.Core.Services
     {
         public override int Priority => 6;
 
+        public override string ServiceName => "UI";
+
         ExcelTableService m_ExcelTableService;
 
 
@@ -45,8 +47,8 @@ namespace Pangoo.Core.Services
         UIInfo m_UIInfo;
 
         [ShowInInspector]
-        Dictionary<int, UIFormLogic> m_LoadedAssetDict = new Dictionary<int, UIFormLogic>();
-        List<int> m_LoadingAssetIds = new List<int>();
+        Dictionary<string, UIFormLogic> m_LoadedAssetDict = new Dictionary<string, UIFormLogic>();
+        List<string> m_LoadingAssetIds = new List<string>();
 
         protected override void DoAwake()
         {
@@ -66,21 +68,22 @@ namespace Pangoo.Core.Services
             m_UIInfo = m_GameInfoService.GetGameInfo<UIInfo>();
         }
 
-        public void ShowUI(int uiId, Action closeAction = null, object userData = null)
+        public void ShowUI(string uuid, Action closeAction = null, object userData = null)
         {
             if (Loader == null)
             {
                 Loader = UILoader.Create(this);
             }
-
-            var info = m_UIInfo.GetRowById<UIInfoRow>(uiId);
-            if (m_LoadingAssetIds.Contains(uiId) || m_LoadedAssetDict.ContainsKey(uiId))
+            Log($"Show UI:{uuid} m_UIInfo:{m_UIInfo}");
+            var info = m_UIInfo.GetRowByUuid<UIInfoRow>(uuid);
+            Log($"Show UI:{uuid} info:{info}");
+            if (info == null || m_LoadingAssetIds.Contains(uuid) || m_LoadedAssetDict.ContainsKey(uuid))
             {
                 return;
             }
             else
             {
-                m_LoadingAssetIds.Add(uiId);
+                m_LoadingAssetIds.Add(uuid);
 
                 var data = info.GetPanelData(userData);
                 data.UI = this;
@@ -90,11 +93,11 @@ namespace Pangoo.Core.Services
                 serialId = Loader.ShowUI(data,
                    (o) =>
                    {
-                       if (m_LoadingAssetIds.Contains(uiId))
+                       if (m_LoadingAssetIds.Contains(uuid))
                        {
-                           m_LoadingAssetIds.Remove(uiId);
+                           m_LoadingAssetIds.Remove(uuid);
                        }
-                       m_LoadedAssetDict.Add(uiId, o);
+                       m_LoadedAssetDict.Add(uuid, o);
 
                    },
                    () =>

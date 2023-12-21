@@ -22,13 +22,13 @@ namespace Pangoo
         CharacterService characterService = null;
 
 
-        public void ChangeGameSection(int id)
+        public void ChangeGameSection(string uuid)
         {
             if (eventHelper == null)
             {
                 eventHelper = EventHelper.Create(this);
             }
-            eventHelper.Fire(this, GameSectionChangeEventArgs.Create(id));
+            eventHelper.Fire(this, GameSectionChangeEventArgs.Create(uuid));
         }
 
         public void SetPlayerHeight(float height)
@@ -124,7 +124,7 @@ namespace Pangoo
                 mainService.RuntimeData.SetVariable<bool>(VariableId, Val);
             }
         }
-        
+
         [Title("发送消息内容")]
         public string conditionString;
         public void SendMsg(float time)
@@ -140,7 +140,7 @@ namespace Pangoo
         IEnumerator waitTime(float time)
         {
             yield return new WaitForSeconds(time);
-            mainService.Event.Fire(this,EventTriggerEventArgs.Create(conditionString));
+            mainService.Event.Fire(this, EventTriggerEventArgs.Create(conditionString));
         }
     }
 }

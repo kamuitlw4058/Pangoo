@@ -230,9 +230,9 @@ namespace Pangoo.Core.VisualScripting
         }
 
 
-        public static Instruction BuildInstruction(int instructionId, InstructionGetRowByIdHandler handler = null, TriggerEvent trigger = null)
+        public static Instruction BuildInstruction(string instructionUuid, InstructionGetRowByUuidHandler handler = null, TriggerEvent trigger = null)
         {
-            IInstructionRow instructionRow = InstructionRowExtension.GetById(instructionId, handler);
+            IInstructionRow instructionRow = InstructionRowExtension.GetByUuid(instructionUuid, handler);
             if (instructionRow == null || instructionRow.InstructionType == null)
             {
                 return null;
@@ -244,11 +244,11 @@ namespace Pangoo.Core.VisualScripting
             return instructionInstance;
         }
 
-        public static InstructionList BuildInstructionList(IEnumerable<int> ids, InstructionGetRowByIdHandler handler = null, TriggerEvent trigger = null)
+        public static InstructionList BuildInstructionList(IEnumerable<string> uuids, InstructionGetRowByUuidHandler handler = null, TriggerEvent trigger = null)
         {
             List<Instruction> instructions = new();
 
-            foreach (var instructionId in ids)
+            foreach (var instructionId in uuids)
             {
                 Instruction instruction = BuildInstruction(instructionId, handler, trigger);
                 if (instruction == null)

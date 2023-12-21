@@ -67,6 +67,14 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("Int1")]
         public int Int1;
 
+        [TableTitleGroup("参数")]
+        [LabelText("Uuid2")]
+        [ShowIf("$IsUuid2Show")]
+        [LabelWidth(50)]
+        [JsonMember("Uuid2")]
+        [ValueDropdown("OnUuid2Dropdown")]
+        public string Uuid2;
+
 
         [ValueDropdown("OnInt2ValueDropdown")]
         [TableTitleGroup("参数")]
@@ -156,7 +164,7 @@ namespace Pangoo.Core.VisualScripting
 
                     DirectInstructionTypeEnum.RunInstruction => true,
 
-                    DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => true,
+                    DirectInstructionTypeEnum.DynamicObjectTriggerEnabled => true,
                     DirectInstructionTypeEnum.DynamicObjectRunExecute => true,
                     DirectInstructionTypeEnum.PlaySound => true,
                     DirectInstructionTypeEnum.StopSound => true,
@@ -183,7 +191,7 @@ namespace Pangoo.Core.VisualScripting
 
                     DirectInstructionTypeEnum.RunInstruction => true,
 
-                    DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => true,
+                    DirectInstructionTypeEnum.DynamicObjectTriggerEnabled => true,
                     DirectInstructionTypeEnum.DynamicObjectRunExecute => true,
                     DirectInstructionTypeEnum.PlaySound => true,
                     DirectInstructionTypeEnum.StopSound => true,
@@ -200,11 +208,24 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => true,
                     _ => false,
                 };
             }
         }
+
+        [JsonNoMember]
+        bool IsUuid2Show
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.DynamicObjectTriggerEnabled => true,
+                    _ => false,
+                };
+            }
+        }
+
 
         [JsonNoMember]
         bool IsMainListIntShow
@@ -234,7 +255,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => true,
                     DirectInstructionTypeEnum.DynamicObjectModelActive => true,
                     DirectInstructionTypeEnum.DynamicObjectHotspotActive => true,
-                    DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => true,
+                    DirectInstructionTypeEnum.DynamicObjectTriggerEnabled => true,
                     DirectInstructionTypeEnum.DynamicObjectRunExecute => true,
                     DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => true,
                     DirectInstructionTypeEnum.DynamicObjectInteractEnable => true,
@@ -376,7 +397,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.UnactiveCameraGameObject => "参考动态物体",
                     DirectInstructionTypeEnum.SubGameObjectPlayTimeline => "参考动态物体",
                     DirectInstructionTypeEnum.SubGameObjectPauseTimeline => "参考动态物体",
-                    DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => "动态物体Id",
+                    DirectInstructionTypeEnum.DynamicObjectTriggerEnabled => "动态物体Id",
                     DirectInstructionTypeEnum.DynamicObjectRunExecute => "动态物体Id",
                     DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => "动态物体Id",
                     DirectInstructionTypeEnum.SetGameObjectActive => "参考动态物体",
@@ -396,7 +417,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled => "触发器Id",
+                    DirectInstructionTypeEnum.DynamicObjectTriggerEnabled => "触发器Id",
                     _ => "Int1",
                 };
             }
@@ -575,7 +596,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.UnactiveCameraGameObject:
                 case DirectInstructionTypeEnum.SubGameObjectPlayTimeline:
                 case DirectInstructionTypeEnum.SubGameObjectPauseTimeline:
-                case DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled:
+                case DirectInstructionTypeEnum.DynamicObjectTriggerEnabled:
                 case DirectInstructionTypeEnum.SetGameObjectActive:
                 case DirectInstructionTypeEnum.DynamicObjectRunExecute:
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
@@ -609,12 +630,15 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.UnactiveCameraGameObject:
                 case DirectInstructionTypeEnum.SubGameObjectPlayTimeline:
                 case DirectInstructionTypeEnum.SubGameObjectPauseTimeline:
-                case DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled:
+                case DirectInstructionTypeEnum.DynamicObjectTriggerEnabled:
                 case DirectInstructionTypeEnum.SetGameObjectActive:
                 case DirectInstructionTypeEnum.DynamicObjectRunExecute:
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
                 case DirectInstructionTypeEnum.DynamicObjectInteractEnable:
-                    return DynamicObjectOverview.GetUuidDropdown();
+                    return DynamicObjectOverview.GetUuidDropdown(AdditionalOptions: new List<Tuple<string, string>>()
+                    {
+                        new Tuple<string, string>("Self","Self"),
+                    });
                 case DirectInstructionTypeEnum.PlaySound:
                 case DirectInstructionTypeEnum.StopSound:
                     return SoundOverview.GetUuidDropdown();
@@ -648,7 +672,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.UnactiveCameraGameObject:
                 case DirectInstructionTypeEnum.SubGameObjectPlayTimeline:
                 case DirectInstructionTypeEnum.SubGameObjectPauseTimeline:
-                case DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled:
+                case DirectInstructionTypeEnum.DynamicObjectTriggerEnabled:
                 case DirectInstructionTypeEnum.SetGameObjectActive:
                 case DirectInstructionTypeEnum.DynamicObjectRunExecute:
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
@@ -667,12 +691,31 @@ namespace Pangoo.Core.VisualScripting
                 Uuid = row.Uuid;
             }
         }
+        public IEnumerable OnUuid2Dropdown()
+        {
+            switch (InstructionType)
+            {
+                case DirectInstructionTypeEnum.DynamicObjectTriggerEnabled:
+                    List<string> includeUuids = null;
+                    if (!Uuid.IsNullOrWhiteSpace())
+                    {
+                        var row = DynamicObjectOverview.GetUnityRowByUuid(Uuid);
+                        if (row != null)
+                        {
+                            includeUuids = row.Row.GetTriggerEventUuidList();
+                        }
+                    }
+                    return TriggerEventOverview.GetUuidDropdown(includeUuids: includeUuids);
+            }
+
+            return null;
+        }
 
         public IEnumerable OnInt2ValueDropdown()
         {
             switch (InstructionType)
             {
-                case DirectInstructionTypeEnum.DynamicObjectModelTriggerEnabled:
+                case DirectInstructionTypeEnum.DynamicObjectTriggerEnabled:
                     List<int> includeIds = null;
                     if (Int1 != 0)
                     {

@@ -264,6 +264,26 @@ namespace Pangoo.MetaTable
             }
         }
 
+        [LabelText("条件Uuid")]
+        [ValueDropdown("ConditionUuidValueDropdown", IsUniqueList = true)]
+        [ListDrawerSettings(Expanded = true)]
+        [ShowInInspector]
+        [PropertyOrder(9)]
+        [TitleGroup("指令系统")]
+        [ShowIf("@this.UseCondition")]
+        public string[] ConditionUuids
+        {
+            get
+            {
+                return UnityRow.Row.ConditionUuidList?.ToSplitArr<string>();
+            }
+            set
+            {
+                UnityRow.Row.ConditionUuidList = value.ToListString();
+                Save();
+            }
+        }
+
         DirectInstructionList m_DefaultDirectInstructions;
 
         [ShowInInspector]
@@ -416,17 +436,74 @@ namespace Pangoo.MetaTable
 
 
 
-        public IEnumerable InstructionIdValueDropdown()
-        {
-            return InstructionOverview.GetIdDropdown();
-        }
-
         public IEnumerable ConditionIdValueDropdown()
         {
             return ConditionOverview.GetIdDropdown();
         }
 
+        public IEnumerable ConditionUuidValueDropdown()
+        {
+            return ConditionOverview.GetUuidDropdown();
+        }
 
+        [Button("升级Int到Uuid")]
+        public void UpdateDirectInstructionGroupId2Uuid()
+        {
+            if (DefaultDirectInstructions != null)
+            {
+                for (int i = 0; i < DefaultDirectInstructions.DirectInstructions.Length; i++)
+                {
+                    DefaultDirectInstructions.DirectInstructions[i].UpdateUuidById();
+                }
+                UnityRow.Row.InstructionList = DefaultDirectInstructions.Save();
+            }
+
+
+            if (FailedDirectInstructions != null)
+            {
+                for (int i = 0; i < FailedDirectInstructions.DirectInstructions.Length; i++)
+                {
+                    FailedDirectInstructions.DirectInstructions[i].UpdateUuidById();
+                }
+                UnityRow.Row.FailInstructionList = FailedDirectInstructions.Save();
+
+            }
+
+
+
+            if (StateInstructions != null)
+            {
+                foreach (var kv in StateInstructions)
+                {
+                    for (int i = 0; i < kv.Value.DirectInstructions.Length; i++)
+                    {
+                        kv.Value.DirectInstructions[i].UpdateUuidById();
+                    }
+                }
+
+                UnityRow.Row.Params = JsonMapper.ToJson(StateInstructions);
+            }
+
+            if (ConditionIds != null)
+            {
+                List<string> conditionUuids = new List<string>();
+                foreach (var conditionid in ConditionIds)
+                {
+
+                    var conditionRow = ConditionOverview.GetUnityRowById(conditionid);
+                    if (conditionRow != null)
+                    {
+                        conditionUuids.Add(conditionRow.Uuid);
+                    }
+                }
+
+                ConditionUuids = conditionUuids.ToArray();
+
+            }
+
+            Save();
+
+        }
 
     }
 }

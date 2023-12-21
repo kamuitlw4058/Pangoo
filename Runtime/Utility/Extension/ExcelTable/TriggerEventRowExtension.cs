@@ -5,9 +5,11 @@ using System.Linq;
 using System.Text;
 using GameFramework;
 using Pangoo.Common;
+using Pangoo.MetaTable;
 
 namespace Pangoo
 {
+    public delegate ITriggerEventRow TriggerEventRowByUuidHandler(string uuid);
 
     public static class TriggerEventRowExtension
     {
@@ -35,6 +37,30 @@ namespace Pangoo
             return row;
         }
 
+
+        public static ITriggerEventRow GetByUuid(string uuid, TriggerEventRowByUuidHandler handler = null)
+        {
+            ITriggerEventRow row = null;
+#if UNITY_EDITOR
+            if (Application.isPlaying && handler != null)
+            {
+                Debug.Log($"GetRowByTriggerEventTable");
+                row = handler(uuid);
+            }
+            else
+            {
+                var triggerRow = TriggerEventOverview.GetUnityRowByUuid(uuid);
+                row = triggerRow.Row;
+            }
+#else
+            if(handler == null){
+                Debug.LogError($"GetTriggerEventRow Table Is null");
+            }else{
+                 row = handler(id);
+            }
+#endif
+            return row;
+        }
 
         public static List<int> GetInstructionList(this TriggerEventTable.TriggerEventRow row)
         {

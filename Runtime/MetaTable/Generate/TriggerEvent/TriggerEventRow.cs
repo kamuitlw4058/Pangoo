@@ -80,6 +80,13 @@ namespace Pangoo.MetaTable
 
         string ITriggerEventRow.FailInstructionList {get => FailInstructionList; set => FailInstructionList = value;}
 
+        [JsonMember("ConditionUuidList")]
+        [MetaTableRowColumn("ConditionUuidList","string", "ConditionUuidList",13)]
+        [LabelText("ConditionUuidList")]
+        public string ConditionUuidList ;
+
+        string ITriggerEventRow.ConditionUuidList {get => ConditionUuidList; set => ConditionUuidList = value;}
+
     }
 }
 

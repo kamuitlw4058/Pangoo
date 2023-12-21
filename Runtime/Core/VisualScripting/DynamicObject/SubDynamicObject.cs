@@ -7,6 +7,7 @@ using System.Text;
 using LitJson;
 using UnityEngine;
 using Pangoo.Common;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -18,13 +19,13 @@ namespace Pangoo.Core.VisualScripting
         [LabelText("加载路径")]
         public string Path;
 
-        [TableTitleGroup("动态物体Id")]
+        [TableTitleGroup("动态物体Uuid")]
         [HideLabel]
         [TableColumnWidth(200, resizable: false)]
-        [JsonMember("DynamicObjectId")]
-        [ValueDropdown("OnDynamicObjectIdDropdown")]
+        [JsonMember("DynamicObjectUuid")]
+        [ValueDropdown("OnDynamicObjectUuidDropdown")]
         // [OnValueChanged("OnDynamicObjectIdChanged")]
-        public int DynamicObjectId;
+        public string DynamicObjectUuid;
 
 
 
@@ -43,9 +44,9 @@ namespace Pangoo.Core.VisualScripting
         [HideInInspector]
         public GameObject gameObject;
 
-        IEnumerable OnDynamicObjectIdDropdown()
+        IEnumerable OnDynamicObjectUuidDropdown()
         {
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<DynamicObjectTableOverview>();
+            return DynamicObjectOverview.GetUuidDropdown();
         }
 
 

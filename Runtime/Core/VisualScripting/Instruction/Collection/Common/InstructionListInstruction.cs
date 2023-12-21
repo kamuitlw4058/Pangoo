@@ -39,7 +39,7 @@ namespace Pangoo.Core.VisualScripting
 
         protected override IEnumerator Run(Args args)
         {
-            var instructionHandler = args.Main.GetInstructionRowByIdHandler();
+            var instructionHandler = args.Main.GetInstructionRowByUuidHandler();
             InstructionList = ParamsRaw.Instructions.ToInstructionList(instructionHandler);
             InstructionList.Start(args);
             while (InstructionList.IsRunning)

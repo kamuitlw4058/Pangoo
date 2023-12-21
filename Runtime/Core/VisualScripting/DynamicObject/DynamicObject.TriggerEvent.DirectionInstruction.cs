@@ -8,6 +8,8 @@ using Sirenix.OdinInspector;
 using UnityEngine.Playables;
 using UnityEditor;
 using Sirenix.Utilities;
+using Pangoo.MetaTable;
+using MetaTable;
 
 
 
@@ -48,9 +50,9 @@ namespace Pangoo.Core.VisualScripting
 
             if (directInstructionGroup.DirectInstructionList == null || directInstructionGroup.DirectInstructionList.Length == 0) return;
 
-            TriggerEventTable.TriggerEventRow row = new TriggerEventTable.TriggerEventRow();
+            ITriggerEventRow row = new Pangoo.MetaTable.TriggerEventRow();
 
-            row.Id = (i * -1) - 1;
+            row.Uuid = UuidUtility.GetNewUuid();
             row.Name = $"DI_{row.TriggerType}_{directInstructionGroup.DirectInstructionList?.Length ?? 0}";
             row.Params = "{}";
             row.ConditionType = ConditionTypeEnum.NoCondition.ToString();

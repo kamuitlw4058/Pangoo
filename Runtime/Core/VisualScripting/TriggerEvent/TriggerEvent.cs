@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pangoo.Core.Common;
 using Sirenix.OdinInspector;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -25,7 +26,7 @@ namespace Pangoo.Core.VisualScripting
             }
             set
             {
-                dynamicObject.Variables.SetTriggerEnabled(Row.Id, value);
+                dynamicObject.Variables.SetTriggerEnabled(Row.Uuid, value);
                 m_Enabled = value;
             }
         }
@@ -71,7 +72,7 @@ namespace Pangoo.Core.VisualScripting
             set
             {
                 Debug.Log($"Set TargetIndex:{value}");
-                dynamicObject.Variables.SetTriggerIndex(Row.Id, value);
+                dynamicObject.Variables.SetTriggerIndex(Row.Uuid, value);
                 m_TargetIndex = value;
             }
         }
@@ -88,7 +89,7 @@ namespace Pangoo.Core.VisualScripting
         public event Action EventRunInstructionsEnd;
 
 
-        public TriggerEventTable.TriggerEventRow Row { get; set; }
+        public ITriggerEventRow Row { get; set; }
 
 
         [ShowInInspector]

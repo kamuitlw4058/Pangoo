@@ -16,19 +16,19 @@ namespace Pangoo
 
         public EntityInfo EntityInfo;
 
-        public int AssetPathId
+        public string AssetPathUuid
         {
             get
             {
-                return EntityInfo.AssetPathId;
+                return EntityInfo.AssetPathUuid;
             }
         }
 
-        public int Id
+        public string Uuid
         {
             get
             {
-                return sceneInfo.Id;
+                return sceneInfo.Uuid;
             }
         }
 

@@ -15,8 +15,13 @@ namespace Pangoo.MetaTable
     public partial interface IDynamicObjectRow
     {
         List<int> GetHotspotIdList();
+        List<string> GetHotspotUuidList();
+
 
         List<int> GetTriggerEventIdList();
+
+        List<string> GetTriggerEventUuidList();
+
     }
 }
 

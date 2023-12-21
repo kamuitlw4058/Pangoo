@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Editor
 {
@@ -52,25 +53,25 @@ namespace Pangoo.Editor
         [ListDrawerSettings(Expanded = true)]
         public List<GameObject> DynamicObjects = new List<GameObject>();
 
-        public void UpdateObjects(int[] ids)
+        public void UpdateObjects(string[] uuids)
         {
             ClearObjects(DynamicObjects);
-            foreach (var id in ids)
+            foreach (var uuid in uuids)
             {
-                var row = GameSupportEditorUtility.GetDynamicObjectRow(id);
+                var row = DynamicObjectOverview.GetUnityRowByUuid(uuid);
                 if (row == null)
                 {
-                    Debug.LogError($"staticScene Id:{id} is null");
+                    Debug.LogError($"staticScene Id:{uuid} is null");
                     continue;
                 }
 
-                var assetPathRow = GameSupportEditorUtility.GetAssetPathRowById(row.AssetPathId);
+                var assetPathRow = AssetPathOverview.GetUnityRowByUuid(row.Row.AssetPathUuid);
                 var asset = AssetDatabaseUtility.LoadAssetAtPath<GameObject>(assetPathRow.ToPrefabPath());
                 var go = PrefabUtility.InstantiatePrefab(asset) as GameObject;
                 go.name = row.Name;
                 go.transform.parent = transform;
                 var helper = go.AddComponent<DynamicObjectEditor>();
-                helper.DynamicObjectId = id;
+                helper.DynamicObjectUuid = uuid;
                 // go.ResetTransfrom();
                 DynamicObjects.Add(go);
             }

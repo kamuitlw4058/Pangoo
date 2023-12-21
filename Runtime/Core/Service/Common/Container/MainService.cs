@@ -70,6 +70,11 @@ namespace Pangoo.Core.Services
             return ExcelTable.GetInstructionById;
         }
 
+        public InstructionGetRowByUuidHandler GetInstructionRowByUuidHandler()
+        {
+            return MetaTable.GetInstructionByUuid;
+        }
+
         public T GetExcelTable<T>() where T : ExcelTableBase
         {
             return ExcelTable.GetExcelTable<T>();

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Pangoo.Core.Common;
 using UnityEngine;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -71,13 +72,13 @@ namespace Pangoo.Core.VisualScripting
             return this.m_Conditions[index];
         }
 
-        public static ConditionList BuildConditionList(List<int> ids, ConditionTable table = null, TriggerEvent trigger = null)
+        public static ConditionList BuildConditionList(List<string> uuids, ConditionGetRowByUuidHandler handler = null, TriggerEvent trigger = null)
         {
             List<Condition> vals = new();
 
-            foreach (var rowId in ids)
+            foreach (var rowUuid in uuids)
             {
-                ConditionTable.ConditionRow row = ConditionRowExtension.GetById(rowId, table);
+                IConditionRow row = ConditionRowExtension.GetByUuid(rowUuid, handler);
                 if (row == null || row.ConditionType == null)
                 {
                     continue;
@@ -85,7 +86,6 @@ namespace Pangoo.Core.VisualScripting
 
                 var instance = ClassUtility.CreateInstance<Condition>(row.ConditionType);
                 instance.Load(row.Params);
-                // instance.Trigger = trigger;
 
                 vals.Add(instance);
             }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using LitJson;
+using Pangoo.MetaTable;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -11,18 +12,18 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public class InstructionPlayerClampParams : InstructionParams
     {
-        [JsonMember("Id")]
-        [ValueDropdown("GetCharacterIds", IsUniqueList = true)]
-        public int CharacterId;
-        
+        [JsonMember("CharacterUuid")]
+        [ValueDropdown("GetCharacterUuids", IsUniqueList = true)]
+        public string CharacterUuid;
+
         [Title("重置相机旋转角度")]
         [JsonMember("ResetCameraRotation")]
         public bool ResetCameraRotation;
-        
+
         [Title("是否开启相机旋转限制")]
         [JsonMember("OpenCameraClamp")]
         public bool OpenCameraClamp;
-        
+
         [Title("限制相机旋转角度")]
         [JsonMember("RotationClamp")]
         public Vector2 RotationClamp;
@@ -30,7 +31,7 @@ namespace Pangoo.Core.VisualScripting
         [Title("开启相机抖动")]
         [JsonMember("OpenCameraNoise")]
         public bool OpenCameraNoise;
-        
+
         [Title("选择相机抖动的方式")]
         [JsonMember("NoiseSettings")]
         [ValueDropdown("GetNoiseSettings")]
@@ -41,12 +42,12 @@ namespace Pangoo.Core.VisualScripting
         [LabelText("频率增益")]
         [JsonMember("FrequencyGain")]
         public float FrequencyGain = 1;
-        
-        
+
+
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionPlayerClampParams>(val);
-            CharacterId = par.CharacterId;
+            CharacterUuid = par.CharacterUuid;
             ResetCameraRotation = par.ResetCameraRotation;
             OpenCameraClamp = par.OpenCameraClamp;
             RotationClamp = par.RotationClamp;
@@ -55,11 +56,11 @@ namespace Pangoo.Core.VisualScripting
             AmplitudeGain = par.AmplitudeGain;
             FrequencyGain = par.FrequencyGain;
         }
-        
+
 #if UNITY_EDITOR
-        public IEnumerable GetCharacterIds()
+        public IEnumerable GetCharacterUuids()
         {
-            return GameSupportEditorUtility.GetCharacterIds(onlyPlayer: true, hasDefault: true);
+            return CharacterOverview.GetUuidDropdown();
         }
 
         public IEnumerable GetNoiseSettings()

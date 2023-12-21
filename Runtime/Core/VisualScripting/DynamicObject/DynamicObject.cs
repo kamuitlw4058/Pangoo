@@ -123,9 +123,7 @@ namespace Pangoo.Core.VisualScripting
             IsStarted = false;
             TableService = null;
             m_Variables = null;
-            m_TriggerEventTable = null;
             m_InstructionHandler = null;
-            TriggerEventRows.Clear();
             SubDynamicObjectDict.Clear();
             LoadingDynamicObject.Clear();
             m_Tracker = null;
@@ -275,7 +273,7 @@ namespace Pangoo.Core.VisualScripting
         [Button("Hide")]
         public void Hide()
         {
-            DynamicObjectService.Hide(Row.Id);
+            DynamicObjectService.Hide(Row.Uuid);
         }
 
 
