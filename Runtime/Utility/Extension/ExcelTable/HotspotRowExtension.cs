@@ -37,7 +37,7 @@ namespace Pangoo
             }
             else
             {
-                row = handler.GetRowById(id);
+                row = handler(id);
             }
 #endif
             return row;

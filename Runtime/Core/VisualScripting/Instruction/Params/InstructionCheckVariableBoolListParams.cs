@@ -17,12 +17,13 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("SetVariableID")]
         [ValueDropdown("OnGlobalVariableIdValueDropdown")]
         public int SetVariableID;
-        
+
+#if UNITY_EDITOR
         IEnumerable OnGlobalVariableIdValueDropdown()
         {
             return GameSupportEditorUtility.GetVariableIds(VariableValueTypeEnum.Bool.ToString(), VariableTypeEnum.Global.ToString());
         }
-
+#endif
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionCheckVariableBoolListParams>(val);
