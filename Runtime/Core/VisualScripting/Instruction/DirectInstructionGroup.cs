@@ -64,7 +64,8 @@ namespace Pangoo.Core.VisualScripting
         {
             return JsonMapper.ToObject<DirectInstructionGroup[]>(s);
         }
-
+#if UNITY_EDITOR
+        
         public void UpdateUuidById()
         {
             if (DirectInstructionList == null) return;
@@ -73,7 +74,7 @@ namespace Pangoo.Core.VisualScripting
                 DirectInstructionList[i].UpdateUuidById();
             }
         }
-
+#endif
         public string Save()
         {
             return JsonMapper.ToJson(this);
