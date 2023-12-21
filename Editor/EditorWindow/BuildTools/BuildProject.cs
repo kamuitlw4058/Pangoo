@@ -37,9 +37,10 @@ namespace Pangoo.Editor
         private static string devPackageOptions;
 
         public static bool isBuildFail;
+        private static int result;
 
         [MenuItem("Pangoo/BuildTools/BuildPC")]
-        public static void BuildPC()
+        public static int BuildPC()
         {
             m_Controller.BuildResourceError += OnBuildResourceError;
             Debug.Log("项目根目录1：" + Directory.GetParent(Application.dataPath));
@@ -88,6 +89,8 @@ namespace Pangoo.Editor
                 BuildResoure();
                 BuildGame();
             }
+
+            return 0;
         }
 
         private static void BuildGame()
@@ -302,12 +305,12 @@ namespace Pangoo.Editor
 
             if (isBuildFail)
             {
-                Debug.Log("资源包构建失败!!!");
-                Application.Quit();
-                return;
+                Debug.LogError("资源包构建失败!!!");
+                result = 1;
+                
             }
-
             MoveResourceToGame();
+            result = 0;
         }
 
         private static void MoveResourceToGame()
@@ -379,7 +382,7 @@ namespace Pangoo.Editor
         private static void OnBuildResourceError(string errorMessage)
         {
             isBuildFail = true;
-            Debug.Log("资源构建失败");
+            Debug.LogError("资源构建失败");
         }
     }
 }
