@@ -79,6 +79,20 @@ namespace Pangoo.Core.Services
             }
         }
 
+        MetaTable.VariablesTable m_VariablesTable;
+
+        public MetaTable.VariablesTable VariablesTab
+        {
+            get
+            {
+                if (m_VariablesTable == null)
+                {
+                    m_VariablesTable = GetMetaTable<MetaTable.VariablesTable>();
+                }
+                return m_VariablesTable;
+            }
+        }
+
 
         public IGameSectionRow GetGameSectionByUuid(string uuid)
         {
@@ -104,6 +118,11 @@ namespace Pangoo.Core.Services
         {
 
             return TriggerEventTab.GetRowByUuid(uuid);
+        }
+
+        public IVariablesRow GetVariablesByUuid(string uuid)
+        {
+            return VariablesTab.GetRowByUuid(uuid);
         }
 
     }

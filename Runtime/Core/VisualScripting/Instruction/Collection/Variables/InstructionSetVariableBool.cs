@@ -54,16 +54,16 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            var VariableType = args?.Main.RuntimeData.GetVariableType(ParamsRaw.VariableId);
-            Debug.Log($"Set VariableType:{VariableType} Set VariableType:{ParamsRaw.VariableType}, VariableId:{ParamsRaw.VariableId} val:{ParamsRaw.Val}");
+            var VariableType = args?.Main.RuntimeData.GetVariableType(ParamsRaw.VariableUuid);
+            Debug.Log($"Set VariableType:{VariableType} Set VariableType:{ParamsRaw.VariableType}, VariableId:{ParamsRaw.VariableUuid} val:{ParamsRaw.Val}");
             if (VariableType != null && VariableType == VariableTypeEnum.DynamicObject && args?.dynamicObject != null)
             {
-                args?.dynamicObject?.SetVariable<bool>(ParamsRaw.VariableId, ParamsRaw.Val);
+                args?.dynamicObject?.SetVariable<bool>(ParamsRaw.VariableUuid, ParamsRaw.Val);
             }
 
             if (VariableType != null && VariableType == VariableTypeEnum.Global)
             {
-                args?.Main.RuntimeData.SetVariable<bool>(ParamsRaw.VariableId, ParamsRaw.Val);
+                args?.Main.RuntimeData.SetVariable<bool>(ParamsRaw.VariableUuid, ParamsRaw.Val);
             }
 
         }

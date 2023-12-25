@@ -22,6 +22,7 @@ MonoBehaviour:
   - System
   - System.Collections
   - System.IO
+  - System.Linq
   - System.Collections.Generic
   - LitJson
   - UnityEngine

@@ -29,9 +29,9 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
-        public T GetVariable<T>(int id)
+        public T GetVariable<T>(string uuid)
         {
-            var row = VariableRowExtension.GetById(id, m_VariablesTable);
+            var row = VariableRowExtension.GetByUuid(uuid, m_VariableHandler);
             Debug.Log($"Set Value:{row}");
             if (row != null)
             {
@@ -47,9 +47,9 @@ namespace Pangoo.Core.VisualScripting
             return default(T);
         }
 
-        public void SetVariable<T>(int id, T val)
+        public void SetVariable<T>(string uuid, T val)
         {
-            var row = VariableRowExtension.GetById(id, m_VariablesTable);
+            var row = VariableRowExtension.GetByUuid(uuid, m_VariableHandler);
             Debug.Log($"Set Value:{row}");
             if (row != null)
             {

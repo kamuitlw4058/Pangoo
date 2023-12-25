@@ -5,6 +5,7 @@ using UnityEngine;
 using Pangoo.Core.Common;
 using LitJson;
 using Sirenix.OdinInspector;
+using Pangoo.MetaTable;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -17,23 +18,23 @@ namespace Pangoo.Core.VisualScripting
         [OnValueChanged("OnVariableTypeChanged")]
         public VariableTypeEnum VariableType;
 
-        [JsonMember("VariableId")]
-        [ValueDropdown("OnVariableIdValueDropdown")]
-        public int VariableId;
+        [JsonMember("VariableUuid")]
+        [ValueDropdown("OnVariableUuidValueDropdown")]
+        public string VariableUuid;
 
 
         [JsonMember("Val")]
         public bool Val;
 
 #if UNITY_EDITOR
-        IEnumerable OnVariableIdValueDropdown()
+        IEnumerable OnVariableUuidValueDropdown()
         {
-            return GameSupportEditorUtility.GetVariableIds(VariableValueTypeEnum.Bool.ToString(), VariableType.ToString());
+            return VariablesOverview.GetUuidDropdown();
         }
 
         void OnVariableTypeChanged()
         {
-            VariableId = 0;
+            VariableUuid = string.Empty;
         }
 
 #endif
@@ -42,7 +43,7 @@ namespace Pangoo.Core.VisualScripting
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionSetVariableParams>(val);
-            VariableId = par.VariableId;
+            VariableUuid = par.VariableUuid;
             Val = par.Val;
         }
     }

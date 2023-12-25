@@ -4,35 +4,39 @@ using UnityEngine;
 using System.Linq;
 using System.Text;
 using GameFramework;
+using Pangoo.MetaTable;
+using LitJson;
 
 namespace Pangoo
 {
+    public delegate IVariablesRow VariableGetRowByUuidHandler(string uuid);
 
     public static class VariableRowExtension
     {
-        public static VariablesTable.VariablesRow GetById(int id, VariablesTable table = null)
+        public static IVariablesRow GetByUuid(string uuid, VariableGetRowByUuidHandler handler = null)
         {
-            VariablesTable.VariablesRow row = null;
+            IVariablesRow row = null;
 
 #if UNITY_EDITOR
-            if (Application.isPlaying && table != null)
+            if (Application.isPlaying && handler != null)
             {
                 Debug.Log($"GetRowByInstructionTable");
-                row = table.GetRowById(id);
+                row = handler(uuid);
             }
             else
             {
-                row = GameSupportEditorUtility.GetExcelTableRowWithOverviewById<VariablesTableOverview, VariablesTable.VariablesRow>(id);
+                var oldRow = VariablesOverview.GetUnityRowByUuid(uuid);
+                row = oldRow.Row;
             }
 
 #else
-            if (table == null)
+            if (handler == null)
             {
                 Debug.LogError($"InstructionRow Get Table is Null");
             }
             else
             {
-                row = table.GetRowById(id);
+                row = handler(id);
             }
 #endif
             return row;

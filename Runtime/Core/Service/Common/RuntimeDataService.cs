@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using Pangoo.Core.Services;
 using Pangoo.Core.VisualScripting;
+using Pangoo.MetaTable;
 using UnityEngine;
 
 namespace Pangoo.Core.Services
@@ -19,20 +20,19 @@ namespace Pangoo.Core.Services
             }
         }
 
-        VariablesTable m_VariablesTable;
+        Pangoo.MetaTable.VariablesTable m_VariablesTable;
 
-        Dictionary<int, VariablesTable.VariablesRow> m_VariablesDict = new Dictionary<int, VariablesTable.VariablesRow>();
+        Dictionary<string, IVariablesRow> m_VariablesDict = new Dictionary<string, IVariablesRow>();
         protected override void DoStart()
         {
             base.DoStart();
-            m_VariablesTable = m_ExcelTableService.GetExcelTable<VariablesTable>();
-            foreach (var row in m_VariablesTable.Rows)
+            m_VariablesTable = MetaTableSrv.GetMetaTable<Pangoo.MetaTable.VariablesTable>();
+            foreach (var row in m_VariablesTable.RowDict.Values)
             {
-                m_VariablesDict.Add(row.Id, row);
+                m_VariablesDict.Add(row.Uuid, row);
                 switch (row.ValueType.ToEnum<VariableValueTypeEnum>())
                 {
                     case VariableValueTypeEnum.String:
-
                         Set<string>(row.Key, row.DefaultValue);
                         break;
                     case VariableValueTypeEnum.Float:
@@ -46,9 +46,9 @@ namespace Pangoo.Core.Services
 
         }
 
-        public T GetVariable<T>(int id)
+        public T GetVariable<T>(string uuid)
         {
-            if (m_VariablesDict.TryGetValue(id, out VariablesTable.VariablesRow row))
+            if (m_VariablesDict.TryGetValue(uuid, out IVariablesRow row))
             {
                 T defaultValue = row.DefaultValue.ToType<T>();
                 return Get<T>(row.Key, defaultValue);
@@ -57,17 +57,17 @@ namespace Pangoo.Core.Services
             return default(T);
         }
 
-        public void SetVariable<T>(int id, T val)
+        public void SetVariable<T>(string uuid, T val)
         {
-            if (m_VariablesDict.TryGetValue(id, out VariablesTable.VariablesRow row))
+            if (m_VariablesDict.TryGetValue(uuid, out IVariablesRow row))
             {
                 Set<T>(row.Key, val);
             }
         }
 
-        public VariableTypeEnum? GetVariableType(int id)
+        public VariableTypeEnum? GetVariableType(string uuid)
         {
-            if (m_VariablesDict.TryGetValue(id, out VariablesTable.VariablesRow row))
+            if (m_VariablesDict.TryGetValue(uuid, out IVariablesRow row))
             {
                 return row.VariableType.ToEnum<VariableTypeEnum>();
             }

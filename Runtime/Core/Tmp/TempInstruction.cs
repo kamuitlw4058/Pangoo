@@ -109,7 +109,7 @@ namespace Pangoo
         }
 
         [Title("设置全局布尔变量")]
-        public int VariableId;
+        public string VariableUuid;
         public bool Val;
         public void SetBool()
         {
@@ -117,11 +117,11 @@ namespace Pangoo
             {
                 mainService = PangooEntry.Service.mainService;
             }
-            var VariableType = mainService.RuntimeData.GetVariableType(VariableId);
+            var VariableType = mainService.RuntimeData.GetVariableType(VariableUuid);
 
             if (VariableType != null && VariableType == VariableTypeEnum.Global)
             {
-                mainService.RuntimeData.SetVariable<bool>(VariableId, Val);
+                mainService.RuntimeData.SetVariable<bool>(VariableUuid, Val);
             }
         }
 

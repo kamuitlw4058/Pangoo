@@ -29,10 +29,10 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetSetVariableBoolInstruction(int VariableId, bool val)
+        public static Instruction GetSetVariableBoolInstruction(string VariableUuid, bool val)
         {
             var instruction = Activator.CreateInstance<InstructionSetVariableBool>();
-            instruction.ParamsRaw.VariableId = VariableId;
+            instruction.ParamsRaw.VariableUuid = VariableUuid;
             instruction.ParamsRaw.Val = val;
             return instruction;
         }
@@ -222,11 +222,11 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetCheckBoolVariableList(List<int> variableList, int setVariableID)
+        public static Instruction GetCheckBoolVariableList(List<string> variableList, string setVariableID)
         {
             var instruction = Activator.CreateInstance<InstructionCheckVariableBoolList>();
-            instruction.ParamsRaw.VariableIdList = variableList;
-            instruction.ParamsRaw.SetVariableID = setVariableID;
+            instruction.ParamsRaw.VariableUuidList = variableList;
+            instruction.ParamsRaw.SetVariableUuid = setVariableID;
             return instruction;
         }
 
@@ -247,7 +247,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.ChangeGameSection:
                     return GetChangeGameSectionInstruction(Uuid);
                 case DirectInstructionTypeEnum.SetBoolVariable:
-                    return GetSetVariableBoolInstruction(Int1, Bool1);
+                    return GetSetVariableBoolInstruction(Uuid, Bool1);
                 case DirectInstructionTypeEnum.SetPlayerIsControllable:
                     return GetSetPlayerIsControllable(Bool1);
                 case DirectInstructionTypeEnum.SetGameObjectActive:
@@ -294,8 +294,8 @@ namespace Pangoo.Core.VisualScripting
                     return GetDoTweenKill(String1);
                 case DirectInstructionTypeEnum.SetGlobalGameObjectActive:
                     return GetSetGlobalGameObjectActive(String1, String2, Bool1);
-                case DirectInstructionTypeEnum.CheckBoolVariableList:
-                    return GetCheckBoolVariableList(ListInt1, Int1);
+                // case DirectInstructionTypeEnum.CheckBoolVariableList:
+                //     return GetCheckBoolVariableList(ListInt1, Int1);
                 case DirectInstructionTypeEnum.DynamicObjectInteractEnable:
                     return GetDynamicObjectInteractEnable(Uuid, Bool1);
             }

@@ -17,7 +17,7 @@ namespace Pangoo.Core.VisualScripting
         public InstructionCheckVariableBoolListParams ParamsRaw = new InstructionCheckVariableBoolListParams();
 
         public override IParams Params => this.ParamsRaw;
-        
+
         protected override IEnumerator Run(Args args)
         {
             RunImmediate(args);
@@ -27,14 +27,14 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            for (int i = 0; i < ParamsRaw.VariableIdList.Count; i++)
+            for (int i = 0; i < ParamsRaw.VariableUuidList.Count; i++)
             {
-                var isUsed=args.dynamicObject.GetVariable<bool>(ParamsRaw.VariableIdList[i]);
+                var isUsed = args.dynamicObject.GetVariable<bool>(ParamsRaw.VariableUuidList[i]);
                 if (!isUsed)
                 {
                     return;
                 }
-                args.dynamicObject.SetVariable(ParamsRaw.SetVariableID,true);
+                args.dynamicObject.SetVariable(ParamsRaw.SetVariableUuid, true);
             }
         }
     }

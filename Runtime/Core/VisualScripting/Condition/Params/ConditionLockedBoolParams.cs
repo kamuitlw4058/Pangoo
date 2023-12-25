@@ -5,6 +5,7 @@ using UnityEngine;
 using Pangoo.Core.Common;
 using LitJson;
 using Sirenix.OdinInspector;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -12,21 +13,21 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public class ConditionLockedBoolParams : ConditionParams
     {
-        [JsonMember("OpenedVariableId")]
+        [JsonMember("OpenedVariableUuid")]
         [ValueDropdown("OnOpenedVariableIdValueDropdown")]
         [LabelText("变量Id")]
 
-        public int OpenedVariableId;
+        public string OpenedVariableUuid;
 
         [JsonMember("OpenedChecked")]
         [LabelText("打开状态检查")]
         public bool OpenedChecked;
 
-        [JsonMember("LockedVariableId")]
+        [JsonMember("LockedVariableUuid")]
         [ValueDropdown("OnLockedVariableIdValueDropdown")]
         [LabelText("变量Id")]
 
-        public int LockedVariableId;
+        public string LockedVariableUuid;
 
 
         [JsonMember("LockedCheck")]
@@ -38,12 +39,12 @@ namespace Pangoo.Core.VisualScripting
 
         IEnumerable OnOpenedVariableIdValueDropdown()
         {
-            return GameSupportEditorUtility.GetVariableIds(VariableValueTypeEnum.Bool.ToString(), VariableTypeEnum.DynamicObject.ToString());
+            return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString(), VariableTypeEnum.DynamicObject.ToString());
         }
 
         IEnumerable OnLockedVariableIdValueDropdown()
         {
-            return GameSupportEditorUtility.GetVariableIds(VariableValueTypeEnum.Bool.ToString(), VariableTypeEnum.Global.ToString());
+            return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString(), VariableTypeEnum.Global.ToString());
         }
 #endif
 
@@ -51,10 +52,10 @@ namespace Pangoo.Core.VisualScripting
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<ConditionLockedBoolParams>(val);
-            OpenedVariableId = par.OpenedVariableId;
+            OpenedVariableUuid = par.OpenedVariableUuid;
             OpenedChecked = par.OpenedChecked;
 
-            LockedVariableId = par.LockedVariableId;
+            LockedVariableUuid = par.LockedVariableUuid;
             LockedCheck = par.LockedCheck;
 
         }

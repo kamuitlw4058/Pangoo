@@ -88,7 +88,7 @@ public class ZhiRenMixer : MonoBehaviour
         var dynamicObejctEntity = PangooEntry.Service.mainService.DynamicObject.GetLoadedEntity("a9dd0b0ec78d44efa0652f260aa15f80");
         if (dynamicObejctEntity != null)
         {
-            var val = dynamicObejctEntity.DynamicObj.GetVariable<bool>(10003);
+            var val = dynamicObejctEntity.DynamicObj.GetVariable<bool>("f6d3e5b39e7341198d9013799605b7e2");
             if (val)
             {
                 IsOpenedDoor = true;

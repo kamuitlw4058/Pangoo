@@ -19,9 +19,9 @@ namespace Pangoo.Core.VisualScripting
         public override ConditionTypeEnum ConditionType => ConditionTypeEnum.StateCondition;
         protected override int Run(Args args)
         {
-            bool isStatic = args.dynamicObject.GetVariable<bool>(ParamsRaw.IsStaticVariableId);
-            bool isHas = args.dynamicObject.GetVariable<bool>(ParamsRaw.IsHasVariableId);
-            bool isUsed = args.dynamicObject.GetVariable<bool>(ParamsRaw.IsUsedVariableId);
+            bool isStatic = args.dynamicObject.GetVariable<bool>(ParamsRaw.StaticVariableUuid);
+            bool isHas = args.dynamicObject.GetVariable<bool>(ParamsRaw.HasVariableUuid);
+            bool isUsed = args.dynamicObject.GetVariable<bool>(ParamsRaw.UsedVariableUuid);
 
             if (isStatic)
             {

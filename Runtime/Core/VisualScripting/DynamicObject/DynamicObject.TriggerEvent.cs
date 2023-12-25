@@ -21,10 +21,7 @@ namespace Pangoo.Core.VisualScripting
 
         ConditionGetRowByUuidHandler m_ConditionHandler;
 
-
-        VariablesTable m_VariablesTable;
-
-
+        VariableGetRowByUuidHandler m_VariableHandler;
 
 
 
@@ -162,8 +159,9 @@ namespace Pangoo.Core.VisualScripting
                 m_InstructionHandler = Main.MetaTable.GetInstructionByUuid;
                 m_ConditionHandler = Main.MetaTable.GetConditionByUuid;
                 m_TriggerHandler = Main.MetaTable.GetTriggerEventByUuid;
+                m_VariableHandler = Main.MetaTable.GetVariablesByUuid;
             }
-            m_VariablesTable = TableService?.GetExcelTable<VariablesTable>();
+            // m_VariablesTable = TableService?.GetExcelTable<VariablesTable>();
 
 
             var triggerUuids = Row.GetTriggerEventUuidList();

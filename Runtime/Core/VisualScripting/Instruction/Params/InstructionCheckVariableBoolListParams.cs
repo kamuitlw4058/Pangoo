@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using LitJson;
+using Pangoo.MetaTable;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -10,24 +11,24 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public class InstructionCheckVariableBoolListParams : InstructionParams
     {
-        [JsonMember("VariableIdList")]
+        [JsonMember("VariableUuidList")]
         [ValueDropdown("OnGlobalVariableIdValueDropdown")]
-        public List<int> VariableIdList;
+        public List<string> VariableUuidList;
 
         [JsonMember("SetVariableID")]
         [ValueDropdown("OnGlobalVariableIdValueDropdown")]
-        public int SetVariableID;
-        
+        public string SetVariableUuid;
+
         IEnumerable OnGlobalVariableIdValueDropdown()
         {
-            return GameSupportEditorUtility.GetVariableIds(VariableValueTypeEnum.Bool.ToString(), VariableTypeEnum.Global.ToString());
+            return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString(), VariableTypeEnum.Global.ToString());
         }
 
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionCheckVariableBoolListParams>(val);
-            VariableIdList = par.VariableIdList;
-            SetVariableID = par.SetVariableID;
+            VariableUuidList = par.VariableUuidList;
+            SetVariableUuid = par.SetVariableUuid;
         }
     }
 }

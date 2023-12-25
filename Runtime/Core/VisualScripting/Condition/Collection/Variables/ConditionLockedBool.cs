@@ -34,8 +34,8 @@ namespace Pangoo.Core.VisualScripting
 
         protected override int Run(Args args)
         {
-            var openedVariable = args.dynamicObject.GetVariable<bool>(m_Params.OpenedVariableId);
-            var LockedVariable = args.dynamicObject.GetVariable<bool>(m_Params.LockedVariableId);
+            var openedVariable = args.dynamicObject.GetVariable<bool>(m_Params.OpenedVariableUuid);
+            var LockedVariable = args.dynamicObject.GetVariable<bool>(m_Params.LockedVariableUuid);
 
 
             return LockedVariable == m_Params.LockedCheck ? openedVariable == m_Params.OpenedChecked ? 2 : 1 : 0;

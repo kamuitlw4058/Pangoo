@@ -11,7 +11,7 @@ using UnityGameFramework.Runtime;
 namespace Pangoo
 {
     [Serializable]
-    public class KeyValueService : BaseService, IKeyValue
+    public class KeyValueService : MainSubService, IKeyValue
     {
         [ShowInInspector]
         protected Dictionary<string, object> m_KeyValueDict = new Dictionary<string, object>();

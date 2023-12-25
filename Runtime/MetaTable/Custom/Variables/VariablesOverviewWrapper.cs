@@ -2,6 +2,7 @@
 
 using System;
 using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
@@ -13,7 +14,7 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class VariablesOverviewWrapper : MetaTableOverviewWrapper<VariablesOverview,VariablesDetailRowWrapper,VariablesRowWrapper,VariablesNewRowWrapper,UnityVariablesRow>
+    public partial class VariablesOverviewWrapper : MetaTableOverviewWrapper<VariablesOverview, VariablesDetailRowWrapper, VariablesRowWrapper, VariablesNewRowWrapper, UnityVariablesRow>
     {
 
     }

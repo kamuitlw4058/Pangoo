@@ -5,6 +5,7 @@ using UnityEngine;
 using Pangoo.Core.Common;
 using LitJson;
 using Sirenix.OdinInspector;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -16,11 +17,11 @@ namespace Pangoo.Core.VisualScripting
         [OnValueChanged("OnVariableTypeChanged")]
         public VariableTypeEnum VariableType;
 
-        [JsonMember("VariableId")]
-        [ValueDropdown("OnVariableIdValueDropdown")]
-        [LabelText("变量Id")]
+        [JsonMember("VariableUuid")]
+        [ValueDropdown("OnVariableUuidValueDropdown")]
+        [LabelText("变量Uuid")]
 
-        public int VariableId;
+        public string VariableUuid;
 
 
         [JsonMember("CheckBool")]
@@ -30,12 +31,12 @@ namespace Pangoo.Core.VisualScripting
 #if UNITY_EDITOR
         void OnVariableTypeChanged()
         {
-            VariableId = 0;
+            VariableUuid = string.Empty;
         }
 
-        IEnumerable OnVariableIdValueDropdown()
+        IEnumerable OnVariableUuidValueDropdown()
         {
-            return GameSupportEditorUtility.GetVariableIds(VariableValueTypeEnum.Bool.ToString(), VariableType.ToString());
+            return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString(), VariableType.ToString());
         }
 #endif
 
@@ -43,7 +44,7 @@ namespace Pangoo.Core.VisualScripting
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<ConditionVariableBoolParams>(val);
-            VariableId = par.VariableId;
+            VariableUuid = par.VariableUuid;
             CheckBool = par.CheckBool;
             VariableType = par.VariableType;
         }
