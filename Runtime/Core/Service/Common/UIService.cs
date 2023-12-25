@@ -46,6 +46,8 @@ namespace Pangoo.Core.Services
 
         [ShowInInspector]
         Dictionary<int, UIFormLogic> m_LoadedAssetDict = new Dictionary<int, UIFormLogic>();
+
+        [ShowInInspector]
         List<int> m_LoadingAssetIds = new List<int>();
 
         protected override void DoAwake()
@@ -80,6 +82,7 @@ namespace Pangoo.Core.Services
             }
             else
             {
+                Debug.Log($"Show UI:{uiId}");
                 m_LoadingAssetIds.Add(uiId);
 
                 var data = info.GetPanelData(userData);
@@ -99,6 +102,11 @@ namespace Pangoo.Core.Services
                    },
                    () =>
                    {
+                       if (m_LoadedAssetDict.ContainsKey(uiId))
+                       {
+                           m_LoadedAssetDict.Remove(uiId);
+                       }
+
                        if (closeAction != null)
                        {
                            closeAction.Invoke();
