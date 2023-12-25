@@ -131,7 +131,6 @@ namespace Pangoo.Core.Services
                 return;
             }
 
-            Log($"ShowDynamicObject:{id}");
 
             // 这边有一个假设，同一个时间不会反复加载不同的章节下的同一个场景。
             if (m_LoadingAssetIds.Contains(id))
@@ -140,6 +139,7 @@ namespace Pangoo.Core.Services
             }
             else
             {
+                Log($"ShowDynamicObject:{id}");
                 EntityDynamicObjectData data = EntityDynamicObjectData.Create(info.CreateEntityInfo(m_EntityGroupRow), this, info);
                 m_LoadingAssetIds.Add(id);
                 Loader.ShowEntity(EnumEntity.DynamicObject,

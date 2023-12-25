@@ -251,7 +251,7 @@ namespace Pangoo.Core.Services
                 return;
             }
 
-            Log($"ShowStaticScene:{staticSceneId}");
+
 
             // 这边有一个假设，同一个时间不会反复加载不同的章节下的同一个场景。
             if (m_LoadingAssetIds.Contains(AssetPathId))
@@ -260,6 +260,7 @@ namespace Pangoo.Core.Services
             }
             else
             {
+                Log($"ShowStaticScene:{staticSceneId}");
                 EntityStaticSceneData data = EntityStaticSceneData.Create(sceneInfo, sceneInfo.CreateEntityInfo(m_EntityGroupRow), this);
                 m_LoadingAssetIds.Add(AssetPathId);
                 Loader.ShowEntity(EnumEntity.StaticScene,
