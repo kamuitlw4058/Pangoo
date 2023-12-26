@@ -55,6 +55,11 @@ namespace Pangoo.Core.Services
             return null;
         }
 
+        public int[] GetIds()
+        {
+            return m_LoadedAssetDict.Keys.ToArray();
+        }
+
         public void HideAllLoaded()
         {
             var ids = m_LoadedAssetDict.Keys.ToList();
@@ -63,6 +68,12 @@ namespace Pangoo.Core.Services
                 Loader.HideEntity(m_LoadedAssetDict[id].Id);
                 m_LoadedAssetDict.Remove(id);
             }
+        }
+
+        public void HideLoaded(int id)
+        {
+            Loader.HideEntity(m_LoadedAssetDict[id].Id);
+            m_LoadedAssetDict.Remove(id);
         }
 
         public void ShowSubDynamicObject(int dynamicObjectId, int parentEntityId, string path, Action<EntityDynamicObject> onShowSuccess)

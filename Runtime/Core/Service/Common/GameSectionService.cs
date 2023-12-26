@@ -147,7 +147,9 @@ namespace Pangoo.Core.Services
                     GameSection.InitSceneIds.ToSplitList<int>()
                     );
 
-                DynamicObjectSrv.HideAllLoaded();
+                //DynamicObjectSrv.HideAllLoaded();
+                List<int> removeDo = new List<int>();
+                var ids = DynamicObjectSrv.GetIds();
                 var doIds = GameSection.DynamicObjectIds.ToSplitList<int>();
                 foreach (var doId in doIds)
                 {
@@ -160,6 +162,21 @@ namespace Pangoo.Core.Services
                         }
                     });
                 }
+
+                foreach(var loaedId in ids)
+                {
+                    if (!doIds.Contains(loaedId))
+                    {
+                        removeDo.Add(loaedId);
+                    }
+                }
+
+                foreach(var removeId in removeDo)
+                {
+                    DynamicObjectSrv.HideLoaded(removeId);
+                }
+
+                
 
                 Log($"Update Static Scene:{GameSection.Id} KeepSceneIds:{GameSection.KeepSceneIds} DynamicSceneIds:{GameSection.DynamicSceneIds}");
             }
