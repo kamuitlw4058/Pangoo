@@ -33,7 +33,7 @@ namespace Pangoo.Editor
         /// </summary>
         private static bool isJenkinsBuild = true;
 
-        private static bool isTest;
+        private static string packageType;
         private static string devPackageOptions;
 
         public static bool isBuildFail;
@@ -53,7 +53,7 @@ namespace Pangoo.Editor
                 outputDirPath = GetCommandLineArgValue("-outputDirPath");
                 tagName = GetCommandLineArgValue("-tagName");
                 buildNumber = GetCommandLineArgValue("-buildNumber");
-                isTest = Boolean.Parse(GetCommandLineArgValue("-isTest"));
+                packageType = GetCommandLineArgValue("-packageType");
                 devPackageOptions=GetCommandLineArgValue("-devPackageOptions");
             }
             else
@@ -61,13 +61,13 @@ namespace Pangoo.Editor
                 outputDirPath = @"C:\Users\ugmax\Desktop\FangLing_HDRP_Package";
                 tagName = "测试";
                 buildNumber = "99";
-                isTest = true;
+                packageType = "开发包";
                 devPackageOptions = "完整包";
             }
 
             #endregion
 
-            if (isTest)
+            if (packageType=="开发包")
             {
                 switch (devPackageOptions)
                 {
@@ -140,7 +140,7 @@ namespace Pangoo.Editor
 
             Debug.Log("项目本地路径名1：" + options.locationPathName);
 
-            if (isTest)
+            if (packageType=="开发包")
             {
                 EditorUserBuildSettings.development = true;
             }
