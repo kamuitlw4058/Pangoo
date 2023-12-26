@@ -38,6 +38,24 @@ namespace Pangoo.MetaTable
             }
         }
 
+        GameObject m_Prefab;
+
+
+        [ShowInInspector]
+        [ReadOnly]
+        public GameObject Prefab
+        {
+            get
+            {
+                if (m_Prefab == null)
+                {
+                    m_Prefab = GameSupportEditorUtility.GetPrefabByAssetPathUuid(UnityRow.Row.AssetPathUuid);
+                }
+                return m_Prefab;
+            }
+
+        }
+
         [ShowInInspector]
         [TableTitleGroup("热点区域")]
         [HideLabel]

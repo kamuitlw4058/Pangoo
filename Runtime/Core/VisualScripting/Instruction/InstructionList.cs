@@ -240,6 +240,7 @@ namespace Pangoo.Core.VisualScripting
 
             var instructionInstance = ClassUtility.CreateInstance<Instruction>(instructionRow.InstructionType);
             instructionInstance.Load(instructionRow.Params);
+            instructionInstance.Uuid = instructionUuid;
             instructionInstance.Trigger = trigger;
             return instructionInstance;
         }

@@ -30,6 +30,12 @@ namespace Pangoo.Core.VisualScripting
         public override void RunImmediate(Args args)
         {
 
+            if (!Uuid.IsNullOrWhiteSpace() && Uuid.Equals(ParamsRaw.InstruciontUuid))
+            {
+                Debug.LogError($"ExternalInstruction Is Loop-Dead.Break It");
+                return;
+            }
+
             var dynamicObject = args.dynamicObject;
             if (ParamsRaw.DynamicObjectUuid.IsNullOrWhiteSpace() || ParamsRaw.DynamicObjectUuid.Equals("Self"))
             {

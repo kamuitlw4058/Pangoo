@@ -16,6 +16,8 @@ namespace Pangoo.Core.VisualScripting
 
         public TriggerEvent Trigger { get; set; }
 
+        public string Uuid { get; set; }
+
         private const int DEFAULT_NEXT_INSTRUCTION = 1;
         protected int NextInstruction { get; set; }
 
