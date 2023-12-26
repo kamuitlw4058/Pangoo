@@ -138,6 +138,7 @@ namespace Pangoo.Core.VisualScripting
                         }
                         instance.Row = row;
                         instance.dynamicObject = this;
+                        instance.Master = this;
                         instance.LoadParamsFromJson(row.Params);
                         m_HotSpots.Add(instance);
                     }
@@ -151,28 +152,38 @@ namespace Pangoo.Core.VisualScripting
 
         private void DoUpdateHotspot()
         {
-            if (!m_IsHotspotActive) return;
 
-            bool wasActive = this.IsHotspotDistanceActive;
-            this.Target = Character?.Player?.character;
 
-            if (this.Target == null)
+
+            if (m_IsHotspotActive)
             {
-                this.IsHotspotDistanceActive = false;
-                this.Distance = float.MaxValue;
+
+                bool wasActive = this.IsHotspotDistanceActive;
+                this.Target = Character?.Player?.character;
+
+                if (this.Target == null)
+                {
+                    this.IsHotspotDistanceActive = false;
+                    this.Distance = float.MaxValue;
+                }
+                else
+                {
+                    this.Distance = Vector3.Distance(
+                        this.Target.CachedTransfrom.position,
+                        this.HotspotInteractPosition
+                    );
+
+                    this.IsHotspotDistanceActive = this.Distance <= this.Radius;
+
+                    this.IsHotspotInteractActive = (Target.Target == (m_Tracker as IInteractive) && m_Tracker != null);
+                }
             }
             else
             {
-                this.Distance = Vector3.Distance(
-                    this.Target.CachedTransfrom.position,
-                    this.HotspotInteractPosition
-                );
+                this.IsHotspotDistanceActive = false;
+                this.IsHotspotInteractActive = false;
 
-                this.IsHotspotDistanceActive = this.Distance <= this.Radius;
-
-                this.IsHotspotInteractActive = (Target.Target == (m_Tracker as IInteractive) && m_Tracker != null);
             }
-
 
 
             foreach (var spot in m_HotSpots)

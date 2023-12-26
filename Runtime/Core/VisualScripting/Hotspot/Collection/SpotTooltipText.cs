@@ -53,10 +53,13 @@ namespace Pangoo.Core.VisualScripting
 
         private const float TRANSITION_SMOOTH_TIME = 0.25f;
 
+        private const float TRANSITION_SPEED = 5f;
+
+
 
         [ShowInInspector]
         [HideInEditorMode]
-        public HotsoptState SpotState
+        public HotsoptState TargetSpotState
         {
             get
             {
@@ -84,8 +87,8 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
-        HotsoptState LastestSpotState = HotsoptState.None;
-        HotsoptState CurrentSpotState = HotsoptState.None;
+        public HotsoptState LastestSpotState = HotsoptState.None;
+        public HotsoptState CurrentSpotState = HotsoptState.None;
 
 
         float Transition { get; set; }
@@ -95,7 +98,15 @@ namespace Pangoo.Core.VisualScripting
         private float m_Velocity;
 
 
-        List<SpotState> states = new List<SpotState>();
+        public List<SpotState> states = new List<SpotState>();
+
+        public void UpdateState()
+        {
+            foreach (var state in states)
+            {
+                state.UpdateState(TargetSpotState, TRANSITION_SPEED, deltaTime: DeltaTime);
+            }
+        }
 
 
         public void UpdateState(float transition, bool onlySub = false)
@@ -145,44 +156,45 @@ namespace Pangoo.Core.VisualScripting
 
             bool isActive = this.EnableInstance();
             instance.SetActive(isActive);
+            UpdateState();
 
-            if (CurrentSpotState != SpotState)
-            {
-                Transition = 0;
-                m_Velocity = 0;
-                if (IsTransitioning)
-                {
-                    UpdateState(1, true);
-                    LastestSpotState = CurrentSpotState;
-                }
-                CurrentSpotState = SpotState;
-                IsTransitioning = true;
+            // if (CurrentSpotState != TargetSpotState)
+            // {
+            //     Transition = 0;
+            //     m_Velocity = 0;
+            //     if (IsTransitioning)
+            //     {
+            //         UpdateState(1, true);
+            //         LastestSpotState = CurrentSpotState;
+            //     }
+            //     CurrentSpotState = TargetSpotState;
+            //     IsTransitioning = true;
 
-            }
-            else
-            {
-                if (LastestSpotState != CurrentSpotState)
-                {
-                    if (IsTransitioning)
-                    {
-                        this.Transition = Mathf.SmoothDamp(
-                            this.Transition,
-                           1,
-                            ref this.m_Velocity,
-                            TRANSITION_SMOOTH_TIME
-                        );
+            // }
+            // else
+            // {
+            //     if (LastestSpotState != CurrentSpotState)
+            //     {
+            //         if (IsTransitioning)
+            //         {
+            //             this.Transition = Mathf.SmoothDamp(
+            //                 this.Transition,
+            //                1,
+            //                 ref this.m_Velocity,
+            //                 TRANSITION_SMOOTH_TIME
+            //             );
 
-                        UpdateState(Transition);
+            //             UpdateState(Transition);
 
-                        if (Transition == 1)
-                        {
-                            IsTransitioning = false;
-                            LastestSpotState = CurrentSpotState;
-                        }
-                    }
-                }
+            //             if (Transition == 1)
+            //             {
+            //                 IsTransitioning = false;
+            //                 LastestSpotState = CurrentSpotState;
+            //             }
+            //         }
+            //     }
 
-            }
+            // }
 
         }
 
@@ -255,37 +267,6 @@ namespace Pangoo.Core.VisualScripting
         }
 
 
-
-
-        // private RectTransform ConfigureBackground(RectTransform parent)
-        // {
-        //     GameObject gameObject = new GameObject("Background");
-
-        //     Image image = gameObject.AddComponent<Image>();
-        //     image.color = COLOR_BACKGROUND;
-
-        //     VerticalLayoutGroup layoutGroup = gameObject.AddComponent<VerticalLayoutGroup>();
-        //     layoutGroup.padding = new RectOffset(PADDING, PADDING, PADDING, PADDING);
-        //     layoutGroup.childAlignment = TextAnchor.MiddleCenter;
-        //     layoutGroup.childControlWidth = true;
-        //     layoutGroup.childControlHeight = true;
-        //     layoutGroup.childScaleWidth = true;
-        //     layoutGroup.childScaleHeight = true;
-        //     layoutGroup.childForceExpandWidth = true;
-        //     layoutGroup.childForceExpandHeight = true;
-
-        //     ContentSizeFitter sizeFitter = gameObject.AddComponent<ContentSizeFitter>();
-        //     sizeFitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
-        //     sizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-
-        //     RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
-        //     PangooRectTransformUtility.SetAndCenterToParent(rectTransform, parent);
-
-        //     return rectTransform;
-        // }
-
-
-
         private Image ConfigureImage(RectTransform parent, string resourcePath)
         {
             GameObject imageGo = new GameObject("UI");
@@ -318,28 +299,6 @@ namespace Pangoo.Core.VisualScripting
             return ConfigureImage(parent, "UI/UI_Hand");
         }
 
-
-        // private GameObject ConfigureText(RectTransform parent)
-        // {
-        //     GameObject gameObject = new GameObject("Text");
-        //     this.m_TooltipText = gameObject.AddComponent<Text>();
-        //     var Point = Resources.Load<Sprite>("UI/UI_Point");
-        //     Debug.Log($"Point:{Point}");
-        //     // Resources.GetBuiltinResource(typeof())
-
-        //     // Font font = (Font)Resources.GetBuiltinResource(typeof(Font), FONT_NAME);
-        //     // this.m_TooltipText.font = font;
-        //     // this.m_TooltipText.fontSize = FONT_SIZE;
-
-        //     RectTransform textTransform = gameObject.GetComponent<RectTransform>();
-        //     PangooRectTransformUtility.SetAndCenterToParent(textTransform, parent);
-
-        //     Shadow shadow = gameObject.AddComponent<Shadow>();
-        //     shadow.effectColor = COLOR_BACKGROUND;
-        //     shadow.effectDistance = Vector2.one;
-
-        //     return gameObject;
-        // }
 
         public override void LoadParamsFromJson(string val)
         {
@@ -405,6 +364,20 @@ namespace Pangoo.Core.VisualScripting
             if (Alpha > alpha)
             {
                 Alpha = alpha;
+            }
+        }
+
+        public void UpdateState(HotsoptState currentState, float changedSpeed, float deltaTime)
+        {
+            if (State != currentState)
+            {
+                Alpha -= changedSpeed * deltaTime;
+                Alpha = Mathf.Clamp(Alpha, 0, 1);
+            }
+            else
+            {
+                Alpha += changedSpeed;
+                Alpha = Mathf.Clamp(Alpha, 0, 1);
             }
         }
 
