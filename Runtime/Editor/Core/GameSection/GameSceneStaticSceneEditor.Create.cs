@@ -7,6 +7,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using Pangoo;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Editor
 {
@@ -24,25 +25,29 @@ namespace Pangoo.Editor
             m_CreateRowWindow = OdinEditorWindow.InspectObject(new StaticSceneCreateWindow(this));
         }
 
-        public void ConfirmCreate(int id, string name, int assetPathId, List<int> NeedLoadStaticScenes)
-        {
-
-            PackageConfig pakcageConfig = GameSupportEditorUtility.GetPakcageConfigByOverviewRowId<GameSectionTableOverview>(Section);
-            StaticSceneTableOverview overview = AssetDatabaseUtility.FindAssetFirst<StaticSceneTableOverview>(pakcageConfig.PackageDir);
-
-            var row = new StaticSceneTable.StaticSceneRow();
-            row.Id = id;
-            row.Name = name;
-            row.EntityGroupId = 1;
-            row.AssetPathId = assetPathId;
-            row.LoadSceneIds = NeedLoadStaticScenes.ToListString();
-            overview.Data.Rows.Add(row);
-            EditorUtility.SetDirty(overview);
+        // public void ConfirmCreate(string uuid, string name, int assetPathId, List<int> NeedLoadStaticScenes)
+        // {
 
 
-            AssetDatabase.SaveAssets();
-            //OnSectionChange();
-        }
+        //     StaticSceneOverview overview = StaticSceneOverview.GetOverviewByUuid(uuid);
+        //     if (overview == null)
+        //     {
+        //         return;
+        //     }
+
+        //     var row = new StaticScene
+        //     row.Id = id;
+        //     row.Name = name;
+        //     row.EntityGroupId = 1;
+        //     row.AssetPathId = assetPathId;
+        //     row.LoadSceneIds = NeedLoadStaticScenes.ToListString();
+        //     overview.Data.Rows.Add(row);
+        //     EditorUtility.SetDirty(overview);
+
+
+        //     AssetDatabase.SaveAssets();
+        //     //OnSectionChange();
+        // }
 
 
         public class StaticSceneCreateWindow
@@ -74,12 +79,12 @@ namespace Pangoo.Editor
             }
 
 
-            public void ShowCreateAssetPath()
-            {
-                PackageConfig config = GameSupportEditorUtility.GetPakcageConfigByOverviewRowId<GameSectionTableOverview>(m_Editor.Section);
-                var window = new AssetPathWrapper(config, Id, ConstExcelTable.StaticSceneAssetTypeName, Name, ConstExcelTable.PrefabType, AfterCreateAsset);
-                m_CreateAssetPathWindow = OdinEditorWindow.InspectObject(window);
-            }
+            // public void ShowCreateAssetPath()
+            // {
+            //     PackageConfig config = GameSupportEditorUtility.GetPakcageConfigByOverviewRowId<GameSectionTableOverview>(m_Editor.Section);
+            //     var window = new AssetPathWrapper(config, Id, ConstExcelTable.StaticSceneAssetTypeName, Name, ConstExcelTable.PrefabType, AfterCreateAsset);
+            //     m_CreateAssetPathWindow = OdinEditorWindow.InspectObject(window);
+            // }
 
             public void AfterCreateAsset(int id)
             {
@@ -100,27 +105,27 @@ namespace Pangoo.Editor
             }
 
 
-            [Button("新建", ButtonSizes.Large)]
-            public void Create()
-            {
+            // [Button("新建", ButtonSizes.Large)]
+            // public void Create()
+            // {
 
-                if (Id == 0 || Name.IsNullOrWhiteSpace())
-                {
-                    EditorUtility.DisplayDialog("错误", "Id, Name, 命名空间  必须填写", "确定");
-                    // GUIUtility.ExitGUI();
-                    return;
-                }
-
-
-                if (GameSupportEditorUtility.ExistsExcelTableOverviewId<StaticSceneTableOverview>(Id))
-                {
-                    EditorUtility.DisplayDialog("错误", "Id已经存在", "确定");
-                    return;
-                }
+            //     if (Id == 0 || Name.IsNullOrWhiteSpace())
+            //     {
+            //         EditorUtility.DisplayDialog("错误", "Id, Name, 命名空间  必须填写", "确定");
+            //         // GUIUtility.ExitGUI();
+            //         return;
+            //     }
 
 
-                m_Editor.ConfirmCreate(Id, Name, AssetPathId, NeedLoadStaticScenes);
-            }
+            //     if (GameSupportEditorUtility.ExistsExcelTableOverviewId<StaticSceneTableOverview>(Id))
+            //     {
+            //         EditorUtility.DisplayDialog("错误", "Id已经存在", "确定");
+            //         return;
+            //     }
+
+
+            //     m_Editor.ConfirmCreate(Id, Name, AssetPathId, NeedLoadStaticScenes);
+            // }
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System.Text;
+using System;
 namespace Pangoo
 {
 
@@ -25,6 +26,53 @@ namespace Pangoo
             }
 
             return;
+        }
+
+
+        public static void SyncKey<K, V>(this Dictionary<K, V> dict, List<K> keys, Func<K, V> addAction = null)
+        {
+            if (dict == null || keys == null || (keys != null && keys.Count == 0)) return;
+
+            List<K> needList = new List<K>();
+            List<K> RemoveList = new List<K>();
+            for (int i = 0; i < keys.Count; i++)
+            {
+                if (dict.ContainsKey(keys[i]) || needList.Contains(keys[i]))
+                {
+                    continue;
+                }
+
+                needList.Add(keys[i]);
+            }
+
+            foreach (var kv in dict)
+            {
+                if (!keys.Contains(kv.Key))
+                {
+                    RemoveList.Add(kv.Key);
+                }
+            }
+
+
+            RemoveList.ForEach(o =>
+            {
+                dict.Remove(o);
+            });
+
+
+            needList.ForEach(o =>
+            {
+                if (addAction != null)
+                {
+                    var val = addAction.Invoke(o);
+                    if (val != null)
+                    {
+                        dict.Add(o, val);
+                    }
+                }
+            });
+
+
         }
 
     }

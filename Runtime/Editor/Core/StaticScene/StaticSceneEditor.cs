@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Editor
 {
@@ -13,49 +14,49 @@ namespace Pangoo.Editor
     [DisallowMultipleComponent]
     public class StaticSceneEditor : MonoBehaviour
     {
-        int m_StaticSceneId;
+        string m_StaticSceneUuid;
         [ReadOnly]
         [ShowInInspector]
         [ValueDropdown("StatidSceneValueDropdown")]
         [PropertyOrder(0)]
-        public int StaticSceneId
+        public string StaticSceneUuid
         {
             get
             {
-                return m_StaticSceneId;
+                return m_StaticSceneUuid;
             }
             set
             {
-                m_StaticSceneId = value;
+                m_StaticSceneUuid = value;
                 OnValueChanged();
             }
         }
         [ReadOnly]
-        public StaticSceneTable.StaticSceneRow Row;
+        public UnityStaticSceneRow Row;
 
         [ReadOnly]
-        public StaticSceneTableOverview Overview;
+        public StaticSceneOverview Overview;
 
         [SerializeField]
         [HideLabel]
-        public StaticSceneDetailWrapper Wrapper;
+        public StaticSceneDetailRowWrapper Wrapper;
 
 
         public IEnumerable StatidSceneValueDropdown()
         {
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<StaticSceneTableOverview>();
+            return StaticSceneOverview.GetUuidDropdown();
         }
 
 
         public void OnValueChanged()
         {
 
-            Overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<StaticSceneTableOverview>(StaticSceneId);
-            Row = GameSupportEditorUtility.GetStaticSceneRowById(StaticSceneId);
+            Overview = StaticSceneOverview.GetOverviewByUuid(StaticSceneUuid);
+            Row = StaticSceneOverview.GetUnityRowByUuid(StaticSceneUuid);
 
-            Wrapper = new StaticSceneDetailWrapper();
+            Wrapper = new StaticSceneDetailRowWrapper();
             Wrapper.Overview = Overview;
-            Wrapper.Row = Row;
+            Wrapper.UnityRow = Row;
 
 
         }

@@ -33,10 +33,11 @@ namespace Pangoo.MetaTable
             }
             set
             {
-
-                UnityRow.Row.DynamicSceneIds = value.ToListString();
-                Save();
-
+                if (UnityRow != null)
+                {
+                    UnityRow.Row.DynamicSceneIds = value.ToListString();
+                    Save();
+                }
             }
         }
 
@@ -52,7 +53,7 @@ namespace Pangoo.MetaTable
         {
             get
             {
-                return UnityRow.Row?.DynamicSceneUuids.ToSplitArr<string>();
+                return UnityRow?.Row?.DynamicSceneUuids.ToSplitArr<string>();
             }
             set
             {
@@ -84,7 +85,7 @@ namespace Pangoo.MetaTable
         {
             get
             {
-                return UnityRow.Row?.KeepSceneIds?.ToArrInt() ?? new int[0];
+                return UnityRow?.Row?.KeepSceneIds?.ToArrInt() ?? new int[0];
             }
             set
             {
@@ -103,7 +104,7 @@ namespace Pangoo.MetaTable
         {
             get
             {
-                return UnityRow.Row.KeepSceneUuids.ToSplitArr<string>();
+                return UnityRow?.Row.KeepSceneUuids.ToSplitArr<string>();
             }
             set
             {
@@ -124,7 +125,7 @@ namespace Pangoo.MetaTable
         {
             get
             {
-                return UnityRow.Row?.InitSceneIds?.ToArrInt() ?? new int[0];
+                return UnityRow?.Row?.InitSceneIds?.ToArrInt() ?? new int[0];
             }
             set
             {
@@ -143,7 +144,7 @@ namespace Pangoo.MetaTable
         {
             get
             {
-                return UnityRow.Row.InitSceneUuids?.ToSplitArr<string>();
+                return UnityRow?.Row.InitSceneUuids?.ToSplitArr<string>();
             }
             set
             {
@@ -155,7 +156,7 @@ namespace Pangoo.MetaTable
 
         public IEnumerable StaticSceneIdKeepValueDropdown()
         {
-            return GameSupportEditorUtility.GetStaticSceneIds(excludeIds: DynamicSceneIds.ToList());
+            return GameSupportEditorUtility.GetStaticSceneIds(excludeIds: DynamicSceneIds?.ToList());
         }
 
         public IEnumerable StaticSceneIdValueDropdown()
@@ -175,7 +176,7 @@ namespace Pangoo.MetaTable
             get
             {
 
-                return UnityRow.Row?.DynamicObjectIds?.ToArrInt() ?? new int[0];
+                return UnityRow?.Row?.DynamicObjectIds?.ToArrInt() ?? new int[0];
             }
             set
             {
@@ -197,7 +198,7 @@ namespace Pangoo.MetaTable
             get
             {
 
-                return UnityRow.Row?.DynamicObjectUuids?.ToSplitArr<string>();
+                return UnityRow?.Row?.DynamicObjectUuids?.ToSplitArr<string>();
             }
             set
             {
@@ -219,7 +220,7 @@ namespace Pangoo.MetaTable
         {
             get
             {
-                return UnityRow.Row?.InitedInstructionIds?.ToArrInt() ?? new int[0];
+                return UnityRow?.Row?.InitedInstructionIds?.ToArrInt() ?? new int[0];
             }
             set
             {
@@ -239,7 +240,7 @@ namespace Pangoo.MetaTable
         {
             get
             {
-                return UnityRow.Row.InitedInstructionUuids.ToSplitArr<string>();
+                return UnityRow?.Row.InitedInstructionUuids.ToSplitArr<string>();
             }
             set
             {
@@ -259,7 +260,7 @@ namespace Pangoo.MetaTable
         {
             get
             {
-                return UnityRow.Row?.EditorInitedInstructionIds?.ToArrInt() ?? new int[0];
+                return UnityRow?.Row?.EditorInitedInstructionIds?.ToArrInt() ?? new int[0];
             }
             set
             {
@@ -279,7 +280,7 @@ namespace Pangoo.MetaTable
         {
             get
             {
-                return UnityRow.Row.EditorInitedInstructionUuids?.ToSplitArr<string>();
+                return UnityRow?.Row.EditorInitedInstructionUuids?.ToSplitArr<string>();
             }
             set
             {

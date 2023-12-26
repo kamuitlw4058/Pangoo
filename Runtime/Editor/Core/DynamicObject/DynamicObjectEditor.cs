@@ -12,6 +12,9 @@ using System;
 using UnityEngine.UI;
 using Pangoo.Core.Common;
 using Pangoo.MetaTable;
+using UnityEditor.VersionControl;
+using System.Linq;
+using UnityEngine.UIElements;
 
 namespace Pangoo
 {
@@ -21,14 +24,30 @@ namespace Pangoo
     [DisallowMultipleComponent]
     public class DynamicObjectEditor : MonoBehaviour
     {
-        private const float CANVAS_WIDTH = 600f;
-        private const float CANVAS_HEIGHT = 300f;
+        Dictionary<string, string> m_Uuids = new();
+        public Dictionary<string, string> Uuids
+        {
+            get
+            {
+                return m_Uuids;
+            }
+            set
+            {
 
-        private const float SIZE_X = 2f;
-        private const float SIZE_Y = 1f;
+                Clear();
+                if (value == null)
+                {
+                    m_Uuids.Clear();
+                }
+                else
+                {
+                    m_Uuids = value;
+                }
+            }
+        }
 
         [ReadOnly]
-        public string m_DynamicObjectUuid;
+        string m_DynamicObjectUuid;
 
         [ReadOnly]
         [ShowInInspector]
@@ -52,20 +71,17 @@ namespace Pangoo
             return DynamicObjectOverview.GetUuidDropdown();
         }
 
-        [ReadOnly]
-        DynamicObjectTableOverview Overview;
-
 
 
         [ReadOnly]
         [ShowInInspector]
-        DynamicObjectTable.DynamicObjectRow Row;
+        UnityDynamicObjectRow UnityRow;
 
 
-        [HideLabel]
         [SerializeField]
         [PropertyOrder(10)]
-        public DynamicObjectDetailWrapper Wrapper;
+        [ShowIf("@this.UnityRow != null")]
+        public DynamicObjectDetailRowWrapper Wrapper;
 
         private void OnEnable()
         {
@@ -74,121 +90,98 @@ namespace Pangoo
 
         private void OnDisable()
         {
-            ClearObjects(DynamicObjects);
+            Clear();
         }
 
 
 
         void Start()
         {
-            DoService = new DynamicObject(gameObject);
-            DoService.Row = Row.ToInterface();
+
         }
 
-        // public Func<TriggerEventParams, bool> CheckInteract;
 
-        // public Action<TriggerEventParams> InteractEvent;
-
-        [ShowInInspector]
-        [field: NonSerialized]
-        [LabelText("动态物体")]
-        [HideReferenceObjectPicker]
-        public DynamicObject DoService { get; private set; }
 
 
         [ReadOnly]
-        [ListDrawerSettings(Expanded = true)]
-        public List<GameObject> DynamicObjects = new List<GameObject>();
+        public Dictionary<string, GameObject> DynamicObjects = new();
 
-        public void ClearObjects(List<GameObject> gameObjects)
+        public void Clear()
         {
-            if (gameObjects != null)
+            if (DynamicObjects != null)
             {
 
-                foreach (var scene in gameObjects)
+                foreach (var scene in DynamicObjects.Values)
                 {
                     try
                     {
-                        DestroyImmediate(scene);
+                        if (scene != null)
+                        {
+                            DestroyImmediate(scene);
+                        }
                     }
                     catch
                     {
                     }
                 }
-                gameObjects.Clear();
+                DynamicObjects.Clear();
             }
         }
 
-        public void UpdateObjects(List<SubDynamicObject> subDynamicObjects)
+        public void UpdateObjects()
         {
-            // ClearObjects(DynamicObjects);
-            foreach (var subDo in subDynamicObjects)
+            DynamicObjects.SyncKey(Uuids.Keys.ToList(), (uuid) =>
             {
-                var row = DynamicObjectOverview.GetUnityRowByUuid(subDo.DynamicObjectUuid);
+                var row = DynamicObjectOverview.GetUnityRowByUuid(uuid);
                 if (row == null)
                 {
-                    Debug.LogError($"staticScene Id:{subDo.DynamicObjectUuid} is null");
-                    continue;
+                    Debug.LogError($"DynmaicObject Uuid:{uuid} is null");
+                    return null;
                 }
 
                 var assetPathRow = AssetPathOverview.GetUnityRowByUuid(row.Row.AssetPathUuid);
                 var asset = AssetDatabaseUtility.LoadAssetAtPath<GameObject>(assetPathRow.ToPrefabPath());
                 var go = PrefabUtility.InstantiatePrefab(asset) as GameObject;
                 go.name = row.Name;
+
                 Transform subTarget;
-                if (subDo.Path.Equals("Self"))
+                if (Uuids[uuid].Equals("Self"))
                 {
                     subTarget = transform;
                 }
                 else
                 {
-                    subTarget = transform.Find(subDo.Path);
+                    subTarget = transform.Find(Uuids[uuid]);
                 }
+
                 if (subTarget != null)
                 {
                     go.transform.SetParent(subTarget);
                     var helper = go.AddComponent<DynamicObjectEditor>();
-                    helper.DynamicObjectUuid = subDo.DynamicObjectUuid;
-                    DynamicObjects.Add(go);
+                    helper.DynamicObjectUuid = uuid;
                 }
+                return go;
+            });
 
-            }
-        }
-        GameObject m_Tooltip;
-
-        private Image CreateHand(RectTransform parent)
-        {
-            return ConfigureImage(parent, "UI/UI_Hand");
         }
 
-        private Image ConfigureImage(RectTransform parent, string resourcePath)
-        {
-            GameObject imageGo = new GameObject("UI");
-            var image = imageGo.AddComponent<Image>();
-            var mat = Resources.Load<Material>(resourcePath);
-            image.material = mat;
-            RectTransform imageTransform = imageGo.GetComponent<RectTransform>();
-            PangooRectTransformUtility.SetAndCenterToParent(imageTransform, parent);
-            imageTransform.sizeDelta = new Vector2(30, 30);
 
-            return image;
-        }
         [BoxGroup("可视化设置")]
         [ShowInInspector]
         [LabelText("设置交互偏移")]
+        [ShowIf("@this.UnityRow != null")]
+
         public Vector3 InteractOffset
         {
             get
             {
-                return Row.InteractOffset;
+                return UnityRow.Row.InteractOffset;
             }
             set
             {
-                Row.InteractOffset = value;
-                if (DoService.m_Tracker != null)
-                {
-                    DoService.m_Tracker.InteractOffset = value;
-                }
+                UnityRow.Row.InteractOffset = value;
+                EditorUtility.SetDirty(UnityRow);
+                AssetDatabase.SaveAssets();
             }
         }
 
@@ -198,53 +191,67 @@ namespace Pangoo
         {
             if (m_DynamicObjectUuid.IsNullOrWhiteSpace()) return;
 
-            // Overview = GameSupportEditorUtility.GetExcelTableOverviewByRowId<DynamicObjectTableOverview>(m_DynamicObjectUuid);
-            // Row = GameSupportEditorUtility.GetDynamicObjectRow(m_DynamicObjectUuid);
+            var overview = DynamicObjectOverview.GetOverviewByUuid(m_DynamicObjectUuid);
+            UnityRow = DynamicObjectOverview.GetUnityRowByUuid(m_DynamicObjectUuid);
 
 
-            // Wrapper = new DynamicObjectDetailWrapper();
-            // Wrapper.Overview = Overview;
-            // Wrapper.Row = Row;
-            // ClearObjects(DynamicObjects);
-            // UpdateObjects(Wrapper.SubDynamicObjects);
+
+            Wrapper = new DynamicObjectDetailRowWrapper();
+            Wrapper.Overview = overview;
+            Wrapper.UnityRow = UnityRow;
+
+            Dictionary<string, string> uuidDict = new();
+            foreach (var sdo in Wrapper.SubDynamicObjects)
+            {
+                uuidDict.Add(sdo.DynamicObjectUuid, sdo.Path);
+            }
+
+            Uuids = uuidDict;
 
 
-            // transform.localPosition = Row.Position;
-            // transform.localRotation = Quaternion.Euler(Row.Rotation);
+            if (Wrapper.PositionSpace == Space.Self)
+            {
+                transform.localPosition = Wrapper.Postion;
+                transform.localRotation = Quaternion.Euler(Wrapper.Rotation);
+            }
+            else
+            {
+                transform.position = Wrapper.Postion;
+                transform.rotation = Quaternion.Euler(Wrapper.Rotation);
+            }
+
+
+            if (Wrapper.Scale == Vector3.zero)
+            {
+                transform.localScale = Vector3.zero;
+            }
+            else
+            {
+                transform.localScale = Wrapper.Scale;
+            }
 
         }
 
 
         private void Update()
         {
-            // DoService?.Update();
-
-
-
-
+            if (!Application.isPlaying)
+            {
+                UpdateObjects();
+            }
         }
 
 
 
         [Button("SetTransfrom")]
+        [ShowIf("@this.UnityRow != null")]
+
         public void SetTransfrom()
         {
-            Wrapper.Row.Position = transform.localPosition;
-            Wrapper.Row.Rotation = transform.localRotation.eulerAngles;
-            Wrapper.Row.Scale = transform.localScale;
+            Wrapper.UnityRow.Row.Position = transform.localPosition;
+            Wrapper.UnityRow.Row.Rotation = transform.localRotation.eulerAngles;
+            Wrapper.UnityRow.Row.Scale = transform.localScale;
             Wrapper.Save();
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            Debug.Log($"DynamicObjectEditor OnTriggerEnter");
-            DoService?.TriggerEnter3d(other);
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            Debug.Log($"DynamicObjectEditor OnTriggerExit");
-            DoService?.TriggerExit3d(other);
         }
 
     }
