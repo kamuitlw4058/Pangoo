@@ -27,7 +27,7 @@ namespace Pangoo.MetaTable
         {
              for (int i = 0; i < rows.Count; i++)
             {
-               var o = rows[0];
+               var o = rows[i];
                if (o.Uuid == null)
                 {
                    Debug.LogError("AddRows Uuid Is Null");
