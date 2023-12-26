@@ -29,6 +29,7 @@ namespace Pangoo
         protected override void OnEnter(ProcedureOwner procedureOwner)
         {
             base.OnEnter(procedureOwner);
+            LitJsonExtend.LitJsonInit();
 
             PangooEntry.Event.Subscribe(LoadConfigSuccessEventArgs.EventId, OnLoadConfigSuccess);
             PangooEntry.Event.Subscribe(LoadConfigFailureEventArgs.EventId, OnLoadConfigFailure);
@@ -41,7 +42,7 @@ namespace Pangoo
             PangooEntry.MetaTable.LoadMetaTable();
 
             PangooEntry.GameInfo.Init();
-            LitJsonExtend.LitJsonInit();
+           
 
             PangooEntry.UI.AddUIGroup("Default");
             PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/SystemInfo", new PangooSystemInformationWindow());

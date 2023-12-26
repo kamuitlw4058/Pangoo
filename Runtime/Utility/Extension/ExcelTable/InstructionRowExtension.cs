@@ -35,11 +35,11 @@ namespace Pangoo
             }
 
 #else
-            if (table == null)
+            if (handler == null)
             {
                 Debug.LogError($"InstructionRow Get Table is Null");
             }else{
-                instructionRow = table.GetRowById(id);
+                instructionRow = handler(id);
             }
 #endif
             return instructionRow;

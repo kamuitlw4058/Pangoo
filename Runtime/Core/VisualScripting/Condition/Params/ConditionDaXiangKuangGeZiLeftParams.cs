@@ -9,31 +9,34 @@ using UnityEngine.Serialization;
 
 namespace Pangoo.Core.VisualScripting
 {
-    [Serializable]
-    public class ConditionDaXiangKuangGeZiLeftParams : ConditionParams
-    {
-        [JsonMember("StaticVariableUuid")]
-        [ValueDropdown("OnGlobalVariableIdValueDropdown")]
-        public string StaticVariableUuid;
-
-        [JsonMember("HasVariableUuid")]
-        [ValueDropdown("OnGlobalVariableIdValueDropdown")]
-        public string HasVariableUuid;
-        [JsonMember("UsedVariableUuid")]
-        [ValueDropdown("OnGlobalVariableIdValueDropdown")]
-        public string UsedVariableUuid;
-
-        IEnumerable OnGlobalVariableIdValueDropdown()
+        [Serializable]
+        public class ConditionDaXiangKuangGeZiLeftParams : ConditionParams
         {
-            return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString(), VariableTypeEnum.Global.ToString());
-        }
+                [JsonMember("StaticVariableUuid")]
+                [ValueDropdown("OnGlobalVariableIdValueDropdown")]
+                public string StaticVariableUuid;
 
-        public override void Load(string val)
-        {
-            var par = JsonMapper.ToObject<ConditionDaXiangKuangGeZiLeftParams>(val);
-            StaticVariableUuid = par.StaticVariableUuid;
-            HasVariableUuid = par.HasVariableUuid;
-            UsedVariableUuid = par.UsedVariableUuid;
+                [JsonMember("HasVariableUuid")]
+                [ValueDropdown("OnGlobalVariableIdValueDropdown")]
+                public string HasVariableUuid;
+                [JsonMember("UsedVariableUuid")]
+                [ValueDropdown("OnGlobalVariableIdValueDropdown")]
+                public string UsedVariableUuid;
+
+#if UNITY_EDITOR
+                IEnumerable OnGlobalVariableIdValueDropdown()
+                {
+                        return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString(), VariableTypeEnum.Global.ToString());
+                }
+
+#endif
+
+                public override void Load(string val)
+                {
+                        var par = JsonMapper.ToObject<ConditionDaXiangKuangGeZiLeftParams>(val);
+                        StaticVariableUuid = par.StaticVariableUuid;
+                        HasVariableUuid = par.HasVariableUuid;
+                        UsedVariableUuid = par.UsedVariableUuid;
+                }
         }
-    }
 }

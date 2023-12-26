@@ -19,10 +19,12 @@ namespace Pangoo.Core.VisualScripting
         [ValueDropdown("OnGlobalVariableIdValueDropdown")]
         public string SetVariableUuid;
 
+#if UNITY_EDITOR
         IEnumerable OnGlobalVariableIdValueDropdown()
         {
             return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString(), VariableTypeEnum.Global.ToString());
         }
+#endif
 
         public override void Load(string val)
         {

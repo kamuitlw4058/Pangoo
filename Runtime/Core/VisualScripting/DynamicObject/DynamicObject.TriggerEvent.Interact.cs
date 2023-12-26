@@ -55,6 +55,7 @@ namespace Pangoo.Core.VisualScripting
         void OnInteractEnd()
         {
             bool isRunning = TriggerIsRunning(TriggerTypeEnum.OnInteract);
+            Debug.Log($"OnInteractEnd:{isRunning}");
             if (!isRunning)
             {
                 m_Tracker?.Stop();

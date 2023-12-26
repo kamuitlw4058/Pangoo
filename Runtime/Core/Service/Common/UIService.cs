@@ -102,6 +102,11 @@ namespace Pangoo.Core.Services
                    },
                    () =>
                    {
+                       if (m_LoadedAssetDict.ContainsKey(uuid))
+                       {
+                           m_LoadedAssetDict.Remove(uuid);
+                       }
+
                        if (closeAction != null)
                        {
                            closeAction.Invoke();

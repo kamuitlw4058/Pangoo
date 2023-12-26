@@ -6,7 +6,7 @@ namespace Pangoo.Core.Services
     public abstract class MonoSubService<TMaster> : NestedBaseService where TMaster : MonoMasterService
     {
 
-        public TMaster Master { get; protected set; }
+        public TMaster Master { get; set; }
 
 
         public override float Time => Master.Time;

@@ -53,6 +53,8 @@ namespace Pangoo.Core.Characters
             return true;
         }
 
+        public List<Tuple<IInteractive, float>> InteractiveResults = new List<Tuple<IInteractive, float>>();
+
 
         protected override void DoUpdate()
         {
@@ -64,13 +66,15 @@ namespace Pangoo.Core.Characters
 
             IInteractive newTarget = null;
             float targetPriority = float.MaxValue;
+            InteractiveResults.Clear();
 
             foreach (ISpatialHash interaction in this.m_Interactions)
             {
-                if (interaction is not IInteractive interactive) continue;
+                if (interaction is not IInteractive interactive || !interactive.InteractEnable || interactive.InteractDisabled) continue;
                 float priority = m_InteractionMode.CalculatePriority(
                     Character, interactive
                 );
+                InteractiveResults.Add(new Tuple<IInteractive, float>(interaction as IInteractive, priority));
 
                 if (priority > INFINITY) continue;
 
