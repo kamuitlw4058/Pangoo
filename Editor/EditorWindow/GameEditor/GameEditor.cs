@@ -12,7 +12,7 @@ namespace Pangoo.Editor
 {
     public class GameEditor : OdinMenuEditorWindow
     {
-        [MenuItem("Pangoo/资源编辑器", false, 10)]
+        // [MenuItem("Pangoo/资源编辑器", false, 10)]
         private static void OpenWindow()
         {
             var window = GetWindow<GameEditor>();
