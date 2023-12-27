@@ -66,7 +66,6 @@ namespace Pangoo.MetaTable
         [ValueDropdown("AssetPathIdValueDropdown")]
         [PropertyOrder(5)]
         [ShowInInspector]
-        [InlineButton("AddAssetPath", SdfIconType.Plus, Label = "")]
         public int AssetPathId
         {
             get
@@ -89,6 +88,7 @@ namespace Pangoo.MetaTable
         [ValueDropdown("AssetPathUuidValueDropdown")]
         [PropertyOrder(5)]
         [ShowInInspector]
+        [InlineButton("AddAssetPath", SdfIconType.Plus, Label = "")]
         // [InlineButton("ShowCreateAssetPath", SdfIconType.Plus, Label = "")]
         public string AssetPathUuid
         {

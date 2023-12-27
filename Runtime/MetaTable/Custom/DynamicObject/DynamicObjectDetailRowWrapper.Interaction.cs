@@ -174,7 +174,7 @@ namespace Pangoo.MetaTable
         }
 
 
-        [ShowInInspector]
+        // [ShowInInspector]
 
         [LabelText("热点区域Ids")]
         [ShowIf("@this.UseHotspot")]

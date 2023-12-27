@@ -4,9 +4,12 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Collections.Generic;
+
 using LitJson;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
+
 using System.Xml.Serialization;
 using Pangoo.Common;
 using MetaTable;
@@ -22,6 +25,7 @@ namespace Pangoo.MetaTable
         [ValueDropdown("AssetPathUuidValueDropdown")]
         [PropertyOrder(0)]
         [ShowInInspector]
+        [InlineButton("AddAssetPath", SdfIconType.Plus, Label = "")]
         public string AssetPathUuid
         {
             get
@@ -36,6 +40,27 @@ namespace Pangoo.MetaTable
             }
 
         }
+
+
+        void AddAssetPath()
+        {
+            var assetOverview = AssetDatabaseUtility.FindAssetFirst<AssetPathOverview>(Overview.Config.StreamResScriptableObjectDir);
+            Debug.Log($"assetOverview:{assetOverview} Overview.RowDirPath:{Overview.RowDirPath}");
+            if (assetOverview != null)
+            {
+                var assetNewObject = AssetPathNewRowWrapper.Create(assetOverview, ConstExcelTable.UIAssetTypeName, Name, afterCreateAsset: OnAfterCreateAsset);
+                assetNewObject.MenuWindow = MenuWindow;
+                var window = OdinEditorWindow.InspectObject(assetNewObject);
+                assetNewObject.OpenWindow = window;
+            }
+        }
+
+        public void OnAfterCreateAsset(string uuid)
+        {
+            AssetPathUuid = Uuid;
+        }
+
+
 
         [LabelText("资源ID")]
         [ValueDropdown("AssetPathIdValueDropdown")]

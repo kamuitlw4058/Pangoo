@@ -154,21 +154,21 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.DynamicObjectPlayTimeline => true,
-                    DirectInstructionTypeEnum.ChangeGameSection => true,
-                    DirectInstructionTypeEnum.SetBoolVariable => true,
-                    DirectInstructionTypeEnum.DynamicObjectModelActive => true,
-                    DirectInstructionTypeEnum.DynamicObjectHotspotActive => true,
-                    DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => true,
-                    DirectInstructionTypeEnum.DynamicObjectInteractEnable => true,
+                    // DirectInstructionTypeEnum.DynamicObjectPlayTimeline => true,
+                    // DirectInstructionTypeEnum.ChangeGameSection => true,
+                    // DirectInstructionTypeEnum.SetBoolVariable => true,
+                    // DirectInstructionTypeEnum.DynamicObjectModelActive => true,
+                    // DirectInstructionTypeEnum.DynamicObjectHotspotActive => true,
+                    // DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => true,
+                    // DirectInstructionTypeEnum.DynamicObjectInteractEnable => true,
 
-                    DirectInstructionTypeEnum.RunInstruction => true,
+                    // DirectInstructionTypeEnum.RunInstruction => true,
 
-                    DirectInstructionTypeEnum.DynamicObjectTriggerEnabled => true,
-                    DirectInstructionTypeEnum.DynamicObjectRunExecute => true,
-                    DirectInstructionTypeEnum.PlaySound => true,
-                    DirectInstructionTypeEnum.StopSound => true,
-                    DirectInstructionTypeEnum.CheckBoolVariableList => true,
+                    // DirectInstructionTypeEnum.DynamicObjectTriggerEnabled => true,
+                    // DirectInstructionTypeEnum.DynamicObjectRunExecute => true,
+                    // DirectInstructionTypeEnum.PlaySound => true,
+                    // DirectInstructionTypeEnum.StopSound => true,
+                    // DirectInstructionTypeEnum.CheckBoolVariableList => true,
                     _ => false,
                 };
             }

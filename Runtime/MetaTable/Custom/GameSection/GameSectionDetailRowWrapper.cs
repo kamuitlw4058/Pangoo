@@ -23,7 +23,6 @@ namespace Pangoo.MetaTable
         // [OnValueChanged("OnDynamicSceneIdsChanged")]
         [ListDrawerSettings(Expanded = true)]
 
-        [ShowInInspector]
         [PropertyOrder(1)]
         public int[] DynamicSceneIds
         {
@@ -79,7 +78,6 @@ namespace Pangoo.MetaTable
         [ValueDropdown("StaticSceneIdKeepValueDropdown", IsUniqueList = true)]
         [ListDrawerSettings(Expanded = true)]
 
-        [ShowInInspector]
         [PropertyOrder(2)]
         public int[] KeepSceneIds
         {
@@ -119,7 +117,6 @@ namespace Pangoo.MetaTable
         [ValueDropdown("StaticSceneIdValueDropdown", IsUniqueList = true)]
         [ListDrawerSettings(Expanded = true)]
 
-        [ShowInInspector]
         [PropertyOrder(3)]
         public int[] InitSceneIds
         {
@@ -169,7 +166,6 @@ namespace Pangoo.MetaTable
         [ValueDropdown("DynamicObjectIdValueDropdown", IsUniqueList = true)]
         [ListDrawerSettings(Expanded = true)]
 
-        [ShowInInspector]
         [PropertyOrder(4)]
         public int[] DynamicObjectIds
         {
@@ -214,7 +210,6 @@ namespace Pangoo.MetaTable
         [LabelText("初始化完成指令")]
         [ValueDropdown("InstructionIdValueDropdown", IsUniqueList = true)]
         [ListDrawerSettings(Expanded = true)]
-        [ShowInInspector]
         [PropertyOrder(5)]
         public int[] InstructionIds
         {
@@ -254,7 +249,6 @@ namespace Pangoo.MetaTable
         [LabelText("编辑器初始化完成指令")]
         [ValueDropdown("InstructionIdValueDropdown", IsUniqueList = true)]
         [ListDrawerSettings(Expanded = true)]
-        [ShowInInspector]
         [PropertyOrder(5)]
         public int[] EditorInstructionIds
         {

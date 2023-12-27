@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Core.VisualScripting
 {
     public class InstructionReplaceSoundParams : InstructionParams
     {
-        [JsonMember("OldSoundId")]
+        [JsonMember("OldSoundUuid")]
         [ValueDropdown("OnSoundIdDropdown")]
-        public int OldSoundId;
+        public string OldSoundUuid;
 
-        [JsonMember("NewSoundId")]
+        [JsonMember("NewSoundUuid")]
         [ValueDropdown("OnSoundIdDropdown")]
-        public int NewSoundId;
+        public string NewSoundUuid;
 
         [JsonMember("Loop")]
         public bool Loop;
@@ -29,14 +30,14 @@ namespace Pangoo.Core.VisualScripting
 #if UNITY_EDITOR
         IEnumerable OnSoundIdDropdown()
         {
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<SoundTableOverview>();
+            return SoundOverview.GetUuidDropdown();
         }
 #endif
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionReplaceSoundParams>(val);
-            OldSoundId = par.OldSoundId;
-            NewSoundId = par.NewSoundId;
+            OldSoundUuid = par.OldSoundUuid;
+            NewSoundUuid = par.NewSoundUuid;
             Loop = par.Loop;
             FadeTime = par.FadeTime;
             WaitToComplete = par.WaitToComplete;

@@ -10,7 +10,7 @@ using UnityGameFramework.Runtime;
 
 namespace Pangoo.Core.Services
 {
-    public class SoundService : BaseService
+    public class SoundService : MainSubService
     {
         ExcelTableService m_ExcelTableService;
 
@@ -26,12 +26,12 @@ namespace Pangoo.Core.Services
 
         public struct SoundPlayingInfo
         {
-            public int SoundId;
+            public string SoundUuid;
             public Action ResetCallBack;
         }
 
         [ShowInInspector]
-        public Dictionary<int, SoundPlayingInfo> m_SerialPlaying = new Dictionary<int, SoundPlayingInfo>();
+        public Dictionary<int, SoundPlayingInfo> m_SerialPlaying = new();
 
 
         protected override void DoAwake()
@@ -55,9 +55,9 @@ namespace Pangoo.Core.Services
         }
 
         [Button("播放")]
-        public void PlaySound(int soundId, Action playResetCallback = null, bool loop = false, float fadeTime = 0, float offsetTime = 0)
+        public void PlaySound(string uuid, Action playResetCallback = null, bool loop = false, float fadeTime = 0, float offsetTime = 0)
         {
-            var row = m_SoundTable.GetRowById(soundId);
+            var row = MetaTableSrv.GetSoundByUuid(uuid);
             var path = AssetUtility.GetSoundAssetPath(row.PackageDir, row.SoundType, row.AssetPath);
             int serialId = 0;
             var playSoundParams = PlaySoundParams.Create();
@@ -70,7 +70,7 @@ namespace Pangoo.Core.Services
             if (serialId != 0)
             {
                 var info = new SoundPlayingInfo();
-                info.SoundId = soundId;
+                info.SoundUuid = uuid;
                 info.ResetCallBack = () =>
                 {
                     if (playResetCallback != null)
@@ -84,22 +84,22 @@ namespace Pangoo.Core.Services
         }
 
         [Button("停止")]
-        public void StopSound(int soundId, float fadeOutSeconds = 0)
+        public void StopSound(string soundUuid, float fadeOutSeconds = 0)
         {
             foreach (var kv in m_SerialPlaying)
             {
-                if (kv.Value.SoundId == soundId)
+                if (kv.Value.SoundUuid == soundUuid)
                 {
                     PangooEntry.Sound.StopSound(kv.Key, fadeOutSeconds);
                 }
             }
         }
 
-        public bool SoundTime(int soundId, out float time)
+        public bool SoundTime(string soundUuid, out float time)
         {
             foreach (var kv in m_SerialPlaying)
             {
-                if (kv.Value.SoundId == soundId)
+                if (kv.Value.SoundUuid == soundUuid)
                 {
 
                     if (PangooEntry.Sound.SoundTime(kv.Key, out time))
@@ -112,16 +112,16 @@ namespace Pangoo.Core.Services
             return false;
         }
 
-        public void SoundReplace(int oldSoundId, int newSoundId, float offsetTime, float fadeTime = 0, Action playResetCallback = null, bool loop = false)
+        public void SoundReplace(string oldSoundUuid, string newSoundUuid, float offsetTime, float fadeTime = 0, Action playResetCallback = null, bool loop = false)
         {
             float CurrentTime = 0;
-            if (SoundTime(oldSoundId, out CurrentTime))
+            if (SoundTime(oldSoundUuid, out CurrentTime))
             {
-                StopSound(oldSoundId, fadeTime);
+                StopSound(oldSoundUuid, fadeTime);
             }
             Debug.Log($"Sound Replace CurrentTime:{CurrentTime}");
 
-            PlaySound(newSoundId, playResetCallback, loop, offsetTime: CurrentTime + offsetTime, fadeTime: fadeTime);
+            PlaySound(newSoundUuid, playResetCallback, loop, offsetTime: CurrentTime + offsetTime, fadeTime: fadeTime);
         }
 
         void OnPlaySoundReset(object sender, GameFrameworkEventArgs e)

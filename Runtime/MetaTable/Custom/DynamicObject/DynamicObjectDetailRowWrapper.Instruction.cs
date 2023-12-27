@@ -20,7 +20,7 @@ namespace Pangoo.MetaTable
         [TabGroup("指令系统")]
         [ValueDropdown("TriggerEventIdDropdown", IsUniqueList = true)]
         [ListDrawerSettings(Expanded = true)]
-        [ShowInInspector]
+        // [ShowInInspector]
         [PropertyOrder(11)]
         public int[] TriggerIds
         {

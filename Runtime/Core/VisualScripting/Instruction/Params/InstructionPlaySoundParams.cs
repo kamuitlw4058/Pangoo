@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Core.VisualScripting
 {
     public class InstructionPlaySoundParams : InstructionParams
     {
-        [JsonMember("SoundId")]
-        [ValueDropdown("OnSoundIdDropdown")]
+        [JsonMember("SoundUuid")]
+        [ValueDropdown("OnSoundUuidDropdown")]
 
-        public int SoundId;
+        public string SoundUuid;
 
         [JsonMember("FadeTime")]
         public float FadeTime;
@@ -23,16 +24,16 @@ namespace Pangoo.Core.VisualScripting
         public bool WaitToComplete;
 
 #if UNITY_EDITOR
-        IEnumerable OnSoundIdDropdown()
+        IEnumerable OnSoundUuidDropdown()
         {
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<SoundTableOverview>();
+            return SoundOverview.GetUuidDropdown();
         }
 #endif
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionPlaySoundParams>(val);
             WaitToComplete = par.WaitToComplete;
-            SoundId = par.SoundId;
+            SoundUuid = par.SoundUuid;
             Loop = par.Loop;
             FadeTime = par.FadeTime;
 

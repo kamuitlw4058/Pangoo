@@ -173,20 +173,20 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetPlaySound(int SoundId, bool loop, bool WaitToComplete, float fadeTime)
+        public static Instruction GetPlaySound(string SoundUuid, bool loop, bool WaitToComplete, float fadeTime)
         {
             var instruction = Activator.CreateInstance<InstructionPlaySound>();
-            instruction.ParamsRaw.SoundId = SoundId;
+            instruction.ParamsRaw.SoundUuid = SoundUuid;
             instruction.ParamsRaw.Loop = loop;
             instruction.ParamsRaw.WaitToComplete = WaitToComplete;
             instruction.ParamsRaw.FadeTime = fadeTime;
             return instruction;
         }
 
-        public static Instruction GetStopSound(int SoundId, float fadeTime)
+        public static Instruction GetStopSound(string SoundUuid, float fadeTime)
         {
             var instruction = Activator.CreateInstance<InstructionStopSound>();
-            instruction.ParamsRaw.SoundId = SoundId;
+            instruction.ParamsRaw.SoundUuid = SoundUuid;
             instruction.ParamsRaw.FadeTime = fadeTime;
             return instruction;
         }
@@ -277,9 +277,9 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.DynamicObjectRunExecute:
                     return GetDynamicObjectRunExecute(Uuid, Bool1);
                 case DirectInstructionTypeEnum.PlaySound:
-                    return GetPlaySound(Int1, Bool1, Bool2, Float1);
+                    return GetPlaySound(Uuid, Bool1, Bool2, Float1);
                 case DirectInstructionTypeEnum.StopSound:
-                    return GetStopSound(Int1, Float1);
+                    return GetStopSound(Uuid, Float1);
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
                     return GetDynamicObjectSubGameObjectEnabled(Uuid, DropdownString1, Bool1);
                 case DirectInstructionTypeEnum.ImageFade:

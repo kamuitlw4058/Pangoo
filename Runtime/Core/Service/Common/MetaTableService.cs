@@ -93,6 +93,22 @@ namespace Pangoo.Core.Services
         }
 
 
+        MetaTable.SoundTable m_SoundTable;
+
+        public MetaTable.SoundTable SoundTab
+        {
+            get
+            {
+                if (m_SoundTable == null)
+                {
+                    m_SoundTable = GetMetaTable<MetaTable.SoundTable>();
+                }
+                return m_SoundTable;
+            }
+        }
+
+
+
         public IGameSectionRow GetGameSectionByUuid(string uuid)
         {
             return GameSectionTab?.GetRowByUuid(uuid);
@@ -122,6 +138,11 @@ namespace Pangoo.Core.Services
         public IVariablesRow GetVariablesByUuid(string uuid)
         {
             return VariablesTab.GetRowByUuid(uuid);
+        }
+
+        public ISoundRow GetSoundByUuid(string uuid)
+        {
+            return SoundTab.GetRowByUuid(uuid);
         }
 
     }
