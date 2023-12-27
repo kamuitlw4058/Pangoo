@@ -10,7 +10,7 @@ namespace Pangoo.Core.VisualScripting
 
     public abstract class UIPanel : UIFormLogic, IParams
     {
-        UIPanelData PanelData;
+        protected UIPanelData PanelData;
         protected RectTransform rectTransform;
 
         protected override void OnOpen(object userData)
