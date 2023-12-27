@@ -67,6 +67,13 @@ namespace Pangoo.Core.Services
 
         public VariableTypeEnum? GetVariableType(string uuid)
         {
+            if (uuid.IsNullOrWhiteSpace())
+            {
+                Debug.LogError($"GetVariableType uuid is Null");
+                return null;
+            }
+
+
             if (m_VariablesDict.TryGetValue(uuid, out IVariablesRow row))
             {
                 return row.VariableType.ToEnum<VariableTypeEnum>();

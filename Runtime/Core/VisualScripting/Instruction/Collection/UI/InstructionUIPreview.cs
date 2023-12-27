@@ -34,7 +34,7 @@ namespace Pangoo.Core.VisualScripting
         protected override IEnumerator Run(Args args)
         {
             IsUICloed = false;
-            args?.Main?.UI?.ShowUI(ParamsRaw.UIId, () =>
+            args?.Main?.UI?.ShowUI(ParamsRaw.UIUuid, () =>
             {
                 Debug.Log($"UI Closed");
                 IsUICloed = true;
@@ -47,7 +47,7 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            args?.Main?.UI?.ShowUI(ParamsRaw.UIId, userData: new PreviewData() { Go = args.dynamicObject.gameObject });
+            args?.Main?.UI?.ShowUI(ParamsRaw.UIUuid, userData: new PreviewData() { Go = args.dynamicObject.gameObject });
         }
 
     }

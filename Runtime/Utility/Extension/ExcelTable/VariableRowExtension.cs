@@ -20,7 +20,7 @@ namespace Pangoo
 #if UNITY_EDITOR
             if (Application.isPlaying && handler != null)
             {
-                Debug.Log($"GetRowByInstructionTable");
+                // Debug.Log($"GetRowByInstructionTable");
                 row = handler(uuid);
             }
             else

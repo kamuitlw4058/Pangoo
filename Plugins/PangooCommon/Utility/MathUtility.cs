@@ -23,14 +23,6 @@ namespace Pangoo.Common
             };
         }
 
-        // public static Vector3 SmoothDamp(Vector3 input, Vector3 target, ref float cur,)
-        // {
-        //     return new Vector3()
-        //     {
-        //         x = Mathf.SmoothDamp(input.x, target.x, val),
-        //         y = Mathf.SmoothDamp(input.y, target.y, val),
-        //         z = Mathf.SmoothDamp(input.z, target.z, val),
-        //     };
-        // }
+
     }
 }

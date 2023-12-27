@@ -31,6 +31,15 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
+        [ShowInInspector]
+        public string Name
+        {
+            get
+            {
+                return Row.Name;
+            }
+        }
+
         public void SetEnabled(bool val)
         {
             m_Enabled = val;
