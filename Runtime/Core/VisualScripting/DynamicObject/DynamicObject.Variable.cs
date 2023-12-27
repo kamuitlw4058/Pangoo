@@ -32,7 +32,7 @@ namespace Pangoo.Core.VisualScripting
         public T GetVariable<T>(int id)
         {
             var row = VariableRowExtension.GetById(id, m_VariablesTable);
-            Debug.Log($"Set Value:{row}");
+            // Debug.Log($"Set Value:{row}");
             if (row != null)
             {
                 switch (row.VariableType.ToEnum<VariableTypeEnum>())
