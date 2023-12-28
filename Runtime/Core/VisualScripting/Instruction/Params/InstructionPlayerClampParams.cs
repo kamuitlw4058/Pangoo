@@ -12,9 +12,7 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public class InstructionPlayerClampParams : InstructionParams
     {
-        [JsonMember("CharacterUuid")]
-        [ValueDropdown("GetCharacterUuids", IsUniqueList = true)]
-        public string CharacterUuid;
+
 
         [Title("重置相机旋转角度")]
         [JsonMember("ResetCameraRotation")]
@@ -47,7 +45,6 @@ namespace Pangoo.Core.VisualScripting
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionPlayerClampParams>(val);
-            CharacterUuid = par.CharacterUuid;
             ResetCameraRotation = par.ResetCameraRotation;
             OpenCameraClamp = par.OpenCameraClamp;
             RotationClamp = par.RotationClamp;
@@ -58,10 +55,6 @@ namespace Pangoo.Core.VisualScripting
         }
 
 #if UNITY_EDITOR
-        public IEnumerable GetCharacterUuids()
-        {
-            return CharacterOverview.GetUuidDropdown();
-        }
 
         public IEnumerable GetNoiseSettings()
         {

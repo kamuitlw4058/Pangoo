@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using LitJson;
 using System.Collections;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Pangoo.MetaTable;
 
@@ -12,7 +13,7 @@ namespace Pangoo.Core.VisualScripting
     public class InstructionPlayerPostionParams : InstructionParams
     {
         [JsonMember("CharacterUuid")]
-        [ValueDropdown("GetCharacterIds", IsUniqueList = true)]
+        [ValueDropdown("GetCharacterUuid", IsUniqueList = true)]
         public string CharacterUuid;
 
         [JsonMember("Position")]
@@ -40,9 +41,11 @@ namespace Pangoo.Core.VisualScripting
         }
 
 #if UNITY_EDITOR
-        public IEnumerable GetCharacterIds()
+        public IEnumerable GetCharacterUuid()
         {
-            return CharacterOverview.GetUuidDropdown();
+            return CharacterOverview.GetUuidDropdown(AdditionalOptions: new List<Tuple<string, string>>(){
+                new Tuple<string, string>("Default",string.Empty),
+            });
         }
 #endif
 

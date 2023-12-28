@@ -22,7 +22,7 @@ namespace Pangoo.Core.VisualScripting
 
         // PROPERTIES: ----------------------------------------------------------------------------
 
-        public override string Title => $"Character: {this.ParamsRaw.CharacterUuid}";
+        public override string Title => $"Character: ClampState";
 
         // PRIVATE: -------------------------------------------------------------------------------
 
@@ -43,17 +43,6 @@ namespace Pangoo.Core.VisualScripting
             if (args?.Main != null)
             {
                 m_CharacterService = args.Main.CharacterService;
-                var characterUuid = this.ParamsRaw.CharacterUuid;
-
-                if (characterUuid.IsNullOrWhiteSpace())
-                {
-                    characterUuid = args.Main?.GameConfig?.GetGameMainConfig()?.DefaultPlayer;
-                    if (characterUuid.IsNullOrWhiteSpace())
-                    {
-                        Debug.LogError("Get Player Id failed!");
-                        return;
-                    }
-                }
 
                 SetPlayerClamp(ParamsRaw.OpenCameraClamp);
                 ResetCameraRotation();
