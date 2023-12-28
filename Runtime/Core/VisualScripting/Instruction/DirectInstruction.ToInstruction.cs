@@ -238,6 +238,14 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
+        public static Instruction GetDynamicObjectPreview(string previewUuid, bool val)
+        {
+            var instruction = Activator.CreateInstance<InstructionUIPreview>();
+            instruction.ParamsRaw.PreivewUuid = previewUuid;
+            instruction.ParamsRaw.WaitClosed = val;
+            return instruction;
+        }
+
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
             switch (InstructionType)
@@ -298,6 +306,8 @@ namespace Pangoo.Core.VisualScripting
                 //     return GetCheckBoolVariableList(ListInt1, Int1);
                 case DirectInstructionTypeEnum.DynamicObjectInteractEnable:
                     return GetDynamicObjectInteractEnable(Uuid, Bool1);
+                case DirectInstructionTypeEnum.DynamicObjectPreview:
+                    return GetDynamicObjectPreview(Uuid, Bool1);
             }
 
             return null;

@@ -93,5 +93,8 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("动态物体/设置是否可以交互")]
         DynamicObjectInteractEnable,
+
+        [LabelText("UI/动态物体预览")]
+        DynamicObjectPreview,
     }
 }
