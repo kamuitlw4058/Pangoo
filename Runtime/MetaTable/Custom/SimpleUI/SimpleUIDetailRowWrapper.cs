@@ -65,7 +65,7 @@ namespace Pangoo.MetaTable
         [LabelText("资源ID")]
         [ValueDropdown("AssetPathIdValueDropdown")]
         [PropertyOrder(0)]
-        [ShowInInspector]
+        // [ShowInInspector]
         // [InlineButton("ShowCreateAssetPath", SdfIconType.Plus, Label = "")]
         public int AssetPathId
         {

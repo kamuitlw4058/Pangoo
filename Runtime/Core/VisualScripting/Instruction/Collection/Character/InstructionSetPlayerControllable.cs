@@ -52,12 +52,7 @@ namespace Pangoo.Core.VisualScripting
 
             if (args?.Main != null)
             {
-                var characterService = args.Main.GetService<CharacterService>();
-                if (characterService.Player != null)
-                {
-                    characterService.Player.character.IsControllable = ParamsRaw.Val;
-                    Debug.Log($"SetPlayer val:{ParamsRaw.Val}");
-                }
+                args.Main.CharacterService.SetPlayerControllable(ParamsRaw.Val);
             }
 
         }

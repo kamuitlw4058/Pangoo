@@ -108,6 +108,23 @@ namespace Pangoo.Core.Services
         }
 
 
+        MetaTable.DynamicObjectPreviewTable m_DynamicObjectPreviewTable;
+
+        public MetaTable.DynamicObjectPreviewTable DynamicObjectPreviewTab
+        {
+            get
+            {
+                if (m_DynamicObjectPreviewTable == null)
+                {
+                    m_DynamicObjectPreviewTable = GetMetaTable<MetaTable.DynamicObjectPreviewTable>();
+                }
+                return m_DynamicObjectPreviewTable;
+            }
+        }
+
+
+
+
 
         public IGameSectionRow GetGameSectionByUuid(string uuid)
         {
@@ -143,6 +160,11 @@ namespace Pangoo.Core.Services
         public ISoundRow GetSoundByUuid(string uuid)
         {
             return SoundTab.GetRowByUuid(uuid);
+        }
+
+        public IDynamicObjectPreviewRow GetDynamicObjectPreviewByUuid(string uuid)
+        {
+            return DynamicObjectPreviewTab.GetRowByUuid(uuid);
         }
 
     }

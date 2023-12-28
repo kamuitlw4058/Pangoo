@@ -108,6 +108,7 @@ namespace Pangoo.Editor
             InitOverviewWrapper<VariablesOverviewWrapper, Pangoo.MetaTable.VariablesOverview, Pangoo.MetaTable.VariablesDetailRowWrapper, Pangoo.MetaTable.VariablesRowWrapper, Pangoo.MetaTable.VariablesNewRowWrapper, UnityVariablesRow>(tree, null, "变量");
             InitOverviewWrapper<SoundOverviewWrapper, Pangoo.MetaTable.SoundOverview, Pangoo.MetaTable.SoundDetailRowWrapper, Pangoo.MetaTable.SoundRowWrapper, Pangoo.MetaTable.SoundNewRowWrapper, UnitySoundRow>(tree, null, "音频");
             InitOverviewWrapper<SimpleUIOverviewWrapper, Pangoo.MetaTable.SimpleUIOverview, Pangoo.MetaTable.SimpleUIDetailRowWrapper, Pangoo.MetaTable.SimpleUIRowWrapper, Pangoo.MetaTable.SimpleUINewRowWrapper, UnitySimpleUIRow>(tree, null, "UI");
+            InitOverviewWrapper<DynamicObjectPreviewOverviewWrapper, Pangoo.MetaTable.DynamicObjectPreviewOverview, Pangoo.MetaTable.DynamicObjectPreviewDetailRowWrapper, Pangoo.MetaTable.DynamicObjectPreviewRowWrapper, Pangoo.MetaTable.DynamicObjectPreviewNewRowWrapper, UnityDynamicObjectPreviewRow>(tree, null, "预览");
 
 
             return tree;

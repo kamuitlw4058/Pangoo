@@ -17,7 +17,7 @@ namespace Pangoo.Core.VisualScripting
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        public InstructionUIBoolParams ParamsRaw = new InstructionUIBoolParams();
+        public InstructionUIPreviewParams ParamsRaw = new InstructionUIPreviewParams();
         public override IParams Params => this.ParamsRaw;
 
         public bool IsUICloed = false;
@@ -31,14 +31,33 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
+        PreviewData BuildPreviewData(Args args)
+        {
+            var ret = new PreviewData();
+            ret.args = args;
+            ret.DynamicObject = args.dynamicObject;
+            ret.PreviewRow = args.Main.MetaTable.GetDynamicObjectPreviewByUuid(ParamsRaw.PreivewUuid);
+            ret.OldPosition = ret.CurrentPosition;
+            ret.OldRotation = ret.CurrentRotation;
+            ret.OldScale = ret.CurrentScale;
+            return ret;
+        }
+
+
         protected override IEnumerator Run(Args args)
         {
+            if (args.dynamicObject == null)
+            {
+                Debug.LogError($"Preview DynamicObject Is Failed! DynamicObject is null");
+                yield break;
+            }
+
             IsUICloed = false;
-            args?.Main?.UI?.ShowUI(ParamsRaw.UIUuid, () =>
+            args?.Main?.UI?.ShowPreview(BuildPreviewData(args), () =>
             {
                 Debug.Log($"UI Closed");
                 IsUICloed = true;
-            }, new PreviewData() { Go = args.dynamicObject.gameObject });
+            });
             while (!IsUICloed)
             {
                 yield return null;
@@ -47,8 +66,12 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            args?.Main?.UI?.ShowUI(ParamsRaw.UIUuid, userData: new PreviewData() { Go = args.dynamicObject.gameObject });
-        }
+            if (args.dynamicObject == null)
+            {
+                Debug.LogError($"Preview DynamicObject Is Failed! DynamicObject is null");
+            }
 
+            args?.Main?.UI?.ShowPreview(BuildPreviewData(args));
+        }
     }
 }

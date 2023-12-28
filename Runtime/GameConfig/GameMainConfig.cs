@@ -59,6 +59,11 @@ namespace Pangoo
         [ValueDropdown("GetUIId")]
         public string DefaultSubtitlePanelUuid = string.Empty;
 
+
+        [LabelText("预览UI Uuid")]
+        [ValueDropdown("GetUIId")]
+        public string PreviewPanelUuid = string.Empty;
+
         [LabelText("调试指令")]
         [ValueDropdown("GetInstructions")]
         [ListDrawerSettings(Expanded = true)]

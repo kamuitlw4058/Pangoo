@@ -14,15 +14,90 @@ namespace Pangoo.Core.VisualScripting
 
     public class UIPreviewPanel : UIPanel
     {
+        public enum PreviewState
+        {
+            None,
+            OnShow,
+            OnGrab,
+            OnPreview,
+            OnClosing,
+            OnClose,
+        }
+
+
         public UISubtitleParams ParamsRaw = new UISubtitleParams();
 
         protected override IParams Params => ParamsRaw;
 
+        public TextMeshProUGUI m_Text;
 
-        Vector3 OldPosition;
 
-        GameObject PreviewGo;
+        PreviewData PreviewData;
 
+
+        PreviewState m_PreviewState = PreviewState.None;
+
+        PreviewState State
+        {
+            get
+            {
+                return m_PreviewState;
+            }
+            set
+            {
+                if (m_PreviewState == value) return;
+
+                m_PreviewState = value;
+                switch (value)
+                {
+                    case PreviewState.OnShow:
+                        OnShow();
+                        break;
+                    case PreviewState.OnGrab:
+                        OnGrab();
+                        break;
+                    case PreviewState.OnPreview:
+                        OnPreview();
+                        break;
+                    case PreviewState.OnClosing:
+                        OnClosing();
+                        break;
+                }
+            }
+        }
+
+        Camera MainCamera { get; set; }
+
+
+        public Vector3 TargetPoint
+        {
+            get
+            {
+                return MainCamera.transform.TransformPoint(transform.forward * 0.3f);
+            }
+        }
+
+        void OnShow()
+        {
+
+        }
+
+        void OnGrab()
+        {
+
+        }
+
+
+        void OnPreview()
+        {
+
+        }
+
+
+        void OnClosing()
+        {
+
+        }
 
 
 
@@ -30,32 +105,69 @@ namespace Pangoo.Core.VisualScripting
         {
             base.OnOpen(userData);
 
-            var previewData = PanelData.UserData as PreviewData;
-            if (previewData == null) return;
+            PreviewData = PanelData.UserData as PreviewData;
+            if (PreviewData == null) return;
 
-            OldPosition = previewData.Go.transform.position;
-            PreviewGo = previewData.Go;
+            m_Text = GetComponentInChildren<TextMeshProUGUI>();
+            MainCamera = GameObject.FindWithTag("MainCamera")?.GetComponent<Camera>();
+
+            PreviewData.args.Main.CharacterService.SetPlayerControllable(false);
+
+            m_Text.text = PreviewData.PreviewRow.Title;
+            State = PreviewState.OnShow;
 
         }
 
 
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
         {
-            if (PreviewGo == null) return;
-            var camera = GameObject.FindWithTag("MainCamera")?.GetComponent<Camera>();
-            if (camera == null) return;
-
-            if (PreviewGo.transform.position != camera.transform.TransformPoint(transform.forward * 0.3f))
+            if (MainCamera == null)
             {
-                PreviewGo.transform.position = MathUtility.Lerp(PreviewGo.transform.position, camera.transform.TransformPoint(transform.forward * 0.3f), 0.5f);
+                Debug.Log($"Main Camera Is Null");
+                return;
             }
 
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if ((State == PreviewState.OnShow || State == PreviewState.OnGrab))
             {
-                if (PreviewGo != null)
+                State = PreviewState.OnGrab;
+                if ((PreviewData.CurrentPosition - TargetPoint).magnitude > 0.01)
                 {
-                    PreviewGo.transform.position = OldPosition;
+                    PreviewData.CurrentPosition = MathUtility.Lerp(PreviewData.CurrentPosition, TargetPoint, 0.5f);
+                    return;
                 }
+            }
+
+            if (State == PreviewState.OnGrab)
+            {
+                State = PreviewState.OnPreview;
+            }
+
+
+            if (State == PreviewState.OnPreview)
+            {
+                PreviewData.CurrentPosition = TargetPoint;
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    State = PreviewState.OnClosing;
+                }
+            }
+
+            if (State == PreviewState.OnClosing)
+            {
+                if ((PreviewData.CurrentPosition - PreviewData.OldPosition).magnitude > 0.001)
+                {
+                    PreviewData.CurrentPosition = MathUtility.Lerp(PreviewData.CurrentPosition, PreviewData.OldPosition, 0.5f);
+                    return;
+                }
+                else
+                {
+                    State = PreviewState.OnClose;
+                }
+            }
+
+            if (State == PreviewState.OnClose)
+            {
+                PreviewData.args.Main.CharacterService.SetPlayerControllable(true);
                 CloseSelf();
             }
 

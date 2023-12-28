@@ -57,6 +57,15 @@ namespace Pangoo.Core.Services
             m_EntityGroupRow = EntityGroupRowExtension.CreateCharacterGroup();
         }
 
+        public void SetPlayerControllable(bool val)
+        {
+            if (Player != null)
+            {
+                Player.character.IsControllable = val;
+                Debug.Log($"SetPlayer val:{val}");
+            }
+        }
+
 
         public void SetPlayerHeight(float height)
         {

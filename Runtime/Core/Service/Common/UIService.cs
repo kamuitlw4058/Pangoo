@@ -11,37 +11,14 @@ using Pangoo.Core.VisualScripting;
 
 namespace Pangoo.Core.Services
 {
-    public class UIService : BaseService
+    public class UIService : MainSubService
     {
         public override int Priority => 6;
 
         public override string ServiceName => "UI";
 
-        ExcelTableService m_ExcelTableService;
-
-
-        public ExcelTableService TableService
-        {
-            get
-            {
-                return m_ExcelTableService;
-            }
-        }
-
-        SimpleUITable m_UITable;
-
-
-        EntityGroupTable m_EntityGroupTable;
-
-        EntityGroupTable.EntityGroupRow m_EntityGroupRow;
-
-
-        DynamicObjectTable m_DynamicObjectTable;
-
 
         UILoader Loader = null;
-
-        GameInfoService m_GameInfoService;
 
 
         UIInfo m_UIInfo;
@@ -53,19 +30,21 @@ namespace Pangoo.Core.Services
         protected override void DoAwake()
         {
             base.DoAwake();
-            m_ExcelTableService = Parent.GetService<ExcelTableService>();
-            m_GameInfoService = Parent.GetService<GameInfoService>();
         }
 
 
         protected override void DoStart()
         {
 
-            m_DynamicObjectTable = m_ExcelTableService.GetExcelTable<DynamicObjectTable>();
-            m_EntityGroupTable = m_ExcelTableService.GetExcelTable<EntityGroupTable>();
-            m_UITable = m_ExcelTableService.GetExcelTable<SimpleUITable>();
-
-            m_UIInfo = m_GameInfoService.GetGameInfo<UIInfo>();
+            m_UIInfo = GameInfoSrv.GetGameInfo<UIInfo>();
+        }
+        public void ShowPreview(PreviewData previewData, Action closeAction = null)
+        {
+            if (!GameMainConfigSrv.GetGameMainConfig().PreviewPanelUuid.IsNullOrWhiteSpace())
+            {
+                previewData.UIService = this;
+                ShowUI(GameMainConfigSrv.GetGameMainConfig().PreviewPanelUuid, closeAction, previewData);
+            }
         }
 
         public void ShowUI(string uuid, Action closeAction = null, object userData = null)
@@ -74,7 +53,7 @@ namespace Pangoo.Core.Services
             {
                 Loader = UILoader.Create(this);
             }
-            Log($"Show UI:{uuid} m_UIInfo:{m_UIInfo}");
+            Log($"Show UI:{uuid} m_UIInfo:{GameInfoSrv}");
             var info = m_UIInfo.GetRowByUuid<UIInfoRow>(uuid);
             Log($"Show UI:{uuid} info:{info}");
             if (info == null || m_LoadingAssetIds.Contains(uuid) || m_LoadedAssetDict.ContainsKey(uuid))

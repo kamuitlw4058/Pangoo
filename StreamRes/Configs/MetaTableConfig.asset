@@ -529,3 +529,27 @@ MonoBehaviour:
     - Name: InstancePriority
       Type: int
       CnName: "\u5B9E\u4F53\u7EC4\u5B9E\u4F8B\u5BF9\u8C61\u6C60\u7684\u4F18\u5148\u7EA7"
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: DynamicObjectPreview
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: Title
+      Type: string
+      CnName: "\u6807\u9898"
+    - Name: OnShowInstructions
+      Type: string
+      CnName: "\u663E\u793A\u65F6\u6307\u4EE4"
+    - Name: OnGrabInstructions
+      Type: string
+      CnName: "\u6293\u53D6\u65F6\u6307\u4EE4"
+    - Name: OnPreviewInstructions
+      Type: string
+      CnName: "\u9884\u89C8\u65F6\u6307\u4EE4"
+    - Name: OnCloseInstructions
+      Type: string
+      CnName: "\u5173\u95ED\u65F6\u6307\u4EE4"
+    - Name: GrabSoundUuid
+      Type: string
+      CnName: "\u6293\u53D6\u97F3\u9891"
