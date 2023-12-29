@@ -87,12 +87,12 @@ namespace Pangoo.MetaTable
         [ValueDropdown("OnDynamicObjectIdDropdown")]
         [OnValueChanged("OnDynamicObjectIdChanged")]
         [TitleGroup("目标")]
-        public int RefDynamicObjectId { get; set; }
+        public string RefDynamicObjectUuid { get; set; }
 
 
         void OnDynamicObjectIdChanged()
         {
-            RefPrefab = GameSupportEditorUtility.GetPrefabByDynamicObjectId(RefDynamicObjectId);
+            RefPrefab = GameSupportEditorUtility.GetPrefabByDynamicObjectUuid(RefDynamicObjectUuid);
         }
 
 
@@ -244,7 +244,6 @@ namespace Pangoo.MetaTable
         [LabelText("条件Ids")]
         [ValueDropdown("ConditionIdValueDropdown", IsUniqueList = true)]
         [ListDrawerSettings(Expanded = true)]
-        [ShowInInspector]
         [PropertyOrder(9)]
         [TitleGroup("指令系统")]
         [ShowIf("@this.UseCondition")]

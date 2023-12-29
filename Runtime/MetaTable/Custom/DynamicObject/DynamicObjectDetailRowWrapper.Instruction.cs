@@ -71,8 +71,7 @@ namespace Pangoo.MetaTable
             return GameSupportEditorUtility.GetTriggerEventUuids();
         }
 
-        [ListDrawerSettings(Expanded = true)]
-        List<DirectInstructionGroup> m_DirectInstructionGroups;
+        DirectInstructionGroup[] m_DirectInstructionGroups;
 
         public void UpdateGroupPrefab()
         {
@@ -99,16 +98,16 @@ namespace Pangoo.MetaTable
         [PropertyOrder(10)]
         [OnValueChanged("OnDirectInstructionsChanged", includeChildren: true)]
         // [ListDrawerSettings(Expanded = true, CustomAddFunction = "AddDirectInstruction", CustomRemoveIndexFunction = "RemoveIndexDirectInstruction")]
-        public List<DirectInstructionGroup> DirectInstructions
+        public DirectInstructionGroup[] DirectInstructions
         {
             get
             {
                 if (m_DirectInstructionGroups == null)
                 {
-                    m_DirectInstructionGroups = DirectInstructionGroup.CreateList(UnityRow.Row?.DirectInstructions);
+                    m_DirectInstructionGroups = DirectInstructionGroup.CreateList(UnityRow.Row?.DirectInstructions).ToArray();
                     if (m_DirectInstructionGroups == null)
                     {
-                        m_DirectInstructionGroups = new List<DirectInstructionGroup>();
+                        m_DirectInstructionGroups = new DirectInstructionGroup[0];
                     }
                     else
                     {
@@ -128,8 +127,35 @@ namespace Pangoo.MetaTable
 
         void OnDirectInstructionsChanged()
         {
+            for (int i = 0; i < m_DirectInstructionGroups.Length; i++)
+            {
+                if (m_DirectInstructionGroups[i].Uuid.IsNullOrWhiteSpace())
+                {
+                    m_DirectInstructionGroups[i].Uuid = UuidUtility.GetNewUuid();
+                }
+
+                if (m_DirectInstructionGroups[i].DirectInstructionList == null)
+                {
+                    m_DirectInstructionGroups[i].DirectInstructionList = new DirectInstruction[0];
+                }
+
+                if (m_DirectInstructionGroups[i].FailedDirectInstructionList == null)
+                {
+                    m_DirectInstructionGroups[i].FailedDirectInstructionList = new DirectInstruction[0];
+                }
+
+                if (m_DirectInstructionGroups[i].StateDirectInstructionDict == null)
+                {
+                    m_DirectInstructionGroups[i].StateDirectInstructionDict = new();
+                }
+                if (m_DirectInstructionGroups[i].ConditionUuids == null)
+                {
+                    m_DirectInstructionGroups[i].ConditionUuids = new string[0];
+                }
+            }
+
             var currentValue = DirectInstructionGroup.Save(m_DirectInstructionGroups);
-            // Debug.Log($"Try Save:{currentValue}, old:{Row?.DirectInstructions}");
+            // Debug.Log($"Try Save:{currentValue}, old:{UnityRow.Row?.DirectInstructions}");
             if (!currentValue.Equals(UnityRow.Row?.DirectInstructions))
             {
                 UnityRow.Row.DirectInstructions = currentValue;
@@ -137,23 +163,6 @@ namespace Pangoo.MetaTable
             }
             UpdateGroupPrefab();
         }
-        [Button("升级Int到Uuid")]
-        [TabGroup("指令系统")]
-        public void UpdateDirectInstructionGroupId2Uuid()
-        {
-            if (m_DirectInstructionGroups == null)
-            {
-                m_DirectInstructionGroups = DirectInstructionGroup.CreateList(UnityRow.Row?.DirectInstructions);
-            }
-
-            foreach (var group in m_DirectInstructionGroups)
-            {
-                group.UpdateUuidById();
-            }
-            OnDirectInstructionsChanged();
-        }
-
-
 
 
 

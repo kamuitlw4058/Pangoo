@@ -712,6 +712,20 @@ namespace Pangoo.MetaTable
             return AssetDatabaseUtility.LoadAssetAtPath<GameObject>(finalPath);
         }
 
+        public static GameObject GetPrefabByDynamicObjectUuid(string uuid)
+        {
+            if (uuid.IsNullOrWhiteSpace()) return null;
+
+            var row = DynamicObjectOverview.GetUnityRowByUuid(uuid);
+            if (row == null) return null;
+
+            var assetRow = AssetPathOverview.GetUnityRowByUuid(row.Row.AssetPathUuid);
+            if (assetRow == null) return null;
+
+            var finalPath = AssetUtility.GetAssetPath(assetRow.Row.AssetPackageDir, assetRow.Row.AssetType, assetRow.Row.AssetPath, assetRow.Row.AssetGroup);
+            return AssetDatabaseUtility.LoadAssetAtPath<GameObject>(finalPath);
+        }
+
 #endif
     }
 }
