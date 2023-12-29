@@ -131,6 +131,9 @@ namespace Pangoo.Core.VisualScripting
                     ret.EventRunInstructionsEnd -= OnInteractEnd;
                     ret.EventRunInstructionsEnd += OnInteractEnd;
                     break;
+                case TriggerTypeEnum.OnTimelineSignal:
+                    DoAwakeTimeineSignal();
+                    break;
             }
             TriggerRegister(ret);
             return ret;

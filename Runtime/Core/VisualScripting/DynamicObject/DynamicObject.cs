@@ -257,6 +257,9 @@ namespace Pangoo.Core.VisualScripting
                 m_Tracker = null;
                 Debug.Log($"Try disable m_Tracker:{m_Tracker}");
             }
+
+            DoDisableTimeineSignal();
+
             base.DoDisable();
         }
 
