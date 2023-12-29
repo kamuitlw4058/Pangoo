@@ -87,7 +87,6 @@ namespace Pangoo
             return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<TriggerEventTableOverview>();
         }
 
-
         List<DirectInstructionGroup> m_DirectInstructionGroups;
 
         public void UpdateGroupPrefab()
@@ -114,7 +113,6 @@ namespace Pangoo
         [TabGroup("指令系统")]
         [PropertyOrder(10)]
         [OnValueChanged("OnDirectInstructionsChanged", includeChildren: true)]
-        // [ListDrawerSettings(Expanded = true, CustomAddFunction = "AddDirectInstruction", CustomRemoveIndexFunction = "RemoveIndexDirectInstruction")]
         public List<DirectInstructionGroup> DirectInstructions
         {
             get
@@ -142,17 +140,19 @@ namespace Pangoo
 
         }
 
-        void OnDirectInstructionsChanged()
+
+        public void RemoveIndexDirectInstruction()
         {
-            var currentValue = DirectInstructionGroup.Save(m_DirectInstructionGroups);
-            // Debug.Log($"Try Save:{currentValue}, old:{Row?.DirectInstructions}");
-            if (!currentValue.Equals(Row?.DirectInstructions))
-            {
-                Row.DirectInstructions = currentValue;
-                Save();
-            }
-            UpdateGroupPrefab();
+            Debug.Log($"remove");
+
         }
+
+        public void OnAfter()
+        {
+            Debug.Log($"OnAfter");
+        }
+
+
 
 
 

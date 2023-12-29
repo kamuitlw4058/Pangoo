@@ -50,6 +50,8 @@ namespace Pangoo.Core.VisualScripting
 
         OnPointerClickLeft,
         OnPointerClickRight,
+
+        OnTimelineSignal,
     }
 }
 

@@ -1,15 +1,10 @@
 using System;
 using System.Collections.Generic;
 
-using UnityEngine;
-using Pangoo.Core.Common;
-using Pangoo.Core.Characters;
-using Sirenix.OdinInspector;
-using UnityEngine.Playables;
-using UnityEditor;
-using Sirenix.Utilities;
+
 using Pangoo.MetaTable;
 using MetaTable;
+using System.Linq;
 
 
 
@@ -19,11 +14,11 @@ namespace Pangoo.Core.VisualScripting
     public partial class DynamicObject
     {
 
-        public InstructionList GetDirectInstructionList(DirectInstructionGroup diGroup, TriggerEvent trigger)
+        public InstructionList GetDirectInstructionList(bool DiableOnFinish, DirectInstruction[] directInstructionList, TriggerEvent trigger)
         {
             List<Instruction> ret = new();
 
-            foreach (var directInstruction in diGroup.DirectInstructionList)
+            foreach (var directInstruction in directInstructionList)
             {
                 var instruction = directInstruction.ToInstruction(m_InstructionHandler);
                 if (instruction != null)
@@ -32,7 +27,7 @@ namespace Pangoo.Core.VisualScripting
                 }
             }
 
-            if (diGroup.DisableOnFinish)
+            if (DiableOnFinish)
             {
                 var instruction = DirectInstruction.GetSelfTriggerEnabledInstruction(false);
                 ret.Add(instruction);
@@ -55,14 +50,31 @@ namespace Pangoo.Core.VisualScripting
             row.Uuid = UuidUtility.GetNewUuid();
             row.Name = $"DI_{row.TriggerType}_{directInstructionGroup.DirectInstructionList?.Length ?? 0}";
             row.Params = "{}";
-            row.ConditionType = ConditionTypeEnum.NoCondition.ToString();
             row.Targets = string.Empty;
             row.Enabled = directInstructionGroup.InitEnabled;
             row.TriggerType = directInstructionGroup.TriggerType.ToString();
-
+            row.ConditionType = directInstructionGroup.ConditionType.ToString();
 
             var trigger = CreateTriggerEvent(row, false);
-            trigger.ConditionInstructions.Add(1, GetDirectInstructionList(directInstructionGroup, trigger));
+            switch (directInstructionGroup.ConditionType)
+            {
+                case ConditionTypeEnum.NoCondition:
+                    trigger.ConditionInstructions.Add(1, GetDirectInstructionList(directInstructionGroup.DisableOnFinish, directInstructionGroup.DirectInstructionList, trigger));
+                    break;
+                case ConditionTypeEnum.BoolCondition:
+                    trigger.Conditions = ConditionList.BuildConditionList(directInstructionGroup.ConditionUuids.ToList(), m_ConditionHandler);
+                    trigger.ConditionInstructions.Add(1, GetDirectInstructionList(false, directInstructionGroup.DirectInstructionList, trigger));
+                    trigger.ConditionInstructions.Add(0, GetDirectInstructionList(false, directInstructionGroup.FailedDirectInstructionList, trigger));
+                    break;
+                case ConditionTypeEnum.StateCondition:
+                    trigger.Conditions = ConditionList.BuildConditionList(directInstructionGroup.ConditionUuids.ToList(), m_ConditionHandler);
+                    foreach (var kv in directInstructionGroup.StateDirectInstructionDict)
+                    {
+                        trigger.ConditionInstructions.Add(kv.Key, GetDirectInstructionList(false, kv.Value, trigger));
+                    }
+                    break;
+            }
+
         }
 
         void DoAwakeDirectionInstruction()

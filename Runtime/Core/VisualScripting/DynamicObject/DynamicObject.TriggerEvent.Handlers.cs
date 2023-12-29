@@ -48,16 +48,11 @@ namespace Pangoo.Core.VisualScripting
                 {
                     if (o.Enabled)
                     {
-                        if (uuid.IsNullOrWhiteSpace())
-                        {
-                            o.OnInvoke(CurrentArgs);
-                        }
-                        else if (uuid.Equals(Row.Uuid))
+                        if (uuid.IsNullOrWhiteSpace() || uuid.Equals(Row.Uuid))
                         {
                             o.OnInvoke(CurrentArgs);
                         }
                     }
-
                 });
             }
         }

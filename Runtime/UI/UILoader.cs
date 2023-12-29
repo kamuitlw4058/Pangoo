@@ -10,7 +10,7 @@ namespace Pangoo
     public class UILoader : IReference
     {
         private Dictionary<int, Action<UIFormLogic>> dicCallback;
-        private Dictionary<int, Action> dicCloseCallback;
+        private Dictionary<int, Action<UIFormLogic>> dicCloseCallback;
 
         private Dictionary<int, UIFormLogic> dicSerial2Entity;
 
@@ -26,13 +26,13 @@ namespace Pangoo
         {
             dicSerial2Entity = new Dictionary<int, UIFormLogic>();
             dicCallback = new Dictionary<int, Action<UIFormLogic>>();
-            dicCloseCallback = new Dictionary<int, Action>();
+            dicCloseCallback = new Dictionary<int, Action<UIFormLogic>>();
             tempList = new List<int>();
             Owner = null;
         }
 
 
-        public int ShowUI(UIPanelData info, Action<UIFormLogic> onShowSuccess = null, Action onCloseSuccess = null)
+        public int ShowUI(UIPanelData info, Action<UIFormLogic> onShowSuccess = null, Action<UIFormLogic> onCloseSuccess = null)
         {
             int serialId = PangooEntry.UI.ShowUI(info);
             if (serialId != 0)
@@ -93,15 +93,18 @@ namespace Pangoo
                 return;
             }
 
-            Action callback = null;
+            Action<UIFormLogic> callback = null;
             if (!dicCloseCallback.TryGetValue(ne.SerialId, out callback))
             {
                 return;
             }
 
 
+            if (!dicSerial2Entity.TryGetValue(ne.SerialId, out UIFormLogic logic))
+            {
+                callback?.Invoke(logic);
+            }
 
-            callback?.Invoke();
 
             if (dicCallback.ContainsKey(ne.SerialId))
             {

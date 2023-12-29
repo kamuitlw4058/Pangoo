@@ -65,7 +65,7 @@ namespace Pangoo.MetaTable
         [LabelText("资源ID")]
         [ValueDropdown("AssetPathIdValueDropdown")]
         [PropertyOrder(5)]
-        [ShowInInspector]
+        // [ShowInInspector]
         public int AssetPathId
         {
             get
@@ -215,7 +215,6 @@ namespace Pangoo.MetaTable
             }
             HotspotUuids = hotSpotUuids.ToArray();
 
-            UpdateDirectInstructionGroupId2Uuid();
         }
 
     }

@@ -6,6 +6,8 @@ using Pangoo.Core.VisualScripting;
 using Pangoo.Core.Services;
 using Sirenix.OdinInspector;
 using UnityEngine.EventSystems;
+using UnityEngine.Playables;
+using UnityEngine.Timeline;
 
 namespace Pangoo.Core.Common
 {
@@ -28,6 +30,11 @@ namespace Pangoo.Core.Common
 
         [ShowInInspector]
         [field: NonSerialized] public DynamicObject dynamicObject { get; private set; }
+
+        [field: NonSerialized] public PlayableDirector playableDirector { get; set; }
+
+        [field: NonSerialized] public string signalAssetName { get; set; }
+
 
         [ShowInInspector]
         [field: NonSerialized] public TriggerEvent Trigger { get; private set; }
