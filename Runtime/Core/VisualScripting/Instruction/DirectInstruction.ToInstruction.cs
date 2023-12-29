@@ -80,7 +80,8 @@ namespace Pangoo.Core.VisualScripting
 
         public static Instruction GetSubGameObjectPlayTimeline(string path, bool val)
         {
-            var instruction = Activator.CreateInstance<InstructionSubGameObjectPlayTimeline>();
+            var instruction = Activator.CreateInstance<InstructionDynamicObjectPlaySubTimeline>();
+            instruction.ParamsRaw.DynamicObjectUuid = ConstString.Self;
             instruction.ParamsRaw.Path = path;
             instruction.ParamsRaw.Val = val;
             return instruction;
@@ -159,7 +160,8 @@ namespace Pangoo.Core.VisualScripting
 
         public static Instruction GetSubGameObjectPauseTimeline(string path)
         {
-            var instruction = Activator.CreateInstance<InstructionSubGameObjectPauseTimeline>();
+            var instruction = Activator.CreateInstance<InstructionDynamicObjectPauseSubTimeline>();
+            instruction.ParamsRaw.DynamicObjectUuid = ConstString.Self;
             instruction.ParamsRaw.Path = path;
             return instruction;
         }

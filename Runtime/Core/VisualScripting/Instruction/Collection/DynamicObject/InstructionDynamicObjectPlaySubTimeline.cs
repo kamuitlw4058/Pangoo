@@ -10,14 +10,16 @@ using UnityEngine.Playables;
 namespace Pangoo.Core.VisualScripting
 {
     [Common.Title("PlayTimeline")]
-    [Category("Timeline/子物体播放Timeline")]
+    [Category("动态物体/播放子物体Timeline")]
     [Serializable]
-    public class InstructionSubGameObjectPlayTimeline : Instruction
+    public class InstructionDynamicObjectPlaySubTimeline : Instruction
     {
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        public InstructionSubGameObjectBoolParams ParamsRaw = new InstructionSubGameObjectBoolParams();
+        public InstructionDynamicObjectPathBoolParams ParamsRaw = new InstructionDynamicObjectPathBoolParams();
+
+        public override IParams Params => this.ParamsRaw;
 
         [ShowInInspector]
         public override InstructionType InstructionType
@@ -29,16 +31,13 @@ namespace Pangoo.Core.VisualScripting
         }
 
 
-        public override IParams Params => this.ParamsRaw;
-
         protected override IEnumerator Run(Args args)
         {
-            Transform trans = InstructionArgsExtension.GetTransformByPath(args, ParamsRaw.Path);
+
+            Transform trans = InstructionArgsExtension.GetTransformByPath(args, ParamsRaw.DynamicObjectUuid, ParamsRaw.Path);
             bool timelineStarted = false;
-            Debug.Log($"PlayTimeline path:{ParamsRaw.Path} trans:{trans}");
             if (trans != null)
             {
-
                 var playableDirector = trans.GetComponent<PlayableDirector>();
                 if (playableDirector == null)
                 {
@@ -51,8 +50,6 @@ namespace Pangoo.Core.VisualScripting
                 playableDirector.enabled = true;
 
                 playableDirector.Play();
-
-                //运行一帧后再进行检查。运行状态。
                 yield return null;
 
                 switch (playableDirector.extrapolationMode)
@@ -81,6 +78,7 @@ namespace Pangoo.Core.VisualScripting
                         break;
                 }
 
+
             }
             else
             {
@@ -90,11 +88,11 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            var trans = args.dynamicObject.CachedTransfrom.Find(ParamsRaw.Path);
+
+            Transform trans = InstructionArgsExtension.GetTransformByPath(args, ParamsRaw.DynamicObjectUuid, ParamsRaw.Path);
             Debug.Log($"PlayTimeline Immediate trans:{trans}");
             if (trans != null)
             {
-
                 var playableDirector = trans.GetComponent<PlayableDirector>();
                 if (playableDirector == null)
                 {

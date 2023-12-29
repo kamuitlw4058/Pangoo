@@ -25,5 +25,35 @@ namespace Pangoo
             return ret;
         }
 
+        public static Transform GetTransformByPath(Args args, string uuid, string path)
+        {
+            Transform DoTransform = null;
+            Transform ret = null;
+
+            if (uuid.IsNullOrWhiteSpace() || uuid.Equals("Self"))
+            {
+                DoTransform = args?.dynamicObject?.CachedTransfrom;
+            }
+            else
+            {
+                var DynamicObjectService = args.Main.DynamicObject;
+                var targetEntity = DynamicObjectService.GetLoadedEntity(uuid);
+                DoTransform = targetEntity?.DynamicObj?.CachedTransfrom;
+            }
+
+            if (DoTransform != null)
+            {
+                if (path.IsNullOrWhiteSpace() || path.Equals("Self"))
+                {
+                    ret = DoTransform;
+                }
+                else
+                {
+                    ret = DoTransform.Find(path);
+                }
+            }
+
+            return ret;
+        }
     }
 }
