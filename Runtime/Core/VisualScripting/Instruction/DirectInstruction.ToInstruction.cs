@@ -257,6 +257,17 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.WaitClosed = val;
             return instruction;
         }
+        
+        public static Instruction GetDynamicObjectInvokeEnter()
+        {
+            var instruction = Activator.CreateInstance<InstructionDynamicObjectInvokeEnter>();
+            return instruction;
+        }
+        public static Instruction GetDynamicObjectInvokeExit()
+        {
+            var instruction = Activator.CreateInstance<InstructionDynamicObjectInvokeExit>();
+            return instruction;
+        }
 
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
@@ -322,6 +333,10 @@ namespace Pangoo.Core.VisualScripting
                     return GetDynamicObjectInteractEnable(Uuid, Bool1);
                 case DirectInstructionTypeEnum.DynamicObjectPreview:
                     return GetDynamicObjectPreview(Uuid, Bool1);
+                case DirectInstructionTypeEnum.DynamicObjectEnter:
+                    return GetDynamicObjectInvokeEnter();
+                case DirectInstructionTypeEnum.DynamicObjectExit:
+                    return GetDynamicObjectInvokeExit();
             }
 
             return null;
