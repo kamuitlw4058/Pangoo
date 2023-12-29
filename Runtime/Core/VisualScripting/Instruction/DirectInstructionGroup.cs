@@ -34,15 +34,36 @@ namespace Pangoo.Core.VisualScripting
 
         public ConditionTypeEnum ConditionType;
 
+
+        [LabelText("使用变量条件")]
+        [JsonMember("UseVariableCondition")]
+        [BoxGroup("条件配置")]
+        public bool UseVariableCondition;
+
         [LabelText("条件Uuid")]
         [BoxGroup("条件配置")]
 
         [ValueDropdown("ConditionUuidValueDropdown", IsUniqueList = true)]
         [ListDrawerSettings(Expanded = true)]
         [ShowInInspector]
-        [ShowIf("@this.ConditionType == ConditionTypeEnum.BoolCondition || this.ConditionType == ConditionTypeEnum.StateCondition")]
+        [ShowIf("@(this.ConditionType == ConditionTypeEnum.BoolCondition || this.ConditionType == ConditionTypeEnum.StateCondition) && !this.UseVariableCondition")]
         [JsonMember("ConditionUuids")]
         public string[] ConditionUuids;
+
+        [ValueDropdown("VariableBoolUuidValueDropdown", IsUniqueList = true)]
+        [ListDrawerSettings(Expanded = true)]
+        [ShowInInspector]
+        [ShowIf("@this.ConditionType == ConditionTypeEnum.BoolCondition  && this.UseVariableCondition")]
+        [JsonMember("BoolVariableUuds")]
+        public string[] BoolVariableUuds;
+
+
+        [ValueDropdown("VariableIntUuidValueDropdown", IsUniqueList = true)]
+        [ListDrawerSettings(Expanded = true)]
+        [ShowInInspector]
+        [ShowIf("@this.ConditionType == ConditionTypeEnum.StateCondition  && this.UseVariableCondition")]
+        [JsonMember("IntVariableUuid")]
+        public string IntVariableUuid;
 
 
 
@@ -136,6 +157,16 @@ namespace Pangoo.Core.VisualScripting
         public IEnumerable ConditionUuidValueDropdown()
         {
             return ConditionOverview.GetUuidDropdown();
+        }
+
+        public IEnumerable VariableBoolUuidValueDropdown()
+        {
+            return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString());
+        }
+
+        public IEnumerable VariableIntUuidValueDropdown()
+        {
+            return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Int.ToString());
         }
 #endif
         public string Save()

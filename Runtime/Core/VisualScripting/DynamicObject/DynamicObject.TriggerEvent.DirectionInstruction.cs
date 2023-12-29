@@ -62,12 +62,28 @@ namespace Pangoo.Core.VisualScripting
                     trigger.ConditionInstructions.Add(1, GetDirectInstructionList(directInstructionGroup.DisableOnFinish, directInstructionGroup.DirectInstructionList, trigger));
                     break;
                 case ConditionTypeEnum.BoolCondition:
-                    trigger.Conditions = ConditionList.BuildConditionList(directInstructionGroup.ConditionUuids.ToList(), m_ConditionHandler);
+                    if (directInstructionGroup.UseVariableCondition)
+                    {
+                        trigger.Conditions = ConditionList.BuildConditionListByBoolVariable(directInstructionGroup.BoolVariableUuds, m_ConditionHandler, m_VariableHandler);
+                    }
+                    else
+                    {
+                        trigger.Conditions = ConditionList.BuildConditionList(directInstructionGroup.ConditionUuids.ToList(), m_ConditionHandler);
+                    }
+
                     trigger.ConditionInstructions.Add(1, GetDirectInstructionList(false, directInstructionGroup.DirectInstructionList, trigger));
                     trigger.ConditionInstructions.Add(0, GetDirectInstructionList(false, directInstructionGroup.FailedDirectInstructionList, trigger));
                     break;
                 case ConditionTypeEnum.StateCondition:
-                    trigger.Conditions = ConditionList.BuildConditionList(directInstructionGroup.ConditionUuids.ToList(), m_ConditionHandler);
+                    if (directInstructionGroup.UseVariableCondition)
+                    {
+                        trigger.Conditions = ConditionList.BuildConditionListByIntVariable(directInstructionGroup.IntVariableUuid, m_ConditionHandler, m_VariableHandler);
+                    }
+                    else
+                    {
+                        trigger.Conditions = ConditionList.BuildConditionList(directInstructionGroup.ConditionUuids.ToList(), m_ConditionHandler);
+                    }
+
                     foreach (var kv in directInstructionGroup.StateDirectInstructionDict)
                     {
                         trigger.ConditionInstructions.Add(kv.Key, GetDirectInstructionList(false, kv.Value, trigger));

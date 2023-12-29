@@ -152,6 +152,11 @@ namespace Pangoo.MetaTable
                 {
                     m_DirectInstructionGroups[i].ConditionUuids = new string[0];
                 }
+
+                if (m_DirectInstructionGroups[i].BoolVariableUuds == null)
+                {
+                    m_DirectInstructionGroups[i].BoolVariableUuds = new string[0];
+                }
             }
 
             var currentValue = DirectInstructionGroup.Save(m_DirectInstructionGroups);

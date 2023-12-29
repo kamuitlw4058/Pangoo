@@ -12,6 +12,7 @@ namespace Pangoo.Core.VisualScripting
         Bool,
 
         Vector3,
+        Int,
 
 
     }

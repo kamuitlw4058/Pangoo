@@ -92,5 +92,43 @@ namespace Pangoo.Core.VisualScripting
 
             return new ConditionList(vals.ToArray());
         }
+
+
+        public static ConditionList BuildConditionListByBoolVariable(string[] uuids, ConditionGetRowByUuidHandler handler = null, VariableGetRowByUuidHandler variableHandler = null, TriggerEvent trigger = null)
+        {
+            List<Condition> vals = new();
+
+            foreach (var rowUuid in uuids)
+            {
+                IVariablesRow row = VariableRowExtension.GetByUuid(rowUuid, variableHandler);
+                if (row == null) continue;
+
+                var instance = new ConditionVariableBool();
+                instance.ParamRaw.CheckBool = true;
+                instance.ParamRaw.VariableType = row.VariableType.ToEnum<VariableTypeEnum>();
+                instance.ParamRaw.VariableUuid = row.Uuid;
+
+                vals.Add(instance);
+            }
+
+            return new ConditionList(vals.ToArray());
+        }
+
+        public static ConditionList BuildConditionListByIntVariable(string uuid, ConditionGetRowByUuidHandler handler = null, VariableGetRowByUuidHandler variableHandler = null, TriggerEvent trigger = null)
+        {
+            List<Condition> vals = new();
+
+            IVariablesRow row = VariableRowExtension.GetByUuid(uuid, variableHandler);
+            if (row != null)
+            {
+                var instance = new ConditionVariableInt();
+                instance.ParamRaw.VariableType = row.VariableType.ToEnum<VariableTypeEnum>();
+                instance.ParamRaw.VariableUuid = row.Uuid;
+                vals.Add(instance);
+            }
+
+
+            return new ConditionList(vals.ToArray());
+        }
     }
 }

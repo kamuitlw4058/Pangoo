@@ -93,17 +93,16 @@ namespace Pangoo
                 return;
             }
 
+
+
             Action<UIFormLogic> callback = null;
-            if (!dicCloseCallback.TryGetValue(ne.SerialId, out callback))
+            if (dicCloseCallback.TryGetValue(ne.SerialId, out callback))
             {
-                return;
+                UIFormLogic logic = null;
+                dicSerial2Entity.TryGetValue(ne.SerialId, out logic);
+                callback.Invoke(logic);
             }
 
-
-            if (!dicSerial2Entity.TryGetValue(ne.SerialId, out UIFormLogic logic))
-            {
-                callback?.Invoke(logic);
-            }
 
 
             if (dicCallback.ContainsKey(ne.SerialId))
@@ -115,6 +114,7 @@ namespace Pangoo
             {
                 dicCloseCallback.Remove(ne.SerialId);
             }
+
         }
 
 

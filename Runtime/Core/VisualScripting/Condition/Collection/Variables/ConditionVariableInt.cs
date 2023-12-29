@@ -15,29 +15,29 @@ namespace Pangoo.Core.VisualScripting
 
     [Common.Title("Condition Variable")]
 
-    [Category("Variable/Bool")]
+    [Category("Variable/Int")]
 
     [Serializable]
-    public class ConditionVariableBool : Condition
+    public class ConditionVariableInt : Condition
     {
         [SerializeField]
         [HideLabel]
         [HideReferenceObjectPicker]
-        public ConditionVariableBoolParams ParamRaw = new ConditionVariableBoolParams();
+        public ConditionVariableIntParams ParamRaw = new ConditionVariableIntParams();
 
         public override IParams Params => ParamRaw;
 
 
 
-        public ConditionVariableBool()
+        public ConditionVariableInt()
         { }
 
 
         protected override int Run(Args args)
         {
-            var variable = args.dynamicObject.GetVariable<bool>(ParamRaw.VariableUuid);
-            Debug.Log($"Condition Id:{ParamRaw.VariableUuid} Ret:{variable} Check:{ParamRaw.CheckBool}");
-            return variable == ParamRaw.CheckBool ? 1 : 0;
+            var variable = args.dynamicObject.GetVariable<int>(ParamRaw.VariableUuid);
+            Debug.Log($"Condition Id:{ParamRaw.VariableUuid} Ret:{variable} ret:{variable}");
+            return variable;
         }
 
 
