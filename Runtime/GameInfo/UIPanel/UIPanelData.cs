@@ -29,6 +29,7 @@ namespace Pangoo
         public static UIPanelData Create(UIInfoRow InfoRow, object userData)
         {
             var info = ReferencePool.Acquire<UIPanelData>();
+            // var info = new UIPanelData();
             info.InfoRow = InfoRow;
             info.UserData = userData;
             return info;

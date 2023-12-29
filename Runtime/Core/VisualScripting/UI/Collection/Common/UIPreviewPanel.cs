@@ -32,10 +32,10 @@ namespace Pangoo.Core.VisualScripting
         public TextMeshProUGUI m_Text;
 
 
-        PreviewData PreviewData;
+        public PreviewData PreviewData;
 
 
-        PreviewState m_PreviewState = PreviewState.None;
+        public PreviewState m_PreviewState = PreviewState.None;
 
         PreviewState State
         {

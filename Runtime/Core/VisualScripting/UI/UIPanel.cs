@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameFramework;
 using UnityGameFramework.Runtime;
 using Sirenix.OdinInspector;
 using Pangoo.Core.Common;
@@ -24,6 +25,12 @@ namespace Pangoo.Core.VisualScripting
 
         }
         protected abstract IParams Params { get; }
+
+        protected override void OnClose(bool isShutdown, object userData)
+        {
+            base.OnClose(isShutdown, userData);
+            ReferencePool.Release(PanelData);
+        }
 
         public void CloseSelf()
         {

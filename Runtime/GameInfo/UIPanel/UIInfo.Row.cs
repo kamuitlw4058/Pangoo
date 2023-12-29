@@ -69,12 +69,7 @@ namespace Pangoo
 
         public UIPanelData GetPanelData(object userData)
         {
-            if (m_UIPanelInfo == null)
-            {
-                m_UIPanelInfo = UIPanelData.Create(this, userData);
-            }
-
-            return m_UIPanelInfo;
+            return UIPanelData.Create(this, userData);
         }
 
 
