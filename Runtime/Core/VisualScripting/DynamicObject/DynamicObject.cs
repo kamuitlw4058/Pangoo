@@ -134,7 +134,7 @@ namespace Pangoo.Core.VisualScripting
         }
 
 
-
+        public IImmersed immersed;
 
         protected override void DoAwake()
         {
@@ -149,6 +149,11 @@ namespace Pangoo.Core.VisualScripting
             {
                 Model?.SetActive(true);
             }
+
+            immersed = gameObject.GetComponent<IImmersed>();
+            
+                
+            
             DoAwakeTriggerEvent();
             DoAwakeHotspot();
             DoAwakeSubDynamicObject();
@@ -243,6 +248,11 @@ namespace Pangoo.Core.VisualScripting
             }
 
             TriggerUpdate();
+
+            if (immersed != null)
+            {
+                immersed.OnUpdate();
+            }
 
             DoUpdateHotspot();
         }

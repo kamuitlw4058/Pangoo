@@ -96,5 +96,9 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("UI/动态物体预览")]
         DynamicObjectPreview,
+        [LabelText("动态物体自身/OnEnter")]
+        DynamicObjectEnter,
+        [LabelText("动态物体自身/OnExit")]
+        DynamicObjectExit,
     }
 }
