@@ -9,7 +9,7 @@ namespace Pangoo.Core.VisualScripting
 
 
 
-        [LabelText("动态物体/动态物体播放Timeline")]
+        [LabelText("动态物体/播放Timeline")]
         DynamicObjectPlayTimeline,
 
         [LabelText("GameSection/切换GameSection")]
@@ -30,7 +30,7 @@ namespace Pangoo.Core.VisualScripting
         [LabelText("动态物体自身/关闭相机GameObject")]
         UnactiveCameraGameObject,
 
-        [LabelText("动态物体自身/子物体播放Timeline")]
+        [LabelText("动态物体自身/播放Timeline")]
         SubGameObjectPlayTimeline,
 
 
@@ -52,7 +52,7 @@ namespace Pangoo.Core.VisualScripting
         [LabelText("通用/等待时间")]
         WaitTime,
 
-        [LabelText("动态物体自身/子物体暂停Timeline")]
+        [LabelText("动态物体自身/暂停Timeline")]
         SubGameObjectPauseTimeline,
 
         [LabelText("动态物体/Trigger开关")]
@@ -96,5 +96,8 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("UI/动态物体预览")]
         DynamicObjectPreview,
+
+        [LabelText("动态物体/暂停Timeline")]
+        DynamicObjectPauseTimeline,
     }
 }

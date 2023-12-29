@@ -182,6 +182,8 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.DynamicObjectPlayTimeline => true,
+                    DirectInstructionTypeEnum.DynamicObjectPauseTimeline => true,
+
                     DirectInstructionTypeEnum.ChangeGameSection => true,
                     DirectInstructionTypeEnum.SetBoolVariable => true,
                     DirectInstructionTypeEnum.DynamicObjectModelActive => true,
@@ -267,6 +269,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectPreview => true,
                     DirectInstructionTypeEnum.DynamicObjectPlayTimeline => true,
 
+
                     _ => false,
                 };
             }
@@ -332,6 +335,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SetGameObjectActive => true,
                     DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => true,
                     DirectInstructionTypeEnum.DynamicObjectPlayTimeline => true,
+                    DirectInstructionTypeEnum.DynamicObjectPauseTimeline => true,
 
                     _ => false,
                 };
@@ -517,15 +521,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.ActiveCameraGameObject => "子对象",
-                    DirectInstructionTypeEnum.UnactiveCameraGameObject => "子对象",
-                    DirectInstructionTypeEnum.SubGameObjectPlayTimeline => "子对象",
-                    DirectInstructionTypeEnum.SubGameObjectPauseTimeline => "子对象",
-                    DirectInstructionTypeEnum.SetGameObjectActive => "子对象",
-                    DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => "子对象",
-                    DirectInstructionTypeEnum.DynamicObjectPlayTimeline => "子对象",
-
-                    _ => "DropdownString1",
+                    _ => "子对象",
                 };
             }
         }

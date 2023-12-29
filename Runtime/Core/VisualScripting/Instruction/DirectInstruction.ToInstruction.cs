@@ -31,6 +31,14 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
+        public static Instruction GetDynamicObjectPauseTimeline(string dynamicObjectUuid, string path)
+        {
+            var instruction = Activator.CreateInstance<InstructionDynamicObjectPauseSubTimeline>();
+            instruction.ParamsRaw.DynamicObjectUuid = dynamicObjectUuid;
+            instruction.ParamsRaw.Path = path;
+            return instruction;
+        }
+
         public static Instruction GetSetVariableBoolInstruction(string VariableUuid, bool val)
         {
             var instruction = Activator.CreateInstance<InstructionSetVariableBool>();
@@ -256,6 +264,8 @@ namespace Pangoo.Core.VisualScripting
             {
                 case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:
                     return GetDynamicObjectPlayTimelineInstruction(Uuid, DropdownString1, Bool1);
+                case DirectInstructionTypeEnum.DynamicObjectPauseTimeline:
+                    return GetDynamicObjectPauseTimeline(Uuid, DropdownString1);
                 case DirectInstructionTypeEnum.ChangeGameSection:
                     return GetChangeGameSectionInstruction(Uuid);
                 case DirectInstructionTypeEnum.SetBoolVariable:
