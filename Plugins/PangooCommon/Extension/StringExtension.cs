@@ -23,7 +23,7 @@ namespace Pangoo.Common
         public static IEnumerable<T> ToSplitIEnumerable<T>(this string s, string split = "|")
         {
 
-            if (string.IsNullOrEmpty(s))
+            if (string.IsNullOrWhiteSpace(s))
             {
                 return new List<T>();
             }
@@ -32,7 +32,12 @@ namespace Pangoo.Common
 
         public static T[] ToSplitArr<T>(this string s, string split = "|")
         {
-            return ToSplitIEnumerable<T>(s, split)?.ToArray();
+            var arr = ToSplitIEnumerable<T>(s, split);
+            if (arr.Count() == 0)
+            {
+                return new T[0];
+            }
+            return arr.ToArray();
         }
         public static List<T> ToSplitList<T>(this string s, string split = "|")
         {
