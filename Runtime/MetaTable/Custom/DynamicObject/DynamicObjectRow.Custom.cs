@@ -44,11 +44,16 @@ namespace Pangoo.MetaTable
 
         public List<string> GetTriggerEventUuidList()
         {
-            if (TriggerEventUuids.IsNullOrWhiteSpace())
+            List<string> ret = new List<string>();
+            if (!TriggerEventUuids.IsNullOrWhiteSpace())
             {
-                return new List<string>();
+                ret.AddRange(TriggerEventUuids.ToSplitList<string>());
             }
-            return TriggerEventUuids.ToSplitList<string>();
+
+
+
+
+            return ret;
         }
 
     }

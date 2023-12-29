@@ -704,13 +704,22 @@ namespace Pangoo.Core.VisualScripting
             switch (InstructionType)
             {
                 case DirectInstructionTypeEnum.DynamicObjectTriggerEnabled:
-                    List<string> includeUuids = null;
+                    List<string> includeUuids = new List<string>();
                     if (!Uuid.IsNullOrWhiteSpace())
                     {
                         var row = DynamicObjectOverview.GetUnityRowByUuid(Uuid);
                         if (row != null)
                         {
-                            includeUuids = row.Row.GetTriggerEventUuidList();
+                            includeUuids.AddRange(row.Row.GetTriggerEventUuidList());
+                            var directInstructionGroups = DirectInstructionGroup.CreateArray(row.Row.DirectInstructions);
+                            if (directInstructionGroups != null)
+                            {
+                                foreach (var group in directInstructionGroups)
+                                {
+                                    includeUuids.Add(group.Uuid);
+                                }
+                            }
+
                         }
                     }
                     return TriggerEventOverview.GetUuidDropdown(includeUuids: includeUuids);

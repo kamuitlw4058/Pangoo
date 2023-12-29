@@ -270,5 +270,16 @@ namespace Pangoo.Common
         }
 
 
+        public static string ToShortUuid(this string str)
+        {
+            if (str.IsNullOrWhiteSpace())
+            {
+                return str;
+            }
+
+            return str.Substring(0, Math.Min(8, str.Length));
+        }
+
+
     }
 }

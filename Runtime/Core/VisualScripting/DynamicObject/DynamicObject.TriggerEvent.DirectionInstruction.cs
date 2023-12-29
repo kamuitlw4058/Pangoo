@@ -50,6 +50,7 @@ namespace Pangoo.Core.VisualScripting
             row.Uuid = UuidUtility.GetNewUuid();
             row.Name = $"DI_{row.TriggerType}_{directInstructionGroup.DirectInstructionList?.Length ?? 0}";
             row.Params = "{}";
+            row.Uuid = directInstructionGroup.Uuid;
             row.Targets = string.Empty;
             row.Enabled = directInstructionGroup.InitEnabled;
             row.TriggerType = directInstructionGroup.TriggerType.ToString();
