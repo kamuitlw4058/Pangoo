@@ -103,5 +103,8 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("动态物体/暂停Timeline")]
         DynamicObjectPauseTimeline,
+
+        [LabelText("变量/等待Bool变成预定值")]
+        WaitVariableBool,
     }
 }

@@ -41,6 +41,9 @@ namespace Pangoo.Core.Services
                     case VariableValueTypeEnum.Bool:
                         Set<bool>(row.Key, row.DefaultValue.ToBoolForce());
                         break;
+                    case VariableValueTypeEnum.Int:
+                        Set<int>(row.Key, row.DefaultValue.ToIntForce());
+                        break;
                 }
             }
 

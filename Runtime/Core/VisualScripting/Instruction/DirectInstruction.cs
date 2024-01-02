@@ -199,6 +199,8 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.StopSound => true,
                     DirectInstructionTypeEnum.CheckBoolVariableList => true,
                     DirectInstructionTypeEnum.DynamicObjectPreview => true,
+                    DirectInstructionTypeEnum.WaitVariableBool => true,
+
                     _ => false,
                 };
             }
@@ -268,7 +270,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SetGlobalGameObjectActive => true,
                     DirectInstructionTypeEnum.DynamicObjectPreview => true,
                     DirectInstructionTypeEnum.DynamicObjectPlayTimeline => true,
-
+                    DirectInstructionTypeEnum.WaitVariableBool => true,
 
                     _ => false,
                 };
@@ -649,7 +651,10 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.StopSound:
                     return SoundOverview.GetUuidDropdown();
                 case DirectInstructionTypeEnum.CheckBoolVariableList:
-                    return GameSupportEditorUtility.GetVariableIds(VariableValueTypeEnum.Bool.ToString());
+                case DirectInstructionTypeEnum.WaitVariableBool:
+                    return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString());
+                // return GameSupportEditorUtility.GetVariableIds(VariableValueTypeEnum.Bool.ToString());
+
                 case DirectInstructionTypeEnum.DynamicObjectPreview:
                     return DynamicObjectPreviewOverview.GetUuidDropdown();
             }
