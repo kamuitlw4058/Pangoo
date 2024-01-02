@@ -146,7 +146,7 @@ namespace Pangoo.Core.Services
                     GameSection.InitSceneUuids.ToSplitList<string>()
                     );
 
-                DynamicObjectSrv.HideAllLoaded();
+                // DynamicObjectSrv.HideAllLoaded();
                 var loadedUuids = DynamicObjectSrv.GetLoadedUuids();
                 var doUuids = GameSection.DynamicObjectUuids.ToSplitList<string>();
                 foreach (var doUuid in doUuids)
