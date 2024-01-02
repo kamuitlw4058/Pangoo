@@ -15,7 +15,7 @@ namespace Pangoo.Core.VisualScripting
 
     public partial class DynamicObject
     {
-        HotspotGetRowByIdHandler m_HotspotHandler;
+        HotspotGetRowByUuidHandler m_HotspotHandler;
 
 
 
@@ -106,13 +106,14 @@ namespace Pangoo.Core.VisualScripting
         void DoAwakeHotspot()
         {
 
-            if (TableService != null)
+            if (Main.MetaTable != null)
             {
-                m_HotspotHandler = TableService.GetHotspotById;
+                m_HotspotHandler = Main.MetaTable.GetHotspotByUuid;
 
             }
 
-            var ids = Row.GetHotspotIdList();
+
+            var uuids = Row.GetHotspotUuidList();
             m_HotSpots.Clear();
             if (Row.UseHotspot && !Row.DefaultHideHotspot)
             {
@@ -125,9 +126,9 @@ namespace Pangoo.Core.VisualScripting
 
             if (Row.UseHotspot)
             {
-                foreach (var valId in ids)
+                foreach (var valId in uuids)
                 {
-                    IHotspotRow row = HotspotRowExtension.GetById(valId, m_HotspotHandler);
+                    IHotspotRow row = HotspotRowExtension.GetByUuid(valId, m_HotspotHandler);
                     Debug.Log($"Create Hotspot:{valId}  row:{row}");
                     if (row != null)
                     {

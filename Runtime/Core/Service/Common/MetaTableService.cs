@@ -123,6 +123,22 @@ namespace Pangoo.Core.Services
         }
 
 
+        MetaTable.HotspotTable m_HotspotTable;
+
+        public MetaTable.HotspotTable HotspotTab
+        {
+            get
+            {
+                if (m_HotspotTable == null)
+                {
+                    m_HotspotTable = GetMetaTable<MetaTable.HotspotTable>();
+                }
+                return m_HotspotTable;
+            }
+        }
+
+
+
 
 
 
@@ -165,6 +181,11 @@ namespace Pangoo.Core.Services
         public IDynamicObjectPreviewRow GetDynamicObjectPreviewByUuid(string uuid)
         {
             return DynamicObjectPreviewTab.GetRowByUuid(uuid);
+        }
+
+        public IHotspotRow GetHotspotByUuid(string uuid)
+        {
+            return HotspotTab.GetRowByUuid(uuid);
         }
 
     }
