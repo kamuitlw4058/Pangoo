@@ -83,22 +83,22 @@ namespace Pangoo.MetaTable
         public GameObject RefPrefab { get; set; }
 
         [ShowInInspector]
-        [LabelText("参考动态物体Id")]
-        [ValueDropdown("OnDynamicObjectIdDropdown")]
-        [OnValueChanged("OnDynamicObjectIdChanged")]
+        [LabelText("参考动态物体Uuid")]
+        [ValueDropdown("OnDynamicObjectUuidDropdown")]
+        [OnValueChanged("OnDynamicObjectUuidChanged")]
         [TitleGroup("目标")]
         public string RefDynamicObjectUuid { get; set; }
 
 
-        void OnDynamicObjectIdChanged()
+        void OnDynamicObjectUuidChanged()
         {
             RefPrefab = GameSupportEditorUtility.GetPrefabByDynamicObjectUuid(RefDynamicObjectUuid);
         }
 
 
-        IEnumerable OnDynamicObjectIdDropdown()
+        IEnumerable OnDynamicObjectUuidDropdown()
         {
-            return GameSupportEditorUtility.GetDynamicObjectIds();
+            return DynamicObjectOverview.GetUuidDropdown();
         }
 
         IEnumerable OnTargetsDropdown()

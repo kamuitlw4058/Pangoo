@@ -10,7 +10,7 @@ using UnityEngine.Playables;
 namespace Pangoo.Core.VisualScripting
 {
     [Common.Title("PlayTimeline")]
-    [Category("动态物体/运行触发")]
+    [Category("动态物体/运行内部指令")]
     [Serializable]
     public class InstructionDynamicObjectRunExecute : Instruction
     {
