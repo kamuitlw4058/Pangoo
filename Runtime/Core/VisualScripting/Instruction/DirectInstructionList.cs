@@ -7,6 +7,7 @@ using System.Text;
 using LitJson;
 using Pangoo.Core.Common;
 using UnityEngine;
+using Pangoo.MetaTable;
 
 #if UNITY_EDITOR
 using Sirenix.OdinInspector.Editor;
@@ -18,11 +19,11 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public class DirectInstructionList : IParams
     {
-        [JsonMember("RefDynamicObjectId")]
+        [JsonMember("RefDynamicObjectUuid")]
         [OnValueChanged("OnRefDynamicObjectIdChanged")]
         [ValueDropdown("OnRefDynamicObjectIdDropdown")]
         [LabelText("参考动态对象")]
-        public int RefDynamicObjectId;
+        public string RefDynamicObjectUuid;
 
         [JsonNoMember]
         [ReadOnly]
@@ -40,7 +41,7 @@ namespace Pangoo.Core.VisualScripting
         public void Init()
         {
             OnRefDynamicObjectIdChanged();
-            if (RefDynamicObjectId != 0)
+            if (!RefDynamicObjectUuid.IsNullOrWhiteSpace())
             {
                 UpdatePrefab();
             }
@@ -48,14 +49,14 @@ namespace Pangoo.Core.VisualScripting
 
         public IEnumerable OnRefDynamicObjectIdDropdown()
         {
-            return GameSupportEditorUtility.GetDynamicObjectIds();
+            return DynamicObjectOverview.GetUuidDropdown();
         }
 
         public void OnRefDynamicObjectIdChanged()
         {
             // Debug.Log($"RefDynamicObjectId Changed:{RefDynamicObjectId}");
-            RefPrefab = GameSupportEditorUtility.GetPrefabByDynamicObjectId(RefDynamicObjectId);
-            if (RefDynamicObjectId != 0)
+            RefPrefab = GameSupportEditorUtility.GetPrefabByDynamicObjectUuid(RefDynamicObjectUuid);
+            if (!RefDynamicObjectUuid.IsNullOrWhiteSpace())
             {
                 UpdatePrefab();
             }
@@ -86,7 +87,7 @@ namespace Pangoo.Core.VisualScripting
         public void Load(string val)
         {
             var list = JsonMapper.ToObject<DirectInstructionList>(val);
-            RefDynamicObjectId = list.RefDynamicObjectId;
+            RefDynamicObjectUuid = list.RefDynamicObjectUuid;
             DirectInstructions = list.DirectInstructions;
 #if UNITY_EDITOR
             OnRefDynamicObjectIdChanged();
