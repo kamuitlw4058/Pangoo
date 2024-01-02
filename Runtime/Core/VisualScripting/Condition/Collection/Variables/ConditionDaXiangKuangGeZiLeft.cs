@@ -22,6 +22,7 @@ namespace Pangoo.Core.VisualScripting
             bool isStatic = args.dynamicObject.GetVariable<bool>(ParamsRaw.StaticVariableUuid);
             bool isHas = args.dynamicObject.GetVariable<bool>(ParamsRaw.HasVariableUuid);
             bool isUsed = args.dynamicObject.GetVariable<bool>(ParamsRaw.UsedVariableUuid);
+            bool isSelect = args.dynamicObject.GetVariable<bool>(ParamsRaw.SelectVariableUuid);
 
             if (isStatic)
             {

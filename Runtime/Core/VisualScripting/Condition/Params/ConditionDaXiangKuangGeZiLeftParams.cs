@@ -22,6 +22,9 @@ namespace Pangoo.Core.VisualScripting
                 [JsonMember("UsedVariableUuid")]
                 [ValueDropdown("OnGlobalVariableIdValueDropdown")]
                 public string UsedVariableUuid;
+                [JsonMember("SelectVariableUuid")]
+                [ValueDropdown("OnGlobalVariableIdValueDropdown")]
+                public string SelectVariableUuid;
 
 #if UNITY_EDITOR
                 IEnumerable OnGlobalVariableIdValueDropdown()
@@ -37,6 +40,7 @@ namespace Pangoo.Core.VisualScripting
                         StaticVariableUuid = par.StaticVariableUuid;
                         HasVariableUuid = par.HasVariableUuid;
                         UsedVariableUuid = par.UsedVariableUuid;
+                        SelectVariableUuid = par.SelectVariableUuid;
                 }
         }
 }
