@@ -633,6 +633,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.RunInstruction:
                     return InstructionOverview.GetUuidDropdown();
                 case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:
+                case DirectInstructionTypeEnum.DynamicObjectPauseTimeline:
                 case DirectInstructionTypeEnum.DynamicObjectModelActive:
                 case DirectInstructionTypeEnum.DynamicObjectHotspotActive:
                 case DirectInstructionTypeEnum.ActiveCameraGameObject:
