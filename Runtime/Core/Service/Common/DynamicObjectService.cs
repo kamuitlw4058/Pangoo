@@ -46,6 +46,11 @@ namespace Pangoo.Core.Services
             Debug.Log($"DoStart DynamicObjectService :{m_EntityGroupRow} m_EntityGroupRow:{m_EntityGroupRow.Name}");
         }
 
+        public List<string> GetLoadedUuids()
+        {
+            return m_LoadedAssetDict.Keys.ToList();
+        }
+
         public EntityDynamicObject GetLoadedEntity(string uuid)
         {
             if (m_LoadedAssetDict.TryGetValue(uuid, out EntityDynamicObject var))
@@ -62,6 +67,14 @@ namespace Pangoo.Core.Services
             {
                 Loader.HideEntity(m_LoadedAssetDict[id].Id);
                 m_LoadedAssetDict.Remove(id);
+            }
+        }
+
+        public void HideEntity(string uuid)
+        {
+            if (m_LoadedAssetDict.TryGetValue(uuid, out EntityDynamicObject dynamicObjectEntity))
+            {
+                Loader.HideEntity(dynamicObjectEntity.Id);
             }
         }
 
