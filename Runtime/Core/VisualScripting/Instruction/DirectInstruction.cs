@@ -575,6 +575,7 @@ namespace Pangoo.Core.VisualScripting
                     return GameSupportEditorUtility.RefPrefabStringDropdown(ListPrefab);
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
                 case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:
+                case DirectInstructionTypeEnum.DynamicObjectPauseTimeline:
                     var prefab = GameSupportEditorUtility.GetPrefabByDynamicObjectUuid(Uuid);
                     return GameSupportEditorUtility.RefPrefabStringDropdown(prefab);
 
