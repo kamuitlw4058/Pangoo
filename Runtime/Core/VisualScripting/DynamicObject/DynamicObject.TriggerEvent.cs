@@ -164,7 +164,6 @@ namespace Pangoo.Core.VisualScripting
                 m_TriggerHandler = Main.MetaTable.GetTriggerEventByUuid;
                 m_VariableHandler = Main.MetaTable.GetVariablesByUuid;
             }
-            // m_VariablesTable = TableService?.GetExcelTable<VariablesTable>();
 
 
             var triggerUuids = Row.GetTriggerEventUuidList();

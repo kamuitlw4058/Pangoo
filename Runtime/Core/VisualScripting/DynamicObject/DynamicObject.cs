@@ -151,9 +151,9 @@ namespace Pangoo.Core.VisualScripting
             }
 
             immersed = gameObject.GetComponent<IImmersed>();
-            
-                
-            
+
+
+
             DoAwakeTriggerEvent();
             DoAwakeHotspot();
             DoAwakeSubDynamicObject();
@@ -246,6 +246,9 @@ namespace Pangoo.Core.VisualScripting
             {
                 TriggerInovke(TriggerTypeEnum.OnButtonE);
             }
+
+            TriggerInovke(TriggerTypeEnum.OnUpdate);
+
 
             TriggerUpdate();
 
