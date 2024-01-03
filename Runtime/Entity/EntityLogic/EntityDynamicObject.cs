@@ -95,9 +95,9 @@ namespace Pangoo
             UpdateDefaultTransform();
 
 
-            Name = Utility.Text.Format("{0}[{1}]", DoData.InfoRow.Name, DoData.InfoRow.Id);
+            Name = Utility.Text.Format("{0}[{1}]", DoData.InfoRow.Name, DoData.InfoRow.UuidShort);
 
-            Debug.Log($"Create DynamicObject:{DoData.InfoRow.Id}");
+            Debug.Log($"Create DynamicObject:{DoData.InfoRow.UuidShort}-{DoData.InfoRow.Name}");
             DynamicObj = DynamicObject.Create(gameObject);
             DynamicObj.Row = DoData.InfoRow.m_DynamicObjectRow;
             DynamicObj.TableService = DoData?.Service?.TableService;

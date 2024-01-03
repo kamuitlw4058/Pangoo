@@ -5,6 +5,7 @@ using GameFramework;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 using Pangoo.Core.Services;
+using Pangoo.Common;
 
 namespace Pangoo
 {
@@ -29,6 +30,13 @@ namespace Pangoo
             get
             {
                 return sceneInfo.Uuid;
+            }
+        }
+        public string UuidShort
+        {
+            get
+            {
+                return sceneInfo.Uuid.ToShortUuid();
             }
         }
 

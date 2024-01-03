@@ -103,6 +103,7 @@ namespace Pangoo.Core.Services
         void OnInitSceneLoaded()
         {
             var GameSection = MetaTableSrv.GetGameSectionByUuid(LatestUuid);
+            Log($"Loaded Scene {CheckGameSectionLoadedCompleted(GameSection)}");
             if (CheckGameSectionLoadedCompleted(GameSection))
             {
                 RunLoadedInstructions(GameSection);
@@ -111,7 +112,7 @@ namespace Pangoo.Core.Services
 
         public void SetGameSection(string uuid)
         {
-            Log($"SetGameSection is :{uuid}");
+            Log($"SetGameSection is :{uuid.ToShortUuid()}");
             if (uuid.IsNullOrWhiteSpace())
             {
                 LogError($"SetGameSection Failed id <= 0:{uuid}");
@@ -155,7 +156,7 @@ namespace Pangoo.Core.Services
 
                     DynamicObjectSrv.ShowDynamicObject(doUuid, (dynamicObjectUuid) =>
                     {
-                        Log($"Loaded DynamicObject Finish:{dynamicObjectUuid}");
+                        Log($"Loaded DynamicObject Finish:[{dynamicObjectUuid.ToShortUuid()}]");
                         if (CheckGameSectionLoadedCompleted(GameSection))
                         {
                             RunLoadedInstructions(GameSection);
@@ -171,7 +172,7 @@ namespace Pangoo.Core.Services
                     }
                 }
 
-                Log($"Update Static Scene:{GameSection.Id} KeepSceneIds:{GameSection.KeepSceneIds} DynamicSceneIds:{GameSection.DynamicSceneIds}");
+                Log($"Update Static Scene:{GameSection.UuidShort} KeepSceneUuids:{GameSection.KeepSceneUuids} DynamicSceneUuids:{GameSection.DynamicSceneUuids} InitSceneUuids:{GameSection.InitSceneUuids}");
             }
         }
 

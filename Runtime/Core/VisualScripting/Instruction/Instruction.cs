@@ -153,7 +153,7 @@ namespace Pangoo.Core.VisualScripting
 
         public static Instruction BuildFromRow(IInstructionRow row, TriggerEvent trigger = null)
         {
-            if (row == null || row.Id == 0 || row.InstructionType.IsNullOrWhiteSpace())
+            if (row == null || row.Uuid.IsNullOrWhiteSpace() || row.InstructionType.IsNullOrWhiteSpace())
             {
                 return null;
             }

@@ -8,6 +8,7 @@ using System.Linq;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using Pangoo.MetaTable;
+using Pangoo.Common;
 
 namespace Pangoo.Core.Services
 {
@@ -57,7 +58,7 @@ namespace Pangoo.Core.Services
         Dictionary<string, StaticSceneInfoRow> m_SectionSceneInfos = new Dictionary<string, StaticSceneInfoRow>();
 
         [ShowInInspector]
-        List<string> m_DynamicStaticSceneIds = new List<string>();
+        List<string> m_DynamicStaticSceneUuids = new List<string>();
 
         [ShowInInspector]
         List<string> m_HoldStaticSceneUuids = new List<string>();
@@ -126,7 +127,7 @@ namespace Pangoo.Core.Services
                 return true;
             }
 
-            if (m_DynamicStaticSceneIds.Contains(uuid))
+            if (m_DynamicStaticSceneUuids.Contains(uuid))
             {
                 return true;
             }
@@ -135,25 +136,25 @@ namespace Pangoo.Core.Services
         }
 
 
-        public void SetGameScetion(List<string> dynamicUuids, List<string> holdIds, List<string> initIds)
+        public void SetGameScetion(List<string> dynamicUuids, List<string> holdUuids, List<string> initUuids)
         {
             SectionInited = false;
-            m_DynamicStaticSceneIds.Clear();
-            m_DynamicStaticSceneIds.AddRange(dynamicUuids);
+            m_DynamicStaticSceneUuids.Clear();
+            m_DynamicStaticSceneUuids.AddRange(dynamicUuids);
 
             m_SectionSceneInfos.Clear();
             foreach (var uuid in dynamicUuids)
             {
                 var sceneInfo = m_StaticSceneInfo.GetRowByUuid<StaticSceneInfoRow>(uuid);
-                Debug.Log($"uuid{uuid}, sceneInfo:{sceneInfo}");
+                // Debug.Log($"uuid:{uuid}, sceneInfo:{sceneInfo}");
                 m_SectionSceneInfos.Add(sceneInfo.AssetPathUuid, sceneInfo);
             }
 
             m_HoldStaticSceneUuids.Clear();
-            m_HoldStaticSceneUuids.AddRange(holdIds);
+            m_HoldStaticSceneUuids.AddRange(holdUuids);
 
             m_InitStaticSceneUuids.Clear();
-            m_InitStaticSceneUuids.AddRange(initIds);
+            m_InitStaticSceneUuids.AddRange(initUuids);
         }
 
         public void SetGameSectionChange(Tuple<string, string> value)
@@ -232,8 +233,6 @@ namespace Pangoo.Core.Services
                 return;
             }
 
-            Log($"ShowStaticScene:{staticSceneUuid}");
-
             // 这边有一个假设，同一个时间不会反复加载不同的章节下的同一个场景。
             if (m_LoadingAssetUuids.Contains(AssetPathUuid))
             {
@@ -241,6 +240,7 @@ namespace Pangoo.Core.Services
             }
             else
             {
+                Log($"ShowStaticScene:{sceneInfo.Name}[{staticSceneUuid.ToShortUuid()}]");
                 EntityStaticSceneData data = EntityStaticSceneData.Create(sceneInfo, sceneInfo.CreateEntityInfo(m_EntityGroupRow), this);
                 m_LoadingAssetUuids.Add(AssetPathUuid);
                 Loader.ShowEntity(EnumEntity.StaticScene,
@@ -252,27 +252,6 @@ namespace Pangoo.Core.Services
                             m_LoadingAssetUuids.Remove(AssetPathUuid);
                         }
                         m_LoadedSceneAssetDict.Add(AssetPathUuid, o.Logic as EntityStaticScene);
-
-                        if (!SectionInited)
-                        {
-                            bool allInited = IsLoadedScene(m_HoldStaticSceneUuids);
-                            Log($"Hold Loaded:{allInited}");
-                            if (allInited)
-                            {
-                                allInited = IsLoadedScene(m_InitStaticSceneUuids);
-                                Log($"Init Loaded:{allInited}");
-                            }
-
-                            if (allInited)
-                            {
-                                SectionInited = true;
-                                OnInitSceneLoaded?.Invoke();
-                                Log($"ON Loaded");
-
-                            }
-                        }
-
-
                     },
                     data.EntityInfo,
                     data);
@@ -304,11 +283,23 @@ namespace Pangoo.Core.Services
                 return;
             }
 
+            if (!SectionInited)
+            {
+                foreach (var sceneUuid in m_InitStaticSceneUuids)
+                {
+                    StaticSceneInfoRow sceneInfo = m_StaticSceneInfo.GetRowByUuid<StaticSceneInfoRow>(sceneUuid);
+                    if (!NeedLoadDict.ContainsKey(sceneInfo.Uuid))
+                    {
+                        NeedLoadDict.Add(sceneInfo.Uuid, sceneInfo.AssetPathUuid);
+                    }
+                }
+            }
+
             // 玩家进入对应的场景后。对应场景有相应的场景加载要求。
-            foreach (var enterAssetId in m_EnterAssetCountDict.Keys)
+            foreach (var enterAssetUuid in m_EnterAssetCountDict.Keys)
             {
                 StaticSceneInfoRow sceneInfo;
-                if (m_SectionSceneInfos.TryGetValue(enterAssetId, out sceneInfo))
+                if (m_SectionSceneInfos.TryGetValue(enterAssetUuid, out sceneInfo))
                 {
                     foreach (var loadSceneUuid in sceneInfo.LoadSceneUuids)
                     {
@@ -367,6 +358,37 @@ namespace Pangoo.Core.Services
             UpdateNeedLoadDict();
             UpdateAutoLoad();
             UpdateAutoRelease();
+
+            if (!SectionInited)
+            {
+                if (m_LoadingAssetUuids.Count == 0)
+                {
+                    SectionInited = true;
+                    OnInitSceneLoaded?.Invoke();
+                    Log($"Section All Loaded!");
+                }
+                else
+                {
+
+                }
+                // bool holdLoaded = IsLoadedScene(m_HoldStaticSceneUuids);
+                // bool initLoaded = false;
+                // Log($"Hold Loaded:{holdLoaded}");
+                // if (holdLoaded)
+                // {
+                //     initLoaded = IsLoadedScene(m_InitStaticSceneUuids);
+                //     Log($"Init Loaded:{initLoaded}");
+                // }
+
+                // if (holdLoaded && initLoaded)
+                // {
+                //     SectionInited = true;
+                //     OnInitSceneLoaded?.Invoke();
+                //     Log($"ON Loaded");
+
+                // }
+
+            }
         }
 
     }

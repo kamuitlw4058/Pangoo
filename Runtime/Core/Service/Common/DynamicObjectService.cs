@@ -8,9 +8,11 @@ using System.Linq;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using Pangoo.MetaTable;
+using Pangoo.Common;
 
 namespace Pangoo.Core.Services
 {
+    [Serializable]
     public class DynamicObjectService : MainSubService
     {
         public override string ServiceName => "DynamicObject";
@@ -74,7 +76,11 @@ namespace Pangoo.Core.Services
         {
             if (m_LoadedAssetDict.TryGetValue(uuid, out EntityDynamicObject dynamicObjectEntity))
             {
-                Loader.HideEntity(dynamicObjectEntity.Id);
+                if (dynamicObjectEntity.Id != 0)
+                {
+                    Loader.HideEntity(dynamicObjectEntity.Id);
+                }
+                m_LoadedAssetDict.Remove(uuid);
             }
         }
 
@@ -141,10 +147,11 @@ namespace Pangoo.Core.Services
             var AssetPathId = info.AssetPathUuid;
             if (m_LoadedAssetDict.ContainsKey(uuid))
             {
+                callback?.Invoke(uuid);
                 return;
             }
 
-            Log($"ShowDynamicObject:{uuid}");
+            Log($"ShowDynamicObject:{info.Name}[{uuid.ToShortUuid()}]");
 
             // 这边有一个假设，同一个时间不会反复加载不同的章节下的同一个场景。
             if (m_LoadingAssetIds.Contains(uuid))

@@ -9,6 +9,7 @@ using GameFramework;
 using UnityEngine.Rendering;
 using UnityEngine.InputSystem;
 using Pangoo.MetaTable;
+using System.Linq;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -216,7 +217,7 @@ namespace Pangoo.Core.VisualScripting
 
                 foreach (var kv in Variables.TriggerEnabledDict)
                 {
-                    TriggerEnabled(kv.Key, kv.Value);
+                    TriggerSetEnabled(kv.Key, kv.Value);
 
                 }
 
@@ -264,7 +265,7 @@ namespace Pangoo.Core.VisualScripting
         {
             if (m_Tracker != null)
             {
-                Debug.Log($"Try disable ");
+                Debug.Log($"Try disable:{Row.Name}");
                 m_Tracker.EventInteract -= OnInteract;
                 GameObject.DestroyImmediate(m_Tracker);
                 m_Tracker = null;
@@ -272,6 +273,8 @@ namespace Pangoo.Core.VisualScripting
             }
 
             DoDisableTimeineSignal();
+
+            m_Variables = null;
 
             base.DoDisable();
         }
