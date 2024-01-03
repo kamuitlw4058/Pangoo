@@ -553,3 +553,6 @@ MonoBehaviour:
     - Name: GrabSoundUuid
       Type: string
       CnName: "\u6293\u53D6\u97F3\u9891"
+    - Name: ExitKeyCodes
+      Type: string
+      CnName: "\u9000\u51FA\u6309\u952E\u5217\u8868"

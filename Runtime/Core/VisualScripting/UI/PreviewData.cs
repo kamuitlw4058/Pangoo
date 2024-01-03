@@ -4,6 +4,7 @@ using Pangoo.Core.Common;
 using LitJson;
 using Pangoo.Core.Services;
 using Pangoo.MetaTable;
+using Pangoo.Common;
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -54,6 +55,14 @@ namespace Pangoo.Core.VisualScripting
                 DynamicObject.CachedTransfrom.localScale = value;
             }
 
+        }
+
+        public KeyCode[] ExitKeyCodes
+        {
+            get
+            {
+                return PreviewRow.ExitKeyCodes.ToSplitArr<KeyCode>();
+            }
         }
 
         public Vector3 OldPosition { get; set; }

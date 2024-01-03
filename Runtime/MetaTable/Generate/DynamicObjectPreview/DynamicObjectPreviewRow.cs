@@ -60,6 +60,13 @@ namespace Pangoo.MetaTable
 
         string IDynamicObjectPreviewRow.GrabSoundUuid {get => GrabSoundUuid; set => GrabSoundUuid = value;}
 
+        [JsonMember("ExitKeyCodes")]
+        [MetaTableRowColumn("ExitKeyCodes","string", "退出按键列表",7)]
+        [LabelText("退出按键列表")]
+        public string ExitKeyCodes ;
+
+        string IDynamicObjectPreviewRow.ExitKeyCodes {get => ExitKeyCodes; set => ExitKeyCodes = value;}
+
     }
 }
 
