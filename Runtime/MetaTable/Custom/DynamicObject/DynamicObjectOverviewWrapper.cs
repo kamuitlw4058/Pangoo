@@ -26,6 +26,11 @@ namespace Pangoo.MetaTable
             }
         }
 
+        public override void OnNewRowPostprocess(DynamicObjectNewRowWrapper newRowWrapper)
+        {
+            newRowWrapper.UnityRow.Row.Scale = Vector3.one;
+        }
+
     }
 }
 #endif

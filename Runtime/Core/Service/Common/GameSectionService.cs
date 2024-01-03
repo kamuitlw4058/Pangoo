@@ -146,10 +146,13 @@ namespace Pangoo.Core.Services
                     GameSection.InitSceneUuids.ToSplitList<string>()
                     );
 
-                DynamicObjectSrv.HideAllLoaded();
+                // DynamicObjectSrv.HideAllLoaded();
+                var loadedUuids = DynamicObjectSrv.GetLoadedUuids();
                 var doUuids = GameSection.DynamicObjectUuids.ToSplitList<string>();
                 foreach (var doUuid in doUuids)
                 {
+                    if (loadedUuids.Contains(doUuid)) continue;
+
                     DynamicObjectSrv.ShowDynamicObject(doUuid, (dynamicObjectUuid) =>
                     {
                         Log($"Loaded DynamicObject Finish:{dynamicObjectUuid}");
@@ -158,6 +161,14 @@ namespace Pangoo.Core.Services
                             RunLoadedInstructions(GameSection);
                         }
                     });
+                }
+
+                foreach (var loadedUuid in loadedUuids)
+                {
+                    if (!doUuids.Contains(loadedUuid))
+                    {
+                        DynamicObjectSrv.HideEntity(loadedUuid);
+                    }
                 }
 
                 Log($"Update Static Scene:{GameSection.Id} KeepSceneIds:{GameSection.KeepSceneIds} DynamicSceneIds:{GameSection.DynamicSceneIds}");
