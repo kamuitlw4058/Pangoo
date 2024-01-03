@@ -109,13 +109,29 @@ namespace Pangoo.Core.VisualScripting
         public bool InitEnabled;
 
 
-        // [TableTitleGroup("自动关闭")]
-        // [TableColumnWidth(50, resizable: false)]
-        [LabelText("运行后自动关闭")]
+        [LabelText("运行后自动关闭Trigger")]
         [JsonMember("DisableOnFinish")]
         [BoxGroup("组配置")]
         [ShowIf("@this.ConditionType == ConditionTypeEnum.NoCondition")]
         public bool DisableOnFinish;
+
+
+        [LabelText("运行后自动关闭交互")]
+        [JsonMember("DisableInteractOnFinish")]
+        [BoxGroup("组配置")]
+
+
+        [ShowIf("@this.ConditionType == ConditionTypeEnum.NoCondition")]
+        public bool DisableInteractOnFinish;
+
+
+        [LabelText("运行后自动关闭Hotspot")]
+        [JsonMember("DisableHotspotOnFinish")]
+        [BoxGroup("组配置")]
+
+
+        [ShowIf("@this.ConditionType == ConditionTypeEnum.NoCondition")]
+        public bool DisableHotspotOnFinish;
 
 
 
