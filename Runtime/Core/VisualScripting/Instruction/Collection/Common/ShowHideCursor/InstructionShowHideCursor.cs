@@ -26,7 +26,6 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            Cursor.visible = this.ParamsRaw.Visible;
             Cursor.lockState = ParamsRaw.CursorLockMode;
         }
     }

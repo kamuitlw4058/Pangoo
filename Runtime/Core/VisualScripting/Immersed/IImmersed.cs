@@ -4,6 +4,7 @@ using UnityEngine;
 
 public interface IImmersed
 {
+    public bool IsRunning { get;}
     public void OnEnter();
     public void OnExit();
 

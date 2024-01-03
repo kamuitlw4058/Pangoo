@@ -264,8 +264,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectRunExecute => true,
                     DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => true,
                     DirectInstructionTypeEnum.DynamicObjectInteractEnable => true,
-
-                    DirectInstructionTypeEnum.ShowHideCursor => true,
+                    
                     DirectInstructionTypeEnum.PlaySound => true,
                     DirectInstructionTypeEnum.SetGlobalGameObjectActive => true,
                     DirectInstructionTypeEnum.DynamicObjectPreview => true,
@@ -316,7 +315,6 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.ImageFade => true,
-                    DirectInstructionTypeEnum.WaitMsg => true,
                     DirectInstructionTypeEnum.SetGlobalGameObjectActive => true,
                     _ => false,
                 };
@@ -461,7 +459,6 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectPlayTimeline => "等待完成",
 
                     DirectInstructionTypeEnum.PlaySound => "是否循环",
-                    DirectInstructionTypeEnum.ShowHideCursor => "显示鼠标光标",
                     DirectInstructionTypeEnum.SetGlobalGameObjectActive => "状态",
                     _ => "设置值",
                 };
