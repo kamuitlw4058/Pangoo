@@ -175,13 +175,14 @@ namespace Pangoo.Core.VisualScripting
 
             if (State == PreviewState.OnClosing)
             {
-                if ((PreviewData.CurrentPosition - PreviewData.OldPosition).magnitude > 0.001)
+                if ((PreviewData.CurrentPosition - PreviewData.OldPosition).magnitude > 0.01)
                 {
                     PreviewData.CurrentPosition = MathUtility.Lerp(PreviewData.CurrentPosition, PreviewData.OldPosition, 0.5f);
                     return;
                 }
                 else
                 {
+                    PreviewData.CurrentPosition = PreviewData.OldPosition;
                     State = PreviewState.OnClose;
                 }
             }
