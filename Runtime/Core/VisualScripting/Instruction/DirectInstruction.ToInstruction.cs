@@ -212,10 +212,9 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetShowHideCursor(bool isShow, CursorLockMode cursorLockMode)
+        public static Instruction GetShowHideCursor(CursorLockMode cursorLockMode)
         {
             var instruction = Activator.CreateInstance<InstructionShowHideCursor>();
-            instruction.ParamsRaw.Visible = isShow;
             instruction.ParamsRaw.CursorLockMode = cursorLockMode;
             return instruction;
         }
@@ -318,7 +317,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.ImageFade:
                     return GetImageFadeInstruction(String1, Float1, Float2, String2);
                 case DirectInstructionTypeEnum.ShowHideCursor:
-                    return GetShowHideCursor(Bool1, CursorLockMode1);
+                    return GetShowHideCursor(CursorLockMode1);
                 case DirectInstructionTypeEnum.CanvasGroup:
                     return GetCanvasGroupFadeInstruction(String1, Float1, Float2);
                 case DirectInstructionTypeEnum.WaitMsg:
