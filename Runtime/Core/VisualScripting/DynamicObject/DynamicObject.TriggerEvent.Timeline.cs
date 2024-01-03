@@ -68,6 +68,7 @@ namespace Pangoo.Core.VisualScripting
         {
             var args = e as TimelineSignalEventArgs;
             if (args.dynamicObject == null || (args.dynamicObject != null && args.dynamicObject != this)) return;
+            Debug.Log($"OnTimelineSignalEvent:{args}");
             CurrentArgs.playableDirector = args.playableDirector;
             CurrentArgs.signalAssetName = args.signalAssetName;
             TriggerInovke(TriggerTypeEnum.OnTimelineSignal);

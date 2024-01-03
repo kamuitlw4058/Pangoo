@@ -56,8 +56,19 @@ namespace Pangoo.Core.VisualScripting
 
         public void BuildTriggerEvent(int i, DirectInstructionGroup directInstructionGroup)
         {
-
-            if (directInstructionGroup.DirectInstructionList == null || directInstructionGroup.DirectInstructionList.Length == 0) return;
+            switch (directInstructionGroup.ConditionType)
+            {
+                case ConditionTypeEnum.NoCondition:
+                    if (directInstructionGroup.DirectInstructionList == null || directInstructionGroup.DirectInstructionList.Length == 0) return;
+                    break;
+                case ConditionTypeEnum.BoolCondition:
+                    if ((directInstructionGroup.DirectInstructionList == null || directInstructionGroup.DirectInstructionList.Length == 0)
+                        && (directInstructionGroup.FailedDirectInstructionList == null || directInstructionGroup.FailedDirectInstructionList.Length == 0)) return;
+                    break;
+                case ConditionTypeEnum.StateCondition:
+                    if (directInstructionGroup.StateDirectInstructionDict == null || directInstructionGroup.StateDirectInstructionDict.Count == 0) return;
+                    break;
+            }
 
             ITriggerEventRow row = new Pangoo.MetaTable.TriggerEventRow();
 
