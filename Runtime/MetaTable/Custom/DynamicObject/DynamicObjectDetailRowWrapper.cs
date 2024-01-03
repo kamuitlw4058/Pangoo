@@ -89,7 +89,6 @@ namespace Pangoo.MetaTable
         [PropertyOrder(5)]
         [ShowInInspector]
         [InlineButton("AddAssetPath", SdfIconType.Plus, Label = "")]
-        // [InlineButton("ShowCreateAssetPath", SdfIconType.Plus, Label = "")]
         public string AssetPathUuid
         {
             get
@@ -140,7 +139,8 @@ namespace Pangoo.MetaTable
 
         public void OnAfterCreateAsset(string uuid)
         {
-            AssetPathUuid = Uuid;
+            Debug.Log($"OnAfterCreateAsset:{uuid}");
+            AssetPathUuid = uuid;
         }
 
 
