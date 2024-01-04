@@ -15,14 +15,9 @@ public class BaseImmersed : MonoBehaviour,IImmersed
     public bool IsRunning { get; set; }
     public bool IsInteractionEnd { get; set; }
 
-    public virtual void Start()
-    {
-        dynamicObject=GetComponent<EntityDynamicObject>().DynamicObj;
-    }
-
     public virtual void OnEnter()
     {
-        Debug.Log("OnEnter");
+        dynamicObject=GetComponent<EntityDynamicObject>().DynamicObj;
     }
 
     public virtual void OnExit()
