@@ -12,6 +12,10 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public class InstructionDynamicObjectInvokeEnter : Instruction
     {
+        [SerializeField]
+        [LabelText("参数")]
+        [HideReferenceObjectPicker]
+        public InstructionDynamicObjectInvokeEnterParams ParamsRaw = new InstructionDynamicObjectInvokeEnterParams();
         public override IParams Params { get; }
         
         public override  InstructionType InstructionType => InstructionType.Coroutine;  
@@ -42,6 +46,7 @@ namespace Pangoo.Core.VisualScripting
             
             if (args.dynamicObject.immersed!=null)
             {
+                args.dynamicObject.immersed.CanMidwayExit = ParamsRaw.CanMidwayExit;
                 args.dynamicObject.immersed.OnEnter();
             }
             Debug.Log("直接指令");

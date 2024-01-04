@@ -257,9 +257,10 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
         
-        public static Instruction GetDynamicObjectInvokeEnter()
+        public static Instruction GetDynamicObjectInvokeEnter(bool canMidwayExit)
         {
             var instruction = Activator.CreateInstance<InstructionDynamicObjectInvokeEnter>();
+            instruction.ParamsRaw.CanMidwayExit = canMidwayExit;
             return instruction;
         }
         public static Instruction GetDynamicObjectInvokeExit()
@@ -333,7 +334,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.DynamicObjectPreview:
                     return GetDynamicObjectPreview(Uuid, Bool1);
                 case DirectInstructionTypeEnum.DynamicObjectEnter:
-                    return GetDynamicObjectInvokeEnter();
+                    return GetDynamicObjectInvokeEnter(Bool1);
                 case DirectInstructionTypeEnum.DynamicObjectExit:
                     return GetDynamicObjectInvokeExit();
             }

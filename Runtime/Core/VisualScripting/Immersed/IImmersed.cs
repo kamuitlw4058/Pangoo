@@ -4,8 +4,10 @@ using UnityEngine;
 
 public interface IImmersed
 {
-    public bool IsRunning { get;}
-    public bool IsInteractionEnd { get; }
+    public bool IsRunning { get; set; }
+    public bool IsInteractionEnd { get; set; }
+    
+    public bool CanMidwayExit { get; set; }
     public void OnEnter();
     public void OnExit();
 

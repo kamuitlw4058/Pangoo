@@ -14,6 +14,7 @@ public class BaseImmersed : MonoBehaviour,IImmersed
 
     public bool IsRunning { get; set; }
     public bool IsInteractionEnd { get; set; }
+    public bool CanMidwayExit { get; set; }
 
     public virtual void OnEnter()
     {
@@ -27,6 +28,12 @@ public class BaseImmersed : MonoBehaviour,IImmersed
 
     public virtual void OnUpdate()
     {
-        Debug.Log("OnUpdate");
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (CanMidwayExit)
+            {
+                OnExit();
+            }
+        }
     }
 }

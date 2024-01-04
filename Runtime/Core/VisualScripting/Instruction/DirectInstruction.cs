@@ -270,7 +270,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectPreview => true,
                     DirectInstructionTypeEnum.DynamicObjectPlayTimeline => true,
                     DirectInstructionTypeEnum.WaitVariableBool => true,
-
+                    DirectInstructionTypeEnum.DynamicObjectEnter=>true,
                     _ => false,
                 };
             }
@@ -460,6 +460,7 @@ namespace Pangoo.Core.VisualScripting
 
                     DirectInstructionTypeEnum.PlaySound => "是否循环",
                     DirectInstructionTypeEnum.SetGlobalGameObjectActive => "状态",
+                    DirectInstructionTypeEnum.DynamicObjectEnter=>"能否中途退出",
                     _ => "设置值",
                 };
             }
