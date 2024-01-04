@@ -33,6 +33,41 @@ namespace Pangoo.MetaTable
             }
 
         }
+
+        KeyCode[] m_KeyCodes;
+
+        [LabelText("退出按键")]
+        [ShowInInspector]
+        [OnValueChanged("OnKeyCodesChanged", includeChildren: true)]
+        public KeyCode[] KeyCodes
+        {
+            get
+            {
+                if (m_KeyCodes == null)
+                {
+                    m_KeyCodes = UnityRow.Row.ExitKeyCodes.ToSplitArr<KeyCode>();
+                }
+
+                return m_KeyCodes;
+            }
+            set
+            {
+                m_KeyCodes = value;
+                UnityRow.Row.ExitKeyCodes = value.ToListString();
+                Save();
+            }
+        }
+        // public void OnAdd()
+        // {
+        //     m_KeyCodes
+        // }
+
+        public void OnKeyCodesChanged()
+        {
+            Debug.Log($"OnKeyCodesChanged:m_KeyCodes:{m_KeyCodes.Count()}");
+            UnityRow.Row.ExitKeyCodes = m_KeyCodes.ToListString();
+            Save();
+        }
     }
 }
 #endif

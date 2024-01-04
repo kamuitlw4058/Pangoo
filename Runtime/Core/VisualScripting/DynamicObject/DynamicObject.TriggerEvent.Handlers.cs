@@ -69,6 +69,20 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
+        public void TriggerSetEnabled(string uuid, bool val)
+        {
+            foreach (var triggers in TriggerDict.Values)
+            {
+                foreach (var trigger in triggers)
+                {
+                    if (trigger.Row.Uuid.Equals(uuid))
+                    {
+                        trigger.SetEnabled(val);
+                    }
+                }
+            }
+        }
+
         public void TriggerEnabled(string uuid, bool val)
         {
             foreach (var triggers in TriggerDict.Values)

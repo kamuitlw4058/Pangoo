@@ -34,6 +34,22 @@ namespace Pangoo
             }
         }
 
+        public string Uuid
+        {
+            get
+            {
+                return m_DynamicObjectRow.Uuid;
+            }
+        }
+
+        public string UuidShort
+        {
+            get
+            {
+                return m_DynamicObjectRow.UuidShort;
+            }
+        }
+
         public string Name
         {
             get

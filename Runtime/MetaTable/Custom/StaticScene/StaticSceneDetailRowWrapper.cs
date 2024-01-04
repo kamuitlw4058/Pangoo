@@ -56,7 +56,7 @@ namespace Pangoo.MetaTable
 
         public void OnAfterCreateAsset(string uuid)
         {
-            AssetPathUuid = Uuid;
+            AssetPathUuid = uuid;
         }
 
 

@@ -289,9 +289,9 @@ namespace Pangoo.MetaTable
                 AfterCreate(UnityRow.Uuid);
             }
 
-            if (MenuWindow != null)
+            if (OpenWindow != null)
             {
-                MenuWindow.Close();
+                OpenWindow.Close();
             }
 
 

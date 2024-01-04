@@ -25,16 +25,16 @@ namespace Pangoo
             for (int i = 0; i < InstructionsUuids.Length; i++)
             {
                 var row = InstructionHandler(InstructionsUuids[i]);
-                DrawButtonItem(row.Id.ToString(), row.Name, "运行", () =>
+                DrawButtonItem(row.UuidShort, row.Name, "运行", () =>
                 {
                     var instruction = Instruction.BuildFromRow(row);
-                    if (instruction.InstructionType == Core.VisualScripting.InstructionType.Immediate)
+                    if (instruction != null && instruction.InstructionType == Core.VisualScripting.InstructionType.Immediate)
                     {
                         var args = new Args();
                         args.Main = PangooEntry.Service.mainService;
                         instruction.RunImmediate(args);
+                        Debug.Log($"运行指令");
                     }
-                    Debug.Log($"运行指令");
                 });
             }
             GUILayout.EndVertical();

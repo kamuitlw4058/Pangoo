@@ -7,6 +7,7 @@ using TMPro;
 using GameFramework.Event;
 using Pangoo.Core.Common;
 using Pangoo.Common;
+using System.Linq;
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -146,7 +147,27 @@ namespace Pangoo.Core.VisualScripting
             if (State == PreviewState.OnPreview)
             {
                 PreviewData.CurrentPosition = TargetPoint;
-                if (Input.GetKeyDown(KeyCode.Escape))
+                bool flag = false;
+                var ExitKeyCodes = PreviewData.ExitKeyCodes;
+                if (ExitKeyCodes.Length == 0)
+                {
+                    if (Input.GetKeyDown(KeyCode.Escape))
+                    {
+                        flag = true;
+                    }
+                }
+                else
+                {
+                    foreach (var keyCode in ExitKeyCodes)
+                    {
+                        if (Input.GetKeyDown(keyCode))
+                        {
+                            flag = true;
+                        }
+                    }
+                }
+
+                if (flag)
                 {
                     State = PreviewState.OnClosing;
                 }
@@ -154,13 +175,14 @@ namespace Pangoo.Core.VisualScripting
 
             if (State == PreviewState.OnClosing)
             {
-                if ((PreviewData.CurrentPosition - PreviewData.OldPosition).magnitude > 0.001)
+                if ((PreviewData.CurrentPosition - PreviewData.OldPosition).magnitude > 0.01)
                 {
                     PreviewData.CurrentPosition = MathUtility.Lerp(PreviewData.CurrentPosition, PreviewData.OldPosition, 0.5f);
                     return;
                 }
                 else
                 {
+                    PreviewData.CurrentPosition = PreviewData.OldPosition;
                     State = PreviewState.OnClose;
                 }
             }

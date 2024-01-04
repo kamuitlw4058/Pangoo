@@ -114,6 +114,7 @@ namespace Pangoo.Core.VisualScripting
                 Debug.LogError($"Create Trigger Failed!{row.TriggerType}");
                 return null;
             }
+            Debug.Log($"Create Trigger:{Row.Name} -> {row.TriggerType}");
 
             ret.Parent = gameObject;
             ret.dynamicObject = this;

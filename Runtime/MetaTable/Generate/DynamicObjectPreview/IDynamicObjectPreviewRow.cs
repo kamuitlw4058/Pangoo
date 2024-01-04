@@ -29,6 +29,8 @@ namespace Pangoo.MetaTable
 
         public string GrabSoundUuid{ get; set; }
 
+        public string ExitKeyCodes{ get; set; }
+
     }
 }
 
