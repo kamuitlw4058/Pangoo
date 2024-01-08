@@ -1,20 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Pangoo;
 using Pangoo.Core.Services;
+using Pangoo.Core.VisualScripting;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class BaseImmersed : MonoBehaviour,IImmersed
 {
     [ReadOnly]
-    public MainService mainService = null;
+    public DynamicObject dynamicObject = null;
 
     public bool IsRunning { get; set; }
 
     public virtual void OnEnter()
     {
-        Debug.Log("OnEnter");
+        dynamicObject=GetComponent<EntityDynamicObject>().DynamicObj;
     }
 
     public virtual void OnExit()
@@ -24,6 +26,6 @@ public class BaseImmersed : MonoBehaviour,IImmersed
 
     public virtual void OnUpdate()
     {
-        Debug.Log("OnUpdate");
+        
     }
 }

@@ -270,7 +270,6 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectPreview => true,
                     DirectInstructionTypeEnum.DynamicObjectPlayTimeline => true,
                     DirectInstructionTypeEnum.WaitVariableBool => true,
-
                     _ => false,
                 };
             }
