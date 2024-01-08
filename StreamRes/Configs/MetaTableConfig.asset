@@ -556,3 +556,6 @@ MonoBehaviour:
     - Name: ExitKeyCodes
       Type: string
       CnName: "\u9000\u51FA\u6309\u952E\u5217\u8868"
+    - Name: PreviewInteractKeyCodes
+      Type: string
+      CnName: "\u9884\u89C8\u5185\u4EA4\u4E92\u6309\u952E\u5217\u8868"

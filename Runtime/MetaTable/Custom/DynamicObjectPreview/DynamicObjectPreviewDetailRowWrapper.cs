@@ -34,6 +34,38 @@ namespace Pangoo.MetaTable
 
         }
 
+        KeyCode[] m_InteractKeyCodes;
+
+        [LabelText("交互按键")]
+        [ShowInInspector]
+        [OnValueChanged("OnInteractKeyCodesChanged", includeChildren: true)]
+        public KeyCode[] InteractKeyCodes
+        {
+            get
+            {
+                if (m_InteractKeyCodes == null)
+                {
+                    m_InteractKeyCodes = UnityRow.Row.PreviewInteractKeyCodes.ToSplitArr<KeyCode>();
+                }
+
+                return m_InteractKeyCodes;
+            }
+            set
+            {
+                m_InteractKeyCodes = value;
+                UnityRow.Row.PreviewInteractKeyCodes = value.ToListString();
+                Save();
+            }
+        }
+
+        public void OnInteractKeyCodesChanged()
+        {
+            Debug.Log($"OnKeyCodesChanged:m_KeyCodes:{m_InteractKeyCodes.Count()}");
+            UnityRow.Row.PreviewInteractKeyCodes = m_InteractKeyCodes.ToListString();
+            Save();
+        }
+
+
         KeyCode[] m_KeyCodes;
 
         [LabelText("退出按键")]

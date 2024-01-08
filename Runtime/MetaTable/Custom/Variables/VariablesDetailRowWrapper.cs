@@ -128,11 +128,10 @@ namespace Pangoo.MetaTable
                 "string" => typeof(VariableString).FullName,
                 "float" => typeof(VariableFloat).FullName,
                 "bool" => typeof(VariableBool).FullName,
+                "int" => typeof(VariableInt).FullName,
                 _ => string.Empty,
             };
         }
-
-
 
 
         void UpdateInstance()

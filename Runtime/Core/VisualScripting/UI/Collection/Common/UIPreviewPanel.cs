@@ -91,7 +91,6 @@ namespace Pangoo.Core.VisualScripting
 
         void OnPreview()
         {
-
         }
 
 
@@ -148,6 +147,21 @@ namespace Pangoo.Core.VisualScripting
             {
                 PreviewData.CurrentPosition = TargetPoint;
                 bool flag = false;
+                var InteractKeyCodes = PreviewData.InteractKeyCodes;
+                for (int i = 0; i < InteractKeyCodes.Length; i++)
+                {
+                    if (Input.GetKeyDown(InteractKeyCodes[i]))
+                    {
+                        var variableUuid = PreviewData.args.Main.DefaultPreviewInteraceVariableUuid;
+                        if (!variableUuid.IsNullOrWhiteSpace())
+                        {
+                            PreviewData.DynamicObject.SetVariable<int>(variableUuid, i);
+                        }
+                        PreviewData.DynamicObject?.OnPreview();
+                    }
+                }
+
+
                 var ExitKeyCodes = PreviewData.ExitKeyCodes;
                 if (ExitKeyCodes.Length == 0)
                 {

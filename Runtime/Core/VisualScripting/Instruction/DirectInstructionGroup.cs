@@ -172,7 +172,7 @@ namespace Pangoo.Core.VisualScripting
 
         public IEnumerable ConditionUuidValueDropdown()
         {
-            return ConditionOverview.GetUuidDropdown();
+            return ConditionOverview.GetConditionUuidDropdown(ConditionType);
         }
 
         public IEnumerable VariableBoolUuidValueDropdown()

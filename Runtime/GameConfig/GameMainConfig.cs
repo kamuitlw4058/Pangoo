@@ -56,13 +56,17 @@ namespace Pangoo
 
 
         [LabelText("默认字幕的UIId")]
-        [ValueDropdown("GetUIId")]
+        [ValueDropdown("GetUIUuid")]
         public string DefaultSubtitlePanelUuid = string.Empty;
 
 
         [LabelText("预览UI Uuid")]
-        [ValueDropdown("GetUIId")]
+        [ValueDropdown("GetUIUuid")]
         public string PreviewPanelUuid = string.Empty;
+
+        [LabelText("预览交互变量 Uuid")]
+        [ValueDropdown("GetIntVariableUuid")]
+        public string DefaultPreviewIntVariable = string.Empty;
 
         [LabelText("调试指令")]
         [ValueDropdown("GetInstructions")]
@@ -83,10 +87,16 @@ namespace Pangoo
             return InstructionOverview.GetUuidDropdown();
         }
 
-        private IEnumerable GetUIId()
+        private IEnumerable GetUIUuid()
         {
             return SimpleUIOverview.GetUuidDropdown();
         }
+
+        private IEnumerable GetIntVariableUuid()
+        {
+            return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Int.ToString());
+        }
+
 
         private IEnumerable GetDefaultPlayer()
         {
