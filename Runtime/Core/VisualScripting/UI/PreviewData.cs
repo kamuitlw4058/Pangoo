@@ -65,6 +65,14 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
+        public KeyCode[] InteractKeyCodes
+        {
+            get
+            {
+                return PreviewRow.PreviewInteractKeyCodes.ToSplitArr<KeyCode>();
+            }
+        }
+
         public Vector3 OldPosition { get; set; }
 
         public Vector3 OldRotation { get; set; }

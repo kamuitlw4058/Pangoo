@@ -56,6 +56,7 @@ namespace Pangoo.Core.VisualScripting
         OnUpdate,
         OnInteractionSuccess,
         OnInteractionFailed,
+        OnPreview
     }
 }
 

@@ -31,6 +31,8 @@ namespace Pangoo.MetaTable
 
         public string ExitKeyCodes{ get; set; }
 
+        public string PreviewInteractKeyCodes{ get; set; }
+
     }
 }
 

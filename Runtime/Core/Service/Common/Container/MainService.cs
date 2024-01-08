@@ -101,5 +101,13 @@ namespace Pangoo.Core.Services
             }
         }
 
+        public string DefaultPreviewInteraceVariableUuid
+        {
+            get
+            {
+                return GameConfig.GetGameMainConfig()?.DefaultPreviewIntVariable;
+            }
+        }
+
     }
 }

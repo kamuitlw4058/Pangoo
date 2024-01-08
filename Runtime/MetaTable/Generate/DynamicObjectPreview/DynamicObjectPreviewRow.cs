@@ -67,6 +67,13 @@ namespace Pangoo.MetaTable
 
         string IDynamicObjectPreviewRow.ExitKeyCodes {get => ExitKeyCodes; set => ExitKeyCodes = value;}
 
+        [JsonMember("PreviewInteractKeyCodes")]
+        [MetaTableRowColumn("PreviewInteractKeyCodes","string", "预览内交互按键列表",8)]
+        [LabelText("预览内交互按键列表")]
+        public string PreviewInteractKeyCodes ;
+
+        string IDynamicObjectPreviewRow.PreviewInteractKeyCodes {get => PreviewInteractKeyCodes; set => PreviewInteractKeyCodes = value;}
+
     }
 }
 
