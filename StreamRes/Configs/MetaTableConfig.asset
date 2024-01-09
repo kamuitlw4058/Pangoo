@@ -121,6 +121,9 @@ MonoBehaviour:
     - Name: AssetPathId
       Type: int
       CnName: AssetPathId
+    - Name: SubDynamicObject
+      Type: string
+      CnName: "\u5B50\u5BF9\u8C61"
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Condition
