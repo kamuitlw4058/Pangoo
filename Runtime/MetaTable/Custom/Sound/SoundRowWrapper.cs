@@ -159,13 +159,19 @@ namespace Pangoo.MetaTable
             }
         }
 
+        AudioSource m_AudioSource;
+
         [Button("@PlayerText")]
         [TableColumnWidth(60, resizable: false)]
         private void StartPlayback()
         {
             if (isPlaying)
             {
-                EditorAudioUtility.StopAllPreviewClips();
+                if (m_AudioSource != null)
+                {
+                    m_AudioSource.Stop();
+                }
+                // EditorAudioUtility.StopAllPreviewClips();
                 isPlaying = false;
                 return;
             }
@@ -174,9 +180,14 @@ namespace Pangoo.MetaTable
             {
                 if (!isPlaying)
                 {
-                    EditorAudioUtility.PlayPreviewClip(AssetAudioClip);
+                    if (m_AudioSource == null)
+                    {
+                        m_AudioSource = EditorUtility.CreateGameObjectWithHideFlags("Audio Player", HideFlags.HideAndDontSave).AddComponent<AudioSource>();
+                        m_AudioSource.clip = AssetAudioClip;
+                    }
+
+                    m_AudioSource.Play();
                     isPlaying = true;
-                    return;
                 }
             }
 
