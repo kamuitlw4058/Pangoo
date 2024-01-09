@@ -206,6 +206,7 @@ namespace Pangoo.Core.VisualScripting
                 {
                     m_Tracker.Instance = InteractTarget.gameObject;
                 }
+                m_Tracker.BuildColliderGameObjects();
             }
         }
 

@@ -35,6 +35,7 @@ namespace Pangoo.Core.Characters
         /// </summary>
         void Stop();
 
+
         bool InteractEnable { get; set; }
 
         bool InteractCanBan { get; set; }
@@ -42,6 +43,14 @@ namespace Pangoo.Core.Characters
         bool InteractTriggerEnter { get; set; }
 
         bool InteractDisabled { get; }
+
+        void BuildColliderGameObjects();
+
+        GameObject[] ColliderGameObjects { get; }
+
+        GameObject Blocked { get; set; }
+        bool InteractBlocked { get; set; }
+
 
         float InteractRadius { get; set; }
 

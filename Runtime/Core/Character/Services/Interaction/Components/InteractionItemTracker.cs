@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Pangoo.Core.Common;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -125,6 +127,42 @@ namespace Pangoo.Core.Characters
         [ShowInInspector]
         public bool InteractTriggerEnter { get; set; }
 
+        [ShowInInspector]
+        public GameObject Blocked { get; set; }
+
+
+        [ShowInInspector]
+        public bool InteractBlocked { get; set; }
+
+        GameObject[] m_ColliderGameObjects;
+
+        public void BuildColliderGameObjects()
+        {
+            if (m_ColliderGameObjects == null)
+            {
+                List<GameObject> gameObjects = new List<GameObject>();
+                var colliders = GetComponents<Collider>();
+                gameObjects.AddRange(colliders.Where(o => !o.isTrigger).Select(o => o.gameObject));
+
+                var childernColliders = GetComponentsInChildren<Collider>();
+                gameObjects.AddRange(childernColliders.Where(o => !o.isTrigger).Select(o => o.gameObject));
+
+                m_ColliderGameObjects = gameObjects.ToArray();
+            }
+        }
+
+        [ShowInInspector]
+        public GameObject[] ColliderGameObjects
+        {
+            get
+            {
+                BuildColliderGameObjects();
+
+                return m_ColliderGameObjects;
+            }
+        }
+
+
         public void Interact(Character character)
         {
             Debug.Log($"Enter Interacting.Name:{name} this.m_IsInteracting:{this.m_IsInteracting}");
@@ -145,6 +183,7 @@ namespace Pangoo.Core.Characters
             this.m_IsInteracting = false;
             this.EventStop?.Invoke(this.m_Character, this);
         }
+
 
         void OnDrawGizmos()
         {

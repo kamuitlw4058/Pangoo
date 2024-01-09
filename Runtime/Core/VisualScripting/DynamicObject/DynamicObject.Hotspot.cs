@@ -28,7 +28,7 @@ namespace Pangoo.Core.VisualScripting
         {
             get
             {
-                return IsHotspotDistanceActive && !IsInteracting && m_IsHotspotActive;
+                return IsHotspotDistanceActive && !IsInteracting && m_IsHotspotActive && (!m_Tracker?.InteractBlocked ?? true);
             }
             set
             {
