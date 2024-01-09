@@ -36,6 +36,15 @@ namespace Pangoo
         {
             TableOverviews = AssetDatabaseUtility.FindAsset<MetaTableOverview>().ToList();
         }
+
+        [Button("刷新行")]
+        public void RefreshRows()
+        {
+            foreach (var overview in TableOverviews)
+            {
+                overview.RefreshRows();
+            }
+        }
 #endif
 
         [ShowInInspector]
