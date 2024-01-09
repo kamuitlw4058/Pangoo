@@ -35,6 +35,8 @@ namespace Pangoo.MetaTable
 
         public int AssetPathId{ get; set; }
 
+        public string SubDynamicObject{ get; set; }
+
     }
 }
 

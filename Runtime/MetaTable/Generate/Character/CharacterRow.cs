@@ -81,6 +81,13 @@ namespace Pangoo.MetaTable
 
         int ICharacterRow.AssetPathId {get => AssetPathId; set => AssetPathId = value;}
 
+        [JsonMember("SubDynamicObject")]
+        [MetaTableRowColumn("SubDynamicObject","string", "子对象",13)]
+        [LabelText("子对象")]
+        public string SubDynamicObject ;
+
+        string ICharacterRow.SubDynamicObject {get => SubDynamicObject; set => SubDynamicObject = value;}
+
     }
 }
 

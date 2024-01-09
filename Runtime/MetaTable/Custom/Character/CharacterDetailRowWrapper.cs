@@ -10,6 +10,7 @@ using Sirenix.OdinInspector;
 using System.Xml.Serialization;
 using Pangoo.Common;
 using MetaTable;
+using Pangoo.Core.VisualScripting;
 
 namespace Pangoo.MetaTable
 {
@@ -219,7 +220,6 @@ namespace Pangoo.MetaTable
 
             }
         }
-
     }
 }
 #endif
