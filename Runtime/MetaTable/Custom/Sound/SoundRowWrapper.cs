@@ -133,7 +133,7 @@ namespace Pangoo.MetaTable
         {
             get
             {
-                return m_IsPlaying || EditorAudioUtility.IsPreviewClipPlaying(AssetAudioClip);
+                return m_IsPlaying || (m_AudioSource?.isPlaying ?? false);
             }
             set
             {
@@ -195,6 +195,7 @@ namespace Pangoo.MetaTable
 
 
         }
+
 
         public override void Save()
         {
