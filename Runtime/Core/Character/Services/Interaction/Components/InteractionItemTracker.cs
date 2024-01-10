@@ -144,7 +144,7 @@ namespace Pangoo.Core.Characters
                 var colliders = GetComponents<Collider>();
                 gameObjects.AddRange(colliders.Where(o => !o.isTrigger).Select(o => o.gameObject));
 
-                var childernColliders = GetComponentsInChildren<Collider>();
+                var childernColliders = GetComponentsInChildren<Collider>(includeInactive: true);
                 gameObjects.AddRange(childernColliders.Where(o => !o.isTrigger).Select(o => o.gameObject));
 
                 m_ColliderGameObjects = gameObjects.ToArray();
