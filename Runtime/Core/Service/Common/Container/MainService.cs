@@ -109,5 +109,14 @@ namespace Pangoo.Core.Services
             }
         }
 
+
+        public string DefaultPreviewExitVariableUuid
+        {
+            get
+            {
+                return GameConfig.GetGameMainConfig()?.DefaultPreviewExitVariable;
+            }
+        }
+
     }
 }

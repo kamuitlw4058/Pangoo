@@ -95,7 +95,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 if (Row != null)
                 {
-                    return GameFramework.Utility.Text.Format("DO_{0}", Row.Id.ToString());
+                    return GameFramework.Utility.Text.Format("DO_{0}", Row.Uuid.ToString());
                 }
                 return null;
             }

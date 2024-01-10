@@ -68,6 +68,11 @@ namespace Pangoo
         [ValueDropdown("GetIntVariableUuid")]
         public string DefaultPreviewIntVariable = string.Empty;
 
+
+        [LabelText("预览退出变量 Uuid")]
+        [ValueDropdown("GetBoolVariableUuid")]
+        public string DefaultPreviewExitVariable = string.Empty;
+
         [LabelText("调试指令")]
         [ValueDropdown("GetInstructions")]
         [ListDrawerSettings(Expanded = true)]
@@ -95,6 +100,11 @@ namespace Pangoo
         private IEnumerable GetIntVariableUuid()
         {
             return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Int.ToString());
+        }
+
+        private IEnumerable GetBoolVariableUuid()
+        {
+            return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString());
         }
 
 

@@ -183,6 +183,19 @@ namespace Pangoo.Core.VisualScripting
 
                 if (flag)
                 {
+                    var variableUuid = PreviewData.args.Main.DefaultPreviewExitVariableUuid;
+                    if (!variableUuid.IsNullOrWhiteSpace())
+                    {
+                        var isCloseImmediately = PreviewData.DynamicObject.GetVariable<bool>(variableUuid);
+                        if (isCloseImmediately)
+                        {
+                            Debug.Log($"立即退出 预览:{isCloseImmediately} :{variableUuid}");
+                            PreviewData.args.Main.CharacterService.SetPlayerControllable(true);
+                            CloseSelf();
+                            return;
+                        }
+                    }
+
                     State = PreviewState.OnClosing;
                 }
             }
@@ -203,6 +216,7 @@ namespace Pangoo.Core.VisualScripting
 
             if (State == PreviewState.OnClose)
             {
+                Debug.Log($"正常 预览");
                 PreviewData.args.Main.CharacterService.SetPlayerControllable(true);
                 CloseSelf();
             }
