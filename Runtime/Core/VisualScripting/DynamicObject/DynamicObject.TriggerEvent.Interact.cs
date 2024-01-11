@@ -39,7 +39,11 @@ namespace Pangoo.Core.VisualScripting
         void OnInteract(Characters.Character character, IInteractive interactive)
         {
 
-            TriggerInovke(TriggerTypeEnum.OnInteract);
+            var ret = TriggerInovke(TriggerTypeEnum.OnInteract);
+            if (!ret)
+            {
+                m_Tracker?.Stop();
+            }
 
         }
 
