@@ -199,6 +199,33 @@ namespace Pangoo.Core.VisualScripting
                 childTransform.gameObject.SetActive(val);
             }
         }
+        
+        public void SetModelMaterial(string path,int index)
+        {
+            if (this.Entity.GetComponent<MaterialList>())
+            {
+                Debug.Log("没有在对象身上获取到MaterialList");
+                return;
+            }
+            
+            Transform target=GetSubGameObjectTransformPath(path);
+            if (!target.GetComponent<Renderer>())
+            {
+                Debug.Log("没有在对象身上获取到Render");
+                return;
+            }
+            Renderer meshRenderer=target.GetComponent<Renderer>();
+
+            if (target.GetComponent<MaterialList>().materialList!=null)
+            {
+                meshRenderer.material = target.GetComponent<MaterialList>().materialList[index];
+            }
+            else
+            {
+                Debug.Log("请检查对象材质球列表是否配置");
+            }
+            
+        }
 
         protected override void DoStart()
         {

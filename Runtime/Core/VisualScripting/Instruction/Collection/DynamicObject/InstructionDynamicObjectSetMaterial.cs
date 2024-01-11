@@ -20,13 +20,7 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            if (!args.dynamicObject.Entity.GetComponent<MaterialList>())
-            {
-                return;
-            }
-            
-            Transform target= args.dynamicObject.GetSubGameObjectTransformPath(ParamsRaw.TargetPath);
-            args.dynamicObject.Entity.GetComponent<MaterialList>().SetModelMaterial(target,ParamsRaw.Index);
+            args.dynamicObject.SetModelMaterial(ParamsRaw.TargetPath,ParamsRaw.Index);
         }
     }
 }

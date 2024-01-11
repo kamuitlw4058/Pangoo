@@ -44,6 +44,7 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
+            isDone = false;
             Transform target= args.dynamicObject.GetSubGameObjectTransformPath(ParamsRaw.TargetPath);
             
             if (!target.GetComponent<Light>())
