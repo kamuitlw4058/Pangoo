@@ -20,7 +20,7 @@ namespace Pangoo.Core.VisualScripting
 
         public override void Log(string message)
         {
-            base.Log($"{Row.Name}[{Row.UuidShort}]:{message}");
+            base.Log($"{Row?.Name}[{Row?.UuidShort}]:{message}");
         }
 
         public override void LogError(string message)

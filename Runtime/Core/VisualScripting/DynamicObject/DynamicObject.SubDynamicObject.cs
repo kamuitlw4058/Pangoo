@@ -58,7 +58,7 @@ namespace Pangoo.Core.VisualScripting
 
         void OnSubDynamicObjectLoadFinish()
         {
-            Log($"OnSubDynamicObjectLoadFinish:{Row.Uuid}");
+            Log($"OnSubDynamicObjectLoadFinish");
         }
 
     }

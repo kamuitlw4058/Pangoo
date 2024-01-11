@@ -14,6 +14,7 @@ namespace Pangoo.Core.Services
     [Serializable]
     public class CharacterService : BaseService
     {
+        public override string ServiceName => "CharacterService";
         public override int Priority => 5;
 
 
