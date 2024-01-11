@@ -353,6 +353,22 @@ namespace Pangoo.Core.Services
             Log("load :{}");
         }
 
+        bool IsAllGameSectionSceneLoaded()
+        {
+
+            for (int i = 0; i < NeedLoadDict.Count; i++)
+            {
+                var key = NeedLoadDict.Values.ToList()[i];
+                if (!m_LoadedSceneAssetDict.ContainsKey(key))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+
+        }
+
         protected override void DoUpdate()
         {
             UpdateNeedLoadDict();
@@ -361,11 +377,11 @@ namespace Pangoo.Core.Services
 
             if (!SectionInited)
             {
-                if (m_LoadingAssetUuids.Count == 0)
+                if (IsAllGameSectionSceneLoaded())
                 {
                     SectionInited = true;
-                    OnInitSceneLoaded?.Invoke();
                     Log($"Section All Loaded!");
+                    OnInitSceneLoaded?.Invoke();
                 }
             }
         }

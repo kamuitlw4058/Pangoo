@@ -35,6 +35,7 @@ namespace Pangoo.Core.Services
         DynamicObjectInfo m_DynamicObjectInfo;
 
         [ShowInInspector]
+        [Searchable]
         Dictionary<string, EntityDynamicObject> m_LoadedAssetDict = new Dictionary<string, EntityDynamicObject>();
         List<string> m_LoadingAssetUuids = new List<string>();
 
@@ -105,7 +106,7 @@ namespace Pangoo.Core.Services
 
         public class SubDynamicObjectEntry
         {
-            public string ParentUuid;
+            public EntityBase ParentEntity;
             public string SubUuid;
 
             public bool IsParentCharacter;
@@ -116,38 +117,31 @@ namespace Pangoo.Core.Services
 
         void AddSubDynamicObjectDict(SubDynamicObjectEntry entry)
         {
-            if (!SubDynamicObjectDict.TryGetValue(entry.SubUuid, out entry))
+            if (entry == null)
+            {
+                LogError($"AddSubDynamicObjectDict Some null  :{entry},{entry?.SubUuid}");
+                return;
+            }
+
+            if (!SubDynamicObjectDict.ContainsKey(entry.SubUuid))
             {
                 SubDynamicObjectDict.Add(entry.SubUuid, entry);
             }
-            else
-            {
-                Debug.LogError($"Show SubDynamicObject Error");
-            }
+
         }
 
 
-        public void ShowSubDynamicObject(string dynamicObjectUuid, string path, string parentUuid, bool IsParentCharacter, Action<EntityDynamicObject> onShowSuccess)
+        public void ShowSubDynamicObject(string dynamicObjectUuid, string path, EntityBase parentEntity, bool IsParentCharacter, Action<EntityDynamicObject> onShowSuccess)
         {
             if (Loader == null)
             {
                 Loader = EntityLoader.Create(this);
             }
 
-            EntityBase parentEntity = null;
-            if (!IsParentCharacter)
-            {
-                parentEntity = GetLoadedEntity(parentUuid);
-            }
-            else
-            {
-                parentEntity = CharacterSrv.GetLoadedEntity(parentUuid);
-            }
-
-
             if (parentEntity == null)
             {
-                Log($"ShowSubDynamicObject Failed: parentEntity is null.parentEntity uuid:{parentUuid}");
+                LogError($"ShowSubDynamicObject Failed: parentEntity is null.parentEntity");
+
                 return;
             }
 
@@ -155,7 +149,7 @@ namespace Pangoo.Core.Services
 
             var entry = new SubDynamicObjectEntry()
             {
-                ParentUuid = parentUuid,
+                ParentEntity = parentEntity,
                 SubUuid = dynamicObjectUuid,
                 Path = path,
                 IsParentCharacter = IsParentCharacter,
@@ -321,7 +315,7 @@ namespace Pangoo.Core.Services
             foreach (var kv in SubDynamicObjectDict)
             {
 
-                if (!NeedLoadDict.ContainsKey(kv.Key))
+                if (!NeedLoadDict.ContainsKey(kv.Key) && kv.Value.ParentEntity != null)
                 {
                     NeedLoadDict.Add(kv.Key, kv.Value);
                 }
@@ -352,6 +346,7 @@ namespace Pangoo.Core.Services
 
             foreach (var removeUuid in removeDynamicObject)
             {
+                Log($"Hide[{removeUuid.ToShortUuid()}]");
                 HideEntity(removeUuid);
                 m_LoadedAssetDict.Remove(removeUuid);
             }
@@ -384,8 +379,9 @@ namespace Pangoo.Core.Services
                 if (IsAllGameSectionDynamicObjectLoaded())
                 {
                     DynamicObjectInited = true;
-                    OnGameSectionDynamicObjectLoaded?.Invoke();
                     Log($"GameSection DynamicObject All Loaded!");
+                    OnGameSectionDynamicObjectLoaded?.Invoke();
+
                 }
             }
         }

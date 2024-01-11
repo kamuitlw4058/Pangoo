@@ -52,7 +52,7 @@ namespace Pangoo
 #if UNITY_EDITOR
             if (Application.isPlaying && handler != null)
             {
-                Debug.Log($"GetRowByInstructionTable,handler:{handler},uuid:{uuid}");
+                // Debug.Log($"GetRowByInstructionTable,handler:{handler},uuid:{uuid}");
                 instructionRow = handler(uuid);
             }
             else

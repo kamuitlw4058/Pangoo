@@ -62,7 +62,7 @@ namespace Pangoo.Core.Services
             if (Player != null)
             {
                 Player.character.IsControllable = val;
-                Debug.Log($"SetPlayer val:{val}");
+                Log($"SetPlayer IsControllable:{val}");
             }
         }
 

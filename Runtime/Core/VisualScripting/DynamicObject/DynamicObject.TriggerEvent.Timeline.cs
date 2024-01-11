@@ -59,7 +59,7 @@ namespace Pangoo.Core.VisualScripting
         {
             if (InitedTimelineSignal)
             {
-                Main.Event.UnSubscribe(TimelineSignalEventArgs.EventId, OnTimelineSignalEvent);
+                Event.UnSubscribe(TimelineSignalEventArgs.EventId, OnTimelineSignalEvent);
                 InitedTimelineSignal = false;
             }
         }

@@ -52,7 +52,7 @@ namespace Pangoo
 #if UNITY_EDITOR
             if (Application.isPlaying && handler != null)
             {
-                Debug.Log($"HotspotTable");
+                // Debug.Log($"HotspotTable");
                 row = handler(uuid);
             }
             else
