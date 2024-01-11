@@ -17,8 +17,7 @@ namespace Pangoo.Core.VisualScripting
         [LabelText("参数")]
         [HideReferenceObjectPicker]
         public InstructionTweenLightIntensityParams ParamsRaw = new InstructionTweenLightIntensityParams();
-
-        private AnimationCurve easeCurve;
+        
         private bool isDone;
         public override IParams Params => ParamsRaw;
         
@@ -54,7 +53,7 @@ namespace Pangoo.Core.VisualScripting
             Light light=target.GetComponent<Light>();
             
             
-            light.DOIntensity(ParamsRaw.Value,ParamsRaw.TweenTime).OnComplete(()=>isDone=true);
+            light.DOIntensity(ParamsRaw.Val,ParamsRaw.TweenTime).OnComplete(()=>isDone=true);
         }
     }
 }
