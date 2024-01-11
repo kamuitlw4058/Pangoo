@@ -86,6 +86,14 @@ namespace Pangoo.MetaTable
                             group.DirectInstructionList[i].SetPrefab(Prefab);
                         }
                     }
+                    
+                    if (group.FailedDirectInstructionList != null)
+                    {
+                        for (int i = 0; i < group.FailedDirectInstructionList.Length; i++)
+                        {
+                            group.FailedDirectInstructionList[i].SetPrefab(Prefab);
+                        }
+                    }
                 }
             }
 

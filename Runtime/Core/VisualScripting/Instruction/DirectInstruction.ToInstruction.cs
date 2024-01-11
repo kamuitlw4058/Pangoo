@@ -267,6 +267,24 @@ namespace Pangoo.Core.VisualScripting
             var instruction = Activator.CreateInstance<InstructionDynamicObjectInvokeExit>();
             return instruction;
         }
+        
+        public static Instruction GetTweenLightIntensity(string targetPath,float value,float tweenTime,bool waitFinsh)
+        {
+            var instruction = Activator.CreateInstance<InstructionTweenLightIntensity>();
+            instruction.ParamsRaw.TargetPath = targetPath;
+            instruction.ParamsRaw.Value = value;
+            instruction.ParamsRaw.TweenTime = tweenTime;
+            instruction.ParamsRaw.WaitFinsh = waitFinsh;
+            return instruction;
+        }
+        
+        public static Instruction GetDynamicObjectSetMaterial(string targetPath,int index)
+        {
+            var instruction = Activator.CreateInstance<InstructionDynamicObjectSetMaterial>();
+            instruction.ParamsRaw.TargetPath = targetPath;
+            instruction.ParamsRaw.Index = index;
+            return instruction;
+        }
 
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
@@ -336,6 +354,10 @@ namespace Pangoo.Core.VisualScripting
                     return GetDynamicObjectInvokeEnter();
                 case DirectInstructionTypeEnum.DynamicObjectExit:
                     return GetDynamicObjectInvokeExit();
+                case DirectInstructionTypeEnum.TweenLightIntensity:
+                    return GetTweenLightIntensity(DropdownString1,Float1,Float2,Bool1);
+                case DirectInstructionTypeEnum.DynamicObjectSetMaterial:
+                    return GetDynamicObjectSetMaterial(DropdownString1,Int1);
             }
 
             return null;
