@@ -51,6 +51,8 @@ namespace Pangoo.Core.VisualScripting
         [HideInEditorMode]
         public bool IsDirectInstuction { get; set; } = false;
 
+        public int TriggerCount;
+
 
         [ShowInInspector]
         public string[] Targets
@@ -190,6 +192,7 @@ namespace Pangoo.Core.VisualScripting
 
         public virtual void OnInvoke(Args args)
         {
+            TriggerCount += 1;
             if (Targets == null || Targets.Length == 0)
             {
                 args.ChangeTarget(Parent);

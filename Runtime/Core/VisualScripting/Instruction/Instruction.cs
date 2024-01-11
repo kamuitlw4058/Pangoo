@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pangoo.Core.Common;
 using Pangoo.MetaTable;
+using Sirenix.OdinInspector;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -13,7 +14,7 @@ namespace Pangoo.Core.VisualScripting
     public abstract class Instruction : TPolymorphicItem<Instruction>, IEnumerator, IParams
     {
 
-
+        [ShowInInspector]
         public TriggerEvent Trigger { get; set; }
 
         public string Uuid { get; set; }

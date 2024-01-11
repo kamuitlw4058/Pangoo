@@ -26,7 +26,6 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public class InstructionSetDOTriggerEnabled : Instruction
     {
-        public override InstructionType InstructionType => InstructionType.Coroutine;
 
         [SerializeField]
         [LabelText("参数")]
@@ -40,23 +39,22 @@ namespace Pangoo.Core.VisualScripting
 
         protected override IEnumerator Run(Args args)
         {
+            RunImmediate(args);
+            yield break;
+        }
+
+        public override void RunImmediate(Args args)
+        {
             if (ParamsRaw.DisableSelfTrigger && Trigger != null)
             {
                 Trigger.Enabled = false;
             }
-            yield return null;
-            // args.dynamicObject
             var dynamicObjectEntity = args.dynamicObject?.DynamicObjectService?.GetLoadedEntity(ParamsRaw.DynamicObjectUuid);
             if (dynamicObjectEntity != null)
             {
                 dynamicObjectEntity?.DynamicObj?.TriggerEnabled(ParamsRaw.TriggerEventUuid, ParamsRaw.Enabled);
                 Debug.Log($"dynamicObjectEntity.DynamicObj.{dynamicObjectEntity},{dynamicObjectEntity?.DynamicObj},{Trigger}");
             }
-
-        }
-
-        public override void RunImmediate(Args args)
-        {
             return;
         }
 

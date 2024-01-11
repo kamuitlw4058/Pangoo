@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Pangoo.MetaTable;
 using MetaTable;
 using System.Linq;
+using Pangoo.Common;
 
 
 
@@ -73,7 +74,7 @@ namespace Pangoo.Core.VisualScripting
             ITriggerEventRow row = new Pangoo.MetaTable.TriggerEventRow();
 
             row.Uuid = UuidUtility.GetNewUuid();
-            row.Name = $"DI_{row.TriggerType}_{directInstructionGroup.DirectInstructionList?.Length ?? 0}";
+            row.Name = $"DI_{row.TriggerType}_{directInstructionGroup.Uuid.ToShortUuid()}";
             row.Params = "{}";
             row.Uuid = directInstructionGroup.Uuid;
             row.Targets = string.Empty;
