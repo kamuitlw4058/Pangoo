@@ -18,6 +18,8 @@ namespace Pangoo.Core.VisualScripting
         [HideReferenceObjectPicker]
         public InstructionTweenLightIntensityParams ParamsRaw = new InstructionTweenLightIntensityParams();
 
+        private AnimationCurve easeCurve;
+        private bool isDone;
         public override IParams Params => ParamsRaw;
         
         [ShowInInspector]
@@ -32,28 +34,26 @@ namespace Pangoo.Core.VisualScripting
         protected override IEnumerator Run(Args args)
         {
             RunImmediate(args);
+
+            while (!isDone)
+            {
+                yield return null;
+            }
             yield break;
         }
 
         public override void RunImmediate(Args args)
         {
-            Transform target=null;
-            Debug.Log("oop:"+ParamsRaw.TargetPath);
-            if (ParamsRaw.TargetPath=="Self")
-            {
-                target=args.Target.transform;
-            }
-            else
-            {
-                target=args.dynamicObject.CachedTransfrom.Find(ParamsRaw.TargetPath);
-            }
+            Transform target= args.dynamicObject.GetSubGameObjectTransformPath(ParamsRaw.TargetPath);
             
             if (!target.GetComponent<Light>())
             {
                 return;
             }
             Light light=target.GetComponent<Light>();
-            light.DOIntensity(ParamsRaw.Value,ParamsRaw.TweenTime);
+            
+            
+            light.DOIntensity(ParamsRaw.Value,ParamsRaw.TweenTime).OnComplete(()=>isDone=true);
         }
     }
 }

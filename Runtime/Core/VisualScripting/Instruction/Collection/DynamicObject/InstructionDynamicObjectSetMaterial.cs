@@ -20,24 +20,13 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            Transform target=null;
-            Debug.Log("oop:"+ParamsRaw.TargetPath);
-            if (ParamsRaw.TargetPath=="Self")
-            {
-                target=args.Target.transform;
-            }
-            else
-            {
-                target=args.dynamicObject.CachedTransfrom.Find(ParamsRaw.TargetPath);
-            }
-            
-            if (!target.GetComponent<MeshRenderer>())
+            if (!args.dynamicObject.Entity.GetComponent<MaterialList>())
             {
                 return;
             }
-            MeshRenderer meshRenderer=target.GetComponent<MeshRenderer>();
-
-            meshRenderer.material = args.Target.GetComponent<MaterialList>().materialList[ParamsRaw.Index];
+            
+            Transform target= args.dynamicObject.GetSubGameObjectTransformPath(ParamsRaw.TargetPath);
+            args.dynamicObject.Entity.GetComponent<MaterialList>().SetModelMaterial(target,ParamsRaw.Index);
         }
     }
 }

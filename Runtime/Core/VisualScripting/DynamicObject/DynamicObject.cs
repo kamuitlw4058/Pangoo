@@ -176,7 +176,15 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
-
+        public Transform GetSubGameObjectTransformPath(string path)
+        {
+            if (path.IsNullOrWhiteSpace() || path.Equals("Self"))
+            {
+                return this.Entity.transform;
+            }
+            return this.CachedTransfrom.Find(path);
+        }
+        
 
         public void SetSubGameObjectActive(string path, bool val)
         {
