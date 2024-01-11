@@ -5,6 +5,20 @@ namespace Pangoo.Core.Services
     public class MainSubService : BaseService
     {
 
+        CharacterService m_CharacterService;
+
+        public CharacterService CharacterSrv
+        {
+            get
+            {
+                if (m_CharacterService == null)
+                {
+                    m_CharacterService = Parent.GetService<CharacterService>();
+                }
+                return m_CharacterService;
+            }
+        }
+
         StaticSceneService m_StaticSceneService;
 
         public StaticSceneService StaticSceneSrv

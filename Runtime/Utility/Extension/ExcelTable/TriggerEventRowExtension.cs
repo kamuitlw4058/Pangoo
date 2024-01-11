@@ -44,7 +44,7 @@ namespace Pangoo
 #if UNITY_EDITOR
             if (Application.isPlaying && handler != null)
             {
-                Debug.Log($"GetRowByTriggerEventTable");
+                // Debug.Log($"GetRowByTriggerEventTable");
                 row = handler(uuid);
             }
             else

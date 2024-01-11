@@ -14,6 +14,7 @@ namespace Pangoo.Core.Services
     [Serializable]
     public class CharacterService : BaseService
     {
+        public override string ServiceName => "CharacterService";
         public override int Priority => 5;
 
 
@@ -62,7 +63,7 @@ namespace Pangoo.Core.Services
             if (Player != null)
             {
                 Player.character.IsControllable = val;
-                Debug.Log($"SetPlayer val:{val}");
+                Log($"SetPlayer IsControllable:{val}");
             }
         }
 
@@ -70,6 +71,14 @@ namespace Pangoo.Core.Services
         public void SetPlayerHeight(float height)
         {
             Player?.character?.SetCameraOffset(new Vector3(0, height, 0));
+        }
+        public EntityCharacter GetLoadedEntity(string uuid)
+        {
+            if (m_LoadedEntityDict.TryGetValue(uuid, out EntityCharacter var))
+            {
+                return var;
+            }
+            return null;
         }
 
 
