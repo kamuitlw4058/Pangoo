@@ -35,8 +35,8 @@ namespace Pangoo.Core.VisualScripting
                 {
                     continue;
                 }
-                Debug.Log($"加载子动态物体,{Row.Name} :{subDo.DynamicObjectUuid}");
-                DynamicObjectService.ShowSubDynamicObject(subDo.DynamicObjectUuid, Entity.Id, subDo.Path, (o) =>
+                Log($"加载子动态物体,{Row.Name} :{subDo.DynamicObjectUuid}");
+                DynamicObjectService.ShowSubDynamicObject(Row.Uuid, subDo.Path, subDo.DynamicObjectUuid, false, (o) =>
                 {
                     if (LoadingDynamicObject.Contains(subDo.DynamicObjectUuid))
                     {
@@ -57,7 +57,7 @@ namespace Pangoo.Core.VisualScripting
 
         void OnSubDynamicObjectLoadFinish()
         {
-            Debug.Log($"OnSubDynamicObjectLoadFinish:{Row.Id}");
+            Log($"OnSubDynamicObjectLoadFinish:{Row.Uuid}");
         }
 
     }

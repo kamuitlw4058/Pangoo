@@ -147,7 +147,7 @@ namespace Pangoo.Core.Services
 
             if (parentEntity == null)
             {
-
+                Log($"ShowSubDynamicObject Failed: parentEntity is null.parentEntity uuid:{parentUuid}");
                 return;
             }
 
@@ -180,7 +180,7 @@ namespace Pangoo.Core.Services
             else
             {
                 AddSubDynamicObjectDict(entry);
-                Log($"ShowDynamicObject:{dynamicObjectUuid}");
+                Log($"ShowSubDynamicObject:{dynamicObjectUuid}");
                 var info = m_DynamicObjectInfo.GetRowByUuid<DynamicObjectInfoRow>(dynamicObjectUuid);
                 EntityDynamicObjectData data = EntityDynamicObjectData.Create(info.CreateEntityInfo(m_EntityGroupRow), this, info);
                 m_LoadingAssetUuids.Add(dynamicObjectUuid);
