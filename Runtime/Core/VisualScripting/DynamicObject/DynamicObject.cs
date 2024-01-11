@@ -202,12 +202,13 @@ namespace Pangoo.Core.VisualScripting
         
         public void SetModelMaterial(string path,int index)
         {
-            if (this.Entity.GetComponent<MaterialList>())
+            if (!this.Entity.GetComponent<MaterialList>())
             {
-                Debug.Log("没有在对象身上获取到MaterialList");
+                Debug.Log($"没有在{Entity.name}身上获取到MaterialList");
                 return;
             }
-            
+
+            MaterialList materialList = Entity.GetComponent<MaterialList>();
             Transform target=GetSubGameObjectTransformPath(path);
             if (!target.GetComponent<Renderer>())
             {
@@ -216,9 +217,9 @@ namespace Pangoo.Core.VisualScripting
             }
             Renderer meshRenderer=target.GetComponent<Renderer>();
 
-            if (target.GetComponent<MaterialList>().materialList!=null)
+            if (materialList.materialList!=null)
             {
-                meshRenderer.material = target.GetComponent<MaterialList>().materialList[index];
+                meshRenderer.material = materialList.materialList[index];
             }
             else
             {
