@@ -58,8 +58,7 @@ namespace Pangoo.Core.VisualScripting
         [LabelWidth(80)]
         [JsonMember("ListInt1")]
         public List<int> ListInt1;
-
-        [ValueDropdown("OnMainIntValueDropdown")]
+        
         [TableTitleGroup("参数")]
         [LabelText("$Int1Label")]
         [ShowIf("$IsMainIntShow")]
@@ -140,7 +139,6 @@ namespace Pangoo.Core.VisualScripting
         public CursorLockMode CursorLockMode1;
 
 
-
 #if UNITY_EDITOR
         public void SetPrefab(GameObject go)
         {
@@ -169,6 +167,7 @@ namespace Pangoo.Core.VisualScripting
                     // DirectInstructionTypeEnum.PlaySound => true,
                     // DirectInstructionTypeEnum.StopSound => true,
                     // DirectInstructionTypeEnum.CheckBoolVariableList => true,
+                    DirectInstructionTypeEnum.DynamicObjectSetMaterial=>true,
                     _ => false,
                 };
             }
@@ -270,6 +269,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectPreview => true,
                     DirectInstructionTypeEnum.DynamicObjectPlayTimeline => true,
                     DirectInstructionTypeEnum.WaitVariableBool => true,
+                    DirectInstructionTypeEnum.TweenLightIntensity=>true,
                     _ => false,
                 };
             }
@@ -335,7 +335,8 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => true,
                     DirectInstructionTypeEnum.DynamicObjectPlayTimeline => true,
                     DirectInstructionTypeEnum.DynamicObjectPauseTimeline => true,
-
+                    DirectInstructionTypeEnum.TweenLightIntensity=>true,
+                    DirectInstructionTypeEnum.DynamicObjectSetMaterial=>true,
                     _ => false,
                 };
             }
@@ -355,6 +356,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.StopSound => true,
                     DirectInstructionTypeEnum.ImageFade => true,
                     DirectInstructionTypeEnum.CanvasGroup => true,
+                    DirectInstructionTypeEnum.TweenLightIntensity=>true,
                     _ => false,
                 };
             }
@@ -369,6 +371,7 @@ namespace Pangoo.Core.VisualScripting
                 {
                     DirectInstructionTypeEnum.ImageFade => true,
                     DirectInstructionTypeEnum.CanvasGroup => true,
+                    DirectInstructionTypeEnum.TweenLightIntensity=>true,
                     _ => false,
                 };
             }
@@ -386,7 +389,6 @@ namespace Pangoo.Core.VisualScripting
                 };
             }
         }
-
 
         [JsonNoMember]
         string Int1Label
@@ -412,6 +414,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.PlaySound => "音频Id",
                     DirectInstructionTypeEnum.StopSound => "音频Id",
                     DirectInstructionTypeEnum.CheckBoolVariableList => "设置变量ID",
+                    DirectInstructionTypeEnum.DynamicObjectSetMaterial=>"列表索引",
                     _ => "Int1",
                 };
             }
@@ -459,6 +462,7 @@ namespace Pangoo.Core.VisualScripting
 
                     DirectInstructionTypeEnum.PlaySound => "是否循环",
                     DirectInstructionTypeEnum.SetGlobalGameObjectActive => "状态",
+                    DirectInstructionTypeEnum.TweenLightIntensity=>"是否等待完成",
                     _ => "设置值",
                 };
             }
@@ -537,6 +541,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.StopSound => "淡出时长",
                     DirectInstructionTypeEnum.ImageFade => "目标Alpha值",
                     DirectInstructionTypeEnum.CanvasGroup => "目标Alpha值",
+                    DirectInstructionTypeEnum.TweenLightIntensity=>"目标值",
                     _ => "Float1",
                 };
             }
@@ -551,6 +556,7 @@ namespace Pangoo.Core.VisualScripting
                 {
                     DirectInstructionTypeEnum.ImageFade => "过渡时间",
                     DirectInstructionTypeEnum.CanvasGroup => "过渡时间",
+                    DirectInstructionTypeEnum.TweenLightIntensity=>"过渡时间",
                     _ => "Float1",
                 };
             }
@@ -568,6 +574,8 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.SubGameObjectPlayTimeline:
                 case DirectInstructionTypeEnum.SubGameObjectPauseTimeline:
                 case DirectInstructionTypeEnum.SetGameObjectActive:
+                case DirectInstructionTypeEnum.TweenLightIntensity:
+                case DirectInstructionTypeEnum.DynamicObjectSetMaterial:
                     return GameSupportEditorUtility.RefPrefabStringDropdown(ListPrefab);
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
                 case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:
@@ -641,6 +649,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.DynamicObjectRunExecute:
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
                 case DirectInstructionTypeEnum.DynamicObjectInteractEnable:
+                case DirectInstructionTypeEnum.TweenLightIntensity:
                     return DynamicObjectOverview.GetUuidDropdown(AdditionalOptions: new List<Tuple<string, string>>()
                     {
                         new Tuple<string, string>("Self","Self"),
@@ -688,6 +697,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.DynamicObjectRunExecute:
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
                 case DirectInstructionTypeEnum.DynamicObjectInteractEnable:
+                case DirectInstructionTypeEnum.DynamicObjectSetMaterial:
                     row = DynamicObjectOverview.GetUnityRowById(Int1) as MetaTableUnityRow;
                     break;
                 case DirectInstructionTypeEnum.PlaySound:

@@ -106,5 +106,10 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("变量/等待Bool变成预定值")]
         WaitVariableBool,
+        
+        [LabelText("Tween/Tween灯光强度")]
+        TweenLightIntensity,
+        [LabelText("动态物体/设置材质球")]
+        DynamicObjectSetMaterial,
     }
 }
