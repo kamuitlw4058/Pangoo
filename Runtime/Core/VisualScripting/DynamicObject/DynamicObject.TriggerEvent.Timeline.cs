@@ -39,7 +39,7 @@ namespace Pangoo.Core.VisualScripting
             if (!InitedTimelineSignal)
             {
                 Event.Subscribe(TimelineSignalEventArgs.EventId, OnTimelineSignalEvent);
-                var playableDirectors = gameObject.GetComponentsInChildren<PlayableDirector>();
+                var playableDirectors = gameObject.GetComponentsInChildren<PlayableDirector>(includeInactive: true);
                 if (playableDirectors != null)
                 {
                     foreach (var pd in playableDirectors)
