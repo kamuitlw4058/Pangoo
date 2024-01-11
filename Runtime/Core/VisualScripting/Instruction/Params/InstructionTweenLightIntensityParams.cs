@@ -11,7 +11,7 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("TargetPath")]
         public string TargetPath;
         [JsonMember("Value")]
-        public float Value;
+        public float Val;
         
         [JsonMember("TweenTime")]
         public float TweenTime;
@@ -23,7 +23,7 @@ namespace Pangoo.Core.VisualScripting
         {
             var par = JsonMapper.ToObject<InstructionTweenLightIntensityParams>(val);
             TargetPath = par.TargetPath;
-            Value = par.Value;
+            Val = par.Val;
             TweenTime = par.TweenTime;
             WaitFinsh = par.WaitFinsh;
         }
