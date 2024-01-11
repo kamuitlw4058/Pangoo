@@ -50,7 +50,7 @@ namespace Pangoo
             EntityData = userData as EntityCharacterData;
             if (EntityData == null)
             {
-                Log.Error("Entity data is invalid.");
+                LogError("Entity data is invalid.");
                 return;
             }
             if (EntityData.IsPlayer)

@@ -64,7 +64,7 @@ namespace Pangoo
             SceneData = userData as EntityStaticSceneData;
             if (SceneData == null)
             {
-                Log.Error("Entity data is invalid.");
+                LogError("Entity data is invalid.");
                 return;
             }
 

@@ -292,7 +292,7 @@ namespace Pangoo.Core.VisualScripting
         [Button("Hide")]
         public void Hide()
         {
-            DynamicObjectService.Hide(Row.Uuid);
+            DynamicObjectService.HideEntity(Row.Uuid);
         }
 
 

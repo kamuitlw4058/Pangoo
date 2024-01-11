@@ -71,6 +71,14 @@ namespace Pangoo.Core.Services
         {
             Player?.character?.SetCameraOffset(new Vector3(0, height, 0));
         }
+        public EntityCharacter GetLoadedEntity(string uuid)
+        {
+            if (m_LoadedEntityDict.TryGetValue(uuid, out EntityCharacter var))
+            {
+                return var;
+            }
+            return null;
+        }
 
 
 

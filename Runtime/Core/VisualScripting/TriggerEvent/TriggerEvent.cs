@@ -181,6 +181,14 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
+        public void Log(string message)
+        {
+            if (TriggerType != TriggerTypeEnum.OnUpdate)
+            {
+                dynamicObject?.Log(message);
+            }
+        }
+
 
 
         public virtual void OnAwake()
@@ -258,17 +266,17 @@ namespace Pangoo.Core.VisualScripting
             switch (ConditionType)
             {
                 case ConditionTypeEnum.NoCondition:
-                    Debug.Log("No Condition Invoke!");
+                    Log("No Condition Invoke!");
                     OnStateInvoke(1, args);
                     break;
                 case ConditionTypeEnum.BoolCondition:
                     var isPass = Conditions?.Check(args) ?? false ? 1 : 0;
-                    Debug.Log($"Check Pass:{isPass} :{Conditions}");
+                    Log($"Trigger:[{Row.UuidShort}] Check Pass:{isPass} :{Conditions}");
                     OnStateInvoke(isPass, args);
                     break;
                 case ConditionTypeEnum.StateCondition:
                     var state = Conditions?.GetState(args) ?? 1;
-                    Debug.Log($"Check state:{state} :{Conditions}");
+                    Log($"Check state:{state} :{Conditions}");
                     OnStateInvoke(state, args);
                     break;
 
@@ -277,13 +285,13 @@ namespace Pangoo.Core.VisualScripting
 
         void OnRunInstructionsStart()
         {
-            Debug.Log($"Start RunInstructions:{EventRunInstructionsStart}. {EventRunInstructionsStart?.GetInvocationList()?.Length}");
+            //Debug.Log($"Start RunInstructions:{EventRunInstructionsStart}. {EventRunInstructionsStart?.GetInvocationList()?.Length}");
             EventRunInstructionsStart?.Invoke();
         }
 
         void OnRunInstructionsEnd()
         {
-            Debug.Log("End RunInstructions");
+            //  Debug.Log("End RunInstructions");
             EventRunInstructionsEnd?.Invoke();
         }
 

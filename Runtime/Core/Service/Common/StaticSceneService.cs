@@ -15,7 +15,7 @@ namespace Pangoo.Core.Services
     [Serializable]
     public class StaticSceneService : MainSubService
     {
-        public override string ServiceName => "StaticScene";
+        public override string ServiceName => "StaticSceneService";
         public override int Priority => 5;
 
         IEntityGroupRow m_EntityGroupRow;
@@ -367,27 +367,6 @@ namespace Pangoo.Core.Services
                     OnInitSceneLoaded?.Invoke();
                     Log($"Section All Loaded!");
                 }
-                else
-                {
-
-                }
-                // bool holdLoaded = IsLoadedScene(m_HoldStaticSceneUuids);
-                // bool initLoaded = false;
-                // Log($"Hold Loaded:{holdLoaded}");
-                // if (holdLoaded)
-                // {
-                //     initLoaded = IsLoadedScene(m_InitStaticSceneUuids);
-                //     Log($"Init Loaded:{initLoaded}");
-                // }
-
-                // if (holdLoaded && initLoaded)
-                // {
-                //     SectionInited = true;
-                //     OnInitSceneLoaded?.Invoke();
-                //     Log($"ON Loaded");
-
-                // }
-
             }
         }
 

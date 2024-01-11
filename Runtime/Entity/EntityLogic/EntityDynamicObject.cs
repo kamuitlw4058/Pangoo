@@ -19,6 +19,7 @@ namespace Pangoo
 {
     public class EntityDynamicObject : EntityBase, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
+        public override string EntityName => "EntityDynamicObject";
         [ShowInInspector]
         public EntityInfo Info
         {
@@ -89,7 +90,7 @@ namespace Pangoo
             DoData = userData as EntityDynamicObjectData;
             if (DoData == null)
             {
-                Log.Error("Entity data is invalid.");
+                LogError("Entity data is invalid.");
                 return;
             }
             UpdateDefaultTransform();
@@ -97,7 +98,7 @@ namespace Pangoo
 
             Name = Utility.Text.Format("{0}[{1}]", DoData.InfoRow.Name, DoData.InfoRow.UuidShort);
 
-            Debug.Log($"Create DynamicObject:{DoData.InfoRow.UuidShort}-{DoData.InfoRow.Name}");
+            Log($"OnShow DynamicObject:{DoData.InfoRow.UuidShort}-{DoData.InfoRow.Name}");
             DynamicObj = DynamicObject.Create(gameObject);
             DynamicObj.Row = DoData.InfoRow.m_DynamicObjectRow;
             DynamicObj.TableService = DoData?.Service?.TableService;
@@ -127,7 +128,7 @@ namespace Pangoo
         {
             if (other.tag.Equals("Player"))
             {
-                Debug.Log($"EntityDynamicObject OnTriggerEnter,{DoData.InfoRow.Name},{other.gameObject.name}");
+                Log($"EntityDynamicObject OnTriggerEnter,{DoData.InfoRow.Name},{other.gameObject.name}");
                 DynamicObj?.TriggerEnter3d(other);
             }
         }
@@ -136,7 +137,7 @@ namespace Pangoo
         {
             if (other.tag.Equals("Player"))
             {
-                Debug.Log($"EntityDynamicObject OnTriggerExit");
+                Log($"EntityDynamicObject OnTriggerExit");
                 DynamicObj?.TriggerExit3d(other);
             }
         }

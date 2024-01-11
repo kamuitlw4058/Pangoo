@@ -15,7 +15,7 @@ namespace Pangoo.Core.Services
     [Serializable]
     public class DynamicObjectService : MainSubService
     {
-        public override string ServiceName => "DynamicObject";
+        public override string ServiceName => "DynamicObjectService";
         public override int Priority => 6;
 
         public ExcelTableService TableService
@@ -36,7 +36,25 @@ namespace Pangoo.Core.Services
 
         [ShowInInspector]
         Dictionary<string, EntityDynamicObject> m_LoadedAssetDict = new Dictionary<string, EntityDynamicObject>();
-        List<string> m_LoadingAssetIds = new List<string>();
+        List<string> m_LoadingAssetUuids = new List<string>();
+
+        [ShowInInspector]
+        List<string> m_GameSectionDynamicObjectUuids = new List<string>();
+
+        public void SetGameScetion(List<string> dynamicUuids)
+        {
+            DynamicObjectInited = false;
+            m_GameSectionDynamicObjectUuids.Clear();
+            m_GameSectionDynamicObjectUuids.AddRange(dynamicUuids);
+
+        }
+        public bool DynamicObjectInited = false;
+
+        public Action OnGameSectionDynamicObjectLoaded;
+
+
+
+
 
 
         protected override void DoStart()
@@ -46,6 +64,7 @@ namespace Pangoo.Core.Services
             m_EntityGroupRow = EntityGroupRowExtension.CreateDynamicObjectGroup();
             m_DynamicObjectInfo = GameInfoSrv.GetGameInfo<DynamicObjectInfo>();
             Debug.Log($"DoStart DynamicObjectService :{m_EntityGroupRow} m_EntityGroupRow:{m_EntityGroupRow.Name}");
+
         }
 
         public List<string> GetLoadedUuids()
@@ -84,6 +103,108 @@ namespace Pangoo.Core.Services
             }
         }
 
+        public class SubDynamicObjectEntry
+        {
+            public string ParentUuid;
+            public string SubUuid;
+
+            public bool IsParentCharacter;
+            public string Path;
+        }
+
+        public Dictionary<string, SubDynamicObjectEntry> SubDynamicObjectDict = new Dictionary<string, SubDynamicObjectEntry>();
+
+        void AddSubDynamicObjectDict(SubDynamicObjectEntry entry)
+        {
+            if (!SubDynamicObjectDict.TryGetValue(entry.SubUuid, out entry))
+            {
+                SubDynamicObjectDict.Add(entry.SubUuid, entry);
+            }
+            else
+            {
+                Debug.LogError($"Show SubDynamicObject Error");
+            }
+        }
+
+
+        public void ShowSubDynamicObject(string dynamicObjectUuid, string path, string parentUuid, bool IsParentCharacter, Action<EntityDynamicObject> onShowSuccess)
+        {
+            if (Loader == null)
+            {
+                Loader = EntityLoader.Create(this);
+            }
+
+            EntityBase parentEntity = null;
+            if (!IsParentCharacter)
+            {
+                parentEntity = GetLoadedEntity(parentUuid);
+            }
+            else
+            {
+                parentEntity = CharacterSrv.GetLoadedEntity(parentUuid);
+            }
+
+
+            if (parentEntity == null)
+            {
+
+                return;
+            }
+
+
+
+            var entry = new SubDynamicObjectEntry()
+            {
+                ParentUuid = parentUuid,
+                SubUuid = dynamicObjectUuid,
+                Path = path,
+                IsParentCharacter = IsParentCharacter,
+            };
+
+            if (m_LoadedAssetDict.TryGetValue(dynamicObjectUuid, out EntityDynamicObject entity))
+            {
+                Loader.AttachEntity(entity.Entity, parentEntity.Entity.Id, path);
+                AddSubDynamicObjectDict(entry);
+                return;
+            }
+
+
+
+
+            // 这边有一个假设，同一个时间不会反复加载不同的章节下的同一个场景。
+            if (m_LoadingAssetUuids.Contains(dynamicObjectUuid))
+            {
+
+                return;
+            }
+            else
+            {
+                AddSubDynamicObjectDict(entry);
+                Log($"ShowDynamicObject:{dynamicObjectUuid}");
+                var info = m_DynamicObjectInfo.GetRowByUuid<DynamicObjectInfoRow>(dynamicObjectUuid);
+                EntityDynamicObjectData data = EntityDynamicObjectData.Create(info.CreateEntityInfo(m_EntityGroupRow), this, info);
+                m_LoadingAssetUuids.Add(dynamicObjectUuid);
+                Loader.ShowEntity(EnumEntity.DynamicObject,
+                    (o) =>
+                    {
+                        if (m_LoadingAssetUuids.Contains(dynamicObjectUuid))
+                        {
+                            m_LoadingAssetUuids.Remove(dynamicObjectUuid);
+                        }
+                        var showedEntity = o.Logic as EntityDynamicObject;
+                        m_LoadedAssetDict.Add(dynamicObjectUuid, showedEntity);
+                        AddSubDynamicObjectDict(entry);
+                        Loader.AttachEntity(showedEntity.Entity, parentEntity.Entity.Id, path);
+                        showedEntity.UpdateDefaultTransform();
+                        onShowSuccess?.Invoke(o.Logic as EntityDynamicObject);
+                    },
+                    data.EntityInfo,
+                    data);
+            }
+
+
+        }
+
         public void ShowSubDynamicObject(string dynamicObjectUuid, int parentEntityId, string path, Action<EntityDynamicObject> onShowSuccess)
         {
             if (Loader == null)
@@ -105,7 +226,7 @@ namespace Pangoo.Core.Services
             Log($"ShowDynamicObject:{dynamicObjectUuid}");
 
             // 这边有一个假设，同一个时间不会反复加载不同的章节下的同一个场景。
-            if (m_LoadingAssetIds.Contains(dynamicObjectUuid))
+            if (m_LoadingAssetUuids.Contains(dynamicObjectUuid))
             {
 
                 return;
@@ -113,13 +234,13 @@ namespace Pangoo.Core.Services
             else
             {
                 EntityDynamicObjectData data = EntityDynamicObjectData.Create(info.CreateEntityInfo(m_EntityGroupRow), this, info);
-                m_LoadingAssetIds.Add(dynamicObjectUuid);
+                m_LoadingAssetUuids.Add(dynamicObjectUuid);
                 Loader.ShowEntity(EnumEntity.DynamicObject,
                     (o) =>
                     {
-                        if (m_LoadingAssetIds.Contains(dynamicObjectUuid))
+                        if (m_LoadingAssetUuids.Contains(dynamicObjectUuid))
                         {
-                            m_LoadingAssetIds.Remove(dynamicObjectUuid);
+                            m_LoadingAssetUuids.Remove(dynamicObjectUuid);
                         }
                         var showedEntity = o.Logic as EntityDynamicObject;
                         m_LoadedAssetDict.Add(dynamicObjectUuid, showedEntity);
@@ -142,33 +263,31 @@ namespace Pangoo.Core.Services
                 Loader = EntityLoader.Create(this);
             }
 
-            //通过路径ID去判断是否被加载。用来在不同的章节下用了不用的静态场景ID,但是使用不同的加载Ids
-            var info = m_DynamicObjectInfo.GetRowByUuid<DynamicObjectInfoRow>(uuid);
-            var AssetPathId = info.AssetPathUuid;
             if (m_LoadedAssetDict.ContainsKey(uuid))
             {
                 callback?.Invoke(uuid);
                 return;
             }
 
-            Log($"ShowDynamicObject:{info.Name}[{uuid.ToShortUuid()}]");
-
-            // 这边有一个假设，同一个时间不会反复加载不同的章节下的同一个场景。
-            if (m_LoadingAssetIds.Contains(uuid))
+            if (m_LoadingAssetUuids.Contains(uuid))
             {
                 return;
             }
             else
             {
+                var info = m_DynamicObjectInfo.GetRowByUuid<DynamicObjectInfoRow>(uuid);
+                Log($"Show GameSection DynamicObject:{info.Name}[{uuid.ToShortUuid()}]");
+
                 EntityDynamicObjectData data = EntityDynamicObjectData.Create(info.CreateEntityInfo(m_EntityGroupRow), this, info);
-                m_LoadingAssetIds.Add(uuid);
+                m_LoadingAssetUuids.Add(uuid);
                 Loader.ShowEntity(EnumEntity.DynamicObject,
                     (o) =>
                     {
-                        if (m_LoadingAssetIds.Contains(uuid))
+                        if (m_LoadingAssetUuids.Contains(uuid))
                         {
-                            m_LoadingAssetIds.Remove(uuid);
+                            m_LoadingAssetUuids.Remove(uuid);
                         }
+                        Log($"GameSection DynamicObject Loaed:{info.Name}[{uuid.ToShortUuid()}]");
                         m_LoadedAssetDict.Add(uuid, o.Logic as EntityDynamicObject);
                         callback?.Invoke(uuid);
                     },
@@ -177,17 +296,99 @@ namespace Pangoo.Core.Services
             }
         }
 
-        [Button("Hide")]
-        public void Hide(string uuid)
+
+
+        // 需要加载的场景列表。 Key: StaticSceneId Value:AssetPathId
+        [ShowInInspector]
+        Dictionary<string, SubDynamicObjectEntry> NeedLoadDict = new Dictionary<string, SubDynamicObjectEntry>();
+
+
+        public void UpdateNeedLoadDict()
         {
-            var entity = GetLoadedEntity(uuid);
-            if (entity != null)
+            NeedLoadDict.Clear();
+
+            //章节服务会设置常驻的场景ID。用来打开该场景下通用的设置。
+            foreach (var gameSectionDynamicObjectUuid in m_GameSectionDynamicObjectUuids)
             {
-                Loader.HideEntity(entity.Id);
+                var info = m_DynamicObjectInfo.GetRowByUuid<DynamicObjectInfoRow>(gameSectionDynamicObjectUuid);
+                if (!NeedLoadDict.ContainsKey(info.Uuid))
+                {
+                    NeedLoadDict.Add(info.Uuid, null);
+                }
+
             }
-            m_LoadedAssetDict.Remove(uuid);
+
+            foreach (var kv in SubDynamicObjectDict)
+            {
+
+                if (!NeedLoadDict.ContainsKey(kv.Key))
+                {
+                    NeedLoadDict.Add(kv.Key, kv.Value);
+                }
+            }
         }
 
+        public void UpdateAutoLoad()
+        {
+            foreach (var kv in NeedLoadDict)
+            {
+                if (kv.Value == null)
+                {
+                    ShowDynamicObject(kv.Key);
+                }
+            }
+        }
+
+        public void UpdateAutoRelease()
+        {
+            List<string> removeDynamicObject = new List<string>();
+            foreach (var item in m_LoadedAssetDict)
+            {
+                if (!NeedLoadDict.ContainsKey(item.Key))
+                {
+                    removeDynamicObject.Add(item.Key);
+                }
+            }
+
+            foreach (var removeUuid in removeDynamicObject)
+            {
+                HideEntity(removeUuid);
+                m_LoadedAssetDict.Remove(removeUuid);
+            }
+
+        }
+
+        bool IsAllGameSectionDynamicObjectLoaded()
+        {
+
+            for (int i = 0; i < m_GameSectionDynamicObjectUuids.Count; i++)
+            {
+                if (!m_LoadedAssetDict.ContainsKey(m_GameSectionDynamicObjectUuids[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+
+        }
+
+
+        protected override void DoUpdate()
+        {
+            UpdateNeedLoadDict();
+            UpdateAutoLoad();
+            UpdateAutoRelease();
+            if (!DynamicObjectInited)
+            {
+                if (IsAllGameSectionDynamicObjectLoaded())
+                {
+                    DynamicObjectInited = true;
+                    OnGameSectionDynamicObjectLoaded?.Invoke();
+                    Log($"GameSection DynamicObject All Loaded!");
+                }
+            }
+        }
 
     }
 }
