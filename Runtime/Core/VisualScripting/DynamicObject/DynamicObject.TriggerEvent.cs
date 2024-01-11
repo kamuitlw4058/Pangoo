@@ -171,12 +171,12 @@ namespace Pangoo.Core.VisualScripting
 
             DoAwakeTimeline();
 
-            Debug.Log($"triggerIds:{triggerUuids.Count}");
+            Log($"Trigger Count:{triggerUuids.Count}");
 
             foreach (var triggerUuid in triggerUuids)
             {
                 ITriggerEventRow row = TriggerEventRowExtension.GetByUuid(triggerUuid, m_TriggerHandler);
-                Debug.Log($"Create TriggerId:{triggerUuid}  row:{row}");
+                Log($"Create TriggerUuid:{triggerUuid}  row:{row}");
                 if (row != null)
                 {
                     CreateTriggerEvent(row);

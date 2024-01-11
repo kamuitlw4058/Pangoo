@@ -185,7 +185,7 @@ namespace Pangoo.Core.VisualScripting
         {
             if (TriggerType != TriggerTypeEnum.OnUpdate)
             {
-                dynamicObject?.Log(message);
+                dynamicObject?.Log($"T[{Row.UuidShort}]{message}");
             }
         }
 
@@ -299,7 +299,7 @@ namespace Pangoo.Core.VisualScripting
         {
             if (ConditionInstructions.TryGetValue(state, out InstructionList instructionList))
             {
-                Debug.Log($"state on invoke:{state}");
+                Log($"state on invoke:{state}");
                 instructionList.EventStartRunning -= OnRunInstructionsStart;
                 instructionList.EventStartRunning += OnRunInstructionsStart;
 
