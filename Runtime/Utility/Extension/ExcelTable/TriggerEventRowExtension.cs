@@ -56,7 +56,7 @@ namespace Pangoo
             if(handler == null){
                 Debug.LogError($"GetTriggerEventRow Table Is null");
             }else{
-                 row = handler(id);
+                 row = handler(uuid);
             }
 #endif
             return row;
