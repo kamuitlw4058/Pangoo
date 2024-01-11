@@ -268,11 +268,11 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
         
-        public static Instruction GetTweenLightIntensity(string targetPath,float value,float tweenTime,bool waitFinsh)
+        public static Instruction GetTweenLightIntensity(string targetPath,float val,float tweenTime,bool waitFinsh)
         {
             var instruction = Activator.CreateInstance<InstructionTweenLightIntensity>();
             instruction.ParamsRaw.TargetPath = targetPath;
-            instruction.ParamsRaw.Value = value;
+            instruction.ParamsRaw.Val = val;
             instruction.ParamsRaw.TweenTime = tweenTime;
             instruction.ParamsRaw.WaitFinsh = waitFinsh;
             return instruction;

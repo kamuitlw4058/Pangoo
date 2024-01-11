@@ -54,7 +54,7 @@ namespace Pangoo.Core.VisualScripting
             Light light=target.GetComponent<Light>();
             
             
-            light.DOIntensity(ParamsRaw.Value,ParamsRaw.TweenTime).OnComplete(()=>isDone=true);
+            light.DOIntensity(ParamsRaw.Val,ParamsRaw.TweenTime).OnComplete(()=>isDone=true);
         }
     }
 }
