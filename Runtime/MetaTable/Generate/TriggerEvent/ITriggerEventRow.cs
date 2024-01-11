@@ -37,6 +37,12 @@ namespace Pangoo.MetaTable
 
         public string ConditionUuidList{ get; set; }
 
+        public bool UseVariableCondition{ get; set; }
+
+        public string BoolVariableUuds{ get; set; }
+
+        public string IntVariableUuid{ get; set; }
+
     }
 }
 

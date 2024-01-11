@@ -107,6 +107,16 @@ namespace Pangoo.MetaTable
         }
 
 
+        public IEnumerable VariableBoolUuidValueDropdown()
+        {
+            return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString());
+        }
+
+        public IEnumerable VariableIntUuidValueDropdown()
+        {
+            return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Int.ToString());
+        }
+
 
         string[] m_Targets;
 
@@ -208,7 +218,7 @@ namespace Pangoo.MetaTable
 
         [ShowInInspector]
         [LabelText("条件类型")]
-        [TitleGroup("指令系统")]
+        [TitleGroup("条件")]
 
         public ConditionTypeEnum ConditionType
         {
@@ -223,6 +233,66 @@ namespace Pangoo.MetaTable
                 Save();
             }
         }
+
+        [ShowInInspector]
+        [LabelText("使用变量条件")]
+        [TitleGroup("条件")]
+        [ShowIf("@this.UseCondition")]
+
+        public bool UseVariableCondition
+        {
+            get
+            {
+                return UnityRow.Row.UseVariableCondition;
+            }
+            set
+            {
+
+                UnityRow.Row.UseVariableCondition = value;
+                Save();
+            }
+        }
+
+        [ShowInInspector]
+        [LabelText("Bool变量条件")]
+        [TitleGroup("条件")]
+        [ShowIf("@this.ConditionType == ConditionTypeEnum.BoolCondition && this.UseVariableCondition")]
+        [ValueDropdown("VariableBoolUuidValueDropdown", IsUniqueList = true)]
+        public string[] BoolVariableUuds
+        {
+            get
+            {
+                return UnityRow.Row.BoolVariableUuds.ToSplitArr<string>();
+            }
+            set
+            {
+                UnityRow.Row.BoolVariableUuds = value.ToListString();
+                Save();
+            }
+        }
+
+
+        [ShowInInspector]
+        [LabelText("状态变量条件")]
+        [TitleGroup("条件")]
+        [ShowIf("@this.ConditionType == ConditionTypeEnum.StateCondition && this.UseVariableCondition")]
+        [ValueDropdown("VariableIntUuidValueDropdown", IsUniqueList = true)]
+
+        public string IntVariableUuid
+        {
+            get
+            {
+                return UnityRow.Row.IntVariableUuid;
+            }
+            set
+            {
+                UnityRow.Row.IntVariableUuid = value;
+                Save();
+            }
+        }
+
+
+
 
         bool UseCondition
         {
@@ -241,35 +311,14 @@ namespace Pangoo.MetaTable
         }
 
 
-        [LabelText("条件Ids")]
-        [ValueDropdown("ConditionIdValueDropdown", IsUniqueList = true)]
-        [ListDrawerSettings(Expanded = true)]
-        [PropertyOrder(9)]
-        [TitleGroup("指令系统")]
-        [ShowIf("@this.UseCondition")]
-        public int[] ConditionIds
-        {
-            get
-            {
-                return UnityRow.Row?.ConditionList?.ToSplitArr<int>() ?? new int[0];
-            }
-            set
-            {
-
-
-                UnityRow.Row.ConditionList = value.ToList().ToListString();
-                Save();
-
-            }
-        }
 
         [LabelText("条件Uuid")]
         [ValueDropdown("ConditionUuidValueDropdown", IsUniqueList = true)]
         [ListDrawerSettings(Expanded = true)]
         [ShowInInspector]
         [PropertyOrder(9)]
-        [TitleGroup("指令系统")]
-        [ShowIf("@this.UseCondition")]
+        [TitleGroup("条件")]
+        [ShowIf("@this.UseCondition && !this.UseVariableCondition")]
         public string[] ConditionUuids
         {
             get
@@ -443,65 +492,6 @@ namespace Pangoo.MetaTable
         public IEnumerable ConditionUuidValueDropdown()
         {
             return ConditionOverview.GetUuidDropdown();
-        }
-
-        [Button("升级Int到Uuid")]
-        public void UpdateDirectInstructionGroupId2Uuid()
-        {
-            if (DefaultDirectInstructions != null)
-            {
-                for (int i = 0; i < DefaultDirectInstructions.DirectInstructions.Length; i++)
-                {
-                    DefaultDirectInstructions.DirectInstructions[i].UpdateUuidById();
-                }
-                UnityRow.Row.InstructionList = DefaultDirectInstructions.Save();
-            }
-
-
-            if (FailedDirectInstructions != null)
-            {
-                for (int i = 0; i < FailedDirectInstructions.DirectInstructions.Length; i++)
-                {
-                    FailedDirectInstructions.DirectInstructions[i].UpdateUuidById();
-                }
-                UnityRow.Row.FailInstructionList = FailedDirectInstructions.Save();
-
-            }
-
-
-
-            if (StateInstructions != null)
-            {
-                foreach (var kv in StateInstructions)
-                {
-                    for (int i = 0; i < kv.Value.DirectInstructions.Length; i++)
-                    {
-                        kv.Value.DirectInstructions[i].UpdateUuidById();
-                    }
-                }
-
-                UnityRow.Row.Params = JsonMapper.ToJson(StateInstructions);
-            }
-
-            if (ConditionIds != null)
-            {
-                List<string> conditionUuids = new List<string>();
-                foreach (var conditionid in ConditionIds)
-                {
-
-                    var conditionRow = ConditionOverview.GetUnityRowById(conditionid);
-                    if (conditionRow != null)
-                    {
-                        conditionUuids.Add(conditionRow.Uuid);
-                    }
-                }
-
-                ConditionUuids = conditionUuids.ToArray();
-
-            }
-
-            Save();
-
         }
 
     }

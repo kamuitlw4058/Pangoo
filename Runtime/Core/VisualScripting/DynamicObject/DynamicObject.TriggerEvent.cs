@@ -7,6 +7,7 @@ using LitJson;
 using Pangoo.Core.Common;
 using Pangoo.MetaTable;
 using MetaTable;
+using Pangoo.Common;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -68,7 +69,16 @@ namespace Pangoo.Core.VisualScripting
                     }
                     break;
                 case ConditionTypeEnum.BoolCondition:
-                    triggerEvent.Conditions = ConditionList.BuildConditionList(triggerEvent.Row.GetConditionList(), m_ConditionHandler);
+                    if (triggerEvent.Row.UseVariableCondition)
+                    {
+                        triggerEvent.Conditions = ConditionList.BuildConditionListByBoolVariable(triggerEvent.Row.BoolVariableUuds.ToSplitArr<string>(), m_ConditionHandler, m_VariableHandler);
+                    }
+                    else
+                    {
+                        triggerEvent.Conditions = ConditionList.BuildConditionList(triggerEvent.Row.GetConditionList(), m_ConditionHandler);
+
+                    }
+
                     var defaultinstructionList = DirectInstructionList.LoadInstructionList(triggerEvent.Row.InstructionList, m_InstructionHandler);
                     if (defaultinstructionList != null)
                     {
@@ -83,7 +93,16 @@ namespace Pangoo.Core.VisualScripting
 
                     break;
                 case ConditionTypeEnum.StateCondition:
-                    triggerEvent.Conditions = ConditionList.BuildConditionList(triggerEvent.Row.GetConditionList(), m_ConditionHandler);
+                    if (triggerEvent.Row.UseVariableCondition)
+                    {
+                        triggerEvent.Conditions = ConditionList.BuildConditionListByIntVariable(triggerEvent.Row.IntVariableUuid, m_ConditionHandler, m_VariableHandler);
+                    }
+                    else
+                    {
+                        triggerEvent.Conditions = ConditionList.BuildConditionList(triggerEvent.Row.GetConditionList(), m_ConditionHandler);
+
+                    }
+
                     Dictionary<int, DirectInstructionList> StateInstructions = JsonMapper.ToObject<Dictionary<int, DirectInstructionList>>(triggerEvent.Row.Params);
                     foreach (var kv in StateInstructions)
                     {

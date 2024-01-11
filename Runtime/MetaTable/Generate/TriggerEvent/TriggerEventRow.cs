@@ -88,6 +88,27 @@ namespace Pangoo.MetaTable
 
         string ITriggerEventRow.ConditionUuidList {get => ConditionUuidList; set => ConditionUuidList = value;}
 
+        [JsonMember("UseVariableCondition")]
+        [MetaTableRowColumn("UseVariableCondition","bool", "是否使用变量条件",14)]
+        [LabelText("是否使用变量条件")]
+        public bool UseVariableCondition ;
+
+        bool ITriggerEventRow.UseVariableCondition {get => UseVariableCondition; set => UseVariableCondition = value;}
+
+        [JsonMember("BoolVariableUuds")]
+        [MetaTableRowColumn("BoolVariableUuds","string", "布尔变量列表",15)]
+        [LabelText("布尔变量列表")]
+        public string BoolVariableUuds ;
+
+        string ITriggerEventRow.BoolVariableUuds {get => BoolVariableUuds; set => BoolVariableUuds = value;}
+
+        [JsonMember("IntVariableUuid")]
+        [MetaTableRowColumn("IntVariableUuid","string", "状态变量",16)]
+        [LabelText("状态变量")]
+        public string IntVariableUuid ;
+
+        string ITriggerEventRow.IntVariableUuid {get => IntVariableUuid; set => IntVariableUuid = value;}
+
     }
 }
 

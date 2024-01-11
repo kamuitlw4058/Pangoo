@@ -484,6 +484,15 @@ MonoBehaviour:
     - Name: ConditionUuidList
       Type: string
       CnName: ConditionUuidList
+    - Name: UseVariableCondition
+      Type: bool
+      CnName: "\u662F\u5426\u4F7F\u7528\u53D8\u91CF\u6761\u4EF6"
+    - Name: BoolVariableUuds
+      Type: string
+      CnName: "\u5E03\u5C14\u53D8\u91CF\u5217\u8868"
+    - Name: IntVariableUuid
+      Type: string
+      CnName: "\u72B6\u6001\u53D8\u91CF"
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Variables

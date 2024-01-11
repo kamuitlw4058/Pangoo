@@ -44,14 +44,14 @@ namespace Pangoo.Core.VisualScripting
         [BoxGroup("条件配置")]
 
         [ValueDropdown("ConditionUuidValueDropdown", IsUniqueList = true)]
-        [ListDrawerSettings(Expanded = true)]
+        [ListDrawerSettings(ShowFoldout = true)]
         [ShowInInspector]
         [ShowIf("@(this.ConditionType == ConditionTypeEnum.BoolCondition || this.ConditionType == ConditionTypeEnum.StateCondition) && !this.UseVariableCondition")]
         [JsonMember("ConditionUuids")]
         public string[] ConditionUuids;
 
         [ValueDropdown("VariableBoolUuidValueDropdown", IsUniqueList = true)]
-        [ListDrawerSettings(Expanded = true)]
+        [ListDrawerSettings(ShowFoldout = true)]
         [ShowInInspector]
         [ShowIf("@this.ConditionType == ConditionTypeEnum.BoolCondition  && this.UseVariableCondition")]
         [JsonMember("BoolVariableUuds")]
@@ -59,7 +59,7 @@ namespace Pangoo.Core.VisualScripting
 
 
         [ValueDropdown("VariableIntUuidValueDropdown", IsUniqueList = true)]
-        [ListDrawerSettings(Expanded = true)]
+        [ListDrawerSettings(ShowFoldout = true)]
         [ShowInInspector]
         [ShowIf("@this.ConditionType == ConditionTypeEnum.StateCondition  && this.UseVariableCondition")]
         [JsonMember("IntVariableUuid")]
@@ -72,7 +72,7 @@ namespace Pangoo.Core.VisualScripting
         [LabelText("指令列表")]
         [TableList]
         [ShowIf("@this.ConditionType == ConditionTypeEnum.BoolCondition || this.ConditionType == ConditionTypeEnum.NoCondition")]
-        [ListDrawerSettings(Expanded = true)]
+        [ListDrawerSettings(ShowFoldout = true)]
         [BoxGroup("指令配置")]
 
 
@@ -86,7 +86,7 @@ namespace Pangoo.Core.VisualScripting
 
         [TableList]
         [ShowIf("@this.ConditionType == ConditionTypeEnum.BoolCondition")]
-        [ListDrawerSettings(Expanded = true)]
+        [ListDrawerSettings(ShowFoldout = true)]
 
         public DirectInstruction[] FailedDirectInstructionList;
 
