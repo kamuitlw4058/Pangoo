@@ -6,7 +6,6 @@ using Pangoo;
 using Pangoo.Core.VisualScripting;
 
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.EventSystems;
 using Pangoo.Core.Services;
 
@@ -107,7 +106,6 @@ namespace Pangoo
             DynamicObj.Entity = this;
             DynamicObj.Awake();
             DynamicObj.Start();
-
         }
 
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)

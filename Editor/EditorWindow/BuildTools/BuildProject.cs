@@ -302,11 +302,10 @@ namespace Pangoo.Editor
 
             if (isBuildFail)
             {
-                Debug.Log("资源包构建失败!!!");
-                Application.Quit();
-                return;
+                Debug.LogError("资源包构建失败!!!");
+                Environment.Exit(1);
+                
             }
-
             MoveResourceToGame();
         }
 
@@ -379,7 +378,7 @@ namespace Pangoo.Editor
         private static void OnBuildResourceError(string errorMessage)
         {
             isBuildFail = true;
-            Debug.Log("资源构建失败");
+            Debug.LogError("资源构建失败");
         }
     }
 }
