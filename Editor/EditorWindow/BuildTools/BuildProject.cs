@@ -374,6 +374,7 @@ namespace Pangoo.Editor
 
                 CopyPastFilesAndDirs(path, newDir);
             }
+            Directory.Delete(srcDir,true);
         }
         private static void OnBuildResourceError(string errorMessage)
         {
