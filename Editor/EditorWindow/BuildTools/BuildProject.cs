@@ -322,8 +322,9 @@ namespace Pangoo.Editor
             Debug.Log("开始拷贝文件夹");
             DeleteStreamingAssetsPathResource();
             CopyPastFilesAndDirs(sourceDirectoryPath, targetDirectoryPath);
-
             Debug.Log("资源移动完成");
+            Directory.Delete(copyPath,true);
+            Debug.Log("删除原资源目录");
         }
 
         private static void DeleteStreamingAssetsPathResource()
@@ -374,7 +375,6 @@ namespace Pangoo.Editor
 
                 CopyPastFilesAndDirs(path, newDir);
             }
-            Directory.Delete(srcDir,true);
         }
         private static void OnBuildResourceError(string errorMessage)
         {
