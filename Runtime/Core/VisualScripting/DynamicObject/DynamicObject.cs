@@ -10,6 +10,7 @@ using UnityEngine.Rendering;
 using UnityEngine.InputSystem;
 using Pangoo.MetaTable;
 using System.Linq;
+using UnityEngine.Video;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -185,6 +186,22 @@ namespace Pangoo.Core.VisualScripting
             return this.CachedTransfrom.Find(path);
         }
         
+        public void FindVideoPlayerSetCamera()
+        {
+            List<VideoPlayer> videoPlayerList = this.Entity.GetComponentsInChildren<VideoPlayer>().ToList();
+            if (this.Entity.GetComponent<VideoPlayer>())
+            {
+                videoPlayerList.Add(this.Entity.GetComponent<VideoPlayer>());
+            }
+
+            foreach (VideoPlayer videoPlayer in videoPlayerList)
+            {
+                if (videoPlayer.renderMode==VideoRenderMode.CameraFarPlane||videoPlayer.renderMode==VideoRenderMode.CameraNearPlane)
+                {
+                    videoPlayer.targetCamera = Camera.main;
+                }
+            }
+        }
 
         public void SetSubGameObjectActive(string path, bool val)
         {

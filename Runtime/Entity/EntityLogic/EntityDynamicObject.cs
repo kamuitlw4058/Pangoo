@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityGameFramework.Runtime;
 using Sirenix.OdinInspector;
 using GameFramework;
@@ -8,10 +6,8 @@ using Pangoo;
 using Pangoo.Core.VisualScripting;
 
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.EventSystems;
 using Pangoo.Core.Services;
-using UnityEngine.Video;
 
 
 #if USE_HDRP
@@ -110,25 +106,7 @@ namespace Pangoo
             DynamicObj.Entity = this;
             DynamicObj.Awake();
             DynamicObj.Start();
-
-            FindVideoPlayerSetCamera();
-        }
-
-        public void FindVideoPlayerSetCamera()
-        {
-            List<VideoPlayer> videoPlayerList = DynamicObj.Entity.GetComponentsInChildren<VideoPlayer>().ToList();
-            if (DynamicObj.Entity.GetComponent<VideoPlayer>())
-            {
-                videoPlayerList.Add(DynamicObj.Entity.GetComponent<VideoPlayer>());
-            }
-
-            foreach (VideoPlayer videoPlayer in videoPlayerList)
-            {
-                if (videoPlayer.renderMode==VideoRenderMode.CameraFarPlane||videoPlayer.renderMode==VideoRenderMode.CameraNearPlane)
-                {
-                    videoPlayer.targetCamera = Camera.main;
-                }
-            }
+            DynamicObj.FindVideoPlayerSetCamera();
         }
 
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
