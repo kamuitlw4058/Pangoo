@@ -105,6 +105,11 @@ namespace Pangoo.Core.Characters
 
         }
 
+        public void SetCharacterSpeed(float val)
+        {
+            m_MotionInfo.SetLinearSpeed(val);
+        }
+
         public void SetCameraOffset(Vector3 offset)
         {
             CameraOffset = offset;
