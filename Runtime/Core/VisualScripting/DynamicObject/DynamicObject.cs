@@ -158,7 +158,7 @@ namespace Pangoo.Core.VisualScripting
             DoAwakeTriggerEvent();
             DoAwakeHotspot();
             DoAwakeSubDynamicObject();
-            Debug.Log($"Do awake m_Tracker:{m_Tracker}");
+            Log($"Finish Awake m_Tracker:{m_Tracker}");
         }
 
         public void SetModelActive(bool val)
@@ -301,11 +301,10 @@ namespace Pangoo.Core.VisualScripting
         {
             if (m_Tracker != null)
             {
-                Debug.Log($"Try disable:{Row.Name}");
                 m_Tracker.EventInteract -= OnInteract;
                 GameObject.DestroyImmediate(m_Tracker);
                 m_Tracker = null;
-                Debug.Log($"Try disable m_Tracker:{m_Tracker}");
+                Log($"Try disable {Row.Name} m_Tracker:{m_Tracker}");
             }
 
             DoDisableTimeineSignal();
@@ -328,7 +327,7 @@ namespace Pangoo.Core.VisualScripting
         [Button("Hide")]
         public void Hide()
         {
-            DynamicObjectService.Hide(Row.Uuid);
+            DynamicObjectService.HideEntity(Row.Uuid);
         }
 
 

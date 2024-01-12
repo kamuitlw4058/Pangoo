@@ -15,7 +15,7 @@ namespace Pangoo.Core.Services
     [Serializable]
     public class StaticSceneService : MainSubService
     {
-        public override string ServiceName => "StaticScene";
+        public override string ServiceName => "StaticSceneService";
         public override int Priority => 5;
 
         IEntityGroupRow m_EntityGroupRow;
@@ -353,6 +353,22 @@ namespace Pangoo.Core.Services
             Log("load :{}");
         }
 
+        bool IsAllGameSectionSceneLoaded()
+        {
+
+            for (int i = 0; i < NeedLoadDict.Count; i++)
+            {
+                var key = NeedLoadDict.Values.ToList()[i];
+                if (!m_LoadedSceneAssetDict.ContainsKey(key))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+
+        }
+
         protected override void DoUpdate()
         {
             UpdateNeedLoadDict();
@@ -361,33 +377,12 @@ namespace Pangoo.Core.Services
 
             if (!SectionInited)
             {
-                if (m_LoadingAssetUuids.Count == 0)
+                if (IsAllGameSectionSceneLoaded())
                 {
                     SectionInited = true;
-                    OnInitSceneLoaded?.Invoke();
                     Log($"Section All Loaded!");
+                    OnInitSceneLoaded?.Invoke();
                 }
-                else
-                {
-
-                }
-                // bool holdLoaded = IsLoadedScene(m_HoldStaticSceneUuids);
-                // bool initLoaded = false;
-                // Log($"Hold Loaded:{holdLoaded}");
-                // if (holdLoaded)
-                // {
-                //     initLoaded = IsLoadedScene(m_InitStaticSceneUuids);
-                //     Log($"Init Loaded:{initLoaded}");
-                // }
-
-                // if (holdLoaded && initLoaded)
-                // {
-                //     SectionInited = true;
-                //     OnInitSceneLoaded?.Invoke();
-                //     Log($"ON Loaded");
-
-                // }
-
             }
         }
 

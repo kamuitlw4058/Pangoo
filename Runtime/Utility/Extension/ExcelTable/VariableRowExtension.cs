@@ -36,7 +36,7 @@ namespace Pangoo
             }
             else
             {
-                row = handler(id);
+                row = handler(uuid);
             }
 #endif
             return row;

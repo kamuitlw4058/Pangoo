@@ -133,7 +133,7 @@ namespace Pangoo.Core.VisualScripting
                 Debug.LogError($"Create Trigger Failed!{row.TriggerType}");
                 return null;
             }
-            Debug.Log($"Create Trigger:{Row.Name} -> {row.TriggerType}");
+            Log($"Create Trigger:{Row.Name} -> {row.TriggerType}");
 
             ret.Parent = gameObject;
             ret.dynamicObject = this;
@@ -190,12 +190,12 @@ namespace Pangoo.Core.VisualScripting
 
             DoAwakeTimeline();
 
-            Debug.Log($"triggerIds:{triggerUuids.Count}");
+            Log($"Trigger Count:{triggerUuids.Count}");
 
             foreach (var triggerUuid in triggerUuids)
             {
                 ITriggerEventRow row = TriggerEventRowExtension.GetByUuid(triggerUuid, m_TriggerHandler);
-                Debug.Log($"Create TriggerId:{triggerUuid}  row:{row}");
+                Log($"Create TriggerUuid:{triggerUuid}  row:{row}");
                 if (row != null)
                 {
                     CreateTriggerEvent(row);

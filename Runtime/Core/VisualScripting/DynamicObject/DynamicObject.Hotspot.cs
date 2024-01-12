@@ -129,7 +129,7 @@ namespace Pangoo.Core.VisualScripting
                 foreach (var valId in uuids)
                 {
                     IHotspotRow row = HotspotRowExtension.GetByUuid(valId, m_HotspotHandler);
-                    Debug.Log($"Create Hotspot:{valId}  row:{row}");
+                    Log($"Create Hotspot:{valId}  row:{row}");
                     if (row != null)
                     {
                         var instance = ClassUtility.CreateInstance<HotSpot>(row.HotspotType);

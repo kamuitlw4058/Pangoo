@@ -36,7 +36,7 @@ namespace Pangoo.Core.VisualScripting
         protected override int Run(Args args)
         {
             var variable = args.dynamicObject.GetVariable<bool>(ParamRaw.VariableUuid);
-            Debug.Log($"Condition Id:{ParamRaw.VariableUuid} Ret:{variable} Check:{ParamRaw.CheckBool}");
+            // Debug.Log($"Condition Id:{ParamRaw.VariableUuid} Ret:{variable} Check:{ParamRaw.CheckBool}");
             return variable == ParamRaw.CheckBool ? 1 : 0;
         }
 
