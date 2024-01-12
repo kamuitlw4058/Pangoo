@@ -26,6 +26,7 @@ namespace Pangoo.Core.VisualScripting
             }
             set
             {
+                Log($"Set Trigger:{Row?.Uuid} {value}");
                 dynamicObject.Variables.SetTriggerEnabled(Row.Uuid, value);
                 m_Enabled = value;
             }

@@ -26,11 +26,15 @@ namespace Pangoo.Core.Common
 
         public void SetChilernTransforms(string key, TransformValue val)
         {
+            if (key.IsNullOrWhiteSpace()) return;
+
             ChilernTransforms.Set(key, val);
         }
 
         public void SetTriggerEnabled(string key, bool val)
         {
+            if (key.IsNullOrWhiteSpace()) return;
+
             TriggerEnabledDict.Set(key, val);
         }
 
@@ -43,6 +47,8 @@ namespace Pangoo.Core.Common
 
         public virtual T Get<T>(string key, T defaultValue = default(T))
         {
+            if (key.IsNullOrWhiteSpace()) return defaultValue;
+
             object value = null;
             if (m_KeyValueDict.ContainsKey(key))
             {

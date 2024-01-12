@@ -67,6 +67,15 @@ namespace Pangoo.Core.Services
             }
         }
 
+        public void SetPlayerSpeed(float val)
+        {
+            if (Player != null)
+            {
+                Player.character.SetCharacterSpeed(val);
+                Log($"SetPlayer Speed:{val}");
+            }
+        }
+
 
         public void SetPlayerHeight(float height)
         {
