@@ -74,7 +74,14 @@ namespace Pangoo.Core.VisualScripting
             ITriggerEventRow row = new Pangoo.MetaTable.TriggerEventRow();
 
             row.Uuid = UuidUtility.GetNewUuid();
-            row.Name = $"DI_{row.TriggerType}_{directInstructionGroup.Uuid.ToShortUuid()}";
+            if (!directInstructionGroup.Name.IsNullOrWhiteSpace())
+            {
+                row.Name = directInstructionGroup.Name;
+            }
+            else
+            {
+                row.Name = $"DI_{row.TriggerType}_{directInstructionGroup.Uuid.ToShortUuid()}";
+            }
             row.Params = "{}";
             row.Uuid = directInstructionGroup.Uuid;
             row.Targets = string.Empty;

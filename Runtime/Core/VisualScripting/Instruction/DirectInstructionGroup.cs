@@ -20,6 +20,9 @@ namespace Pangoo.Core.VisualScripting
         [ReadOnly]
         public string Uuid;
 
+        [JsonMember("Name")]
+        public string Name;
+
         [LabelText("触发器类型")]
         // [HideLabel]
         [JsonMember("TriggerType")]
