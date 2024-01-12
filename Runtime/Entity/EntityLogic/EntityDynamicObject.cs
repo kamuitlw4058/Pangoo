@@ -106,7 +106,6 @@ namespace Pangoo
             DynamicObj.Entity = this;
             DynamicObj.Awake();
             DynamicObj.Start();
-            DynamicObj.FindVideoPlayerSetCamera();
         }
 
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)

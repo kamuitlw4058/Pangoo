@@ -279,7 +279,8 @@ namespace Pangoo.Core.VisualScripting
                     TriggerSetTargetIndex(kv.Key, kv.Value);
                 }
             }
-
+            FindVideoPlayerSetCamera();
+            
             TriggerInovke(TriggerTypeEnum.OnStart);
         }
 
