@@ -12,7 +12,7 @@ namespace Pangoo.Core.Services
         [SerializeField] TimeMode MonoTimeMode;
 
         public override float DeltaTime => MonoTimeMode.DeltaTime;
-        public override float Time => MonoTimeMode.DeltaTime;
+        public override float Time => MonoTimeMode.Time;
 
         [NonSerialized]
         protected Transform m_CachedTransfrom;

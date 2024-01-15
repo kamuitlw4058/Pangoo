@@ -485,6 +485,7 @@ namespace Pangoo
 
             var ValueDropdown = new ValueDropdownList<string>();
             ValueDropdown.Add(ConstString.Self);
+            ValueDropdown.Add(ConstString.Target);
             if (prefab != null)
             {
                 AddPrefabStringDropdownList(ValueDropdown, prefab.transform, string.Empty);

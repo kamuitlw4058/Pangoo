@@ -69,6 +69,17 @@ namespace Pangoo.Core.VisualScripting
         public string IntVariableUuid;
 
 
+        [JsonMember("Targets")]
+        [BoxGroup("目标配置")]
+        [LabelText("目标列表")]
+        public string Targets;
+
+        [BoxGroup("目标配置")]
+        [JsonMember("TargetProcessType")]
+        [LabelText("目标列表处理方式")]
+
+        public TriggerTargetListProcessTypeEnum TargetProcessType;
+
 
         [JsonMember("DirectInstructionList")]
         [HideReferenceObjectPicker]

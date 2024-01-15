@@ -4,9 +4,7 @@ using Pangoo.Core.Common;
 using Pangoo.Core.Services;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
-using Pangoo.Core.Characters;
 using GameFramework;
-using UnityEngine.Rendering;
 using UnityEngine.InputSystem;
 using Pangoo.MetaTable;
 using System.Linq;
@@ -177,15 +175,26 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
-        public Transform GetSubGameObjectTransformPath(string path)
+        public Transform GetSubGameObjectTransformPath(string path, Args args = null)
         {
-            if (path.IsNullOrWhiteSpace() || path.Equals("Self"))
+            if (path.IsNullOrWhiteSpace())
             {
                 return this.Entity.transform;
             }
+
+            if (path.Equals(ConstString.Self))
+            {
+                return this.Entity.transform;
+            }
+
+            if (path.Equals(ConstString.Target) && args != null)
+            {
+                return args.Target?.transform;
+            }
+
             return this.CachedTransfrom.Find(path);
         }
-        
+
         public void FindVideoPlayerSetCamera()
         {
             List<VideoPlayer> videoPlayerList = this.Entity.GetComponentsInChildren<VideoPlayer>().ToList();
@@ -196,7 +205,7 @@ namespace Pangoo.Core.VisualScripting
 
             foreach (VideoPlayer videoPlayer in videoPlayerList)
             {
-                if (videoPlayer.renderMode==VideoRenderMode.CameraFarPlane||videoPlayer.renderMode==VideoRenderMode.CameraNearPlane)
+                if (videoPlayer.renderMode == VideoRenderMode.CameraFarPlane || videoPlayer.renderMode == VideoRenderMode.CameraNearPlane)
                 {
                     videoPlayer.targetCamera = Camera.main;
                 }
@@ -216,8 +225,8 @@ namespace Pangoo.Core.VisualScripting
                 childTransform.gameObject.SetActive(val);
             }
         }
-        
-        public void SetModelMaterial(string path,int index)
+
+        public void SetModelMaterial(string path, int index)
         {
             if (!this.Entity.GetComponent<MaterialList>())
             {
@@ -226,15 +235,15 @@ namespace Pangoo.Core.VisualScripting
             }
 
             MaterialList materialList = Entity.GetComponent<MaterialList>();
-            Transform target=GetSubGameObjectTransformPath(path);
+            Transform target = GetSubGameObjectTransformPath(path);
             if (!target.GetComponent<Renderer>())
             {
                 Debug.Log("没有在对象身上获取到Render");
                 return;
             }
-            Renderer meshRenderer=target.GetComponent<Renderer>();
+            Renderer meshRenderer = target.GetComponent<Renderer>();
 
-            if (materialList.materialList!=null)
+            if (materialList.materialList != null)
             {
                 meshRenderer.material = materialList.materialList[index];
             }
@@ -242,7 +251,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 Debug.Log("请检查对象材质球列表是否配置");
             }
-            
+
         }
 
         protected override void DoStart()
@@ -280,7 +289,7 @@ namespace Pangoo.Core.VisualScripting
                 }
             }
             FindVideoPlayerSetCamera();
-            
+
             TriggerInovke(TriggerTypeEnum.OnStart);
         }
 

@@ -12,5 +12,7 @@ namespace Pangoo
 
 
         public const string Self = "Self";
+
+        public const string Target = "Target";
     }
 }

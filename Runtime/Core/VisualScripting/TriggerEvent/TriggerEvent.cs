@@ -12,7 +12,7 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public class TriggerEvent
     {
-        public const string SelfStr = "Self";
+        public const string SelfStr = ConstString.Self;
 
         bool m_Enabled;
 
@@ -48,9 +48,6 @@ namespace Pangoo.Core.VisualScripting
 
         public GameObject Parent { get; set; }
 
-        [ShowInInspector]
-        [HideInEditorMode]
-        public bool IsDirectInstuction { get; set; } = false;
 
         public int TriggerCount;
 
@@ -60,9 +57,17 @@ namespace Pangoo.Core.VisualScripting
         {
             get
             {
+                if (Row?.Targets?.IsNullOrWhiteSpace() ?? true)
+                {
+                    return null;
+                }
+
                 return Row?.Targets?.Split("|");
             }
         }
+
+        [ShowInInspector]
+        public string CurrentTargetPath { get; set; }
 
         public TriggerTargetListProcessTypeEnum TargetType
         {
@@ -201,87 +206,68 @@ namespace Pangoo.Core.VisualScripting
 
         public virtual void OnInvoke(Args args)
         {
+            var invokeArgs = args.Clone;
             TriggerCount += 1;
             if (Targets == null || Targets.Length == 0)
             {
-                args.ChangeTarget(Parent);
+                invokeArgs.ChangeTarget(Parent);
             }
             else
             {
-                if (Targets.Length == 1)
+                TargetIndex = TargetIndex % Targets.Length;
+                CurrentTargetPath = Targets[TargetIndex];
+                if (CurrentTargetPath == SelfStr)
                 {
-                    if (Targets[0] == SelfStr)
-                    {
-                        args.ChangeTarget(Parent);
-                    }
-                    else
-                    {
-                        var trans = dynamicObject.CachedTransfrom.Find(Targets[0]);
-                        if (trans != null)
-                        {
-                            args.ChangeTarget(trans.gameObject, path: Targets[0]);
-                        }
-                        else
-                        {
-                            args.ChangeTarget(Parent, path: SelfStr);
-                        }
-                    }
+                    invokeArgs.ChangeTarget(Parent, path: CurrentTargetPath, index: TargetIndex);
                 }
                 else
                 {
-                    var targetStr = Targets[TargetIndex];
-                    if (targetStr == SelfStr)
+                    var trans = dynamicObject.CachedTransfrom.Find(CurrentTargetPath);
+                    if (trans != null)
                     {
-                        args.ChangeTarget(Parent, path: targetStr, index: TargetIndex);
+                        invokeArgs.ChangeTarget(trans.gameObject, path: CurrentTargetPath, index: TargetIndex);
                     }
                     else
                     {
-                        var trans = dynamicObject.CachedTransfrom.Find(targetStr);
-                        if (trans != null)
-                        {
-                            args.ChangeTarget(trans.gameObject, path: targetStr, index: TargetIndex);
-                        }
-                        else
-                        {
-                            args.ChangeTarget(Parent, path: targetStr, index: TargetIndex);
-                        }
+                        invokeArgs.ChangeTarget(Parent, path: CurrentTargetPath, index: TargetIndex);
                     }
-
-                    TargetIndex += 1;
-                    switch (TargetType)
-                    {
-                        case TriggerTargetListProcessTypeEnum.SeqAndDisabled:
-                            if (TargetIndex >= Targets.Length)
-                            {
-                                Enabled = false;
-                            }
-                            break;
-                        case TriggerTargetListProcessTypeEnum.Loop:
-                            if (TargetIndex >= Targets.Length)
-                            {
-                                TargetIndex = 0;
-                            }
-                            break;
-                    }
-
                 }
+
+                TargetIndex += 1;
+                switch (TargetType)
+                {
+                    case TriggerTargetListProcessTypeEnum.SeqAndDisabled:
+                        if (TargetIndex >= Targets.Length)
+                        {
+                            Enabled = false;
+                        }
+                        break;
+                    case TriggerTargetListProcessTypeEnum.Loop:
+                        if (TargetIndex >= Targets.Length)
+                        {
+                            TargetIndex = 0;
+                        }
+                        break;
+                }
+
+                // }
             }
 
             switch (ConditionType)
             {
                 case ConditionTypeEnum.NoCondition:
                     Log("No Condition Invoke!");
-                    OnStateInvoke(1, args);
+                    OnStateInvoke(1, invokeArgs);
                     break;
                 case ConditionTypeEnum.BoolCondition:
-                    var isPass = Conditions?.Check(args) ?? false ? 1 : 0;
+                    var isPass = Conditions?.Check(invokeArgs) ?? false ? 1 : 0;
                     Log($"Trigger:[{Row.UuidShort}] Check Pass:{isPass} :{Conditions}");
-                    OnStateInvoke(isPass, args);
+                    OnStateInvoke(isPass, invokeArgs);
                     break;
                 case ConditionTypeEnum.StateCondition:
-                    var state = Conditions?.GetState(args) ?? 1;
+                    var state = Conditions?.GetState(invokeArgs) ?? 1;
                     Log($"Check state:{state} :{Conditions}");
-                    OnStateInvoke(state, args);
+                    OnStateInvoke(state, invokeArgs);
                     break;
 
             }

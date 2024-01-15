@@ -3,6 +3,7 @@ using UnityEngine;
 using LitJson;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using Pangoo.Common;
 
 namespace Pangoo.Core.VisualScripting
 {

@@ -3,45 +3,11 @@ using UnityEngine;
 using LitJson;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using Pangoo.Common;
 
 namespace Pangoo.Core.VisualScripting
 {
 
-    [System.Flags]
-    public enum TweenTransformType
-    {
-        PostionX = 1 << 1,
-        PostionY = 1 << 2,
-        PostionZ = 1 << 3,
-        RotationX = 1 << 4,
-        RotationY = 1 << 5,
-        RotationZ = 1 << 6,
-    }
-
-    public enum TweenTransformAxis
-    {
-        X,
-        Y,
-        Z,
-    }
-
-    public enum TweenTransformStartTypeEnum
-    {
-        [LabelText("相对原始值")]
-        RelativeOrigin,
-
-        [LabelText("配置值")]
-        ConfigValue,
-    }
-
-    public enum TweenTransformEndTypeEnum
-    {
-        [LabelText("相对起始值")]
-        RelativeStart,
-
-        [LabelText("配置值")]
-        ConfigValue,
-    }
 
     [Serializable]
     public class InstructionTweenTransformParams : InstructionParams
