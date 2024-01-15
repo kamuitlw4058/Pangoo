@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using System.Linq;
 using System.Text;
 using LitJson;
+using Pangoo.Core.Characters;
 using Sirenix.Utilities;
 using UnityEngine;
 
@@ -286,6 +287,13 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
+        public static Instruction GetSetDriverInfo(DriverInfo driverInfo)
+        {
+            var instruction = Activator.CreateInstance<InstructionSetPlayerDriverInfo>();
+            instruction.ParamsRaw.DriverInfo = driverInfo;
+            return instruction;
+        }
+
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
             switch (InstructionType)
@@ -358,6 +366,8 @@ namespace Pangoo.Core.VisualScripting
                     return GetTweenLightIntensity(DropdownString1,Float1,Float2,Bool1);
                 case DirectInstructionTypeEnum.DynamicObjectSetMaterial:
                     return GetDynamicObjectSetMaterial(DropdownString1,Int1);
+                case DirectInstructionTypeEnum.SetDriverInfo:
+                    return GetSetDriverInfo(DriverInfo1);
             }
 
             return null;

@@ -89,6 +89,17 @@ namespace Pangoo.Core.Characters
             // SetVariable<Vector3>("MoveDirection", Vector3.zero);
         }
 
+        public void UpdateControllerData(DriverInfo driverInfo)
+        {
+            m_Controller.slopeLimit = driverInfo.SlopeLimit;
+            m_Controller.stepOffset = driverInfo.StepOffset;
+            m_Controller.skinWidth = driverInfo.SkinWidth;
+            m_Controller.minMoveDistance = driverInfo.MinMoveDistance;
+            m_Controller.center = driverInfo.Center;
+            m_Controller.radius = driverInfo.Radius;
+            m_Controller.height = driverInfo.Height;
+        }
+
         protected void UpdateGravity()
         {
             // TODO 相关代码保留。这边是用来区分是在上升期还是下降期用不同的中立加速度

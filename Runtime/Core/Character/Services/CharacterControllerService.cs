@@ -34,6 +34,10 @@ namespace Pangoo.Core.Characters
 
         }
 
+        public virtual void SetDriverInfo(DriverInfo driverInfo)
+        {
+            
+        }
 
         public virtual void AddService(T val)
         {

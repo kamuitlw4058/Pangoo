@@ -9,6 +9,7 @@ using UnityEngine;
 using Pangoo.Common;
 using Pangoo.MetaTable;
 using MetaTable;
+using Pangoo.Core.Characters;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -137,6 +138,12 @@ namespace Pangoo.Core.VisualScripting
         [LabelWidth(120)]
         [JsonMember("CursorLockMode1")]
         public CursorLockMode CursorLockMode1;
+
+        [TableTitleGroup("参数")]
+        [ShowIf("$IsMainDriverInfoShow")]
+        [LabelWidth(120)]
+        [JsonMember("DriverInfo1")]
+        public DriverInfo DriverInfo1;
 
 
 #if UNITY_EDITOR
@@ -385,6 +392,19 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.ShowHideCursor => true,
+                    _ => false,
+                };
+            }
+        }
+
+        [JsonNoMember]
+        bool IsMainDriverInfoShow
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.SetDriverInfo => true,
                     _ => false,
                 };
             }
