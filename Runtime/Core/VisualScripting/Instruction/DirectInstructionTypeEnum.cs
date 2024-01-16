@@ -111,5 +111,8 @@ namespace Pangoo.Core.VisualScripting
         TweenLightIntensity,
         [LabelText("动态物体/设置材质球")]
         DynamicObjectSetMaterial,
+        
+        [LabelText("玩家/设置玩家控制器信息")]
+        SetDriverInfo,
     }
 }
