@@ -49,6 +49,8 @@ namespace Pangoo
 
         }
 
+        public bool IsStarted;
+
         public void UpdateDefaultTransform()
         {
             switch (DoData.InfoRow.m_DynamicObjectRow.Space.ToEnum<Space>())
@@ -105,11 +107,18 @@ namespace Pangoo
             DynamicObj.Main = DoData.Service.Parent as MainService;
             DynamicObj.Entity = this;
             DynamicObj.Awake();
-            DynamicObj.Start();
+            IsStarted = false;
+
         }
 
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
         {
+
+            if (!IsStarted)
+            {
+                DynamicObj.Start();
+                IsStarted = true;
+            }
             base.OnUpdate(elapseSeconds, realElapseSeconds);
             DynamicObj?.Update();
         }

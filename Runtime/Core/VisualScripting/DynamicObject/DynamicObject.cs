@@ -153,10 +153,45 @@ namespace Pangoo.Core.VisualScripting
             immersed = gameObject.GetComponent<IImmersed>();
 
 
-
             DoAwakeTriggerEvent();
             DoAwakeHotspot();
             DoAwakeSubDynamicObject();
+
+
+            if (Variables != null)
+            {
+                var transformValue = Variables.transformValue;
+                if (transformValue != null)
+                {
+                    CachedTransfrom.localPosition = transformValue.Value.Postion;
+                    CachedTransfrom.localRotation = Quaternion.Euler(transformValue.Value.Rotation);
+                    CachedTransfrom.localScale = transformValue.Value.Scale;
+                }
+
+                foreach (var kv in Variables.ChilernTransforms)
+                {
+                    var childTransform = CachedTransfrom.Find(kv.Key);
+                    if (childTransform != null)
+                    {
+                        childTransform.localPosition = kv.Value.Postion;
+                        childTransform.localRotation = Quaternion.Euler(kv.Value.Rotation);
+                        childTransform.localScale = kv.Value.Scale;
+                    }
+                }
+
+                foreach (var kv in Variables.TriggerEnabledDict)
+                {
+                    TriggerSetEnabled(kv.Key, kv.Value);
+
+                }
+
+                foreach (var kv in Variables.TriggerIndexDict)
+                {
+                    TriggerSetTargetIndex(kv.Key, kv.Value);
+                }
+            }
+            FindVideoPlayerSetCamera();
+
             Log($"Finish Awake m_Tracker:{m_Tracker}");
         }
 
@@ -256,39 +291,7 @@ namespace Pangoo.Core.VisualScripting
 
         protected override void DoStart()
         {
-            if (Variables != null)
-            {
-                var transformValue = Variables.transformValue;
-                if (transformValue != null)
-                {
-                    CachedTransfrom.localPosition = transformValue.Value.Postion;
-                    CachedTransfrom.localRotation = Quaternion.Euler(transformValue.Value.Rotation);
-                    CachedTransfrom.localScale = transformValue.Value.Scale;
-                }
 
-                foreach (var kv in Variables.ChilernTransforms)
-                {
-                    var childTransform = CachedTransfrom.Find(kv.Key);
-                    if (childTransform != null)
-                    {
-                        childTransform.localPosition = kv.Value.Postion;
-                        childTransform.localRotation = Quaternion.Euler(kv.Value.Rotation);
-                        childTransform.localScale = kv.Value.Scale;
-                    }
-                }
-
-                foreach (var kv in Variables.TriggerEnabledDict)
-                {
-                    TriggerSetEnabled(kv.Key, kv.Value);
-
-                }
-
-                foreach (var kv in Variables.TriggerIndexDict)
-                {
-                    TriggerSetTargetIndex(kv.Key, kv.Value);
-                }
-            }
-            FindVideoPlayerSetCamera();
 
             TriggerInovke(TriggerTypeEnum.OnStart);
         }
