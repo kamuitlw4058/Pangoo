@@ -28,6 +28,16 @@ namespace Pangoo.Core.Characters
 
         DriverCharacterController m_DriverCharacterController;
 
+        public override void SetDriverInfo(DriverInfo driverInfo)
+        {
+            switch (driverInfo.CharacterDriverTypeEnum)
+            {
+                case CharacterDriverTypeEnum.CharacterController:
+                    m_DriverCharacterController.UpdateControllerData(driverInfo);
+                    break;
+            }
+        }
+
         public override void RemoveService(CharacterDriverTypeEnum val)
         {
             CharacterBaseService service = null;

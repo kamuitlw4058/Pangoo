@@ -116,6 +116,10 @@ namespace Pangoo.Core.Characters
             m_CharacterCameraService.SetCameraOffset(offset);
         }
 
+        public void SetControllerData(DriverInfo driverInfo)
+        {
+            m_DriverService.SetDriverInfo(driverInfo);
+        }
 
         public Character(GameObject gameObject, bool onlyCamera = false) : base(gameObject)
         {
