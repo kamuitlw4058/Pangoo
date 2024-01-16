@@ -77,7 +77,7 @@ namespace Pangoo.Core.Characters
         {
             base.DrawGizmos(character);
 
-            Vector3 position = character.CachedTransfrom.TransformPoint(this.m_Offset);
+            Vector3 position = character.CachedTransfrom.TransformPoint(this.m_Offset) + character.CameraOffset;
 
             Gizmos.color = COLOR_GIZMOS;
             Gizmos.DrawCube(position, GIZMO_SIZE);
