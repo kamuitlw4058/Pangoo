@@ -28,11 +28,11 @@ namespace Pangoo.Core.Characters
 
 
             var distance = Vector3.Distance(
-                character.CachedTransfrom.TransformPoint(this.m_Offset),
+                character.CachedTransfrom.TransformPoint(this.m_Offset) + character.CameraOffset,
                 interactive.Position
             );
 
-            var direction = interactive.Position - character.CachedTransfrom.TransformPoint(this.m_Offset);
+            var direction = interactive.Position - character.CachedTransfrom.TransformPoint(this.m_Offset) + character.CameraOffset;
             Ray ray = new Ray(character.CachedTransfrom.TransformPoint(Vector3.zero) + character.CameraOffset, direction);
             RaycastHit[] hits = Physics.RaycastAll(ray, maxDistance: distance);
             if (hits != null && hits.Length > 0)
