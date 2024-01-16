@@ -33,7 +33,7 @@ namespace Pangoo.Core.Characters
             );
 
             var direction = interactive.Position - character.CachedTransfrom.TransformPoint(this.m_Offset);
-            Ray ray = new Ray(character.CachedTransfrom.TransformPoint(Vector3.zero), direction);
+            Ray ray = new Ray(character.CachedTransfrom.TransformPoint(Vector3.zero) + character.CameraOffset, direction);
             RaycastHit[] hits = Physics.RaycastAll(ray, maxDistance: distance);
             if (hits != null && hits.Length > 0)
             {
