@@ -72,6 +72,7 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("Targets")]
         [BoxGroup("目标配置")]
         [LabelText("目标列表")]
+        [ValueDropdown("PrefabPathDropdown")]
         public string Targets;
 
         [BoxGroup("目标配置")]
@@ -173,15 +174,19 @@ namespace Pangoo.Core.VisualScripting
         {
             return JsonMapper.ToObject<DirectInstructionGroup[]>(s);
         }
+
+        [JsonNoMember]
+        // [HideInInspector]
+        public GameObject Prefab;
 #if UNITY_EDITOR
 
-        public void UpdateUuidById()
+        public void SetPrefab(GameObject go)
         {
-            if (DirectInstructionList == null) return;
-            for (int i = 0; i < DirectInstructionList.Length; i++)
-            {
-                DirectInstructionList[i].UpdateUuidById();
-            }
+            Prefab = go;
+        }
+        IEnumerable PrefabPathDropdown()
+        {
+            return GameSupportEditorUtility.RefPrefabStringDropdown(Prefab);
         }
 
         public IEnumerable ConditionUuidValueDropdown()
