@@ -37,6 +37,18 @@ namespace Pangoo.MetaTable
 
         public string SubDynamicObject{ get; set; }
 
+        public float SlopeLimit{ get; set; }
+
+        public float StepOffset{ get; set; }
+
+        public float SkinWidth{ get; set; }
+
+        public float MinMoveDistance{ get; set; }
+
+        public Vector3 Center{ get; set; }
+
+        public float Radius{ get; set; }
+
     }
 }
 

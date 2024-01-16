@@ -116,7 +116,7 @@ namespace Pangoo.Core.Characters
             m_CharacterCameraService.SetCameraOffset(offset);
         }
 
-        public void SetControllerData(DriverInfo driverInfo)
+        public void SetDriverInfo(DriverInfo driverInfo)
         {
             m_DriverService.SetDriverInfo(driverInfo);
         }

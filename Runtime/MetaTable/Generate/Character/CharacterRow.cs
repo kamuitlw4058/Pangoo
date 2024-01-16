@@ -88,6 +88,48 @@ namespace Pangoo.MetaTable
 
         string ICharacterRow.SubDynamicObject {get => SubDynamicObject; set => SubDynamicObject = value;}
 
+        [JsonMember("SlopeLimit")]
+        [MetaTableRowColumn("SlopeLimit","float", "斜坡限制",14)]
+        [LabelText("斜坡限制")]
+        public float SlopeLimit ;
+
+        float ICharacterRow.SlopeLimit {get => SlopeLimit; set => SlopeLimit = value;}
+
+        [JsonMember("StepOffset")]
+        [MetaTableRowColumn("StepOffset","float", "步高限制",15)]
+        [LabelText("步高限制")]
+        public float StepOffset ;
+
+        float ICharacterRow.StepOffset {get => StepOffset; set => StepOffset = value;}
+
+        [JsonMember("SkinWidth")]
+        [MetaTableRowColumn("SkinWidth","float", "皮肤宽度",16)]
+        [LabelText("皮肤宽度")]
+        public float SkinWidth ;
+
+        float ICharacterRow.SkinWidth {get => SkinWidth; set => SkinWidth = value;}
+
+        [JsonMember("MinMoveDistance")]
+        [MetaTableRowColumn("MinMoveDistance","float", "最小移动距离",17)]
+        [LabelText("最小移动距离")]
+        public float MinMoveDistance ;
+
+        float ICharacterRow.MinMoveDistance {get => MinMoveDistance; set => MinMoveDistance = value;}
+
+        [JsonMember("Center")]
+        [MetaTableRowColumn("Center","Vector3", "中心",18)]
+        [LabelText("中心")]
+        public Vector3 Center ;
+
+        Vector3 ICharacterRow.Center {get => Center; set => Center = value;}
+
+        [JsonMember("Radius")]
+        [MetaTableRowColumn("Radius","float", "半径",19)]
+        [LabelText("半径")]
+        public float Radius ;
+
+        float ICharacterRow.Radius {get => Radius; set => Radius = value;}
+
     }
 }
 
