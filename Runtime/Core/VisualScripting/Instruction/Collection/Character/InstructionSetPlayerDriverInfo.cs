@@ -15,11 +15,9 @@ namespace Pangoo.Core.VisualScripting
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        public InstructionSetPlayerControllerDataParams ParamsRaw = new InstructionSetPlayerControllerDataParams();
+        public InstructionSetPlayerDriverInfoParams ParamsRaw = new InstructionSetPlayerDriverInfoParams();
 
         public override IParams Params => this.ParamsRaw;
-        
-        
         public override void RunImmediate(Args args)
         {
             if (args?.Main != null)

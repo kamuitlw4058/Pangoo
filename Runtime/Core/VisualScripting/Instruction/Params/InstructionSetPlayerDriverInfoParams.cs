@@ -10,14 +10,15 @@ using UnityEngine.Serialization;
 namespace Pangoo.Core.VisualScripting
 {
     [Serializable]
-    public class InstructionSetPlayerControllerDataParams : InstructionParams
+    public class InstructionSetPlayerDriverInfoParams : InstructionParams
     {
         [JsonMember("DriverInfo")]
         public DriverInfo DriverInfo;
         
         public override void Load(string val)
         {
-            var par = JsonMapper.ToObject<InstructionSetPlayerControllerDataParams>(val);
+            var par = JsonMapper.ToObject<InstructionSetPlayerDriverInfoParams>(val);
+            Debug.Log(par.DriverInfo.StepOffset);
             DriverInfo = par.DriverInfo;
         }
     }
