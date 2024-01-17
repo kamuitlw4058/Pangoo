@@ -26,14 +26,16 @@ namespace Pangoo.Core.Characters
             if (character == null) return float.MaxValue;
             if (interactive.InteractDisabled) return float.MaxValue;
 
+            var characterPoint = character.CachedTransfrom.TransformPoint(this.m_Offset) + character.CameraOffset;
+
 
             var distance = Vector3.Distance(
-                character.CachedTransfrom.TransformPoint(this.m_Offset) + character.CameraOffset,
+                characterPoint,
                 interactive.Position
             );
 
-            var direction = interactive.Position - character.CachedTransfrom.TransformPoint(this.m_Offset) + character.CameraOffset;
-            Ray ray = new Ray(character.CachedTransfrom.TransformPoint(Vector3.zero) + character.CameraOffset, direction);
+            var direction = interactive.Position - characterPoint;
+            Ray ray = new Ray(characterPoint, direction);
             RaycastHit[] hits = Physics.RaycastAll(ray, maxDistance: distance);
             if (hits != null && hits.Length > 0)
             {
