@@ -155,6 +155,16 @@ namespace Pangoo.MetaTable
         {
             for (int i = 0; i < m_DirectInstructionGroups.Length; i++)
             {
+                if (m_DirectInstructionGroups[i].Targets == null)
+                {
+                    m_DirectInstructionGroups[i].Targets = new string[0];
+                }
+
+                if (m_DirectInstructionGroups[i].StringTargets == null)
+                {
+                    m_DirectInstructionGroups[i].StringTargets = new string[0];
+                }
+
                 if (m_DirectInstructionGroups[i].Uuid.IsNullOrWhiteSpace())
                 {
                     m_DirectInstructionGroups[i].Uuid = UuidUtility.GetNewUuid();

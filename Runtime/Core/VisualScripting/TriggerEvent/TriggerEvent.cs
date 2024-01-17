@@ -69,6 +69,7 @@ namespace Pangoo.Core.VisualScripting
         [ShowInInspector]
         public string CurrentTargetPath { get; set; }
 
+        [ShowInInspector]
         public TriggerTargetListProcessTypeEnum TargetType
         {
             get
@@ -197,6 +198,15 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
+        public void LogError(string message)
+        {
+            if (TriggerType != TriggerTypeEnum.OnUpdate)
+            {
+                dynamicObject?.LogError($"T[{Row.UuidShort}]{message}");
+            }
+        }
+
+
 
 
         public virtual void OnAwake()
@@ -216,6 +226,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 TargetIndex = TargetIndex % Targets.Length;
                 CurrentTargetPath = Targets[TargetIndex];
+                Log($"Run Conditon: TargetIndex:{TargetIndex} CurrentTargetPath:{CurrentTargetPath}");
                 if (CurrentTargetPath == SelfStr)
                 {
                     invokeArgs.ChangeTarget(Parent, path: CurrentTargetPath, index: TargetIndex);
@@ -242,15 +253,8 @@ namespace Pangoo.Core.VisualScripting
                             Enabled = false;
                         }
                         break;
-                    case TriggerTargetListProcessTypeEnum.Loop:
-                        if (TargetIndex >= Targets.Length)
-                        {
-                            TargetIndex = 0;
-                        }
-                        break;
                 }
 
-                // }
             }
 
             switch (ConditionType)
@@ -271,6 +275,10 @@ namespace Pangoo.Core.VisualScripting
                     break;
 
             }
+
+
+
+
         }
 
         void OnRunInstructionsStart()
@@ -298,6 +306,14 @@ namespace Pangoo.Core.VisualScripting
                 instructionList.EventEndRunning += OnRunInstructionsEnd;
 
                 instructionList.Start(args);
+            }
+            else
+            {
+                if (TriggerType == TriggerTypeEnum.OnInteract)
+                {
+                    OnRunInstructionsEnd();
+                }
+                LogError($"Invaild State on invoke:{state}");
             }
 
         }

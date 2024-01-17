@@ -68,12 +68,25 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("IntVariableUuid")]
         public string IntVariableUuid;
 
+        [JsonMember("UseStringTarget")]
+        [BoxGroup("目标配置")]
+        [LabelText("使用字符串目标")]
+        public bool UseStringTarget;
+
 
         [JsonMember("Targets")]
         [BoxGroup("目标配置")]
         [LabelText("目标列表")]
         [ValueDropdown("PrefabPathDropdown")]
-        public string Targets;
+        [ShowIf("@!this.UseStringTarget")]
+        public string[] Targets;
+
+
+        [JsonMember("StringTargets")]
+        [BoxGroup("目标配置")]
+        [LabelText("目标字符串列表")]
+        [ShowIf("@this.UseStringTarget")]
+        public string[] StringTargets;
 
         [BoxGroup("目标配置")]
         [JsonMember("TargetProcessType")]

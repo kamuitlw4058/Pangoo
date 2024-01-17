@@ -85,7 +85,15 @@ namespace Pangoo.Core.VisualScripting
             row.Params = "{}";
             row.Uuid = directInstructionGroup.Uuid;
             row.Enabled = directInstructionGroup.InitEnabled;
-            row.Targets = directInstructionGroup.Targets;
+            if (directInstructionGroup.UseStringTarget)
+            {
+                row.Targets = directInstructionGroup.StringTargets.ToListString();
+            }
+            else
+            {
+                row.Targets = directInstructionGroup.Targets.ToListString();
+            }
+
             row.TargetListType = (int)directInstructionGroup.TargetProcessType;
             row.TriggerType = directInstructionGroup.TriggerType.ToString();
             row.ConditionType = directInstructionGroup.ConditionType.ToString();
