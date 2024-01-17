@@ -301,7 +301,31 @@ namespace Pangoo.Core.VisualScripting
             base.DoUpdate();
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
+                TriggerInovke(TriggerTypeEnum.OnMouseLeftDown);
+            }
+
+            if (Mouse.current.leftButton.wasReleasedThisFrame)
+            {
+                TriggerInovke(TriggerTypeEnum.OnMouseLeftUp);
+            }
+            
+            if (Mouse.current.leftButton.isPressed)
+            {
                 TriggerInovke(TriggerTypeEnum.OnMouseLeft);
+            }
+            
+            if (Mouse.current.rightButton.isPressed)
+            {
+                TriggerInovke(TriggerTypeEnum.OnMouseRight);
+            }
+            
+            if (Mouse.current.rightButton.wasPressedThisFrame)
+            {
+                TriggerInovke(TriggerTypeEnum.OnMouseRightDown);
+            }
+            if (Mouse.current.rightButton.wasReleasedThisFrame)
+            {
+                TriggerInovke(TriggerTypeEnum.OnMouseRightUp);
             }
 
             if (Input.GetKey(KeyCode.Escape))

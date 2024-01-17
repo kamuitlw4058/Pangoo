@@ -23,7 +23,7 @@ namespace Pangoo.Core.VisualScripting
             if (args?.Main != null)
             {
                 EntityCharacter player = args?.Main?.CharacterService.Player;
-                player.character.SetControllerData(ParamsRaw.DriverInfo);
+                player.character.SetDriverInfo(ParamsRaw.DriverInfo);
             }
 
         }

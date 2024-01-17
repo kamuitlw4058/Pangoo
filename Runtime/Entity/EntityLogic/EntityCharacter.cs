@@ -87,6 +87,18 @@ namespace Pangoo
             character.Awake();
             character.Start();
             character.ResetCameraDirection();
+
+            DriverInfo driverInfo = new DriverInfo
+            {
+                SlopeLimit = EntityData.InfoRow.m_CharacterRow.SlopeLimit,
+                StepOffset = EntityData.InfoRow.m_CharacterRow.StepOffset,
+                SkinWidth =EntityData.InfoRow.m_CharacterRow.SkinWidth,
+                MinMoveDistance =EntityData.InfoRow.m_CharacterRow.MinMoveDistance,
+                Center = EntityData.InfoRow.m_CharacterRow.Center,
+                Radius = EntityData.InfoRow.m_CharacterRow.Radius,
+                Height = EntityData.InfoRow.m_CharacterRow.Height,
+            };
+            character.SetDriverInfo(driverInfo);
         }
 
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
