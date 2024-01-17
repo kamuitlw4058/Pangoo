@@ -108,7 +108,15 @@ namespace Pangoo
             DynamicObj.Entity = this;
             DynamicObj.Awake();
             IsStarted = false;
-
+#if USE_HDRP
+            var PlanarProbes = GetComponentsInChildren<PlanarReflectionProbe>();
+            foreach (var probe in PlanarProbes)
+            {
+                probe.settingsRaw.cameraSettings.customRenderingSettings = true;
+                probe.frameSettingsOverrideMask.mask[(int)FrameSettingsField.ShadowMaps] = true;
+                probe.frameSettings.SetEnabled(FrameSettingsField.ShadowMaps, false);
+            }
+#endif
         }
 
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)

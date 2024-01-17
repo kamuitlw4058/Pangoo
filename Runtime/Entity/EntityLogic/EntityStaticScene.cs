@@ -45,7 +45,10 @@ namespace Pangoo
 
             foreach (var probe in PlanarProbes)
             {
-                probe.enabled = val;
+                probe.settingsRaw.cameraSettings.customRenderingSettings = true;
+                probe.frameSettingsOverrideMask.mask[(int)FrameSettingsField.ShadowMaps] = true;
+                probe.frameSettings.SetEnabled(FrameSettingsField.ShadowMaps, false);
+                // probe.enabled = val;
             }
         }
 
