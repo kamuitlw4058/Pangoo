@@ -6,41 +6,61 @@ using Pangoo.MetaTable;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
+public enum QueryTriggerInteractionType
+{
+    [LabelText("只检测Collider")]
+    Ignore,
+    [LabelText("检测Collider和Trigger")]
+    Collider,
+    [LabelText("使用Unity项目设置")]
+    UseGlobal
+}
+
 public class MouseImmersed : BaseImmersed
 {
-    public bool UseMouseLeftEvent;
-    
-    [ShowIf("UseMouseLeftEvent")]
-    [ValueDropdown("TriggerUuidDropDown")]
-    public string MouseLeftDownTriggerUUid;
-    [ShowIf("UseMouseLeftEvent")]
-    [ValueDropdown("TriggerUuidDropDown")]
-    public string MouseLeftPressedTriggerUuid;
-    [ShowIf("UseMouseLeftEvent")]
-    [ValueDropdown("TriggerUuidDropDown")]
-    public string MouseLeftUpTriggerUuid;
+    public bool UseMouseLeftEvent=true;
 
     public bool UseMouseRightEvent;
-    
-    [ShowIf("UseMouseRightEvent")]
-    [ValueDropdown("TriggerUuidDropDown")]
-    public string MouseRightDownTriggerUUid;
-    [ShowIf("UseMouseRightEvent")]
-    [ValueDropdown("TriggerUuidDropDown")]
-    public string MouseRightPressedTriggerUuid;
-    [ShowIf("UseMouseRightEvent")]
-    [ValueDropdown("TriggerUuidDropDown")]
-    public string MouseRightUpTriggerUuid;
 
     protected Ray ray;
     protected RaycastHit hit;
+    protected float RayLength=100f;
     public LayerMask layerMask;
-    public QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.Ignore;
+
+
+    private QueryTriggerInteractionType m_QueryTriggerInteractionType;
+    [LabelText("设置射线检测条件")]
+    [ShowInInspector]
+    public QueryTriggerInteractionType QueryTriggerInteractionType
+    {
+        get => m_QueryTriggerInteractionType;
+        set
+        {
+            switch (value)
+            {
+                case QueryTriggerInteractionType.Ignore:
+                    queryTriggerInteraction = QueryTriggerInteraction.Ignore;
+                    break;
+                case QueryTriggerInteractionType.Collider:
+                    queryTriggerInteraction = QueryTriggerInteraction.Collide;
+                    break;
+                case QueryTriggerInteractionType.UseGlobal:
+                    queryTriggerInteraction = QueryTriggerInteraction.UseGlobal;
+                    break;
+            }
+
+            m_QueryTriggerInteractionType=value;
+        }
+    }
+
+    [ShowInInspector]
+    protected QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.Ignore;
 
     protected bool isOnlyTarget;
-    protected Collider TargetCollider;
     [ReadOnly]
-    protected Collider HitCollider;
+    public Collider TargetCollider;
+    [ReadOnly]
+    public Collider HitCollider;
     [ReadOnly]
     public bool isDragTarget;
     
@@ -48,13 +68,6 @@ public class MouseImmersed : BaseImmersed
     {
         if (IsRunning)
         {
-            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                
-            if (Physics.Raycast(ray, out hit, 100, layerMask, queryTriggerInteraction))
-            {
-                HitCollider = hit.collider;
-            }
-
             if (UseMouseLeftEvent)
             {
                 if (Input.GetMouseButtonDown(0))
@@ -95,6 +108,20 @@ public class MouseImmersed : BaseImmersed
 
     public virtual void OnMouseLeftDownConditionAction()
     {
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        
+        if (Physics.Raycast(ray, out hit, RayLength, layerMask, queryTriggerInteraction))
+        {
+            if (hit.collider!=null)
+            {
+                HitCollider = hit.collider;
+            }
+            else
+            {
+                HitCollider = null;
+            }
+        }
+        
         if (isOnlyTarget && HitCollider == TargetCollider)
         {
             OnMouseLeftDownEvent();
@@ -116,28 +143,20 @@ public class MouseImmersed : BaseImmersed
 
     public virtual void OnMouseLeftDownEvent()
     {
-        if (MouseLeftDownTriggerUUid!=null)
-        {
-            Debug.Log("鼠标左键按下");
-            Debug.Log("dy:"+dynamicObject);
-            dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseLeftDown);
-        }
+        Debug.Log("鼠标左键按下");
+        Debug.Log("dy:"+dynamicObject);
+        dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseLeftDown);
     }
 
     public virtual void OnMouseLeftPressedEvent()
     {
-        if (MouseLeftPressedTriggerUuid!=null)
-        {
-            dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseLeft);
-        }
+        dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseLeft);
     }
 
     public virtual void OnMouseLeftUpEvent()
     {
-        if (MouseLeftUpTriggerUuid!=null)
-        {
-            dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseLeftUp);
-        }
+        HitCollider = null;
+        dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseLeftUp);
     }
 
     #endregion
@@ -161,48 +180,18 @@ public class MouseImmersed : BaseImmersed
 
     public virtual void OnMouseRightDownEvent()
     {
-        if (MouseLeftDownTriggerUUid!=null)
-        {
-            dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseRightDown,MouseRightDownTriggerUUid);
-        }
+        dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseRightDown);
     }
 
     public virtual void OnMouseRightPressedEvent()
     {
-        if (MouseLeftPressedTriggerUuid!=null)
-        {
-            dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseRight,MouseRightPressedTriggerUuid);
-        }
+        dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseRight);
     }
 
     public virtual void OnMouseRightUpEvent()
     {
-        if (MouseLeftUpTriggerUuid!=null)
-        {
-            dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseRightUp,MouseRightUpTriggerUuid);
-        }
+        dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseRightUp);
     }
 
     #endregion
-
-    [Button("清空UUID赋值")]
-    public void ClearAllUuid()
-    {
-        MouseLeftDownTriggerUUid = String.Empty;
-        MouseLeftPressedTriggerUuid = String.Empty;
-        MouseLeftUpTriggerUuid = String.Empty;
-
-        MouseRightDownTriggerUUid = String.Empty;
-        MouseRightPressedTriggerUuid=String.Empty;
-        MouseRightUpTriggerUuid=String.Empty;
-    }
-
-    
-    
-#if UNITY_EDITOR
-    IEnumerable TriggerUuidDropDown()
-    {
-        return TriggerEventOverview.GetUuidDropdown();
-    }
-#endif
 }
