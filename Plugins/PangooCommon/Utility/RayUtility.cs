@@ -13,45 +13,26 @@ namespace Pangoo.Common
         [LabelText("使用Unity项目设置")]
         UseGlobal
     }
-    [System.Serializable]
-    public class RayUtility
+    public static class RayUtility
     {
-        public Ray ray;
-        public RaycastHit hit;
-        public float rayLength=100f;
-        public LayerMask layerMask;
-
-
-        private QueryTriggerInteractionType m_QueryTriggerInteractionType;
-        [LabelText("设置射线检测条件")]
-        [ShowInInspector]
-        public QueryTriggerInteractionType QueryTriggerInteractionType
+        public static QueryTriggerInteraction ToQueryTriggerInteraction(QueryTriggerInteractionType type)
         {
-            get => m_QueryTriggerInteractionType;
-            set
+            QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.Ignore;
+            switch (type)
             {
-                switch (value)
-                {
-                    case QueryTriggerInteractionType.Ignore:
-                        queryTriggerInteraction = QueryTriggerInteraction.Ignore;
-                        break;
-                    case QueryTriggerInteractionType.Collider:
-                        queryTriggerInteraction = QueryTriggerInteraction.Collide;
-                        break;
-                    case QueryTriggerInteractionType.UseGlobal:
-                        queryTriggerInteraction = QueryTriggerInteraction.UseGlobal;
-                        break;
-                }
-
-                m_QueryTriggerInteractionType=value;
+                case QueryTriggerInteractionType.Ignore:
+                    queryTriggerInteraction = QueryTriggerInteraction.Ignore;
+                    break;
+                case QueryTriggerInteractionType.Collider:
+                    queryTriggerInteraction = QueryTriggerInteraction.Collide;
+                    break;
+                case QueryTriggerInteractionType.UseGlobal:
+                    queryTriggerInteraction = QueryTriggerInteraction.UseGlobal;
+                    break;
             }
+
+            return queryTriggerInteraction;
         }
-        [ReadOnly]
-        public QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.Ignore;
-        [ReadOnly]
-        public Collider TargetCollider;
-        [ReadOnly]
-        public Collider HitCollider;
     }
     
 }

@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Pangoo.Common;
 using Pangoo.Core.VisualScripting;
+using Plugins.Pangoo.Plugins.PangooCommon.Helper;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -17,7 +17,7 @@ public class MouseImmersed : BaseImmersed
 
     protected bool isOnlyTarget;
     
-    public RayUtility rayUtility = new RayUtility();
+    public RayHelper rayHelper = new RayHelper();
     
     public override void OnUpdate()
     {
@@ -61,18 +61,18 @@ public class MouseImmersed : BaseImmersed
 
     public void DivergentRay()
     {
-        rayUtility.ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        rayHelper.ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(rayUtility.ray, out rayUtility.hit, rayUtility.rayLength, rayUtility.layerMask,
-                rayUtility.queryTriggerInteraction))
+        if (Physics.Raycast(rayHelper.ray, out rayHelper.hit, rayHelper.rayLength, rayHelper.layerMask,
+                rayHelper.queryTriggerInteraction))
         {
-            if (rayUtility.hit.collider != null)
+            if (rayHelper.hit.collider != null)
             {
-                rayUtility.HitCollider = rayUtility.hit.collider;
+                rayHelper.HitCollider = rayHelper.hit.collider;
             }
             else
             {
-                rayUtility.HitCollider = null;
+                rayHelper.HitCollider = null;
             }
         }
     }
@@ -83,7 +83,7 @@ public class MouseImmersed : BaseImmersed
     {
         DivergentRay();
 
-        if (isOnlyTarget && rayUtility.HitCollider == rayUtility.TargetCollider)
+        if (isOnlyTarget && rayHelper.HitCollider == rayHelper.TargetCollider)
         {
             OnMouseLeftDownEvent();
         }
@@ -118,7 +118,7 @@ public class MouseImmersed : BaseImmersed
 
     public virtual void OnMouseLeftUpEvent()
     {
-        rayUtility.HitCollider = null;
+        rayHelper.HitCollider = null;
         dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseLeftUp);
     }
 
