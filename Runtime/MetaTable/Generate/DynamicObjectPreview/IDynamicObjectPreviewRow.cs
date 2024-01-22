@@ -33,6 +33,8 @@ namespace Pangoo.MetaTable
 
         public string PreviewInteractKeyCodes{ get; set; }
 
+        public string Params{ get; set; }
+
     }
 }
 

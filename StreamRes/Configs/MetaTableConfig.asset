@@ -592,6 +592,9 @@ MonoBehaviour:
     - Name: PreviewInteractKeyCodes
       Type: string
       CnName: "\u9884\u89C8\u5185\u4EA4\u4E92\u6309\u952E\u5217\u8868"
+    - Name: Params
+      Type: string
+      CnName: "\u53C3\u6578"
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Dialogue

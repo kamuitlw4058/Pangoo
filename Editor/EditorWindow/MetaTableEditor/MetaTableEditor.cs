@@ -91,6 +91,13 @@ namespace Pangoo.Editor
             tree.Config.DrawSearchToolbar = true;
             tree.Config.AutoScrollOnSelectionChanged = false;
 
+            var config = AssetDatabaseUtility.FindAssetFirst<GameMainConfig>();
+            if (config != null)
+            {
+                tree.Add("游戏配置", config);
+            }
+
+
             InitOverviewWrapper<AssetGroupOverviewWrapper, AssetGroupOverview, AssetGroupDetailRowWrapper, AssetGroupRowWrapper, AssetGroupNewRowWrapper, UnityAssetGroupRow>(tree, null, "资源组");
 
             InitOverviewWrapper<AssetPathOverviewWrapper, Pangoo.MetaTable.AssetPathOverview, Pangoo.MetaTable.AssetPathDetailRowWrapper, Pangoo.MetaTable.AssetPathRowWrapper, Pangoo.MetaTable.AssetPathNewRowWrapper, UnityAssetPathRow>(tree, null, "资源路径");

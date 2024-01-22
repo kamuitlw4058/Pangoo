@@ -180,42 +180,42 @@ namespace Pangoo.MetaTable
         }
 
 
-        [Button("更新AssetPathUuid通过Id")]
-        public void UpdateAssetPathUuidByAssetPathId()
-        {
-            var row = GameSupportEditorUtility.GetAssetPathById(AssetPathId);
-            if (row != null)
-            {
-                AssetPathUuid = row.Uuid;
-            }
+        // [Button("更新AssetPathUuid通过Id")]
+        // public void UpdateAssetPathUuidByAssetPathId()
+        // {
+        //     var row = GameSupportEditorUtility.GetAssetPathById(AssetPathId);
+        //     if (row != null)
+        //     {
+        //         AssetPathUuid = row.Uuid;
+        //     }
 
-            List<string> triggerUuids = new List<string>();
+        //     List<string> triggerUuids = new List<string>();
 
-            foreach (var triggerId in TriggerIds)
-            {
+        //     foreach (var triggerId in TriggerIds)
+        //     {
 
-                var triggerRow = GameSupportEditorUtility.GetTriggerEventById(triggerId);
-                if (triggerRow != null)
-                {
-                    triggerUuids.Add(triggerRow.Uuid);
-                }
-            }
-            TriggerEventUuids = triggerUuids.ToArray();
+        //         var triggerRow = GameSupportEditorUtility.GetTriggerEventById(triggerId);
+        //         if (triggerRow != null)
+        //         {
+        //             triggerUuids.Add(triggerRow.Uuid);
+        //         }
+        //     }
+        //     TriggerEventUuids = triggerUuids.ToArray();
 
 
-            List<string> hotSpotUuids = new List<string>();
-            foreach (var hotspotId in HotspotIds)
-            {
+        //     List<string> hotSpotUuids = new List<string>();
+        //     foreach (var hotspotId in HotspotIds)
+        //     {
 
-                var hotspotRow = GameSupportEditorUtility.GetHotspotById(hotspotId);
-                if (hotspotRow != null)
-                {
-                    hotSpotUuids.Add(hotspotRow.Uuid);
-                }
-            }
-            HotspotUuids = hotSpotUuids.ToArray();
+        //         var hotspotRow = GameSupportEditorUtility.GetHotspotById(hotspotId);
+        //         if (hotspotRow != null)
+        //         {
+        //             hotSpotUuids.Add(hotspotRow.Uuid);
+        //         }
+        //     }
+        //     HotspotUuids = hotSpotUuids.ToArray();
 
-        }
+        // }
 
     }
 }

@@ -20,6 +20,20 @@ namespace Pangoo.Core.VisualScripting
 
         public IDynamicObjectPreviewRow PreviewRow;
 
+        UIPreviewParams m_Params;
+        public UIPreviewParams Params
+        {
+            get
+            {
+                if (m_Params == null)
+                {
+                    m_Params = new UIPreviewParams();
+                    m_Params.Load(PreviewRow.Params);
+                }
+                return m_Params;
+            }
+        }
+
         public Vector3 CurrentPosition
         {
             get
@@ -42,6 +56,11 @@ namespace Pangoo.Core.VisualScripting
             {
                 DynamicObject.CachedTransfrom.localRotation = Quaternion.Euler(value);
             }
+        }
+
+        public void Rotate(Vector3 axis, float angle, Space space)
+        {
+            DynamicObject.CachedTransfrom.Rotate(axis, angle, space);
         }
 
         public Vector3 CurrentScale

@@ -74,6 +74,13 @@ namespace Pangoo.MetaTable
 
         string IDynamicObjectPreviewRow.PreviewInteractKeyCodes {get => PreviewInteractKeyCodes; set => PreviewInteractKeyCodes = value;}
 
+        [JsonMember("Params")]
+        [MetaTableRowColumn("Params","string", "參數",9)]
+        [LabelText("參數")]
+        public string Params ;
+
+        string IDynamicObjectPreviewRow.Params {get => Params; set => Params = value;}
+
     }
 }
 
