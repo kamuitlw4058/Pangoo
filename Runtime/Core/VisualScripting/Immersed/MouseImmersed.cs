@@ -108,18 +108,18 @@ public class MouseImmersed : BaseImmersed
     {
         Debug.Log("鼠标左键按下");
         Debug.Log("dy:"+dynamicObject);
-        dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseLeftDown);
+        dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseImmersedLeftDown);
     }
 
     public virtual void OnMouseLeftPressedEvent()
     {
-        dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseLeft);
+        dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseImmersedLeft);
     }
 
     public virtual void OnMouseLeftUpEvent()
     {
         rayHelper.HitCollider = null;
-        dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseLeftUp);
+        dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseImmersedLeftUp);
     }
 
     #endregion
@@ -143,17 +143,17 @@ public class MouseImmersed : BaseImmersed
 
     public virtual void OnMouseRightDownEvent()
     {
-        dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseRightDown);
+        dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseImmersedRightDown);
     }
 
     public virtual void OnMouseRightPressedEvent()
     {
-        dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseRight);
+        dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseImmersedRight);
     }
 
     public virtual void OnMouseRightUpEvent()
     {
-        dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseRightUp);
+        dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseImmersedRightUp);
     }
 
     #endregion
