@@ -6,16 +6,6 @@ using Pangoo.Core.VisualScripting;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public enum QueryTriggerInteractionType
-{
-    [LabelText("只检测Collider")]
-    Ignore,
-    [LabelText("检测Collider和Trigger")]
-    Collider,
-    [LabelText("使用Unity项目设置")]
-    UseGlobal
-}
-
 public class MouseImmersed : BaseImmersed
 {
     public bool UseMouseLeftEvent=true;
