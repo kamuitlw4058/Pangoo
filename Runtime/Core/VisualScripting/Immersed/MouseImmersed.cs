@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Pangoo.Common;
 using Pangoo.Core.VisualScripting;
-using Pangoo.MetaTable;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -21,48 +21,13 @@ public class MouseImmersed : BaseImmersed
     public bool UseMouseLeftEvent=true;
 
     public bool UseMouseRightEvent;
-
-    protected Ray ray;
-    protected RaycastHit hit;
-    protected float RayLength=100f;
-    public LayerMask layerMask;
-
-
-    private QueryTriggerInteractionType m_QueryTriggerInteractionType;
-    [LabelText("设置射线检测条件")]
-    [ShowInInspector]
-    public QueryTriggerInteractionType QueryTriggerInteractionType
-    {
-        get => m_QueryTriggerInteractionType;
-        set
-        {
-            switch (value)
-            {
-                case QueryTriggerInteractionType.Ignore:
-                    queryTriggerInteraction = QueryTriggerInteraction.Ignore;
-                    break;
-                case QueryTriggerInteractionType.Collider:
-                    queryTriggerInteraction = QueryTriggerInteraction.Collide;
-                    break;
-                case QueryTriggerInteractionType.UseGlobal:
-                    queryTriggerInteraction = QueryTriggerInteraction.UseGlobal;
-                    break;
-            }
-
-            m_QueryTriggerInteractionType=value;
-        }
-    }
-
-    [ShowInInspector]
-    protected QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.Ignore;
-
-    protected bool isOnlyTarget;
-    [ReadOnly]
-    public Collider TargetCollider;
-    [ReadOnly]
-    public Collider HitCollider;
+    
     [ReadOnly]
     public bool isDragTarget;
+
+    protected bool isOnlyTarget;
+    
+    public RayUtility rayUtility = new RayUtility();
     
     public override void OnUpdate()
     {
@@ -104,29 +69,37 @@ public class MouseImmersed : BaseImmersed
         
     }
 
+    public void DivergentRay()
+    {
+        rayUtility.ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(rayUtility.ray, out rayUtility.hit, rayUtility.rayLength, rayUtility.layerMask,
+                rayUtility.queryTriggerInteraction))
+        {
+            if (rayUtility.hit.collider != null)
+            {
+                rayUtility.HitCollider = rayUtility.hit.collider;
+            }
+            else
+            {
+                rayUtility.HitCollider = null;
+            }
+        }
+    }
+    
     #region MouseLeft
 
     public virtual void OnMouseLeftDownConditionAction()
     {
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        
-        if (Physics.Raycast(ray, out hit, RayLength, layerMask, queryTriggerInteraction))
-        {
-            if (hit.collider!=null)
-            {
-                HitCollider = hit.collider;
-            }
-            else
-            {
-                HitCollider = null;
-            }
-        }
-        
-        if (isOnlyTarget && HitCollider == TargetCollider)
+        DivergentRay();
+
+        if (isOnlyTarget && rayUtility.HitCollider == rayUtility.TargetCollider)
         {
             OnMouseLeftDownEvent();
         }
     }
+
+    
 
     public virtual void OnMouseLeftPressedConditionAction()
     {
@@ -155,7 +128,7 @@ public class MouseImmersed : BaseImmersed
 
     public virtual void OnMouseLeftUpEvent()
     {
-        HitCollider = null;
+        rayUtility.HitCollider = null;
         dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseLeftUp);
     }
 
