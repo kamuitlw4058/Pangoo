@@ -247,9 +247,12 @@ MonoBehaviour:
     - Name: HotspotUuids
       Type: string
       CnName: HotspotUuids
-    - Name: Id
-      Type: int
-      CnName: Id
+    - Name: PreviewName
+      Type: string
+      CnName: "\u9884\u89C8\u540D\u5B57"
+    - Name: PreviewDesc
+      Type: string
+      CnName: "\u9884\u89C8\u63CF\u8FF0"
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: EntityGroup

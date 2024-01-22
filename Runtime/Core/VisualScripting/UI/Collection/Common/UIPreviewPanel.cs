@@ -35,6 +35,13 @@ namespace Pangoo.Core.VisualScripting
 
         public TextMeshProUGUI m_Text;
 
+        public TextMeshProUGUI m_NameText;
+
+        public TextMeshProUGUI m_DescText;
+
+
+
+
 
         public PreviewData PreviewData;
 
@@ -145,11 +152,23 @@ namespace Pangoo.Core.VisualScripting
             if (PreviewData == null) return;
 
             m_Text = GetComponentInChildren<TextMeshProUGUI>();
+            m_NameText = transform.Find("Name").GetComponent<TextMeshProUGUI>();
+            m_DescText = transform.Find("Desc").GetComponent<TextMeshProUGUI>();
+
             MainCamera = GameObject.FindWithTag("MainCamera")?.GetComponent<Camera>();
 
             PreviewData.args.Main.CharacterService.SetPlayerControllable(false);
 
             m_Text.text = PreviewData.PreviewRow.Title;
+            if (m_NameText != null)
+            {
+                m_NameText.text = PreviewData.Name;
+            }
+
+            if (m_DescText != null)
+            {
+                m_DescText.text = PreviewData.Desc;
+            }
             DragFactorX = PreviewData.Params.DragFactorX;
             DragFactorY = PreviewData.Params.DragFactorY;
 

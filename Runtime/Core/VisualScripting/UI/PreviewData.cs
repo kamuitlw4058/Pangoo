@@ -34,6 +34,24 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
+        public string Name
+        {
+            get
+            {
+                return DynamicObject.Row.PreviewName;
+            }
+        }
+
+
+        public string Desc
+        {
+            get
+            {
+                return DynamicObject.Row.PreviewDesc;
+            }
+        }
+
+
         public Vector3 CurrentPosition
         {
             get
