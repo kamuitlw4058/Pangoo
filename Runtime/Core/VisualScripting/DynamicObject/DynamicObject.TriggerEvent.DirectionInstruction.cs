@@ -74,11 +74,27 @@ namespace Pangoo.Core.VisualScripting
             ITriggerEventRow row = new Pangoo.MetaTable.TriggerEventRow();
 
             row.Uuid = UuidUtility.GetNewUuid();
-            row.Name = $"DI_{row.TriggerType}_{directInstructionGroup.Uuid.ToShortUuid()}";
+            if (!directInstructionGroup.Name.IsNullOrWhiteSpace())
+            {
+                row.Name = directInstructionGroup.Name;
+            }
+            else
+            {
+                row.Name = $"DI_{row.TriggerType}_{directInstructionGroup.Uuid.ToShortUuid()}";
+            }
             row.Params = "{}";
             row.Uuid = directInstructionGroup.Uuid;
-            row.Targets = string.Empty;
             row.Enabled = directInstructionGroup.InitEnabled;
+            if (directInstructionGroup.UseStringTarget)
+            {
+                row.Targets = directInstructionGroup.StringTargets.ToListString();
+            }
+            else
+            {
+                row.Targets = directInstructionGroup.Targets.ToListString();
+            }
+
+            row.TargetListType = (int)directInstructionGroup.TargetProcessType;
             row.TriggerType = directInstructionGroup.TriggerType.ToString();
             row.ConditionType = directInstructionGroup.ConditionType.ToString();
 

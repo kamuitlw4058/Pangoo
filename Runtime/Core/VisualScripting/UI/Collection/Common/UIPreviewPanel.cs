@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityGameFramework.Runtime;
 using Sirenix.OdinInspector;
 using TMPro;
@@ -8,12 +9,14 @@ using GameFramework.Event;
 using Pangoo.Core.Common;
 using Pangoo.Common;
 using System.Linq;
+using System.Runtime.InteropServices;
+
 
 namespace Pangoo.Core.VisualScripting
 {
     [Category("通用/预览")]
 
-    public class UIPreviewPanel : UIPanel
+    public class UIPreviewPanel : UIPanel, IDragHandler
     {
         public enum PreviewState
         {
@@ -26,11 +29,18 @@ namespace Pangoo.Core.VisualScripting
         }
 
 
-        public UISubtitleParams ParamsRaw = new UISubtitleParams();
+        public UIPreviewParams ParamsRaw = new UIPreviewParams();
 
         protected override IParams Params => ParamsRaw;
 
         public TextMeshProUGUI m_Text;
+
+        public TextMeshProUGUI m_NameText;
+
+        public TextMeshProUGUI m_DescText;
+
+
+
 
 
         public PreviewData PreviewData;
@@ -99,6 +109,39 @@ namespace Pangoo.Core.VisualScripting
 
         }
 
+        bool m_CursorVisible;
+        CursorLockMode m_CursorLockState;
+
+        [ShowInInspector]
+        public bool CursorVisible
+        {
+            get
+            {
+                return Cursor.visible;
+            }
+            set
+            {
+                Cursor.visible = value;
+            }
+        }
+
+        [ShowInInspector]
+
+        public CursorLockMode CursorLockState
+        {
+            get
+            {
+                return Cursor.lockState;
+            }
+            set
+            {
+                Cursor.lockState = value;
+            }
+        }
+
+        public float DragFactorX = 1;
+        public float DragFactorY = 1;
+
 
 
         protected override void OnOpen(object userData)
@@ -109,13 +152,44 @@ namespace Pangoo.Core.VisualScripting
             if (PreviewData == null) return;
 
             m_Text = GetComponentInChildren<TextMeshProUGUI>();
+            m_NameText = transform.Find("Name").GetComponent<TextMeshProUGUI>();
+            m_DescText = transform.Find("Desc").GetComponent<TextMeshProUGUI>();
+
             MainCamera = GameObject.FindWithTag("MainCamera")?.GetComponent<Camera>();
 
             PreviewData.args.Main.CharacterService.SetPlayerControllable(false);
 
             m_Text.text = PreviewData.PreviewRow.Title;
+            if (m_NameText != null)
+            {
+                m_NameText.text = PreviewData.Name;
+            }
+
+            if (m_DescText != null)
+            {
+                m_DescText.text = PreviewData.Desc;
+            }
+            DragFactorX = PreviewData.Params.DragFactorX;
+            DragFactorY = PreviewData.Params.DragFactorY;
+
+            SetupCursor();
+
             State = PreviewState.OnShow;
 
+        }
+
+        void SetupCursor()
+        {
+            m_CursorVisible = Cursor.visible;
+            m_CursorLockState = Cursor.lockState;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Confined;
+        }
+
+        public void RecoverCursor()
+        {
+            Cursor.visible = m_CursorVisible;
+            Cursor.lockState = m_CursorLockState;
         }
 
 
@@ -189,6 +263,7 @@ namespace Pangoo.Core.VisualScripting
                         var isCloseImmediately = PreviewData.DynamicObject.GetVariable<bool>(variableUuid);
                         if (isCloseImmediately)
                         {
+                            RecoverCursor();
                             Debug.Log($"立即退出 预览:{isCloseImmediately} :{variableUuid}");
                             PreviewData.args.Main.CharacterService.SetPlayerControllable(true);
                             CloseSelf();
@@ -217,11 +292,34 @@ namespace Pangoo.Core.VisualScripting
             if (State == PreviewState.OnClose)
             {
                 Debug.Log($"正常 预览");
+                RecoverCursor();
                 PreviewData.args.Main.CharacterService.SetPlayerControllable(true);
                 CloseSelf();
             }
 
         }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            if (MainCamera == null)
+            {
+                return;
+            }
+
+            if (State == PreviewState.OnPreview)
+            {
+                var upAxis = MainCamera.transform.TransformDirection(transform.up);
+                var rightAxis = MainCamera.transform.TransformDirection(transform.right);
+                float x = Input.GetAxis("Mouse X");
+                float y = Input.GetAxis("Mouse Y");
+
+                PreviewData.Rotate(upAxis, x * DragFactorX * Time.deltaTime, Space.World);
+                PreviewData.Rotate(rightAxis, y * DragFactorY * Time.deltaTime, Space.World);
+                Debug.Log($"eventdata{eventData.delta}.x:{x},y:{y}  new :{PreviewData.CurrentRotation} :{upAxis} :{rightAxis}");
+            }
+        }
+
+
 
     }
 }

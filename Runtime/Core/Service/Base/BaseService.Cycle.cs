@@ -16,13 +16,13 @@ namespace Pangoo.Core.Services
         public virtual string ServiceName => "Service";
 
 
-        public void Log(string message)
+        public virtual void Log(string message)
         {
             Debug.Log($"{ServiceName}-> {message}");
         }
 
 
-        public void LogError(string message)
+        public virtual void LogError(string message)
         {
             Debug.LogError($"{ServiceName}-> {message}");
         }

@@ -50,7 +50,7 @@ namespace Pangoo
 #if UNITY_EDITOR
             if (Application.isPlaying && handler != null)
             {
-                Debug.Log($"ConditionTable");
+                // Debug.Log($"ConditionTable");
                 row = handler(uuid);
             }
             else

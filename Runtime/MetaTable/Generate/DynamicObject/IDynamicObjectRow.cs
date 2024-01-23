@@ -63,6 +63,10 @@ namespace Pangoo.MetaTable
 
         public string HotspotUuids{ get; set; }
 
+        public string PreviewName{ get; set; }
+
+        public string PreviewDesc{ get; set; }
+
     }
 }
 

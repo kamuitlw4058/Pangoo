@@ -4,12 +4,11 @@ using Pangoo.Core.Common;
 using Pangoo.Core.Services;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
-using Pangoo.Core.Characters;
 using GameFramework;
-using UnityEngine.Rendering;
 using UnityEngine.InputSystem;
 using Pangoo.MetaTable;
 using System.Linq;
+using UnityEngine.Video;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -154,81 +153,11 @@ namespace Pangoo.Core.VisualScripting
             immersed = gameObject.GetComponent<IImmersed>();
 
 
-
             DoAwakeTriggerEvent();
             DoAwakeHotspot();
             DoAwakeSubDynamicObject();
-            Debug.Log($"Do awake m_Tracker:{m_Tracker}");
-        }
 
-        public void SetModelActive(bool val)
-        {
-            Model?.SetActive(val);
-        }
 
-        public void SetSubGameObjectsActive(string[] paths, bool val)
-        {
-            if (paths == null) return;
-
-            for (int i = 0; i < paths.Length; i++)
-            {
-                SetSubGameObjectActive(paths[i], val);
-            }
-        }
-
-        public Transform GetSubGameObjectTransformPath(string path)
-        {
-            if (path.IsNullOrWhiteSpace() || path.Equals("Self"))
-            {
-                return this.Entity.transform;
-            }
-            return this.CachedTransfrom.Find(path);
-        }
-        
-
-        public void SetSubGameObjectActive(string path, bool val)
-        {
-            if (path.IsNullOrWhiteSpace())
-            {
-                return;
-            }
-
-            var childTransform = CachedTransfrom.Find(path);
-            if (childTransform != null)
-            {
-                childTransform.gameObject.SetActive(val);
-            }
-        }
-        
-        public void SetModelMaterial(string path,int index)
-        {
-            if (this.Entity.GetComponent<MaterialList>())
-            {
-                Debug.Log("没有在对象身上获取到MaterialList");
-                return;
-            }
-            
-            Transform target=GetSubGameObjectTransformPath(path);
-            if (!target.GetComponent<Renderer>())
-            {
-                Debug.Log("没有在对象身上获取到Render");
-                return;
-            }
-            Renderer meshRenderer=target.GetComponent<Renderer>();
-
-            if (target.GetComponent<MaterialList>().materialList!=null)
-            {
-                meshRenderer.material = target.GetComponent<MaterialList>().materialList[index];
-            }
-            else
-            {
-                Debug.Log("请检查对象材质球列表是否配置");
-            }
-            
-        }
-
-        protected override void DoStart()
-        {
             if (Variables != null)
             {
                 var transformValue = Variables.transformValue;
@@ -261,6 +190,108 @@ namespace Pangoo.Core.VisualScripting
                     TriggerSetTargetIndex(kv.Key, kv.Value);
                 }
             }
+            FindVideoPlayerSetCamera();
+
+            Log($"Finish Awake m_Tracker:{m_Tracker}");
+        }
+
+        public void SetModelActive(bool val)
+        {
+            Model?.SetActive(val);
+        }
+
+        public void SetSubGameObjectsActive(string[] paths, bool val)
+        {
+            if (paths == null) return;
+
+            for (int i = 0; i < paths.Length; i++)
+            {
+                SetSubGameObjectActive(paths[i], val);
+            }
+        }
+
+        public Transform GetSubGameObjectTransformPath(string path, Args args = null)
+        {
+            if (path.IsNullOrWhiteSpace())
+            {
+                return this.Entity.transform;
+            }
+
+            if (path.Equals(ConstString.Self))
+            {
+                return this.Entity.transform;
+            }
+
+            if (path.Equals(ConstString.Target) && args != null)
+            {
+                return args.Target?.transform;
+            }
+
+            return this.CachedTransfrom.Find(path);
+        }
+
+        public void FindVideoPlayerSetCamera()
+        {
+            List<VideoPlayer> videoPlayerList = this.Entity.GetComponentsInChildren<VideoPlayer>().ToList();
+            if (this.Entity.GetComponent<VideoPlayer>())
+            {
+                videoPlayerList.Add(this.Entity.GetComponent<VideoPlayer>());
+            }
+
+            foreach (VideoPlayer videoPlayer in videoPlayerList)
+            {
+                if (videoPlayer.renderMode == VideoRenderMode.CameraFarPlane || videoPlayer.renderMode == VideoRenderMode.CameraNearPlane)
+                {
+                    videoPlayer.targetCamera = Camera.main;
+                }
+            }
+        }
+
+        public void SetSubGameObjectActive(string path, bool val)
+        {
+            if (path.IsNullOrWhiteSpace())
+            {
+                return;
+            }
+
+            var childTransform = CachedTransfrom.Find(path);
+            if (childTransform != null)
+            {
+                childTransform.gameObject.SetActive(val);
+            }
+        }
+
+        public void SetModelMaterial(string path, int index)
+        {
+            if (!this.Entity.GetComponent<MaterialList>())
+            {
+                Debug.Log($"没有在{Entity.name}身上获取到MaterialList");
+                return;
+            }
+
+            MaterialList materialList = Entity.GetComponent<MaterialList>();
+            Transform target = GetSubGameObjectTransformPath(path);
+            if (!target.GetComponent<Renderer>())
+            {
+                Debug.Log("没有在对象身上获取到Render");
+                return;
+            }
+            Renderer meshRenderer = target.GetComponent<Renderer>();
+
+            if (materialList.materialList != null)
+            {
+                meshRenderer.material = materialList.materialList[index];
+            }
+            else
+            {
+                Debug.Log("请检查对象材质球列表是否配置");
+            }
+
+        }
+
+        protected override void DoStart()
+        {
+
 
             TriggerInovke(TriggerTypeEnum.OnStart);
         }
@@ -270,7 +301,31 @@ namespace Pangoo.Core.VisualScripting
             base.DoUpdate();
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
+                TriggerInovke(TriggerTypeEnum.OnMouseLeftDown);
+            }
+
+            if (Mouse.current.leftButton.wasReleasedThisFrame)
+            {
+                TriggerInovke(TriggerTypeEnum.OnMouseLeftUp);
+            }
+            
+            if (Mouse.current.leftButton.isPressed)
+            {
                 TriggerInovke(TriggerTypeEnum.OnMouseLeft);
+            }
+            
+            if (Mouse.current.rightButton.isPressed)
+            {
+                TriggerInovke(TriggerTypeEnum.OnMouseRight);
+            }
+            
+            if (Mouse.current.rightButton.wasPressedThisFrame)
+            {
+                TriggerInovke(TriggerTypeEnum.OnMouseRightDown);
+            }
+            if (Mouse.current.rightButton.wasReleasedThisFrame)
+            {
+                TriggerInovke(TriggerTypeEnum.OnMouseRightUp);
             }
 
             if (Input.GetKey(KeyCode.Escape))
@@ -300,11 +355,10 @@ namespace Pangoo.Core.VisualScripting
         {
             if (m_Tracker != null)
             {
-                Debug.Log($"Try disable:{Row.Name}");
                 m_Tracker.EventInteract -= OnInteract;
                 GameObject.DestroyImmediate(m_Tracker);
                 m_Tracker = null;
-                Debug.Log($"Try disable m_Tracker:{m_Tracker}");
+                Log($"Try disable {Row.Name} m_Tracker:{m_Tracker}");
             }
 
             DoDisableTimeineSignal();
@@ -327,7 +381,7 @@ namespace Pangoo.Core.VisualScripting
         [Button("Hide")]
         public void Hide()
         {
-            DynamicObjectService.Hide(Row.Uuid);
+            DynamicObjectService.HideEntity(Row.Uuid);
         }
 
 

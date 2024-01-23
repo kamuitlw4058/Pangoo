@@ -45,7 +45,10 @@ namespace Pangoo
 
             foreach (var probe in PlanarProbes)
             {
-                probe.enabled = val;
+                probe.settingsRaw.cameraSettings.customRenderingSettings = true;
+                probe.frameSettingsOverrideMask.mask[(int)FrameSettingsField.ShadowMaps] = true;
+                probe.frameSettings.SetEnabled(FrameSettingsField.ShadowMaps, false);
+                // probe.enabled = val;
             }
         }
 
@@ -64,7 +67,7 @@ namespace Pangoo
             SceneData = userData as EntityStaticSceneData;
             if (SceneData == null)
             {
-                Log.Error("Entity data is invalid.");
+                LogError("Entity data is invalid.");
                 return;
             }
 

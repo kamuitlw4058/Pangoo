@@ -16,7 +16,7 @@ namespace Pangoo.Core.Services
 {
     public class GameSectionService : MainSubService
     {
-        public override string ServiceName => "GameSection";
+        public override string ServiceName => "GameSectionService";
         public override int Priority => 10;
 
 
@@ -43,7 +43,8 @@ namespace Pangoo.Core.Services
         {
             Log("DoStart");
 
-            StaticSceneSrv.OnInitSceneLoaded += OnInitSceneLoaded;
+            StaticSceneSrv.OnInitSceneLoaded += CheckGameSectionLoaded;
+            DynamicObjectSrv.OnGameSectionDynamicObjectLoaded += CheckGameSectionLoaded;
             SetGameSection(GameMainConfigSrv.GetGameMainConfig().EnterGameSectionUuid);
         }
 
@@ -100,10 +101,10 @@ namespace Pangoo.Core.Services
         }
 
 
-        void OnInitSceneLoaded()
+        void CheckGameSectionLoaded()
         {
             var GameSection = MetaTableSrv.GetGameSectionByUuid(LatestUuid);
-            Log($"Loaded Scene {CheckGameSectionLoadedCompleted(GameSection)}");
+            Log($"GameSection Loaded {CheckGameSectionLoadedCompleted(GameSection)}");
             if (CheckGameSectionLoadedCompleted(GameSection))
             {
                 RunLoadedInstructions(GameSection);
@@ -147,30 +148,31 @@ namespace Pangoo.Core.Services
                     GameSection.InitSceneUuids.ToSplitList<string>()
                     );
 
-                // DynamicObjectSrv.HideAllLoaded();
-                var loadedUuids = DynamicObjectSrv.GetLoadedUuids();
-                var doUuids = GameSection.DynamicObjectUuids.ToSplitList<string>();
-                foreach (var doUuid in doUuids)
-                {
-                    if (loadedUuids.Contains(doUuid)) continue;
+                DynamicObjectSrv.SetGameScetion(GameSection.DynamicObjectUuids.ToSplitList<string>());
 
-                    DynamicObjectSrv.ShowDynamicObject(doUuid, (dynamicObjectUuid) =>
-                    {
-                        Log($"Loaded DynamicObject Finish:[{dynamicObjectUuid.ToShortUuid()}]");
-                        if (CheckGameSectionLoadedCompleted(GameSection))
-                        {
-                            RunLoadedInstructions(GameSection);
-                        }
-                    });
-                }
+                // var loadedUuids = DynamicObjectSrv.GetLoadedUuids();
+                // var doUuids = GameSection.DynamicObjectUuids.ToSplitList<string>();
+                // foreach (var doUuid in doUuids)
+                // {
+                //     if (loadedUuids.Contains(doUuid)) continue;
 
-                foreach (var loadedUuid in loadedUuids)
-                {
-                    if (!doUuids.Contains(loadedUuid))
-                    {
-                        DynamicObjectSrv.HideEntity(loadedUuid);
-                    }
-                }
+                //     DynamicObjectSrv.ShowDynamicObject(doUuid, (dynamicObjectUuid) =>
+                //     {
+                //         Log($"Loaded DynamicObject Finish:[{dynamicObjectUuid.ToShortUuid()}]");
+                //         if (CheckGameSectionLoadedCompleted(GameSection))
+                //         {
+                //             RunLoadedInstructions(GameSection);
+                //         }
+                //     });
+                // }
+
+                // foreach (var loadedUuid in loadedUuids)
+                // {
+                //     if (!doUuids.Contains(loadedUuid))
+                //     {
+                //         DynamicObjectSrv.HideEntity(loadedUuid);
+                //     }
+                // }
 
                 Log($"Update Static Scene:{GameSection.UuidShort} KeepSceneUuids:{GameSection.KeepSceneUuids} DynamicSceneUuids:{GameSection.DynamicSceneUuids} InitSceneUuids:{GameSection.InitSceneUuids}");
             }
@@ -181,8 +183,12 @@ namespace Pangoo.Core.Services
         {
             if (StaticSceneSrv != null)
             {
-                StaticSceneSrv.OnInitSceneLoaded -= OnInitSceneLoaded;
+                StaticSceneSrv.OnInitSceneLoaded -= CheckGameSectionLoaded;
+            }
 
+            if (DynamicObjectSrv != null)
+            {
+                DynamicObjectSrv.OnGameSectionDynamicObjectLoaded -= CheckGameSectionLoaded;
             }
             base.DoDestroy();
         }

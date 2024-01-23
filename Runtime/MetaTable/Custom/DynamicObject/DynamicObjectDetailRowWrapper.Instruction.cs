@@ -77,23 +77,41 @@ namespace Pangoo.MetaTable
         {
             if (m_DirectInstructionGroups != null)
             {
-                foreach (var group in m_DirectInstructionGroups)
+                for (int i = 0; i < m_DirectInstructionGroups.Length; i++)
+                // foreach (var group in m_DirectInstructionGroups)
                 {
+                    var group = m_DirectInstructionGroups[i];
+                    group.SetPrefab(Prefab);
+
+
                     if (group.DirectInstructionList != null)
                     {
-                        for (int i = 0; i < group.DirectInstructionList.Length; i++)
+                        for (int j = 0; j < group.DirectInstructionList.Length; j++)
                         {
-                            group.DirectInstructionList[i].SetPrefab(Prefab);
+                            group.DirectInstructionList[j].SetPrefab(Prefab);
                         }
                     }
-                    
+
                     if (group.FailedDirectInstructionList != null)
                     {
-                        for (int i = 0; i < group.FailedDirectInstructionList.Length; i++)
+                        for (int j = 0; j < group.FailedDirectInstructionList.Length; j++)
                         {
-                            group.FailedDirectInstructionList[i].SetPrefab(Prefab);
+                            group.FailedDirectInstructionList[j].SetPrefab(Prefab);
                         }
                     }
+
+                    if (group.StateDirectInstructionDict != null)
+                    {
+                        foreach (var kv in group.StateDirectInstructionDict)
+                        {
+                            foreach (var di in kv.Value)
+                            {
+                                di.SetPrefab(Prefab);
+                            }
+
+                        }
+                    }
+
                 }
             }
 
@@ -137,6 +155,16 @@ namespace Pangoo.MetaTable
         {
             for (int i = 0; i < m_DirectInstructionGroups.Length; i++)
             {
+                if (m_DirectInstructionGroups[i].Targets == null)
+                {
+                    m_DirectInstructionGroups[i].Targets = new string[0];
+                }
+
+                if (m_DirectInstructionGroups[i].StringTargets == null)
+                {
+                    m_DirectInstructionGroups[i].StringTargets = new string[0];
+                }
+
                 if (m_DirectInstructionGroups[i].Uuid.IsNullOrWhiteSpace())
                 {
                     m_DirectInstructionGroups[i].Uuid = UuidUtility.GetNewUuid();

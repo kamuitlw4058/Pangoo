@@ -40,8 +40,9 @@ namespace Pangoo.Core.VisualScripting
 
 
 
-        public void TriggerInovke(TriggerTypeEnum triggerType, string uuid = null)
+        public bool TriggerInovke(TriggerTypeEnum triggerType, string uuid = null)
         {
+            bool ret = false;
             if (TriggerDict.TryGetValue(triggerType, out List<TriggerEvent> triggers))
             {
                 triggers.ForEach((o) =>
@@ -50,11 +51,13 @@ namespace Pangoo.Core.VisualScripting
                     {
                         if (uuid.IsNullOrWhiteSpace() || uuid.Equals(Row.Uuid))
                         {
+                            ret = true;
                             o.OnInvoke(CurrentArgs);
                         }
                     }
                 });
             }
+            return ret;
         }
 
 

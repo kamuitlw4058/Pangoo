@@ -12,7 +12,7 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public class TriggerEvent
     {
-        public const string SelfStr = "Self";
+        public const string SelfStr = ConstString.Self;
 
         bool m_Enabled;
 
@@ -26,6 +26,7 @@ namespace Pangoo.Core.VisualScripting
             }
             set
             {
+                Log($"Set Trigger:{Row?.Uuid} {value}");
                 dynamicObject.Variables.SetTriggerEnabled(Row.Uuid, value);
                 m_Enabled = value;
             }
@@ -47,9 +48,6 @@ namespace Pangoo.Core.VisualScripting
 
         public GameObject Parent { get; set; }
 
-        [ShowInInspector]
-        [HideInEditorMode]
-        public bool IsDirectInstuction { get; set; } = false;
 
         public int TriggerCount;
 
@@ -59,10 +57,19 @@ namespace Pangoo.Core.VisualScripting
         {
             get
             {
+                if (Row?.Targets?.IsNullOrWhiteSpace() ?? true)
+                {
+                    return null;
+                }
+
                 return Row?.Targets?.Split("|");
             }
         }
 
+        [ShowInInspector]
+        public string CurrentTargetPath { get; set; }
+
+        [ShowInInspector]
         public TriggerTargetListProcessTypeEnum TargetType
         {
             get
@@ -183,6 +190,23 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
+        public void Log(string message)
+        {
+            if (TriggerType != TriggerTypeEnum.OnUpdate)
+            {
+                dynamicObject?.Log($"T[{Row.UuidShort}]{message}");
+            }
+        }
+
+        public void LogError(string message)
+        {
+            if (TriggerType != TriggerTypeEnum.OnUpdate)
+            {
+                dynamicObject?.LogError($"T[{Row.UuidShort}]{message}");
+            }
+        }
+
+
 
 
         public virtual void OnAwake()
@@ -192,101 +216,80 @@ namespace Pangoo.Core.VisualScripting
 
         public virtual void OnInvoke(Args args)
         {
+            var invokeArgs = args.Clone;
             TriggerCount += 1;
             if (Targets == null || Targets.Length == 0)
             {
-                args.ChangeTarget(Parent);
+                invokeArgs.ChangeTarget(Parent);
             }
             else
             {
-                if (Targets.Length == 1)
+                TargetIndex = TargetIndex % Targets.Length;
+                CurrentTargetPath = Targets[TargetIndex];
+                Log($"Run Conditon: TargetIndex:{TargetIndex} CurrentTargetPath:{CurrentTargetPath}");
+                if (CurrentTargetPath == SelfStr)
                 {
-                    if (Targets[0] == SelfStr)
-                    {
-                        args.ChangeTarget(Parent);
-                    }
-                    else
-                    {
-                        var trans = dynamicObject.CachedTransfrom.Find(Targets[0]);
-                        if (trans != null)
-                        {
-                            args.ChangeTarget(trans.gameObject, path: Targets[0]);
-                        }
-                        else
-                        {
-                            args.ChangeTarget(Parent, path: SelfStr);
-                        }
-                    }
+                    invokeArgs.ChangeTarget(Parent, path: CurrentTargetPath, index: TargetIndex);
                 }
                 else
                 {
-                    var targetStr = Targets[TargetIndex];
-                    if (targetStr == SelfStr)
+                    var trans = dynamicObject.CachedTransfrom.Find(CurrentTargetPath);
+                    if (trans != null)
                     {
-                        args.ChangeTarget(Parent, path: targetStr, index: TargetIndex);
+                        invokeArgs.ChangeTarget(trans.gameObject, path: CurrentTargetPath, index: TargetIndex);
                     }
                     else
                     {
-                        var trans = dynamicObject.CachedTransfrom.Find(targetStr);
-                        if (trans != null)
-                        {
-                            args.ChangeTarget(trans.gameObject, path: targetStr, index: TargetIndex);
-                        }
-                        else
-                        {
-                            args.ChangeTarget(Parent, path: targetStr, index: TargetIndex);
-                        }
+                        invokeArgs.ChangeTarget(Parent, path: CurrentTargetPath, index: TargetIndex);
                     }
-
-                    TargetIndex += 1;
-                    switch (TargetType)
-                    {
-                        case TriggerTargetListProcessTypeEnum.SeqAndDisabled:
-                            if (TargetIndex >= Targets.Length)
-                            {
-                                Enabled = false;
-                            }
-                            break;
-                        case TriggerTargetListProcessTypeEnum.Loop:
-                            if (TargetIndex >= Targets.Length)
-                            {
-                                TargetIndex = 0;
-                            }
-                            break;
-                    }
-
                 }
+
+                TargetIndex += 1;
+                switch (TargetType)
+                {
+                    case TriggerTargetListProcessTypeEnum.SeqAndDisabled:
+                        if (TargetIndex >= Targets.Length)
+                        {
+                            Enabled = false;
+                        }
+                        break;
+                }
+
             }
 
             switch (ConditionType)
             {
                 case ConditionTypeEnum.NoCondition:
-                    Debug.Log("No Condition Invoke!");
-                    OnStateInvoke(1, args);
+                    Log("No Condition Invoke!");
+                    OnStateInvoke(1, invokeArgs);
                     break;
                 case ConditionTypeEnum.BoolCondition:
-                    var isPass = Conditions?.Check(args) ?? false ? 1 : 0;
-                    Debug.Log($"Check Pass:{isPass} :{Conditions}");
-                    OnStateInvoke(isPass, args);
+                    var isPass = Conditions?.Check(invokeArgs) ?? false ? 1 : 0;
+                    Log($"Trigger:[{Row.UuidShort}] Check Pass:{isPass} :{Conditions}");
+                    OnStateInvoke(isPass, invokeArgs);
                     break;
                 case ConditionTypeEnum.StateCondition:
-                    var state = Conditions?.GetState(args) ?? 1;
-                    Debug.Log($"Check state:{state} :{Conditions}");
-                    OnStateInvoke(state, args);
+                    var state = Conditions?.GetState(invokeArgs) ?? 1;
+                    Log($"Check state:{state} :{Conditions}");
+                    OnStateInvoke(state, invokeArgs);
                     break;
 
             }
+
+
+
+
         }
 
         void OnRunInstructionsStart()
         {
-            Debug.Log($"Start RunInstructions:{EventRunInstructionsStart}. {EventRunInstructionsStart?.GetInvocationList()?.Length}");
+            //Debug.Log($"Start RunInstructions:{EventRunInstructionsStart}. {EventRunInstructionsStart?.GetInvocationList()?.Length}");
             EventRunInstructionsStart?.Invoke();
         }
 
         void OnRunInstructionsEnd()
         {
-            Debug.Log("End RunInstructions");
+            //  Debug.Log("End RunInstructions");
             EventRunInstructionsEnd?.Invoke();
         }
 
@@ -294,7 +297,7 @@ namespace Pangoo.Core.VisualScripting
         {
             if (ConditionInstructions.TryGetValue(state, out InstructionList instructionList))
             {
-                Debug.Log($"state on invoke:{state}");
+                Log($"state on invoke:{state}");
                 instructionList.EventStartRunning -= OnRunInstructionsStart;
                 instructionList.EventStartRunning += OnRunInstructionsStart;
 
@@ -303,6 +306,14 @@ namespace Pangoo.Core.VisualScripting
                 instructionList.EventEndRunning += OnRunInstructionsEnd;
 
                 instructionList.Start(args);
+            }
+            else
+            {
+                if (TriggerType == TriggerTypeEnum.OnInteract)
+                {
+                    OnRunInstructionsEnd();
+                }
+                LogError($"Invaild State on invoke:{state}");
             }
 
         }

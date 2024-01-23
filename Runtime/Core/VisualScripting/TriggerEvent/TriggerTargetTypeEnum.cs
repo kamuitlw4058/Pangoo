@@ -7,8 +7,9 @@ namespace Pangoo.Core.VisualScripting
 {
     public enum TriggerTargetListProcessTypeEnum
     {
-        SeqAndDisabled,
         Loop,
+        SeqAndDisabled,
+
     }
 }
 

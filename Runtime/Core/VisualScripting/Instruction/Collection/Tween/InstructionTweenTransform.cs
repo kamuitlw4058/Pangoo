@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using GameFramework;
+using Pangoo.Common;
 using Pangoo.Core.Common;
 using Pangoo.Core.Services;
 using Sirenix.OdinInspector;

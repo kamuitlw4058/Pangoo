@@ -11,6 +11,7 @@ using Sirenix.OdinInspector;
 using System.Xml.Serialization;
 using Pangoo.Common;
 using MetaTable;
+using Pangoo.Core.VisualScripting;
 
 namespace Pangoo.MetaTable
 {
@@ -33,6 +34,40 @@ namespace Pangoo.MetaTable
             }
 
         }
+
+
+        UIPreviewParams m_Params;
+
+        [ShowInInspector]
+        public UIPreviewParams Params
+        {
+            get
+            {
+                if (m_Params == null)
+                {
+                    m_Params = new UIPreviewParams();
+                    m_Params.Load(UnityRow.Row.Params);
+                }
+                return m_Params;
+            }
+            set
+            {
+                m_Params = value;
+                UnityRow.Row.Params = m_Params.Save();
+                Save();
+            }
+        }
+
+        [ShowInInspector]
+        public string ParamsString
+        {
+            get
+            {
+                return UnityRow.Row.Params;
+            }
+        }
+
+
 
         KeyCode[] m_InteractKeyCodes;
 
@@ -99,6 +134,28 @@ namespace Pangoo.MetaTable
             Debug.Log($"OnKeyCodesChanged:m_KeyCodes:{m_KeyCodes.Count()}");
             UnityRow.Row.ExitKeyCodes = m_KeyCodes.ToListString();
             Save();
+        }
+
+
+        [Button("保存参数")]
+        [TableColumnWidth(80, resizable: false)]
+        public void SaveParams()
+        {
+            UnityRow.Row.Params = m_Params.Save();
+            Save();
+        }
+
+        [Button("加载参数")]
+        [TableColumnWidth(80, resizable: false)]
+        public void LoadParams()
+        {
+
+            if (m_Params == null)
+            {
+                m_Params = new UIPreviewParams();
+                m_Params.Load(UnityRow.Row.Params);
+            }
+
         }
     }
 }

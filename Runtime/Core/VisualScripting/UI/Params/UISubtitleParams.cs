@@ -19,7 +19,7 @@ namespace Pangoo.Core.VisualScripting
 
         public override void Load(string val)
         {
-            var par = JsonMapper.ToObject<InstructionMessageParams>(val);
+            var par = JsonMapper.ToObject<UISubtitleParams>(val);
             Message = par.Message;
             ShowTriggerRow = par.ShowTriggerRow;
         }

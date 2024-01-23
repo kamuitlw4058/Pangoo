@@ -26,14 +26,16 @@ namespace Pangoo.Core.Characters
             if (character == null) return float.MaxValue;
             if (interactive.InteractDisabled) return float.MaxValue;
 
+            var characterPoint = character.CachedTransfrom.TransformPoint(this.m_Offset) + character.CameraOffset;
+
 
             var distance = Vector3.Distance(
-                character.CachedTransfrom.TransformPoint(this.m_Offset),
+                characterPoint,
                 interactive.Position
             );
 
-            var direction = interactive.Position - character.CachedTransfrom.TransformPoint(this.m_Offset);
-            Ray ray = new Ray(character.CachedTransfrom.TransformPoint(Vector3.zero), direction);
+            var direction = interactive.Position - characterPoint;
+            Ray ray = new Ray(characterPoint, direction);
             RaycastHit[] hits = Physics.RaycastAll(ray, maxDistance: distance);
             if (hits != null && hits.Length > 0)
             {
@@ -77,7 +79,7 @@ namespace Pangoo.Core.Characters
         {
             base.DrawGizmos(character);
 
-            Vector3 position = character.CachedTransfrom.TransformPoint(this.m_Offset);
+            Vector3 position = character.CachedTransfrom.TransformPoint(this.m_Offset) + character.CameraOffset;
 
             Gizmos.color = COLOR_GIZMOS;
             Gizmos.DrawCube(position, GIZMO_SIZE);

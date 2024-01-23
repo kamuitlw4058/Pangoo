@@ -16,8 +16,8 @@ namespace Pangoo.Core.Common
     {
         public static readonly Args EMPTY = new Args();
 
-        [NonSerialized] private readonly Dictionary<int, Component> selfComponents;
-        [NonSerialized] private readonly Dictionary<int, Component> targetComponents;
+        // [NonSerialized] private readonly Dictionary<int, Component> selfComponents;
+        // [NonSerialized] private readonly Dictionary<int, Component> targetComponents;
 
 
         [field: NonSerialized] public GameObject Self { get; private set; }
@@ -45,7 +45,16 @@ namespace Pangoo.Core.Common
         public PointerEventData PointerData { get; set; }
 
 
-        public Args Clone => new Args(dynamicObject, this.Self, this.Target);
+        public Args Clone => new Args(dynamicObject, this.Self, this.Target)
+        {
+            TargetPath = TargetPath,
+            TargetIndex = TargetIndex,
+            playableDirector = playableDirector,
+            signalAssetName = signalAssetName,
+            Trigger = Trigger,
+            Main = Main,
+            PointerData = PointerData,
+        };
 
 
         public Args()
@@ -78,28 +87,28 @@ namespace Pangoo.Core.Common
 
         // PUBLIC METHODS: ------------------------------------------------------------------------
 
-        public T ComponentFromSelf<T>(bool inChildren = false) where T : Component
-        {
-            return this.GetComponent<T>(this.selfComponents, this.Self, inChildren);
-        }
+        // public T ComponentFromSelf<T>(bool inChildren = false) where T : Component
+        // {
+        //     return this.GetComponent<T>(this.selfComponents, this.Self, inChildren);
+        // }
 
-        public T ComponentFromTarget<T>(bool inChildren = false) where T : Component
-        {
-            return this.GetComponent<T>(this.targetComponents, this.Target, inChildren);
-        }
+        // public T ComponentFromTarget<T>(bool inChildren = false) where T : Component
+        // {
+        //     return this.GetComponent<T>(this.targetComponents, this.Target, inChildren);
+        // }
 
-        public void ChangeSelf(GameObject self)
-        {
-            if (this.Self == self) return;
+        // public void ChangeSelf(GameObject self)
+        // {
+        //     if (this.Self == self) return;
 
-            this.Self = self;
-            this.selfComponents.Clear();
-        }
+        //     this.Self = self;
+        //     this.selfComponents.Clear();
+        // }
 
-        public void ChangeSelf<T>(T self) where T : Component
-        {
-            this.ChangeSelf(self != null ? self.gameObject : null);
-        }
+        // public void ChangeSelf<T>(T self) where T : Component
+        // {
+        //     this.ChangeSelf(self != null ? self.gameObject : null);
+        // }
 
         public void ChangeTarget(GameObject target, string path = null, int index = 0)
         {
@@ -108,7 +117,6 @@ namespace Pangoo.Core.Common
             this.Target = target;
             this.TargetIndex = index;
             this.TargetPath = path;
-            // this.targetComponents.Clear();
         }
 
         public void ChangeTarget<T>(T target) where T : Component
@@ -118,24 +126,24 @@ namespace Pangoo.Core.Common
 
         // PRIVATE METHODS: -----------------------------------------------------------------------
 
-        private TComponent GetComponent<TComponent>(
-            IDictionary<int, Component> dictionary, GameObject gameObject, bool inChildren)
-            where TComponent : Component
-        {
-            if (gameObject == null) return null;
+        // private TComponent GetComponent<TComponent>(
+        //     IDictionary<int, Component> dictionary, GameObject gameObject, bool inChildren)
+        //     where TComponent : Component
+        // {
+        //     if (gameObject == null) return null;
 
-            int hash = typeof(TComponent).GetHashCode();
-            if (!dictionary.TryGetValue(hash, out Component value) || value == null)
-            {
-                value = inChildren
-                    ? gameObject.GetComponent<TComponent>()
-                    : gameObject.GetComponentInChildren<TComponent>();
+        //     int hash = typeof(TComponent).GetHashCode();
+        //     if (!dictionary.TryGetValue(hash, out Component value) || value == null)
+        //     {
+        //         value = inChildren
+        //             ? gameObject.GetComponent<TComponent>()
+        //             : gameObject.GetComponentInChildren<TComponent>();
 
-                if (value == null) return null;
-                dictionary[hash] = value;
-            }
+        //         if (value == null) return null;
+        //         dictionary[hash] = value;
+        //     }
 
-            return value as TComponent;
-        }
+        //     return value as TComponent;
+        // }
     }
 }

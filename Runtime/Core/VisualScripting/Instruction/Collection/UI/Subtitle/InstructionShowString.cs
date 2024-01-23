@@ -27,6 +27,7 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
+            Debug.Log($"Show String:{ParamsRaw.Context} ,{ParamsRaw.Duration}");
             args?.Main?.Subtitle?.ShowString(ParamsRaw.Context, ParamsRaw.Duration);
         }
 

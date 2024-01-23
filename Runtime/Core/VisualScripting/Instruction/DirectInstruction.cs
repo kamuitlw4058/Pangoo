@@ -9,6 +9,7 @@ using UnityEngine;
 using Pangoo.Common;
 using Pangoo.MetaTable;
 using MetaTable;
+using Pangoo.Core.Characters;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -58,7 +59,7 @@ namespace Pangoo.Core.VisualScripting
         [LabelWidth(80)]
         [JsonMember("ListInt1")]
         public List<int> ListInt1;
-        
+
         [TableTitleGroup("参数")]
         [LabelText("$Int1Label")]
         [ShowIf("$IsMainIntShow")]
@@ -138,6 +139,12 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("CursorLockMode1")]
         public CursorLockMode CursorLockMode1;
 
+        [TableTitleGroup("参数")]
+        [ShowIf("$IsMainDriverInfoShow")]
+        [LabelWidth(120)]
+        [JsonMember("DriverInfo1")]
+        public DriverInfo DriverInfo1;
+
 
 #if UNITY_EDITOR
         public void SetPrefab(GameObject go)
@@ -167,7 +174,7 @@ namespace Pangoo.Core.VisualScripting
                     // DirectInstructionTypeEnum.PlaySound => true,
                     // DirectInstructionTypeEnum.StopSound => true,
                     // DirectInstructionTypeEnum.CheckBoolVariableList => true,
-                    DirectInstructionTypeEnum.DynamicObjectSetMaterial=>true,
+                    DirectInstructionTypeEnum.DynamicObjectSetMaterial => true,
                     _ => false,
                 };
             }
@@ -263,13 +270,13 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectRunExecute => true,
                     DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => true,
                     DirectInstructionTypeEnum.DynamicObjectInteractEnable => true,
-                    
+
                     DirectInstructionTypeEnum.PlaySound => true,
                     DirectInstructionTypeEnum.SetGlobalGameObjectActive => true,
                     DirectInstructionTypeEnum.DynamicObjectPreview => true,
                     DirectInstructionTypeEnum.DynamicObjectPlayTimeline => true,
                     DirectInstructionTypeEnum.WaitVariableBool => true,
-                    DirectInstructionTypeEnum.TweenLightIntensity=>true,
+                    DirectInstructionTypeEnum.TweenLightIntensity => true,
                     _ => false,
                 };
             }
@@ -335,8 +342,8 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => true,
                     DirectInstructionTypeEnum.DynamicObjectPlayTimeline => true,
                     DirectInstructionTypeEnum.DynamicObjectPauseTimeline => true,
-                    DirectInstructionTypeEnum.TweenLightIntensity=>true,
-                    DirectInstructionTypeEnum.DynamicObjectSetMaterial=>true,
+                    DirectInstructionTypeEnum.TweenLightIntensity => true,
+                    DirectInstructionTypeEnum.DynamicObjectSetMaterial => true,
                     _ => false,
                 };
             }
@@ -356,7 +363,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.StopSound => true,
                     DirectInstructionTypeEnum.ImageFade => true,
                     DirectInstructionTypeEnum.CanvasGroup => true,
-                    DirectInstructionTypeEnum.TweenLightIntensity=>true,
+                    DirectInstructionTypeEnum.TweenLightIntensity => true,
                     _ => false,
                 };
             }
@@ -371,7 +378,7 @@ namespace Pangoo.Core.VisualScripting
                 {
                     DirectInstructionTypeEnum.ImageFade => true,
                     DirectInstructionTypeEnum.CanvasGroup => true,
-                    DirectInstructionTypeEnum.TweenLightIntensity=>true,
+                    DirectInstructionTypeEnum.TweenLightIntensity => true,
                     _ => false,
                 };
             }
@@ -385,6 +392,19 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.ShowHideCursor => true,
+                    _ => false,
+                };
+            }
+        }
+
+        [JsonNoMember]
+        bool IsMainDriverInfoShow
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.SetDriverInfo => true,
                     _ => false,
                 };
             }
@@ -414,7 +434,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.PlaySound => "音频Id",
                     DirectInstructionTypeEnum.StopSound => "音频Id",
                     DirectInstructionTypeEnum.CheckBoolVariableList => "设置变量ID",
-                    DirectInstructionTypeEnum.DynamicObjectSetMaterial=>"列表索引",
+                    DirectInstructionTypeEnum.DynamicObjectSetMaterial => "列表索引",
                     _ => "Int1",
                 };
             }
@@ -462,7 +482,7 @@ namespace Pangoo.Core.VisualScripting
 
                     DirectInstructionTypeEnum.PlaySound => "是否循环",
                     DirectInstructionTypeEnum.SetGlobalGameObjectActive => "状态",
-                    DirectInstructionTypeEnum.TweenLightIntensity=>"是否等待完成",
+                    DirectInstructionTypeEnum.TweenLightIntensity => "是否等待完成",
                     _ => "设置值",
                 };
             }
@@ -541,7 +561,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.StopSound => "淡出时长",
                     DirectInstructionTypeEnum.ImageFade => "目标Alpha值",
                     DirectInstructionTypeEnum.CanvasGroup => "目标Alpha值",
-                    DirectInstructionTypeEnum.TweenLightIntensity=>"目标值",
+                    DirectInstructionTypeEnum.TweenLightIntensity => "目标值",
                     _ => "Float1",
                 };
             }
@@ -556,7 +576,7 @@ namespace Pangoo.Core.VisualScripting
                 {
                     DirectInstructionTypeEnum.ImageFade => "过渡时间",
                     DirectInstructionTypeEnum.CanvasGroup => "过渡时间",
-                    DirectInstructionTypeEnum.TweenLightIntensity=>"过渡时间",
+                    DirectInstructionTypeEnum.TweenLightIntensity => "过渡时间",
                     _ => "Float1",
                 };
             }
@@ -717,19 +737,19 @@ namespace Pangoo.Core.VisualScripting
             switch (InstructionType)
             {
                 case DirectInstructionTypeEnum.DynamicObjectTriggerEnabled:
-                    List<string> includeUuids = new List<string>();
+                    List<Tuple<string, string>> includeUuids = new();
                     if (!Uuid.IsNullOrWhiteSpace())
                     {
                         var row = DynamicObjectOverview.GetUnityRowByUuid(Uuid);
                         if (row != null)
                         {
-                            includeUuids.AddRange(row.Row.GetTriggerEventUuidList());
+                            includeUuids.AddRange(row.Row.GetTriggerEventUuidList().Select(o => new Tuple<string, string>(o, "Trigger")));
                             var directInstructionGroups = DirectInstructionGroup.CreateArray(row.Row.DirectInstructions);
                             if (directInstructionGroups != null)
                             {
                                 foreach (var group in directInstructionGroups)
                                 {
-                                    includeUuids.Add(group.Uuid);
+                                    includeUuids.Add(new Tuple<string, string>(group.Uuid, group.Name));
                                 }
                             }
 

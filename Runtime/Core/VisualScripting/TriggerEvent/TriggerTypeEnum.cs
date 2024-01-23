@@ -17,7 +17,7 @@ namespace Pangoo.Core.VisualScripting
         OnTriggerExit3D,
 
         OnPlayTimeline,
-        OnMouseLeft,
+        OnMouseLeftDown,
 
         OnExecute,
         OnExternalInstruction,
@@ -56,7 +56,18 @@ namespace Pangoo.Core.VisualScripting
         OnUpdate,
         OnInteractionSuccess,
         OnInteractionFailed,
-        OnPreview
+        OnPreview,
+        OnMouseLeftUp,
+        OnMouseLeft,
+        OnMouseRight,
+        OnMouseRightUp,
+        OnMouseRightDown,
+        OnMouseImmersedLeftDown,
+        OnMouseImmersedLeft,
+        OnMouseImmersedLeftUp,
+        OnMouseImmersedRightDown,
+        OnMouseImmersedRight,
+        OnMouseImmersedRightUp,
     }
 }
 

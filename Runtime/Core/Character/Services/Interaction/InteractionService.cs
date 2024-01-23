@@ -59,7 +59,7 @@ namespace Pangoo.Core.Characters
         protected override void DoUpdate()
         {
             SpatialHashInteractionItems.Find(
-                Character.CachedTransfrom.position,
+                Character.CachedTransfrom.position + Character.CameraOffset,
                 Character.MotionInfo.InteractionRadius,
                 this.m_Interactions
             );
@@ -109,7 +109,7 @@ namespace Pangoo.Core.Characters
             if (this.Target != null)
             {
                 Gizmos.color = COLOR_GIZMO_TARGET;
-                Gizmos.DrawLine(this.Target.Position, Character.CachedTransfrom.position);
+                Gizmos.DrawLine(this.Target.Position, Character.CachedTransfrom.position + Character.CameraOffset);
             }
             m_InteractionMode.DrawGizmos(Character);
         }

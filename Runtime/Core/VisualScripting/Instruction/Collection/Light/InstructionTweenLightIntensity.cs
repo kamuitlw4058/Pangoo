@@ -17,10 +17,11 @@ namespace Pangoo.Core.VisualScripting
         [LabelText("参数")]
         [HideReferenceObjectPicker]
         public InstructionTweenLightIntensityParams ParamsRaw = new InstructionTweenLightIntensityParams();
-        
+
+        private AnimationCurve easeCurve;
         private bool isDone;
         public override IParams Params => ParamsRaw;
-        
+
         [ShowInInspector]
         public override InstructionType InstructionType
         {
@@ -29,7 +30,7 @@ namespace Pangoo.Core.VisualScripting
                 return ParamsRaw.WaitFinsh ? InstructionType.Coroutine : InstructionType.Immediate;
             }
         }
-        
+
         protected override IEnumerator Run(Args args)
         {
             RunImmediate(args);
@@ -44,16 +45,16 @@ namespace Pangoo.Core.VisualScripting
         public override void RunImmediate(Args args)
         {
             isDone = false;
-            Transform target= args.dynamicObject.GetSubGameObjectTransformPath(ParamsRaw.TargetPath);
-            
+            Transform target = args.dynamicObject.GetSubGameObjectTransformPath(ParamsRaw.TargetPath, args);
+
             if (!target.GetComponent<Light>())
             {
                 return;
             }
-            Light light=target.GetComponent<Light>();
-            
-            
-            light.DOIntensity(ParamsRaw.Val,ParamsRaw.TweenTime).OnComplete(()=>isDone=true);
+            Light light = target.GetComponent<Light>();
+
+
+            light.DOIntensity(ParamsRaw.Val, ParamsRaw.TweenTime).OnComplete(() => isDone = true);
         }
     }
 }

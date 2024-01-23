@@ -105,12 +105,21 @@ namespace Pangoo.Core.Characters
 
         }
 
+        public void SetCharacterSpeed(float val)
+        {
+            m_MotionInfo.SetLinearSpeed(val);
+        }
+
         public void SetCameraOffset(Vector3 offset)
         {
             CameraOffset = offset;
             m_CharacterCameraService.SetCameraOffset(offset);
         }
 
+        public void SetDriverInfo(DriverInfo driverInfo)
+        {
+            m_DriverService.SetDriverInfo(driverInfo);
+        }
 
         public Character(GameObject gameObject, bool onlyCamera = false) : base(gameObject)
         {

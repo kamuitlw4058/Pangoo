@@ -220,6 +220,153 @@ namespace Pangoo.MetaTable
 
             }
         }
+
+        [ShowInInspector]
+        [DelayedProperty]
+        [LabelText("斜坡限制")]
+        public float SlopeLimit
+        {
+            get
+            {
+                return UnityRow.Row?.SlopeLimit ?? 45f;
+
+            }
+            set
+            {
+                if (UnityRow.Row != null && Overview != null)
+                {
+                    UnityRow.Row.SlopeLimit = value;
+                    Save();
+                }
+
+            }
+        }
+
+        [ShowInInspector]
+        [DelayedProperty]
+        [LabelText("步高限制")]
+        public float StepOffset
+        {
+            get
+            {
+                return UnityRow.Row?.StepOffset ?? 0.3f;
+
+            }
+            set
+            {
+                if (UnityRow.Row != null && Overview != null)
+                {
+                    UnityRow.Row.StepOffset = value;
+                    Save();
+                }
+
+            }
+        }
+        
+        [ShowInInspector]
+        [DelayedProperty]
+        [LabelText("皮肤宽度")]
+        public float SkinWidth
+        {
+            get
+            {
+                return UnityRow.Row?.SkinWidth ?? 0.08f;
+
+            }
+            set
+            {
+                if (UnityRow.Row != null && Overview != null)
+                {
+                    UnityRow.Row.SkinWidth = value;
+                    Save();
+                }
+
+            }
+        }
+
+        [ShowInInspector]
+        [DelayedProperty]
+        [LabelText("最小移动距离")]
+        public float MinMoveDistance
+        {
+            get
+            {
+                return UnityRow.Row?.MinMoveDistance ?? 0.001f;
+
+            }
+            set
+            {
+                if (UnityRow.Row != null && Overview != null)
+                {
+                    UnityRow.Row.MinMoveDistance = value;
+                    Save();
+                }
+
+            }
+        }
+
+        [ShowInInspector]
+        [DelayedProperty]
+        [LabelText("中心")]
+        public Vector3 Center
+        {
+            get
+            {
+                return UnityRow.Row?.Center ?? new Vector3();
+
+            }
+            set
+            {
+                if (UnityRow.Row != null && Overview != null)
+                {
+                    UnityRow.Row.Center = value;
+                    Save();
+                }
+
+            }
+        }
+        
+        [ShowInInspector]
+        [DelayedProperty]
+        [LabelText("半径")]
+        public float Radius
+        {
+            get
+            {
+                return UnityRow.Row?.Radius ?? 0.5f;
+
+            }
+            set
+            {
+                if (UnityRow.Row != null && Overview != null)
+                {
+                    UnityRow.Row.Radius = value;
+                    Save();
+                }
+
+            }
+        }
+        
+        [ShowInInspector]
+        [DelayedProperty]
+        [LabelText("高度")]
+        public float Height
+        {
+            get
+            {
+                return UnityRow.Row?.Height ?? 2f;
+
+            }
+            set
+            {
+                if (UnityRow.Row != null && Overview != null)
+                {
+                    UnityRow.Row.Height = value;
+                    Save();
+                }
+
+            }
+        }
     }
 }
 #endif

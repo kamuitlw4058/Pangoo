@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class BaseImmersed : MonoBehaviour,IImmersed
 {
-    [ReadOnly]
+    [HideInInspector]
     public DynamicObject dynamicObject = null;
 
     public bool IsRunning { get; set; }

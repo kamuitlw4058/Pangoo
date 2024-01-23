@@ -20,6 +20,9 @@ namespace Pangoo.Core.VisualScripting
         [ReadOnly]
         public string Uuid;
 
+        [JsonMember("Name")]
+        public string Name;
+
         [LabelText("触发器类型")]
         // [HideLabel]
         [JsonMember("TriggerType")]
@@ -65,6 +68,31 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("IntVariableUuid")]
         public string IntVariableUuid;
 
+        [JsonMember("UseStringTarget")]
+        [BoxGroup("目标配置")]
+        [LabelText("使用字符串目标")]
+        public bool UseStringTarget;
+
+
+        [JsonMember("Targets")]
+        [BoxGroup("目标配置")]
+        [LabelText("目标列表")]
+        [ValueDropdown("PrefabPathDropdown")]
+        [ShowIf("@!this.UseStringTarget")]
+        public string[] Targets;
+
+
+        [JsonMember("StringTargets")]
+        [BoxGroup("目标配置")]
+        [LabelText("目标字符串列表")]
+        [ShowIf("@this.UseStringTarget")]
+        public string[] StringTargets;
+
+        [BoxGroup("目标配置")]
+        [JsonMember("TargetProcessType")]
+        [LabelText("目标列表处理方式")]
+
+        public TriggerTargetListProcessTypeEnum TargetProcessType;
 
 
         [JsonMember("DirectInstructionList")]
@@ -159,15 +187,19 @@ namespace Pangoo.Core.VisualScripting
         {
             return JsonMapper.ToObject<DirectInstructionGroup[]>(s);
         }
+
+        [JsonNoMember]
+        // [HideInInspector]
+        public GameObject Prefab;
 #if UNITY_EDITOR
 
-        public void UpdateUuidById()
+        public void SetPrefab(GameObject go)
         {
-            if (DirectInstructionList == null) return;
-            for (int i = 0; i < DirectInstructionList.Length; i++)
-            {
-                DirectInstructionList[i].UpdateUuidById();
-            }
+            Prefab = go;
+        }
+        IEnumerable PrefabPathDropdown()
+        {
+            return GameSupportEditorUtility.RefPrefabStringDropdown(Prefab);
         }
 
         public IEnumerable ConditionUuidValueDropdown()

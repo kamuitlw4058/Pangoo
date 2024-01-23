@@ -10,6 +10,10 @@ namespace Pangoo
     {
         public static string ToListString<T>(this List<T> list, string split = "|")
         {
+            if (list == null)
+            {
+                return null;
+            }
             StringBuilder sb = new StringBuilder();
             foreach (var item in list)
             {
@@ -21,7 +25,13 @@ namespace Pangoo
 
         public static string ToListString<T>(this T[] list, string split = "|")
         {
+            if (list == null)
+            {
+                return null;
+            }
+
             StringBuilder sb = new StringBuilder();
+
             foreach (var item in list)
             {
                 sb.Append(item.ToString());

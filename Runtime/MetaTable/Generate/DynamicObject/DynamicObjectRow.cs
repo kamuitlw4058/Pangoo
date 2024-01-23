@@ -179,6 +179,20 @@ namespace Pangoo.MetaTable
 
         string IDynamicObjectRow.HotspotUuids {get => HotspotUuids; set => HotspotUuids = value;}
 
+        [JsonMember("PreviewName")]
+        [MetaTableRowColumn("PreviewName","string", "预览名字",26)]
+        [LabelText("预览名字")]
+        public string PreviewName ;
+
+        string IDynamicObjectRow.PreviewName {get => PreviewName; set => PreviewName = value;}
+
+        [JsonMember("PreviewDesc")]
+        [MetaTableRowColumn("PreviewDesc","string", "预览描述",27)]
+        [LabelText("预览描述")]
+        public string PreviewDesc ;
+
+        string IDynamicObjectRow.PreviewDesc {get => PreviewDesc; set => PreviewDesc = value;}
+
     }
 }
 
