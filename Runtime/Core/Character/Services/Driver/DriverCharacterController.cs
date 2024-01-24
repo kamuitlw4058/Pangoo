@@ -100,6 +100,11 @@ namespace Pangoo.Core.Characters
             m_Controller.height = driverInfo.Height;
         }
 
+        public void UpdateControllerHeight(float val)
+        {
+            m_Controller.height = val;
+        }
+
         protected void UpdateGravity()
         {
             // TODO 相关代码保留。这边是用来区分是在上升期还是下降期用不同的中立加速度

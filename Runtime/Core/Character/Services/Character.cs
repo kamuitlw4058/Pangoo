@@ -120,7 +120,7 @@ namespace Pangoo.Core.Characters
         {
             m_DriverService.SetDriverInfo(driverInfo);
         }
-
+        
         public bool EnabledFootstep
         {
             get
@@ -132,15 +132,15 @@ namespace Pangoo.Core.Characters
                 m_FootstepsService.Enabled = value;
             }
         }
-
-
-
+        
         public bool IsMoveInputDown
         {
-            get
-            {
-                return m_CharacterInputService?.IsMoveInputDown ?? false;
-            }
+            get { return m_CharacterInputService?.IsMoveInputDown ?? false; }
+        }
+
+        public void SetCharacterHeight(float val)
+        {
+            m_DriverService.SetCharacterControllerHeight(val);
         }
 
         public Character(GameObject gameObject, bool onlyCamera = false) : base(gameObject)

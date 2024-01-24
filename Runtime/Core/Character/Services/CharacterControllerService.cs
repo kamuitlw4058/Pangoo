@@ -39,6 +39,11 @@ namespace Pangoo.Core.Characters
             
         }
 
+        public virtual void SetCharacterControllerHeight(float val)
+        {
+            
+        }
+
         public virtual void AddService(T val)
         {
 

@@ -114,5 +114,8 @@ namespace Pangoo.Core.VisualScripting
         
         [LabelText("玩家/设置玩家控制器信息")]
         SetDriverInfo,
+        
+        [LabelText("玩家/通过动态对象距离改变身高")]
+        ChangeCharacterHeightByDynamicObjectDistance,
     }
 }

@@ -72,8 +72,13 @@ namespace Pangoo
                 return m_CharacterRow.CameraOnly;
             }
         }
-
-
-
+        
+        public float Height
+        {
+            get
+            {
+                return m_CharacterRow.Height;
+            }
+        }
     }
 }
