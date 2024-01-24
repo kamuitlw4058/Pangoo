@@ -7,11 +7,13 @@ using UnityEngine;
 
 namespace Pangoo.Core.VisualScripting
 {
-    [Category("Character/设置玩家控制器数据")]
+    [Category("Character/设置玩家身高随动态对象距离变化")]
     [Serializable]
     public class InstructionChangeHightByDynamicObjectDistance : Instruction
     {
-        [SerializeField] [LabelText("参数")] [HideReferenceObjectPicker]
+        [SerializeField]
+        [LabelText("参数")]
+        [HideReferenceObjectPicker]
         public InstructionChangeHightByDynamicObjectDistanceParams ParamsRaw =
             new InstructionChangeHightByDynamicObjectDistanceParams();
 
