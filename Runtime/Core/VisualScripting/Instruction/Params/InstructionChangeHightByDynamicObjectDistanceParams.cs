@@ -14,6 +14,10 @@ namespace Pangoo.Core.VisualScripting
         public float MinDistance;
         [JsonMember("MinHeight")]
         public float MinHeight;
+        [JsonMember("MaxHeight")]
+        public float MaxHeight;
+        [JsonMember("Direction")]
+        public float Direction;
         public float TwoPointDistance => MaxDistance - MinDistance;
 
         public override void Load(string val)
@@ -22,6 +26,8 @@ namespace Pangoo.Core.VisualScripting
             MaxDistance = par.MaxDistance;
             MinDistance = par.MinDistance;
             MinHeight = par.MinHeight;
+            MaxHeight = par.MaxHeight;
+            Direction = par.Direction;
         }
     }
 }
