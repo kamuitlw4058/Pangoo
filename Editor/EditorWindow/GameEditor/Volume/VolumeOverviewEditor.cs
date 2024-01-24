@@ -197,20 +197,7 @@ namespace Pangoo.Editor
                 EditorUtility.SetDirty(m_Overview);
             }
 
-            [Button("应用")]
-            [TableColumnWidth(60, resizable: false)]
-            public void Apply()
-            {
 
-                GameMainConfigEditorUtility.SwitchDefaultScene();
-                m_VolumeComponent = GameObject.FindObjectOfType<VolumeComponent>();
-                GameObject instance = PrefabUtility.InstantiatePrefab(m_Prefab) as GameObject;
-                if (m_VolumeComponent != null)
-                {
-                    instance.transform.parent = m_VolumeComponent.transform;
-                }
-                instance.transform.localPosition = Vector3.zero;
-            }
             [ReadOnly]
             [TableTitleGroup("配置文件")]
             [HideLabel]

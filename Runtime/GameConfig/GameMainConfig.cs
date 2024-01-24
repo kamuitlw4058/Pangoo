@@ -23,18 +23,10 @@ namespace Pangoo
         //用于限定场景的目录避免一些测试或者第三方场景进入
         public string SceneBaseDir;
 
-        [ValueDropdown("GetAllScenes")]
-        [LabelText("默认跳转场景")]
-        public string DefaultJumpScene;
-
-
-        public string GetDefaultJumpScene()
-        {
-            return $"{SceneBaseDir}/{DefaultJumpScene}.unity";
-        }
 
 
         [ValueDropdown("GetProcedureType")]
+        [LabelText("默认进入流程")]
         public string EntryProcedure;
 
         [ValueDropdown("GetGameSectionUuid")]
@@ -43,39 +35,70 @@ namespace Pangoo
 
         [ValueDropdown("GetDefaultPlayer")]
         [LabelText("默认玩家")]
+        [TabGroup("玩家")]
         public string DefaultPlayer;
 
         [LabelText("默认交互夹角")]
+        [TabGroup("玩家")]
         public float DefaultInteractRadian = 0.45f;
 
         [LabelText("默认交互范围")]
+        [TabGroup("玩家")]
         public float DefaultInteractRadius = 2f;
 
         [LabelText("默认Hotspot范围")]
+        [TabGroup("玩家")]
         public float DefaultHotspotRadius = 3f;
+
+
+        [LabelText("默认开启脚步声")]
+        [TabGroup("玩家")]
+        public bool DefaultEnabledFootstepSound = true;
+
+        [LabelText("使用默认脚步声")]
+        [TabGroup("玩家")]
+        public bool UseDefaultFootstepSound = true;
+
+        [LabelText("默认脚步声音量")]
+        [TabGroup("玩家")]
+        public float DefaultFootstepSoundVolume = 1;
+
+        [LabelText("默认脚步声")]
+        [TabGroup("玩家")]
+        [ValueDropdown("GetSoundUuid")]
+        public string[] DefaultFootstepSoundEffectUuids;
 
 
         [LabelText("默认字幕的UIId")]
         [ValueDropdown("GetUIUuid")]
+        [TabGroup("UI")]
         public string DefaultSubtitlePanelUuid = string.Empty;
 
 
         [LabelText("预览UI Uuid")]
         [ValueDropdown("GetUIUuid")]
+        [TabGroup("UI")]
+
         public string PreviewPanelUuid = string.Empty;
 
         [LabelText("预览交互变量 Uuid")]
         [ValueDropdown("GetIntVariableUuid")]
+        [TabGroup("UI")]
+
         public string DefaultPreviewIntVariable = string.Empty;
 
 
         [LabelText("预览退出变量 Uuid")]
         [ValueDropdown("GetBoolVariableUuid")]
+        [TabGroup("UI")]
+
         public string DefaultPreviewExitVariable = string.Empty;
 
         [LabelText("调试指令")]
         [ValueDropdown("GetInstructions")]
         [ListDrawerSettings(Expanded = true)]
+        [TabGroup("Debug")]
+
         public string[] DebuggerInstructions;
 
 
@@ -90,6 +113,12 @@ namespace Pangoo
         private IEnumerable GetInstructions()
         {
             return InstructionOverview.GetUuidDropdown();
+        }
+
+
+        private IEnumerable GetSoundUuid()
+        {
+            return SoundOverview.GetUuidDropdown();
         }
 
         private IEnumerable GetUIUuid()
@@ -122,8 +151,8 @@ namespace Pangoo
             return typeList;
         }
 
+        [TabGroup("其他")]
         public bool InitUnloadScene = true;
-
 
         private IEnumerable GetGameSectionUuid()
         {

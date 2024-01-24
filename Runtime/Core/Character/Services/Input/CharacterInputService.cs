@@ -27,6 +27,15 @@ namespace Pangoo.Core.Characters
         public InputButtonBase m_InputInteraction = InputButtonInteraction.Create();
 
 
+        public bool IsMoveInputDown
+        {
+            get
+            {
+                return InputMove != Vector2.zero;
+            }
+        }
+
+
         [ShowInInspector]
         public Vector2 InputMove { get; private set; }
 

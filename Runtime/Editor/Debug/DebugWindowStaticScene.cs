@@ -28,6 +28,15 @@ namespace Pangoo
             }
             GUILayout.EndVertical();
 
+            GUILayout.Label("<b>最后进入的场景</b>");
+            GUILayout.BeginVertical("box");
+            var lastestEnter = StaticScene.GetLastestEnterScene();
+            if (lastestEnter != null)
+            {
+                DrawItem(lastestEnter.Name, lastestEnter.Uuid);
+            }
+            GUILayout.EndVertical();
+
             var LoadedSceneAssetDict = StaticScene.LoadedSceneAssetDict;
             GUILayout.Label($"<b>已经加载的场景Ids:{LoadedSceneAssetDict.Count}</b>");
             GUILayout.BeginVertical("box");

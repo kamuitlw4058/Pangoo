@@ -49,6 +49,8 @@ namespace Pangoo.Core.Services
             }
         }
 
+        public string LastestEnterUuid;
+
         [ShowInInspector]
         List<string> m_LoadingAssetUuids = new List<string>();
 
@@ -178,7 +180,10 @@ namespace Pangoo.Core.Services
                 m_EnterAssetCountDict[assetPathUuid] = count + 1;
             }
 
+            LastestEnterUuid = assetPathUuid;
+
         }
+
 
         public void ExitSceneAsset(string assetPathUuid)
         {
@@ -190,6 +195,10 @@ namespace Pangoo.Core.Services
                 if (count <= 0)
                 {
                     m_EnterAssetCountDict.Remove(assetPathUuid);
+                    if (!LastestEnterUuid.IsNullOrWhiteSpace() && LastestEnterUuid.Equals(assetPathUuid))
+                    {
+                        LastestEnterUuid = null;
+                    }
                 }
                 else
                 {
@@ -197,6 +206,23 @@ namespace Pangoo.Core.Services
                 }
             }
         }
+
+        public StaticSceneInfoRow GetLastestEnterScene()
+        {
+            if (LastestEnterUuid.IsNullOrWhiteSpace())
+            {
+                if (m_EnterAssetCountDict.Count > 0)
+                {
+                    var k = m_EnterAssetCountDict.Keys.ToList()[0];
+                    LastestEnterUuid = k;
+                    return GetInfoRowByAssetUuid(k);
+                }
+            }
+
+            StaticSceneInfoRow ret = GetInfoRowByAssetUuid(LastestEnterUuid);
+            return ret;
+        }
+
 
         public bool IsLoadedScene(List<string> uuids)
         {
@@ -257,6 +283,17 @@ namespace Pangoo.Core.Services
                     data);
             }
         }
+        public StaticSceneInfoRow GetInfoRowByAssetUuid(string assetUuid)
+        {
+            StaticSceneInfoRow sceneInfo;
+
+            if (m_SectionSceneInfos.TryGetValue(assetUuid, out sceneInfo))
+            {
+                return sceneInfo;
+            }
+
+            return null;
+        }
 
         public void UpdateNeedLoadDict()
         {
@@ -298,8 +335,8 @@ namespace Pangoo.Core.Services
             // 玩家进入对应的场景后。对应场景有相应的场景加载要求。
             foreach (var enterAssetUuid in m_EnterAssetCountDict.Keys)
             {
-                StaticSceneInfoRow sceneInfo;
-                if (m_SectionSceneInfos.TryGetValue(enterAssetUuid, out sceneInfo))
+                StaticSceneInfoRow sceneInfo = GetInfoRowByAssetUuid(enterAssetUuid);
+                if (sceneInfo != null)
                 {
                     foreach (var loadSceneUuid in sceneInfo.LoadSceneUuids)
                     {

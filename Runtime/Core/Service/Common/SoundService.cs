@@ -55,7 +55,7 @@ namespace Pangoo.Core.Services
         }
 
         [Button("播放")]
-        public void PlaySound(string uuid, Action playResetCallback = null, bool loop = false, float fadeTime = 0, float offsetTime = 0)
+        public void PlaySound(string uuid, Action playResetCallback = null, bool loop = false, float fadeTime = 0, float offsetTime = 0, float volume = 1)
         {
             var row = MetaTableSrv.GetSoundByUuid(uuid);
             var path = AssetUtility.GetSoundAssetPath(row.PackageDir, row.SoundType, row.AssetPath);
@@ -64,6 +64,7 @@ namespace Pangoo.Core.Services
             playSoundParams.Loop = loop;
             playSoundParams.FadeInSeconds = fadeTime;
             playSoundParams.Time = offsetTime;
+            playSoundParams.VolumeInSoundGroup = volume;
 
             serialId = PangooEntry.Sound.PlaySound(path, "Default", playSoundParams);
             Debug.Log($"Start Play :{path}. serialId:{serialId}");

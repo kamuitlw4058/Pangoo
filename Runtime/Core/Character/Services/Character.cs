@@ -121,6 +121,19 @@ namespace Pangoo.Core.Characters
             m_DriverService.SetDriverInfo(driverInfo);
         }
 
+        public void SetFootsteps()
+        {
+
+        }
+
+        public bool IsMoveInputDown
+        {
+            get
+            {
+                return m_CharacterInputService?.IsMoveInputDown ?? false;
+            }
+        }
+
         public Character(GameObject gameObject, bool onlyCamera = false) : base(gameObject)
         {
             m_CharacterInputService = new CharacterInputService(this);
@@ -129,6 +142,7 @@ namespace Pangoo.Core.Characters
             m_MotionActionService = new MotionActionService(this);
             m_PlayerService = new PlayerService(this);
             m_InteractionService = new InteractionService(this);
+            m_FootstepsService = new FootstepsService(this);
 
 
             AddService(m_CharacterInputService);
@@ -140,7 +154,7 @@ namespace Pangoo.Core.Characters
                 AddService(m_DriverService);
                 AddService(m_MotionActionService);
                 AddService(m_PlayerService);
-
+                AddService(m_FootstepsService);
             }
         }
 

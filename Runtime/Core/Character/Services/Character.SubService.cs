@@ -75,6 +75,15 @@ namespace Pangoo.Core.Characters
         }
 
 
+        FootstepsService m_FootstepsService;
+        public FootstepsService FootstepsService
+        {
+            get
+            {
+                return m_FootstepsService;
+            }
+        }
+
 
 
 
