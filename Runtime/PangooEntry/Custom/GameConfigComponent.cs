@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using GameFramework.Resource;
 using Pangoo;
+using Pangoo.Core.Characters;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityGameFramework.Runtime;
@@ -12,6 +13,9 @@ namespace Pangoo
     public class GameConfigComponent : GameFrameworkComponent
     {
         public GameMainConfig m_GameMainConfig;
+
+
+        public FootstepAsset m_FootstepAsset;
 
         Dictionary<string, bool> m_LoadWhenGameStartStatus = new Dictionary<string, bool>();
         readonly Dictionary<string, string> m_LoadWhenGameStart = new Dictionary<string, string>()
@@ -80,6 +84,13 @@ namespace Pangoo
             // if(m_GameMainConfig != null && m_GameMainConfig.GetType)
             return m_GameMainConfig;
         }
+
+        public FootstepAsset GetFootstepAsset()
+        {
+            // if(m_GameMainConfig != null && m_GameMainConfig.GetType)
+            return m_FootstepAsset;
+        }
+
 
 
 

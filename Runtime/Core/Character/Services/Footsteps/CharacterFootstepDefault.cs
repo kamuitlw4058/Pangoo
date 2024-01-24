@@ -59,6 +59,15 @@ namespace Pangoo.Core.Characters
             }
         }
 
+        public FootstepAsset FootstepConfig
+        {
+            get
+            {
+                return Character.Main.GameConfig.GetFootstepAsset();
+            }
+        }
+
+
 
         public CharacterFootstepDefault(NestedBaseService parent) : base(parent)
         {
@@ -72,6 +81,43 @@ namespace Pangoo.Core.Characters
         protected override void DoAwake()
         {
 
+        }
+        public readonly RaycastHit[] m_HitsBuffer = new RaycastHit[5];
+
+        public Renderer m_Renderer;
+
+        public int m_HitNum;
+
+        public RaycastHit m_Hit;
+
+
+        private RaycastHit GetGroundHit(Vector3 position, float raydistance = 2.25f)
+        {
+            m_HitNum = Physics.RaycastNonAlloc(
+                position, -Character.CachedTransfrom.up,
+                this.m_HitsBuffer,
+                raydistance,
+                FootstepConfig.LayerMask,
+                QueryTriggerInteraction.Ignore
+            );
+
+            RaycastHit hit = new RaycastHit();
+            float minDistance = Mathf.Infinity;
+
+            for (int i = 0; i < m_HitNum; ++i)
+            {
+                float distance = Vector3.Distance(
+                    this.m_HitsBuffer[i].transform.position,
+                    position
+                );
+
+                if (distance > minDistance) continue;
+
+                hit = this.m_HitsBuffer[i];
+                minDistance = distance;
+            }
+
+            return hit;
         }
 
         protected override void DoUpdate()
@@ -106,6 +152,41 @@ namespace Pangoo.Core.Characters
             if (playSoundFlag)
             {
                 bool playedFlag = false;
+                var m_Hit = GetGroundHit(Character.CachedTransfrom.position);
+                if (m_Hit.collider != null)
+                {
+                    m_Renderer = m_Hit.collider.GetComponent<Renderer>();
+                    if (m_Renderer != null)
+                    {
+                        foreach (Material material in m_Renderer.sharedMaterials)
+                        {
+                            Texture texture = material.mainTexture;
+                            if (texture == null) continue;
+
+                            foreach (var footstepEntry in FootstepConfig.footsteps)
+                            {
+                                if (playedFlag) break;
+                                if (footstepEntry.texture != texture) continue;
+                                if (footstepEntry.soundUuids == null || (footstepEntry.soundUuids != null && footstepEntry.soundUuids.Length == 0)) continue;
+
+
+                                var footstepSoundList = footstepEntry.soundUuids;
+                                FootstepsIndex = FootstepsIndex % footstepSoundList.Length;
+                                var uuid = footstepSoundList[FootstepsIndex];
+                                Debug.Log($"Play Footstep Sounc With Texture:{uuid}");
+                                Character.Main.Sound.PlaySound(uuid, volume: footstepEntry.volume);
+                                Interval = Random.Range(footstepEntry.IntervalRange.x, footstepEntry.IntervalRange.y);
+                                MinInterval = footstepEntry.MinInterval;
+                                playedFlag = true;
+                            }
+                        }
+                    }
+                }
+
+
+
+
+
                 var enterScene = StaticScene.GetLastestEnterScene();
                 if (!playedFlag && enterScene != null && enterScene.UseSceneFootstep && enterScene.SceneFootstepUuids.Length > 0)
                 {
@@ -137,6 +218,8 @@ namespace Pangoo.Core.Characters
 
 
         }
+
+
 
 
 

@@ -1,4 +1,5 @@
 using Pangoo;
+using Pangoo.Core.Characters;
 using System;
 
 namespace Pangoo.Core.Services
@@ -12,6 +13,11 @@ namespace Pangoo.Core.Services
         public GameMainConfig GetGameMainConfig()
         {
             return PangooEntry.GameConfig.GetGameMainConfig();
+        }
+
+        public FootstepAsset GetFootstepAsset()
+        {
+            return PangooEntry.GameConfig.GetFootstepAsset();
         }
 
     }

@@ -226,6 +226,7 @@ MonoBehaviour:
       Player: {fileID: 0}
       m_SectionInited: 0
     StaticScene:
+      LastestEnterUuid: 
       SectionInited: 0
     DynamicObject:
       DynamicObjectInited: 0
@@ -523,6 +524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_GameMainConfig: {fileID: 11400000, guid: 221e6b9e994d0b54da8e93a88b713a1f, type: 2}
+  m_FootstepAsset: {fileID: 11400000, guid: 99e6b6bb13afeb448a50481b46cb69e4, type: 2}
 --- !u!1 &6961080757962519064
 GameObject:
   m_ObjectHideFlags: 0

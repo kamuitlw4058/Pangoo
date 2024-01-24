@@ -75,6 +75,18 @@ namespace Pangoo.Core.Characters
                     break;
             }
         }
+
+        protected override void DoDrawGizmos()
+        {
+            if (Character == null) return;
+            if (!Character.IsPlayer) return;
+            if (!Application.isPlaying) return;
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(Character.CachedTransfrom.position, Character.CachedTransfrom.position - (Character.CachedTransfrom.up * 2));
+
+        }
+
     }
 
 }
