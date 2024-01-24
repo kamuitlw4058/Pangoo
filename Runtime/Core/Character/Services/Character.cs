@@ -121,10 +121,19 @@ namespace Pangoo.Core.Characters
             m_DriverService.SetDriverInfo(driverInfo);
         }
 
-        public void SetFootsteps()
+        public bool EnabledFootstep
         {
-
+            get
+            {
+                return m_FootstepsService.Enabled;
+            }
+            set
+            {
+                m_FootstepsService.Enabled = value;
+            }
         }
+
+
 
         public bool IsMoveInputDown
         {

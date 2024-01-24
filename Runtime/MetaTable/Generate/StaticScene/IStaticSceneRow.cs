@@ -19,15 +19,23 @@ namespace Pangoo.MetaTable
 
         public string NameCn{ get; set; }
 
-        public int AssetPathId{ get; set; }
-
         public int EntityGroupId{ get; set; }
-
-        public string LoadSceneIds{ get; set; }
 
         public string AssetPathUuid{ get; set; }
 
         public string LoadSceneUuids{ get; set; }
+
+        public bool UseSceneFootstep{ get; set; }
+
+        public float SceneFootstepVolume{ get; set; }
+
+        public string SceneFootstepUuids{ get; set; }
+
+        public float SceneFootstepIntervalMin{ get; set; }
+
+        public float SceneFootstepIntervalMax{ get; set; }
+
+        public float SceneFootstepMinInterval{ get; set; }
 
     }
 }

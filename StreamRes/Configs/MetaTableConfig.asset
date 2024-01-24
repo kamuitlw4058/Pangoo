@@ -445,24 +445,33 @@ MonoBehaviour:
     - Name: NameCn
       Type: string
       CnName: "\u4E2D\u6587\u540D"
-    - Name: AssetPathId
-      Type: int
-      CnName: "\u8D44\u6E90\u8DEF\u5F84"
     - Name: EntityGroupId
       Type: int
       CnName: "\u5B9E\u4F53\u7EC4"
-    - Name: LoadSceneIds
-      Type: string
-      CnName: "\u52A0\u8F7D\u573A\u666F"
-    - Name: Id
-      Type: int
-      CnName: Id
     - Name: AssetPathUuid
       Type: string
       CnName: "\u8D44\u6E90\u8DEF\u5F84Uuid"
     - Name: LoadSceneUuids
       Type: string
       CnName: "\u8D44\u6E90\u8DEF\u5F84\u52A0\u8F7DUuid"
+    - Name: UseSceneFootstep
+      Type: bool
+      CnName: "\u4F7F\u7528\u573A\u666F\u811A\u6B65\u58F0"
+    - Name: SceneFootstepVolume
+      Type: float
+      CnName: "\u573A\u666F\u811A\u6B65\u58F0\u97F3\u91CF"
+    - Name: SceneFootstepUuids
+      Type: string
+      CnName: "\u573A\u666F\u811A\u6B65\u58F0\u5217\u8868"
+    - Name: SceneFootstepIntervalMin
+      Type: float
+      CnName: "\u573A\u666F\u811A\u6B65\u58F0\u95F4\u9694\u6700\u5C0F\u503C"
+    - Name: SceneFootstepIntervalMax
+      Type: float
+      CnName: "\u573A\u666F\u811A\u6B65\u58F0\u95F4\u9694\u6700\u5927\u503C"
+    - Name: SceneFootstepMinInterval
+      Type: float
+      CnName: "\u573A\u666F\u811A\u6B65\u58F0\u6700\u5C0F\u95F4\u9694"
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: TriggerEvent

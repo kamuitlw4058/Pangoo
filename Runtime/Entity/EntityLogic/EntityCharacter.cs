@@ -59,10 +59,10 @@ namespace Pangoo
             }
 
             Name = Utility.Text.Format("{0}[{1}]", EntityData.EntityInfo.AssetName, Id);
-
+            var MainService = EntityData.Service.Parent as MainService;
             character = new Character(gameObject, EntityData.CameraOnly);
             character.SetIsPlayer(EntityData.IsPlayer);
-            character.Main = EntityData.Service.Parent as MainService;
+            character.Main = MainService;
             character.IsInteractive = EntityData.IsInteractive;
 
             MotionInfo motionInfo = new MotionInfo();
@@ -92,13 +92,14 @@ namespace Pangoo
             {
                 SlopeLimit = EntityData.InfoRow.m_CharacterRow.SlopeLimit,
                 StepOffset = EntityData.InfoRow.m_CharacterRow.StepOffset,
-                SkinWidth =EntityData.InfoRow.m_CharacterRow.SkinWidth,
-                MinMoveDistance =EntityData.InfoRow.m_CharacterRow.MinMoveDistance,
+                SkinWidth = EntityData.InfoRow.m_CharacterRow.SkinWidth,
+                MinMoveDistance = EntityData.InfoRow.m_CharacterRow.MinMoveDistance,
                 Center = EntityData.InfoRow.m_CharacterRow.Center,
                 Radius = EntityData.InfoRow.m_CharacterRow.Radius,
                 Height = EntityData.InfoRow.m_CharacterRow.Height,
             };
             character.SetDriverInfo(driverInfo);
+            character.EnabledFootstep = MainService.GameConfig.GetGameMainConfig().DefaultEnabledFootstepSound;
         }
 
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)

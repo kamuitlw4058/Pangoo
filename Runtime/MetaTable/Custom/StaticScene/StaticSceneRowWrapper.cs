@@ -16,17 +16,6 @@ namespace Pangoo.MetaTable
     [Serializable]
     public partial class StaticSceneRowWrapper : MetaTableRowWrapper<StaticSceneOverview, StaticSceneNewRowWrapper, UnityStaticSceneRow>
     {
-        [ShowInInspector]
-        [TableTitleGroup("资源Id")]
-        [HideLabel]
-        public int AssetPathId
-        {
-            get
-            {
-                return UnityRow.Row.AssetPathId;
-            }
-        }
-
 
         [ShowInInspector]
         [TableTitleGroup("资源Uuid")]

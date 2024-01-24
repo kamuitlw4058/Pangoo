@@ -8,6 +8,33 @@ namespace Pangoo.Core.Characters
     [Serializable]
     public class FootstepsService : CharacterControllerService<CharacterFootstepTypeEnum>
     {
+        bool m_Enabled;
+        public bool Enabled
+        {
+            get
+            {
+                switch (m_ServiceType)
+                {
+                    case CharacterFootstepTypeEnum.CharacterFootstepDefault:
+                        var service = GetService<CharacterFootstepDefault>();
+                        return service.Enabled;
+                }
+
+                return false;
+            }
+            set
+            {
+                switch (m_ServiceType)
+                {
+                    case CharacterFootstepTypeEnum.CharacterFootstepDefault:
+                        var service = GetService<CharacterFootstepDefault>();
+                        service.Enabled = value;
+                        break;
+                }
+
+            }
+        }
+
 
         public FootstepsService(NestedBaseService parent) : base(parent)
         {
@@ -23,7 +50,7 @@ namespace Pangoo.Core.Characters
             switch (val)
             {
                 case CharacterFootstepTypeEnum.CharacterFootstepDefault:
-                    service = GetService<DriverCharacterController>();
+                    service = GetService<CharacterFootstepDefault>();
                     break;
             }
 

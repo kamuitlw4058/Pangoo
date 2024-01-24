@@ -68,6 +68,14 @@ namespace Pangoo
         [ValueDropdown("GetSoundUuid")]
         public string[] DefaultFootstepSoundEffectUuids;
 
+        [LabelText("脚步间隔")]
+        [TabGroup("玩家")]
+        public Vector2 FootstepSoundInterval = Vector2.one;
+
+        [LabelText("脚步最小间隔")]
+        [TabGroup("玩家")]
+        public float FootstepSoundMinInterval = 0.3f;
+
 
         [LabelText("默认字幕的UIId")]
         [ValueDropdown("GetUIUuid")]

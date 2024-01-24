@@ -61,6 +61,32 @@ namespace Pangoo
             }
         }
 
+
+
+        public string[] SceneFootstepUuids
+        {
+            get
+            {
+                return m_StaticSceneRow.SceneFootstepUuids.ToSplitArr<string>();
+            }
+        }
+
+        public bool UseSceneFootstep
+        {
+            get
+            {
+                return m_StaticSceneRow.UseSceneFootstep;
+            }
+        }
+
+        public float SceneFootstepVolume
+        {
+            get
+            {
+                return m_StaticSceneRow.SceneFootstepVolume;
+            }
+        }
+
         public string AssetPathUuid
         {
             get
@@ -68,6 +94,33 @@ namespace Pangoo
                 return m_AssetPathRow.Uuid;
             }
         }
+
+        public float IntervalMin
+        {
+            get
+            {
+                return m_StaticSceneRow.SceneFootstepIntervalMin;
+            }
+        }
+
+        public float IntervalMax
+        {
+            get
+            {
+                return m_StaticSceneRow.SceneFootstepIntervalMax;
+            }
+        }
+
+
+        public float MinInterval
+        {
+            get
+            {
+                return m_StaticSceneRow.SceneFootstepIntervalMin;
+            }
+        }
+
+
 
         public override void Remove()
         {

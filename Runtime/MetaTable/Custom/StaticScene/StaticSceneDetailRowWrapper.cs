@@ -60,26 +60,7 @@ namespace Pangoo.MetaTable
         }
 
 
-        [LabelText("资源ID")]
-        [ValueDropdown("AssetPathIdValueDropdown")]
-        [PropertyOrder(0)]
-        // [InlineButton("ShowCreateAssetPath", SdfIconType.Plus, Label = "")]
-        public int AssetPathId
-        {
-            get
-            {
-                return UnityRow.Row?.AssetPathId ?? 0;
-            }
-            set
-            {
-                if (UnityRow.Row != null && Overview != null)
-                {
-                    UnityRow.Row.AssetPathId = value;
-                    Save();
-                }
-            }
 
-        }
 
         public IEnumerable AssetPathIdValueDropdown()
         {
@@ -116,25 +97,6 @@ namespace Pangoo.MetaTable
 
 
 
-        [LabelText("加载场景Ids")]
-        [ValueDropdown("StaticSceneIdValueDropdown", IsUniqueList = true)]
-
-        // [OnValueChanged("OnDynamicSceneIdsChanged")]
-        [ListDrawerSettings(Expanded = true)]
-
-        [ShowInInspector]
-        public int[] LoadSceneIds
-        {
-            get
-            {
-                return UnityRow.Row?.LoadSceneIds?.ToSplitArr<int>() ?? new int[0];
-            }
-            set
-            {
-                UnityRow.Row.LoadSceneIds = value.ToList().ToListString();
-                Save();
-            }
-        }
 
         [ShowInInspector]
         [LabelText("加载场景Uuid")]
@@ -166,30 +128,118 @@ namespace Pangoo.MetaTable
             return GameSupportEditorUtility.GetStaticSceneUuids(excludeUuid: new List<string> { UnityRow.Uuid });
         }
 
-
-        [Button("升级到Uuid")]
-        public void UpgradeToUuuid()
+        [ShowInInspector]
+        [LabelText("使用场景脚步声")]
+        public bool UseSceneFootstep
         {
-            var row = GameSupportEditorUtility.GetAssetPathById(AssetPathId);
-            if (row == null)
+            get
             {
-                Debug.Log($"AssetPathId:{AssetPathId} no found:{Name}");
-                return;
+                return UnityRow.Row.UseSceneFootstep;
             }
-            AssetPathUuid = row.Uuid;
-
-            List<string> loadUuids = new List<string>();
-
-            foreach (var id in LoadSceneIds)
+            set
             {
-                var loadRow = GameSupportEditorUtility.GetStaticSceneById(id);
-                loadUuids.Add(loadRow.Uuid);
+                UnityRow.Row.UseSceneFootstep = value;
+                Save();
             }
-
-            LoadSceneUuids = loadUuids.ToArray();
-
         }
 
+        [ShowInInspector]
+        [LabelText("场景脚步声音量")]
+        public float SceneFootstepVolume
+        {
+            get
+            {
+                return UnityRow.Row.SceneFootstepVolume;
+            }
+            set
+            {
+                UnityRow.Row.SceneFootstepVolume = value;
+                Save();
+            }
+        }
+
+        string[] m_SceneFootstepList;
+
+        [ShowInInspector]
+        [LabelText("场景脚步声音列表")]
+        [OnValueChanged("OnSceneFootstepListChanged", includeChildren: true)]
+        [ValueDropdown("SoundUuidDropdown")]
+        public string[] SceneFootstepList
+        {
+            get
+            {
+                if (m_SceneFootstepList == null)
+                {
+                    m_SceneFootstepList = UnityRow.Row.SceneFootstepUuids.ToSplitArr<string>();
+                }
+                return m_SceneFootstepList;
+            }
+            set
+            {
+                m_SceneFootstepList = value;
+                UnityRow.Row.SceneFootstepUuids = value.ToListString();
+                Save();
+            }
+        }
+
+        void OnSceneFootstepListChanged()
+        {
+            UnityRow.Row.SceneFootstepUuids = m_SceneFootstepList.ToListString();
+            Save();
+        }
+
+        public IEnumerable SoundUuidDropdown()
+        {
+            return SoundOverview.GetUuidDropdown();
+        }
+
+
+
+        [ShowInInspector]
+        [LabelText("场景脚步声间隔范围最小值")]
+        public float SceneFootstepIntervalMin
+        {
+            get
+            {
+                return UnityRow.Row.SceneFootstepIntervalMin;
+            }
+            set
+            {
+                UnityRow.Row.SceneFootstepIntervalMin = value;
+                Save();
+            }
+        }
+
+
+        [ShowInInspector]
+        [LabelText("场景脚步声间隔范围最大值")]
+        public float SceneFootstepIntervalMax
+        {
+            get
+            {
+                return UnityRow.Row.SceneFootstepIntervalMax;
+            }
+            set
+            {
+                UnityRow.Row.SceneFootstepIntervalMax = value;
+                Save();
+            }
+        }
+
+        [ShowInInspector]
+        [LabelText("场景脚步声最小间隔")]
+        public float SceneFootstepMinInterval
+        {
+            get
+            {
+                return UnityRow.Row.SceneFootstepMinInterval;
+            }
+            set
+            {
+                UnityRow.Row.SceneFootstepMinInterval = value;
+                Save();
+            }
+        }
 
 
     }
