@@ -293,6 +293,15 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.DriverInfo = driverInfo;
             return instruction;
         }
+        
+        public static Instruction GetChangeCharacterHeightByDynamicObjectDistance(float maxDistance,float minDistance,float minHeight)
+        {
+            var instruction = Activator.CreateInstance<InstructionChangeHightByDynamicObjectDistance>();
+            instruction.ParamsRaw.MaxDistance = maxDistance;
+            instruction.ParamsRaw.MinDistance = minDistance;
+            instruction.ParamsRaw.MinHeight = minHeight;
+            return instruction;
+        }
 
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
@@ -368,6 +377,8 @@ namespace Pangoo.Core.VisualScripting
                     return GetDynamicObjectSetMaterial(DropdownString1,Int1);
                 case DirectInstructionTypeEnum.SetDriverInfo:
                     return GetSetDriverInfo(DriverInfo1);
+                case DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance:
+                    return GetChangeCharacterHeightByDynamicObjectDistance(Float1, Float2,Float3);
             }
 
             return null;

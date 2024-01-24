@@ -25,7 +25,6 @@ namespace Pangoo.Core.VisualScripting
                 EntityCharacter player = args?.Main?.CharacterService.Player;
                 player.character.SetDriverInfo(ParamsRaw.DriverInfo);
             }
-
         }
     }
 }
