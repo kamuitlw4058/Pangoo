@@ -9,29 +9,27 @@ namespace Pangoo.Common
     {
         public static float Remap(float input, Vector2 inputMinMax, Vector2 outputMinMax)
         {
-            var val = outputMinMax.y > outputMinMax.x
-                ? (input - inputMinMax.x) / Mathf.Abs(inputMinMax.y - inputMinMax.x) *
-                Mathf.Abs(outputMinMax.y - outputMinMax.x) + outputMinMax.x
-                : (input - inputMinMax.x) / Mathf.Abs(inputMinMax.y - inputMinMax.x) *
-                Mathf.Abs(outputMinMax.y - outputMinMax.x) + outputMinMax.y;
-
-            return val;
+            var inputSign = inputMinMax.x > inputMinMax.y ? -1 : 1;
+            var p = (input - inputMinMax.x) * inputSign / Mathf.Abs(inputMinMax.y - inputMinMax.x);
+            var v =  p * (Mathf.Abs(outputMinMax.y - outputMinMax.x)) + outputMinMax.x;
+            //Debug.Log($"p:{p} v:{v}");
+            return v;
         }
 
         public static float ClampRemap(float input, Vector2 inputMinMax, Vector2 outputMinMax)
         {
-            if (input < inputMinMax.y)
+            var inputA = input;
+            if (inputMinMax.x > inputMinMax.y)
             {
-                var val = Remap(input, inputMinMax, outputMinMax);
-                
-                var minVal = outputMinMax.x < outputMinMax.y ? outputMinMax.x : outputMinMax.y;
-                var maxVal = outputMinMax.x < outputMinMax.y ? outputMinMax.y : outputMinMax.x;
-                return Math.Clamp(val, minVal, maxVal);
+                inputA = Mathf.Clamp(input, inputMinMax.y, inputMinMax.x);
             }
             else
             {
-                return outputMinMax.x;
+                inputA = Mathf.Clamp(input, inputMinMax.x, inputMinMax.y);
             }
+       
+            return Remap(inputA, inputMinMax, outputMinMax);
+           
         }
 
         public static Vector3 Lerp(Vector3 input, Vector3 target, float val)

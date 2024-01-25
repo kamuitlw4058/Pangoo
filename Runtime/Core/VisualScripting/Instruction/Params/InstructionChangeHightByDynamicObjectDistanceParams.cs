@@ -8,21 +8,22 @@ namespace Pangoo.Core.VisualScripting
 {
     public class InstructionChangeHightByDynamicObjectDistanceParams : InstructionParams
     {
-        [JsonMember("MaxDistance")]
-        public float MaxDistance;
-        [JsonMember("MinDistance")]
-        public float MinDistance;
+        [JsonMember("StartDistance")]
+        public float StartDistance;
+        [JsonMember("EndDistance")]
+        public float EndDistance;
+
         [JsonMember("StartHeight")]
         public float StartHeight;
         [JsonMember("EndHeight")]
         public float EndHeight;
-        public float TwoPointDistance => MaxDistance - MinDistance;
+        public float TwoPointDistance => EndDistance - StartDistance;
 
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionChangeHightByDynamicObjectDistanceParams>(val);
-            MaxDistance = par.MaxDistance;
-            MinDistance = par.MinDistance;
+            EndDistance = par.EndDistance;
+            StartDistance = par.StartDistance;
             StartHeight = par.StartHeight;
             EndHeight = par.EndHeight;
         }

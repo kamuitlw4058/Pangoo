@@ -297,8 +297,8 @@ namespace Pangoo.Core.VisualScripting
         public static Instruction GetChangeCharacterHeightByDynamicObjectDistance(float maxDistance,float minDistance,float minHeight,float maxHeight)
         {
             var instruction = Activator.CreateInstance<InstructionChangeHightByDynamicObjectDistance>();
-            instruction.ParamsRaw.MaxDistance = maxDistance;
-            instruction.ParamsRaw.MinDistance = minDistance;
+            instruction.ParamsRaw.EndDistance = maxDistance;
+            instruction.ParamsRaw.StartDistance = minDistance;
             instruction.ParamsRaw.StartHeight = minHeight;
             instruction.ParamsRaw.EndHeight = maxHeight;
             return instruction;
