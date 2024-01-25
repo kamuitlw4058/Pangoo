@@ -144,12 +144,6 @@ namespace Pangoo.Core.VisualScripting
         [LabelWidth(80)]
         [JsonMember("Float4")]
         public float Float4;
-        [TableTitleGroup("参数")]
-        [LabelText("$Float5Label")]
-        [ShowIf("$IsFloat5Show")]
-        [LabelWidth(80)]
-        [JsonMember("Float5")]
-        public float Float5;
 
         [TableTitleGroup("参数")]
         //[LabelText("$CursorLockMode1Label")]
@@ -429,18 +423,6 @@ namespace Pangoo.Core.VisualScripting
                 };
             }
         }
-        [JsonNoMember]
-        bool IsFloat5Show
-        {
-            get
-            {
-                return InstructionType switch
-                {
-                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>true,
-                    _ => false,
-                };
-            }
-        }
 
         [JsonNoMember]
         bool IsMainCursorLockModeShow
@@ -649,7 +631,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>"最小身高",
+                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>"起始身高",
                     _ => "Float3",
                 };
             }
@@ -662,25 +644,12 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>"最大身高",
+                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>"结束身高",
                     _ => "Float4",
                 };
             }
         }
-        
-        [JsonNoMember]
-        string Float5Label
-        {
-            get
-            {
-                return InstructionType switch
-                {
-                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>"变化方向",
-                    _ => "Float5",
-                };
-            }
-        }
-        
+
         public IEnumerable OnDropdownStringValueDropdown()
         {
             switch (InstructionType)

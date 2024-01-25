@@ -12,12 +12,10 @@ namespace Pangoo.Core.VisualScripting
         public float MaxDistance;
         [JsonMember("MinDistance")]
         public float MinDistance;
-        [JsonMember("MinHeight")]
-        public float MinHeight;
-        [JsonMember("MaxHeight")]
-        public float MaxHeight;
-        [JsonMember("Direction")]
-        public float Direction;
+        [JsonMember("StartHeight")]
+        public float StartHeight;
+        [JsonMember("EndHeight")]
+        public float EndHeight;
         public float TwoPointDistance => MaxDistance - MinDistance;
 
         public override void Load(string val)
@@ -25,9 +23,8 @@ namespace Pangoo.Core.VisualScripting
             var par = JsonMapper.ToObject<InstructionChangeHightByDynamicObjectDistanceParams>(val);
             MaxDistance = par.MaxDistance;
             MinDistance = par.MinDistance;
-            MinHeight = par.MinHeight;
-            MaxHeight = par.MaxHeight;
-            Direction = par.Direction;
+            StartHeight = par.StartHeight;
+            EndHeight = par.EndHeight;
         }
     }
 }
