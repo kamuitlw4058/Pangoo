@@ -32,8 +32,7 @@ namespace Pangoo.Core.VisualScripting
                     new Vector2(ParamsRaw.StartHeight, ParamsRaw.EndHeight));
                 //Debug.Log($"playerDistance:{playerDistance},ParamsRaw.MinDistance:{ParamsRaw.StartDistance},ParamsRaw.MaxDistance:{ParamsRaw.EndDistance}  , height:{height},ParamsRaw.StartHeight:{ParamsRaw.StartHeight},ParamsRaw.EndHeight:{ParamsRaw.EndHeight}");
                 //player.character.SetCharacterHeight(height);
-                var cameraHight = height / 2 + player.character.OriginalCameraOffset.y;
-                player.character.SetCamreaHightFollowCharacterHeight(cameraHight);
+                player.character.SetCamreaHightFollowCharacterHeight(height);
             }
         }
     }

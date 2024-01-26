@@ -631,7 +631,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>"起始身高",
+                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>"起始高度",
                     _ => "Float3",
                 };
             }
@@ -644,7 +644,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>"结束身高",
+                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>"结束高度",
                     _ => "Float4",
                 };
             }

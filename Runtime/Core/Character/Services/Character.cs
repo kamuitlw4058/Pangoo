@@ -18,8 +18,7 @@ namespace Pangoo.Core.Characters
         [SerializeField] protected bool m_IsPlayer;
 
         [SerializeField] MotionInfo m_MotionInfo;
-
-        public Vector3 OriginalCameraOffset { get; set; }
+        
         public Vector3 CameraOffset { get; set; }
         [ShowInInspector]
         public float xAxisMaxPitch { get; set; }
