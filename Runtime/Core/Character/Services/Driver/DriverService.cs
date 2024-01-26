@@ -38,6 +38,11 @@ namespace Pangoo.Core.Characters
             }
         }
 
+        public override void SetCharacterControllerHeight(float val)
+        {
+            m_DriverCharacterController.UpdateControllerHeight(val);
+        }
+
         public override void RemoveService(CharacterDriverTypeEnum val)
         {
             CharacterBaseService service = null;

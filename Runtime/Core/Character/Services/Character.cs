@@ -18,7 +18,7 @@ namespace Pangoo.Core.Characters
         [SerializeField] protected bool m_IsPlayer;
 
         [SerializeField] MotionInfo m_MotionInfo;
-
+        
         public Vector3 CameraOffset { get; set; }
         [ShowInInspector]
         public float xAxisMaxPitch { get; set; }
@@ -78,6 +78,10 @@ namespace Pangoo.Core.Characters
 
         public IInteractive Target => m_InteractionService?.Target;
 
+        public CharacterController CharacterController
+        {
+            get => gameObject.GetComponent<CharacterController>();
+        }
 
         public void SetMotionInfo(MotionInfo motionInfo)
         {
@@ -116,11 +120,19 @@ namespace Pangoo.Core.Characters
             m_CharacterCameraService.SetCameraOffset(offset);
         }
 
+        public void SetCamreaHightFollowCharacterHeight(float targetHight)
+        {
+            float offsetY = targetHight - (CharacterController.height) / 2;
+
+            //Debug.Log($"offsetY:{offsetY},height:{targetHight},Info.Height:{CharacterController.height},OriginalCameraOffset.y:{OriginalCameraOffset.y}");
+            SetCameraOffset(new Vector3(CameraOffset.x,offsetY,CameraOffset.z));
+        }
+
         public void SetDriverInfo(DriverInfo driverInfo)
         {
             m_DriverService.SetDriverInfo(driverInfo);
         }
-
+        
         public bool EnabledFootstep
         {
             get
@@ -132,15 +144,15 @@ namespace Pangoo.Core.Characters
                 m_FootstepsService.Enabled = value;
             }
         }
-
-
-
+        
         public bool IsMoveInputDown
         {
-            get
-            {
-                return m_CharacterInputService?.IsMoveInputDown ?? false;
-            }
+            get { return m_CharacterInputService?.IsMoveInputDown ?? false; }
+        }
+
+        public void SetCharacterHeight(float val)
+        {
+            m_DriverService.SetCharacterControllerHeight(val);
         }
 
         public Character(GameObject gameObject, bool onlyCamera = false) : base(gameObject)

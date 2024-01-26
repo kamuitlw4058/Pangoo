@@ -131,6 +131,19 @@ namespace Pangoo.Core.VisualScripting
         [LabelWidth(80)]
         [JsonMember("Float2")]
         public float Float2;
+        
+        [TableTitleGroup("参数")]
+        [LabelText("$Float3Label")]
+        [ShowIf("$IsFloat3Show")]
+        [LabelWidth(80)]
+        [JsonMember("Float3")]
+        public float Float3;
+        [TableTitleGroup("参数")]
+        [LabelText("$Float4Label")]
+        [ShowIf("$IsFloat4Show")]
+        [LabelWidth(80)]
+        [JsonMember("Float4")]
+        public float Float4;
 
         [TableTitleGroup("参数")]
         //[LabelText("$CursorLockMode1Label")]
@@ -364,6 +377,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.ImageFade => true,
                     DirectInstructionTypeEnum.CanvasGroup => true,
                     DirectInstructionTypeEnum.TweenLightIntensity => true,
+                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>true,
                     _ => false,
                 };
             }
@@ -379,6 +393,32 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.ImageFade => true,
                     DirectInstructionTypeEnum.CanvasGroup => true,
                     DirectInstructionTypeEnum.TweenLightIntensity => true,
+                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>true,
+                    _ => false,
+                };
+            }
+        }
+        
+        [JsonNoMember]
+        bool IsFloat3Show
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>true,
+                    _ => false,
+                };
+            }
+        }
+        [JsonNoMember]
+        bool IsFloat4Show
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>true,
                     _ => false,
                 };
             }
@@ -562,6 +602,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.ImageFade => "目标Alpha值",
                     DirectInstructionTypeEnum.CanvasGroup => "目标Alpha值",
                     DirectInstructionTypeEnum.TweenLightIntensity => "目标值",
+                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>"起始距离",
                     _ => "Float1",
                 };
             }
@@ -577,13 +618,37 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.ImageFade => "过渡时间",
                     DirectInstructionTypeEnum.CanvasGroup => "过渡时间",
                     DirectInstructionTypeEnum.TweenLightIntensity => "过渡时间",
-                    _ => "Float1",
+                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>"结束距离",
+                    _ => "Float2",
                 };
             }
         }
-
-
-
+        
+        [JsonNoMember]
+        string Float3Label
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>"起始高度",
+                    _ => "Float3",
+                };
+            }
+        }
+        
+        [JsonNoMember]
+        string Float4Label
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>"结束高度",
+                    _ => "Float4",
+                };
+            }
+        }
 
         public IEnumerable OnDropdownStringValueDropdown()
         {

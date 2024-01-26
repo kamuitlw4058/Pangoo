@@ -213,9 +213,7 @@ namespace Pangoo.Core.Characters
 
             var transposer = GetCinemachineTransposer();
             transposer.m_FollowOffset = offset;
-
         }
-
 
         public void SetFirstPerson()
         {

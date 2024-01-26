@@ -76,6 +76,7 @@ namespace Pangoo
 
             character.SetMotionInfo(motionInfo);
             character.CameraOffset = EntityData.InfoRow.m_CharacterRow.CameraOffset;
+            character.OriginalCameraOffset = EntityData.InfoRow.m_CharacterRow.CameraOffset;
             if (EntityData.Height >= 0)
             {
                 character.CameraOffset = new Vector3(0, EntityData.Height, 0);
@@ -83,7 +84,6 @@ namespace Pangoo
             character.xAxisMaxPitch = EntityData.InfoRow.m_CharacterRow.XMaxPitch;
             character.yAxisMaxPitch = EntityData.InfoRow.m_CharacterRow.YMaxPitch;
             character.IsControllable = true;
-
             character.Awake();
             character.Start();
             character.ResetCameraDirection();
@@ -99,6 +99,7 @@ namespace Pangoo
                 Height = EntityData.InfoRow.m_CharacterRow.Height,
             };
             character.SetDriverInfo(driverInfo);
+
             character.EnabledFootstep = MainService.GameConfig.GetGameMainConfig().DefaultEnabledFootstepSound;
         }
 
