@@ -79,10 +79,9 @@ namespace Pangoo.Core.Characters
 
         public IInteractive Target => m_InteractionService?.Target;
 
-        public DriverInfo DriverInfo
+        public CharacterController CharacterController
         {
-            get;
-            set;
+            get => gameObject.GetComponent<CharacterController>();
         }
 
         public void SetMotionInfo(MotionInfo motionInfo)
@@ -122,10 +121,11 @@ namespace Pangoo.Core.Characters
             m_CharacterCameraService.SetCameraOffset(offset);
         }
 
-        public void SetCamreaHightFollowCharacterHeight(float height)
+        public void SetCamreaHightFollowCharacterHeight(float targetHight)
         {
-            float offsetY = height-DriverInfo.Height+OriginalCameraOffset.y;
-            //Debug.Log($"offsetY:{offsetY},height:{height},DriverInfo.Height:{DriverInfo.Height},OriginalCameraOffset.y:{OriginalCameraOffset.y}");
+            float offsetY = targetHight - (CharacterController.height) / 2;
+
+            //Debug.Log($"offsetY:{offsetY},height:{targetHight},Info.Height:{CharacterController.height},OriginalCameraOffset.y:{OriginalCameraOffset.y}");
             SetCameraOffset(new Vector3(CameraOffset.x,offsetY,CameraOffset.z));
         }
 

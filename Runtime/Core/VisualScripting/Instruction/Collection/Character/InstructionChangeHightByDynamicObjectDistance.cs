@@ -30,8 +30,10 @@ namespace Pangoo.Core.VisualScripting
                 var height = MathUtility.ClampRemap(playerDistance,
                     new Vector2(ParamsRaw.StartDistance, ParamsRaw.EndDistance),
                     new Vector2(ParamsRaw.StartHeight, ParamsRaw.EndHeight));
-                //Debug.Log($"playerDistance:{playerDistance},ParamsRaw.MinDistance:{ParamsRaw.StartDistance},ParamsRaw.MaxDistance:{ParamsRaw.EndDistance}  , height:{height},ParamsRaw.StartHeight:{ParamsRaw.StartHeight},ParamsRaw.EndHeight:{ParamsRaw.EndHeight}");;
-                player.character.SetCamreaHightFollowCharacterHeight(height);
+                //Debug.Log($"playerDistance:{playerDistance},ParamsRaw.MinDistance:{ParamsRaw.StartDistance},ParamsRaw.MaxDistance:{ParamsRaw.EndDistance}  , height:{height},ParamsRaw.StartHeight:{ParamsRaw.StartHeight},ParamsRaw.EndHeight:{ParamsRaw.EndHeight}");
+                //player.character.SetCharacterHeight(height);
+                var cameraHight = height / 2 + player.character.OriginalCameraOffset.y;
+                player.character.SetCamreaHightFollowCharacterHeight(cameraHight);
             }
         }
     }

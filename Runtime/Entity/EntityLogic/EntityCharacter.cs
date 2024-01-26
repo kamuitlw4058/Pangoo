@@ -99,9 +99,7 @@ namespace Pangoo
                 Height = EntityData.InfoRow.m_CharacterRow.Height,
             };
             character.SetDriverInfo(driverInfo);
-            
-            character.DriverInfo = driverInfo;
-            
+
             character.EnabledFootstep = MainService.GameConfig.GetGameMainConfig().DefaultEnabledFootstepSound;
         }
 
