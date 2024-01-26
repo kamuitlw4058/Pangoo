@@ -10,9 +10,9 @@ namespace Pangoo.Common
         public static float Remap(float input, Vector2 inputMinMax, Vector2 outputMinMax)
         {
             var inputSign = inputMinMax.x > inputMinMax.y ? -1 : 1;
+            var outputSign = outputMinMax.x > outputMinMax.y ? -1 : 1;
             var p = (input - inputMinMax.x) * inputSign / Mathf.Abs(inputMinMax.y - inputMinMax.x);
-            var v =  p * (Mathf.Abs(outputMinMax.y - outputMinMax.x)) + outputMinMax.x;
-            //Debug.Log($"p:{p} v:{v}");
+            var v = outputSign *  p * (Mathf.Abs(outputMinMax.y - outputMinMax.x)) + outputMinMax.x;
             return v;
         }
 
@@ -21,6 +21,7 @@ namespace Pangoo.Common
             var inputA = input;
             if (inputMinMax.x > inputMinMax.y)
             {
+                
                 inputA = Mathf.Clamp(input, inputMinMax.y, inputMinMax.x);
             }
             else

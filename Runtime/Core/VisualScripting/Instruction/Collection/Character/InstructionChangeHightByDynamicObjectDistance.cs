@@ -26,15 +26,12 @@ namespace Pangoo.Core.VisualScripting
             var player = args?.Main?.CharacterService.Player;
             if (player!=null)
             {
-
-                var inputMinMax = new Vector2();
-
                 var playerDistance = Vector3.Distance(player.transform.position,args.Target.transform.position);
                 var height = MathUtility.ClampRemap(playerDistance,
                     new Vector2(ParamsRaw.StartDistance, ParamsRaw.EndDistance),
                     new Vector2(ParamsRaw.StartHeight, ParamsRaw.EndHeight));
                 //Debug.Log($"playerDistance:{playerDistance},ParamsRaw.MinDistance:{ParamsRaw.StartDistance},ParamsRaw.MaxDistance:{ParamsRaw.EndDistance}  , height:{height},ParamsRaw.StartHeight:{ParamsRaw.StartHeight},ParamsRaw.EndHeight:{ParamsRaw.EndHeight}");;
-                player.character.SetCharacterHeight(height);
+                player.character.SetCamreaHightFollowCharacterHeight(height);
             }
         }
     }

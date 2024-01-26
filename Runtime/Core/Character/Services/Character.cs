@@ -19,6 +19,7 @@ namespace Pangoo.Core.Characters
 
         [SerializeField] MotionInfo m_MotionInfo;
 
+        public Vector3 OriginalCameraOffset { get; set; }
         public Vector3 CameraOffset { get; set; }
         [ShowInInspector]
         public float xAxisMaxPitch { get; set; }
@@ -78,6 +79,11 @@ namespace Pangoo.Core.Characters
 
         public IInteractive Target => m_InteractionService?.Target;
 
+        public DriverInfo DriverInfo
+        {
+            get;
+            set;
+        }
 
         public void SetMotionInfo(MotionInfo motionInfo)
         {
@@ -114,6 +120,13 @@ namespace Pangoo.Core.Characters
         {
             CameraOffset = offset;
             m_CharacterCameraService.SetCameraOffset(offset);
+        }
+
+        public void SetCamreaHightFollowCharacterHeight(float height)
+        {
+            float offsetY = height-DriverInfo.Height+OriginalCameraOffset.y;
+            //Debug.Log($"offsetY:{offsetY},height:{height},DriverInfo.Height:{DriverInfo.Height},OriginalCameraOffset.y:{OriginalCameraOffset.y}");
+            SetCameraOffset(new Vector3(CameraOffset.x,offsetY,CameraOffset.z));
         }
 
         public void SetDriverInfo(DriverInfo driverInfo)

@@ -294,11 +294,11 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
         
-        public static Instruction GetChangeCharacterHeightByDynamicObjectDistance(float maxDistance,float minDistance,float minHeight,float maxHeight)
+        public static Instruction GetChangeCharacterHeightByDynamicObjectDistance(float startDistance,float endDistance,float minHeight,float maxHeight)
         {
             var instruction = Activator.CreateInstance<InstructionChangeHightByDynamicObjectDistance>();
-            instruction.ParamsRaw.EndDistance = maxDistance;
-            instruction.ParamsRaw.StartDistance = minDistance;
+            instruction.ParamsRaw.EndDistance = endDistance;
+            instruction.ParamsRaw.StartDistance = startDistance;
             instruction.ParamsRaw.StartHeight = minHeight;
             instruction.ParamsRaw.EndHeight = maxHeight;
             return instruction;
