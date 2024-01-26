@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Pangoo.Core.VisualScripting
 {
-    [Category("Character/设置玩家身高随动态对象距离变化")]
+    [Category("Character/设置玩家相机高度随动态对象距离变化")]
     [Serializable]
     public class InstructionChangeHightByDynamicObjectDistance : Instruction
     {
