@@ -17,8 +17,6 @@ namespace Pangoo.MetaTable
     public partial interface IDynamicObjectRow : IMetaTableRow
     {
 
-        public int AssetPathId{ get; set; }
-
         public string NameCn{ get; set; }
 
         public string Space{ get; set; }
@@ -29,15 +27,11 @@ namespace Pangoo.MetaTable
 
         public Vector3 Scale{ get; set; }
 
-        public string TriggerEventIds{ get; set; }
-
         public bool UseHotspot{ get; set; }
 
         public bool DefaultHideHotspot{ get; set; }
 
         public float HotspotRadius{ get; set; }
-
-        public string HotspotIds{ get; set; }
 
         public Vector3 HotspotOffset{ get; set; }
 
@@ -66,6 +60,10 @@ namespace Pangoo.MetaTable
         public string PreviewName{ get; set; }
 
         public string PreviewDesc{ get; set; }
+
+        public string StateSubDynamicObject{ get; set; }
+
+        public string StateVariableUuid{ get; set; }
 
     }
 }

@@ -44,7 +44,7 @@ namespace Pangoo
         public static T FindAssetFirst<T>(string path = null) where T : Object
         {
             var items = FindAsset<T>(path);
-            Debug.Log(items.Count());
+            // Debug.Log(items.Count());
             if (items.Count() > 0)
             {
                 return items.First();

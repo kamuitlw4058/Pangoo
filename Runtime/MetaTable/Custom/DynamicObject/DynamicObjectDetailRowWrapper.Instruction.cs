@@ -16,27 +16,6 @@ namespace Pangoo.MetaTable
 {
     public partial class DynamicObjectDetailRowWrapper : MetaTableDetailRowWrapper<DynamicObjectOverview, UnityDynamicObjectRow>
     {
-        [LabelText("触发器Ids")]
-        [TabGroup("指令系统")]
-        [ValueDropdown("TriggerEventIdDropdown", IsUniqueList = true)]
-        [ListDrawerSettings(Expanded = true)]
-        // [ShowInInspector]
-        [PropertyOrder(11)]
-        public int[] TriggerIds
-        {
-            get
-            {
-                return UnityRow.Row.TriggerEventIds.ToSplitArr<int>();
-            }
-            set
-            {
-
-
-                UnityRow.Row.TriggerEventIds = value.ToListString();
-                Save();
-
-            }
-        }
 
         [LabelText("触发器Uuids")]
         [TabGroup("指令系统")]

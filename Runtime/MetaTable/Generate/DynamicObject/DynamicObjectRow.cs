@@ -15,183 +15,177 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class DynamicObjectRow : MetaTableRow,IDynamicObjectRow
+    public partial class DynamicObjectRow : MetaTableRow, IDynamicObjectRow
     {
 
-        [JsonMember("AssetPathId")]
-        [MetaTableRowColumn("AssetPathId","int", "资源路径",3)]
-        [LabelText("资源路径")]
-        public int AssetPathId ;
-
-        int IDynamicObjectRow.AssetPathId {get => AssetPathId; set => AssetPathId = value;}
-
         [JsonMember("NameCn")]
-        [MetaTableRowColumn("NameCn","string", "中文名",4)]
+        [MetaTableRowColumn("NameCn", "string", "中文名", 3)]
         [LabelText("中文名")]
-        public string NameCn ;
+        public string NameCn;
 
-        string IDynamicObjectRow.NameCn {get => NameCn; set => NameCn = value;}
+        string IDynamicObjectRow.NameCn { get => NameCn; set => NameCn = value; }
 
         [JsonMember("Space")]
-        [MetaTableRowColumn("Space","string", "位置空间",5)]
+        [MetaTableRowColumn("Space", "string", "位置空间", 4)]
         [LabelText("位置空间")]
-        public string Space ;
+        public string Space;
 
-        string IDynamicObjectRow.Space {get => Space; set => Space = value;}
+        string IDynamicObjectRow.Space { get => Space; set => Space = value; }
 
         [JsonMember("Position")]
-        [MetaTableRowColumn("Position","Vector3", "位置",6)]
+        [MetaTableRowColumn("Position", "Vector3", "位置", 5)]
         [LabelText("位置")]
-        public Vector3 Position ;
+        public Vector3 Position;
 
-        Vector3 IDynamicObjectRow.Position {get => Position; set => Position = value;}
+        Vector3 IDynamicObjectRow.Position { get => Position; set => Position = value; }
 
         [JsonMember("Rotation")]
-        [MetaTableRowColumn("Rotation","Vector3", "旋转",7)]
+        [MetaTableRowColumn("Rotation", "Vector3", "旋转", 6)]
         [LabelText("旋转")]
-        public Vector3 Rotation ;
+        public Vector3 Rotation;
 
-        Vector3 IDynamicObjectRow.Rotation {get => Rotation; set => Rotation = value;}
+        Vector3 IDynamicObjectRow.Rotation { get => Rotation; set => Rotation = value; }
 
         [JsonMember("Scale")]
-        [MetaTableRowColumn("Scale","Vector3", "缩放",8)]
+        [MetaTableRowColumn("Scale", "Vector3", "缩放", 7)]
         [LabelText("缩放")]
-        public Vector3 Scale ;
+        public Vector3 Scale;
 
-        Vector3 IDynamicObjectRow.Scale {get => Scale; set => Scale = value;}
-
-        [JsonMember("TriggerEventIds")]
-        [MetaTableRowColumn("TriggerEventIds","string", "触发事件Ids",9)]
-        [LabelText("触发事件Ids")]
-        public string TriggerEventIds ;
-
-        string IDynamicObjectRow.TriggerEventIds {get => TriggerEventIds; set => TriggerEventIds = value;}
+        Vector3 IDynamicObjectRow.Scale { get => Scale; set => Scale = value; }
 
         [JsonMember("UseHotspot")]
-        [MetaTableRowColumn("UseHotspot","bool", "使用热点区域",10)]
+        [MetaTableRowColumn("UseHotspot", "bool", "使用热点区域", 8)]
         [LabelText("使用热点区域")]
-        public bool UseHotspot ;
+        public bool UseHotspot;
 
-        bool IDynamicObjectRow.UseHotspot {get => UseHotspot; set => UseHotspot = value;}
+        bool IDynamicObjectRow.UseHotspot { get => UseHotspot; set => UseHotspot = value; }
 
         [JsonMember("DefaultHideHotspot")]
-        [MetaTableRowColumn("DefaultHideHotspot","bool", "默认关闭热点",11)]
+        [MetaTableRowColumn("DefaultHideHotspot", "bool", "默认关闭热点", 9)]
         [LabelText("默认关闭热点")]
-        public bool DefaultHideHotspot ;
+        public bool DefaultHideHotspot;
 
-        bool IDynamicObjectRow.DefaultHideHotspot {get => DefaultHideHotspot; set => DefaultHideHotspot = value;}
+        bool IDynamicObjectRow.DefaultHideHotspot { get => DefaultHideHotspot; set => DefaultHideHotspot = value; }
 
         [JsonMember("HotspotRadius")]
-        [MetaTableRowColumn("HotspotRadius","float", "热点区域的范围",12)]
+        [MetaTableRowColumn("HotspotRadius", "float", "热点区域的范围", 10)]
         [LabelText("热点区域的范围")]
-        public float HotspotRadius ;
+        public float HotspotRadius;
 
-        float IDynamicObjectRow.HotspotRadius {get => HotspotRadius; set => HotspotRadius = value;}
-
-        [JsonMember("HotspotIds")]
-        [MetaTableRowColumn("HotspotIds","string", "热点区域Ids",13)]
-        [LabelText("热点区域Ids")]
-        public string HotspotIds ;
-
-        string IDynamicObjectRow.HotspotIds {get => HotspotIds; set => HotspotIds = value;}
+        float IDynamicObjectRow.HotspotRadius { get => HotspotRadius; set => HotspotRadius = value; }
 
         [JsonMember("HotspotOffset")]
-        [MetaTableRowColumn("HotspotOffset","Vector3", "热点区域偏移",14)]
+        [MetaTableRowColumn("HotspotOffset", "Vector3", "热点区域偏移", 11)]
         [LabelText("热点区域偏移")]
-        public Vector3 HotspotOffset ;
+        public Vector3 HotspotOffset;
 
-        Vector3 IDynamicObjectRow.HotspotOffset {get => HotspotOffset; set => HotspotOffset = value;}
+        Vector3 IDynamicObjectRow.HotspotOffset { get => HotspotOffset; set => HotspotOffset = value; }
 
         [JsonMember("DirectInstructions")]
-        [MetaTableRowColumn("DirectInstructions","string", "直接指令",15)]
+        [MetaTableRowColumn("DirectInstructions", "string", "直接指令", 12)]
         [LabelText("直接指令")]
-        public string DirectInstructions ;
+        public string DirectInstructions;
 
-        string IDynamicObjectRow.DirectInstructions {get => DirectInstructions; set => DirectInstructions = value;}
+        string IDynamicObjectRow.DirectInstructions { get => DirectInstructions; set => DirectInstructions = value; }
 
         [JsonMember("SubDynamicObject")]
-        [MetaTableRowColumn("SubDynamicObject","string", "子物体",16)]
+        [MetaTableRowColumn("SubDynamicObject", "string", "子物体", 13)]
         [LabelText("子物体")]
-        public string SubDynamicObject ;
+        public string SubDynamicObject;
 
-        string IDynamicObjectRow.SubDynamicObject {get => SubDynamicObject; set => SubDynamicObject = value;}
+        string IDynamicObjectRow.SubDynamicObject { get => SubDynamicObject; set => SubDynamicObject = value; }
 
         [JsonMember("InteractRadius")]
-        [MetaTableRowColumn("InteractRadius","float", "可交互半径",17)]
+        [MetaTableRowColumn("InteractRadius", "float", "可交互半径", 14)]
         [LabelText("可交互半径")]
-        public float InteractRadius ;
+        public float InteractRadius;
 
-        float IDynamicObjectRow.InteractRadius {get => InteractRadius; set => InteractRadius = value;}
+        float IDynamicObjectRow.InteractRadius { get => InteractRadius; set => InteractRadius = value; }
 
         [JsonMember("InteractOffset")]
-        [MetaTableRowColumn("InteractOffset","Vector3", "交互点偏移",18)]
+        [MetaTableRowColumn("InteractOffset", "Vector3", "交互点偏移", 15)]
         [LabelText("交互点偏移")]
-        public Vector3 InteractOffset ;
+        public Vector3 InteractOffset;
 
-        Vector3 IDynamicObjectRow.InteractOffset {get => InteractOffset; set => InteractOffset = value;}
+        Vector3 IDynamicObjectRow.InteractOffset { get => InteractOffset; set => InteractOffset = value; }
 
         [JsonMember("InteractRadian")]
-        [MetaTableRowColumn("InteractRadian","float", "可交互角度",19)]
+        [MetaTableRowColumn("InteractRadian", "float", "可交互角度", 16)]
         [LabelText("可交互角度")]
-        public float InteractRadian ;
+        public float InteractRadian;
 
-        float IDynamicObjectRow.InteractRadian {get => InteractRadian; set => InteractRadian = value;}
+        float IDynamicObjectRow.InteractRadian { get => InteractRadian; set => InteractRadian = value; }
 
         [JsonMember("InteractTarget")]
-        [MetaTableRowColumn("InteractTarget","string", "交互对象",20)]
+        [MetaTableRowColumn("InteractTarget", "string", "交互对象", 17)]
         [LabelText("交互对象")]
-        public string InteractTarget ;
+        public string InteractTarget;
 
-        string IDynamicObjectRow.InteractTarget {get => InteractTarget; set => InteractTarget = value;}
+        string IDynamicObjectRow.InteractTarget { get => InteractTarget; set => InteractTarget = value; }
 
         [JsonMember("DefaultHideModel")]
-        [MetaTableRowColumn("DefaultHideModel","bool", "默认隐藏模型",21)]
+        [MetaTableRowColumn("DefaultHideModel", "bool", "默认隐藏模型", 18)]
         [LabelText("默认隐藏模型")]
-        public bool DefaultHideModel ;
+        public bool DefaultHideModel;
 
-        bool IDynamicObjectRow.DefaultHideModel {get => DefaultHideModel; set => DefaultHideModel = value;}
+        bool IDynamicObjectRow.DefaultHideModel { get => DefaultHideModel; set => DefaultHideModel = value; }
 
         [JsonMember("AssetPathUuid")]
-        [MetaTableRowColumn("AssetPathUuid","string", "AssetPathUuid",22)]
+        [MetaTableRowColumn("AssetPathUuid", "string", "AssetPathUuid", 19)]
         [LabelText("AssetPathUuid")]
-        public string AssetPathUuid ;
+        public string AssetPathUuid;
 
-        string IDynamicObjectRow.AssetPathUuid {get => AssetPathUuid; set => AssetPathUuid = value;}
+        string IDynamicObjectRow.AssetPathUuid { get => AssetPathUuid; set => AssetPathUuid = value; }
 
         [JsonMember("DefaultDisableInteract")]
-        [MetaTableRowColumn("DefaultDisableInteract","bool", "默认关闭交互",23)]
+        [MetaTableRowColumn("DefaultDisableInteract", "bool", "默认关闭交互", 20)]
         [LabelText("默认关闭交互")]
-        public bool DefaultDisableInteract ;
+        public bool DefaultDisableInteract;
 
-        bool IDynamicObjectRow.DefaultDisableInteract {get => DefaultDisableInteract; set => DefaultDisableInteract = value;}
+        bool IDynamicObjectRow.DefaultDisableInteract { get => DefaultDisableInteract; set => DefaultDisableInteract = value; }
 
         [JsonMember("TriggerEventUuids")]
-        [MetaTableRowColumn("TriggerEventUuids","string", "TriggerEventUuids",24)]
+        [MetaTableRowColumn("TriggerEventUuids", "string", "TriggerEventUuids", 21)]
         [LabelText("TriggerEventUuids")]
-        public string TriggerEventUuids ;
+        public string TriggerEventUuids;
 
-        string IDynamicObjectRow.TriggerEventUuids {get => TriggerEventUuids; set => TriggerEventUuids = value;}
+        string IDynamicObjectRow.TriggerEventUuids { get => TriggerEventUuids; set => TriggerEventUuids = value; }
 
         [JsonMember("HotspotUuids")]
-        [MetaTableRowColumn("HotspotUuids","string", "HotspotUuids",25)]
+        [MetaTableRowColumn("HotspotUuids", "string", "HotspotUuids", 22)]
         [LabelText("HotspotUuids")]
-        public string HotspotUuids ;
+        public string HotspotUuids;
 
-        string IDynamicObjectRow.HotspotUuids {get => HotspotUuids; set => HotspotUuids = value;}
+        string IDynamicObjectRow.HotspotUuids { get => HotspotUuids; set => HotspotUuids = value; }
 
         [JsonMember("PreviewName")]
-        [MetaTableRowColumn("PreviewName","string", "预览名字",26)]
+        [MetaTableRowColumn("PreviewName", "string", "预览名字", 23)]
         [LabelText("预览名字")]
-        public string PreviewName ;
+        public string PreviewName;
 
-        string IDynamicObjectRow.PreviewName {get => PreviewName; set => PreviewName = value;}
+        string IDynamicObjectRow.PreviewName { get => PreviewName; set => PreviewName = value; }
 
         [JsonMember("PreviewDesc")]
-        [MetaTableRowColumn("PreviewDesc","string", "预览描述",27)]
+        [MetaTableRowColumn("PreviewDesc", "string", "预览描述", 24)]
         [LabelText("预览描述")]
-        public string PreviewDesc ;
+        public string PreviewDesc;
 
-        string IDynamicObjectRow.PreviewDesc {get => PreviewDesc; set => PreviewDesc = value;}
+        string IDynamicObjectRow.PreviewDesc { get => PreviewDesc; set => PreviewDesc = value; }
+
+        [JsonMember("StateSubDynamicObject")]
+        [MetaTableRowColumn("StateSubDynamicObject", "string", "状态子物体", 25)]
+        [LabelText("状态子物体")]
+        public string StateSubDynamicObject;
+
+        string IDynamicObjectRow.StateSubDynamicObject { get => StateSubDynamicObject; set => StateSubDynamicObject = value; }
+
+        [JsonMember("StateVariableUuid")]
+        [MetaTableRowColumn("StateVariableUuid", "string", "状态变量Uuid", 26)]
+        [LabelText("状态变量Uuid")]
+        public string StateVariableUuid;
+
+        string IDynamicObjectRow.StateVariableUuid { get => StateVariableUuid; set => StateVariableUuid = value; }
+
 
     }
 }

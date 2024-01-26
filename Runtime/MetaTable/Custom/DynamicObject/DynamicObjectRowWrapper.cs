@@ -16,16 +16,6 @@ namespace Pangoo.MetaTable
     [Serializable]
     public partial class DynamicObjectRowWrapper : MetaTableRowWrapper<DynamicObjectOverview, DynamicObjectNewRowWrapper, UnityDynamicObjectRow>
     {
-        [ShowInInspector]
-        [TableTitleGroup("资源id")]
-        [HideLabel]
-        public int AssetPathId
-        {
-            get
-            {
-                return UnityRow.Row.AssetPathId;
-            }
-        }
 
         [ShowInInspector]
         [TableTitleGroup("资源Uuid")]

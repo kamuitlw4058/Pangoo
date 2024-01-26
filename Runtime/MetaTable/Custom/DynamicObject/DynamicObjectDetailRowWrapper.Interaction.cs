@@ -174,28 +174,6 @@ namespace Pangoo.MetaTable
         }
 
 
-        // [ShowInInspector]
-
-        [LabelText("热点区域Ids")]
-        [ShowIf("@this.UseHotspot")]
-        [ValueDropdown("GetHotspotIds", IsUniqueList = true)]
-        [ListDrawerSettings(Expanded = true)]
-        [TabGroup("交互系统")]
-        [PropertyOrder(7)]
-
-        public int[] HotspotIds
-        {
-            get
-            {
-                return UnityRow.Row?.HotspotIds.ToSplitArr<int>();
-            }
-            set
-            {
-                UnityRow.Row.HotspotIds = value.ToListString();
-                Save();
-            }
-        }
-
 
         [ShowInInspector]
 

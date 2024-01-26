@@ -15,6 +15,8 @@ namespace Pangoo.Core.VisualScripting
 
     public partial class DynamicObject
     {
+        public bool AllTriggerEnabled { get; set; } = true;
+
         [ShowInInspector]
         public Dictionary<TriggerTypeEnum, List<TriggerEvent>> TriggerDict = new Dictionary<TriggerTypeEnum, List<TriggerEvent>>();
 
@@ -43,6 +45,10 @@ namespace Pangoo.Core.VisualScripting
         public bool TriggerInovke(TriggerTypeEnum triggerType, string uuid = null)
         {
             bool ret = false;
+            if (!AllTriggerEnabled)
+            {
+                return ret;
+            }
             if (TriggerDict.TryGetValue(triggerType, out List<TriggerEvent> triggers))
             {
                 triggers.ForEach((o) =>

@@ -8,6 +8,7 @@ namespace Pangoo
 
     public static class ConstString
     {
+        public const string Default = "Default";
         public const string NULL = "Null";
 
 

@@ -62,26 +62,6 @@ namespace Pangoo.MetaTable
         }
 
 
-        [LabelText("资源ID")]
-        [ValueDropdown("AssetPathIdValueDropdown")]
-        [PropertyOrder(5)]
-        // [ShowInInspector]
-        public int AssetPathId
-        {
-            get
-            {
-                return UnityRow.Row?.AssetPathId ?? 0;
-            }
-            set
-            {
-                if (UnityRow.Row != null && Overview != null)
-                {
-                    UnityRow.Row.AssetPathId = value;
-                    Save();
-                }
-            }
-
-        }
 
 
         [LabelText("资源Uuid")]

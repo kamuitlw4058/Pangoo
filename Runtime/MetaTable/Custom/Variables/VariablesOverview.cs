@@ -13,11 +13,15 @@ using MetaTable;
 
 namespace Pangoo.MetaTable
 {
-    public partial class VariablesOverview 
+    public partial class VariablesOverview
     {
-        public static IEnumerable GetVariableUuidDropdown(string valueType, string variableType = null)
+        public static IEnumerable GetVariableUuidDropdown(string valueType, string variableType = null, bool defaultOptions = false)
         {
             var ret = new ValueDropdownList<string>();
+            if (defaultOptions)
+            {
+                ret.Add(ConstString.Default);
+            }
             var overviews = AssetDatabaseUtility.FindAsset<VariablesOverview>();
             foreach (var overview in overviews)
             {

@@ -34,11 +34,39 @@ namespace Pangoo.Core.VisualScripting
         [HideInInspector]
         public Dictionary<GameObject, string> GoPathDict = new Dictionary<GameObject, string>();
 
+        GameObject m_Target;
+
         [ValueDropdown("OnTargetDropdown")]
         [OnValueChanged("OnTargetChanged")]
         [JsonNoMember]
         [LabelText("选择预制体路径")]
-        public GameObject Target;
+        [ShowInInspector]
+        public GameObject Target
+        {
+            get
+            {
+                if (m_Target == null)
+                {
+                    GameSupportEditorUtility.RefPrefabDropdown(gameObject, GoPathDict);
+                    foreach (var kv in GoPathDict)
+                    {
+                        if (kv.Value == Path)
+                        {
+                            m_Target = kv.Key;
+                            break;
+                        }
+                    }
+
+                    if (m_Target == null)
+                    {
+                        m_Target = gameObject;
+                        Path = ConstString.Self;
+                    }
+                }
+                return m_Target;
+            }
+            set { m_Target = value; }
+        }
 
         [JsonNoMember]
         [HideInInspector]

@@ -178,9 +178,6 @@ MonoBehaviour:
     - Name: Name
       Type: string
       CnName: Name
-    - Name: AssetPathId
-      Type: int
-      CnName: "\u8D44\u6E90\u8DEF\u5F84"
     - Name: NameCn
       Type: string
       CnName: "\u4E2D\u6587\u540D"
@@ -196,9 +193,6 @@ MonoBehaviour:
     - Name: Scale
       Type: Vector3
       CnName: "\u7F29\u653E"
-    - Name: TriggerEventIds
-      Type: string
-      CnName: "\u89E6\u53D1\u4E8B\u4EF6Ids"
     - Name: UseHotspot
       Type: bool
       CnName: "\u4F7F\u7528\u70ED\u70B9\u533A\u57DF"
@@ -208,9 +202,6 @@ MonoBehaviour:
     - Name: HotspotRadius
       Type: float
       CnName: "\u70ED\u70B9\u533A\u57DF\u7684\u8303\u56F4"
-    - Name: HotspotIds
-      Type: string
-      CnName: "\u70ED\u70B9\u533A\u57DFIds"
     - Name: HotspotOffset
       Type: Vector3
       CnName: "\u70ED\u70B9\u533A\u57DF\u504F\u79FB"
@@ -253,6 +244,12 @@ MonoBehaviour:
     - Name: PreviewDesc
       Type: string
       CnName: "\u9884\u89C8\u63CF\u8FF0"
+    - Name: StateSubDynamicObject
+      Type: string
+      CnName: "\u72B6\u6001\u5B50\u7269\u4F53"
+    - Name: StateVariableUuid
+      Type: string
+      CnName: "\u72B6\u6001\u53D8\u91CFUuid"
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: EntityGroup

@@ -156,6 +156,8 @@ namespace Pangoo.Core.VisualScripting
             DoAwakeTriggerEvent();
             DoAwakeHotspot();
             DoAwakeSubDynamicObject();
+            DoAwakeStateSubDynamicObject();
+
 
 
             if (Variables != null)
@@ -308,17 +310,17 @@ namespace Pangoo.Core.VisualScripting
             {
                 TriggerInovke(TriggerTypeEnum.OnMouseLeftUp);
             }
-            
+
             if (Mouse.current.leftButton.isPressed)
             {
                 TriggerInovke(TriggerTypeEnum.OnMouseLeft);
             }
-            
+
             if (Mouse.current.rightButton.isPressed)
             {
                 TriggerInovke(TriggerTypeEnum.OnMouseRight);
             }
-            
+
             if (Mouse.current.rightButton.wasPressedThisFrame)
             {
                 TriggerInovke(TriggerTypeEnum.OnMouseRightDown);
@@ -347,6 +349,8 @@ namespace Pangoo.Core.VisualScripting
             {
                 immersed.OnUpdate();
             }
+
+            DoUpdateStateSubDynamicObject();
 
             DoUpdateHotspot();
         }

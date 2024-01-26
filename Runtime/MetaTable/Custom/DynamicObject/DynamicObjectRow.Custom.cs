@@ -13,24 +13,7 @@ namespace Pangoo.MetaTable
 {
     public partial class DynamicObjectRow
     {
-        public List<int> GetHotspotIdList()
-        {
-            if (HotspotIds.IsNullOrWhiteSpace())
-            {
-                return new List<int>();
-            }
-            return HotspotIds.ToSplitList<int>();
-        }
 
-
-        public List<int> GetTriggerEventIdList()
-        {
-            if (TriggerEventIds.IsNullOrWhiteSpace())
-            {
-                return new List<int>();
-            }
-            return TriggerEventIds.ToSplitList<int>();
-        }
 
         public List<string> GetHotspotUuidList()
         {
