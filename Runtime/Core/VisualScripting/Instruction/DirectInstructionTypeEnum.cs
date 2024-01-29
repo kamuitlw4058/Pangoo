@@ -117,5 +117,8 @@ namespace Pangoo.Core.VisualScripting
         
         [LabelText("玩家/通过动态对象距离改变相机高度")]
         ChangeCharacterHeightByDynamicObjectDistance,
+        [LabelText("动态物体/设置动画状态机bool参数")]
+        DynamicObjectSetAnimatorBoolParams,
+        
     }
 }

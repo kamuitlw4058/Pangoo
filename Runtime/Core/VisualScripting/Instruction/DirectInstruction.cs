@@ -290,6 +290,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectPlayTimeline => true,
                     DirectInstructionTypeEnum.WaitVariableBool => true,
                     DirectInstructionTypeEnum.TweenLightIntensity => true,
+                    DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams => true,
                     _ => false,
                 };
             }
@@ -335,6 +336,7 @@ namespace Pangoo.Core.VisualScripting
                 {
                     DirectInstructionTypeEnum.ImageFade => true,
                     DirectInstructionTypeEnum.SetGlobalGameObjectActive => true,
+                    DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams=>true,
                     _ => false,
                 };
             }
@@ -357,6 +359,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectPauseTimeline => true,
                     DirectInstructionTypeEnum.TweenLightIntensity => true,
                     DirectInstructionTypeEnum.DynamicObjectSetMaterial => true,
+                    DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams=>true,
                     _ => false,
                 };
             }
@@ -571,6 +574,7 @@ namespace Pangoo.Core.VisualScripting
                 {
                     DirectInstructionTypeEnum.ImageFade => "TweenID",
                     DirectInstructionTypeEnum.SetGlobalGameObjectActive => "根节点子对象",
+                    DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams=>"动画参数",
                     _ => "String2",
                 };
             }
@@ -661,6 +665,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.SetGameObjectActive:
                 case DirectInstructionTypeEnum.TweenLightIntensity:
                 case DirectInstructionTypeEnum.DynamicObjectSetMaterial:
+                case DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams:
                     return GameSupportEditorUtility.RefPrefabStringDropdown(ListPrefab);
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
                 case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:

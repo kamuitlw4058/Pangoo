@@ -337,6 +337,10 @@ namespace Pangoo.Core.VisualScripting
             {
                 TriggerInovke(TriggerTypeEnum.OnButtonE);
             }
+            if (Input.GetKey(KeyCode.F))
+            {
+                TriggerInovke(TriggerTypeEnum.OnButtonF);
+            }
 
             TriggerInovke(TriggerTypeEnum.OnUpdate);
 

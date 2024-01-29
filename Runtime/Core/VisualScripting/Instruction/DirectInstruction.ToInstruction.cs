@@ -304,6 +304,15 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
+        public static Instruction GetDynamicObjectSetAnimatorBoolParams(string targetPath, string paramsName, bool val)
+        {
+            var instruction = Activator.CreateInstance<InstructionDynamicObjectSetAnimatorBoolParams>();
+            instruction.ParamsRaw.TargetPath = targetPath;
+            instruction.ParamsRaw.ParamsName = paramsName;
+            instruction.ParamsRaw.Val = val;
+            return instruction;
+        }
+
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
             switch (InstructionType)
@@ -380,6 +389,8 @@ namespace Pangoo.Core.VisualScripting
                     return GetSetDriverInfo(DriverInfo1);
                 case DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance:
                     return GetChangeCharacterHeightByDynamicObjectDistance(Float1, Float2,Float3,Float4);
+                case DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams:
+                    return GetDynamicObjectSetAnimatorBoolParams(DropdownString1, String2, Bool1);
             }
 
             return null;
