@@ -37,7 +37,7 @@ namespace Pangoo.Core.VisualScripting
                 }
 
                 Log($"加载子动态物体:{subDo.DynamicObjectUuid}");
-                DynamicObjectService.ShowSubDynamicObject(subDo.DynamicObjectUuid, subDo.Path, Entity, true, (o) =>
+                DynamicObjectService.ShowSubDynamicObject(subDo.DynamicObjectUuid, subDo.Path, Entity, false, (o) =>
                 {
                     if (LoadingDynamicObject.Contains(subDo.DynamicObjectUuid))
                     {
