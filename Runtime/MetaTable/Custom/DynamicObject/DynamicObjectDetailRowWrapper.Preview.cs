@@ -46,6 +46,39 @@ namespace Pangoo.MetaTable
             }
         }
 
+        [LabelText("预览朝向")]
+        [TabGroup("预览")]
+        [ShowInInspector]
+        public Vector3 PreviewRotation
+        {
+            get
+            {
+                return UnityRow.Row.PreviewRotation;
+            }
+            set
+            {
+                UnityRow.Row.PreviewRotation = value;
+                Save();
+            }
+        }
+
+
+        [LabelText("预览缩放")]
+        [TabGroup("预览")]
+        [ShowInInspector]
+        public Vector3 PreviewScale
+        {
+            get
+            {
+                return UnityRow.Row.PreviewScale;
+            }
+            set
+            {
+                UnityRow.Row.PreviewScale = value;
+                Save();
+            }
+        }
+
 
 
 

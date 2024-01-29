@@ -76,6 +76,14 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
+        public void LookAt(Transform transform, Vector3 worldUp)
+        {
+            DynamicObject.CachedTransfrom.LookAt(transform, worldUp);
+
+        }
+
+
+
         public void Rotate(Vector3 axis, float angle, Space space)
         {
             DynamicObject.CachedTransfrom.Rotate(axis, angle, space);

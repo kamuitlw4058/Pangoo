@@ -143,6 +143,9 @@ namespace Pangoo.Core.VisualScripting
         public float DragFactorY = 1;
 
 
+        public AnimationCurve curve;
+
+
 
         protected override void OnOpen(object userData)
         {
@@ -175,6 +178,8 @@ namespace Pangoo.Core.VisualScripting
             SetupCursor();
 
             State = PreviewState.OnShow;
+            GrabTime = 0;
+            CloseTime = 0;
 
         }
 
@@ -192,6 +197,28 @@ namespace Pangoo.Core.VisualScripting
             Cursor.lockState = m_CursorLockState;
         }
 
+        public float GrabDuration = 0.3f;
+        public float GrabTime;
+        public float GrabProgress
+        {
+            get
+            {
+                return GrabTime / GrabDuration;
+            }
+        }
+
+        public float CloseDuration = 0.3f;
+
+        public float CloseTime;
+
+        public float CloseProgress
+        {
+            get
+            {
+                return CloseTime / CloseDuration;
+            }
+        }
+
 
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
         {
@@ -204,22 +231,44 @@ namespace Pangoo.Core.VisualScripting
             if ((State == PreviewState.OnShow || State == PreviewState.OnGrab))
             {
                 State = PreviewState.OnGrab;
-                if ((PreviewData.CurrentPosition - TargetPoint).magnitude > 0.01)
+                if (GrabTime < GrabDuration)
                 {
-                    PreviewData.CurrentPosition = MathUtility.Lerp(PreviewData.CurrentPosition, TargetPoint, 0.5f);
+                    GrabTime += elapseSeconds;
+                    PreviewData.CurrentPosition = MathUtility.Lerp(PreviewData.CurrentPosition, TargetPoint, GrabProgress);
+                    if (PreviewData.DynamicObject.Row.PreviewScale != Vector3.zero)
+                    {
+                        PreviewData.CurrentScale = MathUtility.Lerp(PreviewData.OldScale, PreviewData.DynamicObject.Row.PreviewScale, GrabProgress);
+                    }
+
+                    Vector3 direction = MainCamera.transform.position - PreviewData.OldPosition;
+
+                    Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+                    var progress = curve.Evaluate(GrabProgress);
+
+                    PreviewData.CurrentRotation = Quaternion.Lerp(Quaternion.Euler(PreviewData.OldRotation), targetRotation, progress).eulerAngles;
                     return;
                 }
+
             }
 
             if (State == PreviewState.OnGrab)
             {
+                PreviewData.CurrentPosition = TargetPoint;
+                Vector3 direction = MainCamera.transform.position - PreviewData.OldPosition;
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                PreviewData.CurrentRotation = targetRotation.eulerAngles;
+
+                if (PreviewData.DynamicObject.Row.PreviewScale != Vector3.zero)
+                {
+                    PreviewData.CurrentScale = PreviewData.DynamicObject.Row.PreviewScale;
+                }
                 State = PreviewState.OnPreview;
             }
 
 
             if (State == PreviewState.OnPreview)
             {
-                PreviewData.CurrentPosition = TargetPoint;
                 bool flag = false;
                 var InteractKeyCodes = PreviewData.InteractKeyCodes;
                 for (int i = 0; i < InteractKeyCodes.Length; i++)
@@ -264,7 +313,7 @@ namespace Pangoo.Core.VisualScripting
                         if (isCloseImmediately)
                         {
                             RecoverCursor();
-                            Debug.Log($"立即退出 预览:{isCloseImmediately} :{variableUuid}");
+                            Debug.Log($"立即退出 预览关闭:{isCloseImmediately} :{variableUuid}");
                             PreviewData.args.Main.CharacterService.SetPlayerControllable(true);
                             CloseSelf();
                             return;
@@ -277,21 +326,32 @@ namespace Pangoo.Core.VisualScripting
 
             if (State == PreviewState.OnClosing)
             {
-                if ((PreviewData.CurrentPosition - PreviewData.OldPosition).magnitude > 0.01)
+                if (CloseTime < CloseDuration)
                 {
-                    PreviewData.CurrentPosition = MathUtility.Lerp(PreviewData.CurrentPosition, PreviewData.OldPosition, 0.5f);
+                    CloseTime += elapseSeconds;
+                    PreviewData.CurrentPosition = MathUtility.Lerp(TargetPoint, PreviewData.OldPosition, CloseProgress);
+                    if (PreviewData.DynamicObject.Row.PreviewScale != Vector3.zero)
+                    {
+                        PreviewData.CurrentScale = MathUtility.Lerp(PreviewData.DynamicObject.Row.PreviewScale, PreviewData.OldScale, CloseProgress);
+                    }
+
+                    Vector3 direction = MainCamera.transform.position - PreviewData.OldPosition;
+                    Quaternion targetRotation = Quaternion.LookRotation(direction);
+                    var progress = curve.Evaluate(GrabTime / GrabDuration);
+                    PreviewData.CurrentRotation = Quaternion.Lerp(targetRotation, Quaternion.Euler(PreviewData.OldRotation), progress).eulerAngles;
                     return;
                 }
-                else
-                {
-                    PreviewData.CurrentPosition = PreviewData.OldPosition;
-                    State = PreviewState.OnClose;
-                }
+
+                State = PreviewState.OnClose;
+
             }
 
             if (State == PreviewState.OnClose)
             {
-                Debug.Log($"正常 预览");
+                Debug.Log($"正常 预览关闭");
+                PreviewData.CurrentScale = PreviewData.OldScale;
+                PreviewData.CurrentRotation = PreviewData.OldRotation;
+                PreviewData.CurrentPosition = PreviewData.OldPosition;
                 RecoverCursor();
                 PreviewData.args.Main.CharacterService.SetPlayerControllable(true);
                 CloseSelf();
@@ -315,7 +375,7 @@ namespace Pangoo.Core.VisualScripting
 
                 PreviewData.Rotate(upAxis, x * DragFactorX * Time.deltaTime, Space.World);
                 PreviewData.Rotate(rightAxis, y * DragFactorY * Time.deltaTime, Space.World);
-                Debug.Log($"eventdata{eventData.delta}.x:{x},y:{y}  new :{PreviewData.CurrentRotation} :{upAxis} :{rightAxis}");
+                // Debug.Log($"eventdata{eventData.delta}.x:{x},y:{y}  new :{PreviewData.CurrentRotation} :{upAxis} :{rightAxis}");
             }
         }
 

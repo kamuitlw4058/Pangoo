@@ -250,6 +250,12 @@ MonoBehaviour:
     - Name: StateVariableUuid
       Type: string
       CnName: "\u72B6\u6001\u53D8\u91CFUuid"
+    - Name: PreviewRotation
+      Type: Vector3
+      CnName: "\u9884\u89C8\u65CB\u8F6C"
+    - Name: PreviewScale
+      Type: Vector3
+      CnName: "\u9884\u89C8\u7F29\u653E"
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: EntityGroup

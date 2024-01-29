@@ -65,6 +65,10 @@ namespace Pangoo.MetaTable
 
         public string StateVariableUuid{ get; set; }
 
+        public Vector3 PreviewRotation{ get; set; }
+
+        public Vector3 PreviewScale{ get; set; }
+
     }
 }
 
