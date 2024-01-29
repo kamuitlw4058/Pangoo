@@ -42,11 +42,13 @@ namespace Pangoo
             PangooEntry.MetaTable.LoadMetaTable();
 
             PangooEntry.GameInfo.Init();
-           
+
 
             PangooEntry.UI.AddUIGroup("Default");
             PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/SystemInfo", new PangooSystemInformationWindow());
-            PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/RuntimeData", new DebugWindowRuntimeData());
+            PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/RuntimeData/Normal", new DebugWindowRuntimeDataNormal());
+            PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/RuntimeData/DynamicObject", new DebugWindowRuntimeDataDynamicObject());
+
             PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/StaticScene", new DebugWindowStaticScene());
             PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/指令", new DebugWindowInstructions());
             Application.targetFrameRate = -1;

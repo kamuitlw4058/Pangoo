@@ -13,7 +13,7 @@ namespace Pangoo.Core.VisualScripting
     {
         public int State;
 
-        public int ShowState;
+        public int ShowState = -1;
 
         Dictionary<int, SubDynamicObject> m_StateSubDynamicObjectInfo;
 
@@ -24,6 +24,8 @@ namespace Pangoo.Core.VisualScripting
         void DoAwakeStateSubDynamicObject()
         {
             StateSubDynamicObjectDict.Clear();
+
+            State = GetVariable<int>(Main.DynamicObjectStateVariableUuid);
 
             m_StateSubDynamicObjectInfo = JsonMapper.ToObject<Dictionary<int, SubDynamicObject>>(Row.StateSubDynamicObject);
             if (m_StateSubDynamicObjectInfo == null || m_StateSubDynamicObjectInfo.Count == 0)
@@ -49,7 +51,6 @@ namespace Pangoo.Core.VisualScripting
             }
 
 
-
         }
 
         public void StateEnabled(DynamicObject stateDynamicObject, bool val)
@@ -69,6 +70,7 @@ namespace Pangoo.Core.VisualScripting
 
         void DoUpdateStateSubDynamicObject()
         {
+            State = GetVariable<int>(Main.DynamicObjectStateVariableUuid);
             if (ShowState != State)
             {
                 foreach (var kv in StateSubDynamicObjectDict)

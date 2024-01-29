@@ -16,7 +16,7 @@ namespace UnityGameFramework.Runtime
     {
         public abstract class ScrollableDebuggerWindowBase : IDebuggerWindow
         {
-            private const float TitleWidth = 240f;
+            protected const float TitleWidth = 240f;
             private Vector2 m_ScrollPosition = Vector2.zero;
 
             public virtual void Initialize(params object[] args)

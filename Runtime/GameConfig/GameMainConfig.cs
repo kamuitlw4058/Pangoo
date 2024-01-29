@@ -35,77 +35,83 @@ namespace Pangoo
 
         [ValueDropdown("GetDefaultPlayer")]
         [LabelText("默认玩家")]
-        [TabGroup("玩家")]
+        [FoldoutGroup("玩家", expanded: true)]
         public string DefaultPlayer;
 
         [LabelText("默认交互夹角")]
-        [TabGroup("玩家")]
+        [TabGroup("玩家/玩家配置", "交互")]
+
         public float DefaultInteractRadian = 0.45f;
 
         [LabelText("默认交互范围")]
-        [TabGroup("玩家")]
+        [TabGroup("玩家/玩家配置", "交互")]
         public float DefaultInteractRadius = 2f;
 
         [LabelText("默认Hotspot范围")]
-        [TabGroup("玩家")]
+        [TabGroup("玩家/玩家配置", "交互")]
         public float DefaultHotspotRadius = 3f;
 
 
         [LabelText("默认开启脚步声")]
-        [TabGroup("玩家")]
+        [TabGroup("玩家/玩家配置", "脚步声")]
         public bool DefaultEnabledFootstepSound = true;
 
         [LabelText("使用默认脚步声")]
-        [TabGroup("玩家")]
+        [TabGroup("玩家/玩家配置", "脚步声")]
         public bool UseDefaultFootstepSound = true;
 
         [LabelText("默认脚步声音量")]
-        [TabGroup("玩家")]
+        [TabGroup("玩家/玩家配置", "脚步声")]
         public float DefaultFootstepSoundVolume = 1;
 
         [LabelText("默认脚步声")]
-        [TabGroup("玩家")]
+        [TabGroup("玩家/玩家配置", "脚步声")]
         [ValueDropdown("GetSoundUuid")]
         public string[] DefaultFootstepSoundEffectUuids;
 
         [LabelText("脚步间隔")]
-        [TabGroup("玩家")]
+        [TabGroup("玩家/玩家配置", "脚步声")]
         public Vector2 FootstepSoundInterval = Vector2.one;
 
         [LabelText("脚步最小间隔")]
-        [TabGroup("玩家")]
+        [TabGroup("玩家/玩家配置", "脚步声")]
         public float FootstepSoundMinInterval = 0.3f;
+
+        [ValueDropdown("GetIntVariableUuid")]
+        [FoldoutGroup("动态物体", expanded: true)]
+        [LabelText("动态物体状态子物体")]
+        public string DynamicObjectStateVariableUuid = string.Empty;
 
 
         [LabelText("默认字幕的UIId")]
         [ValueDropdown("GetUIUuid")]
-        [TabGroup("UI")]
+        [FoldoutGroup("UI", expanded: true)]
         public string DefaultSubtitlePanelUuid = string.Empty;
 
 
         [LabelText("预览UI Uuid")]
         [ValueDropdown("GetUIUuid")]
-        [TabGroup("UI")]
+        [FoldoutGroup("UI")]
 
         public string PreviewPanelUuid = string.Empty;
 
         [LabelText("预览交互变量 Uuid")]
         [ValueDropdown("GetIntVariableUuid")]
-        [TabGroup("UI")]
+        [FoldoutGroup("UI")]
 
         public string DefaultPreviewIntVariable = string.Empty;
 
 
         [LabelText("预览退出变量 Uuid")]
         [ValueDropdown("GetBoolVariableUuid")]
-        [TabGroup("UI")]
+        [FoldoutGroup("UI")]
 
         public string DefaultPreviewExitVariable = string.Empty;
 
         [LabelText("调试指令")]
         [ValueDropdown("GetInstructions")]
         [ListDrawerSettings(Expanded = true)]
-        [TabGroup("Debug")]
+        [FoldoutGroup("Debug", expanded: true)]
 
         public string[] DebuggerInstructions;
 
@@ -159,7 +165,7 @@ namespace Pangoo
             return typeList;
         }
 
-        [TabGroup("其他")]
+        [FoldoutGroup("其他")]
         public bool InitUnloadScene = true;
 
         private IEnumerable GetGameSectionUuid()

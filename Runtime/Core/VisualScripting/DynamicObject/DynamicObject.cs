@@ -156,9 +156,6 @@ namespace Pangoo.Core.VisualScripting
             DoAwakeTriggerEvent();
             DoAwakeHotspot();
             DoAwakeSubDynamicObject();
-            DoAwakeStateSubDynamicObject();
-
-
 
             if (Variables != null)
             {
@@ -192,6 +189,8 @@ namespace Pangoo.Core.VisualScripting
                     TriggerSetTargetIndex(kv.Key, kv.Value);
                 }
             }
+
+            DoAwakeStateSubDynamicObject();
             FindVideoPlayerSetCamera();
 
             Log($"Finish Awake m_Tracker:{m_Tracker}");

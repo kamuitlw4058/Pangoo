@@ -23,6 +23,14 @@ namespace Pangoo.Core.Common
         [ShowInInspector]
         Dictionary<string, object> m_KeyValueDict = new Dictionary<string, object>();
 
+        public Dictionary<string, object> KeyValueDict
+        {
+            get
+            {
+                return m_KeyValueDict;
+            }
+        }
+
 
         public void SetChilernTransforms(string key, TransformValue val)
         {
@@ -47,7 +55,10 @@ namespace Pangoo.Core.Common
 
         public virtual T Get<T>(string key, T defaultValue = default(T))
         {
-            if (key.IsNullOrWhiteSpace()) return defaultValue;
+            if (key.IsNullOrWhiteSpace())
+            {
+                return defaultValue;
+            }
 
             object value = null;
             if (m_KeyValueDict.ContainsKey(key))
@@ -55,6 +66,10 @@ namespace Pangoo.Core.Common
                 value = m_KeyValueDict[key];
                 // Debug.LogError($"获取的value值0：{value}");
                 return (T)value;
+            }
+            else
+            {
+                m_KeyValueDict.Add(key, defaultValue);
             }
 
             return defaultValue;

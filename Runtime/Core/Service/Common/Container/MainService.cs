@@ -118,5 +118,13 @@ namespace Pangoo.Core.Services
             }
         }
 
+        public string DynamicObjectStateVariableUuid
+        {
+            get
+            {
+                return GameConfig.GetGameMainConfig()?.DynamicObjectStateVariableUuid;
+            }
+        }
+
     }
 }
