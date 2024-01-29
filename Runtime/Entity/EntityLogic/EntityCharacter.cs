@@ -83,6 +83,8 @@ namespace Pangoo
             character.xAxisMaxPitch = EntityData.InfoRow.m_CharacterRow.XMaxPitch;
             character.yAxisMaxPitch = EntityData.InfoRow.m_CharacterRow.YMaxPitch;
             character.IsControllable = true;
+            character.Row = EntityData.InfoRow.m_CharacterRow;
+            character.Entity = this;
             character.Awake();
             character.Start();
             character.ResetCameraDirection();

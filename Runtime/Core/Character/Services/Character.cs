@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Pangoo.Core.Services;
 using Pangoo.Core.Common;
+using Pangoo.Core.VisualScripting;
+using Pangoo.MetaTable;
 using Sirenix.OdinInspector;
 using UnityEngine.Serialization;
 
@@ -11,7 +14,9 @@ namespace Pangoo.Core.Characters
     [Serializable]
     public partial class Character : MonoMasterService
     {
-
+        [ShowInInspector]
+        public ICharacterRow Row { get; set; }
+        
         public MainService Main { get; set; }
 
 
@@ -82,6 +87,16 @@ namespace Pangoo.Core.Characters
         {
             get => gameObject.GetComponent<CharacterController>();
         }
+        
+        public EntityCharacter Entity { get; set; }
+
+        protected override void DoAwake()
+        {
+            DoAwakeSubDynamicObject();
+            base.DoAwake();
+        }
+
+        
 
         public void SetMotionInfo(MotionInfo motionInfo)
         {

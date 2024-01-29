@@ -68,6 +68,7 @@ namespace Pangoo.Core.VisualScripting
         OnMouseImmersedRightDown,
         OnMouseImmersedRight,
         OnMouseImmersedRightUp,
+        OnButtonF,
     }
 }
 
