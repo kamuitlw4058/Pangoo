@@ -12,6 +12,7 @@ public class BaseImmersed : MonoBehaviour,IImmersed
     [HideInInspector]
     public DynamicObject dynamicObject = null;
 
+    [ShowInInspector]
     public bool IsRunning { get; set; }
 
     public virtual void OnEnter()
