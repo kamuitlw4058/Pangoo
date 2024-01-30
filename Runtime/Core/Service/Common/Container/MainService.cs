@@ -11,45 +11,63 @@ namespace Pangoo.Core.Services
     [Serializable]
     public class MainService : NestedBaseService
     {
-        public RuntimeDataService RuntimeData = new RuntimeDataService();
+        public RuntimeDataService RuntimeData;
 
-        public CharacterService CharacterService = new CharacterService();
+        public CharacterService CharacterService;
 
-        public GameMainConfigService GameConfig = new GameMainConfigService();
-
-
-        public UIService UI = new UIService();
-
-        public SubtitleService Subtitle = new SubtitleService();
-
-        public SoundService Sound = new SoundService();
+        public GameMainConfigService GameConfig;
 
 
-        public StaticSceneService StaticScene = new StaticSceneService();
+        public UIService UI;
+
+        public SubtitleService Subtitle;
+
+        public SoundService Sound;
 
 
-        public ExcelTableService ExcelTable = new ExcelTableService();
+        public StaticSceneService StaticScene;
 
 
-        public MetaTableService MetaTable = new MetaTableService();
+        public ExcelTableService ExcelTable;
 
-        public DynamicObjectService DynamicObject = new DynamicObjectService();
+
+        public MetaTableService MetaTable;
+
+        public DynamicObjectService DynamicObject;
 
 
         public MainService()
         {
-            AddService(ExcelTable);
-            AddService(MetaTable);
-            AddService(StaticScene);
-            AddService(new GameSectionService());
-            AddService(RuntimeData);
-            AddService(new GameInfoService());
-            AddService(DynamicObject);
-            AddService(CharacterService);
-            AddService(GameConfig);
-            AddService(Sound);
-            AddService(UI);
-            AddService(Subtitle);
+
+        }
+
+        public void Init()
+        {
+            ExcelTable = new ExcelTableService();
+            MetaTable = new MetaTableService();
+            DynamicObject = new DynamicObjectService();
+            StaticScene = new StaticSceneService();
+            Sound = new SoundService();
+            Subtitle = new SubtitleService();
+            UI = new UIService();
+            GameConfig = new GameMainConfigService();
+            CharacterService = new CharacterService();
+            RuntimeData = new RuntimeDataService();
+
+
+            AddService(ExcelTable, sortService: false);
+            AddService(MetaTable, sortService: false);
+            AddService(StaticScene, sortService: false);
+            AddService(new GameSectionService(), sortService: false);
+            AddService(RuntimeData, sortService: false);
+            AddService(new GameInfoService(), sortService: false);
+            AddService(DynamicObject, sortService: false);
+            AddService(CharacterService, sortService: false);
+            AddService(GameConfig, sortService: false);
+            AddService(Sound, sortService: false);
+            AddService(UI, sortService: false);
+            AddService(Subtitle, sortService: false);
+            SortService();
         }
 
 

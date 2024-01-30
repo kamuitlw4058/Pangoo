@@ -36,11 +36,27 @@ namespace Pangoo.Core.Services
 
         [ShowInInspector]
         [Searchable]
-        Dictionary<string, EntityDynamicObject> m_LoadedAssetDict = new Dictionary<string, EntityDynamicObject>();
-        List<string> m_LoadingAssetUuids = new List<string>();
+        Dictionary<string, EntityDynamicObject> m_LoadedAssetDict;
+        List<string> m_LoadingAssetUuids;
 
         [ShowInInspector]
-        List<string> m_GameSectionDynamicObjectUuids = new List<string>();
+        List<string> m_GameSectionDynamicObjectUuids;
+
+        // 需要加载的场景列表。 Key: StaticSceneId Value:AssetPathId
+        [ShowInInspector]
+        Dictionary<string, SubDynamicObjectEntry> NeedLoadDict;
+        public Dictionary<string, SubDynamicObjectEntry> SubDynamicObjectDict;
+
+
+        protected override void DoAwake()
+        {
+            base.DoAwake();
+            m_LoadedAssetDict = new Dictionary<string, EntityDynamicObject>();
+            m_LoadingAssetUuids = new List<string>();
+            m_GameSectionDynamicObjectUuids = new List<string>();
+            NeedLoadDict = new Dictionary<string, SubDynamicObjectEntry>();
+            SubDynamicObjectDict = new Dictionary<string, SubDynamicObjectEntry>();
+        }
 
         public void SetGameScetion(List<string> dynamicUuids)
         {
@@ -113,7 +129,7 @@ namespace Pangoo.Core.Services
             public string Path;
         }
 
-        public Dictionary<string, SubDynamicObjectEntry> SubDynamicObjectDict = new Dictionary<string, SubDynamicObjectEntry>();
+
 
         void AddSubDynamicObjectDict(SubDynamicObjectEntry entry)
         {
@@ -291,10 +307,6 @@ namespace Pangoo.Core.Services
         }
 
 
-
-        // 需要加载的场景列表。 Key: StaticSceneId Value:AssetPathId
-        [ShowInInspector]
-        Dictionary<string, SubDynamicObjectEntry> NeedLoadDict = new Dictionary<string, SubDynamicObjectEntry>();
 
 
         public void UpdateNeedLoadDict()

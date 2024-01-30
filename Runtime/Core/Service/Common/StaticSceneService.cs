@@ -27,7 +27,7 @@ namespace Pangoo.Core.Services
         EntityLoader Loader = null;
 
         [ShowInInspector]
-        Dictionary<string, int> m_EnterAssetCountDict = new Dictionary<string, int>();
+        Dictionary<string, int> m_EnterAssetCountDict;
 
         public Dictionary<string, int> EnterAssetCountDict
         {
@@ -38,7 +38,7 @@ namespace Pangoo.Core.Services
         }
 
         [ShowInInspector]
-        Dictionary<string, EntityStaticScene> m_LoadedSceneAssetDict = new Dictionary<string, EntityStaticScene>();
+        Dictionary<string, EntityStaticScene> m_LoadedSceneAssetDict;
 
 
         public Dictionary<string, EntityStaticScene> LoadedSceneAssetDict
@@ -52,27 +52,27 @@ namespace Pangoo.Core.Services
         public string LastestEnterUuid;
 
         [ShowInInspector]
-        List<string> m_LoadingAssetUuids = new List<string>();
+        List<string> m_LoadingAssetUuids;
 
 
         [ShowInInspector]
 
-        Dictionary<string, StaticSceneInfoRow> m_SectionSceneInfos = new Dictionary<string, StaticSceneInfoRow>();
+        Dictionary<string, StaticSceneInfoRow> m_SectionSceneInfos;
 
         [ShowInInspector]
-        List<string> m_DynamicStaticSceneUuids = new List<string>();
+        List<string> m_DynamicStaticSceneUuids;
 
         [ShowInInspector]
-        List<string> m_HoldStaticSceneUuids = new List<string>();
+        List<string> m_HoldStaticSceneUuids;
 
 
         [ShowInInspector]
-        List<string> m_InitStaticSceneUuids = new List<string>();
+        List<string> m_InitStaticSceneUuids;
 
 
         // 需要加载的场景列表。 Key: StaticSceneId Value:AssetPathId
         [ShowInInspector]
-        Dictionary<string, string> NeedLoadDict = new Dictionary<string, string>();
+        Dictionary<string, string> NeedLoadDict;
 
 
 
@@ -90,6 +90,15 @@ namespace Pangoo.Core.Services
         protected override void DoAwake()
         {
             base.DoAwake();
+            NeedLoadDict = new Dictionary<string, string>();
+            m_InitStaticSceneUuids = new List<string>();
+            m_HoldStaticSceneUuids = new List<string>();
+            m_DynamicStaticSceneUuids = new List<string>();
+            m_SectionSceneInfos = new Dictionary<string, StaticSceneInfoRow>();
+            m_LoadingAssetUuids = new List<string>();
+            m_LoadedSceneAssetDict = new Dictionary<string, EntityStaticScene>();
+            m_EnterAssetCountDict = new Dictionary<string, int>();
+
 
             Event.Subscribe(EnterStaticSceneEventArgs.EventId, OnEnterStaticSceneEvent);
             Event.Subscribe(ExitStaticSceneEventArgs.EventId, OnExitStaticSceneEvent);
@@ -286,6 +295,7 @@ namespace Pangoo.Core.Services
         public StaticSceneInfoRow GetInfoRowByAssetUuid(string assetUuid)
         {
             StaticSceneInfoRow sceneInfo;
+            if (assetUuid.IsNullOrWhiteSpace()) return null;
 
             if (m_SectionSceneInfos.TryGetValue(assetUuid, out sceneInfo))
             {

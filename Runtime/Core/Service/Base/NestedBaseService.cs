@@ -17,19 +17,45 @@ namespace Pangoo.Core.Services
 
         [field: NonSerialized]
         [ShowInInspector]
-        [HideIf("@this.m_ChildernArray.Length == 0")]
-        private BaseService[] m_ChildernArray = new BaseService[0];
-        private readonly Dictionary<Type, BaseService> m_ChildernDict = new Dictionary<Type, BaseService>();
+        [HideIf("@this.m_ChildernArray == null ||  (this.m_ChildernArray != null && this.m_ChildernArray.Count == 0)")]
+        private List<BaseService> m_ChildernList;
+        private Dictionary<Type, BaseService> m_ChildernDict;
+
+        void CheckList()
+        {
+            if (m_ChildernList == null)
+            {
+                m_ChildernList = new List<BaseService>();
+            }
+        }
+
+        void CheckDict()
+        {
+            if (m_ChildernDict == null)
+            {
+                m_ChildernDict = new Dictionary<Type, BaseService>();
+            }
+        }
 
         public BaseService[] Childern
         {
             get
             {
-                return m_ChildernArray;
+                CheckList();
+                return m_ChildernList.ToArray();
             }
         }
-        public virtual void AddService(BaseService service)
+        public void SortService()
         {
+            CheckList();
+            m_ChildernList.Sort((x, y) => x.Priority.CompareTo(y.Priority));
+        }
+
+        public virtual void AddService(BaseService service, bool sortService = true)
+        {
+            CheckList();
+            CheckDict();
+
             BaseService cachedService;
             Type serviceType = service.GetType();
             if (m_ChildernDict.TryGetValue(serviceType, out cachedService))
@@ -40,19 +66,19 @@ namespace Pangoo.Core.Services
 
             m_ChildernDict.Add(serviceType, service);
 
-            if (m_ChildernArray == null || m_ChildernArray.Length == 0)
+            if (m_ChildernList == null)
             {
-                m_ChildernArray = new BaseService[1];
-                m_ChildernArray[0] = service;
+                m_ChildernList = new List<BaseService>();
             }
             else
             {
-                var childernList = m_ChildernArray.ToList();
-                if (!childernList.Contains(service))
+                if (!m_ChildernList.Contains(service))
                 {
-                    childernList.Add(service);
-                    childernList.Sort((x, y) => x.Priority.CompareTo(y.Priority));
-                    m_ChildernArray = childernList.ToArray();
+                    m_ChildernList.Add(service);
+                    if (sortService)
+                    {
+                        m_ChildernList.Sort((x, y) => x.Priority.CompareTo(y.Priority));
+                    }
                 }
             }
             service.Parent = this;
@@ -71,6 +97,7 @@ namespace Pangoo.Core.Services
 
         public virtual void RemoveService(BaseService service)
         {
+            CheckDict();
             BaseService cachedService;
             Type serviceType = service.GetType();
             if (!m_ChildernDict.TryGetValue(serviceType, out cachedService))
@@ -84,6 +111,7 @@ namespace Pangoo.Core.Services
 
         public T GetService<T>() where T : BaseService
         {
+            CheckDict();
             BaseService ret;
             var keyType = typeof(T);
             if (m_ChildernDict.TryGetValue(keyType, out ret))
@@ -93,5 +121,7 @@ namespace Pangoo.Core.Services
 
             return null;
         }
+
+
     }
 }

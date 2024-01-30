@@ -9,7 +9,7 @@ namespace Pangoo.Core.Services
 
         void RemoveService(BaseService service);
 
-        void AddService(BaseService service);
+        void AddService(BaseService service, bool sortService = true);
 
 
         BaseService[] Childern { get; }

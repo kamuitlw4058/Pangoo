@@ -221,15 +221,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dde7d0452e9eed847b406ae8a619679a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainService:
-    CharacterService:
-      Player: {fileID: 0}
-      m_SectionInited: 0
-    StaticScene:
-      LastestEnterUuid: 
-      SectionInited: 0
-    DynamicObject:
-      DynamicObjectInited: 0
 --- !u!1 &6527503859654374281
 GameObject:
   m_ObjectHideFlags: 0

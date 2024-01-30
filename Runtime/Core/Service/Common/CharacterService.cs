@@ -24,12 +24,12 @@ namespace Pangoo.Core.Services
         IEntityGroupRow m_EntityGroupRow;
 
         [ShowInInspector]
-        Dictionary<string, EntityCharacter> m_LoadedEntityDict = new Dictionary<string, EntityCharacter>();
+        Dictionary<string, EntityCharacter> m_LoadedEntityDict;
 
         public EntityCharacter Player = null;
 
         [ShowInInspector]
-        List<string> m_LoadingEntityIds = new List<string>();
+        List<string> m_LoadingEntityUuids;
 
         EntityLoader Loader = null;
         CharacterInfo m_CharacterInfo;
@@ -46,6 +46,9 @@ namespace Pangoo.Core.Services
         {
             base.DoAwake();
             m_GameInfoService = Parent.GetService<GameInfoService>();
+            m_LoadedEntityDict = new Dictionary<string, EntityCharacter>();
+            m_LoadingEntityUuids = new List<string>();
+
 
         }
 
@@ -127,7 +130,7 @@ namespace Pangoo.Core.Services
 
             Log($"Show Character Row Id:{infoUuid}");
             // 这边有一个假设，同一个时间不会反复加载不同的章节下的同一个场景。
-            if (m_LoadingEntityIds.Contains(infoUuid))
+            if (m_LoadingEntityUuids.Contains(infoUuid))
             {
                 return;
             }
@@ -136,14 +139,14 @@ namespace Pangoo.Core.Services
                 EntityCharacterData data = EntityCharacterData.Create(infoRow.CreateEntityInfo(m_EntityGroupRow), this, infoRow, positon, rotation);
                 data.Height = height;
                 data.IsInteractive = IsInteractive;
-                m_LoadingEntityIds.Add(infoUuid);
+                m_LoadingEntityUuids.Add(infoUuid);
                 Loader.ShowEntity(EnumEntity.Character,
                     (o) =>
                     {
                         Log($"Character Loaded:{infoUuid}");
-                        if (m_LoadingEntityIds.Contains(infoUuid))
+                        if (m_LoadingEntityUuids.Contains(infoUuid))
                         {
-                            m_LoadingEntityIds.Remove(infoUuid);
+                            m_LoadingEntityUuids.Remove(infoUuid);
                         }
                         m_LoadedEntityDict.Add(infoUuid, o.Logic as EntityCharacter);
                         if (infoRow.IsPlayer)

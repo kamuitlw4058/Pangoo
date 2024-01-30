@@ -18,7 +18,22 @@ namespace Pangoo
         // public List<IBaseServiceContainer> ServiceContainers = new List<IBaseServiceContainer>();
 
 
-        public MainService mainService;
+
+
+        MainService m_mainService = null;
+
+        [ShowInInspector]
+        public MainService mainService
+        {
+            get
+            {
+                return m_mainService;
+            }
+            set
+            {
+                m_mainService = value;
+            }
+        }
 
 
     }

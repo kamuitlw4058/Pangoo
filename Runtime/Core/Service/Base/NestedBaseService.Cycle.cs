@@ -16,11 +16,11 @@ namespace Pangoo.Core.Services
 
             IsAwaked = true;
             m_EventHelper = EventHelper.Create(this);
-            if (m_ChildernArray != null)
+            if (m_ChildernList != null)
             {
-                for (int i = 0; i < m_ChildernArray.Length; i++)
+                for (int i = 0; i < m_ChildernList.Count; i++)
                 {
-                    m_ChildernArray[i].Awake();
+                    m_ChildernList[i].Awake();
                 }
             }
             DoAwake();
@@ -29,11 +29,11 @@ namespace Pangoo.Core.Services
         public override void Start()
         {
             IsStarted = true;
-            if (m_ChildernArray != null)
+            if (m_ChildernList != null)
             {
-                for (int i = 0; i < m_ChildernArray.Length; i++)
+                for (int i = 0; i < m_ChildernList.Count; i++)
                 {
-                    m_ChildernArray[i].Start();
+                    m_ChildernList[i].Start();
                 }
             }
             DoStart();
@@ -42,11 +42,11 @@ namespace Pangoo.Core.Services
 
         public override void Update()
         {
-            if (m_ChildernArray != null)
+            if (m_ChildernList != null)
             {
-                for (int i = 0; i < m_ChildernArray.Length; i++)
+                for (int i = 0; i < m_ChildernList.Count; i++)
                 {
-                    m_ChildernArray[i].Update();
+                    m_ChildernList[i].Update();
                 }
             }
 
@@ -56,12 +56,12 @@ namespace Pangoo.Core.Services
 
         public override void Destroy()
         {
-            if (m_ChildernArray != null)
+            if (m_ChildernList != null)
             {
 
-                for (int i = 0; i < m_ChildernArray.Length; i++)
+                for (int i = 0; i < m_ChildernList.Count; i++)
                 {
-                    m_ChildernArray[i].Destroy();
+                    m_ChildernList[i].Destroy();
                 }
             }
 
@@ -77,11 +77,11 @@ namespace Pangoo.Core.Services
 
         public override void Enable()
         {
-            if (m_ChildernArray != null)
+            if (m_ChildernList != null)
             {
-                for (int i = 0; i < m_ChildernArray.Length; i++)
+                for (int i = 0; i < m_ChildernList.Count; i++)
                 {
-                    m_ChildernArray[i].Enable();
+                    m_ChildernList[i].Enable();
                 }
             }
             DoEnable();
@@ -89,11 +89,11 @@ namespace Pangoo.Core.Services
 
         public override void Disable()
         {
-            if (m_ChildernArray != null)
+            if (m_ChildernList != null)
             {
-                for (int i = 0; i < m_ChildernArray.Length; i++)
+                for (int i = 0; i < m_ChildernList.Count; i++)
                 {
-                    m_ChildernArray[i].Disable();
+                    m_ChildernList[i].Disable();
                 }
             }
             DoDisable();
@@ -101,11 +101,11 @@ namespace Pangoo.Core.Services
 
         public override void FixedUpdate()
         {
-            if (m_ChildernArray != null)
+            if (m_ChildernList != null)
             {
-                for (int i = 0; i < m_ChildernArray.Length; i++)
+                for (int i = 0; i < m_ChildernList.Count; i++)
                 {
-                    m_ChildernArray[i].FixedUpdate();
+                    m_ChildernList[i].FixedUpdate();
                 }
             }
             DoFixedUpdate();
@@ -113,11 +113,11 @@ namespace Pangoo.Core.Services
 
         public override void DrawGizmos()
         {
-            if (m_ChildernArray != null)
+            if (m_ChildernList != null)
             {
-                for (int i = 0; i < m_ChildernArray.Length; i++)
+                for (int i = 0; i < m_ChildernList.Count; i++)
                 {
-                    m_ChildernArray[i].DrawGizmos();
+                    m_ChildernList[i].DrawGizmos();
                 }
             }
 
@@ -127,11 +127,11 @@ namespace Pangoo.Core.Services
 
         public override void PointerEnter(PointerEventData pointerEventData)
         {
-            if (m_ChildernArray != null)
+            if (m_ChildernList != null)
             {
-                for (int i = 0; i < m_ChildernArray.Length; i++)
+                for (int i = 0; i < m_ChildernList.Count; i++)
                 {
-                    m_ChildernArray[i].PointerEnter(pointerEventData);
+                    m_ChildernList[i].PointerEnter(pointerEventData);
                 }
             }
 
@@ -140,11 +140,11 @@ namespace Pangoo.Core.Services
 
         public override void PointerExit(PointerEventData pointerEventData)
         {
-            if (m_ChildernArray != null)
+            if (m_ChildernList != null)
             {
-                for (int i = 0; i < m_ChildernArray.Length; i++)
+                for (int i = 0; i < m_ChildernList.Count; i++)
                 {
-                    m_ChildernArray[i].PointerExit(pointerEventData);
+                    m_ChildernList[i].PointerExit(pointerEventData);
                 }
             }
 
@@ -153,11 +153,11 @@ namespace Pangoo.Core.Services
 
         public override void PointerClick(PointerEventData pointerEventData)
         {
-            if (m_ChildernArray != null)
+            if (m_ChildernList != null)
             {
-                for (int i = 0; i < m_ChildernArray.Length; i++)
+                for (int i = 0; i < m_ChildernList.Count; i++)
                 {
-                    m_ChildernArray[i].PointerClick(pointerEventData);
+                    m_ChildernList[i].PointerClick(pointerEventData);
                 }
             }
 
