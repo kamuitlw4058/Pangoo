@@ -23,19 +23,21 @@ namespace Pangoo.Core.VisualScripting
         public override IParams Params => ParamRaw;
         protected override int Run(Args args)
         {
-            ParamRaw.CurrentGameSection = args.Main?.GetService<GameSectionService>().LatestUuid;
-            if (ParamRaw.CurrentGameSection==null)
+            var currentGameSection = args.Main?.GetService<GameSectionService>().LatestUuid;
+            if (currentGameSection==null)
             {
                 //Debug.Log("没有获取到章段落");
                 return 0;
             }
-            bool isContainSection = ParamRaw.GameSectionUuidList.Find(x => x == ParamRaw.CurrentGameSection)!=null;
-            if (isContainSection)
+            for (int i = 0; i < ParamRaw.GameSectionUuidArray.Length; i++)
             {
-                //Debug.Log("是包含的章节段落");
-                return 1;
+                if (ParamRaw.GameSectionUuidArray[i]==currentGameSection)
+                {
+                    //Debug.Log("包含当前章节段落");
+                    return 1;
+                }
             }
-            //Debug.Log("不是包含的章节段落");
+            //Debug.Log("不包含当前章节段落");
             return 0;
         }
     }

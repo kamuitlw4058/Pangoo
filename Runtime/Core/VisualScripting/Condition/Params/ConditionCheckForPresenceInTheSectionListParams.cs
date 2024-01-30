@@ -5,23 +5,19 @@ using LitJson;
 using Pangoo.MetaTable;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Pangoo.Core.VisualScripting
 {
     [Serializable]
     public class ConditionCheckForPresenceInTheSectionListParams : ConditionParams
     {
+        [FormerlySerializedAs("GameSectionUuidList")]
         [JsonMember("GameSectionUuidList")]
         [ValueDropdown("OnGameSectionUuidValueDropdown")]
         [LabelText("包含的章节段落")]
-        public List<string> GameSectionUuidList=new List<string>();
+        public string[] GameSectionUuidArray = Array.Empty<string>();
 
-        [ValueDropdown("OnGameSectionUuidValueDropdown")]
-        [LabelText("当前的章节段落")]
-        [ReadOnly]
-        public string CurrentGameSection;
-
-        
 #if UNITY_EDITOR
         IEnumerable OnGameSectionUuidValueDropdown()
         {
@@ -32,7 +28,7 @@ namespace Pangoo.Core.VisualScripting
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<ConditionCheckForPresenceInTheSectionListParams>(val);
-            GameSectionUuidList = par.GameSectionUuidList;
+            GameSectionUuidArray = par.GameSectionUuidArray;
         }
     }
 }
