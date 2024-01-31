@@ -12,13 +12,28 @@ namespace Pangoo.Core.Characters
     {
         public LayerMask LayerMask = -1;
 
-        [LabelText("脚步声配置")]
+        [LabelText("脚步声 纹理")]
+        public TextureFootstepEntry[] textureFootSteps;
+
+        [LabelText("脚本声 配置变量")]
+        [ValueDropdown("VariableUuidDropdown")]
+        public string configFootstepsUuid;
+
+        [LabelText("脚步声 配置")]
         public FootstepEntry[] footsteps;
+
+        [Serializable]
+        public struct TextureFootstepEntry
+        {
+            public Texture texture;
+            public FootstepEntry footstepEntry;
+        }
+
 
         [Serializable]
         public struct FootstepEntry
         {
-            public Texture texture;
+
 
             [ValueDropdown("SoundUuidDropdown")]
             public string[] soundUuids;
@@ -33,8 +48,21 @@ namespace Pangoo.Core.Characters
             {
                 return SoundOverview.GetUuidDropdown();
             }
+
 #endif
+
+
+
         }
+
+#if UNITY_EDITOR
+        public IEnumerable VariableUuidDropdown()
+        {
+            return VariablesOverview.GetUuidDropdown();
+        }
+
+#endif
+
     }
 
 }

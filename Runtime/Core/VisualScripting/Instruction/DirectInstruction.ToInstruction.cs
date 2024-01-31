@@ -48,6 +48,15 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
+
+        public static Instruction GetSetVariableIntInstruction(string VariableUuid, int val)
+        {
+            var instruction = Activator.CreateInstance<InstructionSetVariableInt>();
+            instruction.ParamsRaw.VariableUuid = VariableUuid;
+            instruction.ParamsRaw.Val = val;
+            return instruction;
+        }
+
         public static Instruction GetSetPlayerIsControllable(bool val)
         {
             var instruction = Activator.CreateInstance<InstructionSetPlayerControllable>();
@@ -257,7 +266,7 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.WaitClosed = val;
             return instruction;
         }
-        
+
         public static Instruction GetDynamicObjectInvokeEnter()
         {
             var instruction = Activator.CreateInstance<InstructionDynamicObjectInvokeEnter>();
@@ -268,8 +277,8 @@ namespace Pangoo.Core.VisualScripting
             var instruction = Activator.CreateInstance<InstructionDynamicObjectInvokeExit>();
             return instruction;
         }
-        
-        public static Instruction GetTweenLightIntensity(string targetPath,float val,float tweenTime,bool waitFinsh)
+
+        public static Instruction GetTweenLightIntensity(string targetPath, float val, float tweenTime, bool waitFinsh)
         {
             var instruction = Activator.CreateInstance<InstructionTweenLightIntensity>();
             instruction.ParamsRaw.TargetPath = targetPath;
@@ -278,8 +287,8 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.WaitFinsh = waitFinsh;
             return instruction;
         }
-        
-        public static Instruction GetDynamicObjectSetMaterial(string targetPath,int index)
+
+        public static Instruction GetDynamicObjectSetMaterial(string targetPath, int index)
         {
             var instruction = Activator.CreateInstance<InstructionDynamicObjectSetMaterial>();
             instruction.ParamsRaw.TargetPath = targetPath;
@@ -293,8 +302,8 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.DriverInfo = driverInfo;
             return instruction;
         }
-        
-        public static Instruction GetChangeCharacterHeightByDynamicObjectDistance(float startDistance,float endDistance,float minHeight,float maxHeight)
+
+        public static Instruction GetChangeCharacterHeightByDynamicObjectDistance(float startDistance, float endDistance, float minHeight, float maxHeight)
         {
             var instruction = Activator.CreateInstance<InstructionChangeHightByDynamicObjectDistance>();
             instruction.ParamsRaw.EndDistance = endDistance;
@@ -332,6 +341,8 @@ namespace Pangoo.Core.VisualScripting
                     return GetChangeGameSectionInstruction(Uuid);
                 case DirectInstructionTypeEnum.SetBoolVariable:
                     return GetSetVariableBoolInstruction(Uuid, Bool1);
+                case DirectInstructionTypeEnum.SetIntVariable:
+                    return GetSetVariableIntInstruction(Uuid, Int1);
                 case DirectInstructionTypeEnum.SetPlayerIsControllable:
                     return GetSetPlayerIsControllable(Bool1);
                 case DirectInstructionTypeEnum.SetGameObjectActive:
@@ -389,13 +400,13 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.DynamicObjectExit:
                     return GetDynamicObjectInvokeExit();
                 case DirectInstructionTypeEnum.TweenLightIntensity:
-                    return GetTweenLightIntensity(DropdownString1,Float1,Float2,Bool1);
+                    return GetTweenLightIntensity(DropdownString1, Float1, Float2, Bool1);
                 case DirectInstructionTypeEnum.DynamicObjectSetMaterial:
-                    return GetDynamicObjectSetMaterial(DropdownString1,Int1);
+                    return GetDynamicObjectSetMaterial(DropdownString1, Int1);
                 case DirectInstructionTypeEnum.SetDriverInfo:
                     return GetSetDriverInfo(DriverInfo1);
                 case DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance:
-                    return GetChangeCharacterHeightByDynamicObjectDistance(Float1, Float2,Float3,Float4);
+                    return GetChangeCharacterHeightByDynamicObjectDistance(Float1, Float2, Float3, Float4);
                 case DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams:
                     return GetDynamicObjectSetAnimatorBoolParams(DropdownString1, String2, Bool1);
                 case DirectInstructionTypeEnum.SetPlayerInputMotion:

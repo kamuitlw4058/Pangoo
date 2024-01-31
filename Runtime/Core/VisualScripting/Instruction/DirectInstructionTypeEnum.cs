@@ -106,21 +106,22 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("变量/等待Bool变成预定值")]
         WaitVariableBool,
-        
+
         [LabelText("Tween/Tween灯光强度")]
         TweenLightIntensity,
         [LabelText("动态物体/设置材质球")]
         DynamicObjectSetMaterial,
-        
+
         [LabelText("玩家/设置玩家控制器信息")]
         SetDriverInfo,
-        
+
         [LabelText("玩家/通过动态对象距离改变相机高度")]
         ChangeCharacterHeightByDynamicObjectDistance,
         [LabelText("动态物体/设置动画状态机bool参数")]
         DynamicObjectSetAnimatorBoolParams,
+        [LabelText("变量/设置Int变量")]
+        SetIntVariable,
         [LabelText("玩家/设置玩家行走模式")]
         SetPlayerInputMotion,
-        
     }
 }
