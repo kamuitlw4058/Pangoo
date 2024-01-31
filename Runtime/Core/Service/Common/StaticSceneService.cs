@@ -161,6 +161,24 @@ namespace Pangoo.Core.Services
                 m_SectionSceneInfos.Add(sceneInfo.AssetPathUuid, sceneInfo);
             }
 
+            foreach (var uuid in holdUuids)
+            {
+                var sceneInfo = m_StaticSceneInfo.GetRowByUuid<StaticSceneInfoRow>(uuid);
+                if (!m_SectionSceneInfos.ContainsKey(sceneInfo.AssetPathUuid))
+                {
+                    m_SectionSceneInfos.Add(sceneInfo.AssetPathUuid, sceneInfo);
+                }
+            }
+
+            foreach (var uuid in initUuids)
+            {
+                var sceneInfo = m_StaticSceneInfo.GetRowByUuid<StaticSceneInfoRow>(uuid);
+                if (!m_SectionSceneInfos.ContainsKey(sceneInfo.AssetPathUuid))
+                {
+                    m_SectionSceneInfos.Add(sceneInfo.AssetPathUuid, sceneInfo);
+                }
+            }
+
             m_HoldStaticSceneUuids.Clear();
             m_HoldStaticSceneUuids.AddRange(holdUuids);
 
