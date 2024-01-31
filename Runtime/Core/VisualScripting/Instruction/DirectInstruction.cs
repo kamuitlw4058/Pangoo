@@ -203,6 +203,7 @@ namespace Pangoo.Core.VisualScripting
                     // DirectInstructionTypeEnum.StopSound => true,
                     // DirectInstructionTypeEnum.CheckBoolVariableList => true,
                     DirectInstructionTypeEnum.DynamicObjectSetMaterial => true,
+                    DirectInstructionTypeEnum.SetIntVariable => true,
                     _ => false,
                 };
             }
@@ -220,6 +221,7 @@ namespace Pangoo.Core.VisualScripting
 
                     DirectInstructionTypeEnum.ChangeGameSection => true,
                     DirectInstructionTypeEnum.SetBoolVariable => true,
+                    DirectInstructionTypeEnum.SetIntVariable => true,
                     DirectInstructionTypeEnum.DynamicObjectModelActive => true,
                     DirectInstructionTypeEnum.DynamicObjectHotspotActive => true,
                     DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => true,
@@ -234,6 +236,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.CheckBoolVariableList => true,
                     DirectInstructionTypeEnum.DynamicObjectPreview => true,
                     DirectInstructionTypeEnum.WaitVariableBool => true,
+
 
                     _ => false,
                 };
@@ -738,7 +741,9 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.ChangeGameSection:
                     return GameSectionOverview.GetUuidDropdown();
                 case DirectInstructionTypeEnum.SetBoolVariable:
-                    return VariablesOverview.GetUuidDropdown();
+                    return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString());
+                case DirectInstructionTypeEnum.SetIntVariable:
+                    return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Int.ToString());
                 case DirectInstructionTypeEnum.RunInstruction:
                     return InstructionOverview.GetUuidDropdown();
                 case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:
@@ -784,6 +789,7 @@ namespace Pangoo.Core.VisualScripting
                     row = GameSectionOverview.GetUnityRowById(Int1) as MetaTableUnityRow;
                     break;
                 case DirectInstructionTypeEnum.SetBoolVariable:
+                case DirectInstructionTypeEnum.SetIntVariable:
                 case DirectInstructionTypeEnum.CheckBoolVariableList:
                     row = VariablesOverview.GetUnityRowById(Int1) as MetaTableUnityRow;
                     break;
