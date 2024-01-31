@@ -152,7 +152,7 @@ namespace Pangoo.Core.Characters
             if (playSoundFlag)
             {
                 bool playedFlag = false;
-                var m_Hit = GetGroundHit(Character.CachedTransfrom.position);
+                m_Hit = GetGroundHit(Character.CachedTransfrom.position);
                 if (m_Hit.collider != null)
                 {
                     m_Renderer = m_Hit.collider.GetComponent<Renderer>();

@@ -9,6 +9,7 @@ using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedure
 using LoadDataTableSuccessEventArgs = UnityGameFramework.Runtime.LoadDataTableSuccessEventArgs;
 using LoadDataTableFailureEventArgs = UnityGameFramework.Runtime.LoadDataTableFailureEventArgs;
 using UnityEngine;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 
 namespace Pangoo
 {
@@ -50,6 +51,7 @@ namespace Pangoo
             PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/RuntimeData/DynamicObject", new DebugWindowRuntimeDataDynamicObject());
 
             PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/StaticScene", new DebugWindowStaticScene());
+            PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/角色", new DebugWindowCharacter());
             PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/指令", new DebugWindowInstructions());
             Application.targetFrameRate = -1;
 

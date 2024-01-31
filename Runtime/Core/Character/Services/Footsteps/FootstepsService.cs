@@ -35,6 +35,73 @@ namespace Pangoo.Core.Characters
             }
         }
 
+        public int HitNum
+        {
+            get
+            {
+                switch (m_ServiceType)
+                {
+                    case CharacterFootstepTypeEnum.CharacterFootstepDefault:
+                        return m_Footstep.m_HitNum;
+                }
+
+                return 0;
+            }
+        }
+
+        public RaycastHit Hit
+        {
+            get
+            {
+                switch (m_ServiceType)
+                {
+                    case CharacterFootstepTypeEnum.CharacterFootstepDefault:
+                        return m_Footstep.m_Hit;
+                }
+
+                return new RaycastHit();
+            }
+        }
+
+        public RaycastHit[] Hits
+        {
+            get
+            {
+                switch (m_ServiceType)
+                {
+                    case CharacterFootstepTypeEnum.CharacterFootstepDefault:
+                        return m_Footstep.m_HitsBuffer;
+                }
+
+                return new RaycastHit[5];
+            }
+        }
+
+        public Renderer Renderer
+        {
+            get
+            {
+                switch (m_ServiceType)
+                {
+                    case CharacterFootstepTypeEnum.CharacterFootstepDefault:
+                        return m_Footstep.m_Renderer;
+                }
+
+                return null;
+            }
+        }
+
+        public FootstepAsset FootstepConfig
+        {
+            get
+            {
+                return Character.Main.GameConfig.GetFootstepAsset();
+            }
+        }
+
+
+
+
 
         public FootstepsService(NestedBaseService parent) : base(parent)
         {

@@ -3,6 +3,7 @@ using System.Collections;
 using Pangoo.Core.Common;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using System.Linq;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -26,7 +27,24 @@ namespace Pangoo.Core.VisualScripting
     [Serializable]
     public class InstructionListInstruction : Instruction
     {
-        public override InstructionType InstructionType => InstructionType.Coroutine;
+        public override InstructionType InstructionType
+        {
+            get
+            {
+                for (int i = 0; i < ParamsRaw.Instructions.DirectInstructions.Length; i++)
+                {
+                    var instruction = ParamsRaw.Instructions.DirectInstructions[i];
+                    if (instruction.InstructionRuntimeType == InstructionType.Coroutine)
+                    {
+                        Debug.Log($"Index:{i} is Coroutine");
+                        return InstructionType.Coroutine;
+                    }
+                }
+
+                return InstructionType.Immediate;
+            }
+        }
+
 
         [SerializeField]
         [LabelText("参数")]
@@ -36,6 +54,7 @@ namespace Pangoo.Core.VisualScripting
 
         [HideInEditorMode]
         public InstructionList InstructionList;
+
 
         protected override IEnumerator Run(Args args)
         {
@@ -53,6 +72,9 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
+            var instructionHandler = args.Main.GetInstructionRowByUuidHandler();
+            InstructionList = ParamsRaw.Instructions.ToInstructionList(instructionHandler);
+            InstructionList.Start(args);
             return;
         }
 

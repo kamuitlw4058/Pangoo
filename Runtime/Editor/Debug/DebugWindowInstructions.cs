@@ -28,6 +28,7 @@ namespace Pangoo
                 DrawButtonItem(row.UuidShort, row.Name, "运行", () =>
                 {
                     var instruction = Instruction.BuildFromRow(row);
+                    Debug.Log($"instruction:{instruction} instruction.InstructionType:{instruction.InstructionType}");
                     if (instruction != null && instruction.InstructionType == Core.VisualScripting.InstructionType.Immediate)
                     {
                         var args = new Args();

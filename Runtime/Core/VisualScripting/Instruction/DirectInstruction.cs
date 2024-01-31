@@ -28,6 +28,21 @@ namespace Pangoo.Core.VisualScripting
         [GUIColor(0.3f, 0.9f, 0.3f)]
         public DirectInstructionTypeEnum InstructionType;
 
+
+        public InstructionType InstructionRuntimeType
+        {
+            get
+            {
+                switch (InstructionType)
+                {
+                    case DirectInstructionTypeEnum.SetBoolVariable:
+                    case DirectInstructionTypeEnum.ShowSubtitle:
+                        return VisualScripting.InstructionType.Immediate;
+                }
+                return Pangoo.Core.VisualScripting.InstructionType.Coroutine;
+            }
+        }
+
         [TableTitleGroup("参数")]
         [LabelText("Uuid")]
         [ShowIf("$IsUuidShow")]
@@ -131,7 +146,7 @@ namespace Pangoo.Core.VisualScripting
         [LabelWidth(80)]
         [JsonMember("Float2")]
         public float Float2;
-        
+
         [TableTitleGroup("参数")]
         [LabelText("$Float3Label")]
         [ShowIf("$IsFloat3Show")]
@@ -336,7 +351,7 @@ namespace Pangoo.Core.VisualScripting
                 {
                     DirectInstructionTypeEnum.ImageFade => true,
                     DirectInstructionTypeEnum.SetGlobalGameObjectActive => true,
-                    DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams=>true,
+                    DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams => true,
                     _ => false,
                 };
             }
@@ -359,7 +374,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectPauseTimeline => true,
                     DirectInstructionTypeEnum.TweenLightIntensity => true,
                     DirectInstructionTypeEnum.DynamicObjectSetMaterial => true,
-                    DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams=>true,
+                    DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams => true,
                     _ => false,
                 };
             }
@@ -380,7 +395,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.ImageFade => true,
                     DirectInstructionTypeEnum.CanvasGroup => true,
                     DirectInstructionTypeEnum.TweenLightIntensity => true,
-                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>true,
+                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance => true,
                     _ => false,
                 };
             }
@@ -396,12 +411,12 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.ImageFade => true,
                     DirectInstructionTypeEnum.CanvasGroup => true,
                     DirectInstructionTypeEnum.TweenLightIntensity => true,
-                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>true,
+                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance => true,
                     _ => false,
                 };
             }
         }
-        
+
         [JsonNoMember]
         bool IsFloat3Show
         {
@@ -409,7 +424,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>true,
+                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance => true,
                     _ => false,
                 };
             }
@@ -421,7 +436,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>true,
+                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance => true,
                     _ => false,
                 };
             }
@@ -574,7 +589,7 @@ namespace Pangoo.Core.VisualScripting
                 {
                     DirectInstructionTypeEnum.ImageFade => "TweenID",
                     DirectInstructionTypeEnum.SetGlobalGameObjectActive => "根节点子对象",
-                    DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams=>"动画参数",
+                    DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams => "动画参数",
                     _ => "String2",
                 };
             }
@@ -606,7 +621,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.ImageFade => "目标Alpha值",
                     DirectInstructionTypeEnum.CanvasGroup => "目标Alpha值",
                     DirectInstructionTypeEnum.TweenLightIntensity => "目标值",
-                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>"起始距离",
+                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance => "起始距离",
                     _ => "Float1",
                 };
             }
@@ -622,12 +637,12 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.ImageFade => "过渡时间",
                     DirectInstructionTypeEnum.CanvasGroup => "过渡时间",
                     DirectInstructionTypeEnum.TweenLightIntensity => "过渡时间",
-                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>"结束距离",
+                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance => "结束距离",
                     _ => "Float2",
                 };
             }
         }
-        
+
         [JsonNoMember]
         string Float3Label
         {
@@ -635,12 +650,12 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>"起始高度",
+                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance => "起始高度",
                     _ => "Float3",
                 };
             }
         }
-        
+
         [JsonNoMember]
         string Float4Label
         {
@@ -648,7 +663,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance=>"结束高度",
+                    DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance => "结束高度",
                     _ => "Float4",
                 };
             }
