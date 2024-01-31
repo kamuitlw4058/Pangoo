@@ -16,14 +16,14 @@ namespace Pangoo.Core.Characters
     {
         [ShowInInspector]
         public ICharacterRow Row { get; set; }
-        
+
         public MainService Main { get; set; }
 
 
         [SerializeField] protected bool m_IsPlayer;
 
         [SerializeField] MotionInfo m_MotionInfo;
-        
+
         public Vector3 CameraOffset { get; set; }
         [ShowInInspector]
         public float xAxisMaxPitch { get; set; }
@@ -87,7 +87,7 @@ namespace Pangoo.Core.Characters
         {
             get => gameObject.GetComponent<CharacterController>();
         }
-        
+
         public EntityCharacter Entity { get; set; }
 
         protected override void DoAwake()
@@ -96,7 +96,7 @@ namespace Pangoo.Core.Characters
             base.DoAwake();
         }
 
-        
+
 
         public void SetMotionInfo(MotionInfo motionInfo)
         {
@@ -140,14 +140,14 @@ namespace Pangoo.Core.Characters
             float offsetY = targetHight - (CharacterController.height) / 2;
 
             //Debug.Log($"offsetY:{offsetY},height:{targetHight},Info.Height:{CharacterController.height},OriginalCameraOffset.y:{OriginalCameraOffset.y}");
-            SetCameraOffset(new Vector3(CameraOffset.x,offsetY,CameraOffset.z));
+            SetCameraOffset(new Vector3(CameraOffset.x, offsetY, CameraOffset.z));
         }
 
         public void SetDriverInfo(DriverInfo driverInfo)
         {
             m_DriverService.SetDriverInfo(driverInfo);
         }
-        
+
         public bool EnabledFootstep
         {
             get
@@ -159,7 +159,7 @@ namespace Pangoo.Core.Characters
                 m_FootstepsService.Enabled = value;
             }
         }
-        
+
         public bool IsMoveInputDown
         {
             get { return m_CharacterInputService?.IsMoveInputDown ?? false; }
@@ -201,6 +201,11 @@ namespace Pangoo.Core.Characters
             {
                 m_InteractionService.Interact();
             }
+        }
+
+        public T GetVariable<T>(string uuid)
+        {
+            return Main.RuntimeData.GetVariable<T>(uuid);
         }
 
 

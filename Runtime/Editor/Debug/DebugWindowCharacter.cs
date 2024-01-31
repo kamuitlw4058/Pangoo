@@ -19,14 +19,14 @@ namespace Pangoo
 
             GUILayout.Label("<b>脚步声资源</b>");
             GUILayout.BeginVertical("box");
-            DrawItem("脚步声 材质配置数量", character.Player?.character?.FootstepsService?.FootstepConfig?.footsteps?.Length.ToString());
+            DrawItem("脚步声 材质配置数量", character.Player?.character?.FootstepsService?.FootstepConfig?.textureFootSteps?.Length.ToString());
 
-            var len = character.Player?.character?.FootstepsService?.FootstepConfig?.footsteps?.Length;
+            var len = character.Player?.character?.FootstepsService?.FootstepConfig?.textureFootSteps?.Length;
             if (len != null)
             {
                 for (int i = 0; i < len; i++)
                 {
-                    DrawItem($"脚步声 材质配置[{i + 1}]", character.Player?.character?.FootstepsService?.FootstepConfig?.footsteps[i].texture.name);
+                    DrawItem($"脚步声 材质配置[{i + 1}]", character.Player?.character?.FootstepsService?.FootstepConfig?.textureFootSteps[i].texture.name);
 
                 }
 
