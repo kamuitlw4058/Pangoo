@@ -7,7 +7,11 @@ using Sirenix.OdinInspector;
 
 namespace Pangoo.Core.Characters
 {
-
+    public enum InputMotionType
+    {
+        Default,
+        OnlyW,
+    }
     [Serializable]
     public class CharacterInputService : CharacterBaseService
     {
@@ -46,7 +50,7 @@ namespace Pangoo.Core.Characters
         [ShowInInspector]
         public bool InputInteraction { get; private set; }
 
-
+        public InputMotionType InputMotionType;
 
         [ShowInInspector]
         public bool InputJump { get; private set; }
@@ -75,9 +79,23 @@ namespace Pangoo.Core.Characters
             }
             else
             {
-                InputMove = m_InputMove?.Read() ?? Vector2.zero;
-
-                InputRotation = m_InputRotation?.Read() ?? Vector2.zero;
+                switch (InputMotionType)
+                {
+                    case InputMotionType.Default:
+                        InputMove = m_InputMove?.Read() ?? Vector2.zero;
+                        InputRotation = m_InputRotation?.Read() ?? Vector2.zero;
+                        break;
+                    case InputMotionType.OnlyW:
+                        //Debug.Log("当前只能按W前进");
+                        var yVal = Math.Clamp(m_InputMove.Read().y, 0, 1);
+                        InputMove = new Vector2(0,yVal);
+                        InputRotation = Vector2.zero;
+                        break;
+                    default:
+                        InputMove = m_InputMove?.Read() ?? Vector2.zero;
+                        InputRotation = m_InputRotation?.Read() ?? Vector2.zero;
+                        break;
+                }
 
                 InputInteraction = m_InputInteraction?.WasPressedThisFrame() ?? false;
                 InputJump = m_InputJump?.WasPressedThisFrame() ?? false;

@@ -313,6 +313,13 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
+        public static Instruction GetSetPlayerInputMotion(InputMotionType inputMotionType)
+        {
+            var instruction = Activator.CreateInstance<InstructionSetPlayerInputMotion>();
+            instruction.ParamsRaw.InputMotionType = inputMotionType;
+            return instruction;
+        }
+
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
             switch (InstructionType)
@@ -391,6 +398,8 @@ namespace Pangoo.Core.VisualScripting
                     return GetChangeCharacterHeightByDynamicObjectDistance(Float1, Float2,Float3,Float4);
                 case DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams:
                     return GetDynamicObjectSetAnimatorBoolParams(DropdownString1, String2, Bool1);
+                case DirectInstructionTypeEnum.SetPlayerInputMotion:
+                    return GetSetPlayerInputMotion(InputMotionType);
             }
 
             return null;

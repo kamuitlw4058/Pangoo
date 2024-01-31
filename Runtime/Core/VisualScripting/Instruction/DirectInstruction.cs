@@ -173,6 +173,12 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("DriverInfo1")]
         public DriverInfo DriverInfo1;
 
+        [TableTitleGroup("参数")]
+        [ShowIf("$IsMainInputMotionTypeShow")]
+        [LabelWidth(120)]
+        [JsonMember("InputMotionType")]
+        public InputMotionType InputMotionType;
+
 
 #if UNITY_EDITOR
         public void SetPrefab(GameObject go)
@@ -463,6 +469,19 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.SetDriverInfo => true,
+                    _ => false,
+                };
+            }
+        }
+
+        [JsonNoMember]
+        bool IsMainInputMotionTypeShow
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.SetPlayerInputMotion => true,
                     _ => false,
                 };
             }
