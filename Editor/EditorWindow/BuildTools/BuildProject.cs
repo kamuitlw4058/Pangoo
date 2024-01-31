@@ -241,9 +241,7 @@ namespace Pangoo.Editor
         [MenuItem("Pangoo/BuildTools/BuildResoure")]
         private static void BuildResoure()
         {
-            Debug.Log("检查是否需要构建资源");
-
-            Debug.Log("开始打包资源");
+            Debug.Log($"阶段一:-------------开始构建资源包--------------{DateTime.Now.ToLocalTime()}");
             //创建存放打包资源的文件夹
             if (!Directory.Exists(abPackgePath))
             {
@@ -258,7 +256,7 @@ namespace Pangoo.Editor
 
             if (m_Controller.Load())
             {
-                Debug.Log("Load configuration success.");
+                Debug.Log("资源包加载配置成功.");
 
                 m_Builder.m_CompressionHelperTypeNameIndex = 0;
                 string[] compressionHelperTypeNames = m_Controller.GetCompressionHelperTypeNames();
@@ -290,7 +288,7 @@ namespace Pangoo.Editor
             }
             else
             {
-                Debug.LogWarning("加载配置失败.");
+                Debug.LogWarning("资源包加载配置失败.");
             }
 
             Debug.Log("配置中输出目录:" + m_Controller.OutputDirectory);
@@ -304,14 +302,14 @@ namespace Pangoo.Editor
             {
                 Debug.LogError("资源包构建失败!!!");
                 Environment.Exit(1);
-                
             }
+            Debug.Log($"阶段一:-------------结束构建资源包--------------{DateTime.Now.ToLocalTime()}");
             MoveResourceToGame();
         }
 
         private static void MoveResourceToGame()
         {
-            Debug.Log("开始移动资源包");
+            Debug.Log($"阶段二:-------------开始移动资源包--------------{DateTime.Now.ToLocalTime()}");
             m_Controller.Load();
 
             string sourceDirectoryPath = $"{copyPath}/Windows";
@@ -325,6 +323,7 @@ namespace Pangoo.Editor
             Debug.Log("资源移动完成");
             Directory.Delete(copyPath,true);
             Debug.Log("删除原资源目录");
+            Debug.Log($"阶段二:-------------结束移动资源包--------------{DateTime.Now.ToLocalTime()}");
         }
 
         private static void DeleteStreamingAssetsPathResource()
