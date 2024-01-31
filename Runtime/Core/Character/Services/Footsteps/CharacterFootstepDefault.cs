@@ -163,7 +163,7 @@ namespace Pangoo.Core.Characters
                 var val = Character.GetVariable<int>(FootstepConfig.configFootstepsUuid);
                 if (val > 0 && val <= FootstepConfig.footsteps.Length)
                 {
-                    var footstepEntry = FootstepConfig.footsteps[val + 1];
+                    var footstepEntry = FootstepConfig.footsteps[val-1];
                     var footstepSoundList = footstepEntry.soundUuids;
                     FootstepsIndex = FootstepsIndex % footstepSoundList.Length;
                     var uuid = footstepSoundList[FootstepsIndex];
