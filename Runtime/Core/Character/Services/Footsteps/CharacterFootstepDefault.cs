@@ -166,7 +166,7 @@ namespace Pangoo.Core.Characters
                             foreach (var footstepEntry in FootstepConfig.footsteps)
                             {
                                 if (playedFlag) break;
-                                if (footstepEntry.texture != texture) continue;
+                                if (!footstepEntry.texture.name.Equals(texture.name)) continue;
                                 if (footstepEntry.soundUuids == null || (footstepEntry.soundUuids != null && footstepEntry.soundUuids.Length == 0)) continue;
 
 
