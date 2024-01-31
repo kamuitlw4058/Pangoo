@@ -9,7 +9,6 @@ using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedure
 using LoadDataTableSuccessEventArgs = UnityGameFramework.Runtime.LoadDataTableSuccessEventArgs;
 using LoadDataTableFailureEventArgs = UnityGameFramework.Runtime.LoadDataTableFailureEventArgs;
 using UnityEngine;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 
 namespace Pangoo
 {
