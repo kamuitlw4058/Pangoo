@@ -65,6 +65,7 @@ namespace Pangoo.MetaTable
             dropdown.Add("Effect");
             dropdown.Add("Music");
             dropdown.Add("Voice");
+            dropdown.Add("Footstep");
             return dropdown;
         }
 
