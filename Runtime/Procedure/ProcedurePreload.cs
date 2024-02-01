@@ -45,11 +45,11 @@ namespace Pangoo
 
 
             PangooEntry.UI.AddUIGroup("Default");
-            PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/SystemInfo", new PangooSystemInformationWindow());
-            PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/RuntimeData/Normal", new DebugWindowRuntimeDataNormal());
-            PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/RuntimeData/DynamicObject", new DebugWindowRuntimeDataDynamicObject());
+            PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/运行数据/全局变量", new DebugWindowRuntimeDataNormal());
+            PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/运行数据/动态物体变量", new DebugWindowRuntimeDataDynamicObject());
+            PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/动态物体", new DebugWindowDynamicObject());
 
-            PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/StaticScene", new DebugWindowStaticScene());
+            PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/静态场景", new DebugWindowStaticScene());
             PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/角色", new DebugWindowCharacter());
             PangooEntry.Debugger.RegisterDebuggerWindow("Pangoo/指令", new DebugWindowInstructions());
             Application.targetFrameRate = -1;

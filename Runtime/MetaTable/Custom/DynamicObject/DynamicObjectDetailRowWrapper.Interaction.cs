@@ -13,8 +13,8 @@ namespace Pangoo.MetaTable
     {
         [ShowInInspector]
         [LabelText("默认关闭交互")]
-        [TabGroup("交互系统")]
-        [PropertyOrder(1)]
+        [FoldoutGroup("交互系统", Order = 12)]
+        [PropertyOrder(11)]
         public bool DefaultDisableInteract
         {
             get
@@ -30,9 +30,10 @@ namespace Pangoo.MetaTable
         }
 
 
+
         [ShowInInspector]
         [LabelText("交互对象")]
-        [TabGroup("交互系统")]
+        [FoldoutGroup("交互系统")]
         [PropertyOrder(1)]
         [ValueDropdown("OnTargetDropdown")]
         public string InteractTarget
@@ -58,7 +59,7 @@ namespace Pangoo.MetaTable
 
         [LabelText("交互范围")]
         // [ShowIf("@this.UseHotspot")]
-        [TabGroup("交互系统")]
+        [FoldoutGroup("交互系统")]
         [PropertyOrder(3)]
         public float InteractRadius
         {
@@ -77,7 +78,7 @@ namespace Pangoo.MetaTable
         [ShowInInspector]
         [LabelText("交互偏移")]
         // [ShowIf("@this.UseHotspot")]
-        [TabGroup("交互系统")]
+        [FoldoutGroup("交互系统")]
         [PropertyOrder(2)]
         public Vector3 InteractOffset
         {
@@ -95,7 +96,7 @@ namespace Pangoo.MetaTable
         [ShowInInspector]
         [LabelText("交互角度")]
         // [ShowIf("@this.UseHotspot")]
-        [TabGroup("交互系统")]
+        [FoldoutGroup("交互系统")]
         [PropertyOrder(4)]
         public float InteractRadian
         {
@@ -120,7 +121,7 @@ namespace Pangoo.MetaTable
 
         [ShowInInspector]
         [LabelText("是否使用热点区域")]
-        [TabGroup("交互系统")]
+        [FoldoutGroup("交互系统")]
         [PropertyOrder(5)]
         public bool UseHotspot
         {
@@ -137,7 +138,7 @@ namespace Pangoo.MetaTable
 
         [ShowInInspector]
         [LabelText("默认关闭热点区域")]
-        [TabGroup("交互系统")]
+        [FoldoutGroup("交互系统")]
         [PropertyOrder(6)]
         public bool DefaultHideHotspot
         {
@@ -158,7 +159,7 @@ namespace Pangoo.MetaTable
 
         [LabelText("热点区域范围")]
         [ShowIf("@this.UseHotspot")]
-        [TabGroup("交互系统")]
+        [FoldoutGroup("交互系统")]
         [PropertyOrder(6)]
         public float HotspotRadius
         {
@@ -181,7 +182,7 @@ namespace Pangoo.MetaTable
         [ShowIf("@this.UseHotspot")]
         [ValueDropdown("GetHotspotUuids", IsUniqueList = true)]
         [ListDrawerSettings(Expanded = true)]
-        [TabGroup("交互系统")]
+        [FoldoutGroup("交互系统")]
         [PropertyOrder(8)]
         public string[] HotspotUuids
         {

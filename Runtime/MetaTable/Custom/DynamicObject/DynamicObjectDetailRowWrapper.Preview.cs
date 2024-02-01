@@ -15,7 +15,7 @@ namespace Pangoo.MetaTable
     public partial class DynamicObjectDetailRowWrapper : MetaTableDetailRowWrapper<DynamicObjectOverview, UnityDynamicObjectRow>
     {
         [LabelText("预览显示名字")]
-        [TabGroup("预览")]
+        [FoldoutGroup("预览", Order = 11)]
         [ShowInInspector]
         public string PreviewName
         {
@@ -31,7 +31,7 @@ namespace Pangoo.MetaTable
         }
 
         [LabelText("预览描述")]
-        [TabGroup("预览")]
+        [FoldoutGroup("预览")]
         [ShowInInspector]
         public string PreviewDesc
         {
@@ -47,7 +47,7 @@ namespace Pangoo.MetaTable
         }
 
         [LabelText("预览朝向")]
-        [TabGroup("预览")]
+        [FoldoutGroup("预览")]
         [ShowInInspector]
         public Vector3 PreviewRotation
         {
@@ -64,7 +64,7 @@ namespace Pangoo.MetaTable
 
 
         [LabelText("预览缩放")]
-        [TabGroup("预览")]
+        [FoldoutGroup("预览")]
         [ShowInInspector]
         public Vector3 PreviewScale
         {

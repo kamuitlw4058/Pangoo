@@ -15,8 +15,7 @@ namespace Pangoo.MetaTable
     public partial class DynamicObjectDetailRowWrapper : MetaTableDetailRowWrapper<DynamicObjectOverview, UnityDynamicObjectRow>
     {
         [LabelText("子动态物体")]
-        [TabGroup("子动态物体", Order = 13)]
-        [PropertyOrder(14)]
+        [FoldoutGroup("子动态物体", Order = 13)]
         [ShowInInspector]
         public string SubDynamicObjecStr
         {
@@ -29,7 +28,7 @@ namespace Pangoo.MetaTable
         List<SubDynamicObject> m_SubDynamicObject;
 
         [LabelText("子动态物体")]
-        [TabGroup("子动态物体")]
+        [FoldoutGroup("子动态物体")]
         // [ValueDropdown("TriggerIdValueDropdown", IsUniqueList = true)]
         [ListDrawerSettings(Expanded = true, CustomAddFunction = "OnSubDynamicObjectsAdd")]
         [ShowInInspector]

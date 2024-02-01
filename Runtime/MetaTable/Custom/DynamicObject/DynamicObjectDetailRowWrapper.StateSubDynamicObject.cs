@@ -15,7 +15,7 @@ namespace Pangoo.MetaTable
     public partial class DynamicObjectDetailRowWrapper : MetaTableDetailRowWrapper<DynamicObjectOverview, UnityDynamicObjectRow>
     {
 
-        [TabGroup("状态子动态物体", Order = 14)]
+        [FoldoutGroup("状态子动态物体", Order = 14)]
         [ValueDropdown("GetVariableDropdown")]
         [ShowInInspector]
         public string StateVariableUuid
@@ -41,7 +41,7 @@ namespace Pangoo.MetaTable
         Dictionary<int, SubDynamicObject> m_StateSubDynamicObject;
 
         [LabelText("状态子动态物体")]
-        [TabGroup("状态子动态物体")]
+        [FoldoutGroup("状态子动态物体")]
         // [ValueDropdown("TriggerIdValueDropdown", IsUniqueList = true)]
         [ListDrawerSettings(Expanded = true, CustomAddFunction = "OnStateSubDynamicObjectsAdd")]
         [ShowInInspector]

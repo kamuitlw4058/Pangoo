@@ -36,7 +36,7 @@ namespace Pangoo.Core.Services
 
         [ShowInInspector]
         [Searchable]
-        Dictionary<string, EntityDynamicObject> m_LoadedAssetDict;
+        public Dictionary<string, EntityDynamicObject> m_LoadedAssetDict;
         List<string> m_LoadingAssetUuids;
 
         [ShowInInspector]
@@ -213,55 +213,6 @@ namespace Pangoo.Core.Services
             }
 
 
-        }
-
-        public void ShowSubDynamicObject(string dynamicObjectUuid, int parentEntityId, string path, Action<EntityDynamicObject> onShowSuccess)
-        {
-            if (Loader == null)
-            {
-                Loader = EntityLoader.Create(this);
-            }
-
-            //通过路径ID去判断是否被加载。用来在不同的章节下用了不用的静态场景ID,但是使用不同的加载Ids
-            var info = m_DynamicObjectInfo.GetRowByUuid<DynamicObjectInfoRow>(dynamicObjectUuid);
-
-            EntityDynamicObject entity;
-
-            if (m_LoadedAssetDict.TryGetValue(dynamicObjectUuid, out entity))
-            {
-                Loader.AttachEntity(entity.Entity, parentEntityId, path);
-                return;
-            }
-
-            Log($"ShowDynamicObject:{dynamicObjectUuid}");
-
-            // 这边有一个假设，同一个时间不会反复加载不同的章节下的同一个场景。
-            if (m_LoadingAssetUuids.Contains(dynamicObjectUuid))
-            {
-
-                return;
-            }
-            else
-            {
-                EntityDynamicObjectData data = EntityDynamicObjectData.Create(info.CreateEntityInfo(m_EntityGroupRow), this, info);
-                m_LoadingAssetUuids.Add(dynamicObjectUuid);
-                Loader.ShowEntity(EnumEntity.DynamicObject,
-                    (o) =>
-                    {
-                        if (m_LoadingAssetUuids.Contains(dynamicObjectUuid))
-                        {
-                            m_LoadingAssetUuids.Remove(dynamicObjectUuid);
-                        }
-                        var showedEntity = o.Logic as EntityDynamicObject;
-                        m_LoadedAssetDict.Add(dynamicObjectUuid, showedEntity);
-                        Loader.AttachEntity(showedEntity.Entity, parentEntityId, path);
-                        showedEntity.UpdateDefaultTransform();
-                        onShowSuccess?.Invoke(o.Logic as EntityDynamicObject);
-
-                    },
-                    data.EntityInfo,
-                    data);
-            }
         }
 
 

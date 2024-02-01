@@ -200,6 +200,13 @@ namespace Pangoo.MetaTable
 
         Vector3 IDynamicObjectRow.PreviewScale {get => PreviewScale; set => PreviewScale = value;}
 
+        [JsonMember("SubObjectTriggerList")]
+        [MetaTableRowColumn("SubObjectTriggerList","string", "子物体触发器列表",29)]
+        [LabelText("子物体触发器列表")]
+        public string SubObjectTriggerList ;
+
+        string IDynamicObjectRow.SubObjectTriggerList {get => SubObjectTriggerList; set => SubObjectTriggerList = value;}
+
     }
 }
 

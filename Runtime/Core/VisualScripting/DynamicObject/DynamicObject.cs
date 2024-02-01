@@ -156,6 +156,7 @@ namespace Pangoo.Core.VisualScripting
             DoAwakeTriggerEvent();
             DoAwakeHotspot();
             DoAwakeSubDynamicObject();
+            DoAwakeSubObjectTrigger();
 
             if (Variables != null)
             {

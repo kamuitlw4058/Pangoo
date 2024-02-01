@@ -67,7 +67,7 @@ namespace Pangoo.Core.Services
             playSoundParams.VolumeInSoundGroup = volume;
 
             serialId = PangooEntry.Sound.PlaySound(path, "Default", playSoundParams);
-            Debug.Log($"Start Play :{path}. serialId:{serialId}");
+            // Debug.Log($"Start Play :{path}. serialId:{serialId}");
             if (serialId != 0)
             {
                 var info = new SoundPlayingInfo();
@@ -128,8 +128,8 @@ namespace Pangoo.Core.Services
         void OnPlaySoundReset(object sender, GameFrameworkEventArgs e)
         {
             var args = e as PlaySoundResetEventArgs;
-            Debug.Log($"OnPlaySoundReset:{args},m_SerialPlaying:{m_SerialPlaying}");
-            Debug.Log($"OnPlaySoundReset:{args.SerialId}");
+            // Debug.Log($"OnPlaySoundReset:{args},m_SerialPlaying:{m_SerialPlaying}");
+            // Debug.Log($"OnPlaySoundReset:{args.SerialId}");
             if (m_SerialPlaying.ContainsKey(args.SerialId))
             {
                 m_SerialPlaying[args.SerialId].ResetCallBack.Invoke();

@@ -453,10 +453,13 @@ namespace Pangoo
         }
 
 
-        public static IEnumerable RefPrefabDropdown(GameObject prefab, Dictionary<GameObject, string> goPathDict)
+        public static IEnumerable RefPrefabDropdown(GameObject prefab, Dictionary<GameObject, string> goPathDict, bool hasSelf = true)
         {
             var ValueDropdown = new ValueDropdownList<GameObject>();
-            ValueDropdown.Add(ConstString.Self, prefab);
+            if (hasSelf)
+            {
+                ValueDropdown.Add(ConstString.Self, prefab);
+            }
             goPathDict?.Clear();
             if (prefab != null)
             {

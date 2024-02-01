@@ -69,6 +69,8 @@ namespace Pangoo.MetaTable
 
         public Vector3 PreviewScale{ get; set; }
 
+        public string SubObjectTriggerList{ get; set; }
+
     }
 }
 

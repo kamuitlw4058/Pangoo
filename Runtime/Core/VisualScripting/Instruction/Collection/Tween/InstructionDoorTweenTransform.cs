@@ -234,6 +234,32 @@ namespace Pangoo.Core.VisualScripting
                 }
                 UpdateTween(1.0f);
                 Debug.Log($"End Tween");
+                var inCollider = args.dynamicObject.CachedTransfrom.Find("InCollider");
+                var outCollider = args.dynamicObject.CachedTransfrom.Find("OutCollider");
+                if (inCollider != null)
+                {
+                    if (IsForward)
+                    {
+                        inCollider.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        inCollider.gameObject.SetActive(true);
+                    }
+                }
+
+                if (outCollider != null)
+                {
+                    if (IsForward)
+                    {
+                        outCollider.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        outCollider.gameObject.SetActive(false);
+                    }
+                }
+
 
                 if (ParamsRaw.SetFinalTransform)
                 {

@@ -18,9 +18,9 @@ namespace Pangoo.MetaTable
     {
 
         [LabelText("触发器Uuids")]
-        [TabGroup("指令系统")]
+        [FoldoutGroup("指令系统")]
         [ValueDropdown("TriggerEventUuidDropdown", IsUniqueList = true)]
-        [ListDrawerSettings(Expanded = true)]
+        [ListDrawerSettings(ShowFoldout = true)]
         [ShowInInspector]
         [PropertyOrder(11)]
 
@@ -99,7 +99,7 @@ namespace Pangoo.MetaTable
         [ShowInInspector]
 
         [LabelText("直接指令")]
-        [TabGroup("指令系统")]
+        [FoldoutGroup("指令系统")]
         [PropertyOrder(10)]
         [OnValueChanged("OnDirectInstructionsChanged", includeChildren: true)]
         // [ListDrawerSettings(Expanded = true, CustomAddFunction = "AddDirectInstruction", CustomRemoveIndexFunction = "RemoveIndexDirectInstruction")]

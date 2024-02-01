@@ -67,7 +67,7 @@ namespace Pangoo.Core.VisualScripting
         {
             get
             {
-                return IsEnterTrigger && CanHotspotBan;
+                return EnterTriggerCount > 0 && CanHotspotBan;
             }
         }
 
@@ -88,7 +88,6 @@ namespace Pangoo.Core.VisualScripting
         [ShowInInspector]
         public float Transition { get; private set; }
 
-        private float m_Velocity;
 
         [ShowInInspector]
         public float Radius
