@@ -105,7 +105,7 @@ public class LitJsonExtend
             return Vector3Int.zero;
 
         });
-        
+
 
     }
 
@@ -138,7 +138,7 @@ public class LitJsonExtend
 
             try
             {
-                return new Vector2(int.Parse(strs[0]), int.Parse(strs[1]));
+                return new Vector2(float.Parse(strs[0]), float.Parse(strs[1]));
             }
             catch
             {
@@ -171,6 +171,6 @@ public class LitJsonExtend
 
         // Debug.Log("Tile加入成功");
     }
-    
+
 }
 
