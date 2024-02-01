@@ -3,6 +3,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using Pangoo.MetaTable;
 using System;
+using LitJson;
 
 namespace Pangoo.Core.Characters
 {
@@ -47,6 +48,8 @@ namespace Pangoo.Core.Characters
     {
         [ValueDropdown("SoundUuidDropdown")]
         [LabelText("音频列表")]
+        [JsonMember("soundUuids")]
+
         public string[] soundUuids;
 
 #if UNITY_EDITOR
@@ -62,17 +65,20 @@ namespace Pangoo.Core.Characters
     public struct FootstepEntry
     {
         [LabelText("脚本声列表")]
+        [JsonMember("FootList")]
         public FootstepSoundList[] FootList;
 
         [LabelText("音量")]
+        [JsonMember("volume")]
         public float volume;
 
         [LabelText("随机循环间隔")]
+        [JsonMember("IntervalRange")]
 
         public Vector2 IntervalRange;
 
         [LabelText("最小间隔")]
-
+        [JsonMember("IntervMinIntervalalRange")]
         public float MinInterval;
 
     }
