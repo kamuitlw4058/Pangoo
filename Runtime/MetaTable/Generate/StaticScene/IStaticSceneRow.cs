@@ -27,15 +27,7 @@ namespace Pangoo.MetaTable
 
         public bool UseSceneFootstep{ get; set; }
 
-        public float SceneFootstepVolume{ get; set; }
-
-        public string SceneFootstepUuids{ get; set; }
-
-        public float SceneFootstepIntervalMin{ get; set; }
-
-        public float SceneFootstepIntervalMax{ get; set; }
-
-        public float SceneFootstepMinInterval{ get; set; }
+        public string Footsetp{ get; set; }
 
     }
 }

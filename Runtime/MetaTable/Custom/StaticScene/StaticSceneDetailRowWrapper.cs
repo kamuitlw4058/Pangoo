@@ -14,6 +14,7 @@ using Sirenix.OdinInspector;
 using System.Xml.Serialization;
 using Pangoo.Common;
 using MetaTable;
+using Pangoo.Core.Characters;
 
 namespace Pangoo.MetaTable
 {
@@ -143,50 +144,63 @@ namespace Pangoo.MetaTable
             }
         }
 
+
+        FootstepEntry? m_Footstep;
+
         [ShowInInspector]
-        [LabelText("场景脚步声音量")]
-        public float SceneFootstepVolume
+        public string FootstepStr
         {
             get
             {
-                return UnityRow.Row.SceneFootstepVolume;
-            }
-            set
-            {
-                UnityRow.Row.SceneFootstepVolume = value;
-                Save();
+                return UnityRow.Row.Footsetp;
             }
         }
 
-        string[] m_SceneFootstepList;
 
         [ShowInInspector]
-        [LabelText("场景脚步声音列表")]
-        [OnValueChanged("OnSceneFootstepListChanged", includeChildren: true)]
-        [ValueDropdown("SoundUuidDropdown")]
-        public string[] SceneFootstepList
+        [HideLabel]
+        [HideReferenceObjectPicker]
+        [OnValueChanged("OnFootstepChanged", includeChildren: true)]
+
+        public FootstepEntry? Footstep
         {
             get
             {
-                if (m_SceneFootstepList == null)
+                if (m_Footstep == null)
                 {
-                    m_SceneFootstepList = UnityRow.Row.SceneFootstepUuids.ToSplitArr<string>();
+                    try
+                    {
+                        m_Footstep = JsonMapper.ToObject<FootstepEntry>(UnityRow.Row.Footsetp);
+
+                    }
+                    catch
+                    {
+
+                    }
+                    if (m_Footstep == null)
+                    {
+                        m_Footstep = new FootstepEntry();
+                        UnityRow.Row.Footsetp = JsonMapper.ToJson(m_Footstep);
+                        Save();
+                    }
+
                 }
-                return m_SceneFootstepList;
+                return m_Footstep;
             }
             set
             {
-                m_SceneFootstepList = value;
-                UnityRow.Row.SceneFootstepUuids = value.ToListString();
-                Save();
+
+                m_Footstep = value;
             }
         }
 
-        void OnSceneFootstepListChanged()
+        void OnFootstepChanged()
         {
-            UnityRow.Row.SceneFootstepUuids = m_SceneFootstepList.ToListString();
+            UnityRow.Row.Footsetp = JsonMapper.ToJson(m_Footstep);
             Save();
         }
+
+
 
         public IEnumerable SoundUuidDropdown()
         {
@@ -195,51 +209,7 @@ namespace Pangoo.MetaTable
 
 
 
-        [ShowInInspector]
-        [LabelText("场景脚步声间隔范围最小值")]
-        public float SceneFootstepIntervalMin
-        {
-            get
-            {
-                return UnityRow.Row.SceneFootstepIntervalMin;
-            }
-            set
-            {
-                UnityRow.Row.SceneFootstepIntervalMin = value;
-                Save();
-            }
-        }
 
-
-        [ShowInInspector]
-        [LabelText("场景脚步声间隔范围最大值")]
-        public float SceneFootstepIntervalMax
-        {
-            get
-            {
-                return UnityRow.Row.SceneFootstepIntervalMax;
-            }
-            set
-            {
-                UnityRow.Row.SceneFootstepIntervalMax = value;
-                Save();
-            }
-        }
-
-        [ShowInInspector]
-        [LabelText("场景脚步声最小间隔")]
-        public float SceneFootstepMinInterval
-        {
-            get
-            {
-                return UnityRow.Row.SceneFootstepMinInterval;
-            }
-            set
-            {
-                UnityRow.Row.SceneFootstepMinInterval = value;
-                Save();
-            }
-        }
 
 
     }

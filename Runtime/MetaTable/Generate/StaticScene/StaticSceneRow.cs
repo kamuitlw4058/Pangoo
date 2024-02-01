@@ -53,40 +53,12 @@ namespace Pangoo.MetaTable
 
         bool IStaticSceneRow.UseSceneFootstep {get => UseSceneFootstep; set => UseSceneFootstep = value;}
 
-        [JsonMember("SceneFootstepVolume")]
-        [MetaTableRowColumn("SceneFootstepVolume","float", "场景脚步声音量",8)]
-        [LabelText("场景脚步声音量")]
-        public float SceneFootstepVolume ;
+        [JsonMember("Footsetp")]
+        [MetaTableRowColumn("Footsetp","string", "脚步声配置",8)]
+        [LabelText("脚步声配置")]
+        public string Footsetp ;
 
-        float IStaticSceneRow.SceneFootstepVolume {get => SceneFootstepVolume; set => SceneFootstepVolume = value;}
-
-        [JsonMember("SceneFootstepUuids")]
-        [MetaTableRowColumn("SceneFootstepUuids","string", "场景脚步声列表",9)]
-        [LabelText("场景脚步声列表")]
-        public string SceneFootstepUuids ;
-
-        string IStaticSceneRow.SceneFootstepUuids {get => SceneFootstepUuids; set => SceneFootstepUuids = value;}
-
-        [JsonMember("SceneFootstepIntervalMin")]
-        [MetaTableRowColumn("SceneFootstepIntervalMin","float", "场景脚步声间隔最小值",10)]
-        [LabelText("场景脚步声间隔最小值")]
-        public float SceneFootstepIntervalMin ;
-
-        float IStaticSceneRow.SceneFootstepIntervalMin {get => SceneFootstepIntervalMin; set => SceneFootstepIntervalMin = value;}
-
-        [JsonMember("SceneFootstepIntervalMax")]
-        [MetaTableRowColumn("SceneFootstepIntervalMax","float", "场景脚步声间隔最大值",11)]
-        [LabelText("场景脚步声间隔最大值")]
-        public float SceneFootstepIntervalMax ;
-
-        float IStaticSceneRow.SceneFootstepIntervalMax {get => SceneFootstepIntervalMax; set => SceneFootstepIntervalMax = value;}
-
-        [JsonMember("SceneFootstepMinInterval")]
-        [MetaTableRowColumn("SceneFootstepMinInterval","float", "场景脚步声最小间隔",12)]
-        [LabelText("场景脚步声最小间隔")]
-        public float SceneFootstepMinInterval ;
-
-        float IStaticSceneRow.SceneFootstepMinInterval {get => SceneFootstepMinInterval; set => SceneFootstepMinInterval = value;}
+        string IStaticSceneRow.Footsetp {get => Footsetp; set => Footsetp = value;}
 
     }
 }

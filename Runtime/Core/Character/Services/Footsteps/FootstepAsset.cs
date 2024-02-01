@@ -22,38 +22,7 @@ namespace Pangoo.Core.Characters
         [LabelText("脚步声 配置")]
         public FootstepEntry[] footsteps;
 
-        [Serializable]
-        public struct TextureFootstepEntry
-        {
-            public Texture texture;
-            public FootstepEntry footstepEntry;
-        }
 
-
-        [Serializable]
-        public struct FootstepEntry
-        {
-
-
-            [ValueDropdown("SoundUuidDropdown")]
-            public string[] soundUuids;
-
-            public float volume;
-
-            public Vector2 IntervalRange;
-
-            public float MinInterval;
-#if UNITY_EDITOR
-            public IEnumerable SoundUuidDropdown()
-            {
-                return SoundOverview.GetUuidDropdown();
-            }
-
-#endif
-
-
-
-        }
 
 #if UNITY_EDITOR
         public IEnumerable VariableUuidDropdown()
@@ -65,4 +34,46 @@ namespace Pangoo.Core.Characters
 
     }
 
+
+    [Serializable]
+    public struct TextureFootstepEntry
+    {
+        public Texture texture;
+        public FootstepEntry footstepEntry;
+    }
+
+    [Serializable]
+    public struct FootstepSoundList
+    {
+        [ValueDropdown("SoundUuidDropdown")]
+        [LabelText("音频列表")]
+        public string[] soundUuids;
+
+#if UNITY_EDITOR
+        public IEnumerable SoundUuidDropdown()
+        {
+            return SoundOverview.GetUuidDropdown();
+        }
+#endif
+    }
+
+
+    [Serializable]
+    public struct FootstepEntry
+    {
+        [LabelText("脚本声列表")]
+        public FootstepSoundList[] FootList;
+
+        [LabelText("音量")]
+        public float volume;
+
+        [LabelText("随机循环间隔")]
+
+        public Vector2 IntervalRange;
+
+        [LabelText("最小间隔")]
+
+        public float MinInterval;
+
+    }
 }

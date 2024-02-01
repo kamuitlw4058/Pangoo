@@ -478,6 +478,9 @@ MonoBehaviour:
     - Name: SceneFootstepMinInterval
       Type: float
       CnName: "\u573A\u666F\u811A\u6B65\u58F0\u6700\u5C0F\u95F4\u9694"
+    - Name: Footsetp
+      Type: string
+      CnName: "\u811A\u6B65\u58F0\u914D\u7F6E"
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: TriggerEvent

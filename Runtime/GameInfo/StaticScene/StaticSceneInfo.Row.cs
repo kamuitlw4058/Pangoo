@@ -6,6 +6,7 @@ using System.Linq;
 using GameFramework;
 using Pangoo.MetaTable;
 using Pangoo.Common;
+using Pangoo.Core.Characters;
 
 namespace Pangoo
 {
@@ -62,15 +63,6 @@ namespace Pangoo
         }
 
 
-
-        public string[] SceneFootstepUuids
-        {
-            get
-            {
-                return m_StaticSceneRow.SceneFootstepUuids.ToSplitArr<string>();
-            }
-        }
-
         public bool UseSceneFootstep
         {
             get
@@ -79,44 +71,39 @@ namespace Pangoo
             }
         }
 
-        public float SceneFootstepVolume
+        FootstepEntry? m_Footstep;
+
+
+        public FootstepEntry? Footstep
         {
             get
             {
-                return m_StaticSceneRow.SceneFootstepVolume;
+                if (m_Footstep == null)
+                {
+                    try
+                    {
+                        m_Footstep = LitJson.JsonMapper.ToObject<FootstepEntry>(m_StaticSceneRow.Footsetp);
+                    }
+                    catch
+                    {
+
+                    }
+
+                }
+
+                return m_Footstep;
             }
         }
+
+
+
+
 
         public string AssetPathUuid
         {
             get
             {
                 return m_AssetPathRow.Uuid;
-            }
-        }
-
-        public float IntervalMin
-        {
-            get
-            {
-                return m_StaticSceneRow.SceneFootstepIntervalMin;
-            }
-        }
-
-        public float IntervalMax
-        {
-            get
-            {
-                return m_StaticSceneRow.SceneFootstepIntervalMax;
-            }
-        }
-
-
-        public float MinInterval
-        {
-            get
-            {
-                return m_StaticSceneRow.SceneFootstepIntervalMin;
             }
         }
 

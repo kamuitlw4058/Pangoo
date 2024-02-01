@@ -1,7 +1,7 @@
 using UnityEngine;
 using Pangoo.Core.Services;
 using Sirenix.OdinInspector;
-
+using Pangoo.Common;
 
 namespace Pangoo.Core.Characters
 {
@@ -163,15 +163,20 @@ namespace Pangoo.Core.Characters
                 var val = Character.GetVariable<int>(FootstepConfig.configFootstepsUuid);
                 if (val > 0 && val <= FootstepConfig.footsteps.Length)
                 {
-                    var footstepEntry = FootstepConfig.footsteps[val-1];
-                    var footstepSoundList = footstepEntry.soundUuids;
-                    FootstepsIndex = FootstepsIndex % footstepSoundList.Length;
-                    var uuid = footstepSoundList[FootstepsIndex];
-                    Debug.Log($"Play Footstep Sounc With Config:{uuid}");
-                    Character.Main.Sound.PlaySound(uuid, volume: footstepEntry.volume);
-                    Interval = Random.Range(footstepEntry.IntervalRange.x, footstepEntry.IntervalRange.y);
-                    MinInterval = footstepEntry.MinInterval;
-                    playedFlag = true;
+                    var footstepEntry = FootstepConfig.footsteps[val - 1];
+                    var footstepFootList = footstepEntry.FootList;
+                    FootstepsIndex = FootstepsIndex % footstepFootList.Length;
+                    var footList = footstepFootList[FootstepsIndex];
+                    var uuid = footList.soundUuids?.Random();
+                    if (!uuid.IsNullOrWhiteSpace())
+                    {
+                        Debug.Log($"Play Footstep Sounc With Config:{uuid}");
+                        Character.Main.Sound.PlaySound(uuid, volume: footstepEntry.volume);
+                        Interval = Random.Range(footstepEntry.IntervalRange.x, footstepEntry.IntervalRange.y);
+                        MinInterval = footstepEntry.MinInterval;
+                        playedFlag = true;
+                    }
+
                 }
             }
 
@@ -192,17 +197,22 @@ namespace Pangoo.Core.Characters
                             {
                                 if (playedFlag) break;
                                 if (!footstepEntry.texture.name.Equals(texture.name)) continue;
-                                if (footstepEntry.footstepEntry.soundUuids == null || (footstepEntry.footstepEntry.soundUuids != null && footstepEntry.footstepEntry.soundUuids.Length == 0)) continue;
+                                if (footstepEntry.footstepEntry.FootList == null || (footstepEntry.footstepEntry.FootList != null && footstepEntry.footstepEntry.FootList.Length == 0)) continue;
 
 
-                                var footstepSoundList = footstepEntry.footstepEntry.soundUuids;
-                                FootstepsIndex = FootstepsIndex % footstepSoundList.Length;
-                                var uuid = footstepSoundList[FootstepsIndex];
-                                Debug.Log($"Play Footstep Sounc With Texture:{uuid}");
-                                Character.Main.Sound.PlaySound(uuid, volume: footstepEntry.footstepEntry.volume);
-                                Interval = Random.Range(footstepEntry.footstepEntry.IntervalRange.x, footstepEntry.footstepEntry.IntervalRange.y);
-                                MinInterval = footstepEntry.footstepEntry.MinInterval;
-                                playedFlag = true;
+                                var footstepFootList = footstepEntry.footstepEntry.FootList;
+                                FootstepsIndex = FootstepsIndex % footstepFootList.Length;
+                                var footList = footstepFootList[FootstepsIndex];
+                                var uuid = footList.soundUuids?.Random();
+                                if (!uuid.IsNullOrWhiteSpace())
+                                {
+                                    Debug.Log($"Play Footstep Sounc With Config:{uuid}");
+                                    Character.Main.Sound.PlaySound(uuid, volume: footstepEntry.footstepEntry.volume);
+                                    Interval = Random.Range(footstepEntry.footstepEntry.IntervalRange.x, footstepEntry.footstepEntry.IntervalRange.y);
+                                    MinInterval = footstepEntry.footstepEntry.MinInterval;
+                                    playedFlag = true;
+                                }
+
                             }
                         }
                     }
@@ -215,30 +225,41 @@ namespace Pangoo.Core.Characters
             if (!playedFlag)
             {
                 var enterScene = StaticScene.GetLastestEnterScene();
-                if (enterScene != null && enterScene.UseSceneFootstep && enterScene.SceneFootstepUuids.Length > 0)
+                if (enterScene != null && enterScene.UseSceneFootstep && enterScene.Footstep != null && enterScene.Footstep.Value.FootList != null && enterScene.Footstep.Value.FootList.Length > 0)
                 {
-                    var footstepSoundList = enterScene.SceneFootstepUuids;
-                    FootstepsIndex = FootstepsIndex % footstepSoundList.Length;
-                    var uuid = footstepSoundList[FootstepsIndex];
-                    Debug.Log($"Play Footstep Sounc With Scene:{uuid}");
-                    Character.Main.Sound.PlaySound(uuid, volume: enterScene.SceneFootstepVolume);
-                    Interval = Random.Range(enterScene.IntervalMin, enterScene.IntervalMax);
-                    MinInterval = enterScene.MinInterval;
-                    playedFlag = true;
+                    var footList = enterScene.Footstep.Value.FootList;
+                    FootstepsIndex = FootstepsIndex % footList.Length;
+                    var footEntry = footList[FootstepsIndex];
+                    var uuid = footEntry.soundUuids?.Random();
+                    if (!uuid.IsNullOrWhiteSpace())
+                    {
+                        Debug.Log($"Play Footstep Sounc With Scene:{footEntry}");
+                        Character.Main.Sound.PlaySound(uuid, volume: enterScene.Footstep.Value.volume);
+                        Interval = Random.Range(enterScene.Footstep.Value.IntervalRange.x, enterScene.Footstep.Value.IntervalRange.y);
+                        MinInterval = enterScene.Footstep.Value.MinInterval;
+                        playedFlag = true;
+                    }
+
                 }
 
 
             }
 
 
-            if (!playedFlag && GameMainConfig.UseDefaultFootstepSound && GameMainConfig.DefaultFootstepSoundEffectUuids.Length > 0)
+            if (!playedFlag && GameMainConfig.UseDefaultFootstepSound && GameMainConfig.FootstepEntry.FootList.Length > 0)
             {
-                FootstepsIndex = FootstepsIndex % GameMainConfig.DefaultFootstepSoundEffectUuids.Length;
-                var uuid = GameMainConfig.DefaultFootstepSoundEffectUuids[FootstepsIndex];
-                Debug.Log($"Play Footstep Sounc With Defaut Config:{uuid}");
-                Character.Main.Sound.PlaySound(uuid, volume: GameMainConfig.DefaultFootstepSoundVolume);
-                Interval = Random.Range(GameMainConfig.FootstepSoundInterval.x, GameMainConfig.FootstepSoundInterval.y);
-                MinInterval = GameMainConfig.FootstepSoundMinInterval;
+                FootstepsIndex = FootstepsIndex % GameMainConfig.FootstepEntry.FootList.Length;
+                var footList = GameMainConfig.FootstepEntry.FootList[FootstepsIndex];
+                var uuid = footList.soundUuids?.Random();
+                if (!uuid.IsNullOrWhiteSpace())
+                {
+                    Debug.Log($"Play Footstep Sounc With Defaut Config:{uuid}");
+                    Character.Main.Sound.PlaySound(uuid, volume: GameMainConfig.FootstepEntry.volume);
+                    Interval = Random.Range(GameMainConfig.FootstepEntry.IntervalRange.x, GameMainConfig.FootstepEntry.IntervalRange.y);
+                    MinInterval = GameMainConfig.FootstepEntry.MinInterval;
+                    playedFlag = true;
+                }
+
             }
 
             FootstepsIndex += 1;
