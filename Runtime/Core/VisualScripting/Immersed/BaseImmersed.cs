@@ -7,26 +7,34 @@ using Pangoo.Core.VisualScripting;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class BaseImmersed : MonoBehaviour,IImmersed
+namespace Pangoo.Core.VisualScripting
 {
-    [HideInInspector]
-    public DynamicObject dynamicObject = null;
 
-    [ShowInInspector]
-    public bool IsRunning { get; set; }
 
-    public virtual void OnEnter()
+
+    public class BaseImmersed : MonoBehaviour, IImmersed
     {
-        dynamicObject=GetComponent<EntityDynamicObject>().DynamicObj;
-    }
+        [HideInInspector]
+        public DynamicObject dynamicObject = null;
 
-    public virtual void OnExit()
-    {
-        Debug.Log("OnExit");
-    }
+        [ShowInInspector]
+        public bool IsRunning { get; set; }
 
-    public virtual void OnUpdate()
-    {
-        
+        public virtual void OnEnter()
+        {
+            dynamicObject = GetComponent<EntityDynamicObject>().DynamicObj;
+            IsRunning = true;
+        }
+
+        public virtual void OnExit()
+        {
+            IsRunning = false;
+            Debug.Log("OnExit");
+        }
+
+        public virtual void OnUpdate()
+        {
+
+        }
     }
 }

@@ -463,21 +463,6 @@ MonoBehaviour:
     - Name: UseSceneFootstep
       Type: bool
       CnName: "\u4F7F\u7528\u573A\u666F\u811A\u6B65\u58F0"
-    - Name: SceneFootstepVolume
-      Type: float
-      CnName: "\u573A\u666F\u811A\u6B65\u58F0\u97F3\u91CF"
-    - Name: SceneFootstepUuids
-      Type: string
-      CnName: "\u573A\u666F\u811A\u6B65\u58F0\u5217\u8868"
-    - Name: SceneFootstepIntervalMin
-      Type: float
-      CnName: "\u573A\u666F\u811A\u6B65\u58F0\u95F4\u9694\u6700\u5C0F\u503C"
-    - Name: SceneFootstepIntervalMax
-      Type: float
-      CnName: "\u573A\u666F\u811A\u6B65\u58F0\u95F4\u9694\u6700\u5927\u503C"
-    - Name: SceneFootstepMinInterval
-      Type: float
-      CnName: "\u573A\u666F\u811A\u6B65\u58F0\u6700\u5C0F\u95F4\u9694"
     - Name: Footsetp
       Type: string
       CnName: "\u811A\u6B65\u58F0\u914D\u7F6E"
