@@ -48,6 +48,10 @@ namespace Pangoo
             GUILayout.Space(5);
             GUILayout.Label("触发器");
             GUILayout.Space(2);
+            GUILayout.BeginHorizontal();
+            var triggerEnabled = GUILayout.Toggle(entityDynamicObject.DynamicObj.AllTriggerEnabled, "触发器全局打开");
+            entityDynamicObject.DynamicObj.AllTriggerEnabled = triggerEnabled;
+            GUILayout.EndHorizontal();
             foreach (var triggerKV in entityDynamicObject.DynamicObj.TriggerDict)
             {
                 var triggerList = triggerKV.Value;

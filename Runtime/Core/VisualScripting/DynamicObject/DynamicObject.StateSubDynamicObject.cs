@@ -58,12 +58,12 @@ namespace Pangoo.Core.VisualScripting
             if (val)
             {
                 stateDynamicObject.Model?.SetActive(true);
-                stateDynamicObject.AllTriggerEnabled = true;
+                // stateDynamicObject.AllTriggerEnabled = true;
             }
             else
             {
                 stateDynamicObject.Model?.SetActive(false);
-                stateDynamicObject.AllTriggerEnabled = false;
+                // stateDynamicObject.AllTriggerEnabled = false;
             }
         }
 

@@ -39,6 +39,7 @@ namespace Pangoo.Core.VisualScripting
         void OnInteract(Characters.Character character, IInteractive interactive)
         {
 
+            Log($"Try Invoke Interact");
             var ret = TriggerInovke(TriggerTypeEnum.OnInteract);
             if (!ret)
             {

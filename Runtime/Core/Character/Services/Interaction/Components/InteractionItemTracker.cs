@@ -168,7 +168,7 @@ namespace Pangoo.Core.Characters
             Debug.Log($"Enter Interacting.Name:{name} this.m_IsInteracting:{this.m_IsInteracting}");
 
             if (this.m_IsInteracting) return;
-            Debug.Log($"Interacting.Name:{name}");
+            Debug.Log($"Interacting.Name:{name} this.EventInteract:{this.EventInteract}");
 
             this.m_IsInteracting = true;
             this.m_Character = character;
