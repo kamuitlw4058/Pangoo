@@ -343,7 +343,9 @@ namespace Pangoo.Core.Services
                 {
                     var loadSceneInfo = m_StaticSceneInfo.GetRowByUuid<StaticSceneInfoRow>(staticSceneUuid);
                     // Debug.Log($"loadSceneInfo:{loadSceneInfo} staticSceneUuid:{staticSceneUuid}");
-                    NeedLoadDict.Add(staticSceneUuid, loadSceneInfo.AssetPathUuid);
+                    if (!NeedLoadDict.ContainsKey(staticSceneUuid)) {
+                        NeedLoadDict.Add(staticSceneUuid, loadSceneInfo.AssetPathUuid);
+                    }
                 }
                 return;
             }
