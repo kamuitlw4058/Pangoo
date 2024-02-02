@@ -64,8 +64,19 @@ namespace Pangoo
 
             }
             GUILayout.Space(5);
-            DrawItem("EnterTriggerCount", entityDynamicObject.DynamicObj.EnterTriggerCount.ToString());
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("EnterTriggerCount", GUILayout.Width(TitleWidth));
+            var intStrValue = GUILayout.TextField(entityDynamicObject.DynamicObj.EnterTriggerCount.ToString());
+            if (int.TryParse(intStrValue, out int intValue))
+            {
+                entityDynamicObject.DynamicObj.EnterTriggerCount = intValue;
 
+            }
+            else
+            {
+                entityDynamicObject.DynamicObj.EnterTriggerCount = 0;
+            }
+            GUILayout.EndHorizontal();
             GUILayout.EndVertical();
         }
 

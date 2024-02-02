@@ -130,6 +130,7 @@ namespace Pangoo.Core.VisualScripting
             m_CachedTransfrom = null;
             m_SubDynamicObjectInfo = null;
             TriggerDict.Clear();
+            EnterTriggerCount = 0;
 
         }
 
@@ -138,6 +139,7 @@ namespace Pangoo.Core.VisualScripting
 
         protected override void DoAwake()
         {
+            EnterTriggerCount = 0;
             CurrentArgs = new Args(this);
             CurrentArgs.Main = Main;
             Model = CachedTransfrom.Find("Model")?.gameObject;
@@ -193,6 +195,7 @@ namespace Pangoo.Core.VisualScripting
 
             DoAwakeStateSubDynamicObject();
             FindVideoPlayerSetCamera();
+
 
             Log($"Finish Awake m_Tracker:{m_Tracker}");
         }
@@ -368,7 +371,7 @@ namespace Pangoo.Core.VisualScripting
                 m_Tracker = null;
                 Log($"Try disable {Row.Name} m_Tracker:{m_Tracker}");
             }
-
+            EnterTriggerCount = 0;
             DoDisableTimeineSignal();
 
             m_Variables = null;
