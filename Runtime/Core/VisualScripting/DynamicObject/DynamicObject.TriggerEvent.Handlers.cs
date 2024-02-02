@@ -58,6 +58,7 @@ namespace Pangoo.Core.VisualScripting
                         if (uuid.IsNullOrWhiteSpace() || uuid.Equals(Row.Uuid))
                         {
                             ret = true;
+                            Log($"Invoke:{triggerType}");
                             o.OnInvoke(CurrentArgs);
                         }
                     }
