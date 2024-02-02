@@ -53,6 +53,12 @@ namespace Pangoo.Core.VisualScripting
 
         }
 
+        void DoDisableStateSubDynamicObject()
+        {
+            StateSubDynamicObjectDict.Clear();
+        }
+
+
         public void StateEnabled(DynamicObject stateDynamicObject, bool val)
         {
             if (val)

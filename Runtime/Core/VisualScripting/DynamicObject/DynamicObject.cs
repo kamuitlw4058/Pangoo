@@ -126,11 +126,13 @@ namespace Pangoo.Core.VisualScripting
             m_InstructionHandler = null;
             SubDynamicObjectDict.Clear();
             LoadingDynamicObject.Clear();
+            StateSubDynamicObjectDict.Clear();
             m_Tracker = null;
             m_CachedTransfrom = null;
             m_SubDynamicObjectInfo = null;
             TriggerDict.Clear();
             EnterTriggerCount = 0;
+            AllTriggerEnabled = true;
 
         }
 
@@ -373,6 +375,7 @@ namespace Pangoo.Core.VisualScripting
             }
             EnterTriggerCount = 0;
             DoDisableTimeineSignal();
+            DoDisableStateSubDynamicObject();
 
             m_Variables = null;
 
