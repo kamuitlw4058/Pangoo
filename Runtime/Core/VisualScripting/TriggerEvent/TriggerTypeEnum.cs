@@ -46,7 +46,7 @@ namespace Pangoo.Core.VisualScripting
 
         OnExit,
 
-        OnButtonE,
+        OnButtonE, // 尝试废弃
 
         OnPointerClickLeft,
         OnPointerClickRight,
@@ -57,21 +57,22 @@ namespace Pangoo.Core.VisualScripting
         OnInteractionSuccess,
         OnInteractionFailed,
         OnPreview,
-        OnMouseLeftUp,
-        OnMouseLeft,
-        OnMouseRight,
-        OnMouseRightUp,
-        OnMouseRightDown,
+        OnMouseLeftUp, // 尝试废弃
+        OnMouseLeft, // 尝试废弃
+        OnMouseRight, // 尝试废弃
+        OnMouseRightUp, // 尝试废弃
+        OnMouseRightDown, // 尝试废弃
         OnMouseImmersedLeftDown,
         OnMouseImmersedLeft,
         OnMouseImmersedLeftUp,
         OnMouseImmersedRightDown,
         OnMouseImmersedRight,
         OnMouseImmersedRightUp,
-        OnButtonF,
+        OnButtonF, // 尝试废弃
 
         OnExtraTriggerEnter3D,
         OnExtraTriggerExit3D,
+
     }
 }
 

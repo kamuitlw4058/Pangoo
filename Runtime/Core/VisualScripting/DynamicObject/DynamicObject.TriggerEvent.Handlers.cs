@@ -55,7 +55,21 @@ namespace Pangoo.Core.VisualScripting
                 {
                     if (o.Enabled)
                     {
+                        bool flag = false;
                         if (uuid.IsNullOrWhiteSpace() || uuid.Equals(Row.Uuid))
+                        {
+                            flag = true;
+                        }
+
+                        if (o.Filter != null)
+                        {
+                            if (!o.Filter.Check())
+                            {
+                                flag = false;
+                            }
+                        }
+
+                        if (flag)
                         {
                             ret = true;
                             Log($"Invoke:{triggerType}");

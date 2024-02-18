@@ -137,6 +137,15 @@ namespace Pangoo.Core.VisualScripting
 
             ret.Parent = gameObject;
             ret.dynamicObject = this;
+            try
+            {
+                ret.Filter = JsonMapper.ToObject<TriggerEventFilter>(row.Filter);
+            }
+            catch
+            {
+                ret.Filter = null;
+            }
+
             ret.SetEnabled(row.Enabled);
             if (buildInstructions)
             {

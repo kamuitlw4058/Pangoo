@@ -29,6 +29,13 @@ namespace Pangoo.Core.VisualScripting
         [BoxGroup("组配置")]
         public TriggerTypeEnum TriggerType;
 
+        [LabelText("过滤器")]
+        [JsonMember("Filter")]
+        [BoxGroup("过滤器配置")]
+
+        public TriggerEventFilter Filter;
+
+
         [ShowInInspector]
         [LabelText("条件类型")]
         [JsonMember("ConditionType")]

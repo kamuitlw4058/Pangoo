@@ -6,6 +6,7 @@ using Pangoo.MetaTable;
 using MetaTable;
 using System.Linq;
 using Pangoo.Common;
+using LitJson;
 
 
 
@@ -97,6 +98,14 @@ namespace Pangoo.Core.VisualScripting
             row.TargetListType = (int)directInstructionGroup.TargetProcessType;
             row.TriggerType = directInstructionGroup.TriggerType.ToString();
             row.ConditionType = directInstructionGroup.ConditionType.ToString();
+            try
+            {
+                row.Filter = JsonMapper.ToJson(directInstructionGroup.Filter);
+            }
+            catch
+            {
+                row.Filter = null;
+            }
 
             var trigger = CreateTriggerEvent(row, false);
             switch (directInstructionGroup.ConditionType)

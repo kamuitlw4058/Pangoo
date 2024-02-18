@@ -14,6 +14,9 @@ namespace Pangoo.Core.VisualScripting
     {
         public const string SelfStr = ConstString.Self;
 
+        [ShowInInspector]
+        public TriggerEventFilter Filter { get; set; }
+
         bool m_Enabled;
 
         [ShowInInspector]

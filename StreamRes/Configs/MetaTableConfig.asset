@@ -505,9 +505,6 @@ MonoBehaviour:
     - Name: FailInstructionList
       Type: string
       CnName: "\u5931\u8D25\u6307\u4EE4\u5217\u8868"
-    - Name: Id
-      Type: int
-      CnName: Id
     - Name: ConditionUuidList
       Type: string
       CnName: ConditionUuidList
@@ -520,6 +517,9 @@ MonoBehaviour:
     - Name: IntVariableUuid
       Type: string
       CnName: "\u72B6\u6001\u53D8\u91CF"
+    - Name: Filter
+      Type: string
+      CnName: "\u89E6\u53D1\u8FC7\u6EE4\u5668"
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Variables

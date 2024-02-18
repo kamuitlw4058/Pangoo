@@ -43,6 +43,8 @@ namespace Pangoo.MetaTable
 
         public string IntVariableUuid{ get; set; }
 
+        public string Filter{ get; set; }
+
     }
 }
 
