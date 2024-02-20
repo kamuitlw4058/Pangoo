@@ -11,5 +11,6 @@ namespace Pangoo.Core.VisualScripting
     {
         None,
         KeyCode,
+        Timer,
     }
 }
