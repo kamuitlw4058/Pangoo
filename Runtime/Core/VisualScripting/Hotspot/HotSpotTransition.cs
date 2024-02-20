@@ -9,9 +9,12 @@ namespace Pangoo.Core.VisualScripting
         public string From;
         public string To;
 
+
         public AnimationClip Clip;
 
         public bool CanInvert;
     }
+
+
 
 }

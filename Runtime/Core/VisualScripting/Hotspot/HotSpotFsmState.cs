@@ -2,12 +2,26 @@ using System;
 using UnityEngine;
 
 using Pangoo.Common;
+using Sirenix.OdinInspector;
 namespace Pangoo.Core.VisualScripting
 {
+
+    public enum HotSpotFsmStateType
+    {
+        AnimationClip,
+        Sprite,
+    }
+
     [Serializable]
     public class HotSpotFsmState : NamedFsmState<HotspotFsmManager>
     {
+        public HotSpotFsmStateType StateType;
+
+        [ShowIf("@this.StateType == HotSpotFsmStateType.AnimationClip")]
         public AnimationClip StateClip;
+
+        [ShowIf("@this.StateType == HotSpotFsmStateType.Sprite")]
+        public Sprite Sprite;
 
         float stateTime;
 
@@ -51,7 +65,7 @@ namespace Pangoo.Core.VisualScripting
         protected override void OnUpdate(INamedFsm<HotspotFsmManager> fsm)
         {
             base.OnUpdate(fsm);
-            Debug.Log($"EnterTransition:{fsm.Owner.IsTransition}, enterTimer:{fsm.Owner.TransitionTime}, stateTime:{stateTime}");
+            // Debug.Log($"EnterTransition:{fsm.Owner.IsTransition}, enterTimer:{fsm.Owner.TransitionTime}, stateTime:{stateTime}");
             if (fsm.Owner.IsTransition)
             {
                 if (fsm.Owner.TransitionInvert)
@@ -78,11 +92,24 @@ namespace Pangoo.Core.VisualScripting
 
 
             stateTime += fsm.DeltaTime;
-            if (StateClip != null)
+            switch (StateType)
             {
-                // Debug.Log($"SampleAnimation:{StateClip}");
-                StateClip.SampleAnimation(fsm.Owner.Go, stateTime % StateClip.length);
+                case HotSpotFsmStateType.AnimationClip:
+                    if (StateClip != null)
+                    {
+                        // Debug.Log($"SampleAnimation:{StateClip}");
+                        StateClip.SampleAnimation(fsm.Owner.Go, stateTime % StateClip.length);
+                    }
+                    break;
+                case HotSpotFsmStateType.Sprite:
+                    if (fsm.Owner.SpriteRenderer.sprite != Sprite)
+                    {
+                        fsm.Owner.SpriteRenderer.sprite = Sprite;
+                    }
+                    break;
             }
+
+
 
 
         }

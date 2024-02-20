@@ -28,6 +28,19 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
+        SpriteRenderer m_SpriteRenderer;
+        public SpriteRenderer SpriteRenderer
+        {
+            get
+            {
+                if (m_SpriteRenderer == null)
+                {
+                    m_SpriteRenderer = Go.GetComponent<SpriteRenderer>();
+                }
+                return m_SpriteRenderer;
+            }
+        }
+
         [ShowInInspector]
         public HotSpotTransition LatestTransition { get; set; }
 
