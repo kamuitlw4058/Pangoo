@@ -1,6 +1,6 @@
 {
     "name": "Pangoo.Common",
-    "rootNamespace": "",
+    "rootNamespace": "Pangoo.Common",
     "references": [
         "GUID:a29fadd16bab1344f8fc3f39d1ac7b57"
     ],
