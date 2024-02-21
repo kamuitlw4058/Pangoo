@@ -15,7 +15,14 @@ namespace Pangoo.MetaTable
     [Serializable]
     public partial class VariablesNewRowWrapper : MetaTableNewRowWrapper<VariablesOverview,UnityVariablesRow>
     {
-
+        public override void Create()
+        {
+            if (UnityRow!=null)
+            {
+                UnityRow.Row.VariableType = "DynamicObject";
+            }
+            base.Create();
+        }
     }
 }
 #endif

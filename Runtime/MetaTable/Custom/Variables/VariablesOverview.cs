@@ -10,6 +10,7 @@ using Sirenix.OdinInspector;
 using System.Xml.Serialization;
 using Pangoo.Common;
 using MetaTable;
+using Pangoo.Core.VisualScripting;
 
 namespace Pangoo.MetaTable
 {
@@ -27,18 +28,23 @@ namespace Pangoo.MetaTable
             {
                 foreach (var row in overview.Rows)
                 {
-                    if (variableType != null && !row.Row.VariableType.Equals(variableType))
+                    if (row.Row.VariableType.Equals(variableType))
                     {
-                        continue;
+                        bool flag = valueType.IsNullOrWhiteSpace() ? true : valueType.Equals(row.Row.ValueType) ? true : false;
+                        if (flag)
+                        {
+                            ret.Add($"{row.UuidShort}-{row.Name}", row.Uuid);
+                        }
                     }
 
-                    bool flag = valueType.IsNullOrWhiteSpace() ? true : valueType.Equals(row.Row.ValueType) ? true : false;
-                    if (flag)
+                    if (variableType.Equals(VariableTypeEnum.DynamicObject.ToString()) && row.Row.VariableType.IsNullOrWhiteSpace())
                     {
-                        ret.Add($"{row.UuidShort}-{row.Name}", row.Uuid);
+                        bool flag = valueType.IsNullOrWhiteSpace() ? true : valueType.Equals(row.Row.ValueType) ? true : false;
+                        if (flag)
+                        {
+                            ret.Add($"{row.UuidShort}-{row.Name}", row.Uuid);
+                        }
                     }
-
-
                 }
             }
             return ret;

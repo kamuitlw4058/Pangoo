@@ -210,6 +210,7 @@ namespace Pangoo.Core.VisualScripting
                     // DirectInstructionTypeEnum.CheckBoolVariableList => true,
                     DirectInstructionTypeEnum.DynamicObjectSetMaterial => true,
                     DirectInstructionTypeEnum.SetIntVariable => true,
+                    DirectInstructionTypeEnum.SetLocalIntVariable=>true,
                     _ => false,
                 };
             }
@@ -227,6 +228,7 @@ namespace Pangoo.Core.VisualScripting
 
                     DirectInstructionTypeEnum.ChangeGameSection => true,
                     DirectInstructionTypeEnum.SetBoolVariable => true,
+                    DirectInstructionTypeEnum.SetLocalBoolVariable=>true,
                     DirectInstructionTypeEnum.SetIntVariable => true,
                     DirectInstructionTypeEnum.DynamicObjectModelActive => true,
                     DirectInstructionTypeEnum.DynamicObjectHotspotActive => true,
@@ -242,7 +244,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.CheckBoolVariableList => true,
                     DirectInstructionTypeEnum.DynamicObjectPreview => true,
                     DirectInstructionTypeEnum.WaitVariableBool => true,
-
+                    DirectInstructionTypeEnum.SetLocalIntVariable=>true,
 
                     _ => false,
                 };
@@ -269,6 +271,8 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.DynamicObjectTriggerEnabled => true,
+                    DirectInstructionTypeEnum.SetLocalBoolVariable=>true,
+                    DirectInstructionTypeEnum.SetLocalIntVariable=>true,
                     _ => false,
                 };
             }
@@ -315,6 +319,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.WaitVariableBool => true,
                     DirectInstructionTypeEnum.TweenLightIntensity => true,
                     DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams => true,
+                    DirectInstructionTypeEnum.SetLocalBoolVariable=>true,
                     _ => false,
                 };
             }
@@ -779,6 +784,8 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
                 case DirectInstructionTypeEnum.DynamicObjectInteractEnable:
                 case DirectInstructionTypeEnum.TweenLightIntensity:
+                case DirectInstructionTypeEnum.SetLocalBoolVariable:
+                case DirectInstructionTypeEnum.SetLocalIntVariable:
                     return DynamicObjectOverview.GetUuidDropdown(AdditionalOptions: new List<Tuple<string, string>>()
                     {
                         new Tuple<string, string>("Self","Self"),
@@ -828,6 +835,8 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
                 case DirectInstructionTypeEnum.DynamicObjectInteractEnable:
                 case DirectInstructionTypeEnum.DynamicObjectSetMaterial:
+                case DirectInstructionTypeEnum.SetLocalBoolVariable:
+                case DirectInstructionTypeEnum.SetLocalIntVariable:
                     row = DynamicObjectOverview.GetUnityRowById(Int1) as MetaTableUnityRow;
                     break;
                 case DirectInstructionTypeEnum.PlaySound:
@@ -866,6 +875,10 @@ namespace Pangoo.Core.VisualScripting
                         }
                     }
                     return TriggerEventOverview.GetUuidDropdown(includeUuids: includeUuids);
+                case DirectInstructionTypeEnum.SetLocalBoolVariable:
+                    return new InstructionSetLocalBoolVariableParams().OnVariableUuidDropdown();
+                case DirectInstructionTypeEnum.SetLocalIntVariable:
+                    return new InstructionSetLocalIntVariableParams().OnVariableUuidDropdown();
             }
 
             return null;
