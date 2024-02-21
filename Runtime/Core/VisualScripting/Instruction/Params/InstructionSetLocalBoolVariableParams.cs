@@ -14,12 +14,7 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("Value")]
         public bool Value;
 
-        public override void CheckFlag(UnityVariablesRow row)
-        {
-            flag = VariableValueTypeEnum.Bool.ToString().IsNullOrWhiteSpace() ? true :
-                VariableValueTypeEnum.Bool.ToString().Equals(row.Row.ValueType) ? true : false;
-        }
-
+        public override VariableValueTypeEnum ValueTypeEnum=> VariableValueTypeEnum.Bool;
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionSetLocalBoolVariableParams>(val);
@@ -27,6 +22,7 @@ namespace Pangoo.Core.VisualScripting
             LocalVariableUuid = par.LocalVariableUuid;
             Value = par.Value;
         }
+        
     }
 }
 

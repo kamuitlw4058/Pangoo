@@ -14,12 +14,7 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("Value")]
         public int Value;
 
-        public override void CheckFlag(UnityVariablesRow row)
-        {
-            flag = VariableValueTypeEnum.Int.ToString().IsNullOrWhiteSpace() ? true :
-                            VariableValueTypeEnum.Int.ToString().Equals(row.Row.ValueType) ? true : false;
-        }
-
+        public override VariableValueTypeEnum ValueTypeEnum => VariableValueTypeEnum.Int;
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionSetLocalIntVariableParams>(val);

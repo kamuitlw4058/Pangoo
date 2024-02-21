@@ -10,18 +10,18 @@ using UnityEngine;
 namespace Pangoo.Core.VisualScripting
 {
     [Serializable]
-    public class InstructionSetDynamicObjectVariableParams : InstructionParams
+    public abstract class InstructionSetDynamicObjectVariableParams : InstructionParams
     {
         [JsonMember("DynamicObjectUuid")]
         [ValueDropdown("OnDynamicObjectUuidDropdown")]
         public string DynamicObjectUuid;
 
         [JsonMember("LocalVariableUuid")]
-        [ValueDropdown("OnBoolVariableUuidDropdown")]
+        [ValueDropdown("OnVariableUuidDropdown")]
         public string LocalVariableUuid;
 
-        protected bool flag;
-        
+        public abstract VariableValueTypeEnum ValueTypeEnum { get;}
+
 #if UNITY_EDITOR
         IEnumerable OnDynamicObjectUuidDropdown()
         {
@@ -30,25 +30,7 @@ namespace Pangoo.Core.VisualScripting
 
         public IEnumerable OnVariableUuidDropdown()
         {
-            var ret = new ValueDropdownList<string>();
-            var overviews = AssetDatabaseUtility.FindAsset<VariablesOverview>();
-            foreach (var overview in overviews)
-            {
-                foreach (UnityVariablesRow row in overview.Rows)
-                {
-                    if (row.Row.VariableType.Equals(VariableTypeEnum.DynamicObject.ToString()) ||
-                        row.Row.VariableType.IsNullOrWhiteSpace())
-                    {
-                        CheckFlag(row);
-                        
-                        if (flag)
-                        {
-                            ret.Add($"{row.UuidShort}-{row.Name}", row.Uuid);
-                        }
-                    }
-                }
-            }
-            return ret;
+            return VariablesOverview.GetVariableUuidDropdown(ValueTypeEnum.ToString(),VariableTypeEnum.DynamicObject.ToString());
         }
 #endif
         public virtual void CheckFlag(UnityVariablesRow row)
