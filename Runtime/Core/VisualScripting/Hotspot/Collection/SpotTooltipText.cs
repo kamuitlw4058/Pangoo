@@ -48,12 +48,14 @@ namespace Pangoo.Core.VisualScripting
 
         [ShowInInspector]
         [HideInEditorMode]
-        private GameObject m_Tooltip;
+        private GameObject m_HotspotStateGo;
 
 
         private const float TRANSITION_SMOOTH_TIME = 0.25f;
 
         private const float TRANSITION_SPEED = 5f;
+
+        HotSpotSpriteState HotSpotSpriteState;
 
 
 
@@ -68,7 +70,7 @@ namespace Pangoo.Core.VisualScripting
                     return HotsoptState.None;
                 }
 
-                if (!dynamicObject.IsHotspotActive)
+                if (!dynamicObject.IsHotspotDistanceActive)
                 {
                     return HotsoptState.None;
                 }
@@ -102,6 +104,7 @@ namespace Pangoo.Core.VisualScripting
 
         public void UpdateState()
         {
+            HotSpotSpriteState.RunningHotspoState = (int)TargetSpotState;
             foreach (var state in states)
             {
                 state.UpdateState(TargetSpotState, TRANSITION_SPEED, deltaTime: DeltaTime);
@@ -158,87 +161,57 @@ namespace Pangoo.Core.VisualScripting
             instance.SetActive(isActive);
             UpdateState();
 
-            // if (CurrentSpotState != TargetSpotState)
-            // {
-            //     Transition = 0;
-            //     m_Velocity = 0;
-            //     if (IsTransitioning)
-            //     {
-            //         UpdateState(1, true);
-            //         LastestSpotState = CurrentSpotState;
-            //     }
-            //     CurrentSpotState = TargetSpotState;
-            //     IsTransitioning = true;
-
-            // }
-            // else
-            // {
-            //     if (LastestSpotState != CurrentSpotState)
-            //     {
-            //         if (IsTransitioning)
-            //         {
-            //             this.Transition = Mathf.SmoothDamp(
-            //                 this.Transition,
-            //                1,
-            //                 ref this.m_Velocity,
-            //                 TRANSITION_SMOOTH_TIME
-            //             );
-
-            //             UpdateState(Transition);
-
-            //             if (Transition == 1)
-            //             {
-            //                 IsTransitioning = false;
-            //                 LastestSpotState = CurrentSpotState;
-            //             }
-            //         }
-            //     }
-
-            // }
 
         }
 
 
         protected virtual bool EnableInstance()
         {
+            // return true;
             return dynamicObject.IsHotspotActive;
         }
 
 
         protected GameObject RequireInstance()
         {
-            if (this.m_Tooltip == null)
+            if (this.m_HotspotStateGo == null)
             {
 
-                this.m_Tooltip = new GameObject("Tooltip");
+                this.m_HotspotStateGo = new GameObject("HotspotState");
 
-                this.m_Tooltip.transform.SetPositionAndRotation(
+                this.m_HotspotStateGo.transform.SetPositionAndRotation(
                     dynamicObject.HotspotInteractPosition + dynamicObject.CachedTransfrom.TransformDirection(this.m_Params.Offset),
                     ShortcutMainCamera.Transform.rotation
                 );
-                this.m_Tooltip.transform.SetParent(dynamicObject.CachedTransfrom);
-
-                Canvas canvas = this.m_Tooltip.AddComponent<Canvas>();
-                this.m_Tooltip.AddComponent<CanvasScaler>();
-
-                canvas.renderMode = RenderMode.WorldSpace;
-                canvas.worldCamera = ShortcutMainCamera.Instance;
-
-                RectTransform canvasTransform = this.m_Tooltip.GetComponent<RectTransform>();
-                canvasTransform.sizeDelta = new Vector2(CANVAS_WIDTH, CANVAS_HEIGHT);
-                canvasTransform.localScale = new Vector3(
-                    SIZE_X / CANVAS_WIDTH,
-                    SIZE_Y / CANVAS_HEIGHT,
-                    1f
-                );
+                this.m_HotspotStateGo.transform.SetParent(dynamicObject.CachedTransfrom);
+                var StatePrefab = Resources.Load<GameObject>("HotspotSpriteState");
+                var StateGo = UnityEngine.Object.Instantiate(StatePrefab, new Vector3(0, 0, 0), Quaternion.identity);
+                StateGo.transform.SetParent(this.m_HotspotStateGo.transform);
+                StateGo.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                HotSpotSpriteState = StateGo.GetComponent<HotSpotSpriteState>();
 
 
-                SpotState HandState = new SpotState();
-                HandState.Enable = true;
-                HandState.image = CreateHand(canvasTransform);
-                HandState.State = HotsoptState.ShowInteract;
+                // Canvas canvas = this.m_HotspotStateGo.AddComponent<Canvas>();
+                // this.m_HotspotStateGo.AddComponent<CanvasScaler>();
 
-                states.Add(HandState);
+                // canvas.renderMode = RenderMode.WorldSpace;
+                // canvas.worldCamera = ShortcutMainCamera.Instance;
+
+                // RectTransform canvasTransform = this.m_HotspotStateGo.GetComponent<RectTransform>();
+                // canvasTransform.sizeDelta = new Vector2(CANVAS_WIDTH, CANVAS_HEIGHT);
+                // canvasTransform.localScale = new Vector3(
+                //     SIZE_X / CANVAS_WIDTH,
+                //     SIZE_Y / CANVAS_HEIGHT,
+                //     1f
+                // );
+
+
+                // SpotState HandState = new SpotState();
+                // HandState.Enable = true;
+                // HandState.image = CreateHand(canvasTransform);
+                // HandState.State = HotsoptState.ShowInteract;
+
+                // states.Add(HandState);
 
                 // SpotState EyeState = new SpotState();
                 // EyeState.Enable = true;
@@ -247,23 +220,23 @@ namespace Pangoo.Core.VisualScripting
 
                 // states.Add(EyeState);
 
-                SpotState Point = new SpotState();
-                Point.Enable = true;
-                Point.image = CreatePoint(canvasTransform);
-                Point.State = HotsoptState.ShowUI;
-                states.Add(Point);
+                // SpotState Point = new SpotState();
+                // Point.Enable = true;
+                // Point.image = CreatePoint(canvasTransform);
+                // Point.State = HotsoptState.ShowUI;
+                // states.Add(Point);
 
-                SpotState Ban = new SpotState();
-                Ban.Enable = true;
-                Ban.image = CreateBan(canvasTransform);
-                Ban.State = HotsoptState.ShowDisable;
+                // SpotState Ban = new SpotState();
+                // Ban.Enable = true;
+                // Ban.image = CreateBan(canvasTransform);
+                // Ban.State = HotsoptState.ShowDisable;
 
-                states.Add(Ban);
+                // states.Add(Ban);
 
 
             }
 
-            return this.m_Tooltip;
+            return this.m_HotspotStateGo;
         }
 
 

@@ -35,13 +35,72 @@ namespace Pangoo.Core.Characters
         {
             get
             {
-                return InputMove != Vector2.zero;
+                return MoveValue != Vector2.zero;
             }
         }
 
+        Vector2 m_LatestMoveValue;
+        Vector2 m_MoveValue;
+
+        public Vector2 LatestMoveValue
+        {
+            get
+            {
+                return m_LatestMoveValue;
+            }
+        }
+
+        public bool AxisChanged(float latest, float current)
+        {
+            if (current == 0)
+            {
+                return false;
+            }
+
+            if (latest == 0)
+            {
+                return true;
+            }
+
+            if (Mathf.Sign(current) != Mathf.Sign(latest))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool MoveStepChanged
+        {
+            get
+            {
+                if (!IsMoveInputDown) return false;
+
+
+                if (AxisChanged(m_LatestMoveValue.x, m_MoveValue.x))
+                {
+                    return true;
+                }
+
+                if (AxisChanged(m_LatestMoveValue.y, m_MoveValue.y))
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
 
         [ShowInInspector]
-        public Vector2 InputMove { get; private set; }
+        public Vector2 MoveValue
+        {
+            get { return m_MoveValue; }
+            set
+            {
+                m_LatestMoveValue = m_MoveValue;
+                m_MoveValue = value;
+            }
+        }
 
         [ShowInInspector]
         public Vector2 InputRotation { get; private set; }
@@ -72,7 +131,7 @@ namespace Pangoo.Core.Characters
         {
             if (!Character.IsControllable)
             {
-                InputMove = Vector3.zero;
+                MoveValue = Vector3.zero;
                 InputRotation = Vector3.zero;
                 InputInteraction = false;
                 InputJump = false;
@@ -82,17 +141,17 @@ namespace Pangoo.Core.Characters
                 switch (InputMotionType)
                 {
                     case InputMotionType.Default:
-                        InputMove = m_InputMove?.Read() ?? Vector2.zero;
+                        MoveValue = m_InputMove?.Read() ?? Vector2.zero;
                         InputRotation = m_InputRotation?.Read() ?? Vector2.zero;
                         break;
                     case InputMotionType.OnlyW:
                         //Debug.Log("当前只能按W前进");
                         var yVal = Math.Clamp(m_InputMove.Read().y, 0, 1);
-                        InputMove = new Vector2(0,yVal);
+                        MoveValue = new Vector2(0, yVal);
                         InputRotation = Vector2.zero;
                         break;
                     default:
-                        InputMove = m_InputMove?.Read() ?? Vector2.zero;
+                        MoveValue = m_InputMove?.Read() ?? Vector2.zero;
                         InputRotation = m_InputRotation?.Read() ?? Vector2.zero;
                         break;
                 }

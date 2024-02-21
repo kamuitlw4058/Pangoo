@@ -165,6 +165,11 @@ namespace Pangoo.Core.Characters
             get { return m_CharacterInputService?.IsMoveInputDown ?? false; }
         }
 
+        public bool MoveStepChanged
+        {
+            get { return m_CharacterInputService?.MoveStepChanged ?? false; }
+        }
+
         public void SetCharacterHeight(float val)
         {
             m_DriverService.SetCharacterControllerHeight(val);

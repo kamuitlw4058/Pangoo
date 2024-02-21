@@ -54,7 +54,7 @@ namespace Pangoo.Core.Characters
 
             if (!this.Character.IsPlayer) return;
             Vector3 inputMovement = m_PlayerService.IsControllable
-                ? Character.CharacterInput.InputMove
+                ? Character.CharacterInput.MoveValue
                 : Vector2.zero;
 
             if (inputMovement == Vector3.zero) return;
