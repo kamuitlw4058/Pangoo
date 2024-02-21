@@ -33,9 +33,5 @@ namespace Pangoo.Core.VisualScripting
             return VariablesOverview.GetVariableUuidDropdown(ValueTypeEnum.ToString(),VariableTypeEnum.DynamicObject.ToString());
         }
 #endif
-        public virtual void CheckFlag(UnityVariablesRow row)
-        {
-            
-        }
     }
 }
