@@ -137,7 +137,7 @@ namespace Pangoo.Core.Characters
 
             bool playSoundFlag = false;
             var applyInterval = Interval;
-            if (MoveInputUp)
+            if (MoveInputUp || Character.MoveStepChanged)
             {
                 applyInterval = MinInterval;
 
