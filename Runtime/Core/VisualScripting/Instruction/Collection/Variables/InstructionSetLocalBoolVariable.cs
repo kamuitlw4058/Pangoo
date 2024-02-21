@@ -26,7 +26,11 @@ namespace Pangoo.Core.VisualScripting
             var entity=args.dynamicObject.GetService<DynamicObjectService>().GetLoadedEntity(ParamsRaw.DynamicObjectUuid);
             if (entity!=null)
             {
-                entity.DynamicObj?.SetVariable(ParamsRaw.LocalVariableUuid,ParamsRaw.Value);
+                Debug.Log($"{ParamsRaw.LocalVariableUuid} <<<o>>>{ParamsRaw.Value}");
+                if (entity.DynamicObj!=null && entity.DynamicObj.Variables.KeyValueDict.ContainsKey(ParamsRaw.LocalVariableUuid))
+                {
+                    entity.DynamicObj?.SetVariable(ParamsRaw.LocalVariableUuid,ParamsRaw.Value);
+                }
             }
         }
     }
