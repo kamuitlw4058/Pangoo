@@ -123,5 +123,10 @@ namespace Pangoo.Core.VisualScripting
         SetIntVariable,
         [LabelText("玩家/设置玩家行走模式")]
         SetPlayerInputMotion,
+        
+        [LabelText("变量/设置本地Bool变量")]
+        SetLocalBoolVariable,
+        [LabelText("变量/设置本地Int变量")]
+        SetLocalIntVariable,
     }
 }

@@ -329,6 +329,24 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
+        public static Instruction GetSetLocalBoolVariable(string dynamicObjectUuid,string localVariableUuid,bool value)
+        {
+            var instruction = Activator.CreateInstance<InstructionSetLocalBoolVariable>();
+            instruction.ParamsRaw.DynamicObjectUuid = dynamicObjectUuid;
+            instruction.ParamsRaw.LocalVariableUuid = localVariableUuid;
+            instruction.ParamsRaw.Value = value;
+            return instruction;
+        }
+
+        public static Instruction GetSetLocalIntVariable(string dynamicObjectUuid,string localVariableUuid,int value)
+        {
+            var instruction = Activator.CreateInstance<InstructionSetLocalIntVariable>();
+            instruction.ParamsRaw.DynamicObjectUuid = dynamicObjectUuid;
+            instruction.ParamsRaw.LocalVariableUuid = localVariableUuid;
+            instruction.ParamsRaw.Value = value;
+            return instruction;
+        }
+
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
             switch (InstructionType)
@@ -411,6 +429,10 @@ namespace Pangoo.Core.VisualScripting
                     return GetDynamicObjectSetAnimatorBoolParams(DropdownString1, String2, Bool1);
                 case DirectInstructionTypeEnum.SetPlayerInputMotion:
                     return GetSetPlayerInputMotion(InputMotionType);
+                case DirectInstructionTypeEnum.SetLocalBoolVariable:
+                    return GetSetLocalBoolVariable(Uuid,Uuid2,Bool1);
+                case DirectInstructionTypeEnum.SetLocalIntVariable:
+                    return GetSetLocalIntVariable(Uuid,Uuid2,Int1);
             }
 
             return null;
