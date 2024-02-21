@@ -37,7 +37,7 @@ namespace Pangoo.MetaTable
                         }
                     }
 
-                    if (variableType.Equals(VariableTypeEnum.DynamicObject.ToString()) && row.Row.VariableType.IsNullOrWhiteSpace())
+                    if (variableType.IsNullOrWhiteSpace() && row.Row.VariableType.Equals(VariableTypeEnum.DynamicObject.ToString()))
                     {
                         bool flag = valueType.IsNullOrWhiteSpace() ? true : valueType.Equals(row.Row.ValueType) ? true : false;
                         if (flag)

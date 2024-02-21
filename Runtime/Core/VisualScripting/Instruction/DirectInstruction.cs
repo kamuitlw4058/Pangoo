@@ -835,8 +835,6 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
                 case DirectInstructionTypeEnum.DynamicObjectInteractEnable:
                 case DirectInstructionTypeEnum.DynamicObjectSetMaterial:
-                case DirectInstructionTypeEnum.SetLocalBoolVariable:
-                case DirectInstructionTypeEnum.SetLocalIntVariable:
                     row = DynamicObjectOverview.GetUnityRowById(Int1) as MetaTableUnityRow;
                     break;
                 case DirectInstructionTypeEnum.PlaySound:
@@ -876,9 +874,9 @@ namespace Pangoo.Core.VisualScripting
                     }
                     return TriggerEventOverview.GetUuidDropdown(includeUuids: includeUuids);
                 case DirectInstructionTypeEnum.SetLocalBoolVariable:
-                    return new InstructionSetLocalBoolVariableParams().OnVariableUuidDropdown();
+                    return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString(),VariableTypeEnum.DynamicObject.ToString());
                 case DirectInstructionTypeEnum.SetLocalIntVariable:
-                    return new InstructionSetLocalIntVariableParams().OnVariableUuidDropdown();
+                    return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Int.ToString(),VariableTypeEnum.DynamicObject.ToString());
             }
 
             return null;
