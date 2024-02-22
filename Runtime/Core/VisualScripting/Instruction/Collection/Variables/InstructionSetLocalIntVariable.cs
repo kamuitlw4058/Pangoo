@@ -23,10 +23,9 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            var VariableType = args?.Main.RuntimeData.GetVariableType(ParamsRaw.LocalVariableUuid);
             var entity = args.dynamicObject.DynamicObjectService.GetLoadedEntity(ParamsRaw.DynamicObjectUuid);
             
-            if (VariableType != null && VariableType == VariableTypeEnum.DynamicObject && entity.DynamicObj != null)
+            if (entity.DynamicObj != null)
             {
                 entity.DynamicObj.SetVariable<int>(ParamsRaw.LocalVariableUuid, ParamsRaw.Value);
             }
