@@ -23,7 +23,7 @@ namespace Pangoo.Core.VisualScripting
         public virtual void OnEnter()
         {
             dynamicObject = GetComponent<EntityDynamicObject>()?.DynamicObj;
-            if (dynamicObject.Equals(null))
+            if (GetComponent<EntityDynamicObject>().Equals(null))
             {
                 Debug.LogError("BaseImmersed接口没有获取到DynamicObject");
             }
