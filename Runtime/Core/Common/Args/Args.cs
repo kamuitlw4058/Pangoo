@@ -42,7 +42,10 @@ namespace Pangoo.Core.Common
         [ShowInInspector]
         [field: NonSerialized] public MainService Main { get; set; }
 
-        public PointerEventData PointerData { get; set; }
+        [field: NonSerialized] public PointerEventData PointerData { get; set; }
+
+        [ShowInInspector]
+        [field: NonSerialized] public string PointerPath { get; set; }
 
 
         public Args Clone => new Args(dynamicObject, this.Self, this.Target)
@@ -54,6 +57,7 @@ namespace Pangoo.Core.Common
             Trigger = Trigger,
             Main = Main,
             PointerData = PointerData,
+            PointerPath = PointerPath,
         };
 
 

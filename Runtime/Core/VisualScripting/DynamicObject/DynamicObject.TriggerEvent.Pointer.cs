@@ -19,7 +19,6 @@ namespace Pangoo.Core.VisualScripting
         public Action<Args> TriggerOnPointerEnter;
 
 
-
         protected override void DoPointerEnter(PointerEventData pointerEventData)
         {
             // Debug.Log($"DoPointerEnter:{gameObject.name}");
@@ -52,6 +51,26 @@ namespace Pangoo.Core.VisualScripting
             {
                 TriggerInovke(TriggerTypeEnum.OnPointerClickRight);
             }
+        }
+
+        public void ExtraPointerEnter(PointerEventData pointerEventData, string pointerPath = null)
+        {
+            CurrentArgs.PointerData = pointerEventData;
+            CurrentArgs.PointerPath = pointerPath;
+            TriggerInovke(TriggerTypeEnum.OnExtraPointerEnter);
+        }
+
+        public void ExtraPointerExit(PointerEventData pointerEventData, string pointerPath = null)
+        {
+            CurrentArgs.PointerData = pointerEventData;
+            CurrentArgs.PointerPath = pointerPath;
+            TriggerInovke(TriggerTypeEnum.OnExtraPointerExit);
+        }
+        public void ExtraPointerClick(PointerEventData pointerEventData, string pointerPath = null)
+        {
+            CurrentArgs.PointerData = pointerEventData;
+            CurrentArgs.PointerPath = pointerPath;
+            TriggerInovke(TriggerTypeEnum.OnExtraPointerClick);
         }
     }
 }

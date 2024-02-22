@@ -14,6 +14,8 @@ namespace Pangoo.Core.VisualScripting
 
         public DynamicObject dynamicObject { get; set; }
 
+
+        public bool Hide { get; set; }
         public virtual void LoadParamsFromJson(string val) { }
         public virtual string ParamsToJson()
         {

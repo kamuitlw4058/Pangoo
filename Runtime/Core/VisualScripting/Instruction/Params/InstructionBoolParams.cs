@@ -14,6 +14,7 @@ namespace Pangoo.Core.VisualScripting
     {
         [JsonMember("Val")]
         public bool Val;
+
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionBoolParams>(val);

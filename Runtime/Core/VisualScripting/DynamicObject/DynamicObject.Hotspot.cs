@@ -18,9 +18,6 @@ namespace Pangoo.Core.VisualScripting
         HotspotGetRowByUuidHandler m_HotspotHandler;
 
 
-
-        private const float TRANSITION_SMOOTH_TIME = 0.25f;
-
         bool m_IsHotspotActive;
 
         [ShowInInspector]

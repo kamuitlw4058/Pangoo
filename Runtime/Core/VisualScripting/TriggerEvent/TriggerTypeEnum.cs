@@ -73,6 +73,12 @@ namespace Pangoo.Core.VisualScripting
         OnExtraTriggerEnter3D,
         OnExtraTriggerExit3D,
 
+        OnExtraPointerEnter,
+        OnExtraPointerExit,
+
+        OnExtraPointerClick,
+
+
     }
 }
 
