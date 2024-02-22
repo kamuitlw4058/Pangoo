@@ -3,12 +3,9 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using Pangoo.Core.Common;
-using Pangoo.Core.Characters;
-using Sirenix.OdinInspector;
-using UnityEngine.Playables;
 using UnityEngine.EventSystems;
-
-
+using LitJson;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -17,6 +14,46 @@ namespace Pangoo.Core.VisualScripting
     {
 
         public Action<Args> TriggerOnPointerEnter;
+
+        List<DynamicObjectMouseInteractInfo> m_DynamicObjectMouseInteractInfos;
+
+        public List<DynamicObjectMouseInteract> dynamicObjectMouseInteracts = new List<DynamicObjectMouseInteract>();
+
+        void DoAwakeMouseInteract()
+        {
+            if (Row.MouseInteractList.IsNullOrWhiteSpace()) return;
+            try
+            {
+                m_DynamicObjectMouseInteractInfos = JsonMapper.ToObject<List<DynamicObjectMouseInteractInfo>>(Row.MouseInteractList);
+            }
+            catch
+            {
+
+            }
+
+            if (m_DynamicObjectMouseInteractInfos != null)
+            {
+                foreach (var mouseInteractInfo in m_DynamicObjectMouseInteractInfos)
+                {
+                    var collider = CachedTransfrom.Find(mouseInteractInfo.Path)?.GetComponent<Collider>();
+                    if (collider != null)
+                    {
+                        collider.gameObject.layer = LayerMask.NameToLayer("RayHitObj");
+                        var com = collider.transform.GetOrAddComponent<DynamicObjectMouseInteract>();
+                        if (com != null)
+                        {
+                            com.dynamicObject = this;
+                            com.Path = mouseInteractInfo.Path;
+                            IHotspotRow row = HotspotRowExtension.GetByUuid(mouseInteractInfo.HotSpotUuid, m_HotspotHandler);
+                            com.HotspotRow = row;
+                            com.InteractType = mouseInteractInfo.MouseInteractType;
+                            dynamicObjectMouseInteracts.Add(com);
+                        }
+                    }
+
+                }
+            }
+        }
 
 
         protected override void DoPointerEnter(PointerEventData pointerEventData)

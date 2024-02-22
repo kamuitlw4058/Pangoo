@@ -71,6 +71,8 @@ namespace Pangoo.MetaTable
 
         public string SubObjectTriggerList{ get; set; }
 
+        public string MouseInteractList{ get; set; }
+
     }
 }
 

@@ -207,6 +207,13 @@ namespace Pangoo.MetaTable
 
         string IDynamicObjectRow.SubObjectTriggerList {get => SubObjectTriggerList; set => SubObjectTriggerList = value;}
 
+        [JsonMember("MouseInteractList")]
+        [MetaTableRowColumn("MouseInteractList","string", "鼠标交互列表",30)]
+        [LabelText("鼠标交互列表")]
+        public string MouseInteractList ;
+
+        string IDynamicObjectRow.MouseInteractList {get => MouseInteractList; set => MouseInteractList = value;}
+
     }
 }
 

@@ -2,28 +2,31 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Pangoo.MetaTable;
+using Sirenix.OdinInspector;
 
 namespace Pangoo.Core.VisualScripting
 {
 
-    public enum DynamicObjectMouseInteractType
-    {
-        Extra,
-        Base,
-    }
-
     public class DynamicObjectMouseInteract : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
-
+        [ShowInInspector]
         public DynamicObject dynamicObject { get; set; } = null;
 
+        [ShowInInspector]
         public string Path { get; set; } = null;
 
+        [ShowInInspector]
         public DynamicObjectMouseInteractType InteractType { get; set; }
 
+
+        [ShowInInspector]
         public IHotspotRow HotspotRow { get; set; }
 
+        [ShowInInspector]
         public HotSpot hotSpot { get; set; }
+
+        [ShowInInspector]
+        public bool PointerEnter { get; set; }
 
         void Start()
         {
@@ -38,6 +41,7 @@ namespace Pangoo.Core.VisualScripting
                 hotSpot.Row = HotspotRow;
                 hotSpot.dynamicObject = dynamicObject;
                 hotSpot.Master = dynamicObject;
+                hotSpot.Target = gameObject;
                 hotSpot.LoadParamsFromJson(HotspotRow.Params);
             }
         }
@@ -54,6 +58,8 @@ namespace Pangoo.Core.VisualScripting
 
         public void OnPointerEnter(PointerEventData eventData)
         {
+            PointerEnter = true;
+            Debug.Log($"OnPointerEnter");
             if (dynamicObject != null)
             {
                 switch (InteractType)
@@ -72,6 +78,8 @@ namespace Pangoo.Core.VisualScripting
 
         public void OnPointerExit(PointerEventData eventData)
         {
+            PointerEnter = false;
+            Debug.Log($"OnPointerExit");
             if (dynamicObject != null)
             {
                 switch (InteractType)

@@ -49,20 +49,6 @@ namespace Pangoo.Core.VisualScripting
                     return DynamicObjectHotsoptState.None;
                 }
 
-                // if (!dynamicObject.IsHotspotDistanceActive)
-                // {
-                //     return DynamicObjectHotsoptState.None;
-                // }
-
-                // if (dynamicObject.IsHotspotBanInteractActive)
-                // {
-                //     return DynamicObjectHotsoptState.ShowDisable;
-                // }
-
-                // if (dynamicObject.IsHotspotInteractActive)
-                // {
-                //     return DynamicObjectHotsoptState.ShowInteract;
-                // }
 
                 return DynamicObjectHotsoptState.ShowUI;
             }
@@ -98,7 +84,7 @@ namespace Pangoo.Core.VisualScripting
             };
 
             instance.transform.SetPositionAndRotation(
-                dynamicObject.HotspotInteractPosition + offset,
+                TargetTransform.position + TargetTransform.TransformDirection(this.m_Params.Offset),
                 ShortcutMainCamera.Transform.rotation
             );
 
@@ -122,13 +108,13 @@ namespace Pangoo.Core.VisualScripting
             if (this.m_HotspotStateGo == null)
             {
 
-                this.m_HotspotStateGo = new GameObject("HotspotState");
+                this.m_HotspotStateGo = new GameObject("MouseInteractState");
 
                 this.m_HotspotStateGo.transform.SetPositionAndRotation(
-                    dynamicObject.HotspotInteractPosition + dynamicObject.CachedTransfrom.TransformDirection(this.m_Params.Offset),
+                    TargetTransform.position + TargetTransform.TransformDirection(this.m_Params.Offset),
                     ShortcutMainCamera.Transform.rotation
                 );
-                this.m_HotspotStateGo.transform.SetParent(dynamicObject.CachedTransfrom);
+                this.m_HotspotStateGo.transform.SetParent(TargetTransform);
                 var StatePrefab = Resources.Load<GameObject>("HotspotSpriteState");
                 var StateGo = UnityEngine.Object.Instantiate(StatePrefab, new Vector3(0, 0, 0), Quaternion.identity);
                 StateGo.transform.SetParent(this.m_HotspotStateGo.transform);
