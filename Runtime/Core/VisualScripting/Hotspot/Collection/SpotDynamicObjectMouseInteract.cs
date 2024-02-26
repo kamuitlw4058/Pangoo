@@ -67,6 +67,19 @@ namespace Pangoo.Core.VisualScripting
 
         }
 
+        public Vector3 ApplyOffset
+        {
+            get
+            {
+                return this.m_Params.Space switch
+                {
+                    Space.World => this.m_Params.Offset + Offset,
+                    Space.Self => TargetTransform.TransformDirection(this.m_Params.Offset + Offset),
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+            }
+        }
+
 
 
         protected override void DoUpdate()
@@ -76,15 +89,9 @@ namespace Pangoo.Core.VisualScripting
             GameObject instance = this.RequireInstance();
             if (instance == null) return;
 
-            Vector3 offset = this.m_Params.Space switch
-            {
-                Space.World => this.m_Params.Offset,
-                Space.Self => dynamicObject.CachedTransfrom.TransformDirection(this.m_Params.Offset),
-                _ => throw new ArgumentOutOfRangeException()
-            };
 
             instance.transform.SetPositionAndRotation(
-                TargetTransform.position + TargetTransform.TransformDirection(this.m_Params.Offset),
+                TargetTransform.position + ApplyOffset,
                 ShortcutMainCamera.Transform.rotation
             );
 
@@ -111,7 +118,7 @@ namespace Pangoo.Core.VisualScripting
                 this.m_HotspotStateGo = new GameObject("MouseInteractState");
 
                 this.m_HotspotStateGo.transform.SetPositionAndRotation(
-                    TargetTransform.position + TargetTransform.TransformDirection(this.m_Params.Offset),
+                    TargetTransform.position + ApplyOffset,
                     ShortcutMainCamera.Transform.rotation
                 );
                 this.m_HotspotStateGo.transform.SetParent(TargetTransform);

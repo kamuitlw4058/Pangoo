@@ -46,7 +46,10 @@ namespace Pangoo.Core.VisualScripting
                             com.Path = mouseInteractInfo.Path;
                             IHotspotRow row = HotspotRowExtension.GetByUuid(mouseInteractInfo.HotSpotUuid, m_HotspotHandler);
                             com.HotspotRow = row;
+                            com.HotSpotOffset = mouseInteractInfo.HotSpotOffset;
                             com.InteractType = mouseInteractInfo.MouseInteractType;
+                            com.InteractOffset = mouseInteractInfo.InteractOffset;
+                            com.InteractAngle = mouseInteractInfo.InteractAngle;
                             dynamicObjectMouseInteracts.Add(com);
                         }
                     }
@@ -108,6 +111,29 @@ namespace Pangoo.Core.VisualScripting
             CurrentArgs.PointerData = pointerEventData;
             CurrentArgs.PointerPath = pointerPath;
             TriggerInovke(TriggerTypeEnum.OnExtraPointerClick);
+        }
+
+
+        public void ExtraBeginDrag(PointerEventData pointerEventData, string pointerPath = null)
+        {
+            CurrentArgs.PointerData = pointerEventData;
+            CurrentArgs.PointerPath = pointerPath;
+            TriggerInovke(TriggerTypeEnum.OnExtraBeginDrag);
+        }
+
+
+        public void ExtraDrag(PointerEventData pointerEventData, string pointerPath = null)
+        {
+            CurrentArgs.PointerData = pointerEventData;
+            CurrentArgs.PointerPath = pointerPath;
+            TriggerInovke(TriggerTypeEnum.OnExtraDrag);
+        }
+
+        public void ExtraEndDrag(PointerEventData pointerEventData, string pointerPath = null)
+        {
+            CurrentArgs.PointerData = pointerEventData;
+            CurrentArgs.PointerPath = pointerPath;
+            TriggerInovke(TriggerTypeEnum.OnExtraEndDrag);
         }
     }
 }

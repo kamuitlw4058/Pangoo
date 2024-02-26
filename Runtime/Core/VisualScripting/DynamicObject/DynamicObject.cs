@@ -38,6 +38,14 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
+        public Transform PlayerCameraTransform
+        {
+            get
+            {
+                return Character?.Player?.character?.CharacterCamera?.CameraTransform;
+            }
+        }
+
         public RuntimeDataService RuntimeData
         {
             get

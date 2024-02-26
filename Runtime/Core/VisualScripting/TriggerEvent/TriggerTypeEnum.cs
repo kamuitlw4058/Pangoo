@@ -78,6 +78,13 @@ namespace Pangoo.Core.VisualScripting
 
         OnExtraPointerClick,
 
+        OnExtraBeginDrag,
+
+        OnExtraDrag,
+        OnExtraEndDrag,
+
+
+
 
     }
 }

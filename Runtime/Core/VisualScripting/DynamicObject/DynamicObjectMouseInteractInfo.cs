@@ -30,10 +30,27 @@ namespace Pangoo.Core.VisualScripting
         [LabelText("鼠标交互类型")]
         public DynamicObjectMouseInteractType MouseInteractType;
 
+
+        [JsonMember("InteractOffset")]
+        [LabelText("可交互点偏移")]
+        public Vector3 InteractOffset;
+
+
+        [JsonMember("InteractEnabledOffset")]
+        [LabelText("可交互角度")]
+        public float InteractAngle;
+
+
+
+
         [JsonMember("HotSpotUuid")]
         [LabelText("鼠标交互HotSpotUuid")]
         [ValueDropdown("OnHotSpotUuidDropdown")]
         public string HotSpotUuid;
+
+        [JsonMember("HotSpotOffset")]
+        [LabelText("HotSpot偏移")]
+        public Vector3 HotSpotOffset;
 
 #if UNITY_EDITOR
         [JsonNoMember]

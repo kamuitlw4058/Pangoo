@@ -19,6 +19,9 @@ namespace Pangoo.Core.VisualScripting
 
         Transform m_TargetTransform;
 
+
+        public Vector3 Offset { get; set; }
+
         public Transform TargetTransform
         {
             get

@@ -7,7 +7,7 @@ using Sirenix.OdinInspector;
 namespace Pangoo.Core.VisualScripting
 {
 
-    public class DynamicObjectMouseInteract : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+    public class DynamicObjectMouseInteract : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         [ShowInInspector]
         public DynamicObject dynamicObject { get; set; } = null;
@@ -18,6 +18,17 @@ namespace Pangoo.Core.VisualScripting
         [ShowInInspector]
         public DynamicObjectMouseInteractType InteractType { get; set; }
 
+        [ShowInInspector]
+        public Vector3 InteractOffset;
+
+        public float InteractAngle;
+
+
+        public float Angle;
+
+        public bool EnabledPointer = true;
+
+
 
         [ShowInInspector]
         public IHotspotRow HotspotRow { get; set; }
@@ -27,6 +38,9 @@ namespace Pangoo.Core.VisualScripting
 
         [ShowInInspector]
         public bool PointerEnter { get; set; }
+
+        [ShowInInspector]
+        public Vector3 HotSpotOffset { get; set; }
 
         void Start()
         {
@@ -42,6 +56,7 @@ namespace Pangoo.Core.VisualScripting
                 hotSpot.dynamicObject = dynamicObject;
                 hotSpot.Master = dynamicObject;
                 hotSpot.Target = gameObject;
+                hotSpot.Offset = HotSpotOffset;
                 hotSpot.LoadParamsFromJson(HotspotRow.Params);
             }
         }
@@ -49,6 +64,22 @@ namespace Pangoo.Core.VisualScripting
 
         private void Update()
         {
+            if (InteractOffset != Vector3.zero && dynamicObject.PlayerCameraTransform != null && InteractAngle <= 1)
+            {
+                var interactDirection = InteractOffset.normalized;
+                var cameraDirection = (dynamicObject.PlayerCameraTransform.position - dynamicObject.CachedTransfrom.position).normalized;
+                Angle = Vector3.Dot(interactDirection, cameraDirection);
+
+
+                if (hotSpot != null)
+                {
+                    hotSpot.Hide = Angle > InteractAngle ? false : true;
+                }
+
+                EnabledPointer = Angle > InteractAngle ? true : false;
+            }
+
+
             if (hotSpot != null)
             {
                 hotSpot.Update();
@@ -60,7 +91,7 @@ namespace Pangoo.Core.VisualScripting
         {
             PointerEnter = true;
             Debug.Log($"OnPointerEnter");
-            if (dynamicObject != null)
+            if (dynamicObject != null && EnabledPointer)
             {
                 switch (InteractType)
                 {
@@ -80,7 +111,7 @@ namespace Pangoo.Core.VisualScripting
         {
             PointerEnter = false;
             Debug.Log($"OnPointerExit");
-            if (dynamicObject != null)
+            if (dynamicObject != null && EnabledPointer)
             {
                 switch (InteractType)
                 {
@@ -98,7 +129,7 @@ namespace Pangoo.Core.VisualScripting
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (dynamicObject != null)
+            if (dynamicObject != null && EnabledPointer)
             {
                 switch (InteractType)
                 {
@@ -111,6 +142,56 @@ namespace Pangoo.Core.VisualScripting
                 }
             }
         }
+
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            if (dynamicObject != null && EnabledPointer)
+            {
+                switch (InteractType)
+                {
+                    case DynamicObjectMouseInteractType.Base:
+                        // dynamicObject.(eventData);
+                        break;
+                    case DynamicObjectMouseInteractType.Extra:
+                        dynamicObject.ExtraBeginDrag(eventData, Path);
+                        break;
+                }
+            }
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            if (dynamicObject != null && EnabledPointer)
+            {
+                switch (InteractType)
+                {
+                    case DynamicObjectMouseInteractType.Base:
+                        // dynamicObject.(eventData);
+                        break;
+                    case DynamicObjectMouseInteractType.Extra:
+                        dynamicObject.ExtraDrag(eventData, Path);
+                        break;
+                }
+            }
+        }
+
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            if (dynamicObject != null && EnabledPointer)
+            {
+                switch (InteractType)
+                {
+                    case DynamicObjectMouseInteractType.Base:
+                        // dynamicObject.(eventData);
+                        break;
+                    case DynamicObjectMouseInteractType.Extra:
+                        dynamicObject.ExtraEndDrag(eventData, Path);
+                        break;
+                }
+            }
+        }
+
 
 
     }
