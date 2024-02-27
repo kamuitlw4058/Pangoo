@@ -210,7 +210,7 @@ namespace Pangoo.Core.VisualScripting
                     // DirectInstructionTypeEnum.CheckBoolVariableList => true,
                     DirectInstructionTypeEnum.DynamicObjectSetMaterial => true,
                     DirectInstructionTypeEnum.SetIntVariable => true,
-                    DirectInstructionTypeEnum.SetLocalIntVariable=>true,
+                    DirectInstructionTypeEnum.SetLocalIntVariable => true,
                     _ => false,
                 };
             }
@@ -228,7 +228,7 @@ namespace Pangoo.Core.VisualScripting
 
                     DirectInstructionTypeEnum.ChangeGameSection => true,
                     DirectInstructionTypeEnum.SetBoolVariable => true,
-                    DirectInstructionTypeEnum.SetLocalBoolVariable=>true,
+                    DirectInstructionTypeEnum.SetLocalBoolVariable => true,
                     DirectInstructionTypeEnum.SetIntVariable => true,
                     DirectInstructionTypeEnum.DynamicObjectModelActive => true,
                     DirectInstructionTypeEnum.DynamicObjectHotspotActive => true,
@@ -244,7 +244,8 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.CheckBoolVariableList => true,
                     DirectInstructionTypeEnum.DynamicObjectPreview => true,
                     DirectInstructionTypeEnum.WaitVariableBool => true,
-                    DirectInstructionTypeEnum.SetLocalIntVariable=>true,
+                    DirectInstructionTypeEnum.SetLocalIntVariable => true,
+                    DirectInstructionTypeEnum.StartDialogue => true,
 
                     _ => false,
                 };
@@ -271,8 +272,8 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.DynamicObjectTriggerEnabled => true,
-                    DirectInstructionTypeEnum.SetLocalBoolVariable=>true,
-                    DirectInstructionTypeEnum.SetLocalIntVariable=>true,
+                    DirectInstructionTypeEnum.SetLocalBoolVariable => true,
+                    DirectInstructionTypeEnum.SetLocalIntVariable => true,
                     _ => false,
                 };
             }
@@ -319,7 +320,8 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.WaitVariableBool => true,
                     DirectInstructionTypeEnum.TweenLightIntensity => true,
                     DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams => true,
-                    DirectInstructionTypeEnum.SetLocalBoolVariable=>true,
+                    DirectInstructionTypeEnum.SetLocalBoolVariable => true,
+                    DirectInstructionTypeEnum.StartDialogue => true,
                     _ => false,
                 };
             }
@@ -800,6 +802,8 @@ namespace Pangoo.Core.VisualScripting
 
                 case DirectInstructionTypeEnum.DynamicObjectPreview:
                     return DynamicObjectPreviewOverview.GetUuidDropdown();
+                case DirectInstructionTypeEnum.StartDialogue:
+                    return DialogueOverview.GetUuidDropdown();
             }
 
             return null;
@@ -874,9 +878,9 @@ namespace Pangoo.Core.VisualScripting
                     }
                     return TriggerEventOverview.GetUuidDropdown(includeUuids: includeUuids);
                 case DirectInstructionTypeEnum.SetLocalBoolVariable:
-                    return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString(),VariableTypeEnum.DynamicObject.ToString());
+                    return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString(), VariableTypeEnum.DynamicObject.ToString());
                 case DirectInstructionTypeEnum.SetLocalIntVariable:
-                    return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Int.ToString(),VariableTypeEnum.DynamicObject.ToString());
+                    return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Int.ToString(), VariableTypeEnum.DynamicObject.ToString());
             }
 
             return null;

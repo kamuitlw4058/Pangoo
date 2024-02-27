@@ -138,6 +138,33 @@ namespace Pangoo.Core.Services
         }
 
 
+        MetaTable.DialogueTable m_DialogueTable;
+
+        public MetaTable.DialogueTable DialogueTab
+        {
+            get
+            {
+                if (m_DialogueTable == null)
+                {
+                    m_DialogueTable = GetMetaTable<MetaTable.DialogueTable>();
+                }
+                return m_DialogueTable;
+            }
+        }
+
+        MetaTable.ActorsLinesTable m_ActorsLinesTable;
+
+        public MetaTable.ActorsLinesTable ActorsLinesTab
+        {
+            get
+            {
+                if (m_ActorsLinesTable == null)
+                {
+                    m_ActorsLinesTable = GetMetaTable<MetaTable.ActorsLinesTable>();
+                }
+                return m_ActorsLinesTable;
+            }
+        }
 
 
 
@@ -181,6 +208,16 @@ namespace Pangoo.Core.Services
         public IDynamicObjectPreviewRow GetDynamicObjectPreviewByUuid(string uuid)
         {
             return DynamicObjectPreviewTab.GetRowByUuid(uuid);
+        }
+
+        public IActorsLinesRow GetActorsLinesByUuid(string uuid)
+        {
+            return ActorsLinesTab.GetRowByUuid(uuid);
+        }
+
+        public IDialogueRow GetDialogueByUuid(string uuid)
+        {
+            return DialogueTab.GetRowByUuid(uuid);
         }
 
         public IHotspotRow GetHotspotByUuid(string uuid)

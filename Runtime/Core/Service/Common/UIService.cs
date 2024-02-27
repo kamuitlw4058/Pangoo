@@ -47,6 +47,15 @@ namespace Pangoo.Core.Services
             }
         }
 
+        public void ShowDialogue(DialogueData dialogueData, Action closeAction = null)
+        {
+            if (!GameMainConfigSrv.GetGameMainConfig().DialoguePanelUuid.IsNullOrWhiteSpace())
+            {
+                dialogueData.UIService = this;
+                ShowUI(GameMainConfigSrv.GetGameMainConfig().DialoguePanelUuid, closeAction, dialogueData);
+            }
+        }
+
         public void ShowUI(string uuid, Action closeAction = null, object userData = null)
         {
             if (Loader == null)

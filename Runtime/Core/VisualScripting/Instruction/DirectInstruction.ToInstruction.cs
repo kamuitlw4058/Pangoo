@@ -329,7 +329,7 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetSetLocalBoolVariable(string dynamicObjectUuid,string localVariableUuid,bool value)
+        public static Instruction GetSetLocalBoolVariable(string dynamicObjectUuid, string localVariableUuid, bool value)
         {
             var instruction = Activator.CreateInstance<InstructionSetLocalBoolVariable>();
             instruction.ParamsRaw.DynamicObjectUuid = dynamicObjectUuid;
@@ -338,7 +338,7 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetSetLocalIntVariable(string dynamicObjectUuid,string localVariableUuid,int value)
+        public static Instruction GetSetLocalIntVariable(string dynamicObjectUuid, string localVariableUuid, int value)
         {
             var instruction = Activator.CreateInstance<InstructionSetLocalIntVariable>();
             instruction.ParamsRaw.DynamicObjectUuid = dynamicObjectUuid;
@@ -347,6 +347,13 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
+        public static Instruction GetStartDialogue(string dialogueUuid, bool val)
+        {
+            var instruction = Activator.CreateInstance<InstructionUIDialogue>();
+            instruction.ParamsRaw.DialogueUuid = dialogueUuid;
+            instruction.ParamsRaw.WaitClosed = val;
+            return instruction;
+        }
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
             switch (InstructionType)
@@ -430,9 +437,11 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.SetPlayerInputMotion:
                     return GetSetPlayerInputMotion(InputMotionType);
                 case DirectInstructionTypeEnum.SetLocalBoolVariable:
-                    return GetSetLocalBoolVariable(Uuid,Uuid2,Bool1);
+                    return GetSetLocalBoolVariable(Uuid, Uuid2, Bool1);
                 case DirectInstructionTypeEnum.SetLocalIntVariable:
-                    return GetSetLocalIntVariable(Uuid,Uuid2,Int1);
+                    return GetSetLocalIntVariable(Uuid, Uuid2, Int1);
+                case DirectInstructionTypeEnum.StartDialogue:
+                    return GetStartDialogue(Uuid, Bool1);
             }
 
             return null;

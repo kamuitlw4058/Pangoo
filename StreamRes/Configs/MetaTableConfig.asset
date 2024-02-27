@@ -610,9 +610,30 @@ MonoBehaviour:
     RefConfig: {fileID: 0}
     RefTableName: 
     Columns:
-    - Name: SoundUuid
+    - Name: DialogueType
       Type: string
-      CnName: "\u97F3\u9891Uuid"
-    - Name: Subtitles
+      CnName: "\u5BF9\u8BDD\u7C7B\u578B"
+    - Name: ActorsLinesUuid
+      Type: string
+      CnName: "\u53F0\u8BCDUuid"
+    - Name: NextDialogueUuid
+      Type: string
+      CnName: "\u4E0B\u4E00\u4E2A\u5BF9\u8BDD\u7684Uuid"
+    - Name: Options
+      Type: string
+      CnName: "\u9009\u62E9\u5217\u8868"
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: ActorsLines
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: Duration
+      Type: float
+      CnName: "\u603B\u6301\u7EED\u65F6\u95F4"
+    - Name: TimelinePath
+      Type: string
+      CnName: "\u53C2\u8003Timeline\u8DEF\u5F84"
+    - Name: DialogueSubtitles
       Type: string
       CnName: "\u5B57\u5E55\u5217\u8868"

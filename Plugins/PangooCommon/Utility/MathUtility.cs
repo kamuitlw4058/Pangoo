@@ -12,7 +12,7 @@ namespace Pangoo.Common
             var inputSign = inputMinMax.x > inputMinMax.y ? -1 : 1;
             var outputSign = outputMinMax.x > outputMinMax.y ? -1 : 1;
             var p = (input - inputMinMax.x) * inputSign / Mathf.Abs(inputMinMax.y - inputMinMax.x);
-            var v = outputSign *  p * (Mathf.Abs(outputMinMax.y - outputMinMax.x)) + outputMinMax.x;
+            var v = outputSign * p * (Mathf.Abs(outputMinMax.y - outputMinMax.x)) + outputMinMax.x;
             return v;
         }
 
@@ -21,16 +21,16 @@ namespace Pangoo.Common
             var inputA = input;
             if (inputMinMax.x > inputMinMax.y)
             {
-                
+
                 inputA = Mathf.Clamp(input, inputMinMax.y, inputMinMax.x);
             }
             else
             {
                 inputA = Mathf.Clamp(input, inputMinMax.x, inputMinMax.y);
             }
-       
+
             return Remap(inputA, inputMinMax, outputMinMax);
-           
+
         }
 
         public static Vector3 Lerp(Vector3 input, Vector3 target, float val)
@@ -41,6 +41,26 @@ namespace Pangoo.Common
                 y = Mathf.Lerp(input.y, target.y, val),
                 z = Mathf.Lerp(input.z, target.z, val),
             };
+        }
+
+        public static bool IsInRange(Vector2 range, float val)
+        {
+            return IsInRange(range.x, range.y, val);
+        }
+
+        public static bool IsInRange(float a, float b, float val)
+        {
+            if (a <= b && val >= a && val <= b)
+            {
+                return true;
+            }
+
+            if (b < a && val >= b && val <= a)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

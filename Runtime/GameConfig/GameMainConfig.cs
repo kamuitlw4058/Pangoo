@@ -99,6 +99,11 @@ namespace Pangoo
 
         public string PreviewPanelUuid = string.Empty;
 
+        [LabelText("对话UI Uuid")]
+        [ValueDropdown("GetUIUuid")]
+        [FoldoutGroup("UI")]
+        public string DialoguePanelUuid = string.Empty;
+
         [LabelText("预览交互变量 Uuid")]
         [ValueDropdown("GetIntVariableUuid")]
         [FoldoutGroup("UI")]

@@ -14,16 +14,14 @@ using MetaTable;
 
 namespace Pangoo.MetaTable
 {
-    public partial interface IDialogueRow : IMetaTableRow
+    public partial interface IActorsLinesRow : IMetaTableRow
     {
 
-        public string DialogueType{ get; set; }
+        public float Duration{ get; set; }
 
-        public string ActorsLinesUuid{ get; set; }
+        public string TimelinePath{ get; set; }
 
-        public string NextDialogueUuid{ get; set; }
-
-        public string Options{ get; set; }
+        public string DialogueSubtitles{ get; set; }
 
     }
 }
