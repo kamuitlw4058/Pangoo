@@ -32,7 +32,7 @@ public class MouseImmersed : BaseImmersed
 
                 if (Input.GetMouseButton(0))
                 {
-                    OnMouseLeftPressedConditionAction();
+                    OnMouseLeftDragConditionAction();
                 }
                 if (Input.GetMouseButtonUp(0))
                 {
@@ -44,15 +44,15 @@ public class MouseImmersed : BaseImmersed
             {
                 if (Input.GetMouseButtonDown(1))
                 {
-                    OnMouseRightDownEvent();
+                    OnMouseRightDownConditionAction();
                 }
                 if (Input.GetMouseButton(1))
                 {
-                    OnMouseRightPressedEvent();
+                    OnMouseRightDragConditionAction();
                 }
                 if (Input.GetMouseButtonUp(1))
                 {
-                    OnMouseRightUpEvent();
+                    OnMouseRightUpConditionAction();
                 }
             }
         }
@@ -91,7 +91,7 @@ public class MouseImmersed : BaseImmersed
 
     
 
-    public virtual void OnMouseLeftPressedConditionAction()
+    public virtual void OnMouseLeftDragConditionAction()
     {
         if (isOnlyTarget)
         {
@@ -131,7 +131,7 @@ public class MouseImmersed : BaseImmersed
         OnMouseRightDownEvent();
     }
     
-    public virtual void OnMouseRightPressedConditionAction()
+    public virtual void OnMouseRightDragConditionAction()
     {
         OnMouseRightPressedEvent();
     }
