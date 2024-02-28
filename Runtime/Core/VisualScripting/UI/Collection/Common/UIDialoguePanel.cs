@@ -271,6 +271,39 @@ namespace Pangoo.Core.VisualScripting
             SetupCursor();
 
         }
+        void CheckOptionIndex()
+        {
+            var lastDialogue = dialogueUpdateDatas.Last();
+            if (lastDialogue.DialogueRow.DialogueType == DialogueType.Option.ToString() && lastDialogue.dialogueOptionInfos != null)
+            {
+                if (Input.GetKeyDown(KeyCode.W))
+                {
+                    CurrentOptionIndex += 1;
+                }
+
+
+                if (Input.GetKeyDown(KeyCode.S))
+                {
+                    CurrentOptionIndex -= 1;
+                }
+
+                if (CurrentOptionIndex >= 0)
+                {
+                    CurrentOptionIndex %= lastDialogue.dialogueOptionInfos.Count;
+                }
+                else
+                {
+                    CurrentOptionIndex = lastDialogue.dialogueOptionInfos.Count - 1;
+                }
+
+
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    DoSelect();
+                }
+
+            }
+        }
 
         [Button]
         void DoSelect()
@@ -298,8 +331,7 @@ namespace Pangoo.Core.VisualScripting
         {
             CurrentTime += elapseSeconds;
             UpdateDialogue();
-
-
+            CheckOptionIndex();
         }
 
 
