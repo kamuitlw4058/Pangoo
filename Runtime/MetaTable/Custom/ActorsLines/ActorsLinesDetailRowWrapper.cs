@@ -153,7 +153,7 @@ namespace Pangoo.MetaTable
                         {
                             var clipAsset = clip.asset as DialogueSubtitleClip;
                             var dialogueInfo = new DialogueSubtitleInfo();
-                            dialogueInfo.Content = clipAsset.Subtitle;
+                            dialogueInfo.Content = clipAsset.template.Subtitle;
                             dialogueInfo.InfoType = DialogueSubtitleType.Subtitle;
                             dialogueInfo.Range = new Vector2() { x = (float)clip.start, y = (float)clip.end };
                             timelineDialogueInfos.Add(dialogueInfo);

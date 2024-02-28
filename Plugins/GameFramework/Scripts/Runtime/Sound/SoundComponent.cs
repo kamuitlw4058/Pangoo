@@ -639,7 +639,7 @@ namespace UnityGameFramework.Runtime
 
         private void OnPlaySoundReset(object sender, ResetSoundAgentWithSerialIdEventArgs e)
         {
-            m_EventComponent.Fire(this, PlaySoundResetEventArgs.Create(e));
+            m_EventComponent.FireNow(this, PlaySoundResetEventArgs.Create(e));
         }
 
         private void OnPlaySoundFailure(object sender, GameFramework.Sound.PlaySoundFailureEventArgs e)

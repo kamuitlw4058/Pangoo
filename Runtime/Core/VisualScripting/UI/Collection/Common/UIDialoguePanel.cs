@@ -1,15 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityGameFramework.Runtime;
 using Sirenix.OdinInspector;
 using TMPro;
-using GameFramework.Event;
 using Pangoo.Core.Common;
 using Pangoo.Common;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Pangoo.MetaTable;
 using System;
 using LitJson;
@@ -247,7 +243,6 @@ namespace Pangoo.Core.VisualScripting
 
             Data = PanelData.UserData as DialogueData;
             if (Data == null) return;
-
 
 
             m_Subtitle = transform.Find("Subtitle").GetComponent<TextMeshProUGUI>();
