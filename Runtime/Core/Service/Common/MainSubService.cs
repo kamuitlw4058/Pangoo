@@ -107,6 +107,22 @@ namespace Pangoo.Core.Services
         }
 
 
+        RuntimeDataService m_RuntimeDataService;
+
+
+        public RuntimeDataService RuntimeDataSrv
+        {
+            get
+            {
+                if (m_RuntimeDataService == null)
+                {
+                    m_RuntimeDataService = Parent.GetService<RuntimeDataService>();
+                }
+                return m_RuntimeDataService;
+            }
+        }
+
+
 
         protected override void DoAwake()
         {

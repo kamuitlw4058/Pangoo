@@ -5,7 +5,7 @@ namespace Pangoo.Core.Services
 {
     public class MetaTableService : MainSubService
     {
-        public override int Priority => -1;
+        public override int Priority => -2;
 
 
         public T GetMetaTable<T>() where T : MetaTableBase

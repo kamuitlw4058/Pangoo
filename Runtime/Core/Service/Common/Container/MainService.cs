@@ -35,6 +35,8 @@ namespace Pangoo.Core.Services
 
         public DynamicObjectService DynamicObject;
 
+        public SaveLoadService SaveLoad;
+
 
         public MainService()
         {
@@ -53,6 +55,7 @@ namespace Pangoo.Core.Services
             GameConfig = new GameMainConfigService();
             CharacterService = new CharacterService();
             RuntimeData = new RuntimeDataService();
+            SaveLoad = new SaveLoadService();
 
 
             AddService(ExcelTable, sortService: false);
@@ -67,20 +70,14 @@ namespace Pangoo.Core.Services
             AddService(Sound, sortService: false);
             AddService(UI, sortService: false);
             AddService(Subtitle, sortService: false);
+            AddService(SaveLoad, sortService: false);
             SortService();
         }
 
 
         public DynamicObjectValue GetOrCreateDynamicObjectValue(string key, DynamicObject dynamicObject)
         {
-            var val = RuntimeData.Get<DynamicObjectValue>(key, null);
-            if (val == null)
-            {
-                val = new DynamicObjectValue();
-                val.dynamicObejct = dynamicObject;
-                RuntimeData.Set<DynamicObjectValue>(key, val);
-            }
-            return val;
+            return RuntimeData.GetOrCreateDynamicObjectValue(key, dynamicObject);
         }
 
         public InstructionGetRowByIdHandler GetInstructionRowByIdHandler()

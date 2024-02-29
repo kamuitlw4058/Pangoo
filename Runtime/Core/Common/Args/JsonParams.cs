@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pangoo;
 using LitJson;
+using Pangoo.Common;
 
 namespace Pangoo.Core.Common
 {
-    public class JsonParams : Params
+    public class JsonParams : JsonSerializer, IParams
     {
-        public override void Load(string val) { }
-        public override string Save()
+        public virtual void Load(string val)
         {
-            return JsonMapper.ToJson(this);
+            Deserialize(val);
+        }
+        public virtual string Save()
+        {
+            return SerializeToString();
         }
     }
 }

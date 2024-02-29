@@ -25,14 +25,7 @@ namespace Pangoo
 
             for (int i = 0; i < Keys.Count; i++)
             {
-                if (KeyValues[Keys[i]] as DynamicObjectValue == null)
-                {
-                    DrawVariable(Keys[i], KeyValues[Keys[i]], main.RuntimeData);
-
-                    // DrawItem(Keys[i], KeyValues[Keys[i]].ToString());
-
-                }
-
+                DrawVariable(Keys[i], KeyValues[Keys[i]], main.RuntimeData);
             }
             GUILayout.EndVertical();
         }
@@ -81,28 +74,6 @@ namespace Pangoo
 
             }
             GUILayout.EndHorizontal();
-        }
-        // protected static void DrawItem(string title, string content, float titleWidth = TitleWidth)
-        // {
-        //     GUILayout.BeginHorizontal();
-        //     {
-        //         GUILayout.Label(title, GUILayout.Width(titleWidth));
-        //         if (GUILayout.Button(content, "label"))
-        //         {
-        //             CopyToClipboard(content);
-        //         }
-        //     }
-        //     GUILayout.EndHorizontal();
-        // }
-
-        private string GetBatteryLevelString(float batteryLevel)
-        {
-            if (batteryLevel < 0f)
-            {
-                return "Unavailable";
-            }
-
-            return batteryLevel.ToString("P0");
         }
     }
 }

@@ -1,17 +1,19 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
-using Pangoo.Core.Services;
+using Pangoo.Core.Common;
 using Pangoo.Core.VisualScripting;
 using Pangoo.MetaTable;
 using UnityEngine;
+using LitJson;
+using Sirenix.OdinInspector;
+
 
 namespace Pangoo.Core.Services
 {
     [Serializable]
     public class RuntimeDataService : KeyValueService
     {
+        public override int Priority => -1;
         public Dictionary<string, object> KeyValues
         {
             get
@@ -20,9 +22,20 @@ namespace Pangoo.Core.Services
             }
         }
 
+        public Dictionary<string, DynamicObjectValue> DynamicObjectValueDict
+        {
+            get
+            {
+                return m_DynamicObjectValueDict;
+            }
+        }
+
         Pangoo.MetaTable.VariablesTable m_VariablesTable;
 
         Dictionary<string, IVariablesRow> m_VariablesDict = new Dictionary<string, IVariablesRow>();
+
+        [ShowInInspector]
+        Dictionary<string, DynamicObjectValue> m_DynamicObjectValueDict = new Dictionary<string, DynamicObjectValue>();
         protected override void DoStart()
         {
             base.DoStart();
@@ -47,6 +60,30 @@ namespace Pangoo.Core.Services
                 }
             }
 
+        }
+        public DynamicObjectValue GetDynamicObjectValue(string key)
+        {
+            if (m_DynamicObjectValueDict.ContainsKey(key))
+            {
+                return m_DynamicObjectValueDict[key];
+            }
+
+            return null;
+        }
+
+
+        public DynamicObjectValue GetOrCreateDynamicObjectValue(string key, DynamicObject dynamicObject)
+        {
+            DynamicObjectValue val = null;
+            if (m_DynamicObjectValueDict.ContainsKey(key))
+            {
+                return m_DynamicObjectValueDict[key];
+            }
+            val = new DynamicObjectValue();
+            val.dynamicObejct = dynamicObject;
+            m_DynamicObjectValueDict.Add(key, val);
+
+            return val;
         }
 
         public T GetVariable<T>(string uuid)
@@ -83,6 +120,35 @@ namespace Pangoo.Core.Services
             }
 
             return null;
+        }
+
+        [Serializable]
+        public class RuntimeDataClass
+        {
+            [JsonMember("KeyValueDict")]
+            public string KeyValueDict;
+
+
+            [JsonMember("DynamicObjectValueDict")]
+            public string DynamicObjectValueDict;
+        }
+
+
+        public override string SerializeToString()
+        {
+            var data = new RuntimeDataClass();
+            data.DynamicObjectValueDict = JsonMapper.ToJson(m_DynamicObjectValueDict);
+            data.KeyValueDict = JsonMapper.ToJson(KeyValues);
+            return JsonMapper.ToJson(data);
+        }
+
+        public override void Deserialize(string data)
+        {
+            var dataClass = JsonMapper.ToObject<RuntimeDataClass>(data);
+            KeyValues.Clear();
+            JsonMapper.ToObject<Dictionary<string, object>>(dataClass.KeyValueDict, KeyValues);
+            m_DynamicObjectValueDict.Clear();
+            JsonMapper.ToObject<Dictionary<string, DynamicObjectValue>>(dataClass.DynamicObjectValueDict, m_DynamicObjectValueDict);
         }
 
     }

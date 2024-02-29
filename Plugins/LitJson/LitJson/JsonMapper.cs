@@ -418,7 +418,7 @@ namespace LitJson
             return op;
         }
 
-        private static object ReadValue(Type inst_type, JsonReader reader)
+        private static object ReadValue(Type inst_type, JsonReader reader, object inputInstacne = null)
         {
             reader.Read();
 
@@ -511,7 +511,7 @@ namespace LitJson
                     reader.Value, json_type, inst_type));
             }
 
-            object instance = null;
+            object instance = inputInstacne;
 
             if (reader.Token == JsonToken.ArrayStart)
             {
@@ -574,7 +574,11 @@ namespace LitJson
                      instance = Activator.CreateInstance(value_type);
                 }
 #else
-                instance = Activator.CreateInstance(value_type);
+                if (instance == null || (instance != null && instance.GetType() != value_type))
+                {
+                    instance = Activator.CreateInstance(value_type);
+                }
+
 #endif
 
 
@@ -874,7 +878,8 @@ namespace LitJson
 
         private static void WriteValue(object obj, JsonWriter writer,
             bool writer_is_private,
-            int depth)
+            int depth,
+            bool onlyMember = true)
         {
             if (depth > max_nesting_depth)
             {
@@ -1044,6 +1049,12 @@ namespace LitJson
                     continue;
                 }
 
+                if (onlyMember && jsonMemberAttribute == null)
+                {
+                    continue;
+                }
+
+
                 propertyName = jsonMemberAttribute != null ? jsonMemberAttribute.Name : p_data.Info.Name;
 
 
@@ -1064,13 +1075,13 @@ namespace LitJson
         #endregion
 
 
-        public static string ToJson(object obj)
+        public static string ToJson(object obj, bool onlyMember = true)
         {
             lock (static_writer_lock)
             {
                 static_writer.Reset();
 
-                WriteValue(obj, static_writer, true, 0);
+                WriteValue(obj, static_writer, true, 0, onlyMember);
 
                 return static_writer.ToString();
             }
@@ -1113,20 +1124,20 @@ namespace LitJson
             return (T)ReadValue(typeof(T), json_reader);
         }
 
-        public static T ToObject<T>(string json)
+        public static T ToObject<T>(string json, object inputInstance = null)
         {
             if (json == null) return default(T);
 
             JsonReader reader = new JsonReader(json);
 
-            return (T)ReadValue(typeof(T), reader);
+            return (T)ReadValue(typeof(T), reader, inputInstance);
         }
 
-        public static object ToObject(string json, Type type)
+        public static object ToObject(string json, Type type, object inputInstance = null)
         {
             JsonReader reader = new JsonReader(json);
 
-            return ReadValue(type, reader);
+            return ReadValue(type, reader, inputInstance);
         }
 
         public static IJsonWrapper ToWrapper(WrapperFactory factory,
