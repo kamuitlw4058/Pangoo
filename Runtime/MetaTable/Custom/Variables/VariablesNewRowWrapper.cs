@@ -16,6 +16,8 @@ namespace Pangoo.MetaTable
     [Serializable]
     public partial class VariablesNewRowWrapper : MetaTableNewRowWrapper<VariablesOverview, UnityVariablesRow>
     {
+
+
         [ShowInInspector]
         [InfoBox("已经有对应的Key", InfoMessageType.Error, "CheckExistsKey")]
 

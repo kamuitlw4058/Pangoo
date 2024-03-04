@@ -17,6 +17,7 @@ namespace Pangoo.MetaTable
     public partial class VariablesRowWrapper : MetaTableRowWrapper<VariablesOverview, VariablesNewRowWrapper, UnityVariablesRow>
     {
         public override bool CanNameChange => EnabledEdit;
+        public override bool CheckName => false;
         public bool EnabledEdit { get; set; }
 
         [ShowInInspector]
