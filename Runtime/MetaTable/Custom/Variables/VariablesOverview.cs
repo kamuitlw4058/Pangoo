@@ -16,6 +16,60 @@ namespace Pangoo.MetaTable
 {
     public partial class VariablesOverview
     {
+
+        public static bool CheckExistsKey(string key)
+        {
+            if (key.IsNullOrWhiteSpace()) return true;
+
+            var overviews = AssetDatabaseUtility.FindAsset<VariablesOverview>();
+            foreach (var overview in overviews)
+            {
+                foreach (var row in overview.Rows)
+                {
+                    if (key.Equals(row.Row.Key))
+                    {
+                        return true;
+                    }
+
+
+                }
+            }
+            return false;
+        }
+
+
+        public static bool EqualValueType(string rowVal, string inputVal)
+        {
+            if (inputVal.IsNullOrWhiteSpace())
+            {
+                return true;
+            }
+
+            if (inputVal.Equals(rowVal))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool EqualVariableType(string rowVal, string inputVal)
+        {
+            if (inputVal.IsNullOrWhiteSpace())
+            {
+                return true;
+            }
+
+            if (inputVal.Equals(rowVal) || (inputVal.Equals(VariableTypeEnum.DynamicObject.ToString()) && rowVal.IsNullOrWhiteSpace()))
+            {
+                return true;
+            }
+
+
+            return false;
+        }
+
+
         public static IEnumerable GetVariableUuidDropdown(string valueType, string variableType = null, bool defaultOptions = false)
         {
             var ret = new ValueDropdownList<string>();
@@ -28,23 +82,13 @@ namespace Pangoo.MetaTable
             {
                 foreach (var row in overview.Rows)
                 {
-                    if (row.Row.VariableType.Equals(variableType))
+                    if (EqualValueType(row.Row.ValueType, valueType)
+                    && EqualVariableType(row.Row.VariableType, variableType))
                     {
-                        bool flag = valueType.IsNullOrWhiteSpace() ? true : valueType.Equals(row.Row.ValueType) ? true : false;
-                        if (flag)
-                        {
-                            ret.Add($"{row.UuidShort}-{row.Name}", row.Uuid);
-                        }
+                        ret.Add($"{row.UuidShort}-{row.Name}", row.Uuid);
                     }
 
-                    if (variableType.IsNullOrWhiteSpace() && row.Row.VariableType.Equals(VariableTypeEnum.DynamicObject.ToString()))
-                    {
-                        bool flag = valueType.IsNullOrWhiteSpace() ? true : valueType.Equals(row.Row.ValueType) ? true : false;
-                        if (flag)
-                        {
-                            ret.Add($"{row.UuidShort}-{row.Name}", row.Uuid);
-                        }
-                    }
+
                 }
             }
             return ret;

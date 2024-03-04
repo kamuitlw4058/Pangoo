@@ -12,17 +12,7 @@ namespace Pangoo.Core.Services
 {
     public class SoundService : MainSubService
     {
-        ExcelTableService m_ExcelTableService;
 
-
-        public ExcelTableService TableService
-        {
-            get
-            {
-                return m_ExcelTableService;
-            }
-        }
-        SoundTable m_SoundTable;
 
         public struct SoundPlayingInfo
         {
@@ -38,13 +28,11 @@ namespace Pangoo.Core.Services
         {
             base.DoAwake();
 
-            m_ExcelTableService = Parent.GetService<ExcelTableService>();
         }
 
         protected override void DoStart()
         {
 
-            m_SoundTable = m_ExcelTableService.GetExcelTable<SoundTable>();
             Event.Subscribe(PlaySoundResetEventArgs.EventId, OnPlaySoundReset);
 
 

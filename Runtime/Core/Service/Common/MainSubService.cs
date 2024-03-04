@@ -48,19 +48,6 @@ namespace Pangoo.Core.Services
             }
         }
 
-        ExcelTableService m_ExcelTableService;
-        public ExcelTableService ExcelTableSrv
-        {
-            get
-            {
-                if (m_ExcelTableService == null)
-                {
-                    m_ExcelTableService = Parent.GetService<ExcelTableService>();
-                }
-                return m_ExcelTableService;
-            }
-        }
-
 
         GameMainConfigService m_GameMainConfigService;
 
@@ -121,6 +108,22 @@ namespace Pangoo.Core.Services
                 return m_RuntimeDataService;
             }
         }
+
+        SaveLoadService m_SaveLoadService;
+
+        public SaveLoadService SaveLoadSrv
+        {
+            get
+            {
+                if (m_SaveLoadService == null)
+                {
+                    m_SaveLoadService = Parent.GetService<SaveLoadService>();
+                }
+
+                return m_SaveLoadService;
+            }
+        }
+
 
 
 

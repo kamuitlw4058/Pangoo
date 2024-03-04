@@ -24,7 +24,6 @@ namespace Pangoo
         }
 
 
-        public EntityGroupTable.EntityGroupRow EntityGroupRow;
 
 
         List<string> m_LoadSceneUuids = null;

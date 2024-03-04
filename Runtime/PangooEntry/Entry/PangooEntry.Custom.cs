@@ -16,7 +16,6 @@ namespace Pangoo
 
         public static GameConfigComponent GameConfig { get; private set; }
 
-        public static ExcelTableComponent ExcelTable { get; private set; }
 
         public static FGUIComponent FGUI { get; private set; }
 
@@ -37,7 +36,6 @@ namespace Pangoo
 
             GameConfig = UnityGameFramework.Runtime.GameEntry.GetComponent<GameConfigComponent>();
 
-            ExcelTable = UnityGameFramework.Runtime.GameEntry.GetComponent<ExcelTableComponent>();
 
             FGUI = UnityGameFramework.Runtime.GameEntry.GetComponent<FGUIComponent>();
 

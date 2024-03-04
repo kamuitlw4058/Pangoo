@@ -28,7 +28,6 @@ namespace Pangoo.Core.Services
         public StaticSceneService StaticScene;
 
 
-        public ExcelTableService ExcelTable;
 
 
         public MetaTableService MetaTable;
@@ -45,7 +44,6 @@ namespace Pangoo.Core.Services
 
         public void Init()
         {
-            ExcelTable = new ExcelTableService();
             MetaTable = new MetaTableService();
             DynamicObject = new DynamicObjectService();
             StaticScene = new StaticSceneService();
@@ -58,7 +56,6 @@ namespace Pangoo.Core.Services
             SaveLoad = new SaveLoadService();
 
 
-            AddService(ExcelTable, sortService: false);
             AddService(MetaTable, sortService: false);
             AddService(StaticScene, sortService: false);
             AddService(new GameSectionService(), sortService: false);
@@ -80,20 +77,13 @@ namespace Pangoo.Core.Services
             return RuntimeData.GetOrCreateDynamicObjectValue(key, dynamicObject);
         }
 
-        public InstructionGetRowByIdHandler GetInstructionRowByIdHandler()
-        {
-            return ExcelTable.GetInstructionById;
-        }
 
         public InstructionGetRowByUuidHandler GetInstructionRowByUuidHandler()
         {
             return MetaTable.GetInstructionByUuid;
         }
 
-        public T GetExcelTable<T>() where T : ExcelTableBase
-        {
-            return ExcelTable.GetExcelTable<T>();
-        }
+
 
 
         public float DefaultInteractRadius

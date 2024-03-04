@@ -18,14 +18,6 @@ namespace Pangoo.Core.Services
         public override string ServiceName => "DynamicObjectService";
         public override int Priority => 6;
 
-        public ExcelTableService TableService
-        {
-            get
-            {
-                return ExcelTableSrv;
-            }
-        }
-
 
 
         IEntityGroupRow m_EntityGroupRow;

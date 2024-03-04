@@ -45,7 +45,19 @@ namespace Pangoo.Core.Services
 
             StaticSceneSrv.OnInitSceneLoaded += CheckGameSectionLoaded;
             DynamicObjectSrv.OnGameSectionDynamicObjectLoaded += CheckGameSectionLoaded;
-            SetGameSection(GameMainConfigSrv.GetGameMainConfig().EnterGameSectionUuid);
+            var CurrentGameSection = RuntimeDataSrv.GetVariable<string>(GameMainConfigSrv.GetGameMainConfig().CurrentGameSectionVariableUuid);
+            if (CurrentGameSection.IsNullOrWhiteSpace())
+            {
+                CurrentGameSection = GameMainConfigSrv.GetGameMainConfig().EnterGameSectionUuid;
+            }
+
+            if (!CurrentGameSection.IsNullOrWhiteSpace())
+            {
+
+                SetGameSection(CurrentGameSection);
+            }
+
+
         }
 
         bool CheckDynamicObjectLoaded(IGameSectionRow row)
@@ -130,18 +142,9 @@ namespace Pangoo.Core.Services
                 {
                     LogError($"GameSection is null:{GameSection}");
                 }
+                RuntimeDataSrv.SetVariable<string>(GameMainConfigSrv.GetGameMainConfig().CurrentGameSectionVariableUuid, uuid);
+                SaveLoadSrv.Save();
 
-                // Tuple<string, string> sectionChange = null;
-                // if (!string.IsNullOrEmpty(GameSection.SectionJumpByScene))
-                // {
-                //     var itemList = GameSection.SectionJumpByScene.ToSplitList<int>("#");
-                //     if (itemList.Count == 2)
-                //     {
-                //         sectionChange = new Tuple<int, int>(itemList[0], itemList[1]);
-                //     }
-                // }
-
-                // StaticSceneSrv.SetGameSectionChange(sectionChange);
                 StaticSceneSrv.SetGameScetion(
                     GameSection.DynamicSceneUuids.ToSplitList<string>(),
                     GameSection.KeepSceneUuids.ToSplitList<string>(),

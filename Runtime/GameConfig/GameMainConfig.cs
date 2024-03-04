@@ -33,6 +33,10 @@ namespace Pangoo
         [LabelText("默认进入游戏段落")]
         public string EnterGameSectionUuid;
 
+        [LabelText("当前游戏段落变量")]
+        [ValueDropdown("GetStringVariableUuid")]
+        public string CurrentGameSectionVariableUuid;
+
         [ValueDropdown("GetDefaultPlayer")]
         [LabelText("默认玩家")]
         [FoldoutGroup("玩家", expanded: true)]
@@ -148,6 +152,12 @@ namespace Pangoo
         {
             return SimpleUIOverview.GetUuidDropdown();
         }
+
+        private IEnumerable GetStringVariableUuid()
+        {
+            return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.String.ToString());
+        }
+
 
         private IEnumerable GetIntVariableUuid()
         {

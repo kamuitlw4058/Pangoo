@@ -19,7 +19,7 @@ namespace Pangoo.Core.Services
         protected override void DoStart()
         {
             base.DoStart();
-
+            Load();
         }
 
         public void Load(string data)
@@ -73,10 +73,6 @@ namespace Pangoo.Core.Services
             JsonStr = File.ReadAllText(listTuple[0].Item2.FullName);
 
             RuntimeDataSrv.Deserialize(JsonStr);
-
-
-
-
 
         }
 

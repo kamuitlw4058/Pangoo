@@ -99,6 +99,12 @@ namespace Pangoo.Core.Services
 
         public void SetVariable<T>(string uuid, T val)
         {
+            if (uuid.IsNullOrWhiteSpace())
+            {
+                LogError($"Set Variable uuid Is null!");
+                return;
+            }
+
             if (m_VariablesDict.TryGetValue(uuid, out IVariablesRow row))
             {
                 Set<T>(row.Key, val);

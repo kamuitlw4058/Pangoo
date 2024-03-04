@@ -49,9 +49,6 @@ MonoBehaviour:
     - Name: Desc
       Type: string
       CnName: "\u8D44\u6E90\u7EC4\u63CF\u8FF0"
-    - Name: Id
-      Type: int
-      CnName: Id
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: AssetPath
@@ -76,9 +73,6 @@ MonoBehaviour:
     - Name: AssetGroup
       Type: string
       CnName: "\u8D44\u6E90\u7EC4"
-    - Name: Id
-      Type: int
-      CnName: Id
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Character
@@ -115,9 +109,6 @@ MonoBehaviour:
     - Name: CameraOnly
       Type: bool
       CnName: "\u53EA\u4F7F\u7528\u76F8\u673A"
-    - Name: Id
-      Type: int
-      CnName: Id
     - Name: AssetPathId
       Type: int
       CnName: AssetPathId
@@ -163,9 +154,6 @@ MonoBehaviour:
     - Name: Params
       Type: string
       CnName: "\u6761\u4EF6\u53C2\u6570"
-    - Name: Id
-      Type: int
-      CnName: Id
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: DynamicObject
@@ -379,9 +367,6 @@ MonoBehaviour:
     - Name: Params
       Type: string
       CnName: "\u6307\u4EE4\u53C2\u6570"
-    - Name: Id
-      Type: int
-      CnName: Id
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: SimpleUI
@@ -409,9 +394,6 @@ MonoBehaviour:
     - Name: Params
       Type: string
       CnName: "UI\u53C2\u6570"
-    - Name: Id
-      Type: int
-      CnName: Id
     - Name: AssetPathUuid
       Type: string
       CnName: "\u8D44\u6E90\u8DEF\u5F84Uuid"
@@ -436,9 +418,6 @@ MonoBehaviour:
     - Name: AssetPath
       Type: string
       CnName: "\u8D44\u6E90\u8DEF\u5F84"
-    - Name: Id
-      Type: int
-      CnName: Id
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: StaticScene
@@ -550,9 +529,6 @@ MonoBehaviour:
     - Name: NeedSave
       Type: bool
       CnName: "\u662F\u5426\u9700\u8981\u5B58\u6863"
-    - Name: Id
-      Type: int
-      CnName: Id
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: EntityGroup
