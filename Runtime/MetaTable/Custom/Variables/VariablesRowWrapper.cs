@@ -139,7 +139,6 @@ namespace Pangoo.MetaTable
 
         [ShowInInspector]
         [ReadOnly]
-        [LabelText("默认值字符串")]
         public string DefaultValueString
         {
             get
@@ -153,6 +152,21 @@ namespace Pangoo.MetaTable
                     UnityRow.Row.DefaultValue = value;
                     Save();
                 }
+            }
+        }
+
+
+        [ShowInInspector]
+        public bool NotSave
+        {
+            get
+            {
+                return UnityRow.Row.NotSave;
+            }
+            set
+            {
+                UnityRow.Row.NotSave = value;
+                Save();
             }
         }
 

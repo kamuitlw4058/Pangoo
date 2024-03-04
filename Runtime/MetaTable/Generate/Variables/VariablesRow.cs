@@ -46,12 +46,12 @@ namespace Pangoo.MetaTable
 
         string IVariablesRow.DefaultValue {get => DefaultValue; set => DefaultValue = value;}
 
-        [JsonMember("NeedSave")]
-        [MetaTableRowColumn("NeedSave","bool", "是否需要存档",7)]
-        [LabelText("是否需要存档")]
-        public bool NeedSave ;
+        [JsonMember("NotSave")]
+        [MetaTableRowColumn("NotSave","bool", "是否不要保存",7)]
+        [LabelText("是否不要保存")]
+        public bool NotSave ;
 
-        bool IVariablesRow.NeedSave {get => NeedSave; set => NeedSave = value;}
+        bool IVariablesRow.NotSave {get => NotSave; set => NotSave = value;}
 
     }
 }

@@ -42,6 +42,8 @@ namespace Pangoo.Core.Services
             m_VariablesTable = MetaTableSrv.GetMetaTable<Pangoo.MetaTable.VariablesTable>();
             foreach (var row in m_VariablesTable.RowDict.Values)
             {
+                if (row.VariableType.IsNullOrWhiteSpace() || row.VariableType.Equals(VariableTypeEnum.DynamicObject.ToString())) continue;
+
                 m_VariablesDict.Add(row.Uuid, row);
                 switch (row.ValueType.ToEnum<VariableValueTypeEnum>())
                 {
@@ -84,6 +86,20 @@ namespace Pangoo.Core.Services
             m_DynamicObjectValueDict.Add(key, val);
 
             return val;
+        }
+
+        public object GetVariable(string uuid)
+        {
+            if (m_VariablesDict.TryGetValue(uuid, out IVariablesRow row))
+            {
+                if (m_KeyValueDict.ContainsKey(row.Key))
+                {
+                    return m_KeyValueDict[row.Key];
+                }
+            }
+
+            return null;
+
         }
 
         public T GetVariable<T>(string uuid)
@@ -144,7 +160,18 @@ namespace Pangoo.Core.Services
         {
             var data = new RuntimeDataClass();
             data.DynamicObjectValueDict = JsonMapper.ToJson(m_DynamicObjectValueDict);
-            data.KeyValueDict = JsonMapper.ToJson(KeyValues);
+            var saveKeyValues = new Dictionary<string, object>();
+            foreach (var kv in m_VariablesDict)
+            {
+                var val = GetVariable(kv.Key);
+                var row = kv.Value;
+                if (!row.NotSave)
+                {
+                    saveKeyValues.Add(row.Key, val);
+                }
+            }
+
+            data.KeyValueDict = JsonMapper.ToJson(saveKeyValues);
             return JsonMapper.ToJson(data);
         }
 

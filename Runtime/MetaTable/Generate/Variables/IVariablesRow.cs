@@ -25,7 +25,7 @@ namespace Pangoo.MetaTable
 
         public string DefaultValue{ get; set; }
 
-        public bool NeedSave{ get; set; }
+        public bool NotSave{ get; set; }
 
     }
 }
