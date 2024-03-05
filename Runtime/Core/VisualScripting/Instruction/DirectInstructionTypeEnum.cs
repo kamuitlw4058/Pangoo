@@ -128,5 +128,10 @@ namespace Pangoo.Core.VisualScripting
         SetLocalBoolVariable,
         [LabelText("变量/设置本地Int变量")]
         SetLocalIntVariable,
+        [LabelText("动态物体自身/MouseDrag")]
+        DynamicObjectMouseDrag,
+        
+        [LabelText("动态物体/设置Hotspot状态")]
+        ChangeHotspotState,
     }
 }

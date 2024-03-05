@@ -346,6 +346,20 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.Value = value;
             return instruction;
         }
+        
+        public static Instruction GetDynamicObjectInvokeLeftMouseDrag()
+        {
+            var instruction = Activator.CreateInstance<InstructionDynamicObjectInvokeMouseDrag>();
+            return instruction;
+        }
+
+        public static Instruction GetChangeImageSprite(string targetName,DynamicObjectHotsoptState state)
+        {
+            var instruction = Activator.CreateInstance<InstructionChangeHotspotSprite>();
+            instruction.ParamsRaw.TargetName = targetName;
+            instruction.ParamsRaw.State = state;
+            return instruction;
+        }
 
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
@@ -433,6 +447,10 @@ namespace Pangoo.Core.VisualScripting
                     return GetSetLocalBoolVariable(Uuid,Uuid2,Bool1);
                 case DirectInstructionTypeEnum.SetLocalIntVariable:
                     return GetSetLocalIntVariable(Uuid,Uuid2,Int1);
+                case DirectInstructionTypeEnum.DynamicObjectMouseDrag:
+                    return GetDynamicObjectInvokeLeftMouseDrag();
+                case DirectInstructionTypeEnum.ChangeHotspotState:
+                    return GetChangeImageSprite(DropdownString1,DynamicObjectHotsoptState);
             }
 
             return null;

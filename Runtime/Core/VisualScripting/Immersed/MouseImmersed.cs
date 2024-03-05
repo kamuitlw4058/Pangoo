@@ -32,7 +32,7 @@ public class MouseImmersed : BaseImmersed
 
                 if (Input.GetMouseButton(0))
                 {
-                    OnMouseLeftDragConditionAction();
+                    OnMouseLeftPressedConditionAction();
                 }
                 if (Input.GetMouseButtonUp(0))
                 {
@@ -48,7 +48,7 @@ public class MouseImmersed : BaseImmersed
                 }
                 if (Input.GetMouseButton(1))
                 {
-                    OnMouseRightDragConditionAction();
+                    OnMouseRightPressedConditionAction();
                 }
                 if (Input.GetMouseButtonUp(1))
                 {
@@ -91,7 +91,7 @@ public class MouseImmersed : BaseImmersed
 
     
 
-    public virtual void OnMouseLeftDragConditionAction()
+    public virtual void OnMouseLeftPressedConditionAction()
     {
         if (isOnlyTarget)
         {
@@ -121,7 +121,6 @@ public class MouseImmersed : BaseImmersed
         rayHelper.HitCollider = null;
         dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseImmersedLeftUp);
     }
-
     #endregion
 
     #region MouseRight
@@ -131,7 +130,7 @@ public class MouseImmersed : BaseImmersed
         OnMouseRightDownEvent();
     }
     
-    public virtual void OnMouseRightDragConditionAction()
+    public virtual void OnMouseRightPressedConditionAction()
     {
         OnMouseRightPressedEvent();
     }
@@ -157,4 +156,8 @@ public class MouseImmersed : BaseImmersed
     }
 
     #endregion
+    public virtual void OnExtraMouseDrag()
+    {
+        
+    }
 }

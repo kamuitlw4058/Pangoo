@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -263,6 +264,26 @@ namespace Pangoo.Core.VisualScripting
                 {
                     PreviewData.CurrentScale = PreviewData.DynamicObject.Row.PreviewScale;
                 }
+
+                //在这个阶段显示Hotspot
+                //主目标
+                for (int i = 0; i < PreviewData.DynamicObject.dynamicObjectMouseInteracts.Count; i++)
+                {
+                    var spotDynamicObjectMouseInteract=PreviewData.DynamicObject.dynamicObjectMouseInteracts[i].hotSpot as SpotDynamicObjectMouseInteract;
+                    spotDynamicObjectMouseInteract.CurrentSpotState = DynamicObjectHotsoptState.ShowUI;
+                }
+                //子动态物品
+
+                foreach (var subDO in PreviewData.DynamicObject.SubDynamicObjectDict)
+                {
+                    for (int i = 0; i < subDO.Value.dynamicObjectMouseInteracts.Count; i++)
+                    {
+                        var spotDynamicObjectMouseInteract = subDO.Value.dynamicObjectMouseInteracts[i].hotSpot as SpotDynamicObjectMouseInteract;
+                        spotDynamicObjectMouseInteract.CurrentSpotState = DynamicObjectHotsoptState.ShowUI;
+                    }
+                    
+                }
+
                 State = PreviewState.OnPreview;
             }
 

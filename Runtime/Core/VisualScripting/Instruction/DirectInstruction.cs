@@ -179,6 +179,13 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("InputMotionType")]
         public InputMotionType InputMotionType;
 
+        [TableTitleGroup("参数")]
+        [ShowIf("$IsDynamicObjectHotsoptStateShow")]
+        [LabelWidth(120)]
+        [JsonMember("DynamicObjectHotsoptState")]
+        [LabelText("HotsoptState")]
+        public DynamicObjectHotsoptState DynamicObjectHotsoptState;
+
 
 #if UNITY_EDITOR
         public void SetPrefab(GameObject go)
@@ -389,6 +396,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.TweenLightIntensity => true,
                     DirectInstructionTypeEnum.DynamicObjectSetMaterial => true,
                     DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams => true,
+                    DirectInstructionTypeEnum.ChangeHotspotState=>true,
                     _ => false,
                 };
             }
@@ -490,6 +498,19 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.SetPlayerInputMotion => true,
+                    _ => false,
+                };
+            }
+        }
+
+        [JsonNoMember]
+        bool IsDynamicObjectHotsoptStateShow
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.ChangeHotspotState => true,
                     _ => false,
                 };
             }
@@ -708,6 +729,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.TweenLightIntensity:
                 case DirectInstructionTypeEnum.DynamicObjectSetMaterial:
                 case DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams:
+                case DirectInstructionTypeEnum.ChangeHotspotState:
                     return GameSupportEditorUtility.RefPrefabStringDropdown(ListPrefab);
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
                 case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:

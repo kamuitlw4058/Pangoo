@@ -49,8 +49,7 @@ namespace Pangoo.Core.VisualScripting
                     return DynamicObjectHotsoptState.None;
                 }
 
-
-                return DynamicObjectHotsoptState.ShowUI;
+                return CurrentSpotState;
             }
         }
 
@@ -105,8 +104,8 @@ namespace Pangoo.Core.VisualScripting
 
         protected virtual bool EnableInstance()
         {
-            // return true;
-            return dynamicObject.IsHotspotActive;
+            return dynamicObject.dynamicObjectMouseInteracts[0].EnabledPointer;
+            //return dynamicObject.IsHotspotActive;
         }
 
 

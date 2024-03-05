@@ -60,23 +60,29 @@ namespace Pangoo.Core.VisualScripting
                 hotSpot.LoadParamsFromJson(HotspotRow.Params);
             }
         }
-
-
+        
         private void Update()
         {
             if (InteractOffset != Vector3.zero && dynamicObject.PlayerCameraTransform != null && InteractAngle <= 1)
             {
-                var interactDirection = InteractOffset.normalized;
+                var doDirection = (dynamicObject.CachedTransfrom.TransformPoint(InteractOffset) -
+                                   dynamicObject.CachedTransfrom.position).normalized;
                 var cameraDirection = (dynamicObject.PlayerCameraTransform.position - dynamicObject.CachedTransfrom.position).normalized;
-                Angle = Vector3.Dot(interactDirection, cameraDirection);
-
+                Angle = Vector3.Dot(doDirection, cameraDirection);
 
                 if (hotSpot != null)
                 {
-                    hotSpot.Hide = Angle > InteractAngle ? false : true;
+                    if (InteractAngle>=0)
+                    {
+                        hotSpot.Hide = !(Angle > InteractAngle);
+                        EnabledPointer = Angle > InteractAngle;
+                    }
+                    if (InteractAngle<0)
+                    {
+                        hotSpot.Hide = Angle > InteractAngle;
+                        EnabledPointer = !(Angle > InteractAngle);
+                    }
                 }
-
-                EnabledPointer = Angle > InteractAngle ? true : false;
             }
 
 
@@ -124,7 +130,6 @@ namespace Pangoo.Core.VisualScripting
                         break;
                 }
             }
-
         }
 
         public void OnPointerClick(PointerEventData eventData)
