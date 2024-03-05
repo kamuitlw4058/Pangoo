@@ -91,9 +91,6 @@ namespace Pangoo.Core.VisualScripting
         [ShowInInspector]
         public IDynamicObjectRow Row { get; set; }
 
-        [ShowInInspector]
-
-        public ExcelTableService TableService { get; set; }
 
 
         public string RuntimeKey
@@ -129,7 +126,6 @@ namespace Pangoo.Core.VisualScripting
             Row = null;
             IsAwaked = false;
             IsStarted = false;
-            TableService = null;
             m_Variables = null;
             m_InstructionHandler = null;
             SubDynamicObjectDict.Clear();

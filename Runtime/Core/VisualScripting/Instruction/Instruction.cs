@@ -15,6 +15,7 @@ namespace Pangoo.Core.VisualScripting
     {
 
         [ShowInInspector]
+        [HideInEditorMode]
         public TriggerEvent Trigger { get; set; }
 
         public string Uuid { get; set; }

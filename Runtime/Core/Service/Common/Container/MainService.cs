@@ -28,12 +28,15 @@ namespace Pangoo.Core.Services
         public StaticSceneService StaticScene;
 
 
-        public ExcelTableService ExcelTable;
 
 
         public MetaTableService MetaTable;
 
         public DynamicObjectService DynamicObject;
+
+        public SaveLoadService SaveLoad;
+
+        public MainMenuService MainMenu;
 
 
         public MainService()
@@ -43,7 +46,6 @@ namespace Pangoo.Core.Services
 
         public void Init()
         {
-            ExcelTable = new ExcelTableService();
             MetaTable = new MetaTableService();
             DynamicObject = new DynamicObjectService();
             StaticScene = new StaticSceneService();
@@ -53,9 +55,10 @@ namespace Pangoo.Core.Services
             GameConfig = new GameMainConfigService();
             CharacterService = new CharacterService();
             RuntimeData = new RuntimeDataService();
+            SaveLoad = new SaveLoadService();
+            MainMenu = new MainMenuService();
 
 
-            AddService(ExcelTable, sortService: false);
             AddService(MetaTable, sortService: false);
             AddService(StaticScene, sortService: false);
             AddService(new GameSectionService(), sortService: false);
@@ -67,36 +70,24 @@ namespace Pangoo.Core.Services
             AddService(Sound, sortService: false);
             AddService(UI, sortService: false);
             AddService(Subtitle, sortService: false);
+            AddService(SaveLoad, sortService: false);
+            AddService(MainMenu, sortService: false);
             SortService();
         }
 
 
         public DynamicObjectValue GetOrCreateDynamicObjectValue(string key, DynamicObject dynamicObject)
         {
-            var val = RuntimeData.Get<DynamicObjectValue>(key, null);
-            if (val == null)
-            {
-                val = new DynamicObjectValue();
-                val.dynamicObejct = dynamicObject;
-                RuntimeData.Set<DynamicObjectValue>(key, val);
-            }
-            return val;
+            return RuntimeData.GetOrCreateDynamicObjectValue(key, dynamicObject);
         }
 
-        public InstructionGetRowByIdHandler GetInstructionRowByIdHandler()
-        {
-            return ExcelTable.GetInstructionById;
-        }
 
         public InstructionGetRowByUuidHandler GetInstructionRowByUuidHandler()
         {
             return MetaTable.GetInstructionByUuid;
         }
 
-        public T GetExcelTable<T>() where T : ExcelTableBase
-        {
-            return ExcelTable.GetExcelTable<T>();
-        }
+
 
 
         public float DefaultInteractRadius

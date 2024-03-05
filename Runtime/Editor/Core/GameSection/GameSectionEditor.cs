@@ -60,6 +60,7 @@ namespace Pangoo.Editor
             DetailWrapper.Overview = Overview;
             DetailWrapper.UnityRow = GameSectionRow;
 
+
             InitStaticSceneEditor();
             InitDynamicObjectEditor();
 

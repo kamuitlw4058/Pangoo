@@ -25,7 +25,6 @@ namespace Pangoo
         }
 
 
-        public EntityGroupTable.EntityGroupRow EntityGroupRow;
 
 
 

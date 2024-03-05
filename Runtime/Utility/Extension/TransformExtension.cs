@@ -15,22 +15,23 @@ namespace Pangoo
             return ret;
         }
 
-        // public static IEnumerable<Transform> Children(this Transform t, bool includesDescendants = false)
-        // {
-        //     var l = t.childCount;
-        //     for (var i = 0; i < l; ++i)
-        //     {
-        //         var child = t.GetChild(i);
-        //         yield return child;
-        //         if (includesDescendants)
-        //         {
-        //             foreach (var descendant in child.Children(true))
-        //             {
-        //                 yield return descendant;
-        //             }
-        //         }
-        //     }
-        // }
+        public static void DestroyChildern(this Transform t)
+        {
+            var l = t.childCount;
+            List<Transform> trans = new List<Transform>();
+            for (var i = 0; i < l; ++i)
+            {
+                var child = t.GetChild(i);
+                trans.Add(child);
+            }
+            foreach (var tran in trans)
+            {
+                Object.Destroy(tran.gameObject);
+            }
+
+
+        }
+
 
 
         public static T GetOrAddComponent<T>(this Transform origin) where T : Component

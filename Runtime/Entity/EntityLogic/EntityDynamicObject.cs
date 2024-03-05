@@ -102,7 +102,6 @@ namespace Pangoo
             Log($"OnShow DynamicObject:{DoData.InfoRow.UuidShort}-{DoData.InfoRow.Name}");
             DynamicObj = DynamicObject.Create(gameObject);
             DynamicObj.Row = DoData.InfoRow.m_DynamicObjectRow;
-            DynamicObj.TableService = DoData?.Service?.TableService;
             DynamicObj.CurrentArgs = new Core.Common.Args();
             DynamicObj.Main = DoData.Service.Parent as MainService;
             DynamicObj.Entity = this;

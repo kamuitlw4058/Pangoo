@@ -17,9 +17,13 @@ namespace Pangoo.MetaTable
     public partial interface IDialogueRow : IMetaTableRow
     {
 
-        public string SoundUuid{ get; set; }
+        public string DialogueType{ get; set; }
 
-        public string Subtitles{ get; set; }
+        public string ActorsLinesUuid{ get; set; }
+
+        public string NextDialogueUuid{ get; set; }
+
+        public string Options{ get; set; }
 
     }
 }

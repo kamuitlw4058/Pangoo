@@ -343,7 +343,8 @@ namespace Pangoo.Core.Services
                 {
                     var loadSceneInfo = m_StaticSceneInfo.GetRowByUuid<StaticSceneInfoRow>(staticSceneUuid);
                     // Debug.Log($"loadSceneInfo:{loadSceneInfo} staticSceneUuid:{staticSceneUuid}");
-                    if (!NeedLoadDict.ContainsKey(staticSceneUuid)) {
+                    if (!NeedLoadDict.ContainsKey(staticSceneUuid))
+                    {
                         NeedLoadDict.Add(staticSceneUuid, loadSceneInfo.AssetPathUuid);
                     }
                 }
@@ -422,6 +423,10 @@ namespace Pangoo.Core.Services
 
         bool IsAllGameSectionSceneLoaded()
         {
+            if (NeedLoadDict.Count == 0)
+            {
+                return false;
+            }
 
             for (int i = 0; i < NeedLoadDict.Count; i++)
             {

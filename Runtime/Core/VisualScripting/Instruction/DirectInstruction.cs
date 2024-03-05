@@ -51,7 +51,6 @@ namespace Pangoo.Core.VisualScripting
         [ValueDropdown("OnUuidDropdown")]
         public string Uuid;
 
-        // [ValueDropdown("OnMainIntValueDropdown")]
         [TableTitleGroup("参数")]
         [LabelText("$String1Label")]
         [ShowIf("$IsMainStringShow")]
@@ -67,7 +66,6 @@ namespace Pangoo.Core.VisualScripting
         public string String2;
 
 
-        [ValueDropdown("OnMainIntValueDropdown")]
         [TableTitleGroup("参数")]
         [LabelText("$ListInt1Label")]
         [ShowIf("$IsMainListIntShow")]
@@ -91,7 +89,7 @@ namespace Pangoo.Core.VisualScripting
         public string Uuid2;
 
 
-        [ValueDropdown("OnInt2ValueDropdown")]
+        // [ValueDropdown("OnInt2ValueDropdown")]
         [TableTitleGroup("参数")]
         [LabelText("$Int2Label")]
         [ShowIf("$IsInt2Show")]
@@ -217,7 +215,7 @@ namespace Pangoo.Core.VisualScripting
                     // DirectInstructionTypeEnum.CheckBoolVariableList => true,
                     DirectInstructionTypeEnum.DynamicObjectSetMaterial => true,
                     DirectInstructionTypeEnum.SetIntVariable => true,
-                    DirectInstructionTypeEnum.SetLocalIntVariable=>true,
+                    DirectInstructionTypeEnum.SetLocalIntVariable => true,
                     _ => false,
                 };
             }
@@ -235,7 +233,7 @@ namespace Pangoo.Core.VisualScripting
 
                     DirectInstructionTypeEnum.ChangeGameSection => true,
                     DirectInstructionTypeEnum.SetBoolVariable => true,
-                    DirectInstructionTypeEnum.SetLocalBoolVariable=>true,
+                    DirectInstructionTypeEnum.SetLocalBoolVariable => true,
                     DirectInstructionTypeEnum.SetIntVariable => true,
                     DirectInstructionTypeEnum.DynamicObjectModelActive => true,
                     DirectInstructionTypeEnum.DynamicObjectHotspotActive => true,
@@ -251,7 +249,8 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.CheckBoolVariableList => true,
                     DirectInstructionTypeEnum.DynamicObjectPreview => true,
                     DirectInstructionTypeEnum.WaitVariableBool => true,
-                    DirectInstructionTypeEnum.SetLocalIntVariable=>true,
+                    DirectInstructionTypeEnum.SetLocalIntVariable => true,
+                    DirectInstructionTypeEnum.StartDialogue => true,
 
                     _ => false,
                 };
@@ -278,8 +277,8 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.DynamicObjectTriggerEnabled => true,
-                    DirectInstructionTypeEnum.SetLocalBoolVariable=>true,
-                    DirectInstructionTypeEnum.SetLocalIntVariable=>true,
+                    DirectInstructionTypeEnum.SetLocalBoolVariable => true,
+                    DirectInstructionTypeEnum.SetLocalIntVariable => true,
                     _ => false,
                 };
             }
@@ -326,7 +325,8 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.WaitVariableBool => true,
                     DirectInstructionTypeEnum.TweenLightIntensity => true,
                     DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams => true,
-                    DirectInstructionTypeEnum.SetLocalBoolVariable=>true,
+                    DirectInstructionTypeEnum.SetLocalBoolVariable => true,
+                    DirectInstructionTypeEnum.StartDialogue => true,
                     _ => false,
                 };
             }
@@ -744,41 +744,6 @@ namespace Pangoo.Core.VisualScripting
 
 
 
-        public IEnumerable OnMainIntValueDropdown()
-        {
-            switch (InstructionType)
-            {
-
-                case DirectInstructionTypeEnum.ChangeGameSection:
-                    return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<GameSectionTableOverview>();
-                case DirectInstructionTypeEnum.SetBoolVariable:
-                    return GameSupportEditorUtility.GetVariableIds(VariableValueTypeEnum.Bool.ToString());
-                case DirectInstructionTypeEnum.RunInstruction:
-                    return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<InstructionTableOverview>();
-                case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:
-                case DirectInstructionTypeEnum.DynamicObjectModelActive:
-                case DirectInstructionTypeEnum.DynamicObjectHotspotActive:
-                case DirectInstructionTypeEnum.ActiveCameraGameObject:
-                case DirectInstructionTypeEnum.UnactiveCameraGameObject:
-                case DirectInstructionTypeEnum.SubGameObjectPlayTimeline:
-                case DirectInstructionTypeEnum.SubGameObjectPauseTimeline:
-                case DirectInstructionTypeEnum.DynamicObjectTriggerEnabled:
-                case DirectInstructionTypeEnum.SetGameObjectActive:
-                case DirectInstructionTypeEnum.DynamicObjectRunExecute:
-                case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
-                case DirectInstructionTypeEnum.DynamicObjectInteractEnable:
-                    return GameSupportEditorUtility.GetDynamicObjectIds(true);
-                case DirectInstructionTypeEnum.PlaySound:
-                case DirectInstructionTypeEnum.StopSound:
-                    return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<SoundTableOverview>();
-                case DirectInstructionTypeEnum.CheckBoolVariableList:
-                    return GameSupportEditorUtility.GetVariableIds(VariableValueTypeEnum.Bool.ToString());
-
-            }
-
-            return null;
-        }
-
         public IEnumerable OnUuidDropdown()
         {
             switch (InstructionType)
@@ -822,6 +787,8 @@ namespace Pangoo.Core.VisualScripting
 
                 case DirectInstructionTypeEnum.DynamicObjectPreview:
                     return DynamicObjectPreviewOverview.GetUuidDropdown();
+                case DirectInstructionTypeEnum.StartDialogue:
+                    return DialogueOverview.GetUuidDropdown();
             }
 
             return null;
@@ -896,33 +863,15 @@ namespace Pangoo.Core.VisualScripting
                     }
                     return TriggerEventOverview.GetUuidDropdown(includeUuids: includeUuids);
                 case DirectInstructionTypeEnum.SetLocalBoolVariable:
-                    return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString(),VariableTypeEnum.DynamicObject.ToString());
+                    return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString(), VariableTypeEnum.DynamicObject.ToString());
                 case DirectInstructionTypeEnum.SetLocalIntVariable:
-                    return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Int.ToString(),VariableTypeEnum.DynamicObject.ToString());
+                    return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Int.ToString(), VariableTypeEnum.DynamicObject.ToString());
             }
 
             return null;
         }
 
-        public IEnumerable OnInt2ValueDropdown()
-        {
-            switch (InstructionType)
-            {
-                case DirectInstructionTypeEnum.DynamicObjectTriggerEnabled:
-                    List<int> includeIds = null;
-                    if (Int1 != 0)
-                    {
-                        var row = GameSupportEditorUtility.GetDynamicObjectRow(Int1);
-                        if (row != null)
-                        {
-                            includeIds = row.GetTriggerEventIdList();
-                        }
-                    }
-                    return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<TriggerEventTableOverview>(includeIds: includeIds);
-            }
 
-            return null;
-        }
 #endif
 
         [JsonNoMember]

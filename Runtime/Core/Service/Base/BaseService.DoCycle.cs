@@ -1,11 +1,9 @@
-using System;
-using GameFramework;
-using Sirenix.OdinInspector;
+using Pangoo.Common;
 using UnityEngine.EventSystems;
 
 namespace Pangoo.Core.Services
 {
-    public abstract partial class BaseService
+    public abstract partial class BaseService : JsonSerializer
     {
 
 

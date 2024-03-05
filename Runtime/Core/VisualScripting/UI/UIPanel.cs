@@ -14,6 +14,51 @@ namespace Pangoo.Core.VisualScripting
         protected UIPanelData PanelData;
         protected RectTransform rectTransform;
 
+        bool m_CursorVisible;
+        CursorLockMode m_CursorLockState;
+
+        [ShowInInspector]
+        public bool CursorVisible
+        {
+            get
+            {
+                return Cursor.visible;
+            }
+            set
+            {
+                Cursor.visible = value;
+            }
+        }
+
+        [ShowInInspector]
+
+        public CursorLockMode CursorLockState
+        {
+            get
+            {
+                return Cursor.lockState;
+            }
+            set
+            {
+                Cursor.lockState = value;
+            }
+        }
+
+        protected void SetupCursor()
+        {
+            m_CursorVisible = Cursor.visible;
+            m_CursorLockState = Cursor.lockState;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Confined;
+        }
+
+        protected void RecoverCursor()
+        {
+            Cursor.visible = m_CursorVisible;
+            Cursor.lockState = m_CursorLockState;
+        }
+
+
         protected override void OnOpen(object userData)
         {
             base.OnOpen(userData);

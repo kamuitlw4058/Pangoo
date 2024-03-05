@@ -24,6 +24,7 @@ namespace Pangoo
     [DisallowMultipleComponent]
     public class DynamicObjectEditor : MonoBehaviour
     {
+
         Dictionary<string, string> m_Uuids = new();
         public Dictionary<string, string> Uuids
         {
@@ -203,11 +204,7 @@ namespace Pangoo
             Dictionary<string, string> uuidDict = new();
             foreach (var sdo in Wrapper.SubDynamicObjects)
             {
-                if (!sdo.DynamicObjectUuid.IsNullOrWhiteSpace() && sdo.DynamicObjectUuid != m_DynamicObjectUuid)
-                {
-                    uuidDict.Add(sdo.DynamicObjectUuid, sdo.Path);
-                }
-
+                uuidDict.Add(sdo.DynamicObjectUuid, sdo.Path);
             }
 
             Uuids = uuidDict;

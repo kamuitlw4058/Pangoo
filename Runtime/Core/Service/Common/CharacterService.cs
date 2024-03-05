@@ -95,7 +95,7 @@ namespace Pangoo.Core.Services
 
 
 
-        public void ShowCharacter(string infoUuid, Vector3 positon, Vector3 rotation, float height = -1f, bool IsInteractive = true)
+        public void ShowCharacter(string infoUuid, Vector3 positon, Vector3 rotation, float height = -1f, bool IsInteractive = true, bool NotMoveWhenPlayerCreated = false)
         {
             if (infoUuid.IsNullOrWhiteSpace())
             {
@@ -115,10 +115,14 @@ namespace Pangoo.Core.Services
             if (m_LoadedEntityDict.ContainsKey(infoUuid))
             {
                 var character = m_LoadedEntityDict[infoUuid];
+                character.character.IsInteractive = IsInteractive;
+                if (character == Player && NotMoveWhenPlayerCreated)
+                {
+                    return;
+                }
                 character.transform.position = positon;
                 character.transform.rotation = Quaternion.Euler(rotation);
                 character.character.ResetCameraDirection();
-                character.character.IsInteractive = IsInteractive;
                 if (height >= 0)
                 {
                     character.character.SetCameraOffset(new Vector3(0, height, 0));

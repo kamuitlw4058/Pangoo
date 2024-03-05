@@ -40,7 +40,7 @@ namespace Pangoo.Core.VisualScripting
                     case VariableTypeEnum.DynamicObject:
                         return Variables.Get<T>(row.Key, row.DefaultValue.ToType<T>());
                     case VariableTypeEnum.Global:
-                        return RuntimeData.Get<T>(row.Key, row.DefaultValue.ToType<T>());
+                        return RuntimeData.GetVariable<T>(uuid);
                 }
             }
 
@@ -59,7 +59,7 @@ namespace Pangoo.Core.VisualScripting
                         Variables.Set<T>(row.Key, val);
                         break;
                     case VariableTypeEnum.Global:
-                        RuntimeData.Set<T>(row.Key, val);
+                        RuntimeData.SetVariable<T>(uuid, val);
                         break;
                 }
 

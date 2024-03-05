@@ -21,7 +21,8 @@ namespace Pangoo.Core.Common
         public Dictionary<string, int> TriggerIndexDict = new();
 
         [ShowInInspector]
-        Dictionary<string, object> m_KeyValueDict = new Dictionary<string, object>();
+        [JsonMember("KeyValueDict")]
+        public Dictionary<string, object> m_KeyValueDict = new Dictionary<string, object>();
 
         public Dictionary<string, object> KeyValueDict
         {
@@ -50,7 +51,6 @@ namespace Pangoo.Core.Common
         {
             TriggerIndexDict.Set(key, val);
         }
-
 
 
         public virtual T Get<T>(string key, T defaultValue = default(T))

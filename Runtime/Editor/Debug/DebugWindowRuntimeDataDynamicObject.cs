@@ -20,14 +20,14 @@ namespace Pangoo
 
             GUILayout.Label("<b>运行数据</b>");
             GUILayout.BeginVertical("box");
-            var KeyValues = main.RuntimeData.KeyValues;
+            var KeyValues = main.RuntimeData.DynamicObjectValueDict;
             var Keys = KeyValues.Keys.ToList();
 
             for (int i = 0; i < Keys.Count; i++)
             {
-                if (KeyValues[Keys[i]] as DynamicObjectValue != null)
+                if (KeyValues[Keys[i]] != null)
                 {
-                    DrawDynamicObject(Keys[i], KeyValues[Keys[i]] as DynamicObjectValue, main.RuntimeData);
+                    DrawDynamicObject(Keys[i], KeyValues[Keys[i]]);
                 }
             }
             GUILayout.EndVertical();
@@ -36,7 +36,7 @@ namespace Pangoo
 
 
 
-        protected static void DrawDynamicObject(string title, DynamicObjectValue content, RuntimeDataService runtimeDataService, float titleWidth = TitleWidth)
+        protected static void DrawDynamicObject(string title, DynamicObjectValue content)
         {
             GUILayout.BeginVertical("box");
             GUILayout.BeginHorizontal();

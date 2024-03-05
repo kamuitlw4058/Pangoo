@@ -28,7 +28,7 @@ namespace Pangoo.Core.VisualScripting
         protected override void OnEnter(INamedFsm<HotspotFsmManager> fsm)
         {
             base.OnEnter(fsm);
-            Debug.Log($"Enter:{FullName}");
+            // Debug.Log($"Enter:{FullName}");
 
             if (fsm.Owner.IsTransition && fsm.Owner.Transition.CanInvert)
             {

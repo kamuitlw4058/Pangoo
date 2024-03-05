@@ -8,11 +8,11 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using Sirenix.OdinInspector;
-using System.Xml.Serialization;
-using Pangoo.Common;
 using MetaTable;
 using UnityEditor;
-using Sirenix.Utilities.Editor;
+using Pangoo.Core.VisualScripting;
+using UnityEngine.Timeline;
+using Pangoo.Timeline;
 
 
 namespace Pangoo.MetaTable
@@ -20,186 +20,138 @@ namespace Pangoo.MetaTable
     [Serializable]
     public partial class DialogueDetailRowWrapper : MetaTableDetailRowWrapper<DialogueOverview, UnityDialogueRow>
     {
-        [LabelText("音频Uuid")]
-        [ValueDropdown("SoundUuidValueDropdown")]
+        DialogueType m_DialogueType;
+
         [ShowInInspector]
-        [OnValueChanged("OnSoundUuidChanged")]
-        public string SoundUuid
+        [LabelText("对话类型")]
+        public DialogueType CurrentDialogueType
         {
             get
             {
-                if (!UnityRow.Row.SoundUuid.IsNullOrWhiteSpace() && AssetAudioClip == null)
+                if (m_DialogueType == DialogueType.None)
                 {
-                    UpdateAudioClip();
+                    m_DialogueType = UnityRow.Row.DialogueType.ToEnum<DialogueType>();
                 }
-
-                return UnityRow.Row.SoundUuid;
+                return m_DialogueType;
             }
             set
             {
+                m_DialogueType = value;
+                UnityRow.Row.DialogueType = value.ToString();
+                Save();
+            }
+        }
 
-                UnityRow.Row.SoundUuid = value;
+        [ShowInInspector]
+        [ValueDropdown("OnActorsLinesUuidDropdown")]
+        [ShowIf("@this.CurrentDialogueType == DialogueType.ActorsLines")]
+        [LabelText("台词")]
+        public string ActorsLinesUuid
+        {
+            get
+            {
+                return UnityRow.Row.ActorsLinesUuid;
+            }
+            set
+            {
+                UnityRow.Row.ActorsLinesUuid = value;
                 Save();
             }
 
         }
 
-        [ReadOnly]
+        IEnumerable OnActorsLinesUuidDropdown()
+        {
+            return ActorsLinesOverview.GetUuidDropdown();
+        }
+
+        List<DialogueOptionInfo> m_DialogueOptionInfos;
+
         [ShowInInspector]
-        public AudioClip AssetAudioClip { get; private set; }
-
-        public void UpdateAudioClip()
-        {
-            if (UnityRow.Row.SoundUuid.IsNullOrWhiteSpace())
-            {
-                return;
-            }
-
-
-            var soundRow = SoundOverview.GetUnityRowByUuid(UnityRow.Row.SoundUuid);
-            var soundOverview = SoundOverview.GetOverviewByUuid(UnityRow.Row.SoundUuid);
-
-            var packageDir = Overview.Config.PackageDir;
-            var path = AssetUtility.GetSoundAssetPath(soundOverview.Config.PackageDir, soundRow.Row.SoundType, soundRow.Row.AssetPath);
-            if (File.Exists(path))
-            {
-                AssetAudioClip = AssetDatabaseUtility.LoadAssetAtPath<AudioClip>(path);
-                Max = AssetAudioClip.length;
-            }
-        }
-
-        public void OnSoundUuidChanged()
-        {
-            UpdateAudioClip();
-        }
-
-        public IEnumerable SoundUuidValueDropdown()
-        {
-            return SoundOverview.GetUuidDropdown();
-        }
-
-        bool m_IsPlaying;
-
-
-        bool isPlaying
+        [ShowIf("@this.CurrentDialogueType == DialogueType.Option")]
+        [HideReferenceObjectPicker]
+        [TableList]
+        [LabelText("选项")]
+        [OnValueChanged("OnDialogueOptionInfosChanged", IncludeChildren = true)]
+        public List<DialogueOptionInfo> DialogueOptionInfos
         {
             get
             {
-                return m_IsPlaying || (m_AudioSource?.isPlaying ?? false);
-            }
-            set
-            {
-                m_IsPlaying = value;
-            }
-        }
-
-
-        string PlayerText
-        {
-            get
-            {
-
-                if (isPlaying)
+                if (m_DialogueOptionInfos == null)
                 {
-                    return "暂停";
-                }
-                else
-                {
-                    return "播放";
-                }
-
-            }
-        }
-
-        AudioSource m_AudioSource;
-
-        private void StartPlayback()
-        {
-
-            if (AssetAudioClip != null)
-            {
-                if (!isPlaying)
-                {
-                    if (m_AudioSource == null)
+                    try
                     {
-                        m_AudioSource = EditorUtility.CreateGameObjectWithHideFlags("Audio Player", HideFlags.HideAndDontSave).AddComponent<AudioSource>();
-                        m_AudioSource.clip = AssetAudioClip;
+                        m_DialogueOptionInfos = JsonMapper.ToObject<List<DialogueOptionInfo>>(UnityRow.Row.Options);
+                    }
+                    catch
+                    {
+                        m_DialogueOptionInfos = null;
                     }
 
-                    // m_AudioSource.pu
-
-
-                    m_AudioSource.Play();
-                    isPlaying = true;
                 }
-            }
 
-        }
 
-        void PausePlayback()
-        {
-            if (isPlaying)
-            {
-                if (m_AudioSource != null)
+                if (m_DialogueOptionInfos == null)
                 {
-                    m_AudioSource.Pause();
-                }
-                isPlaying = false;
-                return;
-            }
+                    m_DialogueOptionInfos = new List<DialogueOptionInfo>();
+                    SaveOptions();
 
-        }
-
-        void StopPlayback()
-        {
-            if (isPlaying)
-            {
-                if (m_AudioSource != null)
-                {
-                    m_AudioSource.Stop();
-                }
-                isPlaying = false;
-                return;
-            }
-        }
-
-
-        [ProgressBar(0, "Max")]
-        [ShowInInspector]
-        [InlineButton("StopPlayback", Icon = SdfIconType.StopFill, Label = "")]
-        [InlineButton("PausePlayback", Icon = SdfIconType.Pause, Label = "")]
-        [InlineButton("StartPlayback", Icon = SdfIconType.CaretRightFill, Label = "")]
-
-
-        public float Progress
-        {
-            get
-            {
-                if (m_AudioSource != null)
-                {
-                    GUIHelper.RequestRepaint();
-                    return m_AudioSource.time;
                 }
 
-                return 0;
+
+                return m_DialogueOptionInfos;
             }
             set
             {
-                if (m_AudioSource != null)
-                {
-                    m_AudioSource.time = value;
-                    PausePlayback();
-                }
+                m_DialogueOptionInfos = value;
+                SaveOptions();
             }
         }
 
+        public void OnDialogueOptionInfosChanged()
+        {
+            SaveOptions();
+        }
 
-        float Max;
+        void SaveOptions()
+        {
+            UnityRow.Row.Options = JsonMapper.ToJson(m_DialogueOptionInfos);
+            Save();
+        }
+
+
+        [ShowInInspector]
+        [LabelText("下一个对话")]
+        [ValueDropdown("OnDialogueUuidDropdown")]
+        [ShowIf("@this.CurrentDialogueType == DialogueType.ActorsLines")]
+
+        public string NextDialogueUuid
+        {
+            get
+            {
+                return UnityRow.Row.NextDialogueUuid;
+            }
+            set
+            {
+                UnityRow.Row.NextDialogueUuid = value;
+                Save();
+            }
+
+        }
+
+        IEnumerable OnDialogueUuidDropdown()
+        {
+            return DialogueOverview.GetUuidDropdown(AdditionalOptions: new List<Tuple<string, string>>() { new Tuple<string, string>("结束", string.Empty) });
+        }
+
+
 
 
 
 
     }
+
+
 }
 #endif
 

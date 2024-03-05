@@ -6,8 +6,7 @@ using System.Reflection;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
-using UnityGameFramework.Runtime;
+using Cinemachine;
 using GameFramework;
 using Pangoo.Core.Common;
 using Pangoo.Core.VisualScripting;
@@ -60,88 +59,6 @@ namespace Pangoo
         }
 
 
-        public static string GetPakcageDirByOverviewRowId<T>(int id) where T : ExcelTableOverview
-        {
-            var overviews = AssetDatabaseUtility.FindAsset<T>();
-            foreach (var overview in overviews)
-            {
-                foreach (var row in overview.Table.BaseRows)
-                {
-                    if (row.Id == id)
-                    {
-                        return overview.Config.PackageDir;
-                    }
-                }
-            }
-            return null;
-        }
-
-        public static PackageConfig GetPakcageConfigByOverviewRowId<T>(int id) where T : ExcelTableOverview
-        {
-            var overviews = AssetDatabaseUtility.FindAsset<T>();
-            foreach (var overview in overviews)
-            {
-                foreach (var row in overview.Table.BaseRows)
-                {
-                    if (row.Id == id)
-                    {
-                        return overview.Config;
-                    }
-                }
-            }
-            return null;
-        }
-
-        public static T GetExcelTableOverviewByConfig<T>(PackageConfig config) where T : ExcelTableOverview
-        {
-            var overviews = AssetDatabaseUtility.FindAsset<T>(config.PackageDir).ToArray();
-            if (overviews.Length > 0)
-            {
-                return overviews[0];
-            }
-            return null;
-        }
-
-
-        public static T GetExcelTableOverviewByRowId<T>(int id) where T : ExcelTableOverview
-        {
-            var overviews = AssetDatabaseUtility.FindAsset<T>();
-            foreach (var overview in overviews)
-            {
-                foreach (var row in overview.Table.BaseRows)
-                {
-                    if (row.Id == id)
-                    {
-                        return overview;
-                    }
-                }
-            }
-            return null;
-        }
-
-        public static R GetExcelTableRowWithOverviewById<T, R>(int id) where T : ExcelTableOverview where R : ExcelRowBase
-        {
-            var overviews = AssetDatabaseUtility.FindAsset<T>();
-            foreach (var overview in overviews)
-            {
-                foreach (var row in overview.Table.BaseRows)
-                {
-                    if (row.Id == id)
-                    {
-                        return (R)row;
-                    }
-                }
-            }
-            return null;
-        }
-
-
-
-        public static IEnumerable GetAllExcelOverview()
-        {
-            var datas = AssetDatabaseUtility.FindAsset<ExcelTableOverview>();
-            return datas;
-        }
 
         public static IEnumerable GetAllEventsOverview()
         {
@@ -150,70 +67,8 @@ namespace Pangoo
             return null;
         }
 
-        public static IEnumerable GetAllVolumeOverview()
-        {
-            var overviews = AssetDatabaseUtility.FindAsset<VolumeTableOverview>();
-            var ret = new ValueDropdownList<VolumeTableOverview>();
-            foreach (var overview in overviews)
-            {
-                ret.Add(overview.Config.MainNamespace, overview);
-            }
-
-            return ret;
-        }
 
 
-
-        public static IEnumerable GetVolumeRow()
-        {
-            var overviews = AssetDatabaseUtility.FindAsset<VolumeTableOverview>();
-            var ret = new ValueDropdownList<int>();
-            foreach (var overview in overviews)
-            {
-                foreach (var row in overview.Data.Rows)
-                {
-                    ret.Add($"{row.Id}-{row.Name}", row.Id);
-                }
-
-            }
-            return ret;
-        }
-
-
-
-        public static bool CheckVolumeId(int id)
-        {
-            var overviews = AssetDatabaseUtility.FindAsset<VolumeTableOverview>();
-            foreach (var overview in overviews)
-            {
-                foreach (var row in overview.Data.Rows)
-                {
-                    if (row.Id == id)
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
-        public static bool CheckVolumeDupName(string name)
-        {
-            var overviews = AssetDatabaseUtility.FindAsset<VolumeTableOverview>();
-            foreach (var overview in overviews)
-            {
-                foreach (var row in overview.Data.Rows)
-                {
-                    if (row.Name == name)
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
 
 
         public static IEnumerable GetGameInfoItem()
@@ -267,16 +122,7 @@ namespace Pangoo
             return ret;
         }
 
-        public static GameObject GetPrefabByAssetPathId(int id)
-        {
-            if (id == 0) return null;
-            var row = GameSupportEditorUtility.GetAssetPathRowById(id);
-            if (row == null) return null;
 
-            var finalPath = AssetUtility.GetAssetPath(row.AssetPackageDir, row.AssetType, row.AssetPath, row.AssetGroup);
-            return AssetDatabaseUtility.LoadAssetAtPath<GameObject>(finalPath);
-
-        }
 
         public static GameObject GetPrefabByAssetPathUuid(string uuid)
         {
@@ -290,20 +136,6 @@ namespace Pangoo
 
         }
 
-        public static GameObject GetPrefabByDynamicObjectId(int id)
-        {
-            if (id == 0) return null;
-
-            var row = GameSupportEditorUtility.GetDynamicObjectRow(id);
-            if (row == null) return null;
-
-            var assetRow = GameSupportEditorUtility.GetAssetPathRowById(row.AssetPathId);
-            if (assetRow == null) return null;
-
-            var finalPath = AssetUtility.GetAssetPath(assetRow.AssetPackageDir, assetRow.AssetType, assetRow.AssetPath, assetRow.AssetGroup);
-            return AssetDatabaseUtility.LoadAssetAtPath<GameObject>(finalPath);
-
-        }
 
 
         public static GameObject GetPrefabByDynamicObjectUuid(string uuid)
@@ -494,6 +326,18 @@ namespace Pangoo
                 AddPrefabStringDropdownList(ValueDropdown, prefab.transform, string.Empty);
             }
             return ValueDropdown;
+        }
+
+        public static IEnumerable GetNoiseSettings()
+        {
+            var ret = new ValueDropdownList<string>();
+
+            var noiseSettingsAssets = Resources.LoadAll<NoiseSettings>("NoiseSettings");
+            foreach (var assets in noiseSettingsAssets)
+            {
+                ret.Add(assets.name);
+            }
+            return ret;
         }
 
 

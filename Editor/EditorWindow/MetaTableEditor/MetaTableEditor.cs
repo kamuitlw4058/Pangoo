@@ -116,6 +116,7 @@ namespace Pangoo.Editor
             InitOverviewWrapper<SoundOverviewWrapper, Pangoo.MetaTable.SoundOverview, Pangoo.MetaTable.SoundDetailRowWrapper, Pangoo.MetaTable.SoundRowWrapper, Pangoo.MetaTable.SoundNewRowWrapper, UnitySoundRow>(tree, null, "音频");
             InitOverviewWrapper<SimpleUIOverviewWrapper, Pangoo.MetaTable.SimpleUIOverview, Pangoo.MetaTable.SimpleUIDetailRowWrapper, Pangoo.MetaTable.SimpleUIRowWrapper, Pangoo.MetaTable.SimpleUINewRowWrapper, UnitySimpleUIRow>(tree, null, "UI");
             InitOverviewWrapper<DynamicObjectPreviewOverviewWrapper, Pangoo.MetaTable.DynamicObjectPreviewOverview, Pangoo.MetaTable.DynamicObjectPreviewDetailRowWrapper, Pangoo.MetaTable.DynamicObjectPreviewRowWrapper, Pangoo.MetaTable.DynamicObjectPreviewNewRowWrapper, UnityDynamicObjectPreviewRow>(tree, null, "预览");
+            InitOverviewWrapper<ActorsLinesOverviewWrapper, Pangoo.MetaTable.ActorsLinesOverview, Pangoo.MetaTable.ActorsLinesDetailRowWrapper, Pangoo.MetaTable.ActorsLinesRowWrapper, Pangoo.MetaTable.ActorsLinesNewRowWrapper, UnityActorsLinesRow>(tree, null, "台词");
             InitOverviewWrapper<DialogueOverviewWrapper, Pangoo.MetaTable.DialogueOverview, Pangoo.MetaTable.DialogueDetailRowWrapper, Pangoo.MetaTable.DialogueRowWrapper, Pangoo.MetaTable.DialogueNewRowWrapper, UnityDialogueRow>(tree, null, "对话");
 
             return tree;

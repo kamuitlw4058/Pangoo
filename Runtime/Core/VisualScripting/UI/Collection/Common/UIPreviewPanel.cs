@@ -110,35 +110,6 @@ namespace Pangoo.Core.VisualScripting
 
         }
 
-        bool m_CursorVisible;
-        CursorLockMode m_CursorLockState;
-
-        [ShowInInspector]
-        public bool CursorVisible
-        {
-            get
-            {
-                return Cursor.visible;
-            }
-            set
-            {
-                Cursor.visible = value;
-            }
-        }
-
-        [ShowInInspector]
-
-        public CursorLockMode CursorLockState
-        {
-            get
-            {
-                return Cursor.lockState;
-            }
-            set
-            {
-                Cursor.lockState = value;
-            }
-        }
 
         public float DragFactorX = 1;
         public float DragFactorY = 1;
@@ -184,19 +155,6 @@ namespace Pangoo.Core.VisualScripting
 
         }
 
-        void SetupCursor()
-        {
-            m_CursorVisible = Cursor.visible;
-            m_CursorLockState = Cursor.lockState;
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Confined;
-        }
-
-        public void RecoverCursor()
-        {
-            Cursor.visible = m_CursorVisible;
-            Cursor.lockState = m_CursorLockState;
-        }
 
         public float GrabDuration = 0.3f;
         public float GrabTime;

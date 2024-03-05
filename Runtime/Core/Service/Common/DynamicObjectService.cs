@@ -18,14 +18,6 @@ namespace Pangoo.Core.Services
         public override string ServiceName => "DynamicObjectService";
         public override int Priority => 6;
 
-        public ExcelTableService TableService
-        {
-            get
-            {
-                return ExcelTableSrv;
-            }
-        }
-
 
 
         IEntityGroupRow m_EntityGroupRow;
@@ -318,6 +310,10 @@ namespace Pangoo.Core.Services
 
         bool IsAllGameSectionDynamicObjectLoaded()
         {
+            if (m_GameSectionDynamicObjectUuids.Count == 0)
+            {
+                return false;
+            }
 
             for (int i = 0; i < m_GameSectionDynamicObjectUuids.Count; i++)
             {

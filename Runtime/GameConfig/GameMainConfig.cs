@@ -33,6 +33,10 @@ namespace Pangoo
         [LabelText("默认进入游戏段落")]
         public string EnterGameSectionUuid;
 
+        [LabelText("当前游戏段落变量")]
+        [ValueDropdown("GetStringVariableUuid")]
+        public string CurrentGameSectionVariableUuid;
+
         [ValueDropdown("GetDefaultPlayer")]
         [LabelText("默认玩家")]
         [FoldoutGroup("玩家", expanded: true)]
@@ -92,12 +96,22 @@ namespace Pangoo
         [FoldoutGroup("UI", expanded: true)]
         public string DefaultSubtitlePanelUuid = string.Empty;
 
+        [LabelText("默认主菜单的Uuid")]
+        [ValueDropdown("GetUIUuid")]
+        [FoldoutGroup("UI")]
+        public string DefaultMainMenuPanelUuid = string.Empty;
+
 
         [LabelText("预览UI Uuid")]
         [ValueDropdown("GetUIUuid")]
         [FoldoutGroup("UI")]
 
         public string PreviewPanelUuid = string.Empty;
+
+        [LabelText("对话UI Uuid")]
+        [ValueDropdown("GetUIUuid")]
+        [FoldoutGroup("UI")]
+        public string DialoguePanelUuid = string.Empty;
 
         [LabelText("预览交互变量 Uuid")]
         [ValueDropdown("GetIntVariableUuid")]
@@ -143,6 +157,12 @@ namespace Pangoo
         {
             return SimpleUIOverview.GetUuidDropdown();
         }
+
+        private IEnumerable GetStringVariableUuid()
+        {
+            return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.String.ToString());
+        }
+
 
         private IEnumerable GetIntVariableUuid()
         {

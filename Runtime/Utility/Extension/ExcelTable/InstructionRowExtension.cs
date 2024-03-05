@@ -16,34 +16,7 @@ namespace Pangoo
     public static class InstructionRowExtension
     {
 
-        public static IInstructionRow GetById(int id, InstructionGetRowByIdHandler handler = null)
-        {
-            IInstructionRow instructionRow = null;
 
-#if UNITY_EDITOR
-            if (Application.isPlaying && handler != null)
-            {
-                Debug.Log($"GetRowByInstructionTable");
-                instructionRow = handler(id);
-            }
-            else
-            {
-                var oldRow = GameSupportEditorUtility.GetExcelTableRowWithOverviewById<InstructionTableOverview, InstructionTable.InstructionRow>(id);
-                var rowJson = JsonMapper.ToJson(oldRow);
-                var newRow = JsonMapper.ToObject<InstructionRow>(rowJson);
-                instructionRow = newRow;
-            }
-
-#else
-            if (handler == null)
-            {
-                Debug.LogError($"InstructionRow Get Table is Null");
-            }else{
-                instructionRow = handler(id);
-            }
-#endif
-            return instructionRow;
-        }
 
         public static IInstructionRow GetByUuid(string uuid, InstructionGetRowByUuidHandler handler = null)
         {

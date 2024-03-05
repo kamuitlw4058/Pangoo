@@ -38,7 +38,6 @@ namespace Pangoo
 
             packageConfig = PangooEntry.GameConfig.GetGameMainConfig();
 
-            PangooEntry.ExcelTable.LoadExcelTable();
             PangooEntry.MetaTable.LoadMetaTable();
 
             PangooEntry.GameInfo.Init();

@@ -48,19 +48,6 @@ namespace Pangoo.Core.Services
             }
         }
 
-        ExcelTableService m_ExcelTableService;
-        public ExcelTableService ExcelTableSrv
-        {
-            get
-            {
-                if (m_ExcelTableService == null)
-                {
-                    m_ExcelTableService = Parent.GetService<ExcelTableService>();
-                }
-                return m_ExcelTableService;
-            }
-        }
-
 
         GameMainConfigService m_GameMainConfigService;
 
@@ -105,6 +92,70 @@ namespace Pangoo.Core.Services
                 return m_GameInfoService;
             }
         }
+
+
+        RuntimeDataService m_RuntimeDataService;
+
+
+        public RuntimeDataService RuntimeDataSrv
+        {
+            get
+            {
+                if (m_RuntimeDataService == null)
+                {
+                    m_RuntimeDataService = Parent.GetService<RuntimeDataService>();
+                }
+                return m_RuntimeDataService;
+            }
+        }
+
+        SaveLoadService m_SaveLoadService;
+
+        public SaveLoadService SaveLoadSrv
+        {
+            get
+            {
+                if (m_SaveLoadService == null)
+                {
+                    m_SaveLoadService = Parent.GetService<SaveLoadService>();
+                }
+
+                return m_SaveLoadService;
+            }
+        }
+
+
+        UIService m_UIService;
+        public UIService UISrv
+        {
+            get
+            {
+                if (m_UIService == null)
+                {
+                    m_UIService = Parent.GetService<UIService>();
+                }
+
+                return m_UIService;
+            }
+        }
+
+
+        GameSectionService m_GameSectionService;
+
+
+        public GameSectionService GameSectionSrv
+        {
+            get
+            {
+                if (m_GameSectionService == null)
+                {
+                    m_GameSectionService = Parent.GetService<GameSectionService>();
+                }
+
+                return m_GameSectionService;
+            }
+        }
+
 
 
 

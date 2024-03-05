@@ -15,12 +15,10 @@ namespace Pangoo
     {
         [ShowInInspector]
         protected Dictionary<string, object> m_KeyValueDict = new Dictionary<string, object>();
-        protected ExcelTableService m_ExcelTableService;
 
         protected override void DoAwake()
         {
             m_KeyValueDict = new Dictionary<string, object>();
-            m_ExcelTableService = Parent.GetService<ExcelTableService>();
         }
         public virtual T Get<T>(string key, T defaultValue)
         {
