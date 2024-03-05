@@ -44,15 +44,15 @@ public class MouseImmersed : BaseImmersed
             {
                 if (Input.GetMouseButtonDown(1))
                 {
-                    OnMouseRightDownEvent();
+                    OnMouseRightDownConditionAction();
                 }
                 if (Input.GetMouseButton(1))
                 {
-                    OnMouseRightPressedEvent();
+                    OnMouseRightPressedConditionAction();
                 }
                 if (Input.GetMouseButtonUp(1))
                 {
-                    OnMouseRightUpEvent();
+                    OnMouseRightUpConditionAction();
                 }
             }
         }
@@ -121,7 +121,6 @@ public class MouseImmersed : BaseImmersed
         rayHelper.HitCollider = null;
         dynamicObject?.TriggerInovke(TriggerTypeEnum.OnMouseImmersedLeftUp);
     }
-
     #endregion
 
     #region MouseRight
@@ -157,4 +156,8 @@ public class MouseImmersed : BaseImmersed
     }
 
     #endregion
+    public virtual void OnExtraMouseDrag()
+    {
+        
+    }
 }

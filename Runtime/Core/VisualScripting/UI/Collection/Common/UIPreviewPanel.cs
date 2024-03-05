@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace Pangoo.Core.VisualScripting
 {
     [Category("通用/预览")]
 
-    public class UIPreviewPanel : UIPanel, IDragHandler
+    public class UIPreviewPanel : UIPanel
     {
         public enum PreviewState
         {
@@ -221,6 +222,26 @@ namespace Pangoo.Core.VisualScripting
                 {
                     PreviewData.CurrentScale = PreviewData.DynamicObject.Row.PreviewScale;
                 }
+
+                //在这个阶段显示Hotspot
+                //主目标
+                for (int i = 0; i < PreviewData.DynamicObject.dynamicObjectMouseInteracts.Count; i++)
+                {
+                    var spotDynamicObjectMouseInteract=PreviewData.DynamicObject.dynamicObjectMouseInteracts[i].hotSpot as SpotDynamicObjectMouseInteract;
+                    spotDynamicObjectMouseInteract.CurrentSpotState = DynamicObjectHotsoptState.ShowUI;
+                }
+                //子动态物品
+
+                foreach (var subDO in PreviewData.DynamicObject.SubDynamicObjectDict)
+                {
+                    for (int i = 0; i < subDO.Value.dynamicObjectMouseInteracts.Count; i++)
+                    {
+                        var spotDynamicObjectMouseInteract = subDO.Value.dynamicObjectMouseInteracts[i].hotSpot as SpotDynamicObjectMouseInteract;
+                        spotDynamicObjectMouseInteract.CurrentSpotState = DynamicObjectHotsoptState.ShowUI;
+                    }
+                    
+                }
+
                 State = PreviewState.OnPreview;
             }
 
@@ -242,6 +263,7 @@ namespace Pangoo.Core.VisualScripting
                     }
                 }
 
+                OnDrag();
 
                 var ExitKeyCodes = PreviewData.ExitKeyCodes;
                 if (ExitKeyCodes.Length == 0)
@@ -317,27 +339,24 @@ namespace Pangoo.Core.VisualScripting
 
         }
 
-        public void OnDrag(PointerEventData eventData)
+        public void OnDrag()
         {
             if (MainCamera == null)
             {
                 return;
             }
-
-            if (State == PreviewState.OnPreview)
+            
+            var upAxis = MainCamera.transform.TransformDirection(transform.up);
+            var rightAxis = MainCamera.transform.TransformDirection(transform.right);
+            
+            if (Input.GetMouseButton(0))
             {
-                var upAxis = MainCamera.transform.TransformDirection(transform.up);
-                var rightAxis = MainCamera.transform.TransformDirection(transform.right);
                 float x = Input.GetAxis("Mouse X");
                 float y = Input.GetAxis("Mouse Y");
-
-                PreviewData.Rotate(upAxis, x * DragFactorX * Time.deltaTime, Space.World);
+                
+                PreviewData.Rotate(upAxis, -x * DragFactorX * Time.deltaTime, Space.World);
                 PreviewData.Rotate(rightAxis, y * DragFactorY * Time.deltaTime, Space.World);
-                // Debug.Log($"eventdata{eventData.delta}.x:{x},y:{y}  new :{PreviewData.CurrentRotation} :{upAxis} :{rightAxis}");
             }
         }
-
-
-
     }
 }
