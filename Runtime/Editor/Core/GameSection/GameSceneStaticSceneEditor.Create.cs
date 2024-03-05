@@ -25,30 +25,6 @@ namespace Pangoo.Editor
             m_CreateRowWindow = OdinEditorWindow.InspectObject(new StaticSceneCreateWindow(this));
         }
 
-        // public void ConfirmCreate(string uuid, string name, int assetPathId, List<int> NeedLoadStaticScenes)
-        // {
-
-
-        //     StaticSceneOverview overview = StaticSceneOverview.GetOverviewByUuid(uuid);
-        //     if (overview == null)
-        //     {
-        //         return;
-        //     }
-
-        //     var row = new StaticScene
-        //     row.Id = id;
-        //     row.Name = name;
-        //     row.EntityGroupId = 1;
-        //     row.AssetPathId = assetPathId;
-        //     row.LoadSceneIds = NeedLoadStaticScenes.ToListString();
-        //     overview.Data.Rows.Add(row);
-        //     EditorUtility.SetDirty(overview);
-
-
-        //     AssetDatabase.SaveAssets();
-        //     //OnSectionChange();
-        // }
-
 
         public class StaticSceneCreateWindow
         {
@@ -68,15 +44,15 @@ namespace Pangoo.Editor
             [ValueDropdown("StaticSceneIdValueDropdown")]
             public List<int> NeedLoadStaticScenes;
 
-            public IEnumerable AssetPathIdValueDropdown()
-            {
-                return GameSupportEditorUtility.GetAssetPathIds(ids: new List<int> { AssetPathId }, assetTypes: new List<string> { "Scene" });
-            }
+            // public IEnumerable AssetPathIdValueDropdown()
+            // {
+            //     return GameSupportEditorUtility.GetAssetPathIds(ids: new List<int> { AssetPathId }, assetTypes: new List<string> { "Scene" });
+            // }
 
-            public IEnumerable StaticSceneIdValueDropdown()
-            {
-                return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<StaticSceneTableOverview>(excludeIds: new List<int> { Id });
-            }
+            // public IEnumerable StaticSceneIdValueDropdown()
+            // {
+            //     return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<StaticSceneTableOverview>(excludeIds: new List<int> { Id });
+            // }
 
 
             // public void ShowCreateAssetPath()

@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Editor
 {
@@ -16,84 +17,99 @@ namespace Pangoo.Editor
     {
         [ReadOnly]
         [ValueDropdown("GetSectionList")]
-        public int Section;
+        public string Section;
 
 
 
         [ReadOnly]
-        [ListDrawerSettings(Expanded = true)]
-        public List<GameObject> DynamicScenes = new List<GameObject>();
+        [ShowInInspector]
+        public Dictionary<string, GameObject> Scenes = new();
 
+        List<string> m_Uuids = new List<string>();
 
-        [ReadOnly]
-        [ListDrawerSettings(Expanded = true)]
-        public List<GameObject> KeepScenes = new List<GameObject>();
+        public List<string> Uuids
+        {
+            get
+            {
+                return m_Uuids;
+            }
+            set
+            {
+
+                ClearScene();
+                if (value == null)
+                {
+                    m_Uuids.Clear();
+                }
+                else
+                {
+                    m_Uuids = value;
+                }
+            }
+        }
 
         public IEnumerable GetSectionList()
         {
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<GameSectionTableOverview>();
+            return GameSectionOverview.GetUuidDropdown();
         }
-        public void ClearScene(List<GameObject> gameObjects)
+        public void ClearScene()
         {
-            if (gameObjects != null)
+            if (Scenes != null)
             {
 
-                foreach (var scene in gameObjects)
+                foreach (var scene in Scenes.Values)
                 {
                     try
                     {
-                        DestroyImmediate(scene);
+                        if (scene != null)
+                        {
+                            DestroyImmediate(scene);
+                        }
                     }
                     catch
                     {
                     }
                 }
-                gameObjects.Clear();
+                Scenes.Clear();
             }
-        }
-
-        public void ClearScene()
-        {
-            ClearScene(DynamicScenes);
-            ClearScene(KeepScenes);
-        }
-
-        public void UpdateScene(int[] ids, List<GameObject> gameObjects)
-        {
-            foreach (var id in ids)
+            foreach (var child in transform.Children())
             {
-                var staticScene = GameSupportEditorUtility.GetStaticSceneRowById(id);
+                try
+                {
+                    DestroyImmediate(child.gameObject);
+                }
+                catch
+                {
+                }
+            }
+
+        }
+
+
+
+        public void UpdateScene()
+        {
+            Scenes.SyncKey(Uuids, (uuid) =>
+            {
+                var staticScene = StaticSceneOverview.GetUnityRowByUuid(uuid);
                 if (staticScene == null)
                 {
-                    Debug.LogError($"staticScene Id:{id} is null");
-                    continue;
+                    Debug.LogError($"staticScene Id:{uuid} is null");
+                    return null;
                 }
 
-                var assetPathRow = GameSupportEditorUtility.GetAssetPathRowById(staticScene.AssetPathId);
-                // Debug.Log($"Try Create Prefab:{staticScene},{assetPathRow.ToPrefabPath()}");
-                // Debug.Log($"AssetPath:{assetPath}");
+                var assetPathRow = AssetPathOverview.GetUnityRowByUuid(staticScene.Row.AssetPathUuid);
                 var asset = AssetDatabaseUtility.LoadAssetAtPath<GameObject>(assetPathRow.ToPrefabPath());
                 var go = PrefabUtility.InstantiatePrefab(asset) as GameObject;
                 go.transform.parent = transform;
                 go.name = staticScene.Name;
                 var helper = go.AddComponent<StaticSceneEditor>();
-                helper.StaticSceneId = id;
+                helper.StaticSceneUuid = uuid;
                 go.ResetTransfrom();
-                gameObjects.Add(go);
-            }
-        }
+                return go;
+            });
 
 
-        public void UpdateDynamicSceneIds(int[] ids)
-        {
-            ClearScene(DynamicScenes);
-            UpdateScene(ids, DynamicScenes);
-        }
-
-        public void UpdateKeepSceneIds(int[] ids)
-        {
-            ClearScene(KeepScenes);
-            UpdateScene(ids, KeepScenes);
         }
 
 
@@ -101,11 +117,6 @@ namespace Pangoo.Editor
         void UpdateGameObjectName()
         {
             name = "$Static Scene";
-
-            if (Section != 0)
-            {
-                name = $"{name}-Section:{Section}";
-            }
 
         }
 
@@ -129,19 +140,20 @@ namespace Pangoo.Editor
             ClearScene();
         }
 
+
         private void Update()
         {
             if (!Application.isPlaying)
             {
                 UpdateGameObjectName();
+                UpdateScene();
             }
             gameObject.ResetTransfrom();
         }
 
-        public void SetSection(int id)
+        public void SetSection(string uuid)
         {
-            Section = id;
-            // OnSectionChange();
+            Section = uuid;
         }
 
     }

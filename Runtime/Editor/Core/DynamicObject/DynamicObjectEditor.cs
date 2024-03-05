@@ -24,6 +24,7 @@ namespace Pangoo
     [DisallowMultipleComponent]
     public class DynamicObjectEditor : MonoBehaviour
     {
+
         Dictionary<string, string> m_Uuids = new();
         public Dictionary<string, string> Uuids
         {

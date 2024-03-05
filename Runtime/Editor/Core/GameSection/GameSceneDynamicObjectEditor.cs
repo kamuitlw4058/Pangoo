@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Editor
 {
@@ -13,79 +14,98 @@ namespace Pangoo.Editor
     [DisallowMultipleComponent]
     public partial class GameSceneDynamicObjectEditor : MonoBehaviour
     {
-        [ReadOnly]
-        [ValueDropdown("GetSectionList")]
-        public int Section;
-        public void SetSection(int id)
+        List<string> m_Uuids = new List<string>();
+        public List<string> Uuids
         {
-            Section = id;
-        }
-
-        public IEnumerable GetSectionList()
-        {
-            return GameSupportEditorUtility.GetExcelTableOverviewNamedIds<GameSectionTableOverview>();
-        }
-
-
-        public void ClearObjects(List<GameObject> gameObjects)
-        {
-            if (gameObjects != null)
+            get
+            {
+                return m_Uuids;
+            }
+            set
             {
 
-                foreach (var scene in gameObjects)
+                Clear();
+                if (value == null)
+                {
+                    m_Uuids.Clear();
+                }
+                else
+                {
+                    m_Uuids = value;
+                }
+            }
+        }
+
+        public void Clear()
+        {
+            if (DynamicObjects != null)
+            {
+
+                foreach (var scene in DynamicObjects.Values)
                 {
                     try
                     {
-                        DestroyImmediate(scene);
+                        if (scene != null)
+                        {
+                            DestroyImmediate(scene);
+                        }
                     }
                     catch
                     {
                     }
                 }
-                gameObjects.Clear();
+                DynamicObjects.Clear();
             }
+            foreach (var child in transform.Children())
+            {
+                try
+                {
+                    DestroyImmediate(child.gameObject);
+                }
+                catch
+                {
+                }
+            }
+
         }
+
+
 
 
 
         [ReadOnly]
         [ListDrawerSettings(Expanded = true)]
-        public List<GameObject> DynamicObjects = new List<GameObject>();
+        public Dictionary<string, GameObject> DynamicObjects = new();
 
-        public void UpdateObjects(int[] ids)
+        public void UpdateObjects()
         {
-            ClearObjects(DynamicObjects);
-            foreach (var id in ids)
+
+            DynamicObjects.SyncKey(Uuids, (uuid) =>
             {
-                var row = GameSupportEditorUtility.GetDynamicObjectRow(id);
+                var row = DynamicObjectOverview.GetUnityRowByUuid(uuid);
                 if (row == null)
                 {
-                    Debug.LogError($"staticScene Id:{id} is null");
-                    continue;
+                    Debug.LogError($"DynmaicObject Uuid:{uuid} is null");
+                    return null;
                 }
 
-                var assetPathRow = GameSupportEditorUtility.GetAssetPathRowById(row.AssetPathId);
+                var assetPathRow = AssetPathOverview.GetUnityRowByUuid(row.Row.AssetPathUuid);
                 var asset = AssetDatabaseUtility.LoadAssetAtPath<GameObject>(assetPathRow.ToPrefabPath());
                 var go = PrefabUtility.InstantiatePrefab(asset) as GameObject;
                 go.name = row.Name;
                 go.transform.parent = transform;
                 var helper = go.AddComponent<DynamicObjectEditor>();
-                helper.DynamicObjectId = id;
-                // go.ResetTransfrom();
-                DynamicObjects.Add(go);
-            }
+                helper.DynamicObjectUuid = uuid;
+                return go;
+            });
+
+
         }
 
 
         void UpdateGameObjectName()
         {
             name = "///DynamicObject";
-
-            if (Section != 0)
-            {
-                name = $"{name}-Section:{Section}";
-            }
-
         }
 
         private void Update()
@@ -93,24 +113,19 @@ namespace Pangoo.Editor
             if (!Application.isPlaying)
             {
                 UpdateGameObjectName();
+                UpdateObjects();
             }
         }
 
         private void OnDisable()
         {
-            ClearObjects();
+            Clear();
         }
 
         private void OnDestroy()
         {
-            ClearObjects();
+            Clear();
         }
-
-        public void ClearObjects()
-        {
-            ClearObjects(DynamicObjects);
-        }
-
 
     }
 }
