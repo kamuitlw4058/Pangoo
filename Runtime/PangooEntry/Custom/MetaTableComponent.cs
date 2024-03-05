@@ -76,7 +76,6 @@ namespace Pangoo
             {
                 return;
             }
-            List<Type> typeList = new List<Type>();
             if (useOverview)
             {
                 foreach (var overview in TableOverviews)
@@ -87,7 +86,6 @@ namespace Pangoo
                     {
                         var origTable = m_TableDict[type];
                         origTable.MergeRows(table.BaseRows);
-                        table = origTable;
                     }
                     else
                     {

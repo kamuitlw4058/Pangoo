@@ -36,6 +36,8 @@ namespace Pangoo.Core.Services
 
         public SaveLoadService SaveLoad;
 
+        public MainMenuService MainMenu;
+
 
         public MainService()
         {
@@ -54,6 +56,7 @@ namespace Pangoo.Core.Services
             CharacterService = new CharacterService();
             RuntimeData = new RuntimeDataService();
             SaveLoad = new SaveLoadService();
+            MainMenu = new MainMenuService();
 
 
             AddService(MetaTable, sortService: false);
@@ -68,6 +71,7 @@ namespace Pangoo.Core.Services
             AddService(UI, sortService: false);
             AddService(Subtitle, sortService: false);
             AddService(SaveLoad, sortService: false);
+            AddService(MainMenu, sortService: false);
             SortService();
         }
 

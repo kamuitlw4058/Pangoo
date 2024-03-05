@@ -32,7 +32,8 @@ namespace Pangoo.Core.Services
 
         Pangoo.MetaTable.VariablesTable m_VariablesTable;
 
-        Dictionary<string, IVariablesRow> m_VariablesDict = new Dictionary<string, IVariablesRow>();
+        [ShowInInspector]
+        public Dictionary<string, IVariablesRow> m_VariablesDict = new Dictionary<string, IVariablesRow>();
 
         [ShowInInspector]
         Dictionary<string, DynamicObjectValue> m_DynamicObjectValueDict = new Dictionary<string, DynamicObjectValue>();
@@ -45,6 +46,7 @@ namespace Pangoo.Core.Services
                 if (row.VariableType.IsNullOrWhiteSpace() || row.VariableType.Equals(VariableTypeEnum.DynamicObject.ToString())) continue;
 
                 m_VariablesDict.Add(row.Uuid, row);
+
                 switch (row.ValueType.ToEnum<VariableValueTypeEnum>())
                 {
                     case VariableValueTypeEnum.String:

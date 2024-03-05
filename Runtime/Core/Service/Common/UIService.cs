@@ -24,13 +24,17 @@ namespace Pangoo.Core.Services
         UIInfo m_UIInfo;
 
         [ShowInInspector]
-        List<UIFormLogic> m_LoadedAsset = new List<UIFormLogic>();
+        Dictionary<string, UIFormLogic> m_LoadedAsset = new();
         List<string> m_LoadingAssetIds = new List<string>();
 
         protected override void DoAwake()
         {
             base.DoAwake();
         }
+
+        // public UIFormLogic GetUILogic(string uuid)
+        // {
+        // }
 
 
         protected override void DoStart()
@@ -56,7 +60,16 @@ namespace Pangoo.Core.Services
             }
         }
 
-        public void ShowUI(string uuid, Action closeAction = null, object userData = null)
+        public void ShowMainMenu(MainMenuData mainMenuData, Action<UIFormLogic> showAction = null)
+        {
+            if (!GameMainConfigSrv.GetGameMainConfig().DefaultMainMenuPanelUuid.IsNullOrWhiteSpace())
+            {
+                mainMenuData.UISrv = this;
+                ShowUI(GameMainConfigSrv.GetGameMainConfig().DefaultMainMenuPanelUuid, userData: mainMenuData, showAction: showAction);
+            }
+        }
+
+        public void ShowUI(string uuid, Action closeAction = null, object userData = null, Action<UIFormLogic> showAction = null)
         {
             if (Loader == null)
             {
@@ -73,19 +86,17 @@ namespace Pangoo.Core.Services
             serialId = Loader.ShowUI(data,
                (o) =>
                {
-                   m_LoadedAsset.Add(o);
+                   m_LoadedAsset.Add(uuid, o);
+                   showAction?.Invoke(o);
                },
                (o) =>
                {
-                   if (m_LoadedAsset.Contains(o))
+                   if (m_LoadedAsset.ContainsKey(uuid))
                    {
-                       m_LoadedAsset.Remove(o);
+                       m_LoadedAsset.Remove(uuid);
                    }
 
-                   if (closeAction != null)
-                   {
-                       closeAction.Invoke();
-                   }
+                   closeAction?.Invoke();
                });
         }
 

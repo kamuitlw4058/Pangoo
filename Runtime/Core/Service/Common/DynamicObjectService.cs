@@ -310,6 +310,10 @@ namespace Pangoo.Core.Services
 
         bool IsAllGameSectionDynamicObjectLoaded()
         {
+            if (m_GameSectionDynamicObjectUuids.Count == 0)
+            {
+                return false;
+            }
 
             for (int i = 0; i < m_GameSectionDynamicObjectUuids.Count; i++)
             {

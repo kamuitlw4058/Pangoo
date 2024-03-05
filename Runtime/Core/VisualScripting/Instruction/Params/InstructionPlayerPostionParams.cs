@@ -30,6 +30,10 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("IsInteractive")]
         public bool IsInteractive = true;
 
+        [JsonMember("NotMoveWhenPlayerCreated")]
+        [LabelText("不移动玩家，当玩家已经被创建")]
+        public bool NotMoveWhenPlayerCreated;
+
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionPlayerPostionParams>(val);

@@ -22,17 +22,53 @@ namespace Pangoo.Core.Services
             Load();
         }
 
-        public void Load(string data)
+
+
+        public List<Tuple<DateTime, FileInfo>> GetSaveFiles()
         {
-            if (data.IsNullOrWhiteSpace() && !JsonStr.IsNullOrWhiteSpace())
+            var fileInfos = DirectoryUtility.GetFileInfos(SaveDir, new List<string>() { ".sav" });
+            List<Tuple<DateTime, FileInfo>> listTuple = new List<Tuple<DateTime, FileInfo>>();
+            foreach (var fileInfo in fileInfos)
             {
-                data = JsonStr;
+                var timeString = fileInfo.Name.Substring(0, 16);
+                var dateTime = DateTimeUtility.ParseDateTimeNow(timeString);
+                // Log($"fileInfo:{fileInfo}, fileInfo:{fileInfo.Name} dateTime:{dateTime}");
+                listTuple.Add(new Tuple<DateTime, FileInfo>(dateTime, fileInfo));
             }
-            else
+            if (listTuple.Count == 0)
             {
-                JsonStr = data;
+                return listTuple;
             }
-            RuntimeDataSrv.Deserialize(data);
+
+            listTuple.Sort((a, b) => a.Item1.CompareTo(b.Item1) * -1);
+            if (listTuple.Count > 10)
+            {
+                for (int i = 10; i < listTuple.Count; i++)
+                {
+                    var tuple = listTuple[i];
+                    listTuple.Remove(tuple);
+                    File.Delete(tuple.Item2.FullName);
+                }
+            }
+
+            return listTuple;
+        }
+
+
+        [Button]
+        public void Load()
+        {
+            var listTuple = GetSaveFiles();
+            if (listTuple.Count > 0)
+            {
+                Load(listTuple[0]);
+            }
+        }
+
+        public void Load(Tuple<DateTime, FileInfo> tuple)
+        {
+            JsonStr = File.ReadAllText(tuple.Item2.FullName);
+            RuntimeDataSrv.Deserialize(JsonStr);
         }
 
         string SaveDir
@@ -43,38 +79,6 @@ namespace Pangoo.Core.Services
             }
         }
 
-
-
-        [Button]
-        public void Load()
-        {
-            var fileInfos = DirectoryUtility.GetFileInfos(SaveDir, new List<string>() { ".sav" });
-            List<Tuple<DateTime, FileInfo>> listTuple = new List<Tuple<DateTime, FileInfo>>();
-            foreach (var fileInfo in fileInfos)
-            {
-                var timeString = fileInfo.Name.Substring(0, 16);
-                var dateTime = DateTimeUtility.ParseDateTimeNow(timeString);
-                Log($"fileInfo:{fileInfo}, fileInfo:{fileInfo.Name} dateTime:{dateTime}");
-                listTuple.Add(new Tuple<DateTime, FileInfo>(dateTime, fileInfo));
-            }
-            if (listTuple.Count == 0)
-            {
-                return;
-            }
-
-            listTuple.Sort((a, b) => a.Item1.CompareTo(b.Item1) * -1);
-            foreach (var tuple in listTuple)
-            {
-                Log($" dateTime:{tuple.Item1}");
-            }
-
-            Log($"First:{listTuple[0].Item1}");
-
-            JsonStr = File.ReadAllText(listTuple[0].Item2.FullName);
-
-            RuntimeDataSrv.Deserialize(JsonStr);
-
-        }
 
         [Button]
         public void Save()

@@ -96,6 +96,11 @@ namespace Pangoo
         [FoldoutGroup("UI", expanded: true)]
         public string DefaultSubtitlePanelUuid = string.Empty;
 
+        [LabelText("默认主菜单的Uuid")]
+        [ValueDropdown("GetUIUuid")]
+        [FoldoutGroup("UI")]
+        public string DefaultMainMenuPanelUuid = string.Empty;
+
 
         [LabelText("预览UI Uuid")]
         [ValueDropdown("GetUIUuid")]

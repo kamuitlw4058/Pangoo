@@ -125,6 +125,38 @@ namespace Pangoo.Core.Services
         }
 
 
+        UIService m_UIService;
+        public UIService UISrv
+        {
+            get
+            {
+                if (m_UIService == null)
+                {
+                    m_UIService = Parent.GetService<UIService>();
+                }
+
+                return m_UIService;
+            }
+        }
+
+
+        GameSectionService m_GameSectionService;
+
+
+        public GameSectionService GameSectionSrv
+        {
+            get
+            {
+                if (m_GameSectionService == null)
+                {
+                    m_GameSectionService = Parent.GetService<GameSectionService>();
+                }
+
+                return m_GameSectionService;
+            }
+        }
+
+
 
 
         protected override void DoAwake()
