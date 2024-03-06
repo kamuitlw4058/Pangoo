@@ -26,6 +26,11 @@ namespace Pangoo.Core.Services
 
         public List<Tuple<DateTime, FileInfo>> GetSaveFiles()
         {
+            if (!Directory.Exists(SaveDir))
+            {
+                Directory.CreateDirectory(SaveDir);
+            }
+
             var fileInfos = DirectoryUtility.GetFileInfos(SaveDir, new List<string>() { ".sav" });
             List<Tuple<DateTime, FileInfo>> listTuple = new List<Tuple<DateTime, FileInfo>>();
             foreach (var fileInfo in fileInfos)
