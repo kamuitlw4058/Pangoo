@@ -11,9 +11,10 @@ using UnityEditor;
 
 namespace Pangoo
 {
-#if UNITY_EDITOR
+
     public class DirectoryUtility
     {
+#if UNITY_EDITOR
         public static void ExistsOrCreate(string path)
         {
             // Debug.Log($"path:{path} Path.GetDirectoryName():{Path.GetDirectoryName(path)},Path.anem:{Path.GetFileName(path)}");
@@ -28,21 +29,6 @@ namespace Pangoo
                 AssetDatabase.CreateFolder(parent_path, dir_name);
             }
         }
-
-        public static void ExistsOrCreateSystem(string path)
-        {
-            if (!Directory.Exists(path))
-            {
-                var parent_path = PathUtility.GetDirectoryName(path);
-                var dir_name = PathUtility.GetFileName(path);
-                if (!Directory.Exists(parent_path))
-                {
-                    ExistsOrCreateSystem(parent_path);
-                }
-                Directory.CreateDirectory(path);
-            }
-        }
-
 
 
 
@@ -90,6 +76,24 @@ namespace Pangoo
             }
 
         }
+
+#endif
+
+        public static void ExistsOrCreateSystem(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                var parent_path = PathUtility.GetDirectoryName(path);
+                var dir_name = PathUtility.GetFileName(path);
+                if (!Directory.Exists(parent_path))
+                {
+                    ExistsOrCreateSystem(parent_path);
+                }
+                Directory.CreateDirectory(path);
+            }
+        }
+
+
         public static List<FileInfo> GetFileInfos(string dirPath, List<string> extensions = null, bool scanSubDirectory = false)
         {
             DirectoryInfo dInfo = new DirectoryInfo(dirPath);
@@ -132,5 +136,5 @@ namespace Pangoo
 
         }
     }
-#endif
+
 }
