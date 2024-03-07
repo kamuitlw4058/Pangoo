@@ -19,7 +19,6 @@ namespace Pangoo.Core.Services
         public override int Priority => 6;
 
 
-
         IEntityGroupRow m_EntityGroupRow;
 
         EntityLoader Loader = null;
@@ -52,18 +51,9 @@ namespace Pangoo.Core.Services
 
         public void SetGameScetion(List<string> dynamicUuids)
         {
-            DynamicObjectInited = false;
             m_GameSectionDynamicObjectUuids.Clear();
             m_GameSectionDynamicObjectUuids.AddRange(dynamicUuids);
-
         }
-        public bool DynamicObjectInited = false;
-
-        public Action OnGameSectionDynamicObjectLoaded;
-
-
-
-
 
 
         protected override void DoStart()
@@ -74,11 +64,6 @@ namespace Pangoo.Core.Services
             m_DynamicObjectInfo = GameInfoSrv.GetGameInfo<DynamicObjectInfo>();
             Debug.Log($"DoStart DynamicObjectService :{m_EntityGroupRow} m_EntityGroupRow:{m_EntityGroupRow.Name}");
 
-        }
-
-        public List<string> GetLoadedUuids()
-        {
-            return m_LoadedAssetDict.Keys.ToList();
         }
 
         public EntityDynamicObject GetLoadedEntity(string uuid)
@@ -308,23 +293,21 @@ namespace Pangoo.Core.Services
 
         }
 
-        bool IsAllGameSectionDynamicObjectLoaded()
+
+        public bool CheckGameSectionLoaded
         {
-            if (m_GameSectionDynamicObjectUuids.Count == 0)
+            get
             {
-                return false;
-            }
-
-            for (int i = 0; i < m_GameSectionDynamicObjectUuids.Count; i++)
-            {
-                if (!m_LoadedAssetDict.ContainsKey(m_GameSectionDynamicObjectUuids[i]))
+                for (int i = 0; i < m_GameSectionDynamicObjectUuids.Count; i++)
                 {
-                    return false;
+                    if (!m_LoadedAssetDict.ContainsKey(m_GameSectionDynamicObjectUuids[i]))
+                    {
+                        return false;
+                    }
                 }
+
+                return true;
             }
-
-            return true;
-
         }
 
 
@@ -333,16 +316,7 @@ namespace Pangoo.Core.Services
             UpdateNeedLoadDict();
             UpdateAutoLoad();
             UpdateAutoRelease();
-            if (!DynamicObjectInited)
-            {
-                if (IsAllGameSectionDynamicObjectLoaded())
-                {
-                    DynamicObjectInited = true;
-                    Log($"GameSection DynamicObject All Loaded!");
-                    OnGameSectionDynamicObjectLoaded?.Invoke();
 
-                }
-            }
         }
 
     }

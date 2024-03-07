@@ -19,9 +19,7 @@ namespace Pangoo.Core.Services
         protected override void DoStart()
         {
             base.DoStart();
-            Load();
         }
-
 
 
         public List<Tuple<DateTime, FileInfo>> GetSaveFiles()
@@ -37,7 +35,6 @@ namespace Pangoo.Core.Services
             {
                 var timeString = fileInfo.Name.Substring(0, 16);
                 var dateTime = DateTimeUtility.ParseDateTimeNow(timeString);
-                // Log($"fileInfo:{fileInfo}, fileInfo:{fileInfo.Name} dateTime:{dateTime}");
                 listTuple.Add(new Tuple<DateTime, FileInfo>(dateTime, fileInfo));
             }
             if (listTuple.Count == 0)

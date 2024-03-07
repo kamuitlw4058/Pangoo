@@ -17,51 +17,25 @@ namespace Pangoo.MetaTable
     [Serializable]
     public partial class GameSectionDetailRowWrapper : MetaTableDetailRowWrapper<GameSectionOverview, UnityGameSectionRow>
     {
-        [LabelText("动态场景Ids")]
-        [ValueDropdown("StaticSceneIdDynamicValueDropdown", IsUniqueList = true)]
-
-        // [OnValueChanged("OnDynamicSceneIdsChanged")]
-        [ListDrawerSettings(Expanded = true)]
-
-        [PropertyOrder(1)]
-        public int[] DynamicSceneIds
-        {
-            get
-            {
-                return UnityRow.Row?.DynamicSceneIds.ToSplitArr<int>();
-            }
-            set
-            {
-                if (UnityRow != null)
-                {
-                    UnityRow.Row.DynamicSceneIds = value.ToListString();
-                    Save();
-                }
-            }
-        }
-
-        [LabelText("动态场景Uuids")]
+        [LabelText("场景Uuids")]
         [ValueDropdown("StaticSceneUuidValueDropdown", IsUniqueList = true)]
-
-        // [OnValueChanged("OnDynamicSceneIdsChanged")]
-        [ListDrawerSettings(Expanded = true)]
-
+        [ListDrawerSettings(ShowFoldout = true)]
         [ShowInInspector]
         [PropertyOrder(1)]
-        public string[] DynamicSceneUuids
+        public string[] SceneUuids
         {
             get
             {
-                return UnityRow?.Row?.DynamicSceneUuids.ToSplitArr<string>();
+                return UnityRow?.Row?.SceneUuids.ToSplitArr<string>();
             }
             set
             {
-
-                UnityRow.Row.DynamicSceneUuids = value.ToListString();
+                UnityRow.Row.SceneUuids = value.ToListString();
                 Save();
-
             }
         }
+
+
 
         public IEnumerable StaticSceneUuidValueDropdown()
         {
@@ -71,114 +45,6 @@ namespace Pangoo.MetaTable
         public IEnumerable StaticSceneIdDynamicValueDropdown()
         {
             return GameSupportEditorUtility.GetStaticSceneIds();
-        }
-
-
-        [LabelText("持续场景Ids")]
-        [ValueDropdown("StaticSceneIdKeepValueDropdown", IsUniqueList = true)]
-        [ListDrawerSettings(Expanded = true)]
-
-        [PropertyOrder(2)]
-        public int[] KeepSceneIds
-        {
-            get
-            {
-                return UnityRow?.Row?.KeepSceneIds?.ToArrInt() ?? new int[0];
-            }
-            set
-            {
-                UnityRow.Row.KeepSceneIds = value.ToListString();
-                Save();
-            }
-        }
-
-        [LabelText("持续场景uuids")]
-        [ValueDropdown("StaticSceneUuidValueDropdown", IsUniqueList = true)]
-        [ListDrawerSettings(Expanded = true)]
-
-        [ShowInInspector]
-        [PropertyOrder(2)]
-        public string[] KeepSceneUuids
-        {
-            get
-            {
-                return UnityRow?.Row.KeepSceneUuids.ToSplitArr<string>();
-            }
-            set
-            {
-                UnityRow.Row.KeepSceneUuids = value.ToListString();
-                Save();
-            }
-        }
-
-
-
-        [LabelText("初始化场景")]
-        [ValueDropdown("StaticSceneIdValueDropdown", IsUniqueList = true)]
-        [ListDrawerSettings(Expanded = true)]
-
-        [PropertyOrder(3)]
-        public int[] InitSceneIds
-        {
-            get
-            {
-                return UnityRow?.Row?.InitSceneIds?.ToArrInt() ?? new int[0];
-            }
-            set
-            {
-                UnityRow.Row.InitSceneIds = value.ToListString();
-                Save();
-            }
-        }
-
-        [LabelText("初始化场景Uuid")]
-        [ValueDropdown("StaticSceneUuidValueDropdown", IsUniqueList = true)]
-        [ListDrawerSettings(Expanded = true)]
-
-        [ShowInInspector]
-        [PropertyOrder(3)]
-        public string[] InitSceneUuids
-        {
-            get
-            {
-                return UnityRow?.Row.InitSceneUuids?.ToSplitArr<string>();
-            }
-            set
-            {
-                UnityRow.Row.InitSceneUuids = value.ToListString();
-                Save();
-            }
-        }
-
-
-        public IEnumerable StaticSceneIdKeepValueDropdown()
-        {
-            return GameSupportEditorUtility.GetStaticSceneIds(excludeIds: DynamicSceneIds?.ToList());
-        }
-
-        public IEnumerable StaticSceneIdValueDropdown()
-        {
-            return GameSupportEditorUtility.GetStaticSceneIds();
-        }
-
-
-        [LabelText("动态物体Ids")]
-        [ValueDropdown("DynamicObjectIdValueDropdown", IsUniqueList = true)]
-        [ListDrawerSettings(Expanded = true)]
-
-        [PropertyOrder(4)]
-        public int[] DynamicObjectIds
-        {
-            get
-            {
-
-                return UnityRow?.Row?.DynamicObjectIds?.ToArrInt() ?? new int[0];
-            }
-            set
-            {
-                UnityRow.Row.DynamicObjectIds = value.ToList().ToListString();
-                Save();
-            }
         }
 
 
@@ -207,24 +73,6 @@ namespace Pangoo.MetaTable
 
 
 
-        [LabelText("初始化完成指令")]
-        [ValueDropdown("InstructionIdValueDropdown", IsUniqueList = true)]
-        [ListDrawerSettings(Expanded = true)]
-        [PropertyOrder(5)]
-        public int[] InstructionIds
-        {
-            get
-            {
-                return UnityRow?.Row?.InitedInstructionIds?.ToArrInt() ?? new int[0];
-            }
-            set
-            {
-
-
-                UnityRow.Row.InitedInstructionIds = value.ToListString();
-                Save();
-            }
-        }
 
         [LabelText("初始化完成指令Uuids")]
         [ValueDropdown("InstructionUuidsValueDropdown", IsUniqueList = true)]
@@ -246,24 +94,6 @@ namespace Pangoo.MetaTable
             }
         }
 
-        [LabelText("编辑器初始化完成指令")]
-        [ValueDropdown("InstructionIdValueDropdown", IsUniqueList = true)]
-        [ListDrawerSettings(Expanded = true)]
-        [PropertyOrder(5)]
-        public int[] EditorInstructionIds
-        {
-            get
-            {
-                return UnityRow?.Row?.EditorInitedInstructionIds?.ToArrInt() ?? new int[0];
-            }
-            set
-            {
-
-
-                UnityRow.Row.EditorInitedInstructionIds = value.ToListString();
-                Save();
-            }
-        }
 
         [LabelText("编辑器初始化完成指令Uuids")]
         [ValueDropdown("InstructionUuidsValueDropdown", IsUniqueList = true)]
@@ -286,46 +116,19 @@ namespace Pangoo.MetaTable
         }
 
 
-        public IEnumerable DynamicObjectIdValueDropdown()
-        {
-            return GameSupportEditorUtility.GetDynamicObjectIds();
-        }
 
         public IEnumerable DynamicObjectUuidValueDropdown()
         {
             return GameSupportEditorUtility.GetDynamicObjectUuids();
         }
 
-        public IEnumerable InstructionIdValueDropdown()
-        {
-            return GameSupportEditorUtility.GetInstructionIds();
-        }
 
         public IEnumerable InstructionUuidsValueDropdown()
         {
             return GameSupportEditorUtility.GetInstructionUuids();
         }
 
-        [Button("更新AssetPathUuid通过Id")]
-        public void UpdateAssetPathUuidByAssetPathId()
-        {
 
-            DynamicSceneUuids = GameSupportEditorUtility.ConvertStaticSceneId2Uuid(DynamicSceneIds);
-
-            KeepSceneUuids = GameSupportEditorUtility.ConvertStaticSceneId2Uuid(KeepSceneIds);
-
-            InitSceneUuids = GameSupportEditorUtility.ConvertStaticSceneId2Uuid(InitSceneIds);
-
-            DynamicObjectUuids = GameSupportEditorUtility.ConvertDynamicObjectId2Uuid(DynamicObjectIds);
-
-
-            InstructionUuids = GameSupportEditorUtility.ConvertInstructionId2Uuid(InstructionIds);
-
-
-            EditorInstructionUuids = GameSupportEditorUtility.ConvertInstructionId2Uuid(EditorInstructionIds);
-
-
-        }
     }
 }
 #endif

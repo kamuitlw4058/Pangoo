@@ -23,7 +23,10 @@ namespace Pangoo.Core.Services
             base.DoAwake();
             MainMenuData mainMenuData = new MainMenuData();
             mainMenuData.MainMenuSrv = this;
-            UISrv.ShowMainMenu(mainMenuData, OnShowMainMenu);
+            if (!GameMainConfigSrv.GetGameMainConfig().SkipMainMenu)
+            {
+                UISrv.ShowMainMenu(mainMenuData, OnShowMainMenu);
+            }
         }
 
 

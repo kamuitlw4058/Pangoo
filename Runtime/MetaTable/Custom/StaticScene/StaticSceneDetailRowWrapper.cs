@@ -15,6 +15,7 @@ using System.Xml.Serialization;
 using Pangoo.Common;
 using MetaTable;
 using Pangoo.Core.Characters;
+using Pangoo.Core.VisualScripting;
 
 namespace Pangoo.MetaTable
 {
@@ -41,6 +42,29 @@ namespace Pangoo.MetaTable
 
         }
 
+        [ShowInInspector]
+        [PropertyOrder(1)]
+        [LabelText("位置")]
+        public Vector3 Position
+        {
+            get
+            {
+                return UnityRow.Row?.Position ?? Vector3.zero;
+            }
+        }
+
+        [ShowInInspector]
+        [PropertyOrder(2)]
+        [LabelText("旋转")]
+        public Vector3 Rotation
+        {
+            get
+            {
+                return UnityRow.Row?.Rotation ?? Vector3.zero;
+            }
+        }
+
+
         void AddAssetPath()
         {
             var assetOverview = AssetDatabaseUtility.FindAssetFirst<AssetPathOverview>(Overview.Config.StreamResScriptableObjectDir);
@@ -63,11 +87,6 @@ namespace Pangoo.MetaTable
 
 
 
-        public IEnumerable AssetPathIdValueDropdown()
-        {
-            return GameSupportEditorUtility.GetAssetPathIds(assetTypes: new List<string> { "Scene" });
-        }
-
         public IEnumerable AssetPathUuidValueDropdown()
         {
             return GameSupportEditorUtility.GetAssetPathUuids(assetTypes: new List<string> { "Scene" });
@@ -89,21 +108,99 @@ namespace Pangoo.MetaTable
                 }
                 return m_Prefab;
             }
+        }
+
+        [ShowInInspector]
+        [LabelText("模型控制列表")]
+        [FoldoutGroup("场景显示", expanded: true)]
+
+        [PropertyOrder(6)]
+        [ValueDropdown("OnModelListDropdown")]
+        public string[] ModelList
+        {
+            get
+            {
+                return UnityRow.Row.ModelList.ToSplitArr<string>();
+            }
             set
             {
+                UnityRow.Row.ModelList = value.ToListString();
+                Save();
+            }
+        }
 
+        public IEnumerable OnModelListDropdown()
+        {
+            return GameSupportEditorUtility.RefPrefabStringDropdown(Prefab, false); ;
+        }
+
+
+        [ShowInInspector]
+        [LabelText("显示类型")]
+        [FoldoutGroup("场景显示")]
+        [PropertyOrder(6)]
+        public SceneShowType ShowType
+        {
+            get
+            {
+                return UnityRow.Row.ShowType.ToEnum<SceneShowType>();
+            }
+            set
+            {
+                UnityRow.Row.ShowType = value.ToString();
+                Save();
+            }
+        }
+
+
+        [ShowInInspector]
+        [LabelText("默认隐藏")]
+        [FoldoutGroup("场景显示")]
+        [PropertyOrder(6)]
+        [ShowIf("@this.ShowType == SceneShowType.Auto || this.ShowType == SceneShowType.ManualAlways")]
+
+        public bool DefaultHide
+        {
+            get
+            {
+                return UnityRow.Row.HideDefault;
+            }
+            set
+            {
+                UnityRow.Row.HideDefault = value;
+                Save();
             }
         }
 
 
 
+        [ShowInInspector]
+        [LabelText("玩家没有进入场景时也显示")]
+        [PropertyOrder(6)]
+        [ShowIf("@this.ShowType != SceneShowType.Always && this.ShowType != SceneShowType.ManualAlways")]
+        [FoldoutGroup("场景显示")]
+
+        public bool ShowOnNoPlayEnter
+        {
+            get
+            {
+                return UnityRow.Row.ShowOnNoPlayerEnter;
+            }
+            set
+            {
+                UnityRow.Row.ShowOnNoPlayerEnter = value;
+                Save();
+            }
+        }
 
 
         [ShowInInspector]
         [LabelText("加载场景Uuid")]
+        [FoldoutGroup("场景显示")]
         [ListDrawerSettings(Expanded = true)]
         [ValueDropdown("StaticSceneUuidValueDropdown", IsUniqueList = true)]
-
+        [PropertyOrder(6)]
+        [ShowIf("@this.ShowType != SceneShowType.Always && this.ShowType != SceneShowType.ManualAlways")]
         public string[] LoadSceneUuids
         {
             get
@@ -131,6 +228,10 @@ namespace Pangoo.MetaTable
 
         [ShowInInspector]
         [LabelText("使用场景脚步声")]
+        [FoldoutGroup("脚步声", expanded: true)]
+
+        [PropertyOrder(7)]
+
         public bool UseSceneFootstep
         {
             get
@@ -148,6 +249,10 @@ namespace Pangoo.MetaTable
         FootstepEntry? m_Footstep;
 
         [ShowInInspector]
+        [PropertyOrder(8)]
+        [FoldoutGroup("脚步声")]
+
+
         public string FootstepStr
         {
             get
@@ -161,6 +266,9 @@ namespace Pangoo.MetaTable
         [HideLabel]
         [HideReferenceObjectPicker]
         [OnValueChanged("OnFootstepChanged", includeChildren: true)]
+        [PropertyOrder(9)]
+        [FoldoutGroup("脚步声")]
+
 
         public FootstepEntry? Footstep
         {

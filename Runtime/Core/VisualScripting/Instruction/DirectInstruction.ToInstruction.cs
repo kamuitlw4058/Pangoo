@@ -346,14 +346,14 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.Value = value;
             return instruction;
         }
-        
+
         public static Instruction GetDynamicObjectInvokeLeftMouseDrag()
         {
             var instruction = Activator.CreateInstance<InstructionDynamicObjectInvokeMouseDrag>();
             return instruction;
         }
 
-        public static Instruction GetChangeImageSprite(string targetName,DynamicObjectHotsoptState state)
+        public static Instruction GetChangeImageSprite(string targetName, DynamicObjectHotsoptState state)
         {
             var instruction = Activator.CreateInstance<InstructionChangeHotspotSprite>();
             instruction.ParamsRaw.TargetName = targetName;
@@ -366,6 +366,14 @@ namespace Pangoo.Core.VisualScripting
             var instruction = Activator.CreateInstance<InstructionUIDialogue>();
             instruction.ParamsRaw.DialogueUuid = dialogueUuid;
             instruction.ParamsRaw.WaitClosed = val;
+            return instruction;
+        }
+
+        public static Instruction GetSceneModelShow(string uuid, bool val)
+        {
+            var instruction = Activator.CreateInstance<InstructionSceneShow>();
+            instruction.ParamsRaw.SceneUuid = uuid;
+            instruction.ParamsRaw.Val = val;
             return instruction;
         }
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
@@ -453,13 +461,15 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.SetLocalBoolVariable:
                     return GetSetLocalBoolVariable(Uuid, Uuid2, Bool1);
                 case DirectInstructionTypeEnum.SetLocalIntVariable:
-                    return GetSetLocalIntVariable(Uuid,Uuid2,Int1);
+                    return GetSetLocalIntVariable(Uuid, Uuid2, Int1);
                 case DirectInstructionTypeEnum.DynamicObjectMouseDrag:
                     return GetDynamicObjectInvokeLeftMouseDrag();
                 case DirectInstructionTypeEnum.ChangeHotspotState:
-                    return GetChangeImageSprite(DropdownString1,DynamicObjectHotsoptState);
+                    return GetChangeImageSprite(DropdownString1, DynamicObjectHotsoptState);
                 case DirectInstructionTypeEnum.StartDialogue:
                     return GetStartDialogue(Uuid, Bool1);
+                case DirectInstructionTypeEnum.ShowSceneModel:
+                    return GetSceneModelShow(Uuid, Bool1);
             }
 
             return null;

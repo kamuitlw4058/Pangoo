@@ -58,8 +58,20 @@ namespace Pangoo.Editor
             Wrapper.Overview = Overview;
             Wrapper.UnityRow = Row;
 
+            transform.localPosition = Wrapper.Position;
+            transform.localRotation = Quaternion.Euler(Wrapper.Rotation);
 
         }
+        [Button("SetTransfrom")]
+        [ShowIf("@this. Wrapper?.UnityRow != null")]
+
+        public void SetTransfrom()
+        {
+            Wrapper.UnityRow.Row.Position = transform.localPosition;
+            Wrapper.UnityRow.Row.Rotation = transform.localRotation.eulerAngles;
+            Wrapper.Save();
+        }
+
     }
 }
 #endif

@@ -60,6 +60,8 @@ namespace Pangoo
 
         }
 
+
+
         protected override void OnShow(object userData)
         {
             base.OnShow(userData);
@@ -70,12 +72,23 @@ namespace Pangoo
                 LogError("Entity data is invalid.");
                 return;
             }
+            SceneData.EntityScene = this;
+            SceneData.Hide = SceneData.sceneInfo.SceneRow.HideDefault;
 
             Name = Utility.Text.Format("{0}[{1}]", SceneData.Name, SceneData.UuidShort);
+            // UpdateDefaultTransform();
 #if USE_HDRP
             PlanarProbes = GetComponentsInChildren<PlanarReflectionProbe>();
             SetProbeEnabled(false);
 #endif
+        }
+
+        public void SetModelsActive(bool val)
+        {
+            foreach (var model in SceneData.Models)
+            {
+                model.gameObject.SetActive(val);
+            }
         }
 
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
@@ -94,7 +107,14 @@ namespace Pangoo
                 IsOpenProbe = false;
             }
 #endif
-
+            if (SceneData.ShowModels)
+            {
+                SetModelsActive(true);
+            }
+            else
+            {
+                SetModelsActive(false);
+            }
         }
 
 
@@ -103,7 +123,7 @@ namespace Pangoo
             if (other.tag == "Player")
             {
                 EnterCollider = other;
-                EventHelper.Fire(this, EnterStaticSceneEventArgs.Create(SceneData.AssetPathUuid));
+                EventHelper.FireNow(this, EnterStaticSceneEventArgs.Create(SceneData.AssetPathUuid));
             }
 
         }
@@ -114,7 +134,7 @@ namespace Pangoo
             if (other.tag == "Player")
             {
                 EnterCollider = null;
-                EventHelper.Fire(this, ExitStaticSceneEventArgs.Create(SceneData.AssetPathUuid));
+                EventHelper.FireNow(this, ExitStaticSceneEventArgs.Create(SceneData.AssetPathUuid));
             }
         }
 

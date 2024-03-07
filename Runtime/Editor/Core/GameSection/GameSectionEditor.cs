@@ -67,9 +67,7 @@ namespace Pangoo.Editor
 
             if (!Application.isPlaying)
             {
-                var uuids = DetailWrapper.DynamicSceneUuids.ToList();
-                uuids.AddRange(DetailWrapper.KeepSceneUuids);
-                m_StaticSceneEditor.Uuids = uuids;
+                m_StaticSceneEditor.Uuids = DetailWrapper.SceneUuids.ToList();
             }
             else
             {

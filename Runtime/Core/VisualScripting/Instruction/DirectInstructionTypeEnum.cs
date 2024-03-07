@@ -130,10 +130,14 @@ namespace Pangoo.Core.VisualScripting
         SetLocalIntVariable,
         [LabelText("动态物体自身/MouseDrag")]
         DynamicObjectMouseDrag,
-        
+
         [LabelText("动态物体/设置Hotspot状态")]
         ChangeHotspotState,
         [LabelText("UI/启动对话")]
         StartDialogue,
+
+
+        [LabelText("场景/场景模型显示")]
+        ShowSceneModel,
     }
 }

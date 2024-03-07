@@ -23,6 +23,8 @@ namespace Pangoo.Core.Services
 
         public string LatestUuid = null;
 
+        public bool IsGameSectionLoaded;
+
 
         protected override void DoAwake()
         {
@@ -43,30 +45,19 @@ namespace Pangoo.Core.Services
         {
             Log("DoStart");
 
-            StaticSceneSrv.OnInitSceneLoaded += CheckGameSectionLoaded;
-            DynamicObjectSrv.OnGameSectionDynamicObjectLoaded += CheckGameSectionLoaded;
-
-        }
-
-        bool CheckDynamicObjectLoaded(IGameSectionRow row)
-        {
-            var uuids = row.DynamicObjectUuids.ToSplitList<string>();
-            foreach (var dynamicObjectUuid in uuids)
+            if (GameMainConfigSrv.GetGameMainConfig().SkipMainMenu)
             {
-                if (DynamicObjectSrv.GetLoadedEntity(dynamicObjectUuid) == null)
-                {
-                    return false;
-                }
+                SetGameSection(firstGameSection: true);
             }
-            return true;
         }
 
 
         bool CheckGameSectionLoadedCompleted(IGameSectionRow row)
         {
-            bool IsDynamicObjectLoaded = CheckDynamicObjectLoaded(row);
-            Log($"CheckGameSectionLoadedCompleted IsSceneLoaded:{StaticSceneSrv.SectionInited} IsDynamicObjectLoaded:{IsDynamicObjectLoaded}");
-            if (StaticSceneSrv.SectionInited && CheckDynamicObjectLoaded(row))
+            bool dynamicObjectLoaded = DynamicObjectSrv.CheckGameSectionLoaded;
+            var sceneLoaded = StaticSceneSrv.CheckGameSectionScenesLoaded();
+            Log($"CheckGameSectionLoadedCompleted IsSceneLoaded:{sceneLoaded} IsDynamicObjectLoaded:{dynamicObjectLoaded}");
+            if (sceneLoaded && dynamicObjectLoaded)
             {
                 return true;
             }
@@ -87,8 +78,6 @@ namespace Pangoo.Core.Services
             }
 
 #endif
-
-
             var instructionUuids = GameSectionRow.InitedInstructionUuids.ToSplitList<string>();
             if (instructionUuids.Count > 0)
             {
@@ -101,23 +90,11 @@ namespace Pangoo.Core.Services
         }
 
 
-        void CheckGameSectionLoaded()
-        {
-            var GameSection = MetaTableSrv.GetGameSectionByUuid(LatestUuid);
-            Log($"GameSection Loaded {CheckGameSectionLoadedCompleted(GameSection)}");
-            if (CheckGameSectionLoadedCompleted(GameSection))
-            {
-                RunLoadedInstructions(GameSection);
-            }
-        }
-
         public void SetGameSection(string uuid = null, bool firstGameSection = false, Action OnFinishLoad = null)
         {
             Log($"SetGameSection is :{uuid.ToShortUuid()}");
             if (uuid.IsNullOrWhiteSpace())
             {
-                // LogError($"SetGameSection Failed id <= 0:{uuid}");
-
                 var CurrentGameSection = RuntimeDataSrv.GetVariable<string>(GameMainConfigSrv.GetGameMainConfig().CurrentGameSectionVariableUuid);
                 if (CurrentGameSection.IsNullOrWhiteSpace())
                 {
@@ -127,14 +104,14 @@ namespace Pangoo.Core.Services
                 if (!CurrentGameSection.IsNullOrWhiteSpace())
                 {
                     uuid = CurrentGameSection;
-                    // SetGameSection(CurrentGameSection, firstGameSection: true);
                 }
-                // return;
             }
+            Log($"Apply Game Section is :{uuid.ToShortUuid()}");
 
 
             if (LatestUuid != uuid)
             {
+                IsGameSectionLoaded = false;
                 LatestUuid = uuid;
 
                 var GameSection = MetaTableSrv.GetGameSectionByUuid(LatestUuid);
@@ -147,35 +124,29 @@ namespace Pangoo.Core.Services
                 {
                     SaveLoadSrv.Save();
                 }
-
-                StaticSceneSrv.SetGameScetion(
-                    GameSection.DynamicSceneUuids.ToSplitList<string>(),
-                    GameSection.KeepSceneUuids.ToSplitList<string>(),
-                    GameSection.InitSceneUuids.ToSplitList<string>()
-                    );
+                StaticSceneSrv.SetGameSectionScenes(GameSection.SceneUuids.ToSplitList<string>());
 
                 DynamicObjectSrv.SetGameScetion(GameSection.DynamicObjectUuids.ToSplitList<string>());
 
 
-                Log($"Update Static Scene:{GameSection.UuidShort} KeepSceneUuids:{GameSection.KeepSceneUuids} DynamicSceneUuids:{GameSection.DynamicSceneUuids} InitSceneUuids:{GameSection.InitSceneUuids}");
+                Log($"Update Static Scene:{GameSection.UuidShort} SceneUuids:{GameSection.SceneUuids}");
             }
         }
-
-
-        protected override void DoDestroy()
+        protected override void DoUpdate()
         {
-            if (StaticSceneSrv != null)
+            if (LatestUuid.IsNullOrWhiteSpace() || IsGameSectionLoaded)
             {
-                StaticSceneSrv.OnInitSceneLoaded -= CheckGameSectionLoaded;
+                return;
             }
 
-            if (DynamicObjectSrv != null)
+            var GameSection = MetaTableSrv.GetGameSectionByUuid(LatestUuid);
+            var Loaded = CheckGameSectionLoadedCompleted(GameSection);
+            if (Loaded)
             {
-                DynamicObjectSrv.OnGameSectionDynamicObjectLoaded -= CheckGameSectionLoaded;
+                RunLoadedInstructions(GameSection);
+                IsGameSectionLoaded = true;
             }
-            base.DoDestroy();
         }
-
 
     }
 }

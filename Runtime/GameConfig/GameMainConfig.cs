@@ -33,6 +33,9 @@ namespace Pangoo
         [LabelText("默认进入游戏段落")]
         public string EnterGameSectionUuid;
 
+        [LabelText("跳过主菜单")]
+        public bool SkipMainMenu;
+
         [LabelText("当前游戏段落变量")]
         [ValueDropdown("GetStringVariableUuid")]
         public string CurrentGameSectionVariableUuid;
@@ -67,23 +70,6 @@ namespace Pangoo
         [HideLabel]
         [TabGroup("玩家/玩家配置", "脚步声")]
         public FootstepEntry FootstepEntry;
-
-        // [LabelText("默认脚步声音量")]
-        // [TabGroup("玩家/玩家配置", "脚步声")]
-        // public float DefaultFootstepSoundVolume = 1;
-
-        // [LabelText("默认脚步声")]
-        // [TabGroup("玩家/玩家配置", "脚步声")]
-        // [ValueDropdown("GetSoundUuid")]
-        // public string[] DefaultFootstepSoundEffectUuids;
-
-        // [LabelText("脚步间隔")]
-        // [TabGroup("玩家/玩家配置", "脚步声")]
-        // public Vector2 FootstepSoundInterval = Vector2.one;
-
-        // [LabelText("脚步最小间隔")]
-        // [TabGroup("玩家/玩家配置", "脚步声")]
-        // public float FootstepSoundMinInterval = 0.3f;
 
         [ValueDropdown("GetIntVariableUuid")]
         [FoldoutGroup("动态物体", expanded: true)]

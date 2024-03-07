@@ -29,6 +29,18 @@ namespace Pangoo.MetaTable
 
         public string Footsetp{ get; set; }
 
+        public Vector3 Position{ get; set; }
+
+        public Vector3 Rotation{ get; set; }
+
+        public bool ShowOnNoPlayerEnter{ get; set; }
+
+        public string ModelList{ get; set; }
+
+        public string ShowType{ get; set; }
+
+        public bool HideDefault{ get; set; }
+
     }
 }
 

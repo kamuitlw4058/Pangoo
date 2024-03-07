@@ -286,27 +286,9 @@ MonoBehaviour:
     - Name: Name
       Type: string
       CnName: Name
-    - Name: DynamicSceneIds
-      Type: string
-      CnName: "\u52A8\u6001\u52A0\u8F7D\u573A\u666F"
-    - Name: KeepSceneIds
-      Type: string
-      CnName: "\u6301\u7EED\u52A0\u8F7D\u573A\u666F"
     - Name: SectionJumpByScene
       Type: string
       CnName: "\u7AE0\u8282\u8DF3\u8F6C\u7684\u573A\u666F"
-    - Name: InitSceneIds
-      Type: string
-      CnName: "\u8FDB\u5165\u7AE0\u8282\u9ED8\u8BA4\u52A0\u8F7D\u7684\u573A\u666F"
-    - Name: DynamicObjectIds
-      Type: string
-      CnName: "\u52A8\u6001\u7269\u4F53"
-    - Name: InitedInstructionIds
-      Type: string
-      CnName: "\u521D\u59CB\u5316\u540E\u6267\u884C\u7684\u6307\u4EE4"
-    - Name: EditorInitedInstructionIds
-      Type: string
-      CnName: "\u7F16\u8F91\u5668\u521D\u59CB\u5316\u540E\u6267\u884C\u7684\u6307\u4EE4"
     - Name: DynamicSceneUuids
       Type: string
       CnName: "\u52A8\u6001\u52A0\u8F7D\u573A\u666FUuids"
@@ -325,9 +307,9 @@ MonoBehaviour:
     - Name: EditorInitedInstructionUuids
       Type: string
       CnName: "\u7F16\u8F91\u5668\u521D\u59CB\u5316\u540E\u6267\u884C\u7684\u6307\u4EE4Uuids"
-    - Name: Id
-      Type: int
-      CnName: Id
+    - Name: SceneUuids
+      Type: string
+      CnName: "\u573A\u666Fuuids"
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Hotspot
@@ -346,9 +328,6 @@ MonoBehaviour:
     - Name: Params
       Type: string
       CnName: "\u53C2\u6570"
-    - Name: Id
-      Type: int
-      CnName: Id
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Instruction
@@ -448,6 +427,24 @@ MonoBehaviour:
     - Name: Footsetp
       Type: string
       CnName: "\u811A\u6B65\u58F0\u914D\u7F6E"
+    - Name: Position
+      Type: Vector3
+      CnName: "\u4F4D\u7F6E"
+    - Name: Rotation
+      Type: Vector3
+      CnName: "\u65CB\u8F6C"
+    - Name: ShowOnNoPlayerEnter
+      Type: bool
+      CnName: "\u5F53\u73A9\u5BB6\u6CA1\u6709\u8FDB\u5165\u573A\u666F\u65F6\u4E5F\u52A0\u8F7D"
+    - Name: ModelList
+      Type: string
+      CnName: "\u6A21\u578B\u5217\u8868"
+    - Name: ShowType
+      Type: string
+      CnName: "\u663E\u793A\u7C7B\u578B"
+    - Name: HideDefault
+      Type: bool
+      CnName: "\u9ED8\u8BA4\u9690\u85CF"
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: TriggerEvent

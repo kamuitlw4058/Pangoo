@@ -29,7 +29,7 @@ namespace Pangoo
         /// <summary>
         /// 实体位置。
         /// </summary>
-        public Vector3 Position
+        public virtual Vector3 Position
         {
             get
             {
@@ -56,7 +56,7 @@ namespace Pangoo
         /// <summary>
         /// 实体朝向。
         /// </summary>
-        public Quaternion Rotation
+        public virtual Quaternion Rotation
         {
             get
             {
