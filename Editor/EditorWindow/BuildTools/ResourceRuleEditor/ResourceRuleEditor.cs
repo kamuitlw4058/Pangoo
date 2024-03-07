@@ -48,7 +48,7 @@ namespace Pangoo.Editor.ResourceTools
             window.titleContent = new GUIContent("资源规则编辑器");
         }
 
-        protected override void OnGUI()
+        protected override void OnImGUI()
         {
             if (m_Configuration == null)
             {
