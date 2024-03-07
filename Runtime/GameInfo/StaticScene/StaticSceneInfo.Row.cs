@@ -44,6 +44,14 @@ namespace Pangoo
             }
         }
 
+        public IStaticSceneRow SceneRow
+        {
+            get
+            {
+                return m_StaticSceneRow;
+            }
+        }
+
         public EntityInfo CreateEntityInfo(IEntityGroupRow entityGroupRow)
         {
             return EntityInfo.Create(m_AssetPathRow, entityGroupRow);

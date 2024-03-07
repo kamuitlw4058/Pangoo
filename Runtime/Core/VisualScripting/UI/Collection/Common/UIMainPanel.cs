@@ -48,6 +48,8 @@ namespace Pangoo.Core.VisualScripting
 
         public Button StartButton;
 
+        public Button ContinueButton;
+
         public Button LoadButton;
 
         public Button AboutButton;
@@ -93,8 +95,17 @@ namespace Pangoo.Core.VisualScripting
             {
                 Debug.Log("Click Start");
                 MainObejct?.SetActive(false);
+                Context.MainMenuSrv.RuntimeDataSrv.SetVariable<string>(Context.MainMenuSrv.GameMainConfigSrv.GetGameMainConfig().CurrentGameSectionVariableUuid, string.Empty);
+                Context.MainMenuSrv.GameSectionSrv.SetGameSection(firstGameSection: true);
+            });
+
+            ContinueButton?.onClick.AddListener(() =>
+            {
+                Debug.Log("Click Continue");
+                MainObejct?.SetActive(false);
                 Context.MainMenuSrv.SaveLoadSrv.Load();
                 Context.MainMenuSrv.GameSectionSrv.SetGameSection(firstGameSection: true);
+
             });
             LoadButton?.onClick.AddListener(() =>
             {

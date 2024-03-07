@@ -558,11 +558,14 @@ namespace Pangoo.MetaTable
         }
 
 
-        public static IEnumerable RefPrefabStringDropdown(GameObject prefab)
+        public static IEnumerable RefPrefabStringDropdown(GameObject prefab, bool hasSelf = true)
         {
 
             var ValueDropdown = new ValueDropdownList<string>();
-            ValueDropdown.Add(ConstString.Self);
+            if (hasSelf)
+            {
+                ValueDropdown.Add(ConstString.Self);
+            }
             if (prefab != null)
             {
                 AddPrefabStringDropdownList(ValueDropdown, prefab.transform, string.Empty);

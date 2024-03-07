@@ -60,6 +60,48 @@ namespace Pangoo.MetaTable
 
         string IStaticSceneRow.Footsetp {get => Footsetp; set => Footsetp = value;}
 
+        [JsonMember("Position")]
+        [MetaTableRowColumn("Position","Vector3", "位置",9)]
+        [LabelText("位置")]
+        public Vector3 Position ;
+
+        Vector3 IStaticSceneRow.Position {get => Position; set => Position = value;}
+
+        [JsonMember("Rotation")]
+        [MetaTableRowColumn("Rotation","Vector3", "旋转",10)]
+        [LabelText("旋转")]
+        public Vector3 Rotation ;
+
+        Vector3 IStaticSceneRow.Rotation {get => Rotation; set => Rotation = value;}
+
+        [JsonMember("ShowOnNoPlayerEnter")]
+        [MetaTableRowColumn("ShowOnNoPlayerEnter","bool", "当玩家没有进入场景时也加载",11)]
+        [LabelText("当玩家没有进入场景时也加载")]
+        public bool ShowOnNoPlayerEnter ;
+
+        bool IStaticSceneRow.ShowOnNoPlayerEnter {get => ShowOnNoPlayerEnter; set => ShowOnNoPlayerEnter = value;}
+
+        [JsonMember("ModelList")]
+        [MetaTableRowColumn("ModelList","string", "模型列表",12)]
+        [LabelText("模型列表")]
+        public string ModelList ;
+
+        string IStaticSceneRow.ModelList {get => ModelList; set => ModelList = value;}
+
+        [JsonMember("ShowType")]
+        [MetaTableRowColumn("ShowType","string", "显示类型",13)]
+        [LabelText("显示类型")]
+        public string ShowType ;
+
+        string IStaticSceneRow.ShowType {get => ShowType; set => ShowType = value;}
+
+        [JsonMember("HideDefault")]
+        [MetaTableRowColumn("HideDefault","bool", "默认隐藏",14)]
+        [LabelText("默认隐藏")]
+        public bool HideDefault ;
+
+        bool IStaticSceneRow.HideDefault {get => HideDefault; set => HideDefault = value;}
+
     }
 }
 

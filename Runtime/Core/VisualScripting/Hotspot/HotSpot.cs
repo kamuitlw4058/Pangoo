@@ -2,6 +2,7 @@
 using Pangoo.Core.Common;
 using Pangoo.Core.Services;
 using Pangoo.MetaTable;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Pangoo.Core.VisualScripting
@@ -34,7 +35,7 @@ namespace Pangoo.Core.VisualScripting
             }
 
         }
-
+        [ShowInInspector]
         public bool Hide { get; set; }
         public virtual void LoadParamsFromJson(string val) { }
         public virtual string ParamsToJson()

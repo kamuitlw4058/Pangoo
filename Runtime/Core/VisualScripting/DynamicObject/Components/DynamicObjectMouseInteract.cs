@@ -60,7 +60,7 @@ namespace Pangoo.Core.VisualScripting
                 hotSpot.LoadParamsFromJson(HotspotRow.Params);
             }
         }
-        
+
         private void Update()
         {
             if (InteractOffset != Vector3.zero && dynamicObject.PlayerCameraTransform != null && InteractAngle <= 1)
@@ -72,17 +72,14 @@ namespace Pangoo.Core.VisualScripting
 
                 if (hotSpot != null)
                 {
-                    if (InteractAngle>=0)
-                    {
-                        hotSpot.Hide = !(Angle > InteractAngle);
-                        EnabledPointer = Angle > InteractAngle;
-                    }
-                    if (InteractAngle<0)
-                    {
-                        hotSpot.Hide = Angle > InteractAngle;
-                        EnabledPointer = !(Angle > InteractAngle);
-                    }
+                    hotSpot.Hide = !(Angle > InteractAngle);
                 }
+                EnabledPointer = Angle > InteractAngle;
+            }
+            else
+            {
+                EnabledPointer = true;
+                hotSpot.Hide = false;
             }
 
 

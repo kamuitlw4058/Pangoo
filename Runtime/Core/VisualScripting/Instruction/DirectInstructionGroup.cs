@@ -196,7 +196,7 @@ namespace Pangoo.Core.VisualScripting
         }
 
         [JsonNoMember]
-        // [HideInInspector]
+        [HideInInspector]
         public GameObject Prefab;
 #if UNITY_EDITOR
 

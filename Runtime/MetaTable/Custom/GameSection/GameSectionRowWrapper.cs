@@ -22,29 +22,7 @@ namespace Pangoo.MetaTable
         {
             get
             {
-                return UnityRow.Row.DynamicSceneUuids.ToSplitArr<string>().Count();
-            }
-        }
-
-        [ShowInInspector]
-        [TableTitleGroup("持续场景")]
-
-        public int KeeySceneCount
-        {
-            get
-            {
-                return UnityRow.Row.KeepSceneUuids.ToSplitArr<string>().Count();
-            }
-        }
-
-        [ShowInInspector]
-        [TableTitleGroup("初始化场景")]
-
-        public int InitSceneCount
-        {
-            get
-            {
-                return UnityRow.Row.InitSceneUuids.ToSplitArr<string>().Count();
+                return UnityRow.Row.SceneUuids.ToSplitArr<string>().Count();
             }
         }
 

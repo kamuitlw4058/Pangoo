@@ -198,21 +198,6 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    // DirectInstructionTypeEnum.DynamicObjectPlayTimeline => true,
-                    // DirectInstructionTypeEnum.ChangeGameSection => true,
-                    // DirectInstructionTypeEnum.SetBoolVariable => true,
-                    // DirectInstructionTypeEnum.DynamicObjectModelActive => true,
-                    // DirectInstructionTypeEnum.DynamicObjectHotspotActive => true,
-                    // DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled => true,
-                    // DirectInstructionTypeEnum.DynamicObjectInteractEnable => true,
-
-                    // DirectInstructionTypeEnum.RunInstruction => true,
-
-                    // DirectInstructionTypeEnum.DynamicObjectTriggerEnabled => true,
-                    // DirectInstructionTypeEnum.DynamicObjectRunExecute => true,
-                    // DirectInstructionTypeEnum.PlaySound => true,
-                    // DirectInstructionTypeEnum.StopSound => true,
-                    // DirectInstructionTypeEnum.CheckBoolVariableList => true,
                     DirectInstructionTypeEnum.DynamicObjectSetMaterial => true,
                     DirectInstructionTypeEnum.SetIntVariable => true,
                     DirectInstructionTypeEnum.SetLocalIntVariable => true,
@@ -251,6 +236,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.WaitVariableBool => true,
                     DirectInstructionTypeEnum.SetLocalIntVariable => true,
                     DirectInstructionTypeEnum.StartDialogue => true,
+                    DirectInstructionTypeEnum.ShowSceneModel => true,
 
                     _ => false,
                 };
@@ -327,6 +313,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams => true,
                     DirectInstructionTypeEnum.SetLocalBoolVariable => true,
                     DirectInstructionTypeEnum.StartDialogue => true,
+                    DirectInstructionTypeEnum.ShowSceneModel => true,
                     _ => false,
                 };
             }
@@ -396,7 +383,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.TweenLightIntensity => true,
                     DirectInstructionTypeEnum.DynamicObjectSetMaterial => true,
                     DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams => true,
-                    DirectInstructionTypeEnum.ChangeHotspotState=>true,
+                    DirectInstructionTypeEnum.ChangeHotspotState => true,
                     _ => false,
                 };
             }
@@ -789,55 +776,14 @@ namespace Pangoo.Core.VisualScripting
                     return DynamicObjectPreviewOverview.GetUuidDropdown();
                 case DirectInstructionTypeEnum.StartDialogue:
                     return DialogueOverview.GetUuidDropdown();
+                case DirectInstructionTypeEnum.ShowSceneModel:
+                    return StaticSceneOverview.GetUuidDropdown();
             }
 
             return null;
         }
 
-        public void UpdateUuidById()
-        {
-            MetaTableUnityRow row = null;
-            switch (InstructionType)
-            {
 
-                case DirectInstructionTypeEnum.ChangeGameSection:
-                    row = GameSectionOverview.GetUnityRowById(Int1) as MetaTableUnityRow;
-                    break;
-                case DirectInstructionTypeEnum.SetBoolVariable:
-                case DirectInstructionTypeEnum.SetIntVariable:
-                case DirectInstructionTypeEnum.CheckBoolVariableList:
-                    row = VariablesOverview.GetUnityRowById(Int1) as MetaTableUnityRow;
-                    break;
-                case DirectInstructionTypeEnum.RunInstruction:
-                    row = InstructionOverview.GetUnityRowById(Int1) as MetaTableUnityRow;
-                    break;
-                case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:
-                case DirectInstructionTypeEnum.DynamicObjectModelActive:
-                case DirectInstructionTypeEnum.DynamicObjectHotspotActive:
-                case DirectInstructionTypeEnum.ActiveCameraGameObject:
-                case DirectInstructionTypeEnum.UnactiveCameraGameObject:
-                case DirectInstructionTypeEnum.SubGameObjectPlayTimeline:
-                case DirectInstructionTypeEnum.SubGameObjectPauseTimeline:
-                case DirectInstructionTypeEnum.DynamicObjectTriggerEnabled:
-                case DirectInstructionTypeEnum.SetGameObjectActive:
-                case DirectInstructionTypeEnum.DynamicObjectRunExecute:
-                case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
-                case DirectInstructionTypeEnum.DynamicObjectInteractEnable:
-                case DirectInstructionTypeEnum.DynamicObjectSetMaterial:
-                    row = DynamicObjectOverview.GetUnityRowById(Int1) as MetaTableUnityRow;
-                    break;
-                case DirectInstructionTypeEnum.PlaySound:
-                case DirectInstructionTypeEnum.StopSound:
-                    row = SoundOverview.GetUnityRowById(Int1) as MetaTableUnityRow;
-                    break;
-
-            }
-
-            if (row != null)
-            {
-                Uuid = row.Uuid;
-            }
-        }
         public IEnumerable OnUuid2Dropdown()
         {
             switch (InstructionType)
