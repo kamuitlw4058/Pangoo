@@ -204,6 +204,7 @@ namespace Pangoo
             Dictionary<string, string> uuidDict = new();
             foreach (var sdo in Wrapper.SubDynamicObjects)
             {
+                if (sdo.DynamicObjectUuid.IsNullOrWhiteSpace()) continue;
                 uuidDict.Add(sdo.DynamicObjectUuid, sdo.Path);
             }
 
