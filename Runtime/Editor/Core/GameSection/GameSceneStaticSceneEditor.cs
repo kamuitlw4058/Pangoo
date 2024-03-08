@@ -105,7 +105,7 @@ namespace Pangoo.Editor
                 go.name = staticScene.Name;
                 var helper = go.AddComponent<StaticSceneEditor>();
                 helper.StaticSceneUuid = uuid;
-                go.ResetTransfrom();
+                //go.ResetTransfrom();
                 return go;
             });
 
@@ -148,7 +148,7 @@ namespace Pangoo.Editor
                 UpdateGameObjectName();
                 UpdateScene();
             }
-            gameObject.ResetTransfrom();
+            //gameObject.ResetTransfrom();
         }
 
         public void SetSection(string uuid)
