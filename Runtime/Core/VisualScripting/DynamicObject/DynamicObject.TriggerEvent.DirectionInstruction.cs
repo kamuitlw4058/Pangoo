@@ -16,9 +16,26 @@ namespace Pangoo.Core.VisualScripting
     public partial class DynamicObject
     {
 
-        public InstructionList GetDirectInstructionList(DirectInstruction[] directInstructionList, TriggerEvent trigger, bool DiableOnFinish = false, bool DiableInteractOnFinish = false, bool DiableHotspotOnFinish = false)
+        public InstructionList GetDirectInstructionList(TriggerTypeEnum triggerType,
+            DirectInstruction[] directInstructionList,
+            TriggerEvent trigger,
+            bool DiableOnFinish = false,
+             bool DiableInteractOnFinish = false,
+              bool DiableHotspotOnFinish = false,
+              bool ShowOtherHotspotOnInteract = false
+              )
+
         {
             List<Instruction> ret = new();
+
+            if (triggerType == TriggerTypeEnum.OnInteract)
+            {
+                if (!ShowOtherHotspotOnInteract)
+                {
+                    ret.Add(DirectInstruction.GetSetPlayerEnabledHotspot(false));
+                }
+
+            }
 
             foreach (var directInstruction in directInstructionList)
             {
@@ -47,7 +64,13 @@ namespace Pangoo.Core.VisualScripting
                 ret.Add(disableInteractInstruction);
             }
 
-
+            if (triggerType == TriggerTypeEnum.OnInteract)
+            {
+                if (!ShowOtherHotspotOnInteract)
+                {
+                    ret.Add(DirectInstruction.GetSetPlayerEnabledHotspot(true));
+                }
+            }
 
             foreach (var instruction in ret)
             {
@@ -111,7 +134,7 @@ namespace Pangoo.Core.VisualScripting
             switch (directInstructionGroup.ConditionType)
             {
                 case ConditionTypeEnum.NoCondition:
-                    trigger.ConditionInstructions.Add(1, GetDirectInstructionList(directInstructionGroup.DirectInstructionList, trigger, directInstructionGroup.DisableOnFinish, directInstructionGroup.DisableInteractOnFinish, directInstructionGroup.DisableHotspotOnFinish));
+                    trigger.ConditionInstructions.Add(1, GetDirectInstructionList(directInstructionGroup.TriggerType, directInstructionGroup.DirectInstructionList, trigger, directInstructionGroup.DisableOnFinish, directInstructionGroup.DisableInteractOnFinish, directInstructionGroup.DisableHotspotOnFinish));
                     break;
                 case ConditionTypeEnum.BoolCondition:
                     if (directInstructionGroup.UseVariableCondition)
@@ -123,8 +146,8 @@ namespace Pangoo.Core.VisualScripting
                         trigger.Conditions = ConditionList.BuildConditionList(directInstructionGroup.ConditionUuids.ToList(), m_ConditionHandler);
                     }
 
-                    trigger.ConditionInstructions.Add(1, GetDirectInstructionList(directInstructionGroup.DirectInstructionList, trigger));
-                    trigger.ConditionInstructions.Add(0, GetDirectInstructionList(directInstructionGroup.FailedDirectInstructionList, trigger));
+                    trigger.ConditionInstructions.Add(1, GetDirectInstructionList(directInstructionGroup.TriggerType, directInstructionGroup.DirectInstructionList, trigger));
+                    trigger.ConditionInstructions.Add(0, GetDirectInstructionList(directInstructionGroup.TriggerType, directInstructionGroup.FailedDirectInstructionList, trigger));
                     break;
                 case ConditionTypeEnum.StateCondition:
                     if (directInstructionGroup.UseVariableCondition)
@@ -138,7 +161,7 @@ namespace Pangoo.Core.VisualScripting
 
                     foreach (var kv in directInstructionGroup.StateDirectInstructionDict)
                     {
-                        trigger.ConditionInstructions.Add(kv.Key, GetDirectInstructionList(kv.Value, trigger));
+                        trigger.ConditionInstructions.Add(kv.Key, GetDirectInstructionList(directInstructionGroup.TriggerType, kv.Value, trigger));
                     }
                     break;
             }

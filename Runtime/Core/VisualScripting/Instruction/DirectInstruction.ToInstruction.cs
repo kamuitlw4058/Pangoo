@@ -376,6 +376,13 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.Val = val;
             return instruction;
         }
+
+        public static Instruction GetSetPlayerEnabledHotspot(bool val)
+        {
+            var instruction = Activator.CreateInstance<InstructionSetPlayerEnabledHotspot>();
+            instruction.ParamsRaw.Val = val;
+            return instruction;
+        }
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
             switch (InstructionType)

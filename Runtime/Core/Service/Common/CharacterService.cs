@@ -70,6 +70,26 @@ namespace Pangoo.Core.Services
             }
         }
 
+        [ShowInInspector]
+        public bool PlayerEnabledHotspot
+        {
+            get
+            {
+                if (Player != null)
+                {
+                    return Player.character.EnabledHotspot;
+                }
+                return false;
+            }
+            set
+            {
+                if (Player != null)
+                {
+                    Player.character.EnabledHotspot = value;
+                }
+            }
+        }
+
         public void SetPlayerSpeed(float val)
         {
             if (Player != null)

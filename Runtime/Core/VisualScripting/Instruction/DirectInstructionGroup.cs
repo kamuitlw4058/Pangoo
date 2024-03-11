@@ -154,8 +154,6 @@ namespace Pangoo.Core.VisualScripting
         [LabelText("运行后自动关闭交互")]
         [JsonMember("DisableInteractOnFinish")]
         [BoxGroup("组配置")]
-
-
         [ShowIf("@this.ConditionType == ConditionTypeEnum.NoCondition")]
         public bool DisableInteractOnFinish;
 
@@ -168,8 +166,11 @@ namespace Pangoo.Core.VisualScripting
         [ShowIf("@this.ConditionType == ConditionTypeEnum.NoCondition")]
         public bool DisableHotspotOnFinish;
 
-
-
+        [LabelText("交互时显示别的动态物体的UI")]
+        [JsonMember("DisableHotspotOnInteract")]
+        [BoxGroup("组配置")]
+        [ShowIf("@this.TriggerType == TriggerTypeEnum.OnInteract")]
+        public bool ShowOtherHotspotOnInteract;
 
         public static List<DirectInstructionGroup> CreateList(string s)
         {

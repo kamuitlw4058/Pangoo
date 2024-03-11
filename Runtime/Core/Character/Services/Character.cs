@@ -62,6 +62,9 @@ namespace Pangoo.Core.Characters
             }
         }
 
+        [ShowInInspector]
+        [LabelText("热点UI的开关")]
+        public bool EnabledHotspot { get; set; } = true;
 
 
         public bool IsPlayer
@@ -69,15 +72,8 @@ namespace Pangoo.Core.Characters
             get => this.m_IsPlayer;
             set
             {
-                //TODO: 全局变量的设置。来通知变更。
-                //ShortcutPlayer.Change(value ? this.gameObject : null);
-                this.m_IsPlayer = value;
 
-                // switch (this.m_IsPlayer)
-                // {
-                //     case true: this.EventChangeToPlayer?.Invoke(); break;
-                //     case false: this.EventChangeToNPC?.Invoke(); break;
-                // }
+                this.m_IsPlayer = value;
             }
         }
 

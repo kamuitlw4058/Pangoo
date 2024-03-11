@@ -52,6 +52,11 @@ namespace Pangoo.Core.VisualScripting
                     return DynamicObjectHotsoptState.None;
                 }
 
+                if (!dynamicObject.Character.PlayerEnabledHotspot)
+                {
+                    return DynamicObjectHotsoptState.None;
+                }
+
                 if (!dynamicObject.IsHotspotDistanceActive)
                 {
                     return DynamicObjectHotsoptState.None;
