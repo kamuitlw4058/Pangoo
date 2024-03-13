@@ -139,5 +139,7 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("场景/场景模型显示")]
         ShowSceneModel,
+        [LabelText("动态物体自身/Timeline移动时间轴播放")]
+        TimelineDeltaTime,
     }
 }

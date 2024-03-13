@@ -41,9 +41,39 @@ namespace Pangoo.Core.VisualScripting
                     {
                         return true;
                     }
-                    if (!Input.GetKeyDown(FilterKeyCode))
+
+                    switch (KeyCodePressTypeEnum)
                     {
-                        return false;
+                        case KeyCodePressType.Down:
+                            if (Input.GetKeyDown(FilterKeyCode))
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                            break;
+                        case KeyCodePressType.Pressed:
+                            if (Input.GetKey(FilterKeyCode))
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                            break;
+                        case KeyCodePressType.Up:
+                            if (Input.GetKeyUp(FilterKeyCode))
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                            break;
                     }
                     break;
                 case TriggerEventFilterEnum.Timer:
