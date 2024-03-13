@@ -1,7 +1,9 @@
 #if UNITY_EDITOR
 
 using System;
+using System.Collections;
 using System.IO;
+using System.Linq;
 using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
@@ -13,9 +15,8 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class CharacterOverviewWrapper : MetaTableOverviewWrapper<CharacterOverview, CharacterDetailRowWrapper, CharacterRowWrapper, CharacterNewRowWrapper, UnityCharacterRow>
+    public partial class CluesOverviewWrapper : MetaTableOverviewWrapper<CluesOverview,CluesDetailRowWrapper,CluesRowWrapper,CluesNewRowWrapper,UnityCluesRow>
     {
-
 
     }
 }

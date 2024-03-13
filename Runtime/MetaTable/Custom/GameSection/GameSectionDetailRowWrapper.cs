@@ -42,12 +42,6 @@ namespace Pangoo.MetaTable
             return GameSupportEditorUtility.GetStaticSceneUuids();
         }
 
-        public IEnumerable StaticSceneIdDynamicValueDropdown()
-        {
-            return GameSupportEditorUtility.GetStaticSceneIds();
-        }
-
-
 
         [LabelText("动态物体Uuids")]
         [ValueDropdown("DynamicObjectUuidValueDropdown", IsUniqueList = true)]

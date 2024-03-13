@@ -17,24 +17,6 @@ namespace Pangoo.MetaTable
     [Serializable]
     public partial class CharacterDetailRowWrapper : MetaTableDetailRowWrapper<CharacterOverview, UnityCharacterRow>
     {
-        [LabelText("资源id")]
-        [ValueDropdown("AssetPathIdValueDropdown")]
-        [ShowInInspector]
-        // [InlineButton("ShowCreateAssetPath", SdfIconType.Plus, Label = "")]
-        public int AssetPathId
-        {
-            get
-            {
-                return UnityRow.Row?.AssetPathId ?? 0;
-            }
-            set
-            {
-
-                UnityRow.Row.AssetPathId = value;
-                Save();
-            }
-
-        }
 
         [LabelText("资源Uuid")]
         [ValueDropdown("AssetPathUuidValueDropdown")]
@@ -77,22 +59,7 @@ namespace Pangoo.MetaTable
             }
         }
 
-        [Button("更新AssetPathUuid通过Id")]
-        public void UpdateAssetPathUuidByAssetPathId()
-        {
-            var row = GameSupportEditorUtility.GetAssetPathById(AssetPathId);
-            if (row != null)
-            {
-                AssetPathUuid = row.Uuid;
-            }
-        }
 
-
-
-        public IEnumerable AssetPathIdValueDropdown()
-        {
-            return GameSupportEditorUtility.GetAssetPathIds(assetTypes: new List<string> { "Character" });
-        }
 
         public IEnumerable AssetPathUuidValueDropdown()
         {
@@ -262,7 +229,7 @@ namespace Pangoo.MetaTable
 
             }
         }
-        
+
         [ShowInInspector]
         [DelayedProperty]
         [LabelText("皮肤宽度")]
@@ -325,7 +292,7 @@ namespace Pangoo.MetaTable
 
             }
         }
-        
+
         [ShowInInspector]
         [DelayedProperty]
         [LabelText("半径")]
@@ -346,7 +313,7 @@ namespace Pangoo.MetaTable
 
             }
         }
-        
+
         [ShowInInspector]
         [DelayedProperty]
         [LabelText("高度")]

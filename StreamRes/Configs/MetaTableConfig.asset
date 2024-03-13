@@ -610,3 +610,39 @@ MonoBehaviour:
     - Name: DialogueSubtitles
       Type: string
       CnName: "\u5B57\u5E55\u5217\u8868"
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: Clues
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: DynamicObjectUuid
+      Type: string
+      CnName: "\u52A8\u6001\u7269\u4F53Uuid"
+    - Name: ClueTitle
+      Type: string
+      CnName: "\u6807\u9898"
+    - Name: Desc
+      Type: string
+      CnName: "\u63CF\u8FF0"
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: Cases
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: DynamicObjectUuid
+      Type: string
+      CnName: "\u52A8\u6001\u7269\u4F53Uuid"
+    - Name: CaseTitle
+      Type: string
+      CnName: "\u6848\u4EF6\u540D"
+    - Name: CaseStates
+      Type: string
+      CnName: "\u6848\u4EF6\u72B6\u6001\u5217\u8868"
+    - Name: CaseClues
+      Type: string
+      CnName: "\u6848\u4EF6\u7EBF\u7D22"
+    - Name: CluesIntegrate
+      Type: string
+      CnName: "\u7EBF\u7D22\u6574\u5408\u5217\u8868"

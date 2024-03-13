@@ -125,10 +125,6 @@ namespace Pangoo.MetaTable
 
 
 
-        public IEnumerable AssetPathIdValueDropdown()
-        {
-            return GameSupportEditorUtility.GetAssetPathIds(assetTypes: new List<string> { "DynamicObject" });
-        }
 
         public IEnumerable AssetPathUuidValueDropdown()
         {

@@ -105,13 +105,6 @@ namespace Pangoo.MetaTable
         }
 
 
-
-
-        public IEnumerable AssetPathIdValueDropdown()
-        {
-            return GameSupportEditorUtility.GetAssetPathIds(assetTypes: new List<string> { "UI" });
-        }
-
         public IEnumerable AssetPathUuidValueDropdown()
         {
             return GameSupportEditorUtility.GetAssetPathUuids(assetTypes: new List<string> { "UI" });
@@ -119,13 +112,7 @@ namespace Pangoo.MetaTable
 
 
 
-        // void ShowCreateAssetPath()
-        // {
-        //     var assetOverview = GameSupportEditorUtility.GetExcelTableOverviewByConfig<AssetPathTableOverview>(Overview.Config);
-        //     var assetNewObject = AssetPathNewWrapper.Create(assetOverview, Id, ConstExcelTable.UIAssetTypeName, Name, afterCreateAsset: OnAfterCreateAsset);
-        //     var window = OdinEditorWindow.InspectObject(assetNewObject);
-        //     assetNewObject.Window = window;
-        // }
+
 
         public void OnAfterCreateAsset(int id)
         {
@@ -235,15 +222,7 @@ namespace Pangoo.MetaTable
             Instance.Load(UnityRow.Row.Params);
         }
 
-        [Button("升级到Uuid")]
-        public void UpgradeUuid()
-        {
-            var row = GameSupportEditorUtility.GetAssetPathById(AssetPathId);
-            if (row != null)
-            {
-                AssetPathUuid = row.Uuid;
-            }
-        }
+
     }
 }
 #endif

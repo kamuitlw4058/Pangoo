@@ -216,11 +216,6 @@ namespace Pangoo.MetaTable
 
 
 
-        public IEnumerable StaticSceneIdValueDropdown()
-        {
-            return GameSupportEditorUtility.GetStaticSceneIds(excludeIds: new List<int> { UnityRow.Row.Id });
-        }
-
         public IEnumerable StaticSceneUuidValueDropdown()
         {
             return GameSupportEditorUtility.GetStaticSceneUuids(excludeUuid: new List<string> { UnityRow.Uuid });
