@@ -79,11 +79,10 @@ namespace Pangoo.MetaTable
                     {
                         foreach (var kv in group.StateDirectInstructionDict)
                         {
-                            foreach (var di in kv.Value)
+                            for (int j = 0; j < kv.Value.Length; j++)
                             {
-                                di.SetPrefab(Prefab);
+                                kv.Value[j].SetPrefab(Prefab);
                             }
-
                         }
                     }
 
