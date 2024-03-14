@@ -384,11 +384,11 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetTimelineDeltaTime(string path,float deltaTime)
+        public static Instruction GetTimelineDeltaTime(string path,float timeFactor)
         {
             var instruction = Activator.CreateInstance<InstructionTimelineDeltaTime>();
             instruction.ParamsRaw.Path = path;
-            instruction.ParamsRaw.DeltaTime = deltaTime;
+            instruction.ParamsRaw.TimeFactor = timeFactor;
             return instruction;
         }
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)

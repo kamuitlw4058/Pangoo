@@ -50,7 +50,7 @@ namespace Pangoo.Core.VisualScripting
                 }
                 
             
-                playableDirector.time += ParamsRaw.DeltaTime*Time.deltaTime;
+                playableDirector.time += ParamsRaw.TimeFactor*Time.deltaTime;
                 playableDirector.Evaluate();
                 
                 switch (playableDirector.extrapolationMode)

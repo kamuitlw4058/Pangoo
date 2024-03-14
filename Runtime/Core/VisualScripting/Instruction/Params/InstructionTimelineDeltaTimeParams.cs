@@ -15,6 +15,6 @@ public class InstructionTimelineDeltaTimeParams : InstructionParams
     [ListDrawerSettings(Expanded = true)]
     public string Path;
 
-    [JsonMember("DeltaTime")]
-    public float DeltaTime;
+    [JsonMember("TimeFactor")]
+    public float TimeFactor;
 }
