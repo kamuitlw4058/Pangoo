@@ -14,4 +14,7 @@ public class InstructionTimelineDeltaTimeParams : InstructionParams
     [LabelText("路径列表")]
     [ListDrawerSettings(Expanded = true)]
     public string Path;
+
+    [JsonMember("DeltaTime")]
+    public float DeltaTime;
 }

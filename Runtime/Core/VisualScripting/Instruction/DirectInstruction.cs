@@ -405,6 +405,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.CanvasGroup => true,
                     DirectInstructionTypeEnum.TweenLightIntensity => true,
                     DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance => true,
+                    DirectInstructionTypeEnum.TimelineDeltaTime=>true,
                     _ => false,
                 };
             }
@@ -657,6 +658,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.CanvasGroup => "目标Alpha值",
                     DirectInstructionTypeEnum.TweenLightIntensity => "目标值",
                     DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance => "起始距离",
+                    DirectInstructionTypeEnum.TimelineDeltaTime=>"播放速度",
                     _ => "Float1",
                 };
             }
