@@ -49,15 +49,6 @@ namespace Pangoo.Core.VisualScripting
                     }
                 }
                 
-            
-                playableDirector.time += ParamsRaw.TimeFactor*Time.deltaTime;
-                playableDirector.Evaluate();
-
-                if (playableDirector.time<=0)
-                {
-                    playableDirector.time = 0;
-                }
-                
                 switch (playableDirector.extrapolationMode)
                 {
                     case DirectorWrapMode.None:
@@ -79,6 +70,17 @@ namespace Pangoo.Core.VisualScripting
                             playableDirector.time = 0;
                         }
                         break;
+                }
+                
+                if (playableDirector.state==PlayState.Playing)
+                {
+                    playableDirector.time += ParamsRaw.TimeFactor*Time.deltaTime;
+                    playableDirector.Evaluate();
+
+                    if (playableDirector.time<=0)
+                    {
+                        playableDirector.time = 0;
+                    }
                 }
             }
         }
