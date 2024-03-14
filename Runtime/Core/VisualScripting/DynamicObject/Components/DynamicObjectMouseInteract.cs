@@ -63,6 +63,8 @@ namespace Pangoo.Core.VisualScripting
 
         private void Update()
         {
+            if (hotSpot == null) return;
+
             if (InteractOffset != Vector3.zero && dynamicObject.PlayerCameraTransform != null && InteractAngle <= 1)
             {
                 var doDirection = (dynamicObject.CachedTransfrom.TransformPoint(InteractOffset) -
@@ -80,6 +82,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 EnabledPointer = true;
                 hotSpot.Hide = false;
+
             }
 
 

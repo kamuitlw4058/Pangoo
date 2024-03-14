@@ -75,17 +75,115 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
+
+        public bool PlayerStayTrigger;
+        public float PlayerStayProgress;
+        public float PlayerStayExitProgress;
+        public bool IsTriggeredStayTimeoutExit;
+
+        public bool IsTriggeredStayTimeout;
+
+        public bool LastFramePlayerStayTrigger;
+
+        protected override void DoFixedUpdate()
+        {
+            base.DoFixedUpdate();
+            PlayerStayTrigger = false;
+        }
+
+
+        public void DoColliderTriggerUpdate()
+        {
+            switch (PlayerStayTrigger)
+            {
+                case true:
+                    if (!LastFramePlayerStayTrigger)
+                    {
+                        TriggerInovke(TriggerTypeEnum.OnTriggerEnter3D);
+                        PlayerStayExitProgress = 1;
+                        IsTriggeredStayTimeoutExit = false;
+                    }
+
+                    if (Row.ColliderTriggerStayTimeout >= 0.1)
+                    {
+                        if (!IsTriggeredStayTimeout)
+                        {
+                            PlayerStayProgress += DeltaTime * (1 / Row.ColliderTriggerStayTimeout);
+                            if (PlayerStayProgress >= 1)
+                            {
+                                IsTriggeredStayTimeout = true;
+                                TriggerInovke(TriggerTypeEnum.OnTriggerStayTimeOut);
+                            }
+                        }
+                    }
+                    break;
+                case false:
+                    if (LastFramePlayerStayTrigger)
+                    {
+                        TriggerInovke(TriggerTypeEnum.OnTriggerExit3D);
+                    }
+                    else
+                    {
+                        if (Row.ColliderTriggerStayTimeout >= 0.1 && Row.ColliderTriggerStayExitDelay >= 0.1 && PlayerStayProgress > 0)
+                        {
+                            if (!IsTriggeredStayTimeoutExit)
+                            {
+                                PlayerStayExitProgress -= DeltaTime * (1 / Row.ColliderTriggerStayExitDelay);
+                                if (PlayerStayExitProgress <= 0)
+                                {
+                                    IsTriggeredStayTimeoutExit = true;
+                                    TriggerInovke(TriggerTypeEnum.OnTriggerStayTimeOutExit);
+                                    PlayerStayProgress = 0;
+                                    IsTriggeredStayTimeout = false;
+                                }
+                            }
+                        }
+                    }
+
+                    break;
+            }
+
+            LastFramePlayerStayTrigger = PlayerStayTrigger;
+        }
+
+
+        public void TriggerStay3d(Collider collider)
+        {
+            if (collider.tag.Equals("Player"))
+            {
+                Debug.Log($"TriggerStay3d:{Row.Name}");
+                PlayerStayTrigger = true;
+            }
+        }
+
         public void TriggerEnter3d(Collider collider)
         {
-            EnterTriggerCount += 1;
-            TriggerInovke(TriggerTypeEnum.OnTriggerEnter3D);
+            // if (collider.tag.Equals("Player"))
+            // {
+            //     Log($"EntityDynamicObject OnTriggerEnter,{Row.Name},{collider.gameObject.name}");
+            //     if (EnterTriggerCount == 0)
+            //     {
+            //         TriggerInovke(TriggerTypeEnum.OnTriggerEnter3D);
+            //     }
+            //     EnterTriggerCount += 1;
+            // }
+
 
         }
 
         public void TriggerExit3d(Collider collider)
         {
-            EnterTriggerCount -= 1;
-            TriggerInovke(TriggerTypeEnum.OnTriggerExit3D);
+
+            // if (collider.tag.Equals("Player"))
+            // {
+            //     Log($"EntityDynamicObject OnTriggerExit");
+            //     EnterTriggerCount -= 1;
+            //     if (EnterTriggerCount <= 0)
+            //     {
+            //         TriggerInovke(TriggerTypeEnum.OnTriggerExit3D);
+            //     }
+            // }
+
         }
 
         public void ExtraTriggerEnter3d(Collider collider)

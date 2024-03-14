@@ -160,9 +160,6 @@ MonoBehaviour:
     RefConfig: {fileID: 0}
     RefTableName: 
     Columns:
-    - Name: Uuid
-      Type: string
-      CnName: Uuid
     - Name: Name
       Type: string
       CnName: Name
@@ -250,6 +247,12 @@ MonoBehaviour:
     - Name: MouseInteractList
       Type: string
       CnName: "\u9F20\u6807\u4EA4\u4E92\u5217\u8868"
+    - Name: ColliderTriggerStayTimeout
+      Type: float
+      CnName: "ColliderTrigger\u8D85\u65F6"
+    - Name: ColliderTriggerStayExitDelay
+      Type: float
+      CnName: "ColliderTrigger\u9000\u51FA\u8D85\u65F6\u5EF6\u8FDF"
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: EntityGroup

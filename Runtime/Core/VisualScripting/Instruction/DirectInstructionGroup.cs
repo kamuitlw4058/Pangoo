@@ -8,13 +8,14 @@ using LitJson;
 using MetaTable;
 using UnityEngine;
 using Pangoo.MetaTable;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 
 
 namespace Pangoo.Core.VisualScripting
 {
 
 
-    public struct DirectInstructionGroup
+    public partial struct DirectInstructionGroup
     {
         [JsonMember("Uuid")]
         [ReadOnly]
@@ -29,6 +30,41 @@ namespace Pangoo.Core.VisualScripting
         [BoxGroup("组配置")]
         public TriggerTypeEnum TriggerType;
 
+        [LabelText("默认开启")]
+        [JsonMember("InitEnabled")]
+        [BoxGroup("组配置")]
+        public bool InitEnabled;
+
+
+        [LabelText("运行后自动关闭Trigger")]
+        [JsonMember("DisableOnFinish")]
+        [BoxGroup("组配置")]
+        [ShowIf("@this.ConditionType == ConditionTypeEnum.NoCondition")]
+        public bool DisableOnFinish;
+
+
+        [LabelText("运行后自动关闭交互")]
+        [JsonMember("DisableInteractOnFinish")]
+        [BoxGroup("组配置")]
+        [ShowIf("@this.ConditionType == ConditionTypeEnum.NoCondition")]
+        public bool DisableInteractOnFinish;
+
+
+        [LabelText("运行后自动关闭Hotspot")]
+        [JsonMember("DisableHotspotOnFinish")]
+        [BoxGroup("组配置")]
+
+
+        [ShowIf("@this.ConditionType == ConditionTypeEnum.NoCondition")]
+        public bool DisableHotspotOnFinish;
+
+        [LabelText("交互时显示别的动态物体的UI")]
+        [JsonMember("DisableHotspotOnInteract")]
+        [BoxGroup("组配置")]
+        [ShowIf("@this.TriggerType == TriggerTypeEnum.OnInteract")]
+        public bool ShowOtherHotspotOnInteract;
+
+
         [LabelText("过滤器")]
         [JsonMember("Filter")]
         [BoxGroup("过滤器配置")]
@@ -40,8 +76,6 @@ namespace Pangoo.Core.VisualScripting
         [LabelText("条件类型")]
         [JsonMember("ConditionType")]
         [BoxGroup("条件配置")]
-
-
         public ConditionTypeEnum ConditionType;
 
 
@@ -136,41 +170,7 @@ namespace Pangoo.Core.VisualScripting
         [DictionaryDrawerSettings(DisplayMode = DictionaryDisplayOptions.OneLine)]
         public Dictionary<int, DirectInstruction[]> StateDirectInstructionDict;
 
-        [LabelText("默认开启")]
-        // [HideLabel]
-        // [TableColumnWidth(50, resizable: false)]
-        [JsonMember("InitEnabled")]
-        [BoxGroup("组配置")]
-        public bool InitEnabled;
 
-
-        [LabelText("运行后自动关闭Trigger")]
-        [JsonMember("DisableOnFinish")]
-        [BoxGroup("组配置")]
-        [ShowIf("@this.ConditionType == ConditionTypeEnum.NoCondition")]
-        public bool DisableOnFinish;
-
-
-        [LabelText("运行后自动关闭交互")]
-        [JsonMember("DisableInteractOnFinish")]
-        [BoxGroup("组配置")]
-        [ShowIf("@this.ConditionType == ConditionTypeEnum.NoCondition")]
-        public bool DisableInteractOnFinish;
-
-
-        [LabelText("运行后自动关闭Hotspot")]
-        [JsonMember("DisableHotspotOnFinish")]
-        [BoxGroup("组配置")]
-
-
-        [ShowIf("@this.ConditionType == ConditionTypeEnum.NoCondition")]
-        public bool DisableHotspotOnFinish;
-
-        [LabelText("交互时显示别的动态物体的UI")]
-        [JsonMember("DisableHotspotOnInteract")]
-        [BoxGroup("组配置")]
-        [ShowIf("@this.TriggerType == TriggerTypeEnum.OnInteract")]
-        public bool ShowOtherHotspotOnInteract;
 
         public static List<DirectInstructionGroup> CreateList(string s)
         {

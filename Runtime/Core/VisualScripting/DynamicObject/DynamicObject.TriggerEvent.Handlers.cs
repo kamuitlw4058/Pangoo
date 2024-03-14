@@ -137,6 +137,8 @@ namespace Pangoo.Core.VisualScripting
 
         public void TriggerUpdate()
         {
+            DoColliderTriggerUpdate();
+
             foreach (var triggers in TriggerDict.Values)
             {
                 foreach (var trigger in triggers)

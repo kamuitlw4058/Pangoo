@@ -17,25 +17,45 @@ namespace Pangoo.MetaTable
     public partial class DynamicObjectDetailRowWrapper : MetaTableDetailRowWrapper<DynamicObjectOverview, UnityDynamicObjectRow>
     {
 
-        [LabelText("触发器Uuids")]
+        [LabelText("碰撞体触发停留超时")]
         [FoldoutGroup("指令系统")]
-        [ValueDropdown("TriggerEventUuidDropdown", IsUniqueList = true)]
-        [ListDrawerSettings(ShowFoldout = true)]
+        [PropertyOrder(10)]
         [ShowInInspector]
-        [PropertyOrder(11)]
-
-        public string[] TriggerEventUuids
+        [InfoBox("停留超时事件只会在停留超时设置在0.1以上发生", InfoMessageType.Warning, "@ColliderTriggerStayTimeout < 0.1f")]
+        public float ColliderTriggerStayTimeout
         {
             get
             {
-                return UnityRow.Row.TriggerEventUuids.ToSplitArr<string>();
+
+                return UnityRow.Row.ColliderTriggerStayTimeout;
             }
             set
             {
-                UnityRow.Row.TriggerEventUuids = value.ToListString();
+                UnityRow.Row.ColliderTriggerStayTimeout = value;
                 Save();
             }
         }
+
+        [LabelText("碰撞体触发停留退出延迟")]
+        [FoldoutGroup("指令系统")]
+        [PropertyOrder(10)]
+        [InfoBox("停留超时退出时间只会在停留退出延迟设置在0.1以上发生", InfoMessageType.Warning, "@ColliderTriggerStayExitDelay < 0.1f")]
+        [ShowInInspector]
+        public float ColliderTriggerStayExitDelay
+        {
+            get
+            {
+
+                return UnityRow.Row.ColliderTriggerStayExitDelay;
+            }
+            set
+            {
+                UnityRow.Row.ColliderTriggerStayExitDelay = value;
+                Save();
+            }
+        }
+
+
 
 
 
@@ -124,6 +144,28 @@ namespace Pangoo.MetaTable
             }
 
         }
+
+        [LabelText("触发器Uuids")]
+        [FoldoutGroup("指令系统")]
+        [ValueDropdown("TriggerEventUuidDropdown", IsUniqueList = true)]
+        [ListDrawerSettings(ShowFoldout = true)]
+        [ShowInInspector]
+        [PropertyOrder(11)]
+
+        public string[] TriggerEventUuids
+        {
+            get
+            {
+                return UnityRow.Row.TriggerEventUuids.ToSplitArr<string>();
+            }
+            set
+            {
+                UnityRow.Row.TriggerEventUuids = value.ToListString();
+                Save();
+            }
+        }
+
+
 
         void OnDirectInstructionsChanged()
         {
