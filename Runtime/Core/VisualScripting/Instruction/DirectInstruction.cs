@@ -237,7 +237,6 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SetLocalIntVariable => true,
                     DirectInstructionTypeEnum.StartDialogue => true,
                     DirectInstructionTypeEnum.ShowSceneModel => true,
-
                     _ => false,
                 };
             }
@@ -384,6 +383,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectSetMaterial => true,
                     DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams => true,
                     DirectInstructionTypeEnum.ChangeHotspotState => true,
+                    DirectInstructionTypeEnum.TimelineDeltaTime=>true,
                     _ => false,
                 };
             }
@@ -717,6 +717,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.DynamicObjectSetMaterial:
                 case DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams:
                 case DirectInstructionTypeEnum.ChangeHotspotState:
+                case DirectInstructionTypeEnum.TimelineDeltaTime:
                     return GameSupportEditorUtility.RefPrefabStringDropdown(ListPrefab);
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
                 case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:

@@ -41,9 +41,15 @@ namespace Pangoo.Core.VisualScripting
                     {
                         return true;
                     }
-                    if (!Input.GetKeyDown(FilterKeyCode))
+
+                    switch (KeyCodePressTypeEnum)
                     {
-                        return false;
+                        case KeyCodePressType.Down:
+                            return Input.GetKeyDown(FilterKeyCode);
+                        case KeyCodePressType.Pressed:
+                            return Input.GetKey(FilterKeyCode);
+                        case KeyCodePressType.Up:
+                            return Input.GetKeyUp(FilterKeyCode);
                     }
                     break;
                 case TriggerEventFilterEnum.Timer:
@@ -62,35 +68,11 @@ namespace Pangoo.Core.VisualScripting
                     switch (KeyCodePressTypeEnum)
                     {
                         case KeyCodePressType.Down:
-                            if (Input.GetMouseButtonDown(MouseKeyCodeTypeEnum.GetHashCode()))
-                            {
-                                return true;
-                            }
-                            else
-                            {
-                                return false;
-                            }
-                            break;
+                            return Input.GetMouseButtonDown(MouseKeyCodeTypeEnum.GetHashCode());
                         case KeyCodePressType.Pressed:
-                            if (Input.GetMouseButton(MouseKeyCodeTypeEnum.GetHashCode()))
-                            {
-                                return true;
-                            }
-                            else
-                            {
-                                return false;
-                            }
-                            break;
+                            return Input.GetMouseButton(MouseKeyCodeTypeEnum.GetHashCode());
                         case KeyCodePressType.Up:
-                            if (Input.GetMouseButtonUp(MouseKeyCodeTypeEnum.GetHashCode()))
-                            {
-                                return true;
-                            }
-                            else
-                            {
-                                return false;
-                            }
-                            break;
+                            return Input.GetMouseButtonUp(MouseKeyCodeTypeEnum.GetHashCode());
                     }
                     break;
             }

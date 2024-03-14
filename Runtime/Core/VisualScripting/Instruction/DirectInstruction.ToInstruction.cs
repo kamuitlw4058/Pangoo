@@ -383,6 +383,13 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.Val = val;
             return instruction;
         }
+
+        public static Instruction GetTimelineDeltaTime(string path)
+        {
+            var instruction = Activator.CreateInstance<InstructionTimelineDeltaTime>();
+            instruction.ParamsRaw.Path = path;
+            return instruction;
+        }
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
             switch (InstructionType)
@@ -477,6 +484,8 @@ namespace Pangoo.Core.VisualScripting
                     return GetStartDialogue(Uuid, Bool1);
                 case DirectInstructionTypeEnum.ShowSceneModel:
                     return GetSceneModelShow(Uuid, Bool1);
+                case DirectInstructionTypeEnum.TimelineDeltaTime:
+                    return GetTimelineDeltaTime(DropdownString1);
             }
 
             return null;
