@@ -128,59 +128,6 @@ namespace Pangoo.MetaTable
         }
 
 
-        public static UnityAssetPathRow GetAssetPathById(int id, string packageDir = null)
-        {
-            UnityAssetPathRow ret = null;
-            var overviews = AssetDatabaseUtility.FindAsset<AssetPathOverview>(packageDir);
-            foreach (var overview in overviews)
-            {
-
-                foreach (var row in overview.Rows)
-                {
-                    if (row.Row.Id == id)
-                    {
-                        ret = row;
-                    }
-
-                }
-            }
-            return ret;
-        }
-
-        public static IEnumerable GetAssetPathIds(List<int> excludeIds = null, List<string> assetTypes = null, string packageDir = null)
-        {
-            var ret = new ValueDropdownList<int>();
-            var overviews = AssetDatabaseUtility.FindAsset<AssetPathOverview>(packageDir);
-            foreach (var overview in overviews)
-            {
-
-                foreach (var row in overview.Rows)
-                {
-                    if (assetTypes != null)
-                    {
-                        if (!assetTypes.Contains(row.Row.AssetType))
-                        {
-                            continue;
-                        }
-                    }
-
-                    if (excludeIds == null)
-                    {
-                        ret.Add($"{row.Row.Id}-{row.Name}", row.Row.Id);
-                    }
-                    else
-                    {
-                        if (!excludeIds.Contains(row.Row.Id))
-                        {
-                            ret.Add($"{row.Row.Id}-{row.Name}", row.Row.Id);
-                        }
-                    }
-                }
-            }
-            return ret;
-        }
-
-
 
         public static IEnumerable GetAssetPathUuids(List<string> excludeUuid = null, List<string> assetTypes = null, string packageDir = null)
         {
@@ -208,24 +155,6 @@ namespace Pangoo.MetaTable
             return ret;
         }
 
-        public static IEnumerable GetStaticSceneIds(List<int> excludeIds = null, string packageDir = null)
-        {
-            var ret = new ValueDropdownList<int>();
-            var overviews = AssetDatabaseUtility.FindAsset<StaticSceneOverview>(packageDir);
-            foreach (var overview in overviews)
-            {
-
-                foreach (var row in overview.Rows)
-                {
-                    bool flag = excludeIds == null ? true : !excludeIds.Contains(row.Row.Id) ? true : false;
-                    if (flag)
-                    {
-                        ret.Add($"{row.Row.Id}-{row.Name}", row.Row.Id);
-                    }
-                }
-            }
-            return ret;
-        }
 
         public static IEnumerable GetStaticSceneUuids(List<string> excludeUuid = null, string packageDir = null)
         {
@@ -246,24 +175,6 @@ namespace Pangoo.MetaTable
             return ret;
         }
 
-        public static UnityStaticSceneRow GetStaticSceneById(int id, string packageDir = null)
-        {
-            UnityStaticSceneRow ret = null;
-            var overviews = AssetDatabaseUtility.FindAsset<StaticSceneOverview>(packageDir);
-            foreach (var overview in overviews)
-            {
-
-                foreach (var row in overview.Rows)
-                {
-                    if (row.Row.Id == id)
-                    {
-                        ret = row;
-                    }
-
-                }
-            }
-            return ret;
-        }
 
 
 
@@ -333,24 +244,6 @@ namespace Pangoo.MetaTable
             return ret;
         }
 
-        public static UnityTriggerEventRow GetTriggerEventById(int id, string packageDir = null)
-        {
-            UnityTriggerEventRow ret = null;
-            var overviews = AssetDatabaseUtility.FindAsset<TriggerEventOverview>(packageDir);
-            foreach (var overview in overviews)
-            {
-
-                foreach (var row in overview.Rows)
-                {
-                    if (row.Row.Id == id)
-                    {
-                        ret = row;
-                    }
-
-                }
-            }
-            return ret;
-        }
 
         public static UnityTriggerEventRow GetTriggerEventByUuid(string uuid, string packageDir = null)
         {
@@ -391,27 +284,6 @@ namespace Pangoo.MetaTable
 
 
 
-
-
-        public static IEnumerable GetTriggerEventIds(List<int> excludeIds = null, string packageDir = null)
-        {
-            var ret = new ValueDropdownList<int>();
-            var overviews = AssetDatabaseUtility.FindAsset<TriggerEventOverview>(packageDir);
-            foreach (var overview in overviews)
-            {
-
-                foreach (var row in overview.Rows)
-                {
-                    bool flag = excludeIds == null ? true : !excludeIds.Contains(row.Row.Id) ? true : false;
-                    if (flag)
-                    {
-                        ret.Add($"{row.Row.Id}-{row.Name}", row.Row.Id);
-                    }
-                }
-            }
-            return ret;
-        }
-
         public static IEnumerable GetTriggerEventUuids(List<string> excludeUuids = null, string packageDir = null)
         {
             return GetUuids<TriggerEventOverview>(excludeUuids: excludeUuids, packageDir: packageDir);
@@ -441,60 +313,7 @@ namespace Pangoo.MetaTable
             }
             return ret;
         }
-        public static UnityHotspotRow GetHotspotById(int id, string packageDir = null)
-        {
-            UnityHotspotRow ret = null;
-            var overviews = AssetDatabaseUtility.FindAsset<HotspotOverview>(packageDir);
-            foreach (var overview in overviews)
-            {
 
-                foreach (var row in overview.Rows)
-                {
-                    if (row.Row.Id == id)
-                    {
-                        ret = row;
-                    }
-
-                }
-            }
-            return ret;
-        }
-
-        public static UnityDynamicObjectRow GetDynamicObjectId(int id, string packageDir = null)
-        {
-            var overviews = AssetDatabaseUtility.FindAsset<DynamicObjectOverview>(packageDir);
-            foreach (var overview in overviews)
-            {
-
-                foreach (var row in overview.Rows)
-                {
-                    if (row.Row.Id == id)
-                    {
-                        return row;
-                    }
-
-                }
-            }
-            return null;
-        }
-
-        public static UnityInstructionRow GetInstructionId(int id, string packageDir = null)
-        {
-            var overviews = AssetDatabaseUtility.FindAsset<InstructionOverview>(packageDir);
-            foreach (var overview in overviews)
-            {
-
-                foreach (var row in overview.Rows)
-                {
-                    if (row.Row.Id == id)
-                    {
-                        return row;
-                    }
-
-                }
-            }
-            return null;
-        }
 
 
 
@@ -575,29 +394,6 @@ namespace Pangoo.MetaTable
 
 
 
-        public static IEnumerable GetDynamicObjectIds(List<int> excludeIds = null, string packageDir = null, bool hasDefault = false)
-        {
-            var ret = new ValueDropdownList<int>();
-            if (hasDefault)
-            {
-                ret.Add("Default", 0);
-            }
-            var overviews = AssetDatabaseUtility.FindAsset<DynamicObjectOverview>(packageDir);
-            foreach (var overview in overviews)
-            {
-
-                foreach (var row in overview.Rows)
-                {
-                    bool flag = excludeIds == null ? true : !excludeIds.Contains(row.Row.Id) ? true : false;
-                    if (flag)
-                    {
-                        ret.Add($"{row.Row.Id}-{row.Name}", row.Row.Id);
-                    }
-                }
-            }
-            return ret;
-        }
-
         public static IEnumerable GetUuids<T>(List<string> excludeUuids = null, string packageDir = null) where T : MetaTableOverview
         {
             var ret = new ValueDropdownList<string>();
@@ -624,24 +420,7 @@ namespace Pangoo.MetaTable
             return GetUuids<DynamicObjectOverview>(excludeUuids: excludeUuids, packageDir: packageDir);
         }
 
-        public static IEnumerable GetInstructionIds(List<int> excludeIds = null, string packageDir = null)
-        {
-            var ret = new ValueDropdownList<int>();
-            var overviews = AssetDatabaseUtility.FindAsset<InstructionOverview>(packageDir);
-            foreach (var overview in overviews)
-            {
 
-                foreach (var row in overview.Rows)
-                {
-                    bool flag = excludeIds == null ? true : !excludeIds.Contains(row.Row.Id) ? true : false;
-                    if (flag)
-                    {
-                        ret.Add($"{row.Row.Id}-{row.Name}", row.Row.Id);
-                    }
-                }
-            }
-            return ret;
-        }
 
 
         public static IEnumerable GetInstructionUuids(List<string> excludeUuids = null, string packageDir = null)
@@ -649,71 +428,8 @@ namespace Pangoo.MetaTable
             return GetUuids<InstructionOverview>(excludeUuids: excludeUuids, packageDir: packageDir);
         }
 
-        public static string[] ConvertStaticSceneId2Uuid(int[] ids)
-        {
-            string[] ret = null;
-            List<string> outpuuUuids = new();
-            foreach (var inpuIds in ids)
-            {
-
-                var dynamicScene = GameSupportEditorUtility.GetStaticSceneById(inpuIds);
-                if (dynamicScene != null)
-                {
-                    outpuuUuids.Add(dynamicScene.Uuid);
-                }
-            }
-            ret = outpuuUuids.ToArray();
-            return ret;
-        }
-
-        public static string[] ConvertDynamicObjectId2Uuid(int[] ids)
-        {
-            string[] ret = null;
-            List<string> dynamicSceneUuids = new();
-            foreach (var dynamicSceneId in ids)
-            {
-
-                var dynamicScene = GameSupportEditorUtility.GetDynamicObjectId(dynamicSceneId);
-                if (dynamicScene != null)
-                {
-                    dynamicSceneUuids.Add(dynamicScene.Uuid);
-                }
-            }
-            ret = dynamicSceneUuids.ToArray();
-            return ret;
-        }
-
-        public static string[] ConvertInstructionId2Uuid(int[] ids)
-        {
-            string[] ret = null;
-            List<string> outputUuids = new();
-            foreach (var inputId in ids)
-            {
-
-                var unityRow = GameSupportEditorUtility.GetInstructionId(inputId);
-                if (unityRow != null)
-                {
-                    outputUuids.Add(unityRow.Uuid);
-                }
-            }
-            ret = outputUuids.ToArray();
-            return ret;
-        }
 
 
-        public static GameObject GetPrefabByDynamicObjectId(int id)
-        {
-            if (id == 0) return null;
-
-            var row = DynamicObjectOverview.GetUnityRowById(id);
-            if (row == null) return null;
-
-            var assetRow = AssetPathOverview.GetUnityRowByUuid(row.Row.AssetPathUuid);
-            if (assetRow == null) return null;
-
-            var finalPath = AssetUtility.GetAssetPath(assetRow.Row.AssetPackageDir, assetRow.Row.AssetType, assetRow.Row.AssetPath, assetRow.Row.AssetGroup);
-            return AssetDatabaseUtility.LoadAssetAtPath<GameObject>(finalPath);
-        }
 
         public static GameObject GetPrefabByDynamicObjectUuid(string uuid)
         {

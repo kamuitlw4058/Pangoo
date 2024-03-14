@@ -77,7 +77,7 @@ namespace Pangoo.Editor
 
             if (!Application.isPlaying)
             {
-                var uuids = DetailWrapper.DynamicObjectUuids.ToList();
+                var uuids = DetailWrapper.DynamicObjectUuids?.ToList();
                 m_DynamicObjectEditor.Uuids = uuids;
             }
             else

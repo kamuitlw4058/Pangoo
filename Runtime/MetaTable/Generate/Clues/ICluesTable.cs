@@ -1,7 +1,9 @@
-#if UNITY_EDITOR
+// 本文件使用工具自动生成，请勿进行手动修改！
 
 using System;
+using System.Collections;
 using System.IO;
+using System.Linq;
 using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
@@ -12,12 +14,13 @@ using MetaTable;
 
 namespace Pangoo.MetaTable
 {
-    [Serializable]
-    public partial class CharacterOverviewWrapper : MetaTableOverviewWrapper<CharacterOverview, CharacterDetailRowWrapper, CharacterRowWrapper, CharacterNewRowWrapper, UnityCharacterRow>
+    public partial interface ICluesTable : IMetaTableBase
     {
 
 
+        ICluesRow GetRowByUuid(string uuid);
+
+        ICluesRow GetRowById(int id);
     }
 }
-#endif
 

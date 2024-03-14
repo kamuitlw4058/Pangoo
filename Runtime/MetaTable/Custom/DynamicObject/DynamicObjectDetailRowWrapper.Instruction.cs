@@ -40,10 +40,6 @@ namespace Pangoo.MetaTable
 
 
 
-        public IEnumerable TriggerEventIdDropdown()
-        {
-            return GameSupportEditorUtility.GetTriggerEventIds();
-        }
 
         public IEnumerable TriggerEventUuidDropdown()
         {
