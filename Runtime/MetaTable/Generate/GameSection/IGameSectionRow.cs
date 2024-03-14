@@ -19,6 +19,12 @@ namespace Pangoo.MetaTable
 
         public string SectionJumpByScene{ get; set; }
 
+        public string DynamicSceneUuids{ get; set; }
+
+        public string KeepSceneUuids{ get; set; }
+
+        public string InitSceneUuids{ get; set; }
+
         public string DynamicObjectUuids{ get; set; }
 
         public string InitedInstructionUuids{ get; set; }
