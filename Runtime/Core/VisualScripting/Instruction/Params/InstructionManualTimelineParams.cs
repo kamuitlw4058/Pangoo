@@ -8,7 +8,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using GameSupportEditorUtility = Pangoo.GameSupportEditorUtility;
 
-public class InstructionTimelineDeltaTimeParams : InstructionParams
+public class InstructionManualTimelineParams : InstructionParams
 {
     [JsonMember("Path")]
     [LabelText("路径列表")]

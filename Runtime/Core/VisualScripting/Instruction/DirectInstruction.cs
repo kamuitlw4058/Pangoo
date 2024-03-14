@@ -383,7 +383,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectSetMaterial => true,
                     DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams => true,
                     DirectInstructionTypeEnum.ChangeHotspotState => true,
-                    DirectInstructionTypeEnum.TimelineDeltaTime=>true,
+                    DirectInstructionTypeEnum.ManualTimeline=>true,
                     _ => false,
                 };
             }
@@ -405,7 +405,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.CanvasGroup => true,
                     DirectInstructionTypeEnum.TweenLightIntensity => true,
                     DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance => true,
-                    DirectInstructionTypeEnum.TimelineDeltaTime=>true,
+                    DirectInstructionTypeEnum.ManualTimeline=>true,
                     _ => false,
                 };
             }
@@ -658,7 +658,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.CanvasGroup => "目标Alpha值",
                     DirectInstructionTypeEnum.TweenLightIntensity => "目标值",
                     DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance => "起始距离",
-                    DirectInstructionTypeEnum.TimelineDeltaTime=>"播放速度",
+                    DirectInstructionTypeEnum.ManualTimeline=>"播放速度",
                     _ => "Float1",
                 };
             }
@@ -719,7 +719,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.DynamicObjectSetMaterial:
                 case DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams:
                 case DirectInstructionTypeEnum.ChangeHotspotState:
-                case DirectInstructionTypeEnum.TimelineDeltaTime:
+                case DirectInstructionTypeEnum.ManualTimeline:
                     return GameSupportEditorUtility.RefPrefabStringDropdown(ListPrefab);
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
                 case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:

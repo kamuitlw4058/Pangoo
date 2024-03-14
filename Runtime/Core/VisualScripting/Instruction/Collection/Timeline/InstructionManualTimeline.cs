@@ -13,12 +13,12 @@ namespace Pangoo.Core.VisualScripting
     [Common.Title("TimelineDeltaTime")]
     [Category("Timeline/移动时间轴")]
     [Serializable]
-    public class InstructionTimelineDeltaTime : Instruction
+    public class InstructionManualTimeline : Instruction
     {
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        public InstructionTimelineDeltaTimeParams ParamsRaw = new InstructionTimelineDeltaTimeParams();
+        public InstructionManualTimelineParams ParamsRaw = new InstructionManualTimelineParams();
 
         public override IParams Params => ParamsRaw;
         public override void RunImmediate(Args args)
