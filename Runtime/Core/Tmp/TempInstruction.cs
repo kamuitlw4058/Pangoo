@@ -43,7 +43,7 @@ namespace Pangoo
                 characterService = mainService?.CharacterService;
             }
 
-            characterService?.SetPlayerHeight(height);
+            characterService?.SetPlayerCameraHeight(height);
 
         }
 

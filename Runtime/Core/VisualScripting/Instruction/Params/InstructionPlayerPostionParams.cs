@@ -24,8 +24,13 @@ namespace Pangoo.Core.VisualScripting
         public Vector3 Rotation;
 
 
-        [JsonMember("Height")]
-        public float Height = -1;
+        [JsonMember("CameraHeight")]
+        [LabelText("相机高度")]
+        public float CameraHeight = ConstFloat.InvaildCameraHeight;
+
+        [JsonMember("ColliderHeight")]
+        [LabelText("碰撞高度")]
+        public float ColliderHeight = 0;
 
         [JsonMember("IsInteractive")]
         public bool IsInteractive = true;
@@ -34,15 +39,6 @@ namespace Pangoo.Core.VisualScripting
         [LabelText("不移动玩家，当玩家已经被创建")]
         public bool NotMoveWhenPlayerCreated;
 
-        public override void Load(string val)
-        {
-            var par = JsonMapper.ToObject<InstructionPlayerPostionParams>(val);
-            CharacterUuid = par.CharacterUuid;
-            Position = par.Position;
-            Rotation = par.Rotation;
-            Height = par.Height;
-            IsInteractive = par.IsInteractive;
-        }
 
 #if UNITY_EDITOR
         public IEnumerable GetCharacterUuid()
