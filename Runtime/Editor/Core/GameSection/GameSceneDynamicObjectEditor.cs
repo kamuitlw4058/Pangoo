@@ -90,7 +90,9 @@ namespace Pangoo.Editor
                 }
 
                 var assetPathRow = AssetPathOverview.GetUnityRowByUuid(row.Row.AssetPathUuid);
+                if(assetPathRow == null) return null;
                 var asset = AssetDatabaseUtility.LoadAssetAtPath<GameObject>(assetPathRow.ToPrefabPath());
+                if (asset == null) return null;
                 var go = PrefabUtility.InstantiatePrefab(asset) as GameObject;
                 go.name = row.Name;
                 go.transform.parent = transform;
