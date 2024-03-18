@@ -46,6 +46,7 @@ namespace Pangoo.Core.VisualScripting
         }
 
 
+        public CaseContent Data;
 
 
 
@@ -55,6 +56,10 @@ namespace Pangoo.Core.VisualScripting
         {
             base.OnOpen(userData);
 
+            Data = PanelData.UserData as CaseContent;
+            if (Data == null) return;
+
+            Data.ShowCaseDynamicObject();
 
 
             m_Text = GetComponentInChildren<TextMeshProUGUI>();

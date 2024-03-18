@@ -72,7 +72,10 @@ namespace Pangoo.Core.VisualScripting
                         if (flag)
                         {
                             ret = true;
-                            Log($"Invoke:{triggerType}");
+                            if (triggerType != TriggerTypeEnum.OnUpdate)
+                            {
+                                Log($"Invoke:{triggerType}");
+                            }
                             o.OnInvoke(CurrentArgs);
                         }
                     }

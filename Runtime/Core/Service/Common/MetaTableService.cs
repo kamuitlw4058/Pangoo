@@ -166,6 +166,19 @@ namespace Pangoo.Core.Services
             }
         }
 
+        MetaTable.CasesTable m_CasesTable;
+
+        public MetaTable.CasesTable CasesTab
+        {
+            get
+            {
+                if (m_CasesTable == null)
+                {
+                    m_CasesTable = GetMetaTable<MetaTable.CasesTable>();
+                }
+                return m_CasesTable;
+            }
+        }
 
 
 
@@ -223,6 +236,11 @@ namespace Pangoo.Core.Services
         public IHotspotRow GetHotspotByUuid(string uuid)
         {
             return HotspotTab.GetRowByUuid(uuid);
+        }
+
+        public ICasesRow GetCaseByUuid(string uuid)
+        {
+            return CasesTab.GetRowByUuid(uuid);
         }
 
     }

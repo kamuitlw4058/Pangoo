@@ -60,6 +60,15 @@ namespace Pangoo.Core.Services
             }
         }
 
+        public void ShowCase(CaseContent data, Action closeAction = null)
+        {
+            if (!GameMainConfigSrv.GetGameMainConfig().CasePanelUuid.IsNullOrWhiteSpace())
+            {
+                data.UIService = this;
+                ShowUI(GameMainConfigSrv.GetGameMainConfig().CasePanelUuid, closeAction, data);
+            }
+        }
+
         public void ShowMainMenu(MainMenuData mainMenuData, Action<UIFormLogic> showAction = null)
         {
             if (!GameMainConfigSrv.GetGameMainConfig().DefaultMainMenuPanelUuid.IsNullOrWhiteSpace())

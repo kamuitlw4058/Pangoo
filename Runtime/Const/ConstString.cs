@@ -21,5 +21,7 @@ namespace Pangoo
         public const string CaseModule = "Case";
 
         public const string GameSectionModule = "GameSection";
+
+        public const string SubDynamicObjectModule = "SubDynamicObject";
     }
 }

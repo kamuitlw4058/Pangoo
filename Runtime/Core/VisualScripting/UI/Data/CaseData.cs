@@ -10,7 +10,7 @@ namespace Pangoo.Core.VisualScripting
 {
 
     [Serializable]
-    public class CaseData
+    public class CaseContent
     {
         public Args args;
 
@@ -18,13 +18,10 @@ namespace Pangoo.Core.VisualScripting
 
         public ICasesRow CaseRow;
 
-
-        public Vector3 OldPosition { get; set; }
-
-        public Vector3 OldRotation { get; set; }
-
-
-        public Vector3 OldScale { get; set; }
+        public void ShowCaseDynamicObject()
+        {
+            args?.Main?.DynamicObject.ShowModuleDynamicObject(ConstString.CaseModule, CaseRow.Uuid);
+        }
 
     }
 }

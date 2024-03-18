@@ -17,8 +17,6 @@ namespace Pangoo.Core.VisualScripting
         [ValueDropdown("@CasesOverview.GetUuidDropdown()")]
         public string CaseUuid;
 
-        [JsonMember("WaitClosed")]
-        public bool WaitClosed;
 
 
     }

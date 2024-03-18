@@ -151,7 +151,7 @@ namespace Pangoo.Core.VisualScripting
         {
             if (collider.tag.Equals("Player"))
             {
-                Debug.Log($"TriggerStay3d:{Row.Name}");
+                // Debug.Log($"TriggerStay3d:{Row.Name}");
                 PlayerStayTrigger = true;
             }
         }

@@ -25,7 +25,11 @@ namespace Pangoo
             for (int i = 0; i < Keys.Count; i++)
             {
                 var key = Keys[i];
-                DrawDynamicObject(KeyValues[key]);
+                var val = KeyValues[key];
+                if (val != null)
+                {
+                    DrawDynamicObject(KeyValues[key]);
+                }
             }
 
 

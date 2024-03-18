@@ -20,28 +20,15 @@ namespace Pangoo.Core.VisualScripting
         public InstructionUICaseParams ParamsRaw = new InstructionUICaseParams();
         public override IParams Params => this.ParamsRaw;
 
-        public bool IsUICloed = false;
 
-        [ShowInInspector]
-        public override InstructionType InstructionType
+
+        CaseContent BuildCaseData(Args args)
         {
-            get
-            {
-                return ParamsRaw.WaitClosed ? InstructionType.Coroutine : InstructionType.Immediate;
-            }
+            var ret = new CaseContent();
+            ret.args = args.Clone;
+            ret.CaseRow = args.Main.MetaTable.GetCaseByUuid(ParamsRaw.CaseUuid);
+            return ret;
         }
-
-        // PreviewData BuildPreviewData(Args args)
-        // {
-        //     var ret = new PreviewData();
-        //     ret.args = args;
-        //     ret.DynamicObject = args.dynamicObject;
-        //     ret.PreviewRow = args.Main.MetaTable.GetDynamicObjectPreviewByUuid(ParamsRaw.PreivewUuid);
-        //     ret.OldPosition = ret.CurrentPosition;
-        //     ret.OldRotation = ret.CurrentRotation;
-        //     ret.OldScale = ret.CurrentScale;
-        //     return ret;
-        // }
 
 
         protected override IEnumerator Run(Args args)
@@ -67,12 +54,8 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            // if (args.dynamicObject == null)
-            // {
-            //     Debug.LogError($"Preview DynamicObject Is Failed! DynamicObject is null");
-            // }
 
-            // args?.Main?.UI?.ShowPreview(BuildPreviewData(args));
+            args?.Main?.UI?.ShowCase(BuildCaseData(args));
         }
     }
 }

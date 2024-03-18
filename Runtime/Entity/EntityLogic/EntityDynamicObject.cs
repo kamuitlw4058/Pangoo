@@ -33,6 +33,14 @@ namespace Pangoo
         }
 
 
+        public string DynamicObjectUuid
+        {
+            get
+            {
+                return DoData?.InfoRow.Uuid;
+            }
+        }
+
         [ShowInInspector]
         public EntityDynamicObjectData DoData;
 
