@@ -166,7 +166,7 @@ namespace Pangoo.Core.Services
                 character.transform.position = positon;
                 character.transform.rotation = Quaternion.Euler(rotation);
                 character.character.ResetCameraDirection();
-                if (height >= ConstFloat.InvaildCameraHeight)
+                if (height > ConstFloat.InvaildCameraHeight)
                 {
                     character.character.CameraHight = height;
                 }
