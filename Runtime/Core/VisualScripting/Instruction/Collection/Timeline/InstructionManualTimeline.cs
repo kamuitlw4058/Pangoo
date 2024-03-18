@@ -72,15 +72,13 @@ namespace Pangoo.Core.VisualScripting
                         break;
                 }
                 
-                if (playableDirector.state==PlayState.Playing)
-                {
-                    playableDirector.time += ParamsRaw.TimeFactor*Time.deltaTime;
-                    playableDirector.Evaluate();
+                
+                playableDirector.time += ParamsRaw.TimeFactor*Time.deltaTime;
+                playableDirector.Evaluate();
 
-                    if (playableDirector.time<=0)
-                    {
-                        playableDirector.time = 0;
-                    }
+                if (playableDirector.time<=0)
+                {
+                    playableDirector.time = 0;
                 }
             }
         }
