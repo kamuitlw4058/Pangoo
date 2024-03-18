@@ -133,7 +133,7 @@ namespace Pangoo.Core.Characters
         {
             get
             {
-                return new Vector3(0, m_CharacterCameraService.CameraYOffset + (m_DriverService.ColliderHeight / 2), 0);
+                return new Vector3(0, m_CharacterCameraService.CameraYOffset);
             }
         }
 
