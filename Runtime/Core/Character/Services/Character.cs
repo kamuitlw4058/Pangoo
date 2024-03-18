@@ -24,7 +24,7 @@ namespace Pangoo.Core.Characters
 
         [SerializeField] MotionInfo m_MotionInfo;
 
-        public Vector3 CameraOffset { get; set; }
+
         [ShowInInspector]
         public float xAxisMaxPitch { get; set; }
 
@@ -125,19 +125,48 @@ namespace Pangoo.Core.Characters
             m_MotionInfo.SetLinearSpeed(val);
         }
 
-        public void SetCameraOffset(Vector3 offset)
+        float m_CameraHeight;
+
+
+        [ShowInInspector]
+        public Vector3 CameraOffset
         {
-            CameraOffset = offset;
-            m_CharacterCameraService.SetCameraOffset(offset);
+            get
+            {
+                return new Vector3(0, m_CharacterCameraService.CameraYOffset + (m_DriverService.ColliderHeight / 2), 0);
+            }
         }
 
-        public void SetCamreaHightFollowCharacterHeight(float targetHight)
+        [LabelText("相机高度")]
+        [ShowInInspector]
+        public float CameraHight
         {
-            float offsetY = targetHight - (CharacterController.height) / 2;
-
-            //Debug.Log($"offsetY:{offsetY},height:{targetHight},Info.Height:{CharacterController.height},OriginalCameraOffset.y:{OriginalCameraOffset.y}");
-            SetCameraOffset(new Vector3(CameraOffset.x, offsetY, CameraOffset.z));
+            get
+            {
+                return m_CharacterCameraService.CameraYOffset + (m_DriverService.ColliderHeight / 2);
+            }
+            set
+            {
+                m_CameraHeight = value;
+                m_CharacterCameraService.CameraYOffset = m_CameraHeight - (m_DriverService.ColliderHeight / 2);
+            }
         }
+
+        [LabelText("碰撞高度")]
+        [ShowInInspector]
+        public float ColliderHight
+        {
+            get
+            {
+                return m_DriverService.ColliderHeight;
+            }
+            set
+            {
+                m_DriverService.ColliderHeight = value;
+                CameraHight = m_CameraHeight;
+            }
+        }
+
 
         public void SetDriverInfo(DriverInfo driverInfo)
         {
@@ -166,10 +195,7 @@ namespace Pangoo.Core.Characters
             get { return m_CharacterInputService?.MoveStepChanged ?? false; }
         }
 
-        public void SetCharacterHeight(float val)
-        {
-            m_DriverService.SetCharacterControllerHeight(val);
-        }
+
 
         public Character(GameObject gameObject, bool onlyCamera = false) : base(gameObject)
         {

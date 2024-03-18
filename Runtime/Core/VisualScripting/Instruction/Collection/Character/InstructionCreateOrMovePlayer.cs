@@ -61,14 +61,11 @@ namespace Pangoo.Core.VisualScripting
                         Debug.LogError("Get Player Id failed!");
                         return;
                     }
-
                 }
-                characterService?.ShowCharacter(characterUuid, ParamsRaw.Position, ParamsRaw.Rotation, ParamsRaw.Height, ParamsRaw.IsInteractive);
+                characterService?.ShowCharacter(characterUuid, ParamsRaw.Position, ParamsRaw.Rotation, ParamsRaw.CameraHeight, ParamsRaw.ColliderHeight, ParamsRaw.IsInteractive);
             }
 
         }
-
-
 
     }
 }

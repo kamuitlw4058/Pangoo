@@ -17,5 +17,9 @@ namespace Pangoo
         public const string Target = "Target";
 
         public const string DefaultModel = "Model";
+
+        public const string CaseModule = "Case";
+
+        public const string GameSectionModule = "GameSection";
     }
 }

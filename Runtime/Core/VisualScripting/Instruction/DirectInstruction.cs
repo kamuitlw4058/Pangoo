@@ -326,6 +326,7 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.PlaySound => true,
+                    DirectInstructionTypeEnum.StartDialogue => true,
                     _ => false,
                 };
             }
@@ -383,7 +384,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectSetMaterial => true,
                     DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams => true,
                     DirectInstructionTypeEnum.ChangeHotspotState => true,
-                    DirectInstructionTypeEnum.ManualTimeline=>true,
+                    DirectInstructionTypeEnum.ManualTimeline => true,
                     _ => false,
                 };
             }
@@ -405,7 +406,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.CanvasGroup => true,
                     DirectInstructionTypeEnum.TweenLightIntensity => true,
                     DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance => true,
-                    DirectInstructionTypeEnum.ManualTimeline=>true,
+                    DirectInstructionTypeEnum.ManualTimeline => true,
                     _ => false,
                 };
             }
@@ -590,6 +591,7 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.PlaySound => "等待切换完成",
+                    DirectInstructionTypeEnum.StartDialogue => "不控制玩家",
                     _ => "设置值",
                 };
             }
@@ -658,7 +660,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.CanvasGroup => "目标Alpha值",
                     DirectInstructionTypeEnum.TweenLightIntensity => "目标值",
                     DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance => "起始距离",
-                    DirectInstructionTypeEnum.ManualTimeline=>"播放速度",
+                    DirectInstructionTypeEnum.ManualTimeline => "播放速度",
                     _ => "Float1",
                 };
             }

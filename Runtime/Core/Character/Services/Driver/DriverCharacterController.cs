@@ -45,6 +45,38 @@ namespace Pangoo.Core.Characters
         }
 
 
+        [ShowInInspector]
+        [LabelText("显示角色控制器脚本")]
+        public bool ShowCharacterMono
+        {
+            get
+            {
+
+
+                if (m_Controller == null)
+                {
+                    LogError($"Control is null");
+                    return false;
+                }
+
+                return (m_Controller.hideFlags & HideFlags.HideInInspector) == 0;
+            }
+            set
+            {
+                if (value)
+                {
+                    m_Controller.hideFlags &= ~HideFlags.HideInInspector;
+                }
+                else
+                {
+                    m_Controller.hideFlags |= HideFlags.HideInInspector;
+                }
+            }
+
+
+        }
+
+
         protected override void DoAwake()
         {
             this.m_Controller = Character.gameObject.GetComponent<CharacterController>();
@@ -56,6 +88,7 @@ namespace Pangoo.Core.Characters
                 this.m_Controller.radius = 0.2f;
                 // this.m_Controller.hideFlags = HideFlags.HideInInspector;
             }
+            ShowCharacterMono = false;
         }
 
         protected override void DoUpdate()
@@ -100,10 +133,20 @@ namespace Pangoo.Core.Characters
             m_Controller.height = driverInfo.Height;
         }
 
-        public void UpdateControllerHeight(float val)
+
+
+        public float ColliderHeight
         {
-            m_Controller.height = val;
+            get
+            {
+                return m_Controller.height;
+            }
+            set
+            {
+                m_Controller.height = value;
+            }
         }
+
 
         protected void UpdateGravity()
         {

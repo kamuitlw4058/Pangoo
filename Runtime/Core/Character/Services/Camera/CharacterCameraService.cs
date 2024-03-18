@@ -130,37 +130,83 @@ namespace Pangoo.Core.Characters
             return 0;
         }
 
-        public void SetCameraOffset(Vector3 offset)
+        public void FirstPersonTryInit()
         {
-
-            switch (m_ServiceType)
+            if (m_FirstPersonCameraService == null)
             {
-                case CharacterCameraTypeEnum.FirstPerson:
-                    if (m_FirstPersonCameraService == null)
-                    {
-                        m_FirstPersonCameraService = new FirstPersonCameraService(this);
-                        m_FirstPersonCameraService.Awake();
-                        m_FirstPersonCameraService.Start();
-                    }
+                m_FirstPersonCameraService = new FirstPersonCameraService(this);
+                m_FirstPersonCameraService.Awake();
+                m_FirstPersonCameraService.Start();
+            }
+        }
 
-                    m_FirstPersonCameraService.SetCameraOffset(offset);
-                    break;
+
+
+        public Vector3 CameraOffset
+        {
+            get
+            {
+
+                switch (m_ServiceType)
+                {
+                    case CharacterCameraTypeEnum.FirstPerson:
+                        FirstPersonTryInit();
+                        return m_FirstPersonCameraService.CameraOffset;
+                }
+                return Vector3.zero;
+            }
+            set
+            {
+                switch (m_ServiceType)
+                {
+                    case CharacterCameraTypeEnum.FirstPerson:
+                        FirstPersonTryInit();
+                        m_FirstPersonCameraService.CameraOffset = value;
+                        break;
+                }
             }
 
         }
 
-        public void SetCameraNoise(bool isOpen,NoiseSettings noiseSettings=default,float amplitudeGain=0,float frequencyGain=0)
+
+        public float CameraYOffset
         {
-            CinemachineBasicMultiChannelPerlin noise=Camera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            get
+            {
+                switch (m_ServiceType)
+                {
+                    case CharacterCameraTypeEnum.FirstPerson:
+                        FirstPersonTryInit();
+                        return m_FirstPersonCameraService.CameraYOffset;
+                }
+
+                return 0;
+            }
+            set
+            {
+                switch (m_ServiceType)
+                {
+                    case CharacterCameraTypeEnum.FirstPerson:
+                        FirstPersonTryInit();
+                        m_FirstPersonCameraService.CameraYOffset = value;
+                        break;
+                }
+
+            }
+        }
+
+        public void SetCameraNoise(bool isOpen, NoiseSettings noiseSettings = default, float amplitudeGain = 0, float frequencyGain = 0)
+        {
+            CinemachineBasicMultiChannelPerlin noise = Camera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
             if (isOpen)
             {
-                if (noise==null)
+                if (noise == null)
                 {
-                    noise=Camera.AddCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+                    noise = Camera.AddCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
                 }
 
-                if (noiseSettings==default)
+                if (noiseSettings == default)
                 {
                     Debug.LogWarning("不是有效的NoiseSettings,请确认配置是否正确");
                 }
@@ -170,7 +216,7 @@ namespace Pangoo.Core.Characters
             }
             else
             {
-                if (noise!=null)
+                if (noise != null)
                 {
                     Camera.DestroyCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
                 }
@@ -179,7 +225,7 @@ namespace Pangoo.Core.Characters
                     Debug.Log("相机没有Noise的组件，不用关闭Noise");
                 }
             }
-            
+
         }
 
 

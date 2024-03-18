@@ -21,6 +21,12 @@ namespace Pangoo.Core.VisualScripting
         public IDialogueRow DialogueRow;
 
 
+        public bool WaitClosed;
+
+
+        public bool DontControllPlayer;
+
+
 
         public Vector3 CurrentPosition
         {
