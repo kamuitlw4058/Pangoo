@@ -14,24 +14,13 @@ namespace Pangoo.Core.VisualScripting
     public class InstructionUIDialogueParams : InstructionParams
     {
         [JsonMember("DialogueUuid")]
-        [ValueDropdown("OnDialogueUuidDropdown")]
+        [ValueDropdown("DialogueOverview.GetUuidDropdown()")]
         public string DialogueUuid;
 
         [JsonMember("WaitClosed")]
         public bool WaitClosed;
 
-#if UNITY_EDITOR
-        IEnumerable OnDialogueUuidDropdown()
-        {
-            return  DialogueOverview.GetUuidDropdown();
-        }
-#endif
-
-        public override void Load(string val)
-        {
-            var par = JsonMapper.ToObject<InstructionUIDialogueParams>(val);
-            WaitClosed = par.WaitClosed;
-            DialogueUuid = par.DialogueUuid;
-        }
+        [JsonMember("DontControllPlayer")]
+        public bool DontControllPlayer;
     }
 }
