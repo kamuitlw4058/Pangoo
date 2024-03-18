@@ -33,6 +33,7 @@ namespace Pangoo.Core.Services
         Pangoo.MetaTable.VariablesTable m_VariablesTable;
 
         [ShowInInspector]
+        [Searchable]
         public Dictionary<string, IVariablesRow> m_VariablesDict = new Dictionary<string, IVariablesRow>();
 
         [ShowInInspector]
@@ -43,9 +44,11 @@ namespace Pangoo.Core.Services
             m_VariablesTable = MetaTableSrv.GetMetaTable<Pangoo.MetaTable.VariablesTable>();
             foreach (var row in m_VariablesTable.RowDict.Values)
             {
-                if (row.VariableType.IsNullOrWhiteSpace() || row.VariableType.Equals(VariableTypeEnum.DynamicObject.ToString())) continue;
+                if (row.VariableType.IsNullOrWhiteSpace()) continue;
 
                 m_VariablesDict.Add(row.Uuid, row);
+
+                if (row.VariableType.Equals(VariableTypeEnum.DynamicObject.ToString())) continue;
 
                 switch (row.ValueType.ToEnum<VariableValueTypeEnum>())
                 {
@@ -106,6 +109,8 @@ namespace Pangoo.Core.Services
 
         public T GetVariable<T>(string uuid)
         {
+            if (uuid.IsNullOrWhiteSpace()) return default(T);
+
             if (m_VariablesDict.TryGetValue(uuid, out IVariablesRow row))
             {
                 T defaultValue = row.DefaultValue.ToType<T>();
