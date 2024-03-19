@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using Pangoo.Core.VisualScripting;
+using Sirenix.OdinInspector;
 
 namespace Pangoo.Core.Common
 {
@@ -14,11 +15,21 @@ namespace Pangoo.Core.Common
         public PlayableDirector playableDirector;
 
         public DynamicObject dynamicObject;
+            
+        [ShowInInspector]
+        public PlayState PlayableDirectorState
+        {
+            get
+            {
+                return playableDirector?.state ?? PlayState.Paused;
+            }
+        }
+
 
 
         public void OnNotify(Playable origin, INotification notification, object context)
         {
-            Debug.Log($"OnTimelineNotify");
+            Debug.Log($"OnTimelineNotify:{gameObject.name}:{playableDirector?.playableAsset}");
             var signal = notification as SignalEmitter;
             string signalAssetName = null;
             if (signal != null)
