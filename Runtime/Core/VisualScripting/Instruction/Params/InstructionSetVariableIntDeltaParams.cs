@@ -13,7 +13,7 @@ namespace Pangoo.Core.VisualScripting
     public class InstructionSetVariableIntDeltaParams : InstructionParams
     {
         [JsonMember("VariableUuid")]
-        [ValueDropdown("OnVariableUuidDropdown")]
+        [ValueDropdown("@VariablesOverview.GetVariableUuidDropdown(ValueTypeEnum.ToString())")]
         public string VariableUuid;
 
 
@@ -21,14 +21,6 @@ namespace Pangoo.Core.VisualScripting
         public int DeltaValue;
         
         public VariableValueTypeEnum ValueTypeEnum => VariableValueTypeEnum.Int;
-        
-#if UNITY_EDITOR
-        public IEnumerable OnVariableUuidDropdown()
-        {
-            return VariablesOverview.GetVariableUuidDropdown(ValueTypeEnum.ToString());
-        }
-
-#endif
     }
 }
 

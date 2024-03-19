@@ -25,21 +25,19 @@ namespace Pangoo.Core.VisualScripting
 
         protected override IEnumerator Run(Args args)
         {
-            var trans = args.dynamicObject.CachedTransfrom.Find(ParamsRaw.Path);
-            
+            var trans = args?.dynamicObject.CachedTransfrom.Find(ParamsRaw.Path);
+            if (trans==null)
+            {
+                yield break;
+            }
+
             while (time<ParamsRaw.Duration)
             {
                 time += Time.deltaTime;
                 trans.rotation=Quaternion.Slerp(trans.rotation,Quaternion.Euler(ParamsRaw.Rotation),time/ParamsRaw.Duration);
                 //yield return WaitTime(Time.deltaTime,new TimeMode());
-                yield return new WaitForSeconds(Time.deltaTime);
+                yield return null;
             }
-        }
-
-        public override void RunImmediate(Args args)
-        {
-            var trans = args.dynamicObject.CachedTransfrom.Find(ParamsRaw.Path);
-            trans.DOLocalRotate(ParamsRaw.Rotation,ParamsRaw.Duration);
         }
     }
 }
