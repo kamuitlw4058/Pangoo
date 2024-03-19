@@ -24,7 +24,11 @@ namespace Pangoo.Editor
             foreach (var overview in overviews)
             {
                 overview.RefreshRows();
+                EditorUtility.SetDirty(overview);
             }
+
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
 
         }
 
