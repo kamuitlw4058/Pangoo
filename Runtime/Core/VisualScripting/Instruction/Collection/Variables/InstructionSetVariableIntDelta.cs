@@ -31,10 +31,9 @@ namespace Pangoo.Core.VisualScripting
                         break;
                     case VariableTypeEnum.Global:
                         variable=(int)args?.Main.RuntimeData.GetVariable<int>(ParamsRaw.VariableUuid);
+                        Debug.Log($"1>原始Int变量值:{variable}");
                         break;
                 }
-                variable=(int)args?.Main.RuntimeData.GetVariable<int>(ParamsRaw.VariableUuid);
-                Debug.Log($"1>原始Int变量值:{variable}");
             }
 
             variable += ParamsRaw.DeltaValue;
