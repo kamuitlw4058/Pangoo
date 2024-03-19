@@ -11,32 +11,18 @@ using Pangoo.Core.VisualScripting;
 
 namespace Pangoo.Core.Services
 {
-    public class SubtitleService : BaseService
+    public class SubtitleService : MainSubService
     {
         public override int Priority => 7;
-
-        UIService m_UIService;
-        GameMainConfigService m_GameMainConfigService;
-
-
-
-
-        protected override void DoAwake()
-        {
-            base.DoAwake();
-            m_UIService = Parent.GetService<UIService>();
-            m_GameMainConfigService = Parent.GetService<GameMainConfigService>();
-        }
 
 
         protected override void DoStart()
         {
-            base.DoAwake();
-            var subtitleUuid = m_GameMainConfigService?.GetGameMainConfig()?.DefaultSubtitlePanelUuid;
+            var subtitleUuid = GameMainConfigSrv.GameMainConfig?.DefaultSubtitlePanelUuid;
 
             if (!subtitleUuid.IsNullOrWhiteSpace())
             {
-                m_UIService.ShowUI(subtitleUuid);
+                UISrv.ShowUI(subtitleUuid);
             }
 
         }

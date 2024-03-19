@@ -73,14 +73,23 @@ namespace Pangoo.Core.Services
         }
 
         [Button("停止")]
-        public void StopSound(string soundUuid, float fadeOutSeconds = 0)
+        public void StopSound(string soundUuid, float fadeOutSeconds = 0, bool canelResetCallback = false)
         {
+            List<int> removeSerials = new List<int>();
             foreach (var kv in m_SerialPlaying)
             {
                 if (kv.Value.SoundUuid == soundUuid)
                 {
                     PangooEntry.Sound.StopSound(kv.Key, fadeOutSeconds);
+                    if (canelResetCallback)
+                    {
+                        removeSerials.Add(kv.Key);
+                    }
                 }
+            }
+            foreach (var serialId in removeSerials)
+            {
+                m_SerialPlaying.Remove(serialId);
             }
         }
 

@@ -10,9 +10,9 @@ using UnityEngine.Playables;
 namespace Pangoo.Core.VisualScripting
 {
     // [Common.Title("PlayTimeline")]
-    [Category("UI/对话流程")]
+    [Category("UI/开始对话流程")]
     [Serializable]
-    public class InstructionUIDialogue : Instruction
+    public class InstructionUIStartDialogue : Instruction
     {
         [SerializeField]
         [LabelText("参数")]
@@ -32,13 +32,16 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
-        DialogueData BuildDialogueData(Args args)
+        DialogueData BuildDialogueData(Args args, Action closeAction = null)
         {
             var ret = new DialogueData();
             ret.args = args.Clone;
+            ret.FinishAction = closeAction;
             ret.DynamicObject = args.dynamicObject;
             ret.DontControllPlayer = ParamsRaw.DontControllPlayer;
             ret.WaitClosed = ParamsRaw.WaitClosed;
+            ret.ShowCursor = ParamsRaw.ShowCursor;
+            ret.StopDialogueWhenFinish = ParamsRaw.StopDialogueWhenFinish;
             ret.DialogueRow = args.Main.MetaTable.GetDialogueByUuid(ParamsRaw.DialogueUuid);
             ret.OldPosition = ret.CurrentPosition;
             ret.OldRotation = ret.CurrentRotation;
@@ -56,11 +59,10 @@ namespace Pangoo.Core.VisualScripting
             }
 
             IsUICloed = false;
-            args?.Main?.UI?.ShowDialogue(BuildDialogueData(args), () =>
+            args?.Main?.Dialogue.InsertDialogue(BuildDialogueData(args, () =>
             {
-                Debug.Log($"UI Closed");
                 IsUICloed = true;
-            });
+            }));
             while (!IsUICloed)
             {
                 yield return null;
@@ -74,7 +76,7 @@ namespace Pangoo.Core.VisualScripting
                 Debug.LogError($"Preview DynamicObject Is Failed! DynamicObject is null");
             }
 
-            args?.Main?.UI?.ShowDialogue(BuildDialogueData(args));
+            args?.Main?.Dialogue.InsertDialogue(BuildDialogueData(args));
         }
     }
 }

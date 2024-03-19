@@ -38,6 +38,10 @@ namespace Pangoo.Core.Services
 
         public MainMenuService MainMenu;
 
+        public DialogueService Dialogue;
+
+        public CursorService Cursor;
+
 
         public MainService()
         {
@@ -58,6 +62,9 @@ namespace Pangoo.Core.Services
             SaveLoad = new SaveLoadService();
             MainMenu = new MainMenuService();
 
+            Dialogue = new DialogueService();
+            Cursor = new CursorService();
+
 
             AddService(MetaTable, sortService: false);
             AddService(StaticScene, sortService: false);
@@ -72,6 +79,8 @@ namespace Pangoo.Core.Services
             AddService(Subtitle, sortService: false);
             AddService(SaveLoad, sortService: false);
             AddService(MainMenu, sortService: false);
+            AddService(Dialogue, sortService: false);
+            AddService(Cursor, sortService: false);
             SortService();
         }
 

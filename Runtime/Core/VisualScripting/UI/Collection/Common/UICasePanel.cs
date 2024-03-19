@@ -83,7 +83,7 @@ namespace Pangoo.Core.VisualScripting
             // }
 
 
-            SetupCursor();
+            ShowCursor();
 
 
         }

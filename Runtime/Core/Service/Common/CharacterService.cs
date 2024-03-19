@@ -61,6 +61,28 @@ namespace Pangoo.Core.Services
             m_EntityGroupRow = EntityGroupRowExtension.CreateCharacterGroup();
         }
 
+        public bool PlayerControllable
+        {
+            get
+            {
+                if (Player != null)
+                {
+                    return Player.character.IsControllable;
+                }
+
+                return false;
+            }
+            set
+            {
+                if (Player != null)
+                {
+                    Player.character.IsControllable = value;
+                    Log($"SetPlayer Controllable:{value}");
+
+                }
+            }
+        }
+
         public void SetPlayerControllable(bool val)
         {
             if (Player != null)

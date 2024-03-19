@@ -131,6 +131,20 @@ namespace Pangoo.Core.VisualScripting
         public bool Bool2;
 
         [TableTitleGroup("参数")]
+        [LabelText("$Bool3Label")]
+        [ShowIf("$IsBool3Show")]
+        [LabelWidth(80)]
+        [JsonMember("Bool3")]
+        public bool Bool3;
+
+        [TableTitleGroup("参数")]
+        [LabelText("$Bool4Label")]
+        [ShowIf("$IsBool4Show")]
+        [LabelWidth(80)]
+        [JsonMember("Bool4")]
+        public bool Bool4;
+
+        [TableTitleGroup("参数")]
         [LabelText("$Float1Label")]
         [ShowIf("$IsMainFloatShow")]
         [LabelWidth(80)]
@@ -206,7 +220,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectSetMaterial => true,
                     DirectInstructionTypeEnum.SetIntVariable => true,
                     DirectInstructionTypeEnum.SetLocalIntVariable => true,
-                    DirectInstructionTypeEnum.SetIntDelta=>true,
+                    DirectInstructionTypeEnum.SetIntDelta => true,
                     _ => false,
                 };
             }
@@ -243,7 +257,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SetLocalIntVariable => true,
                     DirectInstructionTypeEnum.StartDialogue => true,
                     DirectInstructionTypeEnum.ShowSceneModel => true,
-                    DirectInstructionTypeEnum.SetIntDelta=>true,
+                    DirectInstructionTypeEnum.SetIntDelta => true,
                     _ => false,
                 };
             }
@@ -340,6 +354,33 @@ namespace Pangoo.Core.VisualScripting
         }
 
         [JsonNoMember]
+        bool IsBool3Show
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.StartDialogue => true,
+                    _ => false,
+                };
+            }
+        }
+
+        [JsonNoMember]
+        bool IsBool4Show
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.StartDialogue => true,
+                    _ => false,
+                };
+            }
+        }
+
+
+        [JsonNoMember]
         bool IsMainStringShow
         {
             get
@@ -391,8 +432,8 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectSetMaterial => true,
                     DirectInstructionTypeEnum.DynamicObjectSetAnimatorBoolParams => true,
                     DirectInstructionTypeEnum.ChangeHotspotState => true,
-                    DirectInstructionTypeEnum.ManualTimeline=>true,
-                    DirectInstructionTypeEnum.TweenRotation=>true,
+                    DirectInstructionTypeEnum.ManualTimeline => true,
+                    DirectInstructionTypeEnum.TweenRotation => true,
                     _ => false,
                 };
             }
@@ -414,8 +455,8 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.CanvasGroup => true,
                     DirectInstructionTypeEnum.TweenLightIntensity => true,
                     DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance => true,
-                    DirectInstructionTypeEnum.ManualTimeline=>true,
-                    DirectInstructionTypeEnum.TweenRotation=>true,
+                    DirectInstructionTypeEnum.ManualTimeline => true,
+                    DirectInstructionTypeEnum.TweenRotation => true,
                     _ => false,
                 };
             }
@@ -600,6 +641,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.PlaySound => "是否循环",
                     DirectInstructionTypeEnum.SetGlobalGameObjectActive => "状态",
                     DirectInstructionTypeEnum.TweenLightIntensity => "是否等待完成",
+                    DirectInstructionTypeEnum.StartDialogue => "等待完成",
                     _ => "设置值",
                 };
             }
@@ -618,6 +660,33 @@ namespace Pangoo.Core.VisualScripting
                 };
             }
         }
+
+        [JsonNoMember]
+        string Bool3Label
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.StartDialogue => "当结束时暂停对话",
+                    _ => "设置值",
+                };
+            }
+        }
+
+        [JsonNoMember]
+        string Bool4Label
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.StartDialogue => "显示鼠标",
+                    _ => "设置值",
+                };
+            }
+        }
+
 
         [JsonNoMember]
         string String1Label
@@ -682,8 +751,8 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.CanvasGroup => "目标Alpha值",
                     DirectInstructionTypeEnum.TweenLightIntensity => "目标值",
                     DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance => "起始距离",
-                    DirectInstructionTypeEnum.ManualTimeline=>"播放速度",
-                    DirectInstructionTypeEnum.TweenRotation=>"补间时长",
+                    DirectInstructionTypeEnum.ManualTimeline => "播放速度",
+                    DirectInstructionTypeEnum.TweenRotation => "补间时长",
                     _ => "Float1",
                 };
             }

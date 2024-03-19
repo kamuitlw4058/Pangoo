@@ -361,12 +361,14 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetStartDialogue(string dialogueUuid, bool val, bool playerControllable)
+        public static Instruction GetStartDialogue(string dialogueUuid, bool val, bool playerControllable, bool stopDialogueWhenFinish, bool ShowCursor)
         {
-            var instruction = Activator.CreateInstance<InstructionUIDialogue>();
+            var instruction = Activator.CreateInstance<InstructionUIStartDialogue>();
             instruction.ParamsRaw.DialogueUuid = dialogueUuid;
             instruction.ParamsRaw.WaitClosed = val;
             instruction.ParamsRaw.DontControllPlayer = playerControllable;
+            instruction.ParamsRaw.StopDialogueWhenFinish = stopDialogueWhenFinish;
+            instruction.ParamsRaw.ShowCursor = ShowCursor;
             return instruction;
         }
 
@@ -392,7 +394,7 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.TimeFactor = timeFactor;
             return instruction;
         }
-        public static Instruction GetTweenRotation(string path,Vector3 rotation,float duration)
+        public static Instruction GetTweenRotation(string path, Vector3 rotation, float duration)
         {
             var instruction = Activator.CreateInstance<InstructionTweenRotation>();
             instruction.ParamsRaw.Path = path;
@@ -401,15 +403,15 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetIntDelta(string uuid,int deltaValue)
+        public static Instruction GetIntDelta(string uuid, int deltaValue)
         {
             var instruction = Activator.CreateInstance<InstructionSetVariableIntDelta>();
             instruction.ParamsRaw.VariableUuid = uuid;
             instruction.ParamsRaw.DeltaValue = deltaValue;
             return instruction;
         }
-        
-        
+
+
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
             switch (InstructionType)
@@ -501,15 +503,15 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.ChangeHotspotState:
                     return GetChangeImageSprite(DropdownString1, DynamicObjectHotsoptState);
                 case DirectInstructionTypeEnum.StartDialogue:
-                    return GetStartDialogue(Uuid, Bool1, Bool2);
+                    return GetStartDialogue(Uuid, Bool1, Bool2, Bool3, Bool4);
                 case DirectInstructionTypeEnum.ShowSceneModel:
                     return GetSceneModelShow(Uuid, Bool1);
                 case DirectInstructionTypeEnum.ManualTimeline:
-                    return GetManualTimeline(DropdownString1,Float1);
+                    return GetManualTimeline(DropdownString1, Float1);
                 case DirectInstructionTypeEnum.TweenRotation:
-                    return GetTweenRotation(DropdownString1,Vector3_1,Float1);
+                    return GetTweenRotation(DropdownString1, Vector3_1, Float1);
                 case DirectInstructionTypeEnum.SetIntDelta:
-                    return GetIntDelta(Uuid,Int1);
+                    return GetIntDelta(Uuid, Int1);
             }
 
             return null;
