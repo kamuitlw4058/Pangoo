@@ -25,8 +25,12 @@ namespace Pangoo.Core.VisualScripting
 
         protected override IEnumerator Run(Args args)
         {
-            var trans = args.dynamicObject.CachedTransfrom.Find(ParamsRaw.Path);
-            
+            var trans = args?.dynamicObject.CachedTransfrom.Find(ParamsRaw.Path);
+            if (trans==null)
+            {
+                yield break;
+            }
+
             while (time<ParamsRaw.Duration)
             {
                 time += Time.deltaTime;

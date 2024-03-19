@@ -35,6 +35,10 @@ namespace Pangoo.Core.VisualScripting
                         break;
                 }
             }
+            else
+            {
+                return;
+            }
 
             variable += ParamsRaw.DeltaValue;
             Debug.Log($"当前Int变量值:{variable} : {ParamsRaw.DeltaValue}");
