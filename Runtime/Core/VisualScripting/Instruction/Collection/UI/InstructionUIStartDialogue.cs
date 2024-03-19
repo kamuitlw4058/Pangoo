@@ -10,9 +10,9 @@ using UnityEngine.Playables;
 namespace Pangoo.Core.VisualScripting
 {
     // [Common.Title("PlayTimeline")]
-    [Category("UI/对话流程")]
+    [Category("UI/开始对话流程")]
     [Serializable]
-    public class InstructionUIDialogue : Instruction
+    public class InstructionUIStartDialogue : Instruction
     {
         [SerializeField]
         [LabelText("参数")]
@@ -40,6 +40,8 @@ namespace Pangoo.Core.VisualScripting
             ret.DynamicObject = args.dynamicObject;
             ret.DontControllPlayer = ParamsRaw.DontControllPlayer;
             ret.WaitClosed = ParamsRaw.WaitClosed;
+            ret.ShowCursor = ParamsRaw.ShowCursor;
+            ret.StopDialogueWhenFinish = ParamsRaw.StopDialogueWhenFinish;
             ret.DialogueRow = args.Main.MetaTable.GetDialogueByUuid(ParamsRaw.DialogueUuid);
             ret.OldPosition = ret.CurrentPosition;
             ret.OldRotation = ret.CurrentRotation;

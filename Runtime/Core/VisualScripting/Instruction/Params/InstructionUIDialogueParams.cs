@@ -1,11 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Pangoo.Core.Common;
 using LitJson;
 using Sirenix.OdinInspector;
-using Pangoo.MetaTable;
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -22,5 +17,11 @@ namespace Pangoo.Core.VisualScripting
 
         [JsonMember("DontControllPlayer")]
         public bool DontControllPlayer;
+
+        [JsonMember("StopDialogueWhenFinish")]
+        public bool StopDialogueWhenFinish;
+
+        [JsonMember("ShowCursor")]
+        public bool ShowCursor;
     }
 }

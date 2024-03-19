@@ -30,6 +30,9 @@ namespace Pangoo.Core.VisualScripting
         public bool ShowCursor;
 
 
+        public bool StopDialogueWhenFinish;
+
+
         public Action FinishAction;
 
 

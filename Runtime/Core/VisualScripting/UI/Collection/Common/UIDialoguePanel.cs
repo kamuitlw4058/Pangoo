@@ -78,6 +78,8 @@ namespace Pangoo.Core.VisualScripting
 
         public float CurrentTime;
 
+        public bool IsPlayData;
+
 
         [ShowInInspector]
         public string SubtitleText
@@ -259,6 +261,7 @@ namespace Pangoo.Core.VisualScripting
         {
             get
             {
+                if (DataList.Count == 0) return null;
                 var data = DataList.Last();
                 if (data != null)
                 {
@@ -275,15 +278,23 @@ namespace Pangoo.Core.VisualScripting
         {
             Debug.Log($"End Dialogue");
             var data = LastData;
-            if (data != null)
+            if (data == null)
             {
-                DataList.Remove(data);
+                return;
             }
 
-            if (data != null && !data.DontControllPlayer)
+            if (data.StopDialogueWhenFinish)
+            {
+                IsPlayData = false;
+            }
+
+
+            DataList.Remove(data);
+            if (!data.DontControllPlayer)
             {
                 PlayerControllable = true;
             }
+
 
             SubtitleText = string.Empty;
             RecoverCursor();
@@ -301,7 +312,18 @@ namespace Pangoo.Core.VisualScripting
                 {
                     ShowCursor();
                 }
+
+                if (nextData.dialogueUpdateDatas.Count > 0)
+                {
+                    var lastDialogue = nextData.dialogueUpdateDatas.Last();
+                    lastDialogue.StartTime = CurrentTime;
+                    lastDialogue.audioUuid = null;
+
+                }
+
+
             }
+            data.FinishAction?.Invoke();
 
         }
 
@@ -337,13 +359,39 @@ namespace Pangoo.Core.VisualScripting
         {
             if (data == null) return;
 
+            var lastData = LastData;
+
+            if (lastData != null && lastData.dialogueUpdateDatas.Count > 0)
+            {
+
+                var lastDialogue = lastData.dialogueUpdateDatas.Last();
+                if (!lastDialogue.audioUuid.IsNullOrWhiteSpace())
+                {
+                    PanelData.Main.Sound.StopSound(lastDialogue.audioUuid, canelResetCallback: true);
+                }
+            }
+
             if (!data.DontControllPlayer)
             {
                 PlayerControllable = false;
             }
+
+            if (data.ShowCursor)
+            {
+                ShowCursor();
+            }
+            IsPlayData = true;
+
+            if (lastData != null && lastData.DialogueRow.Uuid.Equals(data.DialogueRow.Uuid))
+            {
+                var lastDialogue = lastData.dialogueUpdateDatas.Last();
+                lastDialogue.StartTime = CurrentTime;
+                return;
+            }
+
             InsertDialogueUpdateData(data.DialogueRow, data);
-            ShowCursor();
             DataList.Add(data);
+
         }
 
 
@@ -455,6 +503,7 @@ namespace Pangoo.Core.VisualScripting
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
         {
             CurrentTime += elapseSeconds;
+            if (!IsPlayData) return;
             UpdateDialogue();
             CheckOptionIndex();
         }
