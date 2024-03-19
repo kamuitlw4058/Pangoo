@@ -141,5 +141,9 @@ namespace Pangoo.Core.VisualScripting
         ShowSceneModel,
         [LabelText("动态物体自身/Timeline移动时间轴播放")]
         ManualTimeline,
+        [LabelText("Tween/Tween到目标旋转")]
+        TweenRotation,
+        [LabelText("变量/设置Int增量")]
+        SetIntDelta,
     }
 }
