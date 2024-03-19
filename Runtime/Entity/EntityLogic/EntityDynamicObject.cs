@@ -33,6 +33,14 @@ namespace Pangoo
         }
 
 
+        public string DynamicObjectUuid
+        {
+            get
+            {
+                return DoData?.InfoRow.Uuid;
+            }
+        }
+
         [ShowInInspector]
         public EntityDynamicObjectData DoData;
 
@@ -138,22 +146,26 @@ namespace Pangoo
 
         }
 
+        private void FixedUpdate()
+        {
+            DynamicObj?.FixedUpdate();
+        }
+
+
         private void OnTriggerEnter(Collider other)
         {
-            if (other.tag.Equals("Player"))
-            {
-                Log($"EntityDynamicObject OnTriggerEnter,{DoData.InfoRow.Name},{other.gameObject.name}");
-                DynamicObj?.TriggerEnter3d(other);
-            }
+
+            DynamicObj?.TriggerEnter3d(other);
+        }
+
+        private void OnTriggerStay(Collider other)
+        {
+            DynamicObj?.TriggerStay3d(other);
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.tag.Equals("Player"))
-            {
-                Log($"EntityDynamicObject OnTriggerExit");
-                DynamicObj?.TriggerExit3d(other);
-            }
+            DynamicObj?.TriggerExit3d(other);
         }
 
         public void OnPointerEnter(PointerEventData pointerEventData)

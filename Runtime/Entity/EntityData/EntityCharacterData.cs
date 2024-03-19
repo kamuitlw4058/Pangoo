@@ -17,7 +17,9 @@ namespace Pangoo
 
         public CharacterInfoRow InfoRow;
 
-        public float Height { get; set; } = -1f;
+        public float Height { get; set; } = ConstFloat.InvaildCameraHeight;
+
+        public float ColliderHeight { get; set; } = 0;
 
         public bool IsInteractive { get; set; } = true;
 

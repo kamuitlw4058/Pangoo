@@ -94,9 +94,9 @@ MonoBehaviour:
     - Name: MoveSpeed
       Type: float
       CnName: "\u79FB\u52A8\u901F\u5EA6"
-    - Name: Height
+    - Name: CameraHeight
       Type: float
-      CnName: "\u9AD8\u5EA6"
+      CnName: "\u76F8\u673A\u9AD8\u5EA6"
     - Name: CameraOffset
       Type: Vector3
       CnName: "\u76F8\u673A\u504F\u79FB"
@@ -115,27 +115,27 @@ MonoBehaviour:
     - Name: SubDynamicObject
       Type: string
       CnName: "\u5B50\u5BF9\u8C61"
-    - Name: SlopeLimit
+    - Name: CharacterSlopeLimit
       Type: float
-      CnName: "\u659C\u5761\u9650\u5236"
-    - Name: StepOffset
+      CnName: "\u89D2\u8272\u659C\u5761\u9650\u5236"
+    - Name: CharacterStepOffset
       Type: float
-      CnName: "\u6B65\u9AD8\u9650\u5236"
-    - Name: SkinWidth
+      CnName: "\u89D2\u8272\u6B65\u9AD8\u9650\u5236"
+    - Name: CharacterSkinWidth
       Type: float
-      CnName: "\u76AE\u80A4\u5BBD\u5EA6"
-    - Name: MinMoveDistance
+      CnName: "\u89D2\u8272\u76AE\u80A4\u5BBD\u5EA6"
+    - Name: CharacterMinMoveDistance
       Type: float
-      CnName: "\u6700\u5C0F\u79FB\u52A8\u8DDD\u79BB"
-    - Name: Center
+      CnName: "\u89D2\u8272\u6700\u5C0F\u79FB\u52A8\u8DDD\u79BB"
+    - Name: ColliderCenter
       Type: Vector3
-      CnName: "\u4E2D\u5FC3"
-    - Name: Radius
+      CnName: "\u78B0\u649E\u4E2D\u5FC3"
+    - Name: ColliderRadius
       Type: float
-      CnName: "\u534A\u5F84"
-    - Name: Height
+      CnName: "\u78B0\u649E\u534A\u5F84"
+    - Name: ColliderHeight
       Type: float
-      CnName: "\u9AD8\u5EA6"
+      CnName: "\u78B0\u649E\u9AD8\u5EA6"
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Condition
@@ -160,9 +160,6 @@ MonoBehaviour:
     RefConfig: {fileID: 0}
     RefTableName: 
     Columns:
-    - Name: Uuid
-      Type: string
-      CnName: Uuid
     - Name: Name
       Type: string
       CnName: Name
@@ -250,6 +247,12 @@ MonoBehaviour:
     - Name: MouseInteractList
       Type: string
       CnName: "\u9F20\u6807\u4EA4\u4E92\u5217\u8868"
+    - Name: ColliderTriggerStayTimeout
+      Type: float
+      CnName: "ColliderTrigger\u8D85\u65F6"
+    - Name: ColliderTriggerStayExitDelay
+      Type: float
+      CnName: "ColliderTrigger\u9000\u51FA\u8D85\u65F6\u5EF6\u8FDF"
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: EntityGroup

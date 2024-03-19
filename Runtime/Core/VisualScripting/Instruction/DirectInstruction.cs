@@ -333,6 +333,7 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.PlaySound => true,
+                    DirectInstructionTypeEnum.StartDialogue => true,
                     _ => false,
                 };
             }
@@ -612,6 +613,7 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.PlaySound => "等待切换完成",
+                    DirectInstructionTypeEnum.StartDialogue => "不控制玩家",
                     _ => "设置值",
                 };
             }

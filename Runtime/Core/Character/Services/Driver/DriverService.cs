@@ -38,10 +38,18 @@ namespace Pangoo.Core.Characters
             }
         }
 
-        public override void SetCharacterControllerHeight(float val)
+        public float ColliderHeight
         {
-            m_DriverCharacterController.UpdateControllerHeight(val);
+            get
+            {
+                return m_DriverCharacterController.ColliderHeight;
+            }
+            set
+            {
+                m_DriverCharacterController.ColliderHeight = value;
+            }
         }
+
 
         public override void RemoveService(CharacterDriverTypeEnum val)
         {

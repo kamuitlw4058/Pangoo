@@ -205,7 +205,10 @@ namespace Pangoo.Core.VisualScripting
         void FinishDialogue()
         {
             Debug.Log($"End Dialogue");
-            Data.args.Main.CharacterService.SetPlayerControllable(false);
+            if (!Data.DontControllPlayer)
+            {
+                Data.args.Main.CharacterService.SetPlayerControllable(true);
+            }
             CloseSelf();
         }
 
@@ -261,7 +264,10 @@ namespace Pangoo.Core.VisualScripting
                 m_Options.Add(option);
             }
 
-            Data.args.Main.CharacterService.SetPlayerControllable(false);
+            if (!Data.DontControllPlayer)
+            {
+                Data.args.Main.CharacterService.SetPlayerControllable(false);
+            }
             InsertDialogueUpdateData(Data.DialogueRow);
             SetupCursor();
 

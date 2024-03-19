@@ -54,7 +54,7 @@ namespace Pangoo.MetaTable
         string ISimpleUIRow.Params {get => Params; set => Params = value;}
 
         [JsonMember("AssetPathUuid")]
-        [MetaTableRowColumn("AssetPathUuid","string", "资源路径Uuid",9)]
+        [MetaTableRowColumn("AssetPathUuid","string", "资源路径Uuid",8)]
         [LabelText("资源路径Uuid")]
         public string AssetPathUuid ;
 

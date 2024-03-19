@@ -25,29 +25,50 @@ namespace Pangoo.MetaTable
 
         string IGameSectionRow.SectionJumpByScene {get => SectionJumpByScene; set => SectionJumpByScene = value;}
 
+        [JsonMember("DynamicSceneUuids")]
+        [MetaTableRowColumn("DynamicSceneUuids","string", "动态加载场景Uuids",4)]
+        [LabelText("动态加载场景Uuids")]
+        public string DynamicSceneUuids ;
+
+        string IGameSectionRow.DynamicSceneUuids {get => DynamicSceneUuids; set => DynamicSceneUuids = value;}
+
+        [JsonMember("KeepSceneUuids")]
+        [MetaTableRowColumn("KeepSceneUuids","string", "持续加载场景Uuids",5)]
+        [LabelText("持续加载场景Uuids")]
+        public string KeepSceneUuids ;
+
+        string IGameSectionRow.KeepSceneUuids {get => KeepSceneUuids; set => KeepSceneUuids = value;}
+
+        [JsonMember("InitSceneUuids")]
+        [MetaTableRowColumn("InitSceneUuids","string", "进入章节默认加载的场景Uuids",6)]
+        [LabelText("进入章节默认加载的场景Uuids")]
+        public string InitSceneUuids ;
+
+        string IGameSectionRow.InitSceneUuids {get => InitSceneUuids; set => InitSceneUuids = value;}
+
         [JsonMember("DynamicObjectUuids")]
-        [MetaTableRowColumn("DynamicObjectUuids","string", "动态物体Uuids",4)]
+        [MetaTableRowColumn("DynamicObjectUuids","string", "动态物体Uuids",7)]
         [LabelText("动态物体Uuids")]
         public string DynamicObjectUuids ;
 
         string IGameSectionRow.DynamicObjectUuids {get => DynamicObjectUuids; set => DynamicObjectUuids = value;}
 
         [JsonMember("InitedInstructionUuids")]
-        [MetaTableRowColumn("InitedInstructionUuids","string", "初始化后执行的指令Uuids",5)]
+        [MetaTableRowColumn("InitedInstructionUuids","string", "初始化后执行的指令Uuids",8)]
         [LabelText("初始化后执行的指令Uuids")]
         public string InitedInstructionUuids ;
 
         string IGameSectionRow.InitedInstructionUuids {get => InitedInstructionUuids; set => InitedInstructionUuids = value;}
 
         [JsonMember("EditorInitedInstructionUuids")]
-        [MetaTableRowColumn("EditorInitedInstructionUuids","string", "编辑器初始化后执行的指令Uuids",6)]
+        [MetaTableRowColumn("EditorInitedInstructionUuids","string", "编辑器初始化后执行的指令Uuids",9)]
         [LabelText("编辑器初始化后执行的指令Uuids")]
         public string EditorInitedInstructionUuids ;
 
         string IGameSectionRow.EditorInitedInstructionUuids {get => EditorInitedInstructionUuids; set => EditorInitedInstructionUuids = value;}
 
         [JsonMember("SceneUuids")]
-        [MetaTableRowColumn("SceneUuids","string", "场景uuids",7)]
+        [MetaTableRowColumn("SceneUuids","string", "场景uuids",10)]
         [LabelText("场景uuids")]
         public string SceneUuids ;
 

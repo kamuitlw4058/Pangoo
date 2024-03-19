@@ -4,6 +4,7 @@ using Pangoo.Core.Services;
 using Pangoo.Core.Common;
 using Sirenix.OdinInspector;
 using Cinemachine;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 
 namespace Pangoo.Core.Characters
 {
@@ -192,36 +193,77 @@ namespace Pangoo.Core.Characters
             // }
         }
 
-        public CinemachineTransposer GetCinemachineTransposer()
+        CinemachineTransposer m_CinemachineTransposer;
+
+
+        public CinemachineTransposer Transposer
         {
-            var transposer = m_VirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
-            if (transposer == null)
+            get
             {
-                transposer = m_VirtualCamera.AddCinemachineComponent<CinemachineTransposer>();
-                transposer.m_BindingMode = CinemachineTransposer.BindingMode.LockToTarget;
-                transposer.m_FollowOffset = Character.CameraOffset;
-                transposer.m_XDamping = 0;
-                transposer.m_YawDamping = 0;
-                transposer.m_YDamping = 0;
-                transposer.m_ZDamping = 0;
+
+                if (m_CinemachineTransposer == null)
+                {
+                    m_CinemachineTransposer = m_VirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+                    if (m_CinemachineTransposer == null)
+                    {
+                        m_CinemachineTransposer = m_VirtualCamera.AddCinemachineComponent<CinemachineTransposer>();
+                        m_CinemachineTransposer.m_BindingMode = CinemachineTransposer.BindingMode.LockToTarget;
+                        m_CinemachineTransposer.m_FollowOffset = Vector3.zero;
+                        m_CinemachineTransposer.m_XDamping = 0;
+                        m_CinemachineTransposer.m_YawDamping = 0;
+                        m_CinemachineTransposer.m_YDamping = 0;
+                        m_CinemachineTransposer.m_ZDamping = 0;
+                    }
+                }
+
+                if (m_CinemachineTransposer == null)
+                {
+                    LogError($"When GetCinemachineTransposer Inited.CinemachineTransposer  still null!");
+                }
+
+                return m_CinemachineTransposer;
             }
-            return transposer;
         }
 
-        public void SetCameraOffset(Vector3 offset)
-        {
 
-            var transposer = GetCinemachineTransposer();
-            transposer.m_FollowOffset = offset;
+        [ShowInInspector]
+        public Vector3 CameraOffset
+        {
+            get
+            {
+                return Transposer?.m_FollowOffset ?? Vector3.zero;
+            }
+            set
+            {
+                if (Transposer != null)
+                {
+                    Transposer.m_FollowOffset = value;
+                }
+            }
+        }
+
+        [ShowInInspector]
+        public float CameraYOffset
+        {
+            get
+            {
+                return Transposer?.m_FollowOffset.y ?? 0;
+            }
+            set
+            {
+                if (Transposer != null)
+                {
+                    Transposer.m_FollowOffset = new Vector3(Transposer.m_FollowOffset.x, value, Transposer.m_FollowOffset.z);
+                }
+
+            }
         }
 
         public void SetFirstPerson()
         {
             Debug.Log($"m_VirtualCamera:{m_VirtualCamera} Character:{Character}");
-            Debug.Log($"Character:{Character.CachedTransfrom} Character.CameraOffset:{Character.CameraOffset}");
             m_VirtualCamera.Follow = Character.CachedTransfrom;
             m_VirtualCamera.DestroyCinemachineComponent<CinemachineComposer>();
-            var transposer = GetCinemachineTransposer();
         }
 
         private float GetRotationDamp(float current, float target, ref float velocity,

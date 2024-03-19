@@ -39,15 +39,21 @@ namespace Pangoo.Core.VisualScripting
                 
                 var asset = playableDirector.playableAsset as TimelineAsset;
                 var makers = asset.markerTrack;
-                
-                
-                foreach (IMarker marker in makers.GetMarkers())
+
+
+                if (makers != null)
                 {
-                    if (playableDirector.time>=marker.time && playableDirector.time<marker.time+Time.deltaTime)
+                    foreach (IMarker marker in makers.GetMarkers())
                     {
-                        playableDirector.playableGraph.GetOutput(0).PushNotification(playableDirector.playableGraph.GetRootPlayable(0),marker as SignalEmitter,null);
+                        if (playableDirector.time >= marker.time && playableDirector.time < marker.time + Time.deltaTime)
+                        {
+                            playableDirector.playableGraph.GetOutput(0).PushNotification(playableDirector.playableGraph.GetRootPlayable(0), marker as SignalEmitter, null);
+                        }
                     }
                 }
+                
+                
+
                 
                 switch (playableDirector.extrapolationMode)
                 {

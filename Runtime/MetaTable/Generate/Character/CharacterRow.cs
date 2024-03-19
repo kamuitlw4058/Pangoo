@@ -15,120 +15,127 @@ using MetaTable;
 namespace Pangoo.MetaTable
 {
     [Serializable]
-    public partial class CharacterRow : MetaTableRow,ICharacterRow
+    public partial class CharacterRow : MetaTableRow, ICharacterRow
     {
 
         [JsonMember("AssetPathUuid")]
-        [MetaTableRowColumn("AssetPathUuid","string", "资源Uuid",3)]
+        [MetaTableRowColumn("AssetPathUuid", "string", "资源Uuid", 3)]
         [LabelText("资源Uuid")]
-        public string AssetPathUuid ;
+        public string AssetPathUuid;
 
-        string ICharacterRow.AssetPathUuid {get => AssetPathUuid; set => AssetPathUuid = value;}
+        string ICharacterRow.AssetPathUuid { get => AssetPathUuid; set => AssetPathUuid = value; }
 
         [JsonMember("IsPlayer")]
-        [MetaTableRowColumn("IsPlayer","bool", "是否是玩家",4)]
+        [MetaTableRowColumn("IsPlayer", "bool", "是否是玩家", 4)]
         [LabelText("是否是玩家")]
-        public bool IsPlayer ;
+        public bool IsPlayer;
 
-        bool ICharacterRow.IsPlayer {get => IsPlayer; set => IsPlayer = value;}
+        bool ICharacterRow.IsPlayer { get => IsPlayer; set => IsPlayer = value; }
 
         [JsonMember("MoveSpeed")]
-        [MetaTableRowColumn("MoveSpeed","float", "移动速度",5)]
+        [MetaTableRowColumn("MoveSpeed", "float", "移动速度", 5)]
         [LabelText("移动速度")]
-        public float MoveSpeed ;
+        public float MoveSpeed;
 
-        float ICharacterRow.MoveSpeed {get => MoveSpeed; set => MoveSpeed = value;}
+        float ICharacterRow.MoveSpeed { get => MoveSpeed; set => MoveSpeed = value; }
 
-        [JsonMember("Height")]
-        [MetaTableRowColumn("Height","float", "高度",6)]
-        [LabelText("高度")]
-        public float Height ;
+        [JsonMember("CameraHeight")]
+        [MetaTableRowColumn("CameraHeight", "float", "相机高度", 6)]
+        [LabelText("相机高度")]
+        public float CameraHeight;
 
-        float ICharacterRow.Height {get => Height; set => Height = value;}
+        float ICharacterRow.CameraHeight { get => CameraHeight; set => CameraHeight = value; }
 
         [JsonMember("CameraOffset")]
-        [MetaTableRowColumn("CameraOffset","Vector3", "相机偏移",7)]
+        [MetaTableRowColumn("CameraOffset", "Vector3", "相机偏移", 7)]
         [LabelText("相机偏移")]
-        public Vector3 CameraOffset ;
+        public Vector3 CameraOffset;
 
-        Vector3 ICharacterRow.CameraOffset {get => CameraOffset; set => CameraOffset = value;}
+        Vector3 ICharacterRow.CameraOffset { get => CameraOffset; set => CameraOffset = value; }
 
         [JsonMember("XMaxPitch")]
-        [MetaTableRowColumn("XMaxPitch","float", "俯仰范围",8)]
+        [MetaTableRowColumn("XMaxPitch", "float", "俯仰范围", 8)]
         [LabelText("俯仰范围")]
-        public float XMaxPitch ;
+        public float XMaxPitch;
 
-        float ICharacterRow.XMaxPitch {get => XMaxPitch; set => XMaxPitch = value;}
+        float ICharacterRow.XMaxPitch { get => XMaxPitch; set => XMaxPitch = value; }
 
         [JsonMember("YMaxPitch")]
-        [MetaTableRowColumn("YMaxPitch","float", "左右范围",9)]
+        [MetaTableRowColumn("YMaxPitch", "float", "左右范围", 9)]
         [LabelText("左右范围")]
-        public float YMaxPitch ;
+        public float YMaxPitch;
 
-        float ICharacterRow.YMaxPitch {get => YMaxPitch; set => YMaxPitch = value;}
+        float ICharacterRow.YMaxPitch { get => YMaxPitch; set => YMaxPitch = value; }
 
         [JsonMember("CameraOnly")]
-        [MetaTableRowColumn("CameraOnly","bool", "只使用相机",10)]
+        [MetaTableRowColumn("CameraOnly", "bool", "只使用相机", 10)]
         [LabelText("只使用相机")]
-        public bool CameraOnly ;
+        public bool CameraOnly;
 
-        bool ICharacterRow.CameraOnly {get => CameraOnly; set => CameraOnly = value;}
+        bool ICharacterRow.CameraOnly { get => CameraOnly; set => CameraOnly = value; }
 
         [JsonMember("AssetPathId")]
-        [MetaTableRowColumn("AssetPathId","int", "AssetPathId",12)]
+        [MetaTableRowColumn("AssetPathId", "int", "AssetPathId", 11)]
         [LabelText("AssetPathId")]
-        public int AssetPathId ;
+        public int AssetPathId;
 
-        int ICharacterRow.AssetPathId {get => AssetPathId; set => AssetPathId = value;}
+        int ICharacterRow.AssetPathId { get => AssetPathId; set => AssetPathId = value; }
 
         [JsonMember("SubDynamicObject")]
-        [MetaTableRowColumn("SubDynamicObject","string", "子对象",13)]
+        [MetaTableRowColumn("SubDynamicObject", "string", "子对象", 12)]
         [LabelText("子对象")]
-        public string SubDynamicObject ;
+        public string SubDynamicObject;
 
-        string ICharacterRow.SubDynamicObject {get => SubDynamicObject; set => SubDynamicObject = value;}
+        string ICharacterRow.SubDynamicObject { get => SubDynamicObject; set => SubDynamicObject = value; }
 
-        [JsonMember("SlopeLimit")]
-        [MetaTableRowColumn("SlopeLimit","float", "斜坡限制",14)]
-        [LabelText("斜坡限制")]
-        public float SlopeLimit ;
+        [JsonMember("CharacterSlopeLimit")]
+        [MetaTableRowColumn("CharacterSlopeLimit", "float", "角色斜坡限制", 13)]
+        [LabelText("角色斜坡限制")]
+        public float CharacterSlopeLimit;
 
-        float ICharacterRow.SlopeLimit {get => SlopeLimit; set => SlopeLimit = value;}
+        float ICharacterRow.CharacterSlopeLimit { get => CharacterSlopeLimit; set => CharacterSlopeLimit = value; }
 
-        [JsonMember("StepOffset")]
-        [MetaTableRowColumn("StepOffset","float", "步高限制",15)]
-        [LabelText("步高限制")]
-        public float StepOffset ;
+        [JsonMember("CharacterStepOffset")]
+        [MetaTableRowColumn("CharacterStepOffset", "float", "角色步高限制", 14)]
+        [LabelText("角色步高限制")]
+        public float CharacterStepOffset;
 
-        float ICharacterRow.StepOffset {get => StepOffset; set => StepOffset = value;}
+        float ICharacterRow.CharacterStepOffset { get => CharacterStepOffset; set => CharacterStepOffset = value; }
 
-        [JsonMember("SkinWidth")]
-        [MetaTableRowColumn("SkinWidth","float", "皮肤宽度",16)]
-        [LabelText("皮肤宽度")]
-        public float SkinWidth ;
+        [JsonMember("CharacterSkinWidth")]
+        [MetaTableRowColumn("CharacterSkinWidth", "float", "角色皮肤宽度", 15)]
+        [LabelText("角色皮肤宽度")]
+        public float CharacterSkinWidth;
 
-        float ICharacterRow.SkinWidth {get => SkinWidth; set => SkinWidth = value;}
+        float ICharacterRow.CharacterSkinWidth { get => CharacterSkinWidth; set => CharacterSkinWidth = value; }
 
-        [JsonMember("MinMoveDistance")]
-        [MetaTableRowColumn("MinMoveDistance","float", "最小移动距离",17)]
-        [LabelText("最小移动距离")]
-        public float MinMoveDistance ;
+        [JsonMember("CharacterMinMoveDistance")]
+        [MetaTableRowColumn("CharacterMinMoveDistance", "float", "角色最小移动距离", 16)]
+        [LabelText("角色最小移动距离")]
+        public float CharacterMinMoveDistance;
 
-        float ICharacterRow.MinMoveDistance {get => MinMoveDistance; set => MinMoveDistance = value;}
+        float ICharacterRow.CharacterMinMoveDistance { get => CharacterMinMoveDistance; set => CharacterMinMoveDistance = value; }
 
-        [JsonMember("Center")]
-        [MetaTableRowColumn("Center","Vector3", "中心",18)]
-        [LabelText("中心")]
-        public Vector3 Center ;
+        [JsonMember("ColliderCenter")]
+        [MetaTableRowColumn("ColliderCenter", "Vector3", "碰撞中心", 17)]
+        [LabelText("碰撞中心")]
+        public Vector3 ColliderCenter;
 
-        Vector3 ICharacterRow.Center {get => Center; set => Center = value;}
+        Vector3 ICharacterRow.ColliderCenter { get => ColliderCenter; set => ColliderCenter = value; }
 
-        [JsonMember("Radius")]
-        [MetaTableRowColumn("Radius","float", "半径",19)]
-        [LabelText("半径")]
-        public float Radius ;
+        [JsonMember("ColliderRadius")]
+        [MetaTableRowColumn("ColliderRadius", "float", "碰撞半径", 18)]
+        [LabelText("碰撞半径")]
+        public float ColliderRadius;
 
-        float ICharacterRow.Radius {get => Radius; set => Radius = value;}
+        float ICharacterRow.ColliderRadius { get => ColliderRadius; set => ColliderRadius = value; }
+
+        [JsonMember("ColliderHeight")]
+        [MetaTableRowColumn("ColliderHeight", "float", "碰撞高度", 19)]
+        [LabelText("碰撞高度")]
+        public float ColliderHeight;
+
+        float ICharacterRow.ColliderHeight { get => ColliderHeight; set => ColliderHeight = value; }
 
     }
 }

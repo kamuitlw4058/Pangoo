@@ -21,6 +21,12 @@ namespace Pangoo.Core.Services
             Debug.Log($"{ServiceName}-> {message}");
         }
 
+        public virtual void LogWarning(string message)
+        {
+            Debug.LogWarning($"{ServiceName}-> {message}");
+        }
+
+
 
         public virtual void LogError(string message)
         {

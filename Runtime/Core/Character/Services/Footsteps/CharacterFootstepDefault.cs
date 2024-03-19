@@ -170,7 +170,7 @@ namespace Pangoo.Core.Characters
                     var uuid = footList.soundUuids?.Random();
                     if (!uuid.IsNullOrWhiteSpace())
                     {
-                        Debug.Log($"Play Footstep Sounc With Config:{uuid}");
+                        // Debug.Log($"Play Footstep Sounc With Config:{uuid}");
                         Character.Main.Sound.PlaySound(uuid, volume: footstepEntry.volume);
                         Interval = Random.Range(footstepEntry.IntervalRange.x, footstepEntry.IntervalRange.y);
                         MinInterval = footstepEntry.MinInterval;
@@ -206,7 +206,7 @@ namespace Pangoo.Core.Characters
                                 var uuid = footList.soundUuids?.Random();
                                 if (!uuid.IsNullOrWhiteSpace())
                                 {
-                                    Debug.Log($"Play Footstep Sounc With Config:{uuid}");
+                                    // Debug.Log($"Play Footstep Sounc With Config:{uuid}");
                                     Character.Main.Sound.PlaySound(uuid, volume: footstepEntry.footstepEntry.volume);
                                     Interval = Random.Range(footstepEntry.footstepEntry.IntervalRange.x, footstepEntry.footstepEntry.IntervalRange.y);
                                     MinInterval = footstepEntry.footstepEntry.MinInterval;
@@ -233,7 +233,7 @@ namespace Pangoo.Core.Characters
                     var uuid = footEntry.soundUuids?.Random();
                     if (!uuid.IsNullOrWhiteSpace())
                     {
-                        Debug.Log($"Play Footstep Sounc With Scene:{footEntry}");
+                        // Debug.Log($"Play Footstep Sounc With Scene:{footEntry}");
                         Character.Main.Sound.PlaySound(uuid, volume: enterScene.Footstep.Value.volume);
                         Interval = Random.Range(enterScene.Footstep.Value.IntervalRange.x, enterScene.Footstep.Value.IntervalRange.y);
                         MinInterval = enterScene.Footstep.Value.MinInterval;
@@ -253,7 +253,7 @@ namespace Pangoo.Core.Characters
                 var uuid = footList.soundUuids?.Random();
                 if (!uuid.IsNullOrWhiteSpace())
                 {
-                    Debug.Log($"Play Footstep Sounc With Defaut Config:{uuid}");
+                    // Debug.Log($"Play Footstep Sounc With Defaut Config:{uuid}");
                     Character.Main.Sound.PlaySound(uuid, volume: GameMainConfig.FootstepEntry.volume);
                     Interval = Random.Range(GameMainConfig.FootstepEntry.IntervalRange.x, GameMainConfig.FootstepEntry.IntervalRange.y);
                     MinInterval = GameMainConfig.FootstepEntry.MinInterval;

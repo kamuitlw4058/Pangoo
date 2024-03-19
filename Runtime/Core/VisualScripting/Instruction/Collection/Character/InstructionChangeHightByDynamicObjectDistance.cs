@@ -19,20 +19,20 @@ namespace Pangoo.Core.VisualScripting
             new InstructionChangeHightByDynamicObjectDistanceParams();
 
         public override IParams Params => this.ParamsRaw;
-        
-        
+
+
         public override void RunImmediate(Args args)
         {
             var player = args?.Main?.CharacterService.Player;
-            if (player!=null)
+            if (player != null)
             {
-                var playerDistance = Vector3.Distance(player.transform.position,args.Target.transform.position);
+                var playerDistance = Vector3.Distance(player.transform.position, args.Target.transform.position);
                 var height = MathUtility.ClampRemap(playerDistance,
                     new Vector2(ParamsRaw.StartDistance, ParamsRaw.EndDistance),
                     new Vector2(ParamsRaw.StartHeight, ParamsRaw.EndHeight));
                 //Debug.Log($"playerDistance:{playerDistance},ParamsRaw.MinDistance:{ParamsRaw.StartDistance},ParamsRaw.MaxDistance:{ParamsRaw.EndDistance}  , height:{height},ParamsRaw.StartHeight:{ParamsRaw.StartHeight},ParamsRaw.EndHeight:{ParamsRaw.EndHeight}");
                 //player.character.SetCharacterHeight(height);
-                player.character.SetCamreaHightFollowCharacterHeight(height);
+                player.character.CameraHight = height;
             }
         }
     }

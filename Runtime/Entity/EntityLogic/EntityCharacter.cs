@@ -75,11 +75,7 @@ namespace Pangoo
 
 
             character.SetMotionInfo(motionInfo);
-            character.CameraOffset = EntityData.InfoRow.m_CharacterRow.CameraOffset;
-            if (EntityData.Height >= 0)
-            {
-                character.CameraOffset = new Vector3(0, EntityData.Height, 0);
-            }
+
             character.xAxisMaxPitch = EntityData.InfoRow.m_CharacterRow.XMaxPitch;
             character.yAxisMaxPitch = EntityData.InfoRow.m_CharacterRow.YMaxPitch;
             character.IsControllable = true;
@@ -89,15 +85,34 @@ namespace Pangoo
             character.Start();
             character.ResetCameraDirection();
 
+            if (EntityData.Height > ConstFloat.InvaildCameraHeight)
+            {
+                character.CameraHight = EntityData.Height;
+            }
+            else
+            {
+                character.CameraHight = EntityData.InfoRow.m_CharacterRow.CameraHeight;
+            }
+
+            if (EntityData.ColliderHeight > ConstFloat.InvaildColliderHeight)
+            {
+                character.ColliderHight = EntityData.ColliderHeight;
+            }
+            else
+            {
+                character.ColliderHight = EntityData.InfoRow.m_CharacterRow.ColliderHeight;
+            }
+
+
             DriverInfo driverInfo = new DriverInfo
             {
-                SlopeLimit = EntityData.InfoRow.m_CharacterRow.SlopeLimit,
-                StepOffset = EntityData.InfoRow.m_CharacterRow.StepOffset,
-                SkinWidth = EntityData.InfoRow.m_CharacterRow.SkinWidth,
-                MinMoveDistance = EntityData.InfoRow.m_CharacterRow.MinMoveDistance,
-                Center = EntityData.InfoRow.m_CharacterRow.Center,
-                Radius = EntityData.InfoRow.m_CharacterRow.Radius,
-                Height = EntityData.InfoRow.m_CharacterRow.Height,
+                SlopeLimit = EntityData.InfoRow.m_CharacterRow.CharacterSlopeLimit,
+                StepOffset = EntityData.InfoRow.m_CharacterRow.CharacterStepOffset,
+                SkinWidth = EntityData.InfoRow.m_CharacterRow.CharacterSkinWidth,
+                MinMoveDistance = EntityData.InfoRow.m_CharacterRow.CharacterMinMoveDistance,
+                Center = EntityData.InfoRow.m_CharacterRow.ColliderCenter,
+                Radius = EntityData.InfoRow.m_CharacterRow.ColliderRadius,
+                Height = EntityData.InfoRow.m_CharacterRow.ColliderHeight,
             };
             character.SetDriverInfo(driverInfo);
 

@@ -24,16 +24,6 @@ namespace Pangoo
         }
 
 
-
-
-        public int Id
-        {
-            get
-            {
-                return m_DynamicObjectRow.Id;
-            }
-        }
-
         public string Uuid
         {
             get

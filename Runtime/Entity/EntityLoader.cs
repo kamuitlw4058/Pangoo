@@ -11,6 +11,7 @@ namespace Pangoo
         private Dictionary<int, Action<Entity>> dicCallback;
         private Dictionary<int, Entity> dicSerial2Entity;
 
+
         private List<int> tempList;
 
         public object Owner
@@ -27,23 +28,6 @@ namespace Pangoo
             Owner = null;
         }
 
-        // public int ShowEntity(EnumEntity enumEntity, Type entityLogicType, Action<Entity> onShowSuccess, object userData = null)
-        // {
-        //     return ShowEntity((int)enumEntity, entityLogicType, onShowSuccess, userData);
-        // }
-
-        // public int ShowEntity(int entityId, Type entityLogicType, Action<Entity> onShowSuccess, object userData = null)
-        // {
-        //     int serialId = GameEntry.Entity.GenerateSerialId();
-        //     dicCallback.Add(serialId, onShowSuccess);
-        //     GameEntry.Entity.ShowEntity(serialId, entityId, entityLogicType, userData);
-        //     return serialId;
-        // }
-
-        // public int ShowEntity<T>(EnumEntity enumEntity, Action<Entity> onShowSuccess, object userData = null) where T : EntityLogic
-        // {
-        //     return ShowEntity<T>((int)enumEntity, onShowSuccess, userData);
-        // }
 
         public void AttachEntity(Entity child, int parentEntityId, string path)
         {
@@ -59,6 +43,7 @@ namespace Pangoo
             }
             return serialId;
         }
+
 
         public bool HasEntity(int serialId)
         {

@@ -100,10 +100,33 @@ namespace Pangoo.Core.Services
         }
 
 
-        public void SetPlayerHeight(float height)
+        public void SetPlayerCameraHeight(float height)
         {
-            Player?.character?.SetCameraOffset(new Vector3(0, height, 0));
+            var character = Player?.character;
+            if (character != null)
+            {
+                character.CameraHight = height;
+            }
+            else
+            {
+                LogError($"Player Is Null");
+            }
         }
+
+        public void SetPlayerColliderHeight(float height)
+        {
+            var character = Player?.character;
+            if (character != null)
+            {
+                character.ColliderHight = height;
+            }
+            else
+            {
+                LogError($"Player Is Null");
+            }
+        }
+
+
         public EntityCharacter GetLoadedEntity(string uuid)
         {
             if (m_LoadedEntityDict.TryGetValue(uuid, out EntityCharacter var))
@@ -115,7 +138,7 @@ namespace Pangoo.Core.Services
 
 
 
-        public void ShowCharacter(string infoUuid, Vector3 positon, Vector3 rotation, float height = -1f, bool IsInteractive = true, bool NotMoveWhenPlayerCreated = false)
+        public void ShowCharacter(string infoUuid, Vector3 positon, Vector3 rotation, float height = ConstFloat.InvaildCameraHeight, float colliderHeight = ConstFloat.InvaildColliderHeight, bool IsInteractive = true, bool NotMoveWhenPlayerCreated = false)
         {
             if (infoUuid.IsNullOrWhiteSpace())
             {
@@ -143,9 +166,14 @@ namespace Pangoo.Core.Services
                 character.transform.position = positon;
                 character.transform.rotation = Quaternion.Euler(rotation);
                 character.character.ResetCameraDirection();
-                if (height >= 0)
+                if (height > ConstFloat.InvaildCameraHeight)
                 {
-                    character.character.SetCameraOffset(new Vector3(0, height, 0));
+                    character.character.CameraHight = height;
+                }
+
+                if (colliderHeight > ConstFloat.InvaildColliderHeight)
+                {
+                    character.character.ColliderHight = colliderHeight;
                 }
 
                 Physics.SyncTransforms();

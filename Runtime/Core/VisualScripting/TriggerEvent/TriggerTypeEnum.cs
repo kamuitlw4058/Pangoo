@@ -83,7 +83,8 @@ namespace Pangoo.Core.VisualScripting
         OnExtraDrag,
         OnExtraEndDrag,
 
-
+        OnTriggerStayTimeOut,
+        OnTriggerStayTimeOutExit,
 
 
     }

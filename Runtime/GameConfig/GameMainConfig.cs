@@ -99,6 +99,12 @@ namespace Pangoo
         [FoldoutGroup("UI")]
         public string DialoguePanelUuid = string.Empty;
 
+
+        [LabelText("案件UI Uuid")]
+        [ValueDropdown("@SimpleUIOverview.GetUuidDropdown()")]
+        [FoldoutGroup("UI")]
+        public string CasePanelUuid = string.Empty;
+
         [LabelText("预览交互变量 Uuid")]
         [ValueDropdown("GetIntVariableUuid")]
         [FoldoutGroup("UI")]

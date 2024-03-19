@@ -107,21 +107,17 @@ namespace Pangoo.MetaTable
 
         [ShowInInspector]
         [DelayedProperty]
-        public Vector3 CameraOffset
+        [LabelText("相机高度")]
+        public float CameraHeight
         {
             get
             {
-                return UnityRow.Row?.CameraOffset ?? Vector3.zero;
-
+                return UnityRow.Row.CameraHeight;
             }
             set
             {
-                if (UnityRow.Row != null && Overview != null)
-                {
-                    UnityRow.Row.CameraOffset = value;
-                    Save();
-                }
-
+                UnityRow.Row.CameraHeight = value;
+                Save();
             }
         }
 
@@ -190,19 +186,19 @@ namespace Pangoo.MetaTable
 
         [ShowInInspector]
         [DelayedProperty]
-        [LabelText("斜坡限制")]
+        [LabelText("角色斜坡限制")]
         public float SlopeLimit
         {
             get
             {
-                return UnityRow.Row?.SlopeLimit ?? 45f;
+                return UnityRow.Row?.CharacterSlopeLimit ?? 45f;
 
             }
             set
             {
                 if (UnityRow.Row != null && Overview != null)
                 {
-                    UnityRow.Row.SlopeLimit = value;
+                    UnityRow.Row.CharacterSlopeLimit = value;
                     Save();
                 }
 
@@ -211,19 +207,19 @@ namespace Pangoo.MetaTable
 
         [ShowInInspector]
         [DelayedProperty]
-        [LabelText("步高限制")]
+        [LabelText("角色步高限制")]
         public float StepOffset
         {
             get
             {
-                return UnityRow.Row?.StepOffset ?? 0.3f;
+                return UnityRow.Row?.CharacterStepOffset ?? 0.3f;
 
             }
             set
             {
                 if (UnityRow.Row != null && Overview != null)
                 {
-                    UnityRow.Row.StepOffset = value;
+                    UnityRow.Row.CharacterStepOffset = value;
                     Save();
                 }
 
@@ -232,19 +228,19 @@ namespace Pangoo.MetaTable
 
         [ShowInInspector]
         [DelayedProperty]
-        [LabelText("皮肤宽度")]
+        [LabelText("角色皮肤宽度")]
         public float SkinWidth
         {
             get
             {
-                return UnityRow.Row?.SkinWidth ?? 0.08f;
+                return UnityRow.Row?.CharacterSkinWidth ?? 0.08f;
 
             }
             set
             {
                 if (UnityRow.Row != null && Overview != null)
                 {
-                    UnityRow.Row.SkinWidth = value;
+                    UnityRow.Row.CharacterSkinWidth = value;
                     Save();
                 }
 
@@ -253,19 +249,19 @@ namespace Pangoo.MetaTable
 
         [ShowInInspector]
         [DelayedProperty]
-        [LabelText("最小移动距离")]
+        [LabelText("角色最小移动距离")]
         public float MinMoveDistance
         {
             get
             {
-                return UnityRow.Row?.MinMoveDistance ?? 0.001f;
+                return UnityRow.Row?.CharacterMinMoveDistance ?? 0.001f;
 
             }
             set
             {
                 if (UnityRow.Row != null && Overview != null)
                 {
-                    UnityRow.Row.MinMoveDistance = value;
+                    UnityRow.Row.CharacterMinMoveDistance = value;
                     Save();
                 }
 
@@ -274,40 +270,36 @@ namespace Pangoo.MetaTable
 
         [ShowInInspector]
         [DelayedProperty]
-        [LabelText("中心")]
+        [LabelText("碰撞中心")]
         public Vector3 Center
         {
             get
             {
-                return UnityRow.Row?.Center ?? new Vector3();
+                return UnityRow.Row?.ColliderCenter ?? new Vector3();
 
             }
             set
             {
-                if (UnityRow.Row != null && Overview != null)
-                {
-                    UnityRow.Row.Center = value;
-                    Save();
-                }
-
+                UnityRow.Row.ColliderCenter = value;
+                Save();
             }
         }
 
         [ShowInInspector]
         [DelayedProperty]
-        [LabelText("半径")]
+        [LabelText("碰撞半径")]
         public float Radius
         {
             get
             {
-                return UnityRow.Row?.Radius ?? 0.5f;
+                return UnityRow.Row?.ColliderRadius ?? 0.5f;
 
             }
             set
             {
                 if (UnityRow.Row != null && Overview != null)
                 {
-                    UnityRow.Row.Radius = value;
+                    UnityRow.Row.ColliderRadius = value;
                     Save();
                 }
 
@@ -316,19 +308,19 @@ namespace Pangoo.MetaTable
 
         [ShowInInspector]
         [DelayedProperty]
-        [LabelText("高度")]
-        public float Height
+        [LabelText("碰撞高度")]
+        public float ColliderHeight
         {
             get
             {
-                return UnityRow.Row?.Height ?? 2f;
+                return UnityRow.Row?.ColliderHeight ?? 2f;
 
             }
             set
             {
                 if (UnityRow.Row != null && Overview != null)
                 {
-                    UnityRow.Row.Height = value;
+                    UnityRow.Row.ColliderHeight = value;
                     Save();
                 }
 

@@ -72,7 +72,10 @@ namespace Pangoo.Core.VisualScripting
                         if (flag)
                         {
                             ret = true;
-                            Log($"Invoke:{triggerType}");
+                            if (triggerType != TriggerTypeEnum.OnUpdate)
+                            {
+                                Log($"Invoke:{triggerType}");
+                            }
                             o.OnInvoke(CurrentArgs);
                         }
                     }
@@ -137,6 +140,8 @@ namespace Pangoo.Core.VisualScripting
 
         public void TriggerUpdate()
         {
+            DoColliderTriggerUpdate();
+
             foreach (var triggers in TriggerDict.Values)
             {
                 foreach (var trigger in triggers)

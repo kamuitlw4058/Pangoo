@@ -73,6 +73,10 @@ namespace Pangoo.MetaTable
 
         public string MouseInteractList{ get; set; }
 
+        public float ColliderTriggerStayTimeout{ get; set; }
+
+        public float ColliderTriggerStayExitDelay{ get; set; }
+
     }
 }
 

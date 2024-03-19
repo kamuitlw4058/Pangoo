@@ -52,7 +52,7 @@ namespace Pangoo.Core.VisualScripting
             if (args?.Main != null)
             {
                 var characterService = args?.Main?.CharacterService;
-                characterService?.SetPlayerHeight(ParamsRaw.Val);
+                characterService?.SetPlayerCameraHeight(ParamsRaw.Val);
             }
 
         }

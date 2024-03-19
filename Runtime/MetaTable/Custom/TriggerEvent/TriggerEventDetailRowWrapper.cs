@@ -305,11 +305,6 @@ namespace Pangoo.MetaTable
 
 
 
-        public IEnumerable GetTriggerEvent()
-        {
-            return TriggerEventOverview.GetIdDropdown();
-        }
-
 
 
         [LabelText("条件Uuid")]
@@ -483,11 +478,6 @@ namespace Pangoo.MetaTable
         }
 
 
-
-        public IEnumerable ConditionIdValueDropdown()
-        {
-            return ConditionOverview.GetIdDropdown();
-        }
 
         public IEnumerable ConditionUuidValueDropdown()
         {

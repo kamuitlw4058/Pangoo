@@ -36,13 +36,11 @@ namespace Pangoo.Core.Characters
 
         public virtual void SetDriverInfo(DriverInfo driverInfo)
         {
-            
+
         }
 
-        public virtual void SetCharacterControllerHeight(float val)
-        {
-            
-        }
+        // public abstract float ColliderHeight { get; set; }
+
 
         public virtual void AddService(T val)
         {

@@ -361,11 +361,12 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetStartDialogue(string dialogueUuid, bool val)
+        public static Instruction GetStartDialogue(string dialogueUuid, bool val, bool playerControllable)
         {
             var instruction = Activator.CreateInstance<InstructionUIDialogue>();
             instruction.ParamsRaw.DialogueUuid = dialogueUuid;
             instruction.ParamsRaw.WaitClosed = val;
+            instruction.ParamsRaw.DontControllPlayer = playerControllable;
             return instruction;
         }
 
@@ -384,7 +385,7 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetManualTimeline(string path,float timeFactor)
+        public static Instruction GetManualTimeline(string path, float timeFactor)
         {
             var instruction = Activator.CreateInstance<InstructionManualTimeline>();
             instruction.ParamsRaw.Path = path;
@@ -500,7 +501,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.ChangeHotspotState:
                     return GetChangeImageSprite(DropdownString1, DynamicObjectHotsoptState);
                 case DirectInstructionTypeEnum.StartDialogue:
-                    return GetStartDialogue(Uuid, Bool1);
+                    return GetStartDialogue(Uuid, Bool1, Bool2);
                 case DirectInstructionTypeEnum.ShowSceneModel:
                     return GetSceneModelShow(Uuid, Bool1);
                 case DirectInstructionTypeEnum.ManualTimeline:
