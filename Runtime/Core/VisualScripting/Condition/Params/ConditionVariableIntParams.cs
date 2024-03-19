@@ -22,6 +22,10 @@ namespace Pangoo.Core.VisualScripting
         [LabelText("变量Uuid")]
 
         public string VariableUuid;
+        
+        [JsonMember("Value")]
+        [LabelText("目标值")]
+        public int Value;
 
 
 #if UNITY_EDITOR
@@ -42,6 +46,7 @@ namespace Pangoo.Core.VisualScripting
             var par = JsonMapper.ToObject<ConditionVariableIntParams>(val);
             VariableUuid = par.VariableUuid;
             VariableType = par.VariableType;
+            Value = par.Value;
         }
 
     }

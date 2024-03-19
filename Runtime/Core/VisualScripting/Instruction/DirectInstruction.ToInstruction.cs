@@ -391,6 +391,24 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.TimeFactor = timeFactor;
             return instruction;
         }
+        public static Instruction GetTweenRotation(string path,Vector3 rotation,float duration)
+        {
+            var instruction = Activator.CreateInstance<InstructionTweenRotation>();
+            instruction.ParamsRaw.Path = path;
+            instruction.ParamsRaw.Rotation = rotation;
+            instruction.ParamsRaw.Duration = duration;
+            return instruction;
+        }
+
+        public static Instruction GetIntDelta(string uuid,int deltaValue)
+        {
+            var instruction = Activator.CreateInstance<InstructionSetVariableIntDelta>();
+            instruction.ParamsRaw.VariableUuid = uuid;
+            instruction.ParamsRaw.DeltaValue = deltaValue;
+            return instruction;
+        }
+        
+        
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
             switch (InstructionType)
@@ -487,6 +505,10 @@ namespace Pangoo.Core.VisualScripting
                     return GetSceneModelShow(Uuid, Bool1);
                 case DirectInstructionTypeEnum.ManualTimeline:
                     return GetManualTimeline(DropdownString1,Float1);
+                case DirectInstructionTypeEnum.TweenRotation:
+                    return GetTweenRotation(DropdownString1,Vector3_1,Float1);
+                case DirectInstructionTypeEnum.SetIntDelta:
+                    return GetIntDelta(Uuid,Int1);
             }
 
             return null;
