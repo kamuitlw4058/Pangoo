@@ -9,6 +9,14 @@ namespace Pangoo.Core.Services
     {
         public override int Priority => -1;
 
+        public GameMainConfig GameMainConfig
+        {
+            get
+            {
+                return PangooEntry.GameConfig.GetGameMainConfig();
+            }
+        }
+
 
         public GameMainConfig GetGameMainConfig()
         {

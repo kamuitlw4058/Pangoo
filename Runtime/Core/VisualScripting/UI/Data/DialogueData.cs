@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Pangoo.Core.Common;
 using LitJson;
@@ -25,6 +26,11 @@ namespace Pangoo.Core.VisualScripting
 
 
         public bool DontControllPlayer;
+
+        public bool ShowCursor;
+
+
+        public Action FinishAction;
 
 
 
@@ -86,6 +92,9 @@ namespace Pangoo.Core.VisualScripting
 
 
         public Vector3 OldScale { get; set; }
+
+        public List<DialogueUpdateData> dialogueUpdateDatas = new List<DialogueUpdateData>();
+
 
     }
 }

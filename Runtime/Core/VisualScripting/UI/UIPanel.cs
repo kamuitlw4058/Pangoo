@@ -5,6 +5,7 @@ using GameFramework;
 using UnityGameFramework.Runtime;
 using Sirenix.OdinInspector;
 using Pangoo.Core.Common;
+using Pangoo.Core.Services;
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -14,48 +15,22 @@ namespace Pangoo.Core.VisualScripting
         protected UIPanelData PanelData;
         protected RectTransform rectTransform;
 
-        bool m_CursorVisible;
-        CursorLockMode m_CursorLockState;
+        CursorTypeEnum LastCursorType;
 
-        [ShowInInspector]
-        public bool CursorVisible
+        protected void ShowCursor()
         {
-            get
-            {
-                return Cursor.visible;
-            }
-            set
-            {
-                Cursor.visible = value;
-            }
-        }
-
-        [ShowInInspector]
-
-        public CursorLockMode CursorLockState
-        {
-            get
-            {
-                return Cursor.lockState;
-            }
-            set
-            {
-                Cursor.lockState = value;
-            }
-        }
-
-        protected void SetupCursor()
-        {
-            m_CursorVisible = Cursor.visible;
-            m_CursorLockState = Cursor.lockState;
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Confined;
+            LastCursorType = PanelData.Main.Cursor.CursorType;
+            PanelData.Main.Cursor.CursorType = CursorTypeEnum.Show;
         }
 
         protected void RecoverCursor()
         {
-            Cursor.visible = m_CursorVisible;
-            Cursor.lockState = m_CursorLockState;
+            PanelData.Main.Cursor.CursorType = LastCursorType;
+        }
+
+        protected void HideCursor()
+        {
+            PanelData.Main.Cursor.CursorType = CursorTypeEnum.Hide;
         }
 
 

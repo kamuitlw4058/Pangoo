@@ -13,44 +13,50 @@ using LitJson;
 
 namespace Pangoo.Core.VisualScripting
 {
+
+
+    [Serializable]
+    public class DialogueUpdateData
+    {
+        public DialogueData DialogueData;
+
+        [ShowInInspector]
+        public IDialogueRow DialogueRow;
+
+        [ShowInInspector]
+        public DialogueType DialogueType
+        {
+            get
+            {
+                return DialogueRow.DialogueType.ToEnum<DialogueType>();
+            }
+        }
+
+        [ShowInInspector]
+        public IActorsLinesRow ActorsLinesRow;
+
+        public List<DialogueSubtitleInfo> dialogueSubtitleInfos;
+
+        public List<DialogueOptionInfo> dialogueOptionInfos;
+
+        public string audioUuid;
+
+        public bool audioClipStarted;
+
+        public float StartTime;
+
+        public float EndTime;
+
+        public float Progress;
+    }
+
     [Category("通用/对话")]
 
     public class UIDialoguePanel : UIPanel
     {
-        [Serializable]
-        public class DialogueUpdateData
-        {
-            [ShowInInspector]
-            public IDialogueRow DialogueRow;
 
-            [ShowInInspector]
-            public DialogueType DialogueType
-            {
-                get
-                {
-                    return DialogueRow.DialogueType.ToEnum<DialogueType>();
-                }
-            }
 
-            [ShowInInspector]
-            public IActorsLinesRow ActorsLinesRow;
-
-            public List<DialogueSubtitleInfo> dialogueSubtitleInfos;
-
-            public List<DialogueOptionInfo> dialogueOptionInfos;
-
-            public string audioUuid;
-
-            public bool audioClipStarted;
-
-            public float StartTime;
-
-            public float EndTime;
-
-            public float Progress;
-        }
-
-        public List<DialogueUpdateData> dialogueUpdateDatas = new List<DialogueUpdateData>();
+        // public List<DialogueUpdateData> dialogueUpdateDatas = new List<DialogueUpdateData>();
 
         public UIDialogueParams ParamsRaw = new UIDialogueParams();
 
@@ -65,10 +71,29 @@ namespace Pangoo.Core.VisualScripting
         public int CurrentOptionIndex;
 
 
-        public DialogueData Data;
+        // public DialogueData Data;
+
+        public List<DialogueData> DataList = new List<DialogueData>();
 
 
         public float CurrentTime;
+
+
+        [ShowInInspector]
+        public string SubtitleText
+        {
+            get
+            {
+                return m_Subtitle?.text;
+            }
+            set
+            {
+                if (m_Subtitle != null)
+                {
+                    m_Subtitle.text = value;
+                }
+            }
+        }
 
 
         public void CloseOptions()
@@ -93,25 +118,53 @@ namespace Pangoo.Core.VisualScripting
             m_Options[index].text = CurrentOptionIndex == index ? $"> {option}" : option;
         }
 
+        public bool PlayerControllable
+        {
+            get
+            {
+                return PanelData.Main.CharacterService.PlayerControllable;
+            }
+            set
+            {
+                PanelData.Main.CharacterService.PlayerControllable = value;
+            }
+        }
+
+        public IDialogueRow GetDialogueByUuid(string uuid)
+        {
+            return PanelData.Main.MetaTable.GetDialogueByUuid(uuid);
+        }
+
+        public IActorsLinesRow GetActorsLinesByUuid(string uuid)
+        {
+            return PanelData.Main.MetaTable.GetActorsLinesByUuid(uuid);
+        }
+
 
 
 
         public void UpdateDialogue()
         {
-            if (dialogueUpdateDatas.Count == 0)
+            if (DataList.Count == 0)
             {
-                FinishDialogue();
+                // FinishDialogue();
                 return;
             }
 
-            var lastDialogue = dialogueUpdateDatas.Last();
+            var LastData = DataList.Last();
+            if (LastData.dialogueUpdateDatas.Count == 0)
+            {
+                return;
+            }
+
+            var lastDialogue = LastData.dialogueUpdateDatas.Last();
             if (lastDialogue.DialogueRow.DialogueType == DialogueType.ActorsLines.ToString())
             {
                 CloseOptions();
 
                 if (lastDialogue.ActorsLinesRow == null)
                 {
-                    lastDialogue.ActorsLinesRow = Data.args.Main.MetaTable.GetActorsLinesByUuid(lastDialogue.DialogueRow.ActorsLinesUuid);
+                    lastDialogue.ActorsLinesRow = GetActorsLinesByUuid(lastDialogue.DialogueRow.ActorsLinesUuid);
                 }
 
                 if (lastDialogue.ActorsLinesRow == null)
@@ -145,7 +198,7 @@ namespace Pangoo.Core.VisualScripting
                     {
                         if (MathUtility.IsInRange(subtitle.Range, CurrentTime - lastDialogue.StartTime))
                         {
-                            m_Subtitle.text = subtitle.Content;
+                            SubtitleText = subtitle.Content;
                         }
                     }
 
@@ -155,7 +208,7 @@ namespace Pangoo.Core.VisualScripting
                         if (MathUtility.IsInRange(subtitle.Range, CurrentTime - lastDialogue.StartTime) && lastDialogue.audioUuid.IsNullOrWhiteSpace())
                         {
                             lastDialogue.audioUuid = subtitle.SoundUuid;
-                            Data.args.Main.Sound.PlaySound(subtitle.SoundUuid, () =>
+                            PanelData.Main.Sound.PlaySound(subtitle.SoundUuid, () =>
                             {
                                 lastDialogue.audioUuid = string.Empty;
                             });
@@ -168,7 +221,7 @@ namespace Pangoo.Core.VisualScripting
                 if ((CurrentTime - lastDialogue.StartTime) > lastDialogue.ActorsLinesRow.Duration && lastDialogue.audioUuid.IsNullOrWhiteSpace())
                 {
 
-                    if (!InsertDialogueUpdateDataRow(lastDialogue.DialogueRow.NextDialogueUuid))
+                    if (!InsertDialogueUpdateDataRow(lastDialogue.DialogueRow.NextDialogueUuid, LastData))
                     {
                         FinishDialogue();
                     }
@@ -202,26 +255,66 @@ namespace Pangoo.Core.VisualScripting
 
         }
 
+        public DialogueData LastData
+        {
+            get
+            {
+                var data = DataList.Last();
+                if (data != null)
+                {
+                    return data;
+                }
+
+                return null;
+            }
+
+        }
+
+
         void FinishDialogue()
         {
             Debug.Log($"End Dialogue");
-            if (!Data.DontControllPlayer)
+            var data = LastData;
+            if (data != null)
             {
-                Data.args.Main.CharacterService.SetPlayerControllable(true);
+                DataList.Remove(data);
             }
-            CloseSelf();
+
+            if (data != null && !data.DontControllPlayer)
+            {
+                PlayerControllable = true;
+            }
+
+            SubtitleText = string.Empty;
+            RecoverCursor();
+            CloseOptions();
+
+            var nextData = LastData;
+            if (nextData != null)
+            {
+                if (!nextData.DontControllPlayer)
+                {
+                    PlayerControllable = false;
+                }
+
+                if (nextData.ShowCursor)
+                {
+                    ShowCursor();
+                }
+            }
+
         }
 
-        public bool InsertDialogueUpdateDataRow(string dialogueUuid)
+        public bool InsertDialogueUpdateDataRow(string dialogueUuid, DialogueData data)
         {
             if (dialogueUuid.IsNullOrWhiteSpace())
             {
                 return false;
             }
-            var dialogue = Data.args.Main.MetaTable.GetDialogueByUuid(dialogueUuid);
+            var dialogue = GetDialogueByUuid(dialogueUuid);
             if (dialogue != null)
             {
-                InsertDialogueUpdateData(dialogue);
+                InsertDialogueUpdateData(dialogue, data);
                 return true;
             }
 
@@ -229,28 +322,37 @@ namespace Pangoo.Core.VisualScripting
         }
 
 
-        public void InsertDialogueUpdateData(IDialogueRow row)
+        public void InsertDialogueUpdateData(IDialogueRow row, DialogueData data)
         {
             DialogueUpdateData updateData = new DialogueUpdateData();
+            updateData.DialogueData = data;
             updateData.DialogueRow = row;
             updateData.StartTime = CurrentTime;
             updateData.Progress = 0;
-            dialogueUpdateDatas.Add(updateData);
+            data.dialogueUpdateDatas.Add(updateData);
         }
 
+
+        public void InsertDialogue(DialogueData data)
+        {
+            if (data == null) return;
+
+            if (!data.DontControllPlayer)
+            {
+                PlayerControllable = false;
+            }
+            InsertDialogueUpdateData(data.DialogueRow, data);
+            ShowCursor();
+            DataList.Add(data);
+        }
 
 
         protected override void OnOpen(object userData)
         {
             base.OnOpen(userData);
 
-            Data = PanelData.UserData as DialogueData;
-            if (Data == null) return;
-
-
             m_Subtitle = transform.Find("Subtitle").GetComponent<TextMeshProUGUI>();
             m_Options.Clear();
-            dialogueUpdateDatas.Clear();
             for (int i = 1; i <= OptionMaxCount; i++)
             {
                 var path = $"VerticalLayout/Option{i}";
@@ -258,23 +360,42 @@ namespace Pangoo.Core.VisualScripting
                 if (option == null)
                 {
                     Debug.LogError($"path:{path} no find");
-                    FinishDialogue();
                     return;
                 }
                 m_Options.Add(option);
             }
 
-            if (!Data.DontControllPlayer)
-            {
-                Data.args.Main.CharacterService.SetPlayerControllable(false);
-            }
-            InsertDialogueUpdateData(Data.DialogueRow);
-            SetupCursor();
-
+            SubtitleText = string.Empty;
+            CloseOptions();
         }
+
+
+        public DialogueUpdateData LastDialogueUpdateData
+        {
+            get
+            {
+
+                if (DataList.Count == 0)
+                {
+                    return null;
+                }
+
+                var LastData = DataList.Last();
+                if (LastData.dialogueUpdateDatas.Count == 0)
+                {
+                    return null;
+                }
+
+                return LastData.dialogueUpdateDatas.Last();
+            }
+        }
+
         void CheckOptionIndex()
         {
-            var lastDialogue = dialogueUpdateDatas.Last();
+
+            var lastDialogue = LastDialogueUpdateData;
+            if (lastDialogue == null) return;
+
             if (lastDialogue.DialogueRow.DialogueType == DialogueType.Option.ToString() && lastDialogue.dialogueOptionInfos != null)
             {
                 if (Input.GetKeyDown(KeyCode.W))
@@ -309,7 +430,10 @@ namespace Pangoo.Core.VisualScripting
         [Button]
         void DoSelect()
         {
-            var lastDialogue = dialogueUpdateDatas.Last();
+            var lastDialogue = LastDialogueUpdateData;
+            if (lastDialogue == null) return;
+
+
             if (lastDialogue.DialogueRow.DialogueType == DialogueType.Option.ToString() && lastDialogue.dialogueOptionInfos != null)
             {
                 var currentOption = lastDialogue.dialogueOptionInfos[CurrentOptionIndex];
@@ -319,7 +443,7 @@ namespace Pangoo.Core.VisualScripting
                 }
                 else
                 {
-                    if (!InsertDialogueUpdateDataRow(currentOption.NextDialogueUuid))
+                    if (!InsertDialogueUpdateDataRow(currentOption.NextDialogueUuid, lastDialogue.DialogueData))
                     {
                         FinishDialogue();
                     }

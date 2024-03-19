@@ -157,6 +157,22 @@ namespace Pangoo.Core.Services
         }
 
 
+        CursorService m_CursorService;
+
+        public CursorService CursorSrv
+        {
+            get
+            {
+                if (m_CursorService == null)
+                {
+                    m_CursorService = Parent.GetService<CursorService>();
+                }
+
+                return m_CursorService;
+            }
+        }
+
+
 
 
         protected override void DoAwake()

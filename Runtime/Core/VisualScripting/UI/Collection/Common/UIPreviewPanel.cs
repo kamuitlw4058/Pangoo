@@ -147,7 +147,7 @@ namespace Pangoo.Core.VisualScripting
             DragFactorX = PreviewData.Params.DragFactorX;
             DragFactorY = PreviewData.Params.DragFactorY;
 
-            SetupCursor();
+            ShowCursor();
 
             State = PreviewState.OnShow;
             GrabTime = 0;
@@ -227,7 +227,7 @@ namespace Pangoo.Core.VisualScripting
                 //主目标
                 for (int i = 0; i < PreviewData.DynamicObject.dynamicObjectMouseInteracts.Count; i++)
                 {
-                    var spotDynamicObjectMouseInteract=PreviewData.DynamicObject.dynamicObjectMouseInteracts[i].hotSpot as SpotDynamicObjectMouseInteract;
+                    var spotDynamicObjectMouseInteract = PreviewData.DynamicObject.dynamicObjectMouseInteracts[i].hotSpot as SpotDynamicObjectMouseInteract;
                     spotDynamicObjectMouseInteract.CurrentSpotState = DynamicObjectHotsoptState.ShowUI;
                 }
                 //子动态物品
@@ -239,7 +239,7 @@ namespace Pangoo.Core.VisualScripting
                         var spotDynamicObjectMouseInteract = subDO.Value.dynamicObjectMouseInteracts[i].hotSpot as SpotDynamicObjectMouseInteract;
                         spotDynamicObjectMouseInteract.CurrentSpotState = DynamicObjectHotsoptState.ShowUI;
                     }
-                    
+
                 }
 
                 State = PreviewState.OnPreview;
@@ -345,15 +345,15 @@ namespace Pangoo.Core.VisualScripting
             {
                 return;
             }
-            
+
             var upAxis = MainCamera.transform.TransformDirection(transform.up);
             var rightAxis = MainCamera.transform.TransformDirection(transform.right);
-            
+
             if (Input.GetMouseButton(0))
             {
                 float x = Input.GetAxis("Mouse X");
                 float y = Input.GetAxis("Mouse Y");
-                
+
                 PreviewData.Rotate(upAxis, -x * DragFactorX * Time.deltaTime, Space.World);
                 PreviewData.Rotate(rightAxis, y * DragFactorY * Time.deltaTime, Space.World);
             }

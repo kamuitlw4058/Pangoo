@@ -32,10 +32,11 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
-        DialogueData BuildDialogueData(Args args)
+        DialogueData BuildDialogueData(Args args, Action closeAction = null)
         {
             var ret = new DialogueData();
             ret.args = args.Clone;
+            ret.FinishAction = closeAction;
             ret.DynamicObject = args.dynamicObject;
             ret.DontControllPlayer = ParamsRaw.DontControllPlayer;
             ret.WaitClosed = ParamsRaw.WaitClosed;
@@ -56,11 +57,10 @@ namespace Pangoo.Core.VisualScripting
             }
 
             IsUICloed = false;
-            args?.Main?.UI?.ShowDialogue(BuildDialogueData(args), () =>
+            args?.Main?.Dialogue.InsertDialogue(BuildDialogueData(args, () =>
             {
-                Debug.Log($"UI Closed");
                 IsUICloed = true;
-            });
+            }));
             while (!IsUICloed)
             {
                 yield return null;
@@ -74,7 +74,7 @@ namespace Pangoo.Core.VisualScripting
                 Debug.LogError($"Preview DynamicObject Is Failed! DynamicObject is null");
             }
 
-            args?.Main?.UI?.ShowDialogue(BuildDialogueData(args));
+            args?.Main?.Dialogue.InsertDialogue(BuildDialogueData(args));
         }
     }
 }

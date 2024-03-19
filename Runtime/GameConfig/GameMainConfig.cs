@@ -36,6 +36,9 @@ namespace Pangoo
         [LabelText("跳过主菜单")]
         public bool SkipMainMenu;
 
+        [LabelText("鼠标开关按键")]
+        public KeyCode CursorOnOffKeyCode;
+
         [LabelText("当前游戏段落变量")]
         [ValueDropdown("GetStringVariableUuid")]
         public string CurrentGameSectionVariableUuid;
