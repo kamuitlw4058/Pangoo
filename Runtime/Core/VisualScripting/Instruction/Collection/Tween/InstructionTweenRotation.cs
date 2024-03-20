@@ -20,7 +20,7 @@ namespace Pangoo.Core.VisualScripting
 
         public override IParams Params => ParamsRaw;
 
-        [ShowInInspector] public override InstructionType InstructionType => InstructionType.Coroutine;
+        //[ShowInInspector] public override InstructionType InstructionType => InstructionType.Coroutine;
         private float time = 0;
 
         protected override IEnumerator Run(Args args)
@@ -38,6 +38,12 @@ namespace Pangoo.Core.VisualScripting
                 //yield return WaitTime(Time.deltaTime,new TimeMode());
                 yield return null;
             }
+        }
+        
+        public override void RunImmediate(Args args)
+        {
+            var trans = args.dynamicObject.CachedTransfrom.Find(ParamsRaw.Path);
+            trans.DOLocalRotate(ParamsRaw.Rotation,ParamsRaw.Duration);
         }
     }
 }
