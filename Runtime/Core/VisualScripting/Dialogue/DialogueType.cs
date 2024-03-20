@@ -11,6 +11,7 @@ namespace Pangoo.Core.VisualScripting
     {
         Sound,
         Subtitle,
+        RecoverPoint,
     }
 
 

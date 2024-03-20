@@ -37,15 +37,12 @@ namespace Pangoo.Core.VisualScripting
             var ret = new DialogueData();
             ret.args = args.Clone;
             ret.FinishAction = closeAction;
-            ret.DynamicObject = args.dynamicObject;
             ret.DontControllPlayer = ParamsRaw.DontControllPlayer;
             ret.WaitClosed = ParamsRaw.WaitClosed;
             ret.ShowCursor = ParamsRaw.ShowCursor;
             ret.StopDialogueWhenFinish = ParamsRaw.StopDialogueWhenFinish;
             ret.DialogueRow = args.Main.MetaTable.GetDialogueByUuid(ParamsRaw.DialogueUuid);
-            ret.OldPosition = ret.CurrentPosition;
-            ret.OldRotation = ret.CurrentRotation;
-            ret.OldScale = ret.CurrentScale;
+
             return ret;
         }
 

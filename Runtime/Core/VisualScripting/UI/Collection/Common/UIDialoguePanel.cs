@@ -47,7 +47,12 @@ namespace Pangoo.Core.VisualScripting
 
         public float EndTime;
 
+        public float PlayTime;
         public float Progress;
+
+        public float LastPlayTime;
+
+        public float RecoverPoint;
     }
 
     [Category("通用/对话")]
@@ -142,6 +147,56 @@ namespace Pangoo.Core.VisualScripting
             return PanelData.Main.MetaTable.GetActorsLinesByUuid(uuid);
         }
 
+        public bool InitDialogueUpdateDatas(DialogueUpdateData dialogueUpdateData)
+        {
+            switch (dialogueUpdateData.DialogueRow.DialogueType.ToEnum<DialogueType>())
+            {
+                case DialogueType.ActorsLines:
+                    if (dialogueUpdateData.ActorsLinesRow == null)
+                    {
+                        dialogueUpdateData.ActorsLinesRow = GetActorsLinesByUuid(dialogueUpdateData.DialogueRow.ActorsLinesUuid);
+                    }
+
+                    if (dialogueUpdateData.ActorsLinesRow == null)
+                    {
+                        return false;
+                    }
+
+                    if (dialogueUpdateData.dialogueSubtitleInfos == null)
+                    {
+                        try
+                        {
+                            dialogueUpdateData.dialogueSubtitleInfos = JsonMapper.ToObject<List<DialogueSubtitleInfo>>(dialogueUpdateData.ActorsLinesRow.DialogueSubtitles);
+                        }
+                        catch
+                        {
+                            dialogueUpdateData.dialogueSubtitleInfos = null;
+                        }
+
+                    }
+
+                    if (dialogueUpdateData.dialogueSubtitleInfos == null)
+                    {
+                        return false;
+                    }
+                    break;
+                case DialogueType.Option:
+                    if (dialogueUpdateData.dialogueOptionInfos == null)
+                    {
+                        dialogueUpdateData.dialogueOptionInfos = JsonMapper.ToObject<List<DialogueOptionInfo>>(dialogueUpdateData.DialogueRow.Options);
+                    }
+
+                    if (dialogueUpdateData.dialogueOptionInfos == null)
+                    {
+                        return false;
+                    }
+                    break;
+            }
+
+            return true;
+
+
+        }
 
 
 
@@ -149,7 +204,6 @@ namespace Pangoo.Core.VisualScripting
         {
             if (DataList.Count == 0)
             {
-                // FinishDialogue();
                 return;
             }
 
@@ -160,40 +214,15 @@ namespace Pangoo.Core.VisualScripting
             }
 
             var lastDialogue = LastData.dialogueUpdateDatas.Last();
+            if (lastDialogue.RecoverPoint != 0)
+            {
+                lastDialogue.StartTime = CurrentTime - lastDialogue.RecoverPoint;
+                lastDialogue.RecoverPoint = 0;
+            }
+
             if (lastDialogue.DialogueRow.DialogueType == DialogueType.ActorsLines.ToString())
             {
                 CloseOptions();
-
-                if (lastDialogue.ActorsLinesRow == null)
-                {
-                    lastDialogue.ActorsLinesRow = GetActorsLinesByUuid(lastDialogue.DialogueRow.ActorsLinesUuid);
-                }
-
-                if (lastDialogue.ActorsLinesRow == null)
-                {
-                    FinishDialogue();
-                    return;
-                }
-
-                if (lastDialogue.dialogueSubtitleInfos == null)
-                {
-                    try
-                    {
-                        lastDialogue.dialogueSubtitleInfos = JsonMapper.ToObject<List<DialogueSubtitleInfo>>(lastDialogue.ActorsLinesRow.DialogueSubtitles);
-                    }
-                    catch
-                    {
-                        lastDialogue.dialogueSubtitleInfos = null;
-                    }
-
-                }
-
-                if (lastDialogue.dialogueSubtitleInfos == null)
-                {
-                    FinishDialogue();
-                    return;
-                }
-
                 foreach (var subtitle in lastDialogue.dialogueSubtitleInfos)
                 {
                     if (subtitle.InfoType == DialogueSubtitleType.Subtitle)
@@ -218,6 +247,7 @@ namespace Pangoo.Core.VisualScripting
                     }
 
                 }
+
                 lastDialogue.Progress = Mathf.InverseLerp(0, lastDialogue.ActorsLinesRow.Duration, CurrentTime - lastDialogue.StartTime);
 
                 if ((CurrentTime - lastDialogue.StartTime) > lastDialogue.ActorsLinesRow.Duration && lastDialogue.audioUuid.IsNullOrWhiteSpace())
@@ -233,16 +263,6 @@ namespace Pangoo.Core.VisualScripting
 
             if (lastDialogue.DialogueRow.DialogueType == DialogueType.Option.ToString())
             {
-                if (lastDialogue.dialogueOptionInfos == null)
-                {
-                    lastDialogue.dialogueOptionInfos = JsonMapper.ToObject<List<DialogueOptionInfo>>(lastDialogue.DialogueRow.Options);
-                }
-
-                if (lastDialogue.dialogueOptionInfos == null)
-                {
-                    FinishDialogue();
-                    return;
-                }
 
                 var optionCount = lastDialogue.dialogueOptionInfos.Count();
                 SetOptionActive(optionCount);
@@ -252,6 +272,8 @@ namespace Pangoo.Core.VisualScripting
                     SetOptionText(i, optionInfo.Option);
                 }
             }
+
+            lastDialogue.PlayTime = CurrentTime - lastDialogue.StartTime;
 
 
 
@@ -351,7 +373,14 @@ namespace Pangoo.Core.VisualScripting
             updateData.DialogueRow = row;
             updateData.StartTime = CurrentTime;
             updateData.Progress = 0;
-            data.dialogueUpdateDatas.Add(updateData);
+            if (InitDialogueUpdateDatas(updateData))
+            {
+                data.dialogueUpdateDatas.Add(updateData);
+            }
+            else
+            {
+                Debug.LogError($"InitDialogueUpdateDatas Failed:{row.Name}");
+            }
         }
 
 
@@ -363,11 +392,29 @@ namespace Pangoo.Core.VisualScripting
 
             if (lastData != null && lastData.dialogueUpdateDatas.Count > 0)
             {
-
+                float recoverPoint = 0;
                 var lastDialogue = lastData.dialogueUpdateDatas.Last();
+                var ProgressTime = CurrentTime - lastDialogue.StartTime;
+                lastDialogue.LastPlayTime = ProgressTime;
+                foreach (var actorLine in lastDialogue.dialogueSubtitleInfos)
+                {
+                    if (actorLine.InfoType == DialogueSubtitleType.RecoverPoint)
+                    {
+                        if (ProgressTime >= actorLine.RecoverPoint)
+                        {
+                            recoverPoint = actorLine.RecoverPoint;
+                            continue;
+                        }
+
+                        break;
+                    }
+
+                }
+                lastDialogue.RecoverPoint = recoverPoint;
                 if (!lastDialogue.audioUuid.IsNullOrWhiteSpace())
                 {
                     PanelData.Main.Sound.StopSound(lastDialogue.audioUuid, canelResetCallback: true);
+                    lastDialogue.audioUuid = null;
                 }
             }
 
@@ -384,8 +431,6 @@ namespace Pangoo.Core.VisualScripting
 
             if (lastData != null && lastData.DialogueRow.Uuid.Equals(data.DialogueRow.Uuid))
             {
-                var lastDialogue = lastData.dialogueUpdateDatas.Last();
-                lastDialogue.StartTime = CurrentTime;
                 return;
             }
 

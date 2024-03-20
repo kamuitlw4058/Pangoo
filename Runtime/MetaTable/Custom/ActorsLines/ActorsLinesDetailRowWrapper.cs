@@ -109,6 +109,19 @@ namespace Pangoo.MetaTable
             List<DialogueSubtitleInfo> timelineDialogueInfos = new List<DialogueSubtitleInfo>();
             var tracks = TimelineAsset.GetOutputTracks();
             Duration = (float)TimelineAsset.duration;
+
+            var markerTrack = TimelineAsset.markerTrack;
+            var markers = markerTrack.GetMarkers();
+            foreach (var marker in markers)
+            {
+                var dialogueInfo = new DialogueSubtitleInfo();
+                dialogueInfo.InfoType = DialogueSubtitleType.RecoverPoint;
+                dialogueInfo.RecoverPoint = (float)marker.time;
+                timelineDialogueInfos.Add(dialogueInfo);
+            }
+
+
+
             foreach (var track in tracks)
             {
                 var clips = track.GetClips();
@@ -171,6 +184,8 @@ namespace Pangoo.MetaTable
             {
                 DialogueInfos = timelineDialogueInfos;
             }
+
+
         }
 
 

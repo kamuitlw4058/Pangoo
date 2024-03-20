@@ -51,11 +51,18 @@ namespace Pangoo.Core.VisualScripting
 
         [JsonMember("Range")]
         [LabelText("片段起始")]
+        [ShowIf("@this.InfoType != DialogueSubtitleType.RecoverPoint")]
         public Vector2 Range;
 
         [LabelText("内容")]
         [JsonMember("Content")]
         [ShowIf("@this.InfoType == DialogueSubtitleType.Subtitle")]
         public string Content;
+
+
+        [LabelText("恢复点")]
+        [JsonMember("RecoverPoint")]
+        [ShowIf("@this.InfoType == DialogueSubtitleType.RecoverPoint")]
+        public float RecoverPoint;
     }
 }
