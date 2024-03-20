@@ -1,6 +1,4 @@
-using System;
 using GameFramework;
-using Sirenix.OdinInspector;
 using UnityEngine.EventSystems;
 using UnityEngine;
 
@@ -18,19 +16,19 @@ namespace Pangoo.Core.Services
 
         public virtual void Log(string message)
         {
-            Debug.Log($"{ServiceName}-> {message}");
+            Debug.Log($"[F:{UnityEngine.Time.frameCount % 1000}]{ServiceName}-> {message}");
         }
 
         public virtual void LogWarning(string message)
         {
-            Debug.LogWarning($"{ServiceName}-> {message}");
+            Debug.LogWarning($"[F:{UnityEngine.Time.frameCount % 1000}]{ServiceName}-> {message}");
         }
 
 
 
         public virtual void LogError(string message)
         {
-            Debug.LogError($"{ServiceName}-> {message}");
+            Debug.LogError($"[F:{UnityEngine.Time.frameCount % 1000}]{ServiceName}-> {message}");
         }
 
 

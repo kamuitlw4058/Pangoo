@@ -197,7 +197,7 @@ namespace Pangoo.Core.VisualScripting
         {
             if (TriggerType != TriggerTypeEnum.OnUpdate)
             {
-                dynamicObject?.Log($"T[{Row.UuidShort}]{message}");
+                dynamicObject?.Log($"T:{Row.Name}[{Row.UuidShort}]{message}");
             }
         }
 
@@ -268,12 +268,12 @@ namespace Pangoo.Core.VisualScripting
                     break;
                 case ConditionTypeEnum.BoolCondition:
                     var isPass = Conditions?.Check(invokeArgs) ?? false ? 1 : 0;
-                    Log($"Trigger:[{Row.UuidShort}] Check Pass:{isPass} :{Conditions}");
+                    Log($"Check Pass:{isPass}");
                     OnStateInvoke(isPass, invokeArgs);
                     break;
                 case ConditionTypeEnum.StateCondition:
                     var state = Conditions?.GetState(invokeArgs) ?? 1;
-                    Log($"Check state:{state} :{Conditions}");
+                    Log($"Check State:{state}");
                     OnStateInvoke(state, invokeArgs);
                     break;
 
