@@ -14,25 +14,13 @@ namespace Pangoo.Core.VisualScripting
     public class InstructionDynamicObjectBoolParams : InstructionParams
     {
         [JsonMember("DynamicObjectUuid")]
-        [ValueDropdown("OnDynamicObjectIdDropdown")]
+        [ValueDropdown("@GameSupportEditorUtility.DynamicObjectUuidDropdownWithSelf()")]
         public string DynamicObjectUuid;
 
         [JsonMember("Val")]
         public bool Val;
 
-#if UNITY_EDITOR
-        IEnumerable OnDynamicObjectUuidDropdown()
-        {
-            return DynamicObjectOverview.GetUuidDropdown();
-        }
-#endif
 
-        public override void Load(string val)
-        {
-            var par = JsonMapper.ToObject<InstructionDynamicObjectBoolParams>(val);
-            Val = par.Val;
-            DynamicObjectUuid = par.DynamicObjectUuid;
 
-        }
     }
 }

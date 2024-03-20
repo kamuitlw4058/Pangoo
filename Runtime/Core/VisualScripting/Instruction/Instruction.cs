@@ -144,12 +144,12 @@ namespace Pangoo.Core.VisualScripting
 
         public virtual string Save()
         {
-            return Params.Save();
+            return Params?.Save();
         }
 
         public virtual void Load(string val)
         {
-            Params.Load(val);
+            Params?.Load(val);
         }
 
 

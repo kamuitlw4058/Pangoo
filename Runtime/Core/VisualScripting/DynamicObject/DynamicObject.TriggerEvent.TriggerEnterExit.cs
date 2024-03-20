@@ -76,6 +76,22 @@ namespace Pangoo.Core.VisualScripting
         }
 
 
+        public void SetColliderTriggerActive(bool val)
+        {
+            var colliders = gameObject.GetComponents<Collider>();
+            if (colliders != null)
+            {
+                foreach (var collider in colliders)
+                {
+                    if (collider.isTrigger)
+                    {
+                        collider.enabled = val;
+                    }
+                }
+            }
+        }
+
+
         public bool PlayerStayTrigger;
         public float PlayerStayProgress;
         public float PlayerStayExitProgress;

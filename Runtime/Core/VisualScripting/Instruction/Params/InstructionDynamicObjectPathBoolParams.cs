@@ -31,10 +31,7 @@ namespace Pangoo.Core.VisualScripting
 #if UNITY_EDITOR
         IEnumerable OnDynamicObjectUuidDropdown()
         {
-            return DynamicObjectOverview.GetUuidDropdown(AdditionalOptions: new List<Tuple<string, string>>()
-            {
-                new Tuple<string, string>("Self","Self")
-        });
+            return DynamicObjectOverview.GetUuidDropdown(AdditionalOptions: new List<Tuple<string, string>>() { new Tuple<string, string>("Self", "Self") });
         }
 
         IEnumerable OnDynamicObjectPathDropdown()

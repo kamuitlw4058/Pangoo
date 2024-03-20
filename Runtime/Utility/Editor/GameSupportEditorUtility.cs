@@ -11,7 +11,6 @@ using GameFramework;
 using Pangoo.Core.Common;
 using Pangoo.Core.VisualScripting;
 using System;
-using Pangoo.MetaTable;
 
 namespace Pangoo
 {
@@ -123,37 +122,6 @@ namespace Pangoo
         }
 
 
-
-        public static GameObject GetPrefabByAssetPathUuid(string uuid)
-        {
-            if (uuid.IsNullOrWhiteSpace()) return null;
-
-            var row = AssetPathOverview.GetUnityRowByUuid(uuid);
-            if (row == null) return null;
-
-            var finalPath = row.ToPrefabPath();
-            return AssetDatabaseUtility.LoadAssetAtPath<GameObject>(finalPath);
-
-        }
-
-
-
-        public static GameObject GetPrefabByDynamicObjectUuid(string uuid)
-        {
-            if (uuid.IsNullOrWhiteSpace()) return null;
-
-            var row = DynamicObjectOverview.GetUnityRowByUuid(uuid);
-            if (row == null) return null;
-
-            var assetRow = AssetPathOverview.GetUnityRowByUuid(row.Row.AssetPathUuid);
-            if (assetRow == null) return null;
-
-            var finalPath = assetRow.ToPrefabPath();
-            return AssetDatabaseUtility.LoadAssetAtPath<GameObject>(finalPath);
-
-        }
-
-
         public static IEnumerable GetPackageConfig()
         {
             var datas = AssetDatabaseUtility.FindAsset<PackageConfig>();
@@ -175,51 +143,7 @@ namespace Pangoo
             return namespaces;
         }
 
-        public static IEnumerable GetInstructionType(string currentTypeStr = null)
-        {
-            var types = Utility.Assembly.GetTypes(typeof(Instruction));
-            Type currentType = null;
-            if (currentTypeStr != null)
-            {
-                currentType = Utility.Assembly.GetType(currentTypeStr);
-            }
 
-            ValueDropdownList<string> ret = new();
-            for (int i = 0; i < types.Length; i++)
-            {
-                var type = types[i];
-                if (type == currentType)
-                {
-                    continue;
-                }
-                var attr = type.GetCustomAttribute(typeof(CategoryAttribute));
-                ret.Add(attr.ToString(), types[i].ToString());
-            }
-            return ret;
-        }
-
-        public static IEnumerable GetUIParamsType(string currentTypeStr = null)
-        {
-            var types = Utility.Assembly.GetTypes(typeof(UIPanelParams));
-            Type currentType = null;
-            if (currentTypeStr != null)
-            {
-                currentType = Utility.Assembly.GetType(currentTypeStr);
-            }
-
-            ValueDropdownList<string> ret = new();
-            for (int i = 0; i < types.Length; i++)
-            {
-                var type = types[i];
-                if (type == currentType)
-                {
-                    continue;
-                }
-                var attr = type.GetCustomAttribute(typeof(CategoryAttribute));
-                ret.Add(attr.ToString(), types[i].ToString());
-            }
-            return ret;
-        }
 
         public static IEnumerable GetSubTypeWithCategory<T>(string currentTypeStr = null)
         {
@@ -300,19 +224,6 @@ namespace Pangoo
             return ValueDropdown;
         }
 
-        public static void AddPrefabStringDropdownList(ValueDropdownList<string> ret, Transform trans, string prefix)
-        {
-            foreach (var child in trans.Children())
-            {
-                var path = $"{prefix}/{child.name}";
-                if (prefix == string.Empty)
-                {
-                    path = child.name;
-                }
-                ret.Add(path);
-                AddPrefabStringDropdownList(ret, child, path);
-            }
-        }
 
 
         public static IEnumerable RefPrefabStringDropdown(GameObject prefab)

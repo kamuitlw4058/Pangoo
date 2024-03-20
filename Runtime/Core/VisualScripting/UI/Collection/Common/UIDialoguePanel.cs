@@ -392,25 +392,30 @@ namespace Pangoo.Core.VisualScripting
 
             if (lastData != null && lastData.dialogueUpdateDatas.Count > 0)
             {
-                float recoverPoint = 0;
+
                 var lastDialogue = lastData.dialogueUpdateDatas.Last();
-                var ProgressTime = CurrentTime - lastDialogue.StartTime;
-                lastDialogue.LastPlayTime = ProgressTime;
-                foreach (var actorLine in lastDialogue.dialogueSubtitleInfos)
+                if (IsPlayData)
                 {
-                    if (actorLine.InfoType == DialogueSubtitleType.RecoverPoint)
+                    float recoverPoint = 0;
+                    var ProgressTime = CurrentTime - lastDialogue.StartTime;
+                    lastDialogue.LastPlayTime = ProgressTime;
+                    foreach (var actorLine in lastDialogue.dialogueSubtitleInfos)
                     {
-                        if (ProgressTime >= actorLine.RecoverPoint)
+                        if (actorLine.InfoType == DialogueSubtitleType.RecoverPoint)
                         {
-                            recoverPoint = actorLine.RecoverPoint;
-                            continue;
+                            if (ProgressTime >= actorLine.RecoverPoint)
+                            {
+                                recoverPoint = actorLine.RecoverPoint;
+                                continue;
+                            }
+
+                            break;
                         }
 
-                        break;
                     }
-
+                    lastDialogue.RecoverPoint = recoverPoint;
                 }
-                lastDialogue.RecoverPoint = recoverPoint;
+
                 if (!lastDialogue.audioUuid.IsNullOrWhiteSpace())
                 {
                     PanelData.Main.Sound.StopSound(lastDialogue.audioUuid, canelResetCallback: true);

@@ -9,14 +9,20 @@ using Pangoo.Core.VisualScripting;
 using UnityEngine;
 using MetaTable;
 using Pangoo.Common;
+using Pangoo.MetaTable;
 using Pangoo.Core.Common;
 
-namespace Pangoo.MetaTable
+namespace Pangoo
 {
 
     public static partial class GameSupportEditorUtility
     {
 #if UNITY_EDITOR
+        public static IEnumerable DynamicObjectUuidDropdownWithSelf()
+        {
+            return DynamicObjectOverview.GetUuidDropdown(AdditionalOptions: new List<Tuple<string, string>>() { new Tuple<string, string>("Self", "Self") });
+        }
+
 
         public static string GetAssetGroupUuidByAssetGroup(string AssetGroup)
         {

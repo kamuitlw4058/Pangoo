@@ -5,7 +5,6 @@ using UnityEngine;
 namespace Pangoo
 {
 
-
     public static class ConstString
     {
         public const string Default = "Default";
@@ -23,5 +22,8 @@ namespace Pangoo
         public const string GameSectionModule = "GameSection";
 
         public const string SubDynamicObjectModule = "SubDynamicObject";
+
+
+        public const string OdinInspectorDynamicObjectSelfDropdownExpress = "@GameSupportEditorUtility.DynamicObjectUuidDropdownWithSelf()";
     }
 }

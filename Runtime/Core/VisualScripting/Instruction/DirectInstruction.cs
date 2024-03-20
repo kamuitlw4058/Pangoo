@@ -258,6 +258,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.StartDialogue => true,
                     DirectInstructionTypeEnum.ShowSceneModel => true,
                     DirectInstructionTypeEnum.SetIntDelta => true,
+                    DirectInstructionTypeEnum.DynamicObjectSetColliderTriggerActive => true,
                     _ => false,
                 };
             }
@@ -334,6 +335,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SetLocalBoolVariable => true,
                     DirectInstructionTypeEnum.StartDialogue => true,
                     DirectInstructionTypeEnum.ShowSceneModel => true,
+                    DirectInstructionTypeEnum.DynamicObjectSetColliderTriggerActive => true,
                     _ => false,
                 };
             }
@@ -642,6 +644,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SetGlobalGameObjectActive => "状态",
                     DirectInstructionTypeEnum.TweenLightIntensity => "是否等待完成",
                     DirectInstructionTypeEnum.StartDialogue => "等待完成",
+
                     _ => "设置值",
                 };
             }
@@ -872,6 +875,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.TweenLightIntensity:
                 case DirectInstructionTypeEnum.SetLocalBoolVariable:
                 case DirectInstructionTypeEnum.SetLocalIntVariable:
+                case DirectInstructionTypeEnum.DynamicObjectSetColliderTriggerActive:
                     return DynamicObjectOverview.GetUuidDropdown(AdditionalOptions: new List<Tuple<string, string>>()
                     {
                         new Tuple<string, string>("Self","Self"),

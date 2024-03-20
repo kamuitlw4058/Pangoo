@@ -145,5 +145,8 @@ namespace Pangoo.Core.VisualScripting
         TweenRotation,
         [LabelText("变量/设置Int增量")]
         SetIntDelta,
+
+        [LabelText("动态物体/设置动态物体碰撞触发开关")]
+        DynamicObjectSetColliderTriggerActive,
     }
 }

@@ -411,6 +411,14 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
+        public static Instruction GetColliderTriggerActive(string uuid, bool val)
+        {
+            var instruction = Activator.CreateInstance<InstructionDynamicObjectColliderTriggerActive>();
+            instruction.ParamsRaw.DynamicObjectUuid = uuid;
+            instruction.ParamsRaw.Val = val;
+            return instruction;
+        }
+
 
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
@@ -512,6 +520,9 @@ namespace Pangoo.Core.VisualScripting
                     return GetTweenRotation(DropdownString1, Vector3_1, Float1);
                 case DirectInstructionTypeEnum.SetIntDelta:
                     return GetIntDelta(Uuid, Int1);
+                case DirectInstructionTypeEnum.DynamicObjectSetColliderTriggerActive:
+                    return GetColliderTriggerActive(Uuid, Bool1);
+
             }
 
             return null;
