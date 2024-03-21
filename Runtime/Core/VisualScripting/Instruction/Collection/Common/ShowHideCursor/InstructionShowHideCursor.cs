@@ -26,7 +26,7 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            args.Main.Cursor.CursorType = ParamsRaw.CursorTypeEnum;
+            args.Main.Cursor.CursorType = ParamsRaw.e_CursorType;
             //Cursor.lockState = ParamsRaw.CursorLockMode;
         }
     }

@@ -9,12 +9,12 @@ namespace Pangoo.Core.VisualScripting
     public class InstructionShowHideCursorParams : InstructionParams
     {
         [JsonMember("CursorTypeEnum")]
-        public CursorTypeEnum CursorTypeEnum;
+        public CursorTypeEnum e_CursorType;
 
         public override void Load(string val)
         {
             var par = JsonMapper.ToObject<InstructionShowHideCursorParams>(val);
-            CursorTypeEnum = par.CursorTypeEnum;
+            e_CursorType = par.e_CursorType;
         }
     }
 }
