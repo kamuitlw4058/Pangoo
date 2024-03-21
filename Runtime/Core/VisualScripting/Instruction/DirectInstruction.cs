@@ -11,6 +11,7 @@ using Pangoo.MetaTable;
 using MetaTable;
 using Pangoo.Core.Characters;
 using Pangoo.Core.Common;
+using UnityEngine.Serialization;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -178,12 +179,13 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("Vector3_1")]
         public Vector3 Vector3_1;
 
+        [FormerlySerializedAs("CursorLockMode1")]
         [TableTitleGroup("参数")]
         //[LabelText("$CursorLockMode1Label")]
         [ShowIf("$IsMainCursorLockModeShow")]
         [LabelWidth(120)]
         [JsonMember("CursorLockMode1")]
-        public CursorTypeEnum CursorLockMode1;
+        public CursorTypeEnum CursorTypeEnum1;
 
         [TableTitleGroup("参数")]
         [ShowIf("$IsMainDriverInfoShow")]
