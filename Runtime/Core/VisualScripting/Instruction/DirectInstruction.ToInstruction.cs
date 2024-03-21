@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using LitJson;
 using Pangoo.Core.Characters;
+using Pangoo.Core.Common;
 using Sirenix.Utilities;
 using UnityEngine;
 
@@ -222,7 +223,7 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetShowHideCursor(CursorLockMode cursorLockMode)
+        public static Instruction GetShowHideCursor(CursorTypeEnum cursorLockMode)
         {
             var instruction = Activator.CreateInstance<InstructionShowHideCursor>();
             instruction.ParamsRaw.CursorLockMode = cursorLockMode;

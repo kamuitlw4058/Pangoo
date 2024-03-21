@@ -10,6 +10,7 @@ using Pangoo.Common;
 using Pangoo.MetaTable;
 using MetaTable;
 using Pangoo.Core.Characters;
+using Pangoo.Core.Common;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -182,7 +183,7 @@ namespace Pangoo.Core.VisualScripting
         [ShowIf("$IsMainCursorLockModeShow")]
         [LabelWidth(120)]
         [JsonMember("CursorLockMode1")]
-        public CursorLockMode CursorLockMode1;
+        public CursorTypeEnum CursorLockMode1;
 
         [TableTitleGroup("参数")]
         [ShowIf("$IsMainDriverInfoShow")]
