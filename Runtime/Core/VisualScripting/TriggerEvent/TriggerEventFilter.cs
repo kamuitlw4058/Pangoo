@@ -18,6 +18,7 @@ namespace Pangoo.Core.VisualScripting
         public TriggerEventFilterEnum FilterType;
 
         [JsonMember("KeyCodePressTypeEnum")]
+        [ShowIf("@FilterType==TriggerEventFilterEnum.KeyCode||FilterType==TriggerEventFilterEnum.MouseKey")]
         public KeyCodePressType KeyCodePressTypeEnum;
         [ShowIf("FilterType", TriggerEventFilterEnum.KeyCode)]
         [JsonMember("FilterKeyCode")]
@@ -31,7 +32,10 @@ namespace Pangoo.Core.VisualScripting
         [ShowIf("FilterType", TriggerEventFilterEnum.MouseKey)]
         [JsonMember("MouseKeyCode")]
         public MouseKeyCodeType MouseKeyCodeTypeEnum;
-
+        
+        [ShowIf("FilterType", TriggerEventFilterEnum.MouseDrag)]
+        [JsonMember("mouseDirType")]
+        public MouseDirTypeEnum mouseDirType;
         public bool Check()
         {
             switch (FilterType)
@@ -75,11 +79,66 @@ namespace Pangoo.Core.VisualScripting
                             return Input.GetMouseButtonUp(MouseKeyCodeTypeEnum.GetHashCode());
                     }
                     break;
+                case TriggerEventFilterEnum.MouseDrag:
+                    return GetIsPush();
             }
 
             return true;
         }
+        public bool GetIsPush()
+        {
+            float x = Input.GetAxis("Mouse X");
+            float y = Input.GetAxis("Mouse Y");
 
+            switch (mouseDirType)
+            {
+                case MouseDirTypeEnum.XUp:
+                    if (x > 0)
+                    {
+                        return true;
+                    }
+
+                    break;
+                case MouseDirTypeEnum.XDown:
+                    if (x < 0)
+                    {
+                        return true;
+                    }
+
+                    break;
+                case MouseDirTypeEnum.YUp:
+                    if (y > 0)
+                    {
+                        return true;
+                    }
+
+                    break;
+                case MouseDirTypeEnum.YDown:
+                    if (y < 0)
+                    {
+                        return true;
+                    }
+
+                    break;
+                case MouseDirTypeEnum.XYUp:
+                    if (x > 0 || y > 0)
+                    {
+                        return true;
+                    }
+
+                    break;
+                case MouseDirTypeEnum.Any:
+                    return true;
+                case MouseDirTypeEnum.XDownYUp:
+                    if (x < 0 || y > 0)
+                    {
+                        return true;
+                    }
+
+                    break;
+            }
+            return false;
+        }
     }
 }
 
@@ -95,4 +154,15 @@ public enum KeyCodePressType
     Down,
     Pressed,
     Up,
+}
+
+public enum MouseDirTypeEnum
+{
+    XUp,
+    XDown,
+    YUp,
+    XYUp,
+    XDownYUp,
+    YDown,
+    Any,
 }

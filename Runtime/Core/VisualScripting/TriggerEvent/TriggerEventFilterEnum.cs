@@ -13,5 +13,6 @@ namespace Pangoo.Core.VisualScripting
         KeyCode,
         Timer,
         MouseKey,
+        MouseDrag,
     }
 }
