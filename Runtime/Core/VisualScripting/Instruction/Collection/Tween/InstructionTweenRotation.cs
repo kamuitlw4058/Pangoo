@@ -20,7 +20,7 @@ namespace Pangoo.Core.VisualScripting
 
         public override IParams Params => ParamsRaw;
 
-        //[ShowInInspector] public override InstructionType InstructionType => InstructionType.Coroutine;
+        [ShowInInspector] public override InstructionType InstructionType => InstructionType.Coroutine;
         private float time = 0;
 
         protected override IEnumerator Run(Args args)
