@@ -223,10 +223,10 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetShowHideCursor(CursorTypeEnum e_cursorType)
+        public static Instruction GetShowHideCursor(CursorTypeEnum cursorType)
         {
             var instruction = Activator.CreateInstance<InstructionShowHideCursor>();
-            instruction.ParamsRaw.e_CursorType = e_cursorType;
+            instruction.ParamsRaw.CursorType = cursorType;
             return instruction;
         }
 
