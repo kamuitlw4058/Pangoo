@@ -19,7 +19,6 @@ namespace Pangoo.Core.VisualScripting
 
         [JsonMember("KeyCodePressTypeEnum")]
         [ShowIf("@FilterType==TriggerEventFilterEnum.KeyCode||FilterType==TriggerEventFilterEnum.MouseKey")]
-        //[ShowIf("FilterType", TriggerEventFilterEnum.MouseKey)]
         public KeyCodePressType KeyCodePressTypeEnum;
         [ShowIf("FilterType", TriggerEventFilterEnum.KeyCode)]
         [JsonMember("FilterKeyCode")]
