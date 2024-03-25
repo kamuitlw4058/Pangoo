@@ -41,6 +41,11 @@ namespace Pangoo.MetaTable
            return GetUuidDropdown<EntityGroupOverview>();
         }
 
+        public static IEnumerable GetUuidDropdown(List<Tuple<string, string>> AdditionalOptions = null)
+        {
+           return GetUuidDropdown<EntityGroupOverview>(AdditionalOptions:AdditionalOptions);
+        }
+
         public static IEnumerable GetUuidDropdown(List<string> excludeUuids = null, string packageDir = null, List<Tuple<string, string>> AdditionalOptions = null, List<Tuple<string, string>> includeUuids = null)
         {
            return GetUuidDropdown<EntityGroupOverview>(excludeUuids: excludeUuids, packageDir: packageDir,AdditionalOptions:AdditionalOptions,includeUuids:includeUuids);

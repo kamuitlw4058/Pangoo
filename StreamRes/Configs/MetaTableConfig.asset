@@ -166,6 +166,9 @@ MonoBehaviour:
     - Name: NameCn
       Type: string
       CnName: "\u4E2D\u6587\u540D"
+    - Name: ModelList
+      Type: string
+      CnName: "\u6A21\u578B\u5217\u8868"
     - Name: Space
       Type: string
       CnName: "\u4F4D\u7F6E\u7A7A\u95F4"

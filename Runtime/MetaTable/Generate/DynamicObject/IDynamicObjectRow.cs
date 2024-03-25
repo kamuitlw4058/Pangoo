@@ -19,6 +19,8 @@ namespace Pangoo.MetaTable
 
         public string NameCn{ get; set; }
 
+        public string ModelList{ get; set; }
+
         public string Space{ get; set; }
 
         public Vector3 Position{ get; set; }

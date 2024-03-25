@@ -41,6 +41,11 @@ namespace Pangoo.MetaTable
            return GetUuidDropdown<SoundOverview>();
         }
 
+        public static IEnumerable GetUuidDropdown(List<Tuple<string, string>> AdditionalOptions = null)
+        {
+           return GetUuidDropdown<SoundOverview>(AdditionalOptions:AdditionalOptions);
+        }
+
         public static IEnumerable GetUuidDropdown(List<string> excludeUuids = null, string packageDir = null, List<Tuple<string, string>> AdditionalOptions = null, List<Tuple<string, string>> includeUuids = null)
         {
            return GetUuidDropdown<SoundOverview>(excludeUuids: excludeUuids, packageDir: packageDir,AdditionalOptions:AdditionalOptions,includeUuids:includeUuids);
