@@ -11,6 +11,7 @@ using Pangoo.Core.Common;
 using Pangoo.Common;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Pangoo.MetaTable;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -46,9 +47,6 @@ namespace Pangoo.Core.VisualScripting
         }
 
 
-        public CaseContent Data;
-
-
 
 
 
@@ -56,10 +54,7 @@ namespace Pangoo.Core.VisualScripting
         {
             base.OnOpen(userData);
 
-            Data = PanelData.UserData as CaseContent;
-            if (Data == null) return;
 
-            Data.ShowCaseDynamicObject();
 
 
             m_Text = GetComponentInChildren<TextMeshProUGUI>();
@@ -68,27 +63,12 @@ namespace Pangoo.Core.VisualScripting
 
             MainCamera = GameObject.FindWithTag("MainCamera")?.GetComponent<Camera>();
 
-
-            // PreviewData.args.Main.CharacterService.SetPlayerControllable(false);
-
-            // m_Text.text = PreviewData.PreviewRow.Title;
-            // if (m_NameText != null)
-            // {
-            //     m_NameText.text = PreviewData.Name;
-            // }
-
-            // if (m_DescText != null)
-            // {
-            //     m_DescText.text = PreviewData.Desc;
-            // }
-
-
-            ShowCursor();
+            m_Text?.gameObject.SetActive(false);
+            m_NameText?.gameObject.SetActive(false);
+            m_DescText?.gameObject.SetActive(false);
 
 
         }
-
-
 
 
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)

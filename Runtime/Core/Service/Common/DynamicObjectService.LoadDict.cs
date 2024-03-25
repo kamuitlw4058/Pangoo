@@ -108,6 +108,11 @@ namespace Pangoo.Core.Services
         {
             get
             {
+                if (m_GameSectionDynamicObjectUuids.Count == 0)
+                {
+                    return true;
+                }
+
                 var moduleDict = GetModuleLoaded(ConstString.GameSectionModule);
                 if (moduleDict == null)
                 {
