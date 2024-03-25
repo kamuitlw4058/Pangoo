@@ -175,7 +175,7 @@ namespace Pangoo.Core.VisualScripting
             }
             else
             {
-                SetModelActive(false);
+                SetModelActive(true);
             }
 
             immersed = gameObject.GetComponent<IImmersed>();
