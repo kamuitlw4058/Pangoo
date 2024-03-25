@@ -348,6 +348,15 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
+        public static Instruction GetSetLocalVector3Variable(string dynamicObjectUuid, string localVariableUuid, Vector3 value)
+        {
+            var instruction = Activator.CreateInstance<InstructionSetLocalVector3Variable>();
+            instruction.ParamsRaw.DynamicObjectUuid = dynamicObjectUuid;
+            instruction.ParamsRaw.LocalVariableUuid = localVariableUuid;
+            instruction.ParamsRaw.Value = value;
+            return instruction;
+        }
+
         public static Instruction GetDynamicObjectInvokeLeftMouseDrag()
         {
             var instruction = Activator.CreateInstance<InstructionDynamicObjectInvokeMouseDrag>();
@@ -420,7 +429,22 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
+        public static Instruction GetDoRotationToTargetAngle(string path,Vector3 initRotation,Vector3 targetRotation,float rotationSpeed)
+        {
+            var instruction = Activator.CreateInstance<InstructionDynamicObjectDoRotationToTargetAngle>();
+            instruction.ParamsRaw.Path = path;
+            instruction.ParamsRaw.InitRotation = initRotation;
+            instruction.ParamsRaw.TargetRotation = targetRotation;
+            instruction.ParamsRaw.RotationSpeed = rotationSpeed;
+            return instruction;
+        }
 
+        public static Instruction GetDynamicObjectRotationSetVariable(string variableUuid)
+        {
+            var instruction = Activator.CreateInstance<InstructionGetDynamicObjectRotationSetVariable>();
+            instruction.ParamsRaw.VariableUuid = variableUuid;
+            return instruction;
+        }
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
             switch (InstructionType)
@@ -523,7 +547,12 @@ namespace Pangoo.Core.VisualScripting
                     return GetIntDelta(Uuid, Int1);
                 case DirectInstructionTypeEnum.DynamicObjectSetColliderTriggerActive:
                     return GetColliderTriggerActive(Uuid, Bool1);
-
+                case DirectInstructionTypeEnum.DynamicObjectDoRotationToTargetAngle:
+                    return GetDoRotationToTargetAngle(DropdownString1, Vector3_1,Vector3_2,Float1);
+                case DirectInstructionTypeEnum.SetLocalVector3Variable:
+                    return GetSetLocalVector3Variable(Uuid,Uuid2,Vector3_1);
+                case DirectInstructionTypeEnum.DynamicObjectRotationSetVariable:
+                    return GetDynamicObjectRotationSetVariable(Uuid);
             }
 
             return null;

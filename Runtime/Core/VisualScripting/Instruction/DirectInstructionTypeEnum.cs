@@ -148,5 +148,11 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("动态物体/设置动态物体碰撞触发开关")]
         DynamicObjectSetColliderTriggerActive,
+        [LabelText("动态物体/旋转到指定角度")]
+        DynamicObjectDoRotationToTargetAngle,
+        [LabelText("变量/设置本地Vector3变量")]
+        SetLocalVector3Variable,
+        [LabelText("变量/获取动态物体的Rotaion赋值给变量")]
+        DynamicObjectRotationSetVariable,
     }
 }

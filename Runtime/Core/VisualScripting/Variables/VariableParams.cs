@@ -9,15 +9,7 @@ namespace Pangoo.Core.VisualScripting
 {
 
     [Serializable]
-    public class VariableParams : IParams
+    public class VariableParams : JsonParams
     {
-        public virtual void Load(string val)
-        {
-
-        }
-        public virtual string Save()
-        {
-            return string.Empty;
-        }
     }
 }
