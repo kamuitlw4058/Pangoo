@@ -87,7 +87,11 @@ namespace Pangoo
         {
             foreach (var model in SceneData.Models)
             {
-                model.gameObject.SetActive(val);
+                var go = model?.gameObject;
+                if (go != null)
+                {
+                    go.SetActive(val);
+                }
             }
         }
 
