@@ -99,6 +99,11 @@ namespace Pangoo
             }
         }
 
+        public void ClearModel()
+        {
+            m_Models = null;
+        }
+
         Transform[] m_Models;
         public Transform[] Models
         {

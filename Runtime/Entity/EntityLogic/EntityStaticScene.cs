@@ -73,6 +73,7 @@ namespace Pangoo
                 return;
             }
             SceneData.EntityScene = this;
+            SceneData.ClearModel();
             SceneData.Hide = SceneData.sceneInfo.SceneRow.HideDefault;
 
             Name = Utility.Text.Format("{0}[{1}]", SceneData.Name, SceneData.UuidShort);
