@@ -4,7 +4,6 @@ using Pangoo.Core.Services;
 using Pangoo.Core.Common;
 using Sirenix.OdinInspector;
 using Cinemachine;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 
 namespace Pangoo.Core.Characters
 {
