@@ -25,11 +25,7 @@ namespace Pangoo.Core.VisualScripting
         protected override int Run(Args args)
         {
             var variable = args.dynamicObject.GetVariable<Vector3>(ParamRaw.VariableUuid);
-            Debug.Log($"Condition Id:{ParamRaw.VariableUuid} Ret:{variable} Check:{ParamRaw.Value}");
-            if (variable == ParamRaw.Value)
-            {
-                Debug.Log($"比较成功");
-            }
+            //Debug.Log($"Condition Id:{ParamRaw.VariableUuid} Ret:{variable} Check:{ParamRaw.Value}");
             return variable == ParamRaw.Value ? 1 : 0;
         }
     }

@@ -22,6 +22,9 @@ namespace Pangoo.Core.VisualScripting
         [LabelText("目标值")]
         public Vector3 Value;
         
+        [JsonMember("Path")]
+        public string Path;
+        
 #if UNITY_EDITOR
         void OnVariableTypeChanged()
         {
