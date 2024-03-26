@@ -181,13 +181,6 @@ namespace Pangoo.Core.Services
             {
                 var character = m_LoadedEntityDict[infoUuid];
                 character.character.IsInteractive = IsInteractive;
-                if (character == Player && NotMoveWhenPlayerCreated)
-                {
-                    return;
-                }
-                character.transform.position = positon;
-                character.transform.rotation = Quaternion.Euler(rotation);
-                character.character.ResetCameraDirection();
                 if (height > ConstFloat.InvaildCameraHeight)
                 {
                     character.character.CameraHight = height;
@@ -198,6 +191,14 @@ namespace Pangoo.Core.Services
                     character.character.ColliderHight = colliderHeight;
                 }
 
+                if (character == Player && NotMoveWhenPlayerCreated)
+                {
+                    Physics.SyncTransforms();
+                    return;
+                }
+                character.transform.position = positon;
+                character.transform.rotation = Quaternion.Euler(rotation);
+                character.character.ResetCameraDirection();
                 Physics.SyncTransforms();
                 return;
             }
