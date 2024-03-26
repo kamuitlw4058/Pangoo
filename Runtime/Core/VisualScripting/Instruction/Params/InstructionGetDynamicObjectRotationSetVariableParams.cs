@@ -9,6 +9,9 @@ namespace Pangoo.Core.VisualScripting
 {
     public class InstructionGetDynamicObjectRotationSetVariableParams : InstructionParams
     {
+        [JsonMember("Path")]
+        public string Path;
+        
         [JsonMember("LocalVariableUuid")]
         [ValueDropdown("@VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Vector3.ToString())")]
         public string VariableUuid;

@@ -449,6 +449,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.ManualTimeline => true,
                     DirectInstructionTypeEnum.TweenRotation => true,
                     DirectInstructionTypeEnum.DynamicObjectDoRotationToTargetAngle=>true,
+                    DirectInstructionTypeEnum.DynamicObjectRotationSetVariable=>true,
                     _ => false,
                 };
             }
@@ -874,6 +875,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.ChangeHotspotState:
                 case DirectInstructionTypeEnum.ManualTimeline:
                 case DirectInstructionTypeEnum.TweenRotation:
+                case DirectInstructionTypeEnum.DynamicObjectRotationSetVariable:
                 case DirectInstructionTypeEnum.DynamicObjectDoRotationToTargetAngle:
                     return GameSupportEditorUtility.RefPrefabStringDropdown(ListPrefab);
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:

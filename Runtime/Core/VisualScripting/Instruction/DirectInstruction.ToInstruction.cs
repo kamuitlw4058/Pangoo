@@ -439,9 +439,10 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetDynamicObjectRotationSetVariable(string variableUuid)
+        public static Instruction GetDynamicObjectRotationSetVariable(string path,string variableUuid)
         {
             var instruction = Activator.CreateInstance<InstructionGetDynamicObjectRotationSetVariable>();
+            instruction.ParamsRaw.Path = path;
             instruction.ParamsRaw.VariableUuid = variableUuid;
             return instruction;
         }
@@ -552,7 +553,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.SetLocalVector3Variable:
                     return GetSetLocalVector3Variable(Uuid,Uuid2,Vector3_1);
                 case DirectInstructionTypeEnum.DynamicObjectRotationSetVariable:
-                    return GetDynamicObjectRotationSetVariable(Uuid);
+                    return GetDynamicObjectRotationSetVariable(DropdownString1,Uuid);
             }
 
             return null;

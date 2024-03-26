@@ -21,7 +21,8 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            var rotationEuler = args.dynamicObject.gameObject.transform.rotation.eulerAngles;
+            var trans = args.dynamicObject.CachedTransfrom.Find(ParamsRaw.Path);
+            var rotationEuler = trans.rotation.eulerAngles;
             Debug.Log($"获取欧拉角{rotationEuler}");
             args?.dynamicObject?.SetVariable<Vector3>(ParamsRaw.VariableUuid, rotationEuler);
         }
