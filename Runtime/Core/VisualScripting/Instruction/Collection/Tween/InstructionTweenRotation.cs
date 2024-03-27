@@ -38,6 +38,11 @@ namespace Pangoo.Core.VisualScripting
                 //yield return WaitTime(Time.deltaTime,new TimeMode());
                 yield return null;
             }
+
+            if (time > ParamsRaw.Duration)
+            {
+                time = 0;
+            }
         }
         
         public override void RunImmediate(Args args)
