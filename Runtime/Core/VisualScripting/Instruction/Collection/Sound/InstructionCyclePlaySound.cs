@@ -17,25 +17,26 @@ namespace Pangoo.Core.VisualScripting
         public InstructionCyclePlaySoundParams ParamsRaw = new InstructionCyclePlaySoundParams();
 
         public override IParams Params => ParamsRaw;
-        public float timer;
-        public bool playFlag;
         public override void RunImmediate(Args args)
         {
-            if (ParamsRaw.OnStartPlay&&!playFlag)
+            var currentTimerValue = args.dynamicObject.GetVariable<float>(ParamsRaw.CurrentTimeVariableUuid);
+            var flagValue = args.dynamicObject.GetVariable<bool>(ParamsRaw.StartPlayFlagVariableUuid);
+            
+            if (ParamsRaw.OnStartPlay&&!flagValue)
             {
                 args.Main.Sound.PlaySound(ParamsRaw.SoundUuid);
-                playFlag = true;
+                args.dynamicObject.SetVariable(ParamsRaw.StartPlayFlagVariableUuid,true);
             }
-            if (timer<ParamsRaw.CycleTime)
+            if (currentTimerValue<ParamsRaw.CycleTime)
             {
-                timer+=Time.deltaTime;
+                currentTimerValue += Time.deltaTime;
             }
             else
             {
                 args.Main.Sound.PlaySound(ParamsRaw.SoundUuid);
-                timer = 0;
+                currentTimerValue = 0;
             }
-            
+            args.dynamicObject.SetVariable(ParamsRaw.CurrentTimeVariableUuid,currentTimerValue);
         }
     }
 }
