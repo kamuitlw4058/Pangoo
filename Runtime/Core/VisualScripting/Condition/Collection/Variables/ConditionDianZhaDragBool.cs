@@ -16,21 +16,16 @@ namespace Pangoo.Core.VisualScripting
         protected override int Run(Args args)
         {
             var trans = args.dynamicObject.CachedTransfrom.Find(ParamsRaw.Path);
-            if (trans.rotation.eulerAngles==ParamsRaw.Value)
+            var canInvokeVariable=args.dynamicObject.GetVariable<bool>(ParamsRaw.InvokeFlagVariableUuid);
+            if (trans.rotation.eulerAngles==ParamsRaw.Value && canInvokeVariable)
             {
                 return 1;
             }
-            
-            var canInvokeVariable=args.dynamicObject.GetVariable<bool>(ParamsRaw.InvokeFlagVariableUuid);
-            if (canInvokeVariable)
-            {
-                return 2;
-            }
-            
+
             var currentCount=args.dynamicObject.GetVariable<int>(ParamsRaw.CountVariableUuid);
             if (currentCount==ParamsRaw.TargetCount)
             {
-                return 3;
+                return 2;
             }
             return 0;
         }
