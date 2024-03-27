@@ -420,7 +420,17 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-
+        public static Instruction GetCyclePlaySound(string soundUuid,string timeUuid,float cycleTime,bool onStartPlay,string flagUuid)
+        {
+            var instruction = Activator.CreateInstance<InstructionCyclePlaySound>();
+            instruction.ParamsRaw.SoundUuid = soundUuid;
+            instruction.ParamsRaw.CurrentTimeVariableUuid = timeUuid;
+            instruction.ParamsRaw.CycleTime = cycleTime;
+            instruction.ParamsRaw.OnStartPlay = onStartPlay;
+            instruction.ParamsRaw.StartPlayFlagVariableUuid = flagUuid;
+            return instruction;
+        }
+        
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
             switch (InstructionType)
@@ -523,7 +533,8 @@ namespace Pangoo.Core.VisualScripting
                     return GetIntDelta(Uuid, Int1);
                 case DirectInstructionTypeEnum.DynamicObjectSetColliderTriggerActive:
                     return GetColliderTriggerActive(Uuid, Bool1);
-
+                case DirectInstructionTypeEnum.CyclePlaySound:
+                    return GetCyclePlaySound(Uuid,Uuid2,Float1,Bool1,Uuid3);
             }
 
             return null;

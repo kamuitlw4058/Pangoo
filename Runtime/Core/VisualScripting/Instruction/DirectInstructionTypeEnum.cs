@@ -148,5 +148,7 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("动态物体/设置动态物体碰撞触发开关")]
         DynamicObjectSetColliderTriggerActive,
+        [LabelText("周期性播放声音")]
+        CyclePlaySound,
     }
 }
