@@ -262,6 +262,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.ShowSceneModel => true,
                     DirectInstructionTypeEnum.SetIntDelta => true,
                     DirectInstructionTypeEnum.DynamicObjectSetColliderTriggerActive => true,
+                    DirectInstructionTypeEnum.CyclePlaySound=>true,
                     _ => false,
                 };
             }
@@ -339,6 +340,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.StartDialogue => true,
                     DirectInstructionTypeEnum.ShowSceneModel => true,
                     DirectInstructionTypeEnum.DynamicObjectSetColliderTriggerActive => true,
+                    DirectInstructionTypeEnum.CyclePlaySound=>true,
                     _ => false,
                 };
             }
@@ -462,6 +464,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance => true,
                     DirectInstructionTypeEnum.ManualTimeline => true,
                     DirectInstructionTypeEnum.TweenRotation => true,
+                    DirectInstructionTypeEnum.CyclePlaySound=>true,
                     _ => false,
                 };
             }
@@ -647,7 +650,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SetGlobalGameObjectActive => "状态",
                     DirectInstructionTypeEnum.TweenLightIntensity => "是否等待完成",
                     DirectInstructionTypeEnum.StartDialogue => "等待完成",
-
+                    DirectInstructionTypeEnum.CyclePlaySound=>"在开始时播放一次",
                     _ => "设置值",
                 };
             }
@@ -759,6 +762,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance => "起始距离",
                     DirectInstructionTypeEnum.ManualTimeline => "播放速度",
                     DirectInstructionTypeEnum.TweenRotation => "补间时长",
+                    DirectInstructionTypeEnum.CyclePlaySound=>"周期时长",
                     _ => "Float1",
                 };
             }
@@ -885,6 +889,7 @@ namespace Pangoo.Core.VisualScripting
                     });
                 case DirectInstructionTypeEnum.PlaySound:
                 case DirectInstructionTypeEnum.StopSound:
+                case DirectInstructionTypeEnum.CyclePlaySound:
                     return SoundOverview.GetUuidDropdown();
                 case DirectInstructionTypeEnum.CheckBoolVariableList:
                 case DirectInstructionTypeEnum.WaitVariableBool:
