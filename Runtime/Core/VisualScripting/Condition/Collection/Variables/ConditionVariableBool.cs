@@ -35,9 +35,24 @@ namespace Pangoo.Core.VisualScripting
 
         protected override int Run(Args args)
         {
+            var entity = args.dynamicObject.DynamicObjectService.GetLoadedEntity(ParamRaw.DynamicObjectUuid);
             var variable = args.dynamicObject.GetVariable<bool>(ParamRaw.VariableUuid);
-            // Debug.Log($"Condition Id:{ParamRaw.VariableUuid} Ret:{variable} Check:{ParamRaw.CheckBool}");
-            return variable == ParamRaw.CheckBool ? 1 : 0;
+            if (ParamRaw.ValueSourceType.Equals(ValueSourceTypeEnum.Variable))
+            {
+                // Debug.Log($"Condition Id:{ParamRaw.VariableUuid} Ret:{variable} Check:{ParamRaw.CheckBool}");
+                return variable == ParamRaw.CheckBool ? 1 : 0;
+            }
+
+            if (ParamRaw.ValueSourceType.Equals(ValueSourceTypeEnum.DynamicObject))
+            {
+                if (entity.DynamicObj != null)
+                {
+                    variable = entity.DynamicObj.GetVariable<bool>(ParamRaw.VariableUuid);
+                    return variable == ParamRaw.CheckBool ? 1 : 0;
+                }
+            }
+
+            return 0;
         }
 
 
