@@ -17,18 +17,16 @@ namespace Pangoo.Core.VisualScripting
         {
             var trans = args.dynamicObject?.CachedTransfrom.Find(ParamsRaw.Path);
             var canInvokeVariable=args.dynamicObject.GetVariable<bool>(ParamsRaw.InvokeFlagVariableUuid);
-
+            var currentCount=args.dynamicObject.GetVariable<int>(ParamsRaw.CountVariableUuid);
             if (trans.Equals(null))
             {
                 Debug.LogError("没有找到目标节点");
                 return -1;
             }
-            if (trans.rotation.eulerAngles==ParamsRaw.Value && canInvokeVariable)
+            if (trans.rotation.eulerAngles==ParamsRaw.Value && canInvokeVariable && currentCount!=ParamsRaw.TargetCount)
             {
                 return 1;
             }
-
-            var currentCount=args.dynamicObject.GetVariable<int>(ParamsRaw.CountVariableUuid);
             if (currentCount==ParamsRaw.TargetCount)
             {
                 return 2;
