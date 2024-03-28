@@ -119,7 +119,7 @@ namespace Pangoo.Editor
             InitOverviewWrapper<ActorsLinesOverviewWrapper, Pangoo.MetaTable.ActorsLinesOverview, Pangoo.MetaTable.ActorsLinesDetailRowWrapper, Pangoo.MetaTable.ActorsLinesRowWrapper, Pangoo.MetaTable.ActorsLinesNewRowWrapper, UnityActorsLinesRow>(tree, null, "台词");
             InitOverviewWrapper<DialogueOverviewWrapper, Pangoo.MetaTable.DialogueOverview, Pangoo.MetaTable.DialogueDetailRowWrapper, Pangoo.MetaTable.DialogueRowWrapper, Pangoo.MetaTable.DialogueNewRowWrapper, UnityDialogueRow>(tree, null, "对话");
             InitOverviewWrapper<CasesOverviewWrapper, Pangoo.MetaTable.CasesOverview, Pangoo.MetaTable.CasesDetailRowWrapper, Pangoo.MetaTable.CasesRowWrapper, Pangoo.MetaTable.CasesNewRowWrapper, UnityCasesRow>(tree, null, "案件");
-            InitOverviewWrapper<CluesOverviewWrapper, Pangoo.MetaTable.CluesOverview, Pangoo.MetaTable.CluesDetailRowWrapper, Pangoo.MetaTable.CluesRowWrapper, Pangoo.MetaTable.CluesNewRowWrapper, UnityCluesRow>(tree, null, "线索");
+            InitOverviewWrapper<ClueOverviewWrapper, Pangoo.MetaTable.ClueOverview, Pangoo.MetaTable.ClueDetailRowWrapper, Pangoo.MetaTable.ClueRowWrapper, Pangoo.MetaTable.ClueNewRowWrapper, UnityClueRow>(tree, null, "线索");
 
             return tree;
         }

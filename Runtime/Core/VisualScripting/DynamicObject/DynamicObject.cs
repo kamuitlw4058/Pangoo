@@ -9,6 +9,7 @@ using UnityEngine.InputSystem;
 using Pangoo.MetaTable;
 using System.Linq;
 using UnityEngine.Video;
+using Pangoo.Common;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -146,6 +147,26 @@ namespace Pangoo.Core.VisualScripting
 
         public IImmersed immersed;
 
+        bool m_ModelActive;
+
+        [ShowInInspector]
+
+        public bool ModelActive
+        {
+            get
+            {
+                return m_ModelActive;
+            }
+            set
+            {
+                m_ModelActive = value;
+                foreach (var go in ModelList)
+                {
+                    go?.SetActive(m_ModelActive);
+                }
+            }
+        }
+
 
         public void SetModelActive(bool val)
         {
@@ -168,14 +189,26 @@ namespace Pangoo.Core.VisualScripting
                     ModelList.Add(modelGo);
                 }
             }
+            else
+            {
+                var modelList = Row.ModelList.ToSplitArr<string>();
+                foreach (var modelPath in modelList)
+                {
+                    var modelGo = CachedTransfrom.Find(modelPath)?.gameObject;
+                    if (modelGo != null)
+                    {
+                        ModelList.Add(modelGo);
+                    }
+                }
+            }
 
             if (Row.DefaultHideModel)
             {
-                SetModelActive(false);
+                ModelActive = false;
             }
             else
             {
-                SetModelActive(true);
+                ModelActive = true;
             }
 
             immersed = gameObject.GetComponent<IImmersed>();

@@ -42,6 +42,8 @@ namespace Pangoo.Core.Services
 
         public CursorService Cursor;
 
+        public CaseService Case;
+
 
         public MainService()
         {
@@ -64,7 +66,7 @@ namespace Pangoo.Core.Services
 
             Dialogue = new DialogueService();
             Cursor = new CursorService();
-
+            Case = new CaseService();
 
             AddService(MetaTable, sortService: false);
             AddService(StaticScene, sortService: false);
@@ -81,6 +83,7 @@ namespace Pangoo.Core.Services
             AddService(MainMenu, sortService: false);
             AddService(Dialogue, sortService: false);
             AddService(Cursor, sortService: false);
+            AddService(Case, sortService: false);
             SortService();
         }
 

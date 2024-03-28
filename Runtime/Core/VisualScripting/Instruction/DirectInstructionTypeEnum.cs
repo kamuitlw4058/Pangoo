@@ -150,5 +150,8 @@ namespace Pangoo.Core.VisualScripting
         DynamicObjectSetColliderTriggerActive,
         [LabelText("周期性播放声音")]
         CyclePlaySound,
+
+        [LabelText("UI/显示案件")]
+        ShowCase,
     }
 }

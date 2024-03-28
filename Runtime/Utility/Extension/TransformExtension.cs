@@ -5,6 +5,21 @@ namespace Pangoo
 {
     public static class TransformExtension
     {
+        public static void Rotate2TransformPlane(this Transform t, Transform target)
+        {
+            if (t == null || target == null) return;
+
+            Vector3 targetForward = target.TransformDirection(Vector3.forward);
+
+            // // 将目标向量转换到世界空间
+            Vector3 rotationForward = t.InverseTransformDirection(targetForward);
+            // // 使用LookRotation计算旋转
+            Quaternion rotationQuaternion = Quaternion.LookRotation(rotationForward);
+
+            t.rotation = rotationQuaternion * t.rotation;
+        }
+
+
         public static List<Transform> Children(this Transform t, bool includesDescendants = false)
         {
             List<Transform> ret = new List<Transform>();
