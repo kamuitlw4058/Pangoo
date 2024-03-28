@@ -23,6 +23,8 @@ namespace Pangoo
 
         public const string SubDynamicObjectModule = "SubDynamicObject";
 
+        public const string MainPackagePath = "Assets/GameMain";
+
 
         public const string OdinInspectorDynamicObjectSelfDropdownExpress = "@GameSupportEditorUtility.DynamicObjectUuidDropdownWithSelf()";
     }

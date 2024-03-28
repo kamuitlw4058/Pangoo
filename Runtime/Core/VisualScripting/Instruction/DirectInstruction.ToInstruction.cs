@@ -428,7 +428,7 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.Val = val;
             return instruction;
         }
-
+        
         public static Instruction GetDoRotationToTargetAngle(string path,Vector3 initRotation,Vector3 targetRotation,float rotationSpeed)
         {
             var instruction = Activator.CreateInstance<InstructionDynamicObjectDoRotationToTargetAngle>();
@@ -446,6 +446,17 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.VariableUuid = variableUuid;
             return instruction;
         }
+        public static Instruction GetCyclePlaySound(string soundUuid,string timeUuid,float cycleTime,bool onStartPlay,string flagUuid)
+        {
+            var instruction = Activator.CreateInstance<InstructionCyclePlaySound>();
+            instruction.ParamsRaw.SoundUuid = soundUuid;
+            instruction.ParamsRaw.CurrentTimeVariableUuid = timeUuid;
+            instruction.ParamsRaw.CycleTime = cycleTime;
+            instruction.ParamsRaw.OnStartPlay = onStartPlay;
+            instruction.ParamsRaw.StartPlayFlagVariableUuid = flagUuid;
+            return instruction;
+        }
+        
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
             switch (InstructionType)
@@ -554,6 +565,8 @@ namespace Pangoo.Core.VisualScripting
                     return GetSetLocalVector3Variable(Uuid,Uuid2,Vector3_1);
                 case DirectInstructionTypeEnum.DynamicObjectRotationSetVariable:
                     return GetDynamicObjectRotationSetVariable(DropdownString1,Uuid);
+                case DirectInstructionTypeEnum.CyclePlaySound:
+                    return GetCyclePlaySound(Uuid,Uuid2,Float1,Bool1,Uuid3);
             }
 
             return null;

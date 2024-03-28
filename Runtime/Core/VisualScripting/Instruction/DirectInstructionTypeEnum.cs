@@ -148,6 +148,8 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("动态物体/设置动态物体碰撞触发开关")]
         DynamicObjectSetColliderTriggerActive,
+        [LabelText("周期性播放声音")]
+        CyclePlaySound,
         [LabelText("动态物体/旋转到指定角度")]
         DynamicObjectDoRotationToTargetAngle,
         [LabelText("变量/设置本地Vector3变量")]

@@ -50,7 +50,11 @@ namespace Pangoo.Core.Services
         public void SetGameScetion(List<string> dynamicUuids)
         {
             m_GameSectionDynamicObjectUuids.Clear();
-            m_GameSectionDynamicObjectUuids.AddRange(dynamicUuids);
+            if (dynamicUuids != null && dynamicUuids.Count > 0)
+            {
+                m_GameSectionDynamicObjectUuids.AddRange(dynamicUuids);
+
+            }
         }
 
 

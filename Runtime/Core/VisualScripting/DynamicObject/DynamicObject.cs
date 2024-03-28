@@ -104,8 +104,10 @@ namespace Pangoo.Core.VisualScripting
                 return null;
             }
         }
+
+
         [ShowInInspector]
-        public GameObject Model { get; set; }
+        public List<GameObject> ModelList { get; set; } = new List<GameObject>();
 
 
 
@@ -137,25 +139,43 @@ namespace Pangoo.Core.VisualScripting
             TriggerDict.Clear();
             EnterTriggerCount = 0;
             AllTriggerEnabled = true;
+            ModelList.Clear();
 
         }
 
 
         public IImmersed immersed;
 
+
+        public void SetModelActive(bool val)
+        {
+            foreach (var go in ModelList)
+            {
+                go?.SetActive(val);
+            }
+        }
+
         protected override void DoAwake()
         {
             EnterTriggerCount = 0;
             CurrentArgs = new Args(this);
             CurrentArgs.Main = Main;
-            Model = CachedTransfrom.Find("Model")?.gameObject;
+            if (Row.ModelList.IsNullOrWhiteSpace())
+            {
+                var modelGo = CachedTransfrom.Find("Model")?.gameObject;
+                if (modelGo != null)
+                {
+                    ModelList.Add(modelGo);
+                }
+            }
+
             if (Row.DefaultHideModel)
             {
-                Model?.SetActive(false);
+                SetModelActive(false);
             }
             else
             {
-                Model?.SetActive(true);
+                SetModelActive(true);
             }
 
             immersed = gameObject.GetComponent<IImmersed>();
@@ -207,10 +227,10 @@ namespace Pangoo.Core.VisualScripting
             Log($"Finish Awake m_Tracker:{m_Tracker}");
         }
 
-        public void SetModelActive(bool val)
-        {
-            Model?.SetActive(val);
-        }
+        // public void SetModelActive(bool val)
+        // {
+        //     Model?.SetActive(val);
+        // }
 
         public void SetSubGameObjectsActive(string[] paths, bool val)
         {

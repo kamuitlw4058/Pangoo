@@ -32,7 +32,7 @@ namespace Pangoo.MetaTable
 
 
         [LabelText("显示的动态物体")]
-        [ValueDropdown("GetDynamicObjectDropdown")]
+        [ValueDropdown("@DynamicObjectOverview.GetUuidDropdown()")]
         [ShowInInspector]
         public string DynamicObjectUuid
         {
@@ -46,11 +46,6 @@ namespace Pangoo.MetaTable
                 UpdatePrefab();
                 Save();
             }
-        }
-
-        IEnumerable GetDynamicObjectDropdown()
-        {
-            return DynamicObjectOverview.GetUuidDropdown();
         }
 
 

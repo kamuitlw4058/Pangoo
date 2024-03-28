@@ -96,6 +96,13 @@ namespace Pangoo
             return $"{GetExcelTableOverview(packageDir)}/AssetPath.asset";
 
         }
+        public static string GetPrefabLightmapsData(string packageDir, string name)
+        {
+            var dirPath = $"{packageDir}/StreamRes/PrefabBakeInfos";
+            DirectoryUtility.ExistsOrCreate(dirPath);
+            return $"{dirPath}/{name}.asset";
+
+        }
 
 
 #endif
@@ -127,6 +134,7 @@ namespace Pangoo
         {
             return $"{GetVolumePrefabDir(packageDir)}/{name}.prefab";
         }
+
 
         public static string GetScene(string packageDir, string name)
         {

@@ -8,7 +8,6 @@ using LitJson;
 using MetaTable;
 using UnityEngine;
 using Pangoo.MetaTable;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 
 
 namespace Pangoo.Core.VisualScripting

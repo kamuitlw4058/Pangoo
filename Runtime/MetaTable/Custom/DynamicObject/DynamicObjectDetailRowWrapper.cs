@@ -84,6 +84,24 @@ namespace Pangoo.MetaTable
 
         }
 
+        [LabelText("模型列表")]
+        [PropertyOrder(6)]
+        [ShowInInspector]
+        [ValueDropdown("@GameSupportEditorUtility.RefPrefabStringDropdown(Prefab, false)")]
+
+        public string[] ModelList
+        {
+            get
+            {
+                return UnityRow.Row.ModelList?.ToSplitArr<string>();
+            }
+            set
+            {
+                UnityRow.Row.ModelList = value.ToListString();
+            }
+        }
+
+
         [LabelText("默认隐藏模型")]
         [PropertyOrder(6)]
         [ShowInInspector]
@@ -122,7 +140,6 @@ namespace Pangoo.MetaTable
             Debug.Log($"OnAfterCreateAsset:{uuid}");
             AssetPathUuid = uuid;
         }
-
 
 
 

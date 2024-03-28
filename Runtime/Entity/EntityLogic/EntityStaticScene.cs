@@ -73,6 +73,7 @@ namespace Pangoo
                 return;
             }
             SceneData.EntityScene = this;
+            SceneData.ClearModel();
             SceneData.Hide = SceneData.sceneInfo.SceneRow.HideDefault;
 
             Name = Utility.Text.Format("{0}[{1}]", SceneData.Name, SceneData.UuidShort);
@@ -87,7 +88,11 @@ namespace Pangoo
         {
             foreach (var model in SceneData.Models)
             {
-                model.gameObject.SetActive(val);
+                var go = model?.gameObject;
+                if (go != null)
+                {
+                    go.SetActive(val);
+                }
             }
         }
 
