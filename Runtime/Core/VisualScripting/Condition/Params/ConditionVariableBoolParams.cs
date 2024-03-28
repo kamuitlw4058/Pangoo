@@ -14,42 +14,18 @@ namespace Pangoo.Core.VisualScripting
     public class ConditionVariableBoolParams : ConditionParams
     {
         [JsonMember("VariableType")]
-        [OnValueChanged("OnVariableTypeChanged")]
+        [OnValueChanged("@VariableUuid = string.Empty")]
         public VariableTypeEnum VariableType;
 
-        [JsonMember("ValueSourceType")]
-        public ValueSourceTypeEnum ValueSourceType = ValueSourceTypeEnum.Variable;
-        
-        [JsonMember("DynamicObjectUuid")]
-        [ValueDropdown("OnDynamicObjectUuidValueDropdown")]
-        [ShowIf("ValueSourceType",ValueSourceTypeEnum.DynamicObject)]
-        public string DynamicObjectUuid;
-        
         [JsonMember("VariableUuid")]
-        [ValueDropdown("OnVariableUuidValueDropdown")]
+        [ValueDropdown("@VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString(), VariableType.ToString(),false)")]
         [LabelText("变量Uuid")]
+
         public string VariableUuid;
+
 
         [JsonMember("CheckBool")]
         [LabelText("检测目标")]
         public bool CheckBool;
-
-#if UNITY_EDITOR
-        void OnVariableTypeChanged()
-        {
-            VariableUuid = string.Empty;
-        }
-        IEnumerable OnVariableUuidValueDropdown()
-        {
-            return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString(), VariableType.ToString());
-        }
-
-        IEnumerable OnDynamicObjectUuidValueDropdown()
-        {
-            return DynamicObjectOverview.GetUuidDropdown();
-        }
-#endif
-        
-
     }
 }
