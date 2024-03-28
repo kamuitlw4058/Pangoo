@@ -438,7 +438,7 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.RotationSpeed = rotationSpeed;
             return instruction;
         }
-
+        
         public static Instruction GetDynamicObjectRotationSetVariable(string path,string variableUuid)
         {
             var instruction = Activator.CreateInstance<InstructionGetDynamicObjectRotationSetVariable>();
@@ -456,7 +456,15 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.StartPlayFlagVariableUuid = flagUuid;
             return instruction;
         }
-        
+
+        public static Instruction GetShowCase(string uuid)
+        {
+            var instruction = Activator.CreateInstance<InstructionUICase>();
+            instruction.ParamsRaw.CaseUuid = uuid;
+            return instruction;
+        }
+
+
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
             switch (InstructionType)
@@ -566,7 +574,9 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.DynamicObjectRotationSetVariable:
                     return GetDynamicObjectRotationSetVariable(DropdownString1,Uuid);
                 case DirectInstructionTypeEnum.CyclePlaySound:
-                    return GetCyclePlaySound(Uuid,Uuid2,Float1,Bool1,Uuid3);
+                    return GetCyclePlaySound(Uuid, Uuid2, Float1, Bool1, Uuid3);
+                case DirectInstructionTypeEnum.ShowCase:
+                    return GetShowCase(Uuid);
             }
 
             return null;

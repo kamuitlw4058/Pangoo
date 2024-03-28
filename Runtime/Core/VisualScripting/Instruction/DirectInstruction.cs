@@ -89,7 +89,7 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("Uuid2")]
         [ValueDropdown("OnUuid2Dropdown")]
         public string Uuid2;
-        
+
         [TableTitleGroup("参数")]
         [LabelText("$Uuid3Label")]
         [ShowIf("$IsUuid3Show")]
@@ -278,6 +278,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectSetColliderTriggerActive => true,
                     DirectInstructionTypeEnum.DynamicObjectRotationSetVariable=>true,
                     DirectInstructionTypeEnum.CyclePlaySound=>true,
+                    DirectInstructionTypeEnum.ShowCase => true,
                     _ => false,
                 };
             }
@@ -311,7 +312,7 @@ namespace Pangoo.Core.VisualScripting
                 };
             }
         }
-        
+
         [JsonNoMember]
         bool IsUuid3Show
         {
@@ -319,7 +320,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.CyclePlaySound=>true,
+                    DirectInstructionTypeEnum.CyclePlaySound => true,
                     _ => false,
                 };
             }
@@ -370,7 +371,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.StartDialogue => true,
                     DirectInstructionTypeEnum.ShowSceneModel => true,
                     DirectInstructionTypeEnum.DynamicObjectSetColliderTriggerActive => true,
-                    DirectInstructionTypeEnum.CyclePlaySound=>true,
+                    DirectInstructionTypeEnum.CyclePlaySound => true,
                     _ => false,
                 };
             }
@@ -680,7 +681,7 @@ namespace Pangoo.Core.VisualScripting
                 };
             }
         }
-        
+
         [JsonNoMember]
         string Uuid1Label
         {
@@ -735,7 +736,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SetGlobalGameObjectActive => "状态",
                     DirectInstructionTypeEnum.TweenLightIntensity => "是否等待完成",
                     DirectInstructionTypeEnum.StartDialogue => "等待完成",
-                    DirectInstructionTypeEnum.CyclePlaySound=>"在开始时播放一次",
+                    DirectInstructionTypeEnum.CyclePlaySound => "在开始时播放一次",
                     _ => "设置值",
                 };
             }
@@ -1006,6 +1007,8 @@ namespace Pangoo.Core.VisualScripting
                     return DialogueOverview.GetUuidDropdown();
                 case DirectInstructionTypeEnum.ShowSceneModel:
                     return StaticSceneOverview.GetUuidDropdown();
+                case DirectInstructionTypeEnum.ShowCase:
+                    return CasesOverview.GetUuidDropdown();
             }
 
             return null;
@@ -1048,7 +1051,7 @@ namespace Pangoo.Core.VisualScripting
 
             return null;
         }
-        
+
         public IEnumerable OnUuid3Dropdown()
         {
             switch (InstructionType)

@@ -21,41 +21,27 @@ namespace Pangoo.Core.VisualScripting
         public override IParams Params => this.ParamsRaw;
 
 
-
-        CaseContent BuildCaseData(Args args)
+        CaseContent BuildCaseContent(Args args)
         {
             var ret = new CaseContent();
             ret.args = args.Clone;
-            ret.CaseRow = args.Main.MetaTable.GetCaseByUuid(ParamsRaw.CaseUuid);
+            ret.CaseUuid = ParamsRaw.CaseUuid;
             return ret;
         }
 
 
+
+
         protected override IEnumerator Run(Args args)
         {
-            // if (args.dynamicObject == null)
-            // {
-            //     Debug.LogError($"Preview DynamicObject Is Failed! DynamicObject is null");
-            //     yield break;
-            // }
 
-            // IsUICloed = false;
-            // args?.Main?.UI?.ShowPreview(BuildPreviewData(args), () =>
-            // {
-            //     Debug.Log($"UI Closed");
-            //     IsUICloed = true;
-            // });
-            // while (!IsUICloed)
-            // {
-            //     yield return null;
-            // }
             yield break;
         }
 
         public override void RunImmediate(Args args)
         {
 
-            args?.Main?.UI?.ShowCase(BuildCaseData(args));
+            args?.Main?.Case?.ShowCase(ParamsRaw.CaseUuid);
         }
     }
 }

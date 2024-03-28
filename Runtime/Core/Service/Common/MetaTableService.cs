@@ -180,6 +180,19 @@ namespace Pangoo.Core.Services
             }
         }
 
+        MetaTable.ClueTable m_ClueTable;
+
+        public MetaTable.ClueTable ClueTab
+        {
+            get
+            {
+                if (m_ClueTable == null)
+                {
+                    m_ClueTable = GetMetaTable<MetaTable.ClueTable>();
+                }
+                return m_ClueTable;
+            }
+        }
 
 
         public IGameSectionRow GetGameSectionByUuid(string uuid)
@@ -241,6 +254,11 @@ namespace Pangoo.Core.Services
         public ICasesRow GetCaseByUuid(string uuid)
         {
             return CasesTab.GetRowByUuid(uuid);
+        }
+
+        public IClueRow GetClueRowByUuid(string uuid)
+        {
+            return ClueTab.GetRowByUuid(uuid);
         }
 
     }

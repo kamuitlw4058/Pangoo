@@ -156,5 +156,8 @@ namespace Pangoo.Core.VisualScripting
         DynamicObjectRotationSetVariable,
         [LabelText("周期性播放声音")]
         CyclePlaySound,
+
+        [LabelText("UI/显示案件")]
+        ShowCase,
     }
 }

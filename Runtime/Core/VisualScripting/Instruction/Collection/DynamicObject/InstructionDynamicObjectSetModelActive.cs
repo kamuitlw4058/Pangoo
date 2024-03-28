@@ -33,14 +33,18 @@ namespace Pangoo.Core.VisualScripting
             var dynamicObject = args.dynamicObject;
             if (ParamsRaw.DynamicObjectUuid.IsNullOrWhiteSpace() || ParamsRaw.DynamicObjectUuid.Equals("Self"))
             {
-                dynamicObject.SetModelActive(ParamsRaw.Val);
+                dynamicObject.ModelActive = ParamsRaw.Val;
                 Debug.Log($"DynamicObject Set Self ModelActive:{ParamsRaw.Val} ");
             }
             else
             {
                 var DynamicObjectService = dynamicObject.DynamicObjectService;
                 var targetEntity = DynamicObjectService.GetLoadedEntity(ParamsRaw.DynamicObjectUuid);
-                targetEntity?.DynamicObj?.SetModelActive(ParamsRaw.Val);
+                var targetDynamicObject = targetEntity?.DynamicObj;
+                if (targetDynamicObject != null)
+                {
+                    targetDynamicObject.ModelActive = ParamsRaw.Val;
+                }
                 Debug.Log($"DynamicObjectId:{ParamsRaw.DynamicObjectUuid}  SetModelActive:{ParamsRaw.Val} ");
             }
 

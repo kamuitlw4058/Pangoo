@@ -618,7 +618,7 @@ MonoBehaviour:
       CnName: "\u5B57\u5E55\u5217\u8868"
   - Config: {fileID: 11400000}
     MetaTableType: 0
-    TableName: Clues
+    TableName: Clue
     RefConfig: {fileID: 0}
     RefTableName: 
     Columns:
@@ -631,6 +631,9 @@ MonoBehaviour:
     - Name: Desc
       Type: string
       CnName: "\u63CF\u8FF0"
+    - Name: ClueKey
+      Type: string
+      CnName: "\u7EBF\u7D22\u7D22\u5F15Key"
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Cases
