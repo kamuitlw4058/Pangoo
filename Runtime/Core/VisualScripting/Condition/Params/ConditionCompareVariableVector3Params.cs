@@ -62,6 +62,7 @@ namespace Pangoo.Core.VisualScripting
     {
         Variable,
         Path,
+        DynamicObject,
     }
 
     public enum DynamicObjectValueTypeEnum

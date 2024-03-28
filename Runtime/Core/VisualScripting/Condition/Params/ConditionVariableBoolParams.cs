@@ -17,12 +17,18 @@ namespace Pangoo.Core.VisualScripting
         [OnValueChanged("OnVariableTypeChanged")]
         public VariableTypeEnum VariableType;
 
+        [JsonMember("ValueSourceType")]
+        public ValueSourceTypeEnum ValueSourceType = ValueSourceTypeEnum.Variable;
+        
+        [JsonMember("DynamicObjectUuid")]
+        [ValueDropdown("OnDynamicObjectUuidValueDropdown")]
+        [ShowIf("ValueSourceType",ValueSourceTypeEnum.DynamicObject)]
+        public string DynamicObjectUuid;
+        
         [JsonMember("VariableUuid")]
         [ValueDropdown("OnVariableUuidValueDropdown")]
         [LabelText("变量Uuid")]
-
         public string VariableUuid;
-
 
         [JsonMember("CheckBool")]
         [LabelText("检测目标")]
@@ -33,21 +39,17 @@ namespace Pangoo.Core.VisualScripting
         {
             VariableUuid = string.Empty;
         }
-
         IEnumerable OnVariableUuidValueDropdown()
         {
             return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString(), VariableType.ToString());
         }
-#endif
 
-
-        public override void Load(string val)
+        IEnumerable OnDynamicObjectUuidValueDropdown()
         {
-            var par = JsonMapper.ToObject<ConditionVariableBoolParams>(val);
-            VariableUuid = par.VariableUuid;
-            CheckBool = par.CheckBool;
-            VariableType = par.VariableType;
+            return DynamicObjectOverview.GetUuidDropdown();
         }
+#endif
+        
 
     }
 }
