@@ -14,40 +14,31 @@ namespace Pangoo.Core.VisualScripting
     public class ConditionVariableBoolParams : ConditionParams
     {
         [JsonMember("VariableType")]
-        [OnValueChanged("OnVariableTypeChanged")]
+        [OnValueChanged("@VariableUuid = string.Empty")]
         public VariableTypeEnum VariableType;
 
+        [JsonMember("ValueSourceType")]
+        public ValueSourceTypeEnum ValueSourceType = ValueSourceTypeEnum.Variable;
+        
+        [JsonMember("DynamicObjectUuid")]
+        [ValueDropdown("@DynamicObjectOverview.GetUuidDropdown()")]
+        [ShowIf("ValueSourceType",ValueSourceTypeEnum.DynamicObject)]
+        public string DynamicObjectUuid;
+        
         [JsonMember("VariableUuid")]
-        [ValueDropdown("OnVariableUuidValueDropdown")]
+        [ValueDropdown("@VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString(),"+"this.VariableType.ToString(),false)")]
         [LabelText("变量Uuid")]
-
         public string VariableUuid;
-
 
         [JsonMember("CheckBool")]
         [LabelText("检测目标")]
         public bool CheckBool;
 
-#if UNITY_EDITOR
-        void OnVariableTypeChanged()
-        {
-            VariableUuid = string.Empty;
-        }
-
-        IEnumerable OnVariableUuidValueDropdown()
-        {
-            return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString(), VariableType.ToString());
-        }
-#endif
-
-
-        public override void Load(string val)
-        {
-            var par = JsonMapper.ToObject<ConditionVariableBoolParams>(val);
-            VariableUuid = par.VariableUuid;
-            CheckBool = par.CheckBool;
-            VariableType = par.VariableType;
-        }
-
+    }
+    public enum ValueSourceTypeEnum
+    {
+        Variable,
+        Path,
+        DynamicObject,
     }
 }
