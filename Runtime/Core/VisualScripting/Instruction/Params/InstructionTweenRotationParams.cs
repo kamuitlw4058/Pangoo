@@ -17,6 +17,9 @@ namespace Pangoo.Core.VisualScripting
         public Vector3 Rotation;
         [JsonMember("Duration")]
         public float Duration;
+        
+        [JsonMember("WaitToComplete")]
+        public bool WaitToComplete;
     }
 }
 

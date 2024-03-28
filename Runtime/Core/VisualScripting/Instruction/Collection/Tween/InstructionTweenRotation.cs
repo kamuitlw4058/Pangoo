@@ -20,6 +20,14 @@ namespace Pangoo.Core.VisualScripting
 
         public override IParams Params => ParamsRaw;
 
+        // [ShowInInspector] public override InstructionType InstructionType
+        // {
+        //     get
+        //     {
+        //         return ParamsRaw.WaitToComplete ? InstructionType.Coroutine : InstructionType.Immediate;
+        //     }
+        // }
+
         [ShowInInspector] public override InstructionType InstructionType => InstructionType.Coroutine;
         private float time = 0;
 

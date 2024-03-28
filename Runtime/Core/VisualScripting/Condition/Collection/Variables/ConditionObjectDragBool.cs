@@ -31,6 +31,12 @@ namespace Pangoo.Core.VisualScripting
             {
                 return 2;
             }
+
+            if (!canInvokeVariable)
+            {
+                return 3;
+            }
+            
             return 0;
         }
     }

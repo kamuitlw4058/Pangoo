@@ -22,7 +22,7 @@ namespace Pangoo.Core.VisualScripting
         public Vector3 Value;
 
         [JsonMember("CountVariableUuid")]
-        [ValueDropdown("@VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Int.ToString())")]
+        [ValueDropdown("@VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Int.ToString(),null,false)")]
         public string CountVariableUuid;
         [LabelText("目标次数")]
         [JsonMember("TargetCount")]
@@ -30,8 +30,13 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("执行标记变量")]
         [JsonMember("InvokeFlagVariableUuid")]
-        [ValueDropdown("@VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString())")]
+        [ValueDropdown("@VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString(),null,false)")]
         public string InvokeFlagVariableUuid;
+
+        public void a()
+        {
+            VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString(),null,false);
+        }
     }
 }
 
