@@ -33,7 +33,13 @@ namespace Pangoo.Core.VisualScripting
 
             if (ParamsRaw.ValueSourceType==ValueSourceTypeEnum.Path)
             {
-                var trans = args.dynamicObject.CachedTransfrom.Find(ParamsRaw.Path);
+                var trans = args.dynamicObject?.CachedTransfrom.Find(ParamsRaw.Path);
+                if (trans.Equals(null))
+                {
+                    Debug.LogError("没有找到目标节点");
+                    return 0;
+                }
+                
                 if (ParamsRaw.DynamicObjectValueType==DynamicObjectValueTypeEnum.Rotation)
                 {
                     variable = trans.rotation.eulerAngles;

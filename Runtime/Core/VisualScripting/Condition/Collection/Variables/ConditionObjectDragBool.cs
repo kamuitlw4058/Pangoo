@@ -6,11 +6,11 @@ using UnityEngine;
 
 namespace Pangoo.Core.VisualScripting
 {
-    [Category("Variable/电闸拖拽状态条件")]
+    [Category("Variable/对象拖拽状态条件")]
     [Serializable]
-    public class ConditionDianZhaDragBool : Condition
+    public class ConditionObjectDragBool : Condition
     {
-        public ConditionDianZhaDragBoolParams ParamsRaw = new ConditionDianZhaDragBoolParams();
+        public ConditionObjectDragBoolParams ParamsRaw = new ConditionObjectDragBoolParams();
         public override IParams Params => ParamsRaw;
         public override ConditionTypeEnum ConditionType => ConditionTypeEnum.StateCondition;
         protected override int Run(Args args)

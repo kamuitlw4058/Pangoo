@@ -17,7 +17,7 @@ namespace Pangoo.Core.VisualScripting
         public ValueSourceTypeEnum ValueSourceType;
         
         [JsonMember("VariableUuid")]
-        [ValueDropdown("OnVariableUuidValueDropdown")]
+        [ValueDropdown("@VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Vector3.ToString(), VariableType.ToString(),false)")]
         [LabelText("变量Uuid")]
         [ShowIf("ValueSourceType",ValueSourceTypeEnum.Variable)]
         public string VariableUuid;
@@ -27,36 +27,18 @@ namespace Pangoo.Core.VisualScripting
         public Vector3 Value;
 
         [JsonMember("DynamicObjectUuid")]
-        [ValueDropdown("OnDynamicObjectUuidValueDropdown")]
+        [ValueDropdown("@DynamicObjectOverview.GetUuidDropdown()")]
         [ShowIf("ValueSourceType",ValueSourceTypeEnum.Path)]
         public string DynamicObjectUuid;
         
         [ShowIf("ValueSourceType",ValueSourceTypeEnum.Path)]
         [JsonMember("Path")]
-        [ValueDropdown("OnPathValueDropDown")]
+        [ValueDropdown("@GameSupportEditorUtility.RefPrefabStringDropdown(GameSupportEditorUtility.GetPrefabByDynamicObjectUuid(DynamicObjectUuid))")]
         public string Path;
         
         [ShowIf("ValueSourceType",ValueSourceTypeEnum.Path)]
         [JsonMember("DynamicObjectValueType")]
         public DynamicObjectValueTypeEnum DynamicObjectValueType;
-        
-#if UNITY_EDITOR
-        IEnumerable OnVariableUuidValueDropdown()
-        {
-            return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Vector3.ToString(), VariableType.ToString());
-        }
-
-        IEnumerable OnDynamicObjectUuidValueDropdown()
-        {
-            return DynamicObjectOverview.GetUuidDropdown();
-        }
-
-        IEnumerable OnPathValueDropDown()
-        {
-            GameObject prefab = GameSupportEditorUtility.GetPrefabByDynamicObjectUuid(DynamicObjectUuid);
-            return GameSupportEditorUtility.RefPrefabStringDropdown(prefab);
-        }
-#endif
     }
     public enum ValueSourceTypeEnum
     {
