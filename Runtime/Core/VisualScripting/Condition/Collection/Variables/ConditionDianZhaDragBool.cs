@@ -15,8 +15,14 @@ namespace Pangoo.Core.VisualScripting
         public override ConditionTypeEnum ConditionType => ConditionTypeEnum.StateCondition;
         protected override int Run(Args args)
         {
-            var trans = args.dynamicObject.CachedTransfrom.Find(ParamsRaw.Path);
+            var trans = args.dynamicObject?.CachedTransfrom.Find(ParamsRaw.Path);
             var canInvokeVariable=args.dynamicObject.GetVariable<bool>(ParamsRaw.InvokeFlagVariableUuid);
+
+            if (trans.Equals(null))
+            {
+                Debug.LogError("没有找到目标节点");
+                return -1;
+            }
             if (trans.rotation.eulerAngles==ParamsRaw.Value && canInvokeVariable)
             {
                 return 1;
