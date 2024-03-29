@@ -22,7 +22,7 @@ namespace Pangoo
             foreach (var uuid in DynamicObject.m_LoadingAssetUuids)
             {
                 var dynamicObjectRow = main.MetaTable.GetDynamicObjectRow(uuid);
-                DrawItem(uuid, dynamicObjectRow.Name);
+                DrawItem(uuid, $"{dynamicObjectRow.Name}[{dynamicObjectRow.AssetPathUuid}]");
             }
 
 
