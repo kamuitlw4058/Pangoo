@@ -18,6 +18,13 @@ namespace Pangoo
                 return;
             }
             var DynamicObject = main.DynamicObject;
+            GUILayout.Label("<b>加载中的动态物体</b>");
+            foreach (var uuid in DynamicObject.m_LoadingAssetUuids)
+            {
+                var dynamicObjectRow = main.MetaTable.GetDynamicObjectRow(uuid);
+                DrawItem(uuid, dynamicObjectRow.Name);
+            }
+
 
             GUILayout.Label("<b>加载动态物体变量</b>");
             var KeyValues = DynamicObject.m_LoadedAssetDict;

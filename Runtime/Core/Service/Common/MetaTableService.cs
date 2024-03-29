@@ -34,6 +34,21 @@ namespace Pangoo.Core.Services
             }
         }
 
+
+        MetaTable.DynamicObjectTable m_DynamicObjectTable;
+
+        public MetaTable.DynamicObjectTable DynamicObjectTab
+        {
+            get
+            {
+                if (m_DynamicObjectTable == null)
+                {
+                    m_DynamicObjectTable = GetMetaTable<MetaTable.DynamicObjectTable>();
+                }
+                return m_DynamicObjectTable;
+            }
+        }
+
         MetaTable.InstructionTable m_InstructionTable;
 
         public MetaTable.InstructionTable InstructionTab
@@ -259,6 +274,11 @@ namespace Pangoo.Core.Services
         public IClueRow GetClueRowByUuid(string uuid)
         {
             return ClueTab.GetRowByUuid(uuid);
+        }
+
+        public IDynamicObjectRow GetDynamicObjectRow(string uuid)
+        {
+            return DynamicObjectTab.GetRowByUuid(uuid);
         }
 
     }

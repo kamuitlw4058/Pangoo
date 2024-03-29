@@ -14,8 +14,8 @@ namespace Pangoo.Core.Services
 {
     public partial class DynamicObjectService
     {
-
-        List<string> m_LoadingAssetUuids;
+        [ShowInInspector]
+        public List<string> m_LoadingAssetUuids;
 
 
         [ShowInInspector]
