@@ -13,25 +13,13 @@ namespace Pangoo.Core.VisualScripting
     public abstract class InstructionSetDynamicObjectVariableParams : InstructionParams
     {
         [JsonMember("DynamicObjectUuid")]
-        [ValueDropdown("OnDynamicObjectUuidDropdown")]
+        [ValueDropdown("@DynamicObjectOverview.GetUuidDropdown()")]
         public string DynamicObjectUuid;
 
         [JsonMember("LocalVariableUuid")]
-        [ValueDropdown("OnVariableUuidDropdown")]
+        [ValueDropdown("@VariablesOverview.GetVariableUuidDropdown(ValueTypeEnum.ToString(),VariableTypeEnum.DynamicObject.ToString())")]
         public string LocalVariableUuid;
 
         public abstract VariableValueTypeEnum ValueTypeEnum { get;}
-
-#if UNITY_EDITOR
-        IEnumerable OnDynamicObjectUuidDropdown()
-        {
-            return DynamicObjectOverview.GetUuidDropdown();
-        }
-
-        public IEnumerable OnVariableUuidDropdown()
-        {
-            return VariablesOverview.GetVariableUuidDropdown(ValueTypeEnum.ToString(),VariableTypeEnum.DynamicObject.ToString());
-        }
-#endif
     }
 }

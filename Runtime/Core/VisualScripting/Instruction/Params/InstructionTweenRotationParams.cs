@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using LitJson;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -13,10 +14,15 @@ namespace Pangoo.Core.VisualScripting
         [LabelText("路径列表")]
         [JsonMember("Path")]
         public string Path;
-        [JsonMember("Rotation")]
-        public Vector3 Rotation;
+        [JsonMember("InitRotation")]
+        public Vector3 InitRotation;
+        [JsonMember("TargetRotation")]
+        public Vector3 TargetRotation;
         [JsonMember("Duration")]
         public float Duration;
+        
+        [JsonMember("WaitToComplete")]
+        public bool WaitToComplete;
     }
 }
 

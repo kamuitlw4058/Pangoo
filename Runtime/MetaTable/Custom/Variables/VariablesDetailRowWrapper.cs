@@ -90,7 +90,7 @@ namespace Pangoo.MetaTable
                 {
                     UpdateInstance();
                 }
-
+                
                 return UnityRow.Row?.ValueType.ToEnum<VariableValueTypeEnum>() ?? VariableValueTypeEnum.String;
             }
             set
@@ -129,6 +129,7 @@ namespace Pangoo.MetaTable
                 "float" => typeof(VariableFloat).FullName,
                 "bool" => typeof(VariableBool).FullName,
                 "int" => typeof(VariableInt).FullName,
+                "vector3"=>typeof(VariableVector3).FullName,
                 _ => string.Empty,
             };
         }

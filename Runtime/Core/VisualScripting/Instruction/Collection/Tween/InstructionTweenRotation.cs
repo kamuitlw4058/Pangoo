@@ -20,7 +20,15 @@ namespace Pangoo.Core.VisualScripting
 
         public override IParams Params => ParamsRaw;
 
-        [ShowInInspector] public override InstructionType InstructionType => InstructionType.Coroutine;
+        // [ShowInInspector]
+        // public override InstructionType InstructionType
+        // {
+        //     get
+        //     {
+        //         return ParamsRaw.WaitToComplete ? InstructionType.Coroutine : InstructionType.Immediate;
+        //     }
+        // }
+        public override InstructionType InstructionType => InstructionType.Coroutine;
         private float time = 0;
 
         protected override IEnumerator Run(Args args)
@@ -34,16 +42,21 @@ namespace Pangoo.Core.VisualScripting
             while (time<ParamsRaw.Duration)
             {
                 time += Time.deltaTime;
-                trans.rotation=Quaternion.Slerp(trans.rotation,Quaternion.Euler(ParamsRaw.Rotation),time/ParamsRaw.Duration);
-                //yield return WaitTime(Time.deltaTime,new TimeMode());
+                trans.rotation=Quaternion.Slerp(Quaternion.Euler(ParamsRaw.InitRotation),Quaternion.Euler(ParamsRaw.TargetRotation),time/ParamsRaw.Duration);
+                
                 yield return null;
+            }
+
+            if (time > ParamsRaw.Duration)
+            {
+                time = 0;
             }
         }
         
         public override void RunImmediate(Args args)
         {
             var trans = args.dynamicObject.CachedTransfrom.Find(ParamsRaw.Path);
-            trans.DOLocalRotate(ParamsRaw.Rotation,ParamsRaw.Duration);
+            trans.DOLocalRotate(ParamsRaw.TargetRotation,ParamsRaw.Duration);
         }
     }
 }

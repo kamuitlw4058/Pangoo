@@ -13,12 +13,6 @@ namespace Pangoo.Core.VisualScripting
     {
         [JsonMember("StringMapper")]
         public Dictionary<string, int> StringMapper = new Dictionary<string, int>();
-
-        public override void Load(string val)
-        {
-            var par = JsonMapper.ToObject<ConditionStringMapperParams>(val);
-            StringMapper = par.StringMapper;
-        }
-
+        
     }
 }

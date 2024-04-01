@@ -348,6 +348,15 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
+        public static Instruction GetSetLocalVector3Variable(string dynamicObjectUuid, string localVariableUuid, Vector3 value)
+        {
+            var instruction = Activator.CreateInstance<InstructionSetLocalVector3Variable>();
+            instruction.ParamsRaw.DynamicObjectUuid = dynamicObjectUuid;
+            instruction.ParamsRaw.LocalVariableUuid = localVariableUuid;
+            instruction.ParamsRaw.Value = value;
+            return instruction;
+        }
+
         public static Instruction GetDynamicObjectInvokeLeftMouseDrag()
         {
             var instruction = Activator.CreateInstance<InstructionDynamicObjectInvokeMouseDrag>();
@@ -395,11 +404,12 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.TimeFactor = timeFactor;
             return instruction;
         }
-        public static Instruction GetTweenRotation(string path, Vector3 rotation, float duration)
+        public static Instruction GetTweenRotation(string path,Vector3 initRotation,Vector3 targetRotation, float duration)
         {
             var instruction = Activator.CreateInstance<InstructionTweenRotation>();
             instruction.ParamsRaw.Path = path;
-            instruction.ParamsRaw.Rotation = rotation;
+            instruction.ParamsRaw.InitRotation = initRotation;
+            instruction.ParamsRaw.TargetRotation = targetRotation;
             instruction.ParamsRaw.Duration = duration;
             return instruction;
         }
@@ -419,8 +429,26 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.Val = val;
             return instruction;
         }
-
-        public static Instruction GetCyclePlaySound(string soundUuid, string timeUuid, float cycleTime, bool onStartPlay, string flagUuid)
+        
+        public static Instruction GetDoRotationToTargetAngle(string path,Vector3 initRotation,Vector3 targetRotation,float rotationSpeed,bool useDamping)
+        {
+            var instruction = Activator.CreateInstance<InstructionDynamicObjectDoRotationToTargetAngle>();
+            instruction.ParamsRaw.Path = path;
+            instruction.ParamsRaw.InitRotation = initRotation;
+            instruction.ParamsRaw.TargetRotation = targetRotation;
+            instruction.ParamsRaw.RotationSpeed = rotationSpeed;
+            instruction.ParamsRaw.UseDamping = useDamping;
+            return instruction;
+        }
+        
+        public static Instruction GetDynamicObjectRotationSetVariable(string path,string variableUuid)
+        {
+            var instruction = Activator.CreateInstance<InstructionGetDynamicObjectRotationSetVariable>();
+            instruction.ParamsRaw.Path = path;
+            instruction.ParamsRaw.VariableUuid = variableUuid;
+            return instruction;
+        }
+        public static Instruction GetCyclePlaySound(string soundUuid,string timeUuid,float cycleTime,bool onStartPlay,string flagUuid)
         {
             var instruction = Activator.CreateInstance<InstructionCyclePlaySound>();
             instruction.ParamsRaw.SoundUuid = soundUuid;
@@ -536,11 +564,17 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.ManualTimeline:
                     return GetManualTimeline(DropdownString1, Float1);
                 case DirectInstructionTypeEnum.TweenRotation:
-                    return GetTweenRotation(DropdownString1, Vector3_1, Float1);
+                    return GetTweenRotation(DropdownString1, Vector3_1,Vector3_2, Float1);
                 case DirectInstructionTypeEnum.SetIntDelta:
                     return GetIntDelta(Uuid, Int1);
                 case DirectInstructionTypeEnum.DynamicObjectSetColliderTriggerActive:
                     return GetColliderTriggerActive(Uuid, Bool1);
+                case DirectInstructionTypeEnum.DynamicObjectDoRotationToTargetAngle:
+                    return GetDoRotationToTargetAngle(DropdownString1, Vector3_1,Vector3_2,Float1,Bool1);
+                case DirectInstructionTypeEnum.SetLocalVector3Variable:
+                    return GetSetLocalVector3Variable(Uuid,Uuid2,Vector3_1);
+                case DirectInstructionTypeEnum.DynamicObjectRotationSetVariable:
+                    return GetDynamicObjectRotationSetVariable(DropdownString1,Uuid);
                 case DirectInstructionTypeEnum.CyclePlaySound:
                     return GetCyclePlaySound(Uuid, Uuid2, Float1, Bool1, Uuid3);
                 case DirectInstructionTypeEnum.ShowCase:
