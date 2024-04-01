@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using Pangoo.Core.VisualScripting;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -34,6 +36,13 @@ namespace Pangoo.Core.VisualScripting
             {
                 return transform.IsChildOf(ClueListRect);
             }
+            set
+            {
+                if (value)
+                {
+                    transform.SetParent(ClueListRect);
+                }
+            }
         }
 
         public bool IsInTargetList
@@ -42,9 +51,37 @@ namespace Pangoo.Core.VisualScripting
             {
                 return transform.IsChildOf(TargetRect);
             }
+            set
+            {
+                if (value)
+                {
+                    transform.SetParent(TargetRect);
+                }
+            }
         }
 
+        [ShowInInspector]
+        public bool IsDraging { get; set; }
+
         public TextMeshProUGUI Text;
+
+
+
+        Image m_BackImage;
+
+        public Image BackImage
+        {
+            get
+            {
+                if (m_BackImage == null)
+                {
+                    m_BackImage = GetComponent<Image>();
+                }
+                return m_BackImage;
+            }
+        }
+
+
 
 
 
@@ -54,9 +91,9 @@ namespace Pangoo.Core.VisualScripting
         }
 
 
-
         public void OnBeginDrag(PointerEventData eventData)
         {
+            IsDraging = true;
             Debug.Log("开始拖拽");
             //控件所在画布空间的初始位置
             transform.SetParent(CanvasRect);
@@ -84,12 +121,14 @@ namespace Pangoo.Core.VisualScripting
                 if (RectTransformUtility.RectangleContainsScreenPoint(TargetRect, Input.mousePosition))
                 {
                     transform.SetParent(TargetRect);
+                    IsDraging = false;
                     return;
                 }
             }
 
             transform.SetParent(ClueListRect);
             Debug.Log("结束拖拽");
+            IsDraging = false;
         }
 
         public void OnPointerEnter(PointerEventData eventData)

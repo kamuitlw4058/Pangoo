@@ -646,6 +646,9 @@ MonoBehaviour:
     - Name: CaseTitle
       Type: string
       CnName: "\u6848\u4EF6\u540D"
+    - Name: CaseVariables
+      Type: string
+      CnName: "\u6848\u4EF6\u53D8\u91CF\u5217\u8868"
     - Name: CaseStates
       Type: string
       CnName: "\u6848\u4EF6\u72B6\u6001\u5217\u8868"
@@ -655,3 +658,6 @@ MonoBehaviour:
     - Name: CluesIntegrate
       Type: string
       CnName: "\u7EBF\u7D22\u6574\u5408\u5217\u8868"
+    - Name: StateModelOnOff
+      Type: string
+      CnName: "\u72B6\u6001\u6A21\u578B\u5F00\u5173"

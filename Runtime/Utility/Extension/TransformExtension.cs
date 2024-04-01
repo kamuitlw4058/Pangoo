@@ -11,12 +11,12 @@ namespace Pangoo
 
             Vector3 targetForward = target.TransformDirection(Vector3.forward);
 
-            // // 将目标向量转换到世界空间
-            Vector3 rotationForward = t.InverseTransformDirection(targetForward);
-            // // 使用LookRotation计算旋转
-            Quaternion rotationQuaternion = Quaternion.LookRotation(rotationForward);
+            Vector3 targetUp = target.TransformDirection(Vector3.up);
 
-            t.rotation = rotationQuaternion * t.rotation;
+            // // 使用LookRotation计算旋转
+            Quaternion rotationQuaternion = Quaternion.LookRotation(targetForward, targetUp);
+
+            t.rotation = rotationQuaternion;
         }
 
 

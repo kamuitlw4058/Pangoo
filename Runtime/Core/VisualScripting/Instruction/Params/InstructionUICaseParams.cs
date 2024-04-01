@@ -18,6 +18,8 @@ namespace Pangoo.Core.VisualScripting
         public string CaseUuid;
 
 
+        [JsonMember("WaitClosed")]
+        public bool WaitClosed;
 
     }
 }

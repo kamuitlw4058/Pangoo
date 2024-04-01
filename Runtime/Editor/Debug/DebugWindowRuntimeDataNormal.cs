@@ -30,15 +30,16 @@ namespace Pangoo
             GUILayout.EndVertical();
         }
 
-        public static void DrawVariable(string title, object value, RuntimeDataService runtimeDataService, float titleWidth = TitleWidth)
+        public static void DrawVariable(string uuid, object value, RuntimeDataService runtimeDataService, float titleWidth = TitleWidth)
         {
             GUILayout.BeginHorizontal();
             {
-                GUILayout.Label(title, GUILayout.Width(titleWidth));
+                var row = runtimeDataService.GetVariablesRow(uuid);
+                GUILayout.Label(row.Name, GUILayout.Width(titleWidth));
                 if (value.GetType() == typeof(bool))
                 {
                     var toggleValue = GUILayout.Toggle((bool)value, "开关");
-                    runtimeDataService.Set<bool>(title, toggleValue);
+                    runtimeDataService.Set<bool>(uuid, toggleValue);
                 }
 
                 if (value.GetType() == typeof(int))
@@ -46,12 +47,12 @@ namespace Pangoo
                     var intStrValue = GUILayout.TextField(value.ToString());
                     if (int.TryParse(intStrValue, out int intValue))
                     {
-                        runtimeDataService.Set<int>(title, intValue);
+                        runtimeDataService.Set<int>(uuid, intValue);
 
                     }
                     else
                     {
-                        runtimeDataService.Set<int>(title, 0);
+                        runtimeDataService.Set<int>(uuid, 0);
                     }
 
                 }
@@ -62,12 +63,12 @@ namespace Pangoo
                     var floatStrValue = GUILayout.TextField(value.ToString());
                     if (float.TryParse(floatStrValue, out float floatValue))
                     {
-                        runtimeDataService.Set<float>(title, floatValue);
+                        runtimeDataService.Set<float>(uuid, floatValue);
 
                     }
                     else
                     {
-                        runtimeDataService.Set<float>(title, 0);
+                        runtimeDataService.Set<float>(uuid, 0);
                     }
 
                 }

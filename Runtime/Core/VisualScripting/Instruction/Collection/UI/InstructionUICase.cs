@@ -20,6 +20,13 @@ namespace Pangoo.Core.VisualScripting
         public InstructionUICaseParams ParamsRaw = new InstructionUICaseParams();
         public override IParams Params => this.ParamsRaw;
 
+        public override InstructionType InstructionType
+        {
+            get
+            {
+                return ParamsRaw.WaitClosed ? InstructionType.Coroutine : InstructionType.Immediate;
+            }
+        }
 
         CaseContent BuildCaseContent(Args args)
         {
@@ -30,17 +37,24 @@ namespace Pangoo.Core.VisualScripting
         }
 
 
-
+        public bool IsUICloed = false;
 
         protected override IEnumerator Run(Args args)
         {
-
-            yield break;
+            IsUICloed = false;
+            args?.Main?.Case?.ShowCase(ParamsRaw.CaseUuid, (o) =>
+            {
+                Debug.Log($"UI Closed");
+                IsUICloed = true;
+            });
+            while (!IsUICloed)
+            {
+                yield return null;
+            }
         }
 
         public override void RunImmediate(Args args)
         {
-
             args?.Main?.Case?.ShowCase(ParamsRaw.CaseUuid);
         }
     }

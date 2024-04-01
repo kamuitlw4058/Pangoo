@@ -100,7 +100,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 if (Row != null)
                 {
-                    return GameFramework.Utility.Text.Format("DO_{0}", Row.Uuid.ToString());
+                    return Row.Uuid;
                 }
                 return null;
             }
@@ -219,6 +219,7 @@ namespace Pangoo.Core.VisualScripting
             DoAwakeSubDynamicObject();
             DoAwakeSubObjectTrigger();
             DoAwakeMouseInteract();
+            DoAwakeMaterial();
 
             if (Variables != null)
             {
@@ -353,6 +354,8 @@ namespace Pangoo.Core.VisualScripting
             }
 
         }
+
+
 
         protected override void DoStart()
         {

@@ -75,29 +75,6 @@ namespace Pangoo.MetaTable
             m_Prefab = GameSupportEditorUtility.GetPrefabByDynamicObjectUuid(UnityRow.Row.DynamicObjectUuid);
         }
 
-
-        [LabelText("线索Key")]
-        [ShowInInspector]
-        [InfoBox("线索Key能不能为空", InfoMessageType.Error, "IsClueKeyEmpty")]
-        public string ClueKey
-        {
-            get
-            {
-                return UnityRow.Row.ClueKey;
-            }
-            set
-            {
-                UnityRow.Row.ClueKey = value;
-            }
-        }
-
-        public bool IsClueKeyEmpty
-        {
-            get
-            {
-                return this.ClueKey.IsNullOrWhiteSpace();
-            }
-        }
     }
 }
 #endif

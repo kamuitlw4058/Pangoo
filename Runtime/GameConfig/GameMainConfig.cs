@@ -129,6 +129,16 @@ namespace Pangoo
         public string[] DebuggerInstructions;
 
 
+        [LabelText("案件线索拥有变量 Uuid")]
+        [ValueDropdown("GetBoolVariableUuid")]
+        [FoldoutGroup("案件")]
+        public string CaseClueHasVariable = string.Empty;
+
+        [LabelText("案件线索移除变量 Uuid")]
+        [ValueDropdown("GetBoolVariableUuid")]
+        [FoldoutGroup("案件")]
+        public string CaseClueIsRemovedVariable = string.Empty;
+
 
 #if ENABLE_FGUI
         [ShowInInspector]

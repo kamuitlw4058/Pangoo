@@ -14,6 +14,7 @@ namespace Pangoo.Core.Services
     public class RuntimeDataService : KeyValueService
     {
         public override int Priority => -1;
+        [Searchable]
         public Dictionary<string, object> KeyValues
         {
             get
@@ -53,16 +54,16 @@ namespace Pangoo.Core.Services
                 switch (row.ValueType.ToEnum<VariableValueTypeEnum>())
                 {
                     case VariableValueTypeEnum.String:
-                        Set<string>(row.Key, row.DefaultValue);
+                        Set<string>(row.Uuid, row.DefaultValue);
                         break;
                     case VariableValueTypeEnum.Float:
-                        Set<float>(row.Key, row.DefaultValue.ToFloatForce());
+                        Set<float>(row.Uuid, row.DefaultValue.ToFloatForce());
                         break;
                     case VariableValueTypeEnum.Bool:
-                        Set<bool>(row.Key, row.DefaultValue.ToBoolForce());
+                        Set<bool>(row.Uuid, row.DefaultValue.ToBoolForce());
                         break;
                     case VariableValueTypeEnum.Int:
-                        Set<int>(row.Key, row.DefaultValue.ToIntForce());
+                        Set<int>(row.Uuid, row.DefaultValue.ToIntForce());
                         break;
                 }
             }
@@ -79,33 +80,43 @@ namespace Pangoo.Core.Services
         }
 
 
-        public DynamicObjectValue GetOrCreateDynamicObjectValue(string key, DynamicObject dynamicObject)
+        public DynamicObjectValue GetOrCreateDynamicObjectValue(string dynamicObjectUuid, DynamicObject dynamicObject)
         {
             DynamicObjectValue val = null;
-            if (m_DynamicObjectValueDict.ContainsKey(key))
+            if (m_DynamicObjectValueDict.ContainsKey(dynamicObjectUuid))
             {
-                return m_DynamicObjectValueDict[key];
+                val = m_DynamicObjectValueDict[dynamicObjectUuid];
+                if (dynamicObject != null)
+                {
+                    val.dynamicObejct = dynamicObject;
+                }
+                return val;
             }
             val = new DynamicObjectValue();
             val.dynamicObejct = dynamicObject;
-            m_DynamicObjectValueDict.Add(key, val);
+            val.RuntimeDataSrv = this;
+            m_DynamicObjectValueDict.Add(dynamicObjectUuid, val);
 
             return val;
         }
 
+        public IVariablesRow GetVariablesRow(string uuid)
+        {
+            return MetaTableSrv.GetVariablesByUuid(uuid);
+        }
+
         public object GetVariable(string uuid)
         {
-            if (m_VariablesDict.TryGetValue(uuid, out IVariablesRow row))
+
+            if (m_KeyValueDict.ContainsKey(uuid))
             {
-                if (m_KeyValueDict.ContainsKey(row.Key))
-                {
-                    return m_KeyValueDict[row.Key];
-                }
+                return m_KeyValueDict[uuid];
             }
 
             return null;
-
         }
+
+
 
         public T GetVariable<T>(string uuid)
         {
@@ -114,11 +125,12 @@ namespace Pangoo.Core.Services
             if (m_VariablesDict.TryGetValue(uuid, out IVariablesRow row))
             {
                 T defaultValue = row.DefaultValue.ToType<T>();
-                return Get<T>(row.Key, defaultValue);
+                return Get<T>(uuid, defaultValue);
             }
 
             return default(T);
         }
+
 
         public void SetVariable<T>(string uuid, T val)
         {
@@ -130,9 +142,29 @@ namespace Pangoo.Core.Services
 
             if (m_VariablesDict.TryGetValue(uuid, out IVariablesRow row))
             {
-                Set<T>(row.Key, val);
+                Set<T>(uuid, val);
             }
         }
+
+        public T GetDynamicObjectVariable<T>(string dynamicObejctUuid, string variableUuid)
+        {
+            if (dynamicObejctUuid.IsNullOrWhiteSpace() || variableUuid.IsNullOrWhiteSpace()) return default(T);
+
+            var dynamicObejctValue = GetOrCreateDynamicObjectValue(dynamicObejctUuid, null);
+            return dynamicObejctValue.GetVariable<T>(variableUuid);
+        }
+
+
+
+        public void SetDynamicObjectVariable<T>(string dynamicObejctUuid, string variableUuid, T val)
+        {
+            if (dynamicObejctUuid.IsNullOrWhiteSpace() || variableUuid.IsNullOrWhiteSpace()) return;
+
+            var dynamicObejctValue = GetOrCreateDynamicObjectValue(dynamicObejctUuid, null);
+            dynamicObejctValue.SetVariable<T>(variableUuid, val);
+        }
+
+
 
         public VariableTypeEnum? GetVariableType(string uuid)
         {
@@ -174,7 +206,7 @@ namespace Pangoo.Core.Services
                 var row = kv.Value;
                 if (!row.NotSave)
                 {
-                    saveKeyValues.Add(row.Key, val);
+                    saveKeyValues.Add(row.Uuid, val);
                 }
             }
 

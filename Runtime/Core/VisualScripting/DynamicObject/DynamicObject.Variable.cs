@@ -32,13 +32,12 @@ namespace Pangoo.Core.VisualScripting
         public T GetVariable<T>(string uuid)
         {
             var row = VariableRowExtension.GetByUuid(uuid, m_VariableHandler);
-            // Debug.Log($"Set Value:{row}");
             if (row != null)
             {
                 switch (row.VariableType.ToEnum<VariableTypeEnum>())
                 {
                     case VariableTypeEnum.DynamicObject:
-                        return Variables.Get<T>(row.Key, row.DefaultValue.ToType<T>());
+                        return Variables.GetVariable<T>(uuid);
                     case VariableTypeEnum.Global:
                         return RuntimeData.GetVariable<T>(uuid);
                 }
@@ -56,13 +55,12 @@ namespace Pangoo.Core.VisualScripting
                 switch (row.VariableType.ToEnum<VariableTypeEnum>())
                 {
                     case VariableTypeEnum.DynamicObject:
-                        Variables.Set<T>(row.Key, val);
+                        Variables.SetVariable<T>(uuid, val);
                         break;
                     case VariableTypeEnum.Global:
                         RuntimeData.SetVariable<T>(uuid, val);
                         break;
                 }
-
             }
         }
 

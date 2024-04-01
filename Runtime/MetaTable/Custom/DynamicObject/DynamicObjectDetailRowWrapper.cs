@@ -98,6 +98,7 @@ namespace Pangoo.MetaTable
             set
             {
                 UnityRow.Row.ModelList = value.ToListString();
+                Save();
             }
         }
 

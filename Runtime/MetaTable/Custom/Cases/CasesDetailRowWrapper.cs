@@ -3,11 +3,14 @@
 using System;
 using System.Collections;
 using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
 using MetaTable;
 using UnityEngine;
 using Pangoo.Common;
 using Pangoo.Core.Common;
 using LitJson;
+using Pangoo.Core.VisualScripting;
+using System.Collections.Generic;
 
 
 namespace Pangoo.MetaTable
@@ -91,6 +94,113 @@ namespace Pangoo.MetaTable
             m_Prefab = GameSupportEditorUtility.GetPrefabByDynamicObjectUuid(UnityRow.Row.DynamicObjectUuid);
         }
 
+
+        [ShowInInspector]
+        [LabelText("案件变量")]
+        [ValueDropdown("@VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString(), VariableTypeEnum.Global.ToString(), false)")]
+        public string[] CaseVariables
+        {
+            get
+            {
+                return UnityRow.Row.CaseVariables.ToSplitArr<string>();
+            }
+            set
+            {
+                //VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString(), VariableTypeEnum.Global.ToString(), false);
+                UnityRow.Row.CaseVariables = value.ToListString();
+                Save();
+            }
+        }
+
+
+        List<CaseStateCheckItem> m_CaseStates;
+
+        [ShowInInspector]
+        public string CaseStatesString
+        {
+            get
+            {
+                return UnityRow.Row.CaseStates;
+            }
+        }
+
+        [ShowInInspector]
+        [ListDrawerSettings(CustomAddFunction = "OnCaseStatesAdd")]
+        [OnValueChanged("OnCaseStatesChanged", includeChildren: true)]
+        [HideReferenceObjectPicker]
+        [LabelText("案件状态列表")]
+        public List<CaseStateCheckItem> CaseStates
+        {
+            get
+            {
+
+                if (m_CaseStates == null)
+                {
+                    try
+                    {
+                        m_CaseStates = JsonMapper.ToObject<List<CaseStateCheckItem>>(UnityRow.Row.CaseStates);
+                    }
+                    catch { }
+
+                    if (m_CaseStates == null)
+                    {
+                        m_CaseStates = new List<CaseStateCheckItem>();
+                    }
+
+                }
+
+                return m_CaseStates;
+            }
+            set
+            {
+                UnityRow.Row.CaseStates = JsonMapper.ToJson(m_CaseStates);
+                Save();
+            }
+        }
+
+        [Serializable]
+        public class CaseStateModelOnOff
+        {
+
+            [ValueDropdown("GetOptionVariables")]
+            [JsonMember("VariableUuids")]
+            [LabelText("案件变量")]
+            public string Path;
+
+            [JsonNoMember]
+            [HideInInspector]
+            public GameObject Prefab;
+
+        }
+
+        // Dictionary<int,CaseStateModelOnOff>
+
+
+
+        public void UpdateOptionVariables()
+        {
+            if (m_CaseStates != null)
+            {
+                foreach (var state in m_CaseStates)
+                {
+                    state.OptionVariables = CaseVariables;
+                }
+            }
+        }
+
+        void OnCaseStatesAdd()
+        {
+            var item = new CaseStateCheckItem();
+            item.OptionVariables = CaseVariables;
+            m_CaseStates.Add(item);
+        }
+
+        void OnCaseStatesChanged()
+        {
+            UnityRow.Row.CaseStates = JsonMapper.ToJson(m_CaseStates);
+            Save();
+        }
+
         [ShowInInspector]
         public string ClueIntegrateString
         {
@@ -99,7 +209,6 @@ namespace Pangoo.MetaTable
                 return UnityRow.Row.CluesIntegrate;
             }
         }
-
 
         ClueIntegrate[] m_ClueIntegrate;
 
@@ -111,6 +220,7 @@ namespace Pangoo.MetaTable
         {
             get
             {
+
                 if (m_ClueIntegrate == null)
                 {
                     try
@@ -146,7 +256,6 @@ namespace Pangoo.MetaTable
 
         public void OnClueIntegrateChanged()
         {
-            Debug.Log($"asdf ");
             try
             {
                 UnityRow.Row.CluesIntegrate = JsonMapper.ToJson(m_ClueIntegrate);

@@ -17,6 +17,7 @@ using Pangoo.MetaTable;
 namespace Pangoo.Core.VisualScripting
 {
 
+    [Serializable]
     public class UICaseClueSlot
     {
         public EntityDynamicObject ClueEntity;

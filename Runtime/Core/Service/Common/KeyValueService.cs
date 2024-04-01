@@ -14,6 +14,7 @@ namespace Pangoo
     public class KeyValueService : MainSubService, IKeyValue
     {
         [ShowInInspector]
+        [Searchable]
         protected Dictionary<string, object> m_KeyValueDict = new Dictionary<string, object>();
 
         protected override void DoAwake()

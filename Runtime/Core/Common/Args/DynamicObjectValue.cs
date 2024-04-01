@@ -5,12 +5,17 @@ using Pangoo;
 using LitJson;
 using Pangoo.Core.VisualScripting;
 using Sirenix.OdinInspector;
+using Pangoo.Core.Services;
+using Pangoo.MetaTable;
 
 namespace Pangoo.Core.Common
 {
     [Serializable]
     public class DynamicObjectValue
     {
+
+        public RuntimeDataService RuntimeDataSrv { get; set; }
+
         public DynamicObject dynamicObejct { get; set; }
         public TransformValue? transformValue { get; set; }
 
@@ -78,6 +83,36 @@ namespace Pangoo.Core.Common
         public virtual void Set<T>(string key, T value)
         {
             m_KeyValueDict.Set(key, value);
+        }
+
+
+        public T GetVariable<T>(string uuid)
+        {
+            if (uuid.IsNullOrWhiteSpace()) return default(T);
+
+            IVariablesRow row = RuntimeDataSrv.GetVariablesRow(uuid);
+            if (row != null)
+            {
+                T defaultValue = row.DefaultValue.ToType<T>();
+                return Get<T>(row.Uuid, defaultValue);
+            }
+
+            return default(T);
+        }
+
+        public void SetVariable<T>(string uuid, T val)
+        {
+            if (uuid.IsNullOrWhiteSpace())
+            {
+                Debug.LogError($"Set Variable uuid Is null!");
+                return;
+            }
+
+            IVariablesRow row = RuntimeDataSrv.GetVariablesRow(uuid);
+            if (row != null)
+            {
+                Set<T>(row.Uuid, val);
+            }
         }
 
 

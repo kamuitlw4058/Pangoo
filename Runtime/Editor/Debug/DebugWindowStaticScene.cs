@@ -35,10 +35,6 @@ namespace Pangoo
             {
                 DrawItem(lastestEnter.Name, lastestEnter.Uuid);
             }
-            else
-            {
-                DrawItem(lastestEnter.Name, StaticScene.LastestEnterUuid);
-            }
 
             GUILayout.EndVertical();
 

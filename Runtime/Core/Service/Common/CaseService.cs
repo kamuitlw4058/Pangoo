@@ -22,6 +22,16 @@ namespace Pangoo.Core.Services
         public UICasePanel Panel;
         protected override void DoStart()
         {
+            if (GameMainConfigSrv.GameMainConfig.CaseClueHasVariable.IsNullOrWhiteSpace())
+            {
+                LogError($"线索拥有变量未设置!");
+            }
+
+            if (GameMainConfigSrv.GameMainConfig.CaseClueHasVariable.IsNullOrWhiteSpace())
+            {
+                LogError($"线索移除变量未设置!");
+            }
+
             var panelUuid = GameMainConfigSrv.GameMainConfig?.CasePanelUuid;
 
             if (!panelUuid.IsNullOrWhiteSpace())
@@ -120,6 +130,22 @@ namespace Pangoo.Core.Services
                 }
             }
         }
+        public string CaseClueHasVariable
+        {
+            get
+            {
+                return GameMainConfigSrv.GameMainConfig.CaseClueHasVariable;
+            }
+        }
+
+        public string CaseClueIsRemovedVariable
+        {
+            get
+            {
+                return GameMainConfigSrv.GameMainConfig.CaseClueIsRemovedVariable;
+            }
+        }
+
 
         public string GetClueKey(string ClueKey, string valKey)
         {
@@ -130,15 +156,45 @@ namespace Pangoo.Core.Services
         public bool GetClueHas(string uuid)
         {
             var row = MetaTableSrv.GetClueRowByUuid(uuid);
-            var hasKey = GetClueKey(row.ClueKey, "Has");
-            return RuntimeDataSrv.Get<bool>(hasKey, false);
+            var loadedEntity = DynamicObjectSrv.GetLoadedEntity(row.DynamicObjectUuid);
+            if (loadedEntity != null)
+            {
+                return loadedEntity.DynamicObj.GetVariable<bool>(CaseClueHasVariable);
+            }
+            return false;
+        }
+
+        public void SetClueHas(string uuid, bool val)
+        {
+            var row = MetaTableSrv.GetClueRowByUuid(uuid);
+            var loadedEntity = DynamicObjectSrv.GetLoadedEntity(row.DynamicObjectUuid);
+            if (loadedEntity != null)
+            {
+                loadedEntity.DynamicObj.SetVariable<bool>(CaseClueHasVariable, val);
+            }
+
         }
 
         public bool GetClueIsRemoved(string uuid)
         {
             var row = MetaTableSrv.GetClueRowByUuid(uuid);
-            var hasKey = GetClueKey(row.ClueKey, "IsRemoved");
-            return RuntimeDataSrv.Get<bool>(hasKey, false);
+            var loadedEntity = DynamicObjectSrv.GetLoadedEntity(row.DynamicObjectUuid);
+            if (loadedEntity != null)
+            {
+                return loadedEntity.DynamicObj.GetVariable<bool>(CaseClueIsRemovedVariable);
+            }
+            return false;
+        }
+
+        public void SetClueIsRemoved(string uuid, bool val)
+        {
+            var row = MetaTableSrv.GetClueRowByUuid(uuid);
+            var loadedEntity = DynamicObjectSrv.GetLoadedEntity(row.DynamicObjectUuid);
+            if (loadedEntity != null)
+            {
+                loadedEntity.DynamicObj.SetVariable<bool>(CaseClueIsRemovedVariable, val);
+            }
+
         }
     }
 

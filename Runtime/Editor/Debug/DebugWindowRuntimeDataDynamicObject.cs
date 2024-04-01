@@ -5,6 +5,7 @@ using UnityGameFramework.Runtime;
 using System.Linq;
 using Pangoo.Core.Common;
 using Pangoo.Core.Services;
+using Pangoo.MetaTable;
 
 namespace Pangoo
 {
@@ -27,7 +28,8 @@ namespace Pangoo
             {
                 if (KeyValues[Keys[i]] != null)
                 {
-                    DrawDynamicObject(Keys[i], KeyValues[Keys[i]]);
+                    IDynamicObjectRow dynamicObjectRow = main.MetaTable.GetDynamicObjectRow(Keys[i]);
+                    DrawDynamicObject(Keys[i], KeyValues[Keys[i]], dynamicObjectRow, main.RuntimeData);
                 }
             }
             GUILayout.EndVertical();
@@ -36,12 +38,12 @@ namespace Pangoo
 
 
 
-        protected static void DrawDynamicObject(string title, DynamicObjectValue content)
+        protected static void DrawDynamicObject(string dynamicObjectUuid, DynamicObjectValue content, IDynamicObjectRow dynamicObjectRow, RuntimeDataService runtimeDataService)
         {
             GUILayout.BeginVertical("box");
             GUILayout.BeginHorizontal();
             {
-                GUILayout.Label(title);
+                GUILayout.Label(dynamicObjectRow.Name);
                 GUILayout.Label($"kv Count:{content.KeyValueDict.Count}");
 
             }
@@ -51,24 +53,23 @@ namespace Pangoo
             {
                 var key = keyList[i];
                 var value = content.KeyValueDict[key];
-                DrawDynamicObjectVariable(key, value, content);
+                DrawDynamicObjectVariable(key, value, content, runtimeDataService);
             }
 
             GUILayout.EndVertical();
-
-
         }
 
-        public static void DrawDynamicObjectVariable(string title, object value, DynamicObjectValue dynamicObjectValue, float titleWidth = TitleWidth)
+        public static void DrawDynamicObjectVariable(string variableUuid, object value, DynamicObjectValue dynamicObjectValue, RuntimeDataService runtimeDataService, float titleWidth = TitleWidth)
         {
             GUILayout.Space(10);
             GUILayout.BeginHorizontal();
             {
-                GUILayout.Label(title, GUILayout.Width(titleWidth));
+                var variableRow = runtimeDataService.GetVariablesRow(variableUuid);
+                GUILayout.Label(variableRow.Name, GUILayout.Width(titleWidth));
                 if (value.GetType() == typeof(bool))
                 {
                     var toggleValue = GUILayout.Toggle((bool)value, "开关");
-                    dynamicObjectValue.Set<bool>(title, toggleValue);
+                    dynamicObjectValue.Set<bool>(variableUuid, toggleValue);
                 }
 
                 if (value.GetType() == typeof(int))
@@ -76,12 +77,12 @@ namespace Pangoo
                     var intStrValue = GUILayout.TextField(value.ToString());
                     if (int.TryParse(intStrValue, out int intValue))
                     {
-                        dynamicObjectValue.Set<int>(title, intValue);
+                        dynamicObjectValue.Set<int>(variableUuid, intValue);
 
                     }
                     else
                     {
-                        dynamicObjectValue.Set<int>(title, 0);
+                        dynamicObjectValue.Set<int>(variableUuid, 0);
 
                     }
 
@@ -92,12 +93,12 @@ namespace Pangoo
                     var floatStrValue = GUILayout.TextField(value.ToString());
                     if (float.TryParse(floatStrValue, out float floatValue))
                     {
-                        dynamicObjectValue.Set<float>(title, floatValue);
+                        dynamicObjectValue.Set<float>(variableUuid, floatValue);
 
                     }
                     else
                     {
-                        dynamicObjectValue.Set<float>(title, 0);
+                        dynamicObjectValue.Set<float>(variableUuid, 0);
                     }
 
                 }
@@ -106,14 +107,6 @@ namespace Pangoo
             GUILayout.EndHorizontal();
         }
 
-        private string GetBatteryLevelString(float batteryLevel)
-        {
-            if (batteryLevel < 0f)
-            {
-                return "Unavailable";
-            }
 
-            return batteryLevel.ToString("P0");
-        }
     }
 }

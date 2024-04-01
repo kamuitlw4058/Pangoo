@@ -1,18 +1,11 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityGameFramework.Runtime;
 using Sirenix.OdinInspector;
 using TMPro;
-using GameFramework.Event;
 using Pangoo.Core.Common;
-using Pangoo.Common;
-using System.Linq;
-using System.Runtime.InteropServices;
-using Pangoo.MetaTable;
 using Pangoo.Core.Services;
+using LitJson;
+using Pangoo.Common;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -70,6 +63,7 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
+        [ShowInInspector]
         public CaseContent ShowContent;
 
 
@@ -86,6 +80,7 @@ namespace Pangoo.Core.VisualScripting
         public RectTransform TargetRect;
         public RectTransform CluesListRect;
 
+        [ShowInInspector]
         Dictionary<string, UICaseClueSlot> CluesDict = new Dictionary<string, UICaseClueSlot>();
 
         Canvas CurrentCanvas;
@@ -140,6 +135,13 @@ namespace Pangoo.Core.VisualScripting
             return 1000 / count;
         }
 
+        List<UICaseClueSlot> ShowSlots = new List<UICaseClueSlot>();
+        List<UICaseClueSlot> TargetSlots = new List<UICaseClueSlot>();
+
+        Dictionary<string, bool> Dict = new Dictionary<string, bool>();
+
+
+
         public void UpdateCaseDynamicObject()
         {
             ShowContent.Position = TargetPoint;
@@ -148,7 +150,11 @@ namespace Pangoo.Core.VisualScripting
             ShowContent.Rotation = targetRotation;
             if (ShowContent.AllCluesLoaded)
             {
-                var uiSize = new Vector2(GetClueWdithByClueCount(ShowContent.CluesRows.Length), 300);
+
+
+                ShowSlots.Clear();
+                TargetSlots.Clear();
+                Dict.Clear();
 
                 foreach (var cluesRow in ShowContent.CluesRows)
                 {
@@ -183,39 +189,193 @@ namespace Pangoo.Core.VisualScripting
                         }
                     }
 
-
-                    uICaseClueSlot.ClueEntity.DynamicObj.ModelActive = true;
+;
 
                     if (!uICaseClueSlot.Has || (uICaseClueSlot.Has && uICaseClueSlot.IsRemoved))
                     {
                         uICaseClueSlot.ClueEntity.DynamicObj.ModelActive = false;
+                        uICaseClueSlot.ClueItem.BackImage.enabled = false;
                         uICaseClueSlot.ClueItem.transform.SetParent(CanvasRectTransform);
                     }
                     else
                     {
-                        if (!uICaseClueSlot.ClueItem.IsInCluesList && !uICaseClueSlot.ClueItem.IsInTargetList)
+                        if (uICaseClueSlot.ClueItem.IsInTargetList)
                         {
-                            uICaseClueSlot.ClueItem.transform.SetParent(CluesListRect);
+                            TargetSlots.Add(uICaseClueSlot);
                         }
+                        ShowSlots.Add(uICaseClueSlot);
 
-                        var screenPoint = uICaseClueSlot.ClueItem.transform.position;
-                        var applyDistance = Distance;
-                        if (!uICaseClueSlot.ClueItem.IsPointEnter)
-                        {
-                            screenPoint = new Vector3(screenPoint.x, screenPoint.y - 50, screenPoint.z);
-                            applyDistance = applyDistance + SelectDistanceDelta;
-                        }
-
-                        uICaseClueSlot.ClueItem.rectTransform.sizeDelta = uiSize;
-                        var worldPoint = MainCamera.ScreenToWorldPoint(new Vector3(screenPoint.x, screenPoint.y, applyDistance));
-                        uICaseClueSlot.ClueEntity.CachedTransform.position = worldPoint;
-                        uICaseClueSlot.ClueEntity.CachedTransform.Rotate2TransformPlane(MainCamera.transform);
                     }
-
-
 
                 }
 
+                var uiSize = new Vector2(GetClueWdithByClueCount(ShowSlots.Count), 300);
+                foreach (var slot in ShowSlots)
+                {
+                    if (!slot.ClueItem.IsDraging)
+                    {
+                        if (!slot.ClueItem.IsInCluesList && !slot.ClueItem.IsInTargetList)
+                        {
+                            slot.ClueItem.transform.SetParent(CluesListRect);
+                        }
+                    }
+
+                    slot.ClueItem.BackImage.enabled = true;
+                    slot.ClueEntity.DynamicObj.ModelActive = true;
+                    var screenPoint = slot.ClueItem.transform.position;
+                    var applyDistance = Distance;
+                    if (!slot.ClueItem.IsPointEnter)
+                    {
+                        screenPoint = new Vector3(screenPoint.x, screenPoint.y - 50, screenPoint.z);
+                        applyDistance = applyDistance + SelectDistanceDelta;
+                    }
+
+                    slot.ClueItem.rectTransform.sizeDelta = uiSize;
+                    var worldPoint = MainCamera.ScreenToWorldPoint(new Vector3(screenPoint.x, screenPoint.y, applyDistance));
+                    slot.ClueEntity.CachedTransform.position = worldPoint;
+                    slot.ClueEntity.CachedTransform.Rotate2TransformPlane(MainCamera.transform);
+                }
+
+                if (TargetSlots.Count >= 2)
+                {
+                    ClueIntegrate[] clueIntegrates;
+                    try
+                    {
+                        clueIntegrates = JsonMapper.ToObject<ClueIntegrate[]>(ShowContent.CaseRow.CluesIntegrate);
+                    }
+                    catch
+                    {
+                        clueIntegrates = null;
+                    }
+
+                    if (clueIntegrates != null)
+                    {
+
+                        foreach (var clueIntegrate in clueIntegrates)
+                        {
+                            bool intergrateMatch = true;
+                            if (clueIntegrate.Targets.Length == TargetSlots.Count)
+                            {
+
+                                foreach (var target in clueIntegrate.Targets)
+                                {
+                                    bool clueMatch = false;
+                                    foreach (var targetSlot in TargetSlots)
+                                    {
+                                        if (target.Equals(targetSlot.ClueRow.Uuid))
+                                        {
+                                            clueMatch = true;
+                                        }
+                                    }
+                                    if (!clueMatch)
+                                    {
+                                        intergrateMatch = false;
+                                        break;
+                                    }
+
+                                }
+                            }
+                            if (intergrateMatch)
+                            {
+                                foreach (var result in clueIntegrate.Results)
+                                {
+                                    switch (result.ResultType)
+                                    {
+                                        case ClueIntegrateResultType.NewClue:
+                                            var ClueRow = PanelData.Main.MetaTable.GetClueRowByUuid(result.ClueUuid);
+                                            PanelData.Main.RuntimeData.SetDynamicObjectVariable<bool>(ClueRow.DynamicObjectUuid, PanelData.Main.GameConfig.GameMainConfig.CaseClueHasVariable, true);
+                                            break;
+                                        case ClueIntegrateResultType.RemoveClue:
+                                            var RemoveClueRow = PanelData.Main.MetaTable.GetClueRowByUuid(result.ClueUuid);
+                                            PanelData.Main.RuntimeData.SetDynamicObjectVariable<bool>(RemoveClueRow.DynamicObjectUuid, PanelData.Main.GameConfig.GameMainConfig.CaseClueIsRemovedVariable, true);
+                                            break;
+                                        case ClueIntegrateResultType.CaseVariableBool:
+                                            PanelData.Main.RuntimeData.SetDynamicObjectVariable<bool>(ShowContent.CaseRow.DynamicObjectUuid, result.VariableUuid, result.VariableValue);
+                                            break;
+
+                                    }
+                                }
+
+                            }
+                        }
+
+                        foreach (var slot in TargetSlots)
+                        {
+                            slot.ClueItem.IsInCluesList = true;
+                        }
+
+                    }
+
+                }
+
+
+
+                foreach (var caseVariable in ShowContent.CaseRow.CaseVariables.ToSplitArr<string>())
+                {
+                    Dict.Add(caseVariable, PanelData.Main.RuntimeData.GetDynamicObjectVariable<bool>(ShowContent.CaseRow.DynamicObjectUuid, caseVariable));
+                }
+
+                List<CaseStateCheckItem> States;
+                try
+                {
+                    States = JsonMapper.ToObject<List<CaseStateCheckItem>>(ShowContent.CaseRow.CaseStates);
+                }
+                catch
+                {
+                    States = null;
+                }
+
+
+                if (States != null)
+                {
+                    bool TotalMatch = false;
+                    foreach (var state in States)
+                    {
+                        bool stateMatch = true;
+                        foreach (var kv in Dict)
+                        {
+                            bool foundTrue = false;
+                            foreach (var trueVar in state.VariableUuids)
+                            {
+                                if (kv.Key.Equals(trueVar))
+                                {
+                                    foundTrue = true;
+                                    if (!kv.Value)
+                                    {
+                                        stateMatch = false;
+                                    }
+                                    break;
+                                }
+                            }
+
+
+                            if (!foundTrue && kv.Value)
+                            {
+                                stateMatch = false;
+                            }
+
+                            if (!stateMatch)
+                            {
+                                break;
+                            }
+                        }
+
+                        if (stateMatch)
+                        {
+                            TotalMatch = true;
+                            ShowContent.Entity.DynamicObj.SetMaterialState(state.State);
+                            break;
+                        }
+
+
+                    }
+
+                    if (!TotalMatch)
+                    {
+                        ShowContent.Entity.DynamicObj.SetMaterialState(0);
+
+                    }
+                }
 
 
             }
@@ -232,11 +392,9 @@ namespace Pangoo.Core.VisualScripting
             UpdateCaseDynamicObject();
             PanelData.Main.CharacterService.SetPlayerControllable(false);
             PanelData.Main.CharacterService.PlayerEnabledHotspot = false;
+            PanelData.Main.Cursor.CursorType = CursorTypeEnum.Show;
             IsShowingCase = true;
         }
-
-
-
 
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
         {
@@ -251,23 +409,21 @@ namespace Pangoo.Core.VisualScripting
             UpdateCaseDynamicObject();
 
 
-
-
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 IsShowingCase = false;
                 PanelData.Main.CharacterService.SetPlayerControllable(true);
                 PanelData.Main.CharacterService.PlayerEnabledHotspot = true;
                 ShowContent.CaseModelActive = false;
+                PanelData.Main.Cursor.CursorType = CursorTypeEnum.Hide;
 
-                if (ShowContent.AllCluesLoaded)
+                foreach (var cluesRow in ShowContent.CluesRows)
                 {
-                    if (ShowContent.CluesEntity.Count == 2)
+                    if (CluesDict.TryGetValue(cluesRow.Uuid, out UICaseClueSlot uICaseClueSlot))
                     {
-                        ShowContent.CluesEntity.Values.ToList()[0].DynamicObj.ModelActive = false;
-                        ShowContent.CluesEntity.Values.ToList()[1].DynamicObj.ModelActive = false;
-
-
+                        uICaseClueSlot.ClueEntity.DynamicObj.ModelActive = false;
+                        uICaseClueSlot.ClueItem.BackImage.enabled = false;
+                        uICaseClueSlot.ClueItem.transform.SetParent(CanvasRectTransform);
                     }
                 }
             }

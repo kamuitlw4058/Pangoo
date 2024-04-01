@@ -27,6 +27,7 @@ namespace Pangoo.Core.VisualScripting
 
         public EntityDynamicObject Entity;
 
+        [ShowInInspector]
         public Dictionary<string, EntityDynamicObject> CluesEntity = new Dictionary<string, EntityDynamicObject>();
 
 

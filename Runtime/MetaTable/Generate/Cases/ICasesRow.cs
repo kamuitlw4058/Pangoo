@@ -21,11 +21,15 @@ namespace Pangoo.MetaTable
 
         public string CaseTitle{ get; set; }
 
+        public string CaseVariables{ get; set; }
+
         public string CaseStates{ get; set; }
 
         public string CaseClues{ get; set; }
 
         public string CluesIntegrate{ get; set; }
+
+        public string StateModelOnOff{ get; set; }
 
     }
 }
