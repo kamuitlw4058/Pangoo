@@ -23,18 +23,18 @@ namespace Pangoo.Core.VisualScripting
                 Debug.LogError("没有找到目标节点");
                 return -1;
             }
-            
-            if (!canInvokeVariable)
-            {
-                return 3;
-            }
-            if (trans.rotation.eulerAngles==ParamsRaw.Value && canInvokeVariable && currentCount!=ParamsRaw.TargetCount)
+
+            if (trans.rotation.eulerAngles==ParamsRaw.TargetValue && canInvokeVariable && currentCount!=ParamsRaw.TargetCount)
             {
                 return 1;
             }
             if (currentCount==ParamsRaw.TargetCount)
             {
                 return 2;
+            }
+            if (!canInvokeVariable)
+            {
+                return 3;
             }
 
             return 0;

@@ -372,6 +372,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.ShowSceneModel => true,
                     DirectInstructionTypeEnum.DynamicObjectSetColliderTriggerActive => true,
                     DirectInstructionTypeEnum.CyclePlaySound => true,
+                    DirectInstructionTypeEnum.DynamicObjectDoRotationToTargetAngle=>true,
                     _ => false,
                 };
             }
@@ -567,6 +568,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
+                    DirectInstructionTypeEnum.TweenRotation => true,
                     DirectInstructionTypeEnum.DynamicObjectDoRotationToTargetAngle => true,
                     _ => false,
                 };
@@ -737,6 +739,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.TweenLightIntensity => "是否等待完成",
                     DirectInstructionTypeEnum.StartDialogue => "等待完成",
                     DirectInstructionTypeEnum.CyclePlaySound => "在开始时播放一次",
+                    DirectInstructionTypeEnum.DynamicObjectDoRotationToTargetAngle=>"是否使用阻尼",
                     _ => "设置值",
                 };
             }
@@ -904,7 +907,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
-                    DirectInstructionTypeEnum.TweenRotation => "目标旋转值",
+                    DirectInstructionTypeEnum.TweenRotation => "初始旋转值",
                     DirectInstructionTypeEnum.DynamicObjectDoRotationToTargetAngle=>"初始旋转值",
                     _ => "Vector3",
                 };
@@ -917,6 +920,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 return InstructionType switch
                 {
+                    DirectInstructionTypeEnum.TweenRotation => "目标旋转值",
                     DirectInstructionTypeEnum.DynamicObjectDoRotationToTargetAngle=>"目标旋转值",
                     _ => "Vector3",
                 };

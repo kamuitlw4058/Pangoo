@@ -16,10 +16,10 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("Path")]
         [ValueDropdown("@GameSupportEditorUtility.RefPrefabStringDropdown(GameSupportEditorUtility.GetPrefabByDynamicObjectUuid(DynamicObjectUuid))")]
         public string Path;
-        
-        [JsonMember("Value")]
+
+        [JsonMember("TargetValue")]
         [LabelText("目标旋转值")]
-        public Vector3 Value;
+        public Vector3 TargetValue;
 
         [JsonMember("CountVariableUuid")]
         [ValueDropdown("@VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Int.ToString(),null,false)")]
