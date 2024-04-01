@@ -145,15 +145,10 @@ namespace Pangoo.Core.VisualScripting
 
         }
 
-
-
-
         private void DoUpdateHotspot()
         {
 
-
-
-            if (m_IsHotspotActive)
+            if (m_IsHotspotActive && Main.CharacterService.PlayerEnabledHotspot)
             {
 
                 bool wasActive = this.IsHotspotDistanceActive;

@@ -112,6 +112,26 @@ namespace Pangoo.Core.Services
             }
         }
 
+        [ShowInInspector]
+        public bool PlayerIsInteractive
+        {
+            get
+            {
+                if (Player != null)
+                {
+                    return Player.character.IsInteractive;
+                }
+                return false;
+            }
+            set
+            {
+                if (Player != null)
+                {
+                    Player.character.IsInteractive = value;
+                }
+            }
+        }
+
         public void SetPlayerSpeed(float val)
         {
             if (Player != null)

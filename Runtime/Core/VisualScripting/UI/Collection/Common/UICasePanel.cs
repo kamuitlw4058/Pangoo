@@ -392,6 +392,7 @@ namespace Pangoo.Core.VisualScripting
             UpdateCaseDynamicObject();
             PanelData.Main.CharacterService.SetPlayerControllable(false);
             PanelData.Main.CharacterService.PlayerEnabledHotspot = false;
+            PanelData.Main.CharacterService.PlayerIsInteractive = false;
             PanelData.Main.Cursor.CursorType = CursorTypeEnum.Show;
             IsShowingCase = true;
         }
@@ -414,6 +415,7 @@ namespace Pangoo.Core.VisualScripting
                 IsShowingCase = false;
                 PanelData.Main.CharacterService.SetPlayerControllable(true);
                 PanelData.Main.CharacterService.PlayerEnabledHotspot = true;
+                PanelData.Main.CharacterService.PlayerIsInteractive = true;
                 ShowContent.CaseModelActive = false;
                 PanelData.Main.Cursor.CursorType = CursorTypeEnum.Hide;
 
