@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Pangoo.Core.VisualScripting
 {
     [Common.Title("DynamicObject/SetLocalVariable")]
-    [Category("动态物体/设置动态物体本地Vector3变量")]
+    [Category("动态物体/获取动态物体本身Rotaion赋值Vector3变量")]
     [Serializable]
     public class InstructionGetDynamicObjectRotationSetVariable : Instruction
     {
@@ -24,7 +24,7 @@ namespace Pangoo.Core.VisualScripting
             var trans = args.dynamicObject.CachedTransfrom.Find(ParamsRaw.Path);
             var rotationEuler = trans.rotation.eulerAngles;
             Debug.Log($"获取欧拉角{rotationEuler}");
-            args?.dynamicObject?.SetVariable<Vector3>(ParamsRaw.VariableUuid, rotationEuler);
+            args?.Main?.RuntimeData.SetDynamicObjectVariable<Vector3>(args.dynamicObject.Row.Uuid,ParamsRaw.VariableUuid, rotationEuler);
         }
     }
 }
