@@ -156,45 +156,25 @@ namespace Pangoo.Core.Services
         public bool GetClueHas(string uuid)
         {
             var row = MetaTableSrv.GetClueRowByUuid(uuid);
-            var loadedEntity = DynamicObjectSrv.GetLoadedEntity(row.DynamicObjectUuid);
-            if (loadedEntity != null)
-            {
-                return loadedEntity.DynamicObj.GetVariable<bool>(CaseClueHasVariable);
-            }
-            return false;
+            return RuntimeDataSrv.GetDynamicObjectVariable<bool>(row.DynamicObjectUuid, CaseClueHasVariable);
         }
 
         public void SetClueHas(string uuid, bool val)
         {
             var row = MetaTableSrv.GetClueRowByUuid(uuid);
-            var loadedEntity = DynamicObjectSrv.GetLoadedEntity(row.DynamicObjectUuid);
-            if (loadedEntity != null)
-            {
-                loadedEntity.DynamicObj.SetVariable<bool>(CaseClueHasVariable, val);
-            }
-
+            RuntimeDataSrv.SetDynamicObjectVariable<bool>(row.DynamicObjectUuid, CaseClueHasVariable, val);
         }
 
         public bool GetClueIsRemoved(string uuid)
         {
             var row = MetaTableSrv.GetClueRowByUuid(uuid);
-            var loadedEntity = DynamicObjectSrv.GetLoadedEntity(row.DynamicObjectUuid);
-            if (loadedEntity != null)
-            {
-                return loadedEntity.DynamicObj.GetVariable<bool>(CaseClueIsRemovedVariable);
-            }
-            return false;
+            return RuntimeDataSrv.GetDynamicObjectVariable<bool>(row.DynamicObjectUuid, CaseClueIsRemovedVariable);
         }
 
         public void SetClueIsRemoved(string uuid, bool val)
         {
             var row = MetaTableSrv.GetClueRowByUuid(uuid);
-            var loadedEntity = DynamicObjectSrv.GetLoadedEntity(row.DynamicObjectUuid);
-            if (loadedEntity != null)
-            {
-                loadedEntity.DynamicObj.SetVariable<bool>(CaseClueIsRemovedVariable, val);
-            }
-
+            RuntimeDataSrv.SetDynamicObjectVariable<bool>(row.DynamicObjectUuid, CaseClueIsRemovedVariable, val);
         }
     }
 

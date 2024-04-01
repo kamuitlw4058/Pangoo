@@ -40,7 +40,7 @@ namespace Pangoo.Core.VisualScripting
             var variableUuid = args.Main.DefaultPreviewInteraceVariableUuid;
             if (!variableUuid.IsNullOrWhiteSpace())
             {
-                return args.dynamicObject.GetVariable<int>(variableUuid);
+                return args.Main.RuntimeData.GetVariable<int>(variableUuid);
             }
             Debug.LogError($"预览交互条件变量获取失败");
             return -1;

@@ -16,18 +16,12 @@ namespace Pangoo.Core.VisualScripting
         [HideLabel]
         [HideReferenceObjectPicker]
         public ConditionLocalVariableBoolParams ParamsRaw = new ConditionLocalVariableBoolParams();
-        
+
         public override IParams Params => ParamsRaw;
         protected override int Run(Args args)
         {
-            var entity = args.dynamicObject.DynamicObjectService.GetLoadedEntity(ParamsRaw.DynamicObjectUuid);
-            
-            if (entity.DynamicObj != null)
-            {
-                var variable = entity.DynamicObj.GetVariable<bool>(ParamsRaw.VariableUuid);
-                return variable == ParamsRaw.CheckBool ? 1 : 0;
-            }
-            return 0;
+            var variable = args.Main.RuntimeData.GetDynamicObjectVariable<bool>(ParamsRaw.DynamicObjectUuid, ParamsRaw.VariableUuid);
+            return variable == ParamsRaw.CheckBool ? 1 : 0;
         }
     }
 }
