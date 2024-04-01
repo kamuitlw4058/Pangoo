@@ -18,7 +18,13 @@ namespace Pangoo.Core.VisualScripting
         [ShowInInspector]
         [FoldoutGroup("材质状态")]
         [LabelText("材质列表")]
+
         DynamicObjectMaterialState[] MaterialStateList;
+
+        [ShowInInspector]
+        [FoldoutGroup("材质状态")]
+        [LabelText("材质状态值")]
+        public int MaterialState { get; set; } = 0;
 
         public void DoAwakeMaterial()
         {
@@ -28,6 +34,7 @@ namespace Pangoo.Core.VisualScripting
 
         public void SetMaterialState(int state)
         {
+            MaterialState = state;
             if (MaterialStateList != null)
             {
                 foreach (var matState in MaterialStateList)

@@ -105,6 +105,7 @@ namespace Pangoo.Core.Services
             }
             set
             {
+                Log($"Enabled Player Hotspot:{value}");
                 if (Player != null)
                 {
                     Player.character.EnabledHotspot = value;
