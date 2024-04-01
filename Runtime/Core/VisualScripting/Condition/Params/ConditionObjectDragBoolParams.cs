@@ -32,11 +32,6 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("InvokeFlagVariableUuid")]
         [ValueDropdown("@VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString(),null,false)")]
         public string InvokeFlagVariableUuid;
-
-        public void a()
-        {
-            VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString(),null,false);
-        }
     }
 }
 
