@@ -41,12 +41,11 @@ namespace Pangoo.Core.VisualScripting
                 var makers = asset.markerTrack;
 
 
-                if (makers != null)
+                if (makers != null && ParamsRaw.TimeFactor!=0)
                 {
-                    var sign = Mathf.Sign(ParamsRaw.TimeFactor);
                     foreach (IMarker marker in makers.GetMarkers())
                     {
-                        if (sign > 0 ? marker.time >= playableDirector.time : marker.time <= playableDirector.time &&sign > 0 ? marker.time < playableDirector.time +Time.deltaTime * sign : marker.time > playableDirector.time+Time.deltaTime * sign)
+                        if (ParamsRaw.TimeFactor > 0 ? marker.time >= playableDirector.time : marker.time <= playableDirector.time &&ParamsRaw.TimeFactor > 0 ? marker.time < playableDirector.time +Time.deltaTime * ParamsRaw.TimeFactor : marker.time > playableDirector.time+Time.deltaTime * ParamsRaw.TimeFactor)
                         {
                             playableDirector.playableGraph.GetOutput(0).PushNotification(playableDirector.playableGraph.GetRootPlayable(0), marker as SignalEmitter, null);
                         }
