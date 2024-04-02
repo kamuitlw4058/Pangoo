@@ -45,7 +45,7 @@ namespace Pangoo.Core.VisualScripting
                 {
                     foreach (IMarker marker in makers.GetMarkers())
                     {
-                        if (playableDirector.time >= marker.time && playableDirector.time < marker.time + Time.deltaTime)
+                        if (playableDirector.time >= marker.time-Time.deltaTime && playableDirector.time < marker.time + Time.deltaTime)
                         {
                             playableDirector.playableGraph.GetOutput(0).PushNotification(playableDirector.playableGraph.GetRootPlayable(0), marker as SignalEmitter, null);
                         }
