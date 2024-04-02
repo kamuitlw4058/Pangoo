@@ -68,6 +68,7 @@ namespace Pangoo.Core.VisualScripting
                         {
                             receiver.dynamicObject = this;
                             receiver.subObjectTriggerEventType = subObjectTrigger.TriggerEventType;
+                            receiver.subObjectTriggerPath = subObjectTrigger.Path;
                         }
                     }
 
@@ -202,16 +203,17 @@ namespace Pangoo.Core.VisualScripting
 
         }
 
-        public void ExtraTriggerEnter3d(Collider collider)
+        public void ExtraTriggerEnter3d(Collider collider,string triggerPath)
         {
             EnterTriggerCount += 1;
-            TriggerInovke(TriggerTypeEnum.OnExtraTriggerEnter3D);
+
+            TriggerInovke(TriggerTypeEnum.OnExtraTriggerEnter3D,null,triggerPath);
         }
 
-        public void ExtraTriggerExit3d(Collider collider)
+        public void ExtraTriggerExit3d(Collider collider,string triggerPath)
         {
             EnterTriggerCount -= 1;
-            TriggerInovke(TriggerTypeEnum.OnExtraTriggerExit3D);
+            TriggerInovke(TriggerTypeEnum.OnExtraTriggerExit3D,null,triggerPath);
 
         }
 

@@ -28,7 +28,15 @@ namespace Pangoo.Core.VisualScripting
             Vector3 variable = new Vector3();
             if (ParamsRaw.ValueSourceType==ValueSourceTypeEnum.Variable)
             {
-                variable = args.dynamicObject.GetVariable<Vector3>(ParamsRaw.VariableUuid);
+                if (ParamsRaw.VariableType==VariableTypeEnum.Global)
+                {
+                    variable = args.Main.RuntimeData.GetVariable<Vector3>(ParamsRaw.VariableUuid);
+                }
+                else
+                {
+                    variable = args.Main.RuntimeData.GetDynamicObjectVariable<Vector3>(args.dynamicObject.Row.Uuid,ParamsRaw.VariableUuid);
+                }
+                
             }
 
             if (ParamsRaw.ValueSourceType==ValueSourceTypeEnum.Path)
