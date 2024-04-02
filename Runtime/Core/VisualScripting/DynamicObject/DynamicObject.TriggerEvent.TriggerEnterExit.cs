@@ -205,13 +205,13 @@ namespace Pangoo.Core.VisualScripting
         public void ExtraTriggerEnter3d(Collider collider)
         {
             EnterTriggerCount += 1;
-            TriggerInovke(TriggerTypeEnum.OnExtraTriggerEnter3D);
+            TriggerInovke(TriggerTypeEnum.OnExtraTriggerEnter3D,null,collider.transform.ToString());
         }
 
         public void ExtraTriggerExit3d(Collider collider)
         {
             EnterTriggerCount -= 1;
-            TriggerInovke(TriggerTypeEnum.OnExtraTriggerExit3D);
+            TriggerInovke(TriggerTypeEnum.OnExtraTriggerExit3D,null,collider.transform.ToString());
 
         }
 

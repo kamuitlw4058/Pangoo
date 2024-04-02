@@ -42,7 +42,7 @@ namespace Pangoo.Core.VisualScripting
 
 
 
-        public bool TriggerInovke(TriggerTypeEnum triggerType, string uuid = null)
+        public bool TriggerInovke(TriggerTypeEnum triggerType,string uuid = null,string path=null)
         {
             bool ret = false;
             if (!AllTriggerEnabled)
