@@ -43,17 +43,15 @@ namespace Pangoo.Core.VisualScripting
 
                 if (makers != null)
                 {
+                    var sign = ParamsRaw.TimeFactor / Mathf.Abs(ParamsRaw.TimeFactor);
                     foreach (IMarker marker in makers.GetMarkers())
                     {
-                        if (marker.time >= playableDirector.time-Time.deltaTime && marker.time < playableDirector.time + Time.deltaTime)
+                        if (sign > 0 ? marker.time >= playableDirector.time : marker.time <= playableDirector.time && marker.time+Time.deltaTime * sign > playableDirector.time)
                         {
                             playableDirector.playableGraph.GetOutput(0).PushNotification(playableDirector.playableGraph.GetRootPlayable(0), marker as SignalEmitter, null);
                         }
                     }
                 }
-                
-                
-
                 
                 switch (playableDirector.extrapolationMode)
                 {
@@ -77,7 +75,6 @@ namespace Pangoo.Core.VisualScripting
                         }
                         break;
                 }
-                
                 
                 playableDirector.time += ParamsRaw.TimeFactor*Time.deltaTime;
                 playableDirector.Evaluate();
