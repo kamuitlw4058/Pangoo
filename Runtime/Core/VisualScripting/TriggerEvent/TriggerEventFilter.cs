@@ -93,9 +93,8 @@ namespace Pangoo.Core.VisualScripting
                 case TriggerEventFilterEnum.MouseDrag:
                     return GetIsPush();
                 case TriggerEventFilterEnum.SubTrigger:
-                    if (args.dynamicObject.Row.SubObjectTriggerList.IsNullOrWhiteSpace()) return false;
-                    List<DynamicObjectSubObjectTrigger> m_SubObjectTriggerList = JsonMapper.ToObject<List<DynamicObjectSubObjectTrigger>>(args.dynamicObject.Row.SubObjectTriggerList);
-
+                    if (args.triggerPath.IsNullOrWhiteSpace()) return false;
+                    
                     if (args.triggerPath.Equals(SubTriggerPath))
                     {
                         return true;
