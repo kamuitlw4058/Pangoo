@@ -36,7 +36,18 @@ namespace Pangoo.Core.VisualScripting
         [ShowIf("FilterType", TriggerEventFilterEnum.MouseDrag)]
         [JsonMember("mouseDirType")]
         public MouseDirTypeEnum mouseDirType;
-        public bool Check()
+
+        [ShowIf("FilterType", TriggerEventFilterEnum.SubTrigger)]
+        [ValueDropdown("@DynamicObjectOverview.GetUuidDropdown()")]
+        [JsonMember("DynamicObjectUuid")]
+        public string DynamicObjectUuid;
+        
+        [ShowIf("FilterType", TriggerEventFilterEnum.SubTrigger)]
+        [JsonMember("SubTriggerPath")]
+        [ValueDropdown("@GameSupportEditorUtility.RefPrefabStringDropdown(GameSupportEditorUtility.GetPrefabByDynamicObjectUuid(DynamicObjectUuid))")]
+        public string SubTriggerPath;
+        
+        public bool Check(Args args)
         {
             switch (FilterType)
             {
@@ -81,6 +92,18 @@ namespace Pangoo.Core.VisualScripting
                     break;
                 case TriggerEventFilterEnum.MouseDrag:
                     return GetIsPush();
+                case TriggerEventFilterEnum.SubTrigger:
+                    if (args.dynamicObject.Row.SubObjectTriggerList.IsNullOrWhiteSpace()) return false;
+                    List<DynamicObjectSubObjectTrigger> m_SubObjectTriggerList = JsonMapper.ToObject<List<DynamicObjectSubObjectTrigger>>(args.dynamicObject.Row.SubObjectTriggerList);
+                    foreach (var subObjectTrigger in m_SubObjectTriggerList)
+                    {
+                        if (subObjectTrigger.Path.Equals(SubTriggerPath))
+                        {
+                            return true;
+                        }
+                    }
+
+                    return false;
             }
 
             return true;

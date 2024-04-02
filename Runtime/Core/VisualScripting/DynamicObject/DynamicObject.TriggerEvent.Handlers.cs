@@ -63,7 +63,7 @@ namespace Pangoo.Core.VisualScripting
 
                         if (o.Filter != null)
                         {
-                            if (!o.Filter.Check())
+                            if (!o.Filter.Check(CurrentArgs))
                             {
                                 flag = false;
                             }

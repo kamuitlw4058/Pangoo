@@ -14,5 +14,6 @@ namespace Pangoo.Core.VisualScripting
         Timer,
         MouseKey,
         MouseDrag,
+        SubTrigger
     }
 }
