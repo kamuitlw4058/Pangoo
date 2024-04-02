@@ -25,7 +25,7 @@ namespace Pangoo.Core.VisualScripting
             
             if (entity.DynamicObj != null)
             {
-                entity.DynamicObj.SetVariable<Vector3>(ParamsRaw.LocalVariableUuid, ParamsRaw.Value);
+                entity.DynamicObj.Main.RuntimeData.SetDynamicObjectVariable<Vector3>(ParamsRaw.DynamicObjectUuid,ParamsRaw.LocalVariableUuid, ParamsRaw.Value);
             }
         }
     }

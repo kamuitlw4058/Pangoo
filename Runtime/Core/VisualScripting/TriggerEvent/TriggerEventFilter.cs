@@ -36,7 +36,18 @@ namespace Pangoo.Core.VisualScripting
         [ShowIf("FilterType", TriggerEventFilterEnum.MouseDrag)]
         [JsonMember("mouseDirType")]
         public MouseDirTypeEnum mouseDirType;
-        public bool Check()
+
+        [ShowIf("FilterType", TriggerEventFilterEnum.SubTrigger)]
+        [ValueDropdown("@DynamicObjectOverview.GetUuidDropdown()")]
+        [JsonMember("DynamicObjectUuid")]
+        public string DynamicObjectUuid;
+        
+        [ShowIf("FilterType", TriggerEventFilterEnum.SubTrigger)]
+        [JsonMember("SubTriggerPath")]
+        [ValueDropdown("@GameSupportEditorUtility.RefPrefabStringDropdown(GameSupportEditorUtility.GetPrefabByDynamicObjectUuid(DynamicObjectUuid))")]
+        public string SubTriggerPath;
+        
+        public bool Check(Args args)
         {
             switch (FilterType)
             {
@@ -81,6 +92,15 @@ namespace Pangoo.Core.VisualScripting
                     break;
                 case TriggerEventFilterEnum.MouseDrag:
                     return GetIsPush();
+                case TriggerEventFilterEnum.SubTrigger:
+                    if (args.triggerPath.IsNullOrWhiteSpace()) return false;
+                    
+                    if (args.triggerPath.Equals(SubTriggerPath))
+                    {
+                        return true;
+                    }
+
+                    return false;
             }
 
             return true;

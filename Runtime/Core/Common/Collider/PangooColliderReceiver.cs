@@ -13,6 +13,7 @@ namespace Pangoo.Core.Common
 
         public DynamicObject dynamicObject;
         public SubObjectTriggerEventType subObjectTriggerEventType;
+        public string subObjectTriggerPath;
 
         public bool TriggerEnter;
 
@@ -36,7 +37,7 @@ namespace Pangoo.Core.Common
                 {
                     case SubObjectTriggerEventType.Both:
                     case SubObjectTriggerEventType.ExtraTrigger:
-                        dynamicObject?.ExtraTriggerEnter3d(other);
+                        dynamicObject?.ExtraTriggerEnter3d(other,subObjectTriggerPath);
                         break;
                 }
 
@@ -64,7 +65,7 @@ namespace Pangoo.Core.Common
                 {
                     case SubObjectTriggerEventType.Both:
                     case SubObjectTriggerEventType.ExtraTrigger:
-                        dynamicObject?.ExtraTriggerExit3d(other);
+                        dynamicObject?.ExtraTriggerExit3d(other,subObjectTriggerPath);
                         break;
                 }
 
@@ -88,7 +89,7 @@ namespace Pangoo.Core.Common
                 {
                     case SubObjectTriggerEventType.Both:
                     case SubObjectTriggerEventType.ExtraTrigger:
-                        dynamicObject?.ExtraTriggerExit3d(null);
+                        dynamicObject?.ExtraTriggerExit3d(null,null);
                         break;
                 }
                 TriggerEnter = false;
