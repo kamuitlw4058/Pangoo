@@ -94,6 +94,9 @@ MonoBehaviour:
     - Name: MoveSpeed
       Type: float
       CnName: "\u79FB\u52A8\u901F\u5EA6"
+    - Name: RunSpeed
+      Type: float
+      CnName: "\u8DD1\u6B65\u901F\u5EA6"
     - Name: CameraHeight
       Type: float
       CnName: "\u76F8\u673A\u9AD8\u5EA6"
