@@ -46,7 +46,7 @@ namespace Pangoo.Core.VisualScripting
                     var sign = Mathf.Sign(ParamsRaw.TimeFactor);
                     foreach (IMarker marker in makers.GetMarkers())
                     {
-                        if (sign > 0 ? marker.time >= playableDirector.time : marker.time <= playableDirector.time && marker.time+Time.deltaTime * sign > playableDirector.time)
+                        if (sign > 0 ? marker.time >= playableDirector.time : marker.time <= playableDirector.time &&sign > 0 ? marker.time < playableDirector.time +Time.deltaTime * sign : marker.time > playableDirector.time+Time.deltaTime * sign)
                         {
                             playableDirector.playableGraph.GetOutput(0).PushNotification(playableDirector.playableGraph.GetRootPlayable(0), marker as SignalEmitter, null);
                         }
