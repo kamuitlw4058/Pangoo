@@ -23,6 +23,8 @@ namespace Pangoo.MetaTable
 
         public float MoveSpeed{ get; set; }
 
+        public float RunSpeed{ get; set; }
+
         public float CameraHeight{ get; set; }
 
         public Vector3 CameraOffset{ get; set; }

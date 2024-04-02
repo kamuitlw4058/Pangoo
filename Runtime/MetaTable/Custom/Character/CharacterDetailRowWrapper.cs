@@ -86,6 +86,7 @@ namespace Pangoo.MetaTable
 
         [ShowInInspector]
         [DelayedProperty]
+        [LabelText("移动速度")]
         public float LinearSpeed
         {
             get
@@ -101,6 +102,24 @@ namespace Pangoo.MetaTable
                     Save();
                 }
 
+            }
+        }
+        [ShowInInspector]
+        [DelayedProperty]
+        [LabelText("跑步速度")]
+        public float RunSpeed
+        {
+            get
+            {
+                return UnityRow.Row?.RunSpeed ?? 2;
+            }
+            set
+            {
+                if (UnityRow.Row != null && Overview != null)
+                {
+                    UnityRow.Row.RunSpeed = value;
+                    Save();
+                }
             }
         }
 

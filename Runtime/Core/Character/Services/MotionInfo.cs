@@ -9,6 +9,7 @@ namespace Pangoo.Core.Characters
     {
 
         public float LinearSpeed;
+        public float RunSpeed;
 
 
         public float AngularSpeed;

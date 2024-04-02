@@ -69,6 +69,7 @@ namespace Pangoo
             motionInfo.RotationSpeedX = 80;
             motionInfo.RotationSpeedY = 80;
             motionInfo.LinearSpeed = EntityData.InfoRow.m_CharacterRow.MoveSpeed;
+            motionInfo.RunSpeed = EntityData.InfoRow.m_CharacterRow.RunSpeed;
             motionInfo.GravityDownwards = -9.8f;
             motionInfo.TerminalVelocity = -54f;
             motionInfo.InteractionRadius = 5;
