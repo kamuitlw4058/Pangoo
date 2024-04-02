@@ -95,12 +95,10 @@ namespace Pangoo.Core.VisualScripting
                 case TriggerEventFilterEnum.SubTrigger:
                     if (args.dynamicObject.Row.SubObjectTriggerList.IsNullOrWhiteSpace()) return false;
                     List<DynamicObjectSubObjectTrigger> m_SubObjectTriggerList = JsonMapper.ToObject<List<DynamicObjectSubObjectTrigger>>(args.dynamicObject.Row.SubObjectTriggerList);
-                    foreach (var subObjectTrigger in m_SubObjectTriggerList)
+
+                    if (args.triggerPath.Equals(SubTriggerPath))
                     {
-                        if (subObjectTrigger.Path.Equals(SubTriggerPath))
-                        {
-                            return true;
-                        }
+                        return true;
                     }
 
                     return false;
