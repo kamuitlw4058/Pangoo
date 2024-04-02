@@ -43,7 +43,7 @@ namespace Pangoo.Core.VisualScripting
 
                 if (makers != null)
                 {
-                    var sign = ParamsRaw.TimeFactor / Mathf.Abs(ParamsRaw.TimeFactor);
+                    var sign = Mathf.Sign(ParamsRaw.TimeFactor);
                     foreach (IMarker marker in makers.GetMarkers())
                     {
                         if (sign > 0 ? marker.time >= playableDirector.time : marker.time <= playableDirector.time && marker.time+Time.deltaTime * sign > playableDirector.time)
