@@ -7,6 +7,7 @@ using Pangoo.Core.Characters;
 using Sirenix.OdinInspector;
 using UnityEngine.Playables;
 using GameFramework.Event;
+using LitJson;
 
 
 namespace Pangoo.Core.VisualScripting
@@ -39,18 +40,21 @@ namespace Pangoo.Core.VisualScripting
             if (!InitedTimelineSignal)
             {
                 Event.Subscribe(TimelineSignalEventArgs.EventId, OnTimelineSignalEvent);
-                var playableDirectors = gameObject.GetComponentsInChildren<PlayableDirector>(includeInactive: true);
-                if (playableDirectors != null)
+
+                var timelineHelperList =
+                     JsonMapper.ToObject<List<DynamicObjectTimelineHelperInfo>>(Row.TimelineHelperList);
+                if (timelineHelperList!=null && timelineHelperList.Count>0)
                 {
-                    foreach (var pd in playableDirectors)
+                    foreach (var timelineHelper in timelineHelperList)
                     {
-                        var timelineHelper = pd.gameObject.GetOrAddComponent<PangooTimelineHelper>();
-                        timelineHelper.dynamicObject = this;
-                        timelineHelper.playableDirector = pd;
-                        timelineHelper.Path = pd.transform.GetRelativePath(CachedTransfrom);
+                        var trans = GetTransform(timelineHelper.Path);
+                        var pangooTimelineHelper=trans.GetOrAddComponent<PangooTimelineHelper>();
+                        pangooTimelineHelper.dynamicObject = this;
+                        pangooTimelineHelper.TimelineOptType = timelineHelper.OptType;
+                        pangooTimelineHelper.Path = timelineHelper.Path;
                     }
                 }
-
+                
                 InitedTimelineSignal = true;
             }
 
