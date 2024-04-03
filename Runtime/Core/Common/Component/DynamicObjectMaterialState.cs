@@ -33,7 +33,7 @@ namespace Pangoo.Core.Common
                 if (m_State != value)
                 {
                     m_State = value;
-                    if (Renderer != null && MaterialDict != null && m_State < MaterialDict.Count)
+                    if (Renderer != null && MaterialDict != null)
                     {
                         if (MaterialDict.TryGetValue(m_State, out Material mat))
                         {
