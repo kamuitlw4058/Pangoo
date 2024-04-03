@@ -36,6 +36,7 @@ namespace Pangoo.MetaTable
 
         [LabelText("显示的动态物体")]
         [ValueDropdown("@DynamicObjectOverview.GetUuidDropdown()")]
+        [InlineButton("ToMenu", SdfIconType.EyeFill, Label = "")]
         [ShowInInspector]
         public string DynamicObjectUuid
         {
@@ -50,6 +51,16 @@ namespace Pangoo.MetaTable
                 Save();
             }
         }
+
+        public void ToMenu()
+        {
+            var objectTarget = Editor?.GetDetailWrapper(DynamicObjectUuid);
+            if (objectTarget != null)
+            {
+                MenuWindow?.TrySelectMenuItemWithObject(objectTarget);
+            }
+        }
+
 
 
         GameObject m_Prefab;

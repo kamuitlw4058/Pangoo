@@ -28,6 +28,8 @@ namespace Pangoo.MetaTable
         [PropertyOrder(0)]
         [ShowInInspector]
         [InlineButton("AddAssetPath", SdfIconType.Plus, Label = "")]
+        [InlineButton("ToMenu", SdfIconType.EyeFill, Label = "")]
+
         public string AssetPathUuid
         {
             get
@@ -78,6 +80,14 @@ namespace Pangoo.MetaTable
             }
         }
 
+        public void ToMenu()
+        {
+            var objectTarget = Editor?.GetDetailWrapper(AssetPathUuid);
+            if (objectTarget != null)
+            {
+                MenuWindow?.TrySelectMenuItemWithObject(objectTarget);
+            }
+        }
 
         public void OnAfterCreateAsset(string uuid)
         {
