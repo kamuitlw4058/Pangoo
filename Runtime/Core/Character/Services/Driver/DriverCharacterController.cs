@@ -95,7 +95,15 @@ namespace Pangoo.Core.Characters
         {
             // Debug.Log($"Update Services:{Services}");
             // MoveDirection = Services.GetVariable<Vector3>("MoveDirection");
-            MoveDirection = m_MotionActionService.MoveDirection * Character.MotionInfo.LinearSpeed * DeltaTime;
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                MoveDirection = m_MotionActionService.MoveDirection * Character.MotionInfo.RunSpeed * DeltaTime;
+            }
+            else
+            {
+                MoveDirection = m_MotionActionService.MoveDirection * Character.MotionInfo.LinearSpeed * DeltaTime;
+            }
+            
             // Debug.Log($"Update MoveDirection:{MoveDirection}");
             // if (this.Character.IsDead) return;
             // if (this.m_Controller == null) return;
