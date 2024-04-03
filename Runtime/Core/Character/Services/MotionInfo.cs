@@ -66,6 +66,11 @@ namespace Pangoo.Core.Characters
         {
             LinearSpeed = val;
         }
+        
+        public void SetRunSpeed(float val)
+        {
+            RunSpeed = val;
+        }
 
         // InteractionMode InteractionMode { get; set; }
     }

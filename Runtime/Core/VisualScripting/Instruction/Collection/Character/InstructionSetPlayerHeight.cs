@@ -31,7 +31,7 @@ namespace Pangoo.Core.VisualScripting
 
         // PROPERTIES: ----------------------------------------------------------------------------
 
-        public override string Title => $"Character Height: {this.ParamsRaw.Val}";
+        public override string Title => $"Character Height: {this.ParamsRaw.Val1}";
 
         // CONSTRUCTORS: --------------------------------------------------------------------------
 
@@ -47,12 +47,12 @@ namespace Pangoo.Core.VisualScripting
         public override void RunImmediate(Args args)
         {
             LastestArgs = args;
-            Debug.Log($"InstructionSetPlayerHeight:{this.ParamsRaw.Val},{args?.Main}");
+            Debug.Log($"InstructionSetPlayerHeight:{this.ParamsRaw.Val1},{args?.Main}");
 
             if (args?.Main != null)
             {
                 var characterService = args?.Main?.CharacterService;
-                characterService?.SetPlayerCameraHeight(ParamsRaw.Val);
+                characterService?.SetPlayerCameraHeight(ParamsRaw.Val1);
             }
 
         }

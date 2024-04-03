@@ -159,5 +159,7 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("UI/显示案件")]
         ShowCase,
+        [LabelText("设置玩家速度")]
+        SetPlayerSpeed,
     }
 }

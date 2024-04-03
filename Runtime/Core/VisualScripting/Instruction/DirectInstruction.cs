@@ -500,6 +500,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.TweenRotation => true,
                     DirectInstructionTypeEnum.DynamicObjectDoRotationToTargetAngle=>true,
                     DirectInstructionTypeEnum.CyclePlaySound=>true,
+                    DirectInstructionTypeEnum.SetPlayerSpeed=>true,
                     _ => false,
                 };
             }
@@ -516,6 +517,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.CanvasGroup => true,
                     DirectInstructionTypeEnum.TweenLightIntensity => true,
                     DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance => true,
+                    DirectInstructionTypeEnum.SetPlayerSpeed=>true,
                     _ => false,
                 };
             }
@@ -853,6 +855,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.TweenRotation => "补间时长",
                     DirectInstructionTypeEnum.DynamicObjectDoRotationToTargetAngle=>"旋转速度",
                     DirectInstructionTypeEnum.CyclePlaySound=>"周期时长",
+                    DirectInstructionTypeEnum.SetPlayerSpeed=>"走路速度",
                     _ => "Float1",
                 };
             }
@@ -869,6 +872,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.CanvasGroup => "过渡时间",
                     DirectInstructionTypeEnum.TweenLightIntensity => "过渡时间",
                     DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance => "结束距离",
+                    DirectInstructionTypeEnum.SetPlayerSpeed=>"跑步速度",
                     _ => "Float2",
                 };
             }

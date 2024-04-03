@@ -52,12 +52,9 @@ namespace Pangoo.Core.VisualScripting
 
             if (args?.Main != null)
             {
-                args.Main.CharacterService.SetPlayerSpeed(ParamsRaw.Val);
+                args.Main.CharacterService.SetPlayerSpeed(ParamsRaw.Val1,ParamsRaw.Val2);
             }
 
         }
-
-
-
     }
 }
