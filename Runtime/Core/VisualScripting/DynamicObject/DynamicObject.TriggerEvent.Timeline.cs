@@ -61,7 +61,10 @@ namespace Pangoo.Core.VisualScripting
                      foreach (var timelineHelper in timelineHelperList)
                      {
                          var pangooTimelineHelper=GetComponent<PangooTimelineHelper>(timelineHelper.Path);
-                         pangooTimelineHelper.TimelineOptType = timelineHelper.OptType;
+                         if (pangooTimelineHelper!=null)
+                         {
+                             pangooTimelineHelper.TimelineOptType = timelineHelper.OptType;
+                         }
                      }
                  }
 
