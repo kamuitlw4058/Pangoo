@@ -235,6 +235,13 @@ namespace Pangoo.MetaTable
 
         float IDynamicObjectRow.ColliderTriggerStayExitDelay {get => ColliderTriggerStayExitDelay; set => ColliderTriggerStayExitDelay = value;}
 
+        [JsonMember("TimelineHelperList")]
+        [MetaTableRowColumn("TimelineHelperList","string", "Timeline帮助列表",33)]
+        [LabelText("Timeline帮助列表")]
+        public string TimelineHelperList ;
+
+        string IDynamicObjectRow.TimelineHelperList {get => TimelineHelperList; set => TimelineHelperList = value;}
+
     }
 }
 

@@ -13,16 +13,22 @@ namespace Pangoo.Core.Common
     [Serializable]
     public class DynamicObjectValue
     {
-
+        [JsonNoMember]
         public RuntimeDataService RuntimeDataSrv { get; set; }
 
+        [JsonNoMember]
         public DynamicObject dynamicObejct { get; set; }
+
+        [JsonNoMember]
         public TransformValue? transformValue { get; set; }
 
+        [JsonNoMember]
         public Dictionary<string, TransformValue> ChilernTransforms = new Dictionary<string, TransformValue>();
 
+        [JsonNoMember]
         public Dictionary<string, bool> TriggerEnabledDict = new Dictionary<string, bool>();
 
+        [JsonNoMember]
         public Dictionary<string, int> TriggerIndexDict = new();
 
         [ShowInInspector]

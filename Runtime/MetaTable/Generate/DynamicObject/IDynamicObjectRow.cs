@@ -79,6 +79,8 @@ namespace Pangoo.MetaTable
 
         public float ColliderTriggerStayExitDelay{ get; set; }
 
+        public string TimelineHelperList{ get; set; }
+
     }
 }
 

@@ -67,7 +67,7 @@ namespace Pangoo.Core.VisualScripting
 
         protected override IEnumerator Run(Args args)
         {
-            Transform trans = args.dynamicObject.GetSubGameObjectTransformPath(ParamsRaw.Path, args);
+            Transform trans = args.dynamicObject.GetTransform(ParamsRaw.Path, args);
             Debug.Log($"路径Transform{ParamsRaw.Path},{args.Target},{trans}");
             if (trans == null)
             {

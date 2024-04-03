@@ -44,9 +44,10 @@ namespace Pangoo.Core.VisualScripting
                 {
                     foreach (var pd in playableDirectors)
                     {
-                        var signalReceiver = pd.gameObject.GetOrAddComponent<PangooSignalReceiver>();
-                        signalReceiver.dynamicObject = this;
-                        signalReceiver.playableDirector = pd;
+                        var timelineHelper = pd.gameObject.GetOrAddComponent<PangooTimelineHelper>();
+                        timelineHelper.dynamicObject = this;
+                        timelineHelper.playableDirector = pd;
+                        timelineHelper.Path = pd.transform.GetRelativePath(CachedTransfrom);
                     }
                 }
 
@@ -71,6 +72,7 @@ namespace Pangoo.Core.VisualScripting
             Debug.Log($"OnTimelineSignalEvent:{args}");
             CurrentArgs.playableDirector = args.playableDirector;
             CurrentArgs.signalAssetName = args.signalAssetName;
+            CurrentArgs.SignalTime = args.playableDirectorTime;
             TriggerInovke(TriggerTypeEnum.OnTimelineSignal);
         }
 

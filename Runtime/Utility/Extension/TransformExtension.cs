@@ -80,6 +80,20 @@ namespace Pangoo
 
         }
 
+        public static string GetRelativePath(this Transform transform, Transform parent, string splitter = "/", bool root = true)
+        {
+            var parentPath = parent.GetPath();
+            var transformPath = transform.GetPath();
+            Debug.Log($"parentPath:{parentPath} transformPath:{transformPath}");
+
+            if (transformPath.StartsWith(parentPath))
+            {
+                return transformPath.Substring(parentPath.Length + 1);
+            }
+
+            return transformPath;
+        }
+
 
     }
 }
