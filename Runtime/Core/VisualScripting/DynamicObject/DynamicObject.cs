@@ -141,7 +141,8 @@ namespace Pangoo.Core.VisualScripting
             EnterTriggerCount = 0;
             AllTriggerEnabled = true;
             ModelList.Clear();
-
+            CachedTransformDict.Clear();
+            Components.Clear();
         }
 
 
@@ -181,6 +182,8 @@ namespace Pangoo.Core.VisualScripting
             EnterTriggerCount = 0;
             CurrentArgs = new Args(this);
             CurrentArgs.Main = Main;
+            CachedTransformDict.Clear();
+            Components.Clear();
             if (Row.ModelList.IsNullOrWhiteSpace())
             {
                 var modelGo = CachedTransfrom.Find("Model")?.gameObject;
@@ -261,11 +264,6 @@ namespace Pangoo.Core.VisualScripting
             Log($"Finish Awake m_Tracker:{m_Tracker}");
         }
 
-        // public void SetModelActive(bool val)
-        // {
-        //     Model?.SetActive(val);
-        // }
-
         public void SetSubGameObjectsActive(string[] paths, bool val)
         {
             if (paths == null) return;
@@ -276,25 +274,7 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
-        public Transform GetSubGameObjectTransformPath(string path, Args args = null)
-        {
-            if (path.IsNullOrWhiteSpace())
-            {
-                return this.Entity.transform;
-            }
 
-            if (path.Equals(ConstString.Self))
-            {
-                return this.Entity.transform;
-            }
-
-            if (path.Equals(ConstString.Target) && args != null)
-            {
-                return args.Target?.transform;
-            }
-
-            return this.CachedTransfrom.Find(path);
-        }
 
         public void FindVideoPlayerSetCamera()
         {
@@ -320,7 +300,7 @@ namespace Pangoo.Core.VisualScripting
                 return;
             }
 
-            var childTransform = CachedTransfrom.Find(path);
+            var childTransform = GetTransform(path);
             if (childTransform != null)
             {
                 childTransform.gameObject.SetActive(val);
@@ -336,7 +316,7 @@ namespace Pangoo.Core.VisualScripting
             }
 
             MaterialList materialList = Entity.GetComponent<MaterialList>();
-            Transform target = GetSubGameObjectTransformPath(path);
+            Transform target = GetTransform(path);
             if (!target.GetComponent<Renderer>())
             {
                 Debug.Log("没有在对象身上获取到Render");

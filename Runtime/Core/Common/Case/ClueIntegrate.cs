@@ -80,6 +80,10 @@ namespace Pangoo.Core.Common
         [LabelText("输出状态")]
         public int State;
 
+        [JsonMember("Note")]
+        [LabelText("备注")]
+        public string Note;
+
         IEnumerable GetOptionVariables()
         {
             ValueDropdownList<string> ret = new ValueDropdownList<string>();
