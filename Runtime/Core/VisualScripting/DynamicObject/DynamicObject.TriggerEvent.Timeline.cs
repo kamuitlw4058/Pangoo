@@ -40,21 +40,32 @@ namespace Pangoo.Core.VisualScripting
             if (!InitedTimelineSignal)
             {
                 Event.Subscribe(TimelineSignalEventArgs.EventId, OnTimelineSignalEvent);
-
-                var timelineHelperList =
+                 var playableDirectors = gameObject.GetComponentsInChildren<PlayableDirector>(includeInactive: true);
+                 Debug.Log($"playableDirectors列表:{playableDirectors}");
+                 if (playableDirectors != null)
+                 {
+                     foreach (var pd in playableDirectors)
+                     {
+                         Debug.Log($"当前PD:{pd}");
+                         var timelineHelper = pd.gameObject.GetOrAddComponent<PangooTimelineHelper>();
+                         timelineHelper.dynamicObject = this;
+                         timelineHelper.playableDirector = pd;
+                         timelineHelper.Path = pd.transform.GetRelativePath(CachedTransfrom);
+                     }
+                 }
+                 
+                 var timelineHelperList =
                      JsonMapper.ToObject<List<DynamicObjectTimelineHelperInfo>>(Row.TimelineHelperList);
-                if (timelineHelperList!=null && timelineHelperList.Count>0)
-                {
-                    foreach (var timelineHelper in timelineHelperList)
-                    {
-                        var trans = GetTransform(timelineHelper.Path);
-                        var pangooTimelineHelper=trans.GetOrAddComponent<PangooTimelineHelper>();
-                        pangooTimelineHelper.dynamicObject = this;
-                        pangooTimelineHelper.TimelineOptType = timelineHelper.OptType;
-                        pangooTimelineHelper.Path = timelineHelper.Path;
-                    }
-                }
-                
+                 if (timelineHelperList!=null && timelineHelperList.Count>0)
+                 {
+                     foreach (var timelineHelper in timelineHelperList)
+                     {
+                         var pangooTimelineHelper=GetComponent<PangooTimelineHelper>(timelineHelper.Path);
+                         pangooTimelineHelper.TimelineOptType = timelineHelper.OptType;
+                     }
+                 }
+
+
                 InitedTimelineSignal = true;
             }
 
