@@ -120,9 +120,10 @@ namespace Pangoo.Core.Characters
 
         }
 
-        public void SetCharacterSpeed(float val)
+        public void SetCharacterSpeed(float walkVal,float runVal)
         {
-            m_MotionInfo.SetLinearSpeed(val);
+            m_MotionInfo.SetLinearSpeed(walkVal);
+            m_MotionInfo.SetRunSpeed(runVal);
         }
 
         float m_CameraHeight;

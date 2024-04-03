@@ -26,7 +26,7 @@ namespace Pangoo.Core.VisualScripting
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        public InstructionFloatParams ParamsRaw = new InstructionFloatParams();
+        public InstructionTwoFloatParams ParamsRaw = new InstructionTwoFloatParams();
         // private PropertyGetString m_Message = new PropertyGetString("My message");
 
         public override IParams Params => this.ParamsRaw;
@@ -52,12 +52,9 @@ namespace Pangoo.Core.VisualScripting
 
             if (args?.Main != null)
             {
-                args.Main.CharacterService.SetPlayerSpeed(ParamsRaw.Val);
+                args.Main.CharacterService.SetPlayerSpeed(ParamsRaw.Val1,ParamsRaw.Val2);
             }
 
         }
-
-
-
     }
 }

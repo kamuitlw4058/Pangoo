@@ -466,6 +466,14 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
+        public static Instruction GetSetPlayerSpeed(float walkSpeed,float runSpeed)
+        {
+            var instruction = Activator.CreateInstance<InstructionSetPlayerSpeed>();
+            instruction.ParamsRaw.Val1 = walkSpeed;
+            instruction.ParamsRaw.Val2 = runSpeed;
+            return instruction;
+        }
+
 
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
@@ -579,6 +587,8 @@ namespace Pangoo.Core.VisualScripting
                     return GetCyclePlaySound(Uuid, Uuid2, Float1, Bool1, Uuid3);
                 case DirectInstructionTypeEnum.ShowCase:
                     return GetShowCase(Uuid);
+                case DirectInstructionTypeEnum.SetPlayerSpeed:
+                    return GetSetPlayerSpeed(Float1,Float2);
             }
 
             return null;

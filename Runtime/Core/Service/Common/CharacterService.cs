@@ -133,12 +133,12 @@ namespace Pangoo.Core.Services
             }
         }
 
-        public void SetPlayerSpeed(float val)
+        public void SetPlayerSpeed(float walkVal,float runWalk)
         {
             if (Player != null)
             {
-                Player.character.SetCharacterSpeed(val);
-                Log($"SetPlayer Speed:{val}");
+                Player.character.SetCharacterSpeed(walkVal,runWalk);
+                Log($"SetPlayer WalkSpeed:{walkVal} RunSpeed:{runWalk}");
             }
         }
 
