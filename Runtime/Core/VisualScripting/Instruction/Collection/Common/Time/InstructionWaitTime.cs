@@ -37,7 +37,7 @@ namespace Pangoo.Core.VisualScripting
         protected override IEnumerator Run(Args args)
         {
             var timeMode = new TimeMode();
-            yield return WaitTime(ParamsRaw.Val1, timeMode);
+            yield return WaitTime(ParamsRaw.Val, timeMode);
         }
 
         public override void RunImmediate(Args args)
