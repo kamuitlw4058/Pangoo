@@ -474,6 +474,14 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
+        public static Instruction GetChangeTimelineUpdateMode(string path , TimelineOperationTypeEnum timelineOperationType , float speed)
+        {
+            var instruction = Activator.CreateInstance<InstructionChangeTimelineUpdateMode>();
+            instruction.ParamsRaw.Path = path;
+            instruction.ParamsRaw.TimelineOperationType = timelineOperationType;
+            instruction.ParamsRaw.Speed = speed;
+            return instruction;
+        }
 
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
@@ -589,6 +597,8 @@ namespace Pangoo.Core.VisualScripting
                     return GetShowCase(Uuid);
                 case DirectInstructionTypeEnum.SetPlayerSpeed:
                     return GetSetPlayerSpeed(Float1,Float2);
+                case DirectInstructionTypeEnum.ChangeTimelineUpdateMode:
+                    return GetChangeTimelineUpdateMode(DropdownString1,TimelineOperationType,Float1);
             }
 
             return null;

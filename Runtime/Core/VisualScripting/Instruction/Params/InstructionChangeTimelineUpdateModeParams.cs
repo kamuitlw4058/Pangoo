@@ -11,13 +11,16 @@ namespace Pangoo.Core.VisualScripting
     [Common.Title("ChangeTimelineMode")]
     [Category("Timeline/改变Time")]
     [Serializable]
-    public class InstructionChangeTimelineModeParams : InstructionParams
+    public class InstructionChangeTimelineUpdateModeParams : InstructionParams
     {
         [JsonMember("Path")]
         public string Path;
         
         [JsonMember("TimelineOperationType")]
         public TimelineOperationTypeEnum TimelineOperationType;
+
+        [JsonMember("Speed")]
+        public float Speed;
     }
 }
 
