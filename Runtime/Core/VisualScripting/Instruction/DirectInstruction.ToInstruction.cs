@@ -175,7 +175,7 @@ namespace Pangoo.Core.VisualScripting
         public static Instruction GetWaitTimeInstruction(float duration)
         {
             var instruction = Activator.CreateInstance<InstructionWaitTime>();
-            instruction.ParamsRaw.Val1 = duration;
+            instruction.ParamsRaw.Val = duration;
             return instruction;
         }
 
