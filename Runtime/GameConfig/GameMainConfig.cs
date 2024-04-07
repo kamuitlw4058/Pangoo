@@ -76,7 +76,7 @@ namespace Pangoo
 
         [LabelText("跑步按键")]
         [TabGroup("玩家/玩家配置","玩家操作")]
-        public KeyCode RunKeyCode;
+        public KeyCode RunKeyCode=KeyCode.LeftShift;
 
         [ValueDropdown("GetIntVariableUuid")]
         [FoldoutGroup("动态物体", expanded: true)]
