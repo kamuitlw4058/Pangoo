@@ -161,5 +161,8 @@ namespace Pangoo.Core.VisualScripting
         ShowCase,
         [LabelText("设置玩家速度")]
         SetPlayerSpeed,
+        
+        [LabelText("改变Timeline更新模式")]
+        ChangeTimelineUpdateMode,
     }
 }

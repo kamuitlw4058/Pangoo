@@ -219,6 +219,12 @@ namespace Pangoo.Core.VisualScripting
         [LabelText("HotsoptState")]
         public DynamicObjectHotsoptState DynamicObjectHotsoptState;
 
+        [TableTitleGroup("参数")]
+        [ShowIf("$IsTimelineOperationTypeShow")]
+        [LabelWidth(120)]
+        [JsonMember("TimelineOperationType")]
+        [LabelText("$TimelineOperationTypeLabel")]
+        public TimelineOperationTypeEnum TimelineOperationType;
 
 #if UNITY_EDITOR
         public void SetPrefab(GameObject go)
@@ -475,6 +481,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.TweenRotation => true,
                     DirectInstructionTypeEnum.DynamicObjectDoRotationToTargetAngle=>true,
                     DirectInstructionTypeEnum.DynamicObjectRotationSetVariable=>true,
+                    DirectInstructionTypeEnum.ChangeTimelineUpdateMode=>true,
                     _ => false,
                 };
             }
@@ -501,6 +508,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectDoRotationToTargetAngle=>true,
                     DirectInstructionTypeEnum.CyclePlaySound=>true,
                     DirectInstructionTypeEnum.SetPlayerSpeed=>true,
+                    DirectInstructionTypeEnum.ChangeTimelineUpdateMode=>true,
                     _ => false,
                 };
             }
@@ -624,6 +632,19 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.ChangeHotspotState => true,
+                    _ => false,
+                };
+            }
+        }
+        
+        [JsonNoMember]
+        bool IsTimelineOperationTypeShow
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    DirectInstructionTypeEnum.ChangeTimelineUpdateMode=>true,
                     _ => false,
                 };
             }
@@ -856,6 +877,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectDoRotationToTargetAngle=>"旋转速度",
                     DirectInstructionTypeEnum.CyclePlaySound=>"周期时长",
                     DirectInstructionTypeEnum.SetPlayerSpeed=>"走路速度",
+                    DirectInstructionTypeEnum.ChangeTimelineUpdateMode=>"播放速度",
                     _ => "Float1",
                 };
             }
@@ -930,6 +952,18 @@ namespace Pangoo.Core.VisualScripting
                 };
             }
         }
+        
+        [JsonNoMember]
+        string TimelineOperationTypeLabel
+        {
+            get
+            {
+                return InstructionType switch
+                {
+                    _ => "Timeline更新模式",
+                };
+            }
+        }
 
         public IEnumerable OnDropdownStringValueDropdown()
         {
@@ -948,6 +982,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.TweenRotation:
                 case DirectInstructionTypeEnum.DynamicObjectRotationSetVariable:
                 case DirectInstructionTypeEnum.DynamicObjectDoRotationToTargetAngle:
+                case DirectInstructionTypeEnum.ChangeTimelineUpdateMode:
                     return GameSupportEditorUtility.RefPrefabStringDropdown(ListPrefab);
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
                 case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:
