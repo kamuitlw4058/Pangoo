@@ -95,7 +95,8 @@ namespace Pangoo.Core.Characters
         {
             // Debug.Log($"Update Services:{Services}");
             // MoveDirection = Services.GetVariable<Vector3>("MoveDirection");
-            if (Input.GetKey(KeyCode.LeftShift))
+            var runKeyCode = Character.Main.GameConfig.GameMainConfig.RunKeyCode;
+            if (Input.GetKey(runKeyCode)&& runKeyCode!=KeyCode.None)
             {
                 MoveDirection = m_MotionActionService.MoveDirection * Character.MotionInfo.RunSpeed * DeltaTime;
             }

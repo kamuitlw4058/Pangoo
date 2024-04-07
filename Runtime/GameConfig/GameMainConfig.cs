@@ -74,6 +74,10 @@ namespace Pangoo
         [TabGroup("玩家/玩家配置", "脚步声")]
         public FootstepEntry FootstepEntry;
 
+        [LabelText("跑步按键")]
+        [TabGroup("玩家/玩家配置","玩家操作")]
+        public KeyCode RunKeyCode=KeyCode.LeftShift;
+
         [ValueDropdown("GetIntVariableUuid")]
         [FoldoutGroup("动态物体", expanded: true)]
         [LabelText("动态物体状态子物体")]
