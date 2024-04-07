@@ -49,14 +49,14 @@ namespace Pangoo.Core.VisualScripting
                         {
                             if (marker.time > playableDirector.time && marker.time <= playableDirector.time +Time.deltaTime * ParamsRaw.TimeFactor)
                             {
-                                playableDirector.playableGraph.GetOutput(0).PushNotification(playableDirector.playableGraph.GetRootPlayable(0), marker as SignalEmitter, null);
+                                InvokeSignal(playableDirector, marker);
                             }
                         }
                         else
                         {
                             if (marker.time < playableDirector.time && marker.time >= playableDirector.time+Time.deltaTime * ParamsRaw.TimeFactor)
                             {
-                                playableDirector.playableGraph.GetOutput(0).PushNotification(playableDirector.playableGraph.GetRootPlayable(0), marker as SignalEmitter, null);
+                                InvokeSignal(playableDirector, marker);
                             }
                         }
                     }
@@ -93,6 +93,12 @@ namespace Pangoo.Core.VisualScripting
                     playableDirector.time = 0;
                 }
             }
+        }
+
+        private static void InvokeSignal(PlayableDirector playableDirector, IMarker marker)
+        {
+            playableDirector.playableGraph.GetOutput(0).PushNotification(playableDirector.playableGraph.GetRootPlayable(0),
+                marker as SignalEmitter, null);
         }
     }
 }
