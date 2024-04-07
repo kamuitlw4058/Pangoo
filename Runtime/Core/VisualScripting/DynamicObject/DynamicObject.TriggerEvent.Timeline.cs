@@ -7,7 +7,6 @@ using Pangoo.Core.Characters;
 using Sirenix.OdinInspector;
 using UnityEngine.Playables;
 using GameFramework.Event;
-using LitJson;
 
 
 namespace Pangoo.Core.VisualScripting
