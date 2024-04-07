@@ -45,9 +45,19 @@ namespace Pangoo.Core.VisualScripting
                 {
                     foreach (IMarker marker in makers.GetMarkers())
                     {
-                        if (ParamsRaw.TimeFactor > 0 ? marker.time > playableDirector.time : marker.time < playableDirector.time &&ParamsRaw.TimeFactor > 0 ? marker.time <= playableDirector.time +Time.deltaTime * ParamsRaw.TimeFactor : marker.time >= playableDirector.time+Time.deltaTime * ParamsRaw.TimeFactor)
+                        if (ParamsRaw.TimeFactor > 0)
                         {
-                            playableDirector.playableGraph.GetOutput(0).PushNotification(playableDirector.playableGraph.GetRootPlayable(0), marker as SignalEmitter, null);
+                            if (marker.time > playableDirector.time && marker.time <= playableDirector.time +Time.deltaTime * ParamsRaw.TimeFactor)
+                            {
+                                playableDirector.playableGraph.GetOutput(0).PushNotification(playableDirector.playableGraph.GetRootPlayable(0), marker as SignalEmitter, null);
+                            }
+                        }
+                        else
+                        {
+                            if (marker.time < playableDirector.time && marker.time >= playableDirector.time+Time.deltaTime * ParamsRaw.TimeFactor)
+                            {
+                                playableDirector.playableGraph.GetOutput(0).PushNotification(playableDirector.playableGraph.GetRootPlayable(0), marker as SignalEmitter, null);
+                            }
                         }
                     }
                 }
