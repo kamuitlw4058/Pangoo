@@ -17,7 +17,7 @@ namespace Pangoo.Core.VisualScripting
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        public InstructionChangeTimelineUpdateModeParams ParamsRaw => new InstructionChangeTimelineUpdateModeParams();
+        public InstructionChangeTimelineUpdateModeParams ParamsRaw = new InstructionChangeTimelineUpdateModeParams();
         public override IParams Params => ParamsRaw;
 
         public override void RunImmediate(Args args)

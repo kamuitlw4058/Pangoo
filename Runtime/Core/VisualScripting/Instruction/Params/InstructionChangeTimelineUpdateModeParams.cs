@@ -8,9 +8,6 @@ using UnityEngine;
 
 namespace Pangoo.Core.VisualScripting
 {
-    [Common.Title("ChangeTimelineMode")]
-    [Category("Timeline/改变Time")]
-    [Serializable]
     public class InstructionChangeTimelineUpdateModeParams : InstructionParams
     {
         [JsonMember("Path")]
