@@ -76,7 +76,8 @@ namespace Pangoo.Core.Common
         private void Update()
         {
             if (TimelineOptType != TimelineOperationTypeEnum.ManualAndUpdate) return;
-            
+            if (Speed.Equals(0))return;
+
             var makers = Asset.markerTrack;
             if (makers != null)
             {
@@ -90,7 +91,7 @@ namespace Pangoo.Core.Common
                             return;
                         }
                     }
-                    else
+                    if(Speed<0)
                     {
                         if (playableDirector.time > marker.time && marker.time >= playableDirector.time + DeltaTime)
                         {
