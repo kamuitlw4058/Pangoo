@@ -88,6 +88,7 @@ namespace Pangoo.Core.Common
                             playableDirector.time = marker.time;
                             playableDirector.Evaluate();
                             Speed = 0;
+                            InvokeSignal(playableDirector,marker);
                             return;
                         }
                     }
@@ -111,6 +112,7 @@ namespace Pangoo.Core.Common
                             playableDirector.time = marker.time;
                             playableDirector.Evaluate();
                             Speed = 0;
+                            InvokeSignal(playableDirector,marker);
                             return;
                         }
                     }
@@ -136,6 +138,12 @@ namespace Pangoo.Core.Common
 
                     break;
             }
+        }
+        
+        private static void InvokeSignal(PlayableDirector playableDirector, IMarker marker)
+        {
+            playableDirector.playableGraph.GetOutput(0).PushNotification(playableDirector.playableGraph.GetRootPlayable(0),
+                marker as SignalEmitter, null);
         }
         
         public void OnNotify(Playable origin, INotification notification, object context)
