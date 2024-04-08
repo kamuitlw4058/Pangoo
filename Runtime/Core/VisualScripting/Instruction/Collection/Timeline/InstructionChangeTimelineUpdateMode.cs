@@ -23,8 +23,15 @@ namespace Pangoo.Core.VisualScripting
         public override void RunImmediate(Args args)
         {
             var timelineHelper = args.dynamicObject.GetComponent<PangooTimelineHelper>(ParamsRaw.Path);
-            timelineHelper.TimelineOptType = ParamsRaw.TimelineOperationType;
-            timelineHelper.Speed = ParamsRaw.Speed;
+            if (timelineHelper!=null)
+            {
+                timelineHelper.TimelineOptType = ParamsRaw.TimelineOperationType;
+                timelineHelper.Speed = ParamsRaw.Speed;
+            }
+            else
+            {
+                Debug.LogError($"没有在{ParamsRaw.Path}上获取到PangooTimelineHelper");
+            }
         }
     }
 }
