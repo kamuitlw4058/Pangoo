@@ -27,6 +27,16 @@ namespace Pangoo.Core.VisualScripting
             {
                 timelineHelper.TimelineOptType = ParamsRaw.TimelineOperationType;
                 timelineHelper.Speed = ParamsRaw.Speed;
+                switch (timelineHelper.TimelineOptType)
+                {
+                    case TimelineOperationTypeEnum.Manual:
+                        timelineHelper.playableDirector.timeUpdateMode = DirectorUpdateMode.Manual;
+                        break;
+                    case TimelineOperationTypeEnum.ManualAndUpdate:
+                        timelineHelper.playableDirector.timeUpdateMode = DirectorUpdateMode.GameTime;
+                        break;
+                }
+                
             }
             else
             {
