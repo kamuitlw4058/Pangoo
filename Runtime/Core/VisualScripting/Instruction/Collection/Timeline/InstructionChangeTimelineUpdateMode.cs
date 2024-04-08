@@ -27,6 +27,8 @@ namespace Pangoo.Core.VisualScripting
             {
                 timelineHelper.TimelineOptType = ParamsRaw.TimelineOperationType;
                 timelineHelper.Speed = ParamsRaw.Speed;
+                
+                timelineHelper.SetTimelineByMode();
             }
             else
             {
