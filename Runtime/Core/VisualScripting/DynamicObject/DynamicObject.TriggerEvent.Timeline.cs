@@ -17,6 +17,7 @@ namespace Pangoo.Core.VisualScripting
     {
 
         public Action<Args> PlayTimelineEvent;
+        public PlayableDirector[] playableDirectors;
 
         InstructionPlayTimeline PlayTimelineInstruction;
 
@@ -31,6 +32,8 @@ namespace Pangoo.Core.VisualScripting
                 PlayTimelineEvent += OnPlayTimelineEvent;
                 PlayTimelineInstruction = Activator.CreateInstance<InstructionPlayTimeline>();
             }
+
+            DoAwakeTimeineSignal();
         }
 
         bool InitedTimelineSignal;
@@ -40,14 +43,14 @@ namespace Pangoo.Core.VisualScripting
             if (!InitedTimelineSignal)
             {
                 Event.Subscribe(TimelineSignalEventArgs.EventId, OnTimelineSignalEvent);
-                 var playableDirectors = gameObject.GetComponentsInChildren<PlayableDirector>(includeInactive: true);
-                 Debug.Log($"playableDirectors列表:{playableDirectors}");
+                 playableDirectors = gameObject.GetComponentsInChildren<PlayableDirector>(includeInactive: true);
+                 Debug.Log($"gameObject:{gameObject.name}");
                  if (playableDirectors != null)
                  {
                      foreach (var pd in playableDirectors)
                      {
                          Debug.Log($"当前PD:{pd}");
-                         var timelineHelper = pd.gameObject.GetOrAddComponent<PangooTimelineHelper>();
+                         var timelineHelper = pd.gameObject.GetOrAddComponent<PangooTimelineHelper>(); 
                          timelineHelper.dynamicObject = this;
                          timelineHelper.playableDirector = pd;
                          timelineHelper.Path = pd.transform.GetRelativePath(CachedTransfrom);
@@ -67,8 +70,7 @@ namespace Pangoo.Core.VisualScripting
                          }
                      }
                  }
-
-
+                 
                 InitedTimelineSignal = true;
             }
 
