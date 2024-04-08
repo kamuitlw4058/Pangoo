@@ -101,8 +101,37 @@ namespace Pangoo.Core.Common
                     }
                 }
             }
-
+            
             playableDirector.time = playableDirector.time + DeltaTime;
+            
+            switch (playableDirector.extrapolationMode)
+            {
+                case DirectorWrapMode.None:
+                    if (playableDirector.time>playableDirector.duration)
+                    {
+                        playableDirector.Stop();
+                    }
+                    break;
+                case DirectorWrapMode.Hold:
+                    if (playableDirector.time>=playableDirector.duration)
+                    {
+                        playableDirector.time = playableDirector.duration;
+                        playableDirector.Pause();
+                    }
+                    break;
+                case DirectorWrapMode.Loop:
+                    if (playableDirector.time>playableDirector.duration)
+                    {
+                        playableDirector.time = 0;
+                    }
+                    break;
+            }
+            
+            if (playableDirector.time<=0)
+            {
+                playableDirector.time = 0;
+            }
+            
             playableDirector.Evaluate();
         }
         
