@@ -19,6 +19,16 @@ namespace Pangoo.Core.VisualScripting
         Both,
     }
 
+
+    public enum ColliderTriggerTypeEnum
+    {
+        [LabelText("预制体设置")]
+        Prefab,
+        [LabelText("手动设置")]
+        Manual
+
+    }
+
     public class DynamicObjectSubObjectTrigger
     {
         [JsonMember("Path")]
@@ -29,6 +39,18 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("TriggerType")]
         [LabelText("触发事件类型")]
         public SubObjectTriggerEventType TriggerEventType;
+
+        [JsonMember("ColliderTriggerType")]
+        [LabelText("碰撞触发类型")]
+        public ColliderTriggerTypeEnum ColliderTriggerType;
+
+        [JsonMember("ColliderTriggerPose")]
+        [LabelText("手动碰撞触发Pose")]
+        [ShowIf("@this.ColliderTriggerType == ColliderTriggerTypeEnum.Manual")]
+        public List<PColliderRange> ColliderTriggerPose = new List<PColliderRange>();
+
+
+
 #if UNITY_EDITOR
         [JsonNoMember]
         [HideInInspector]

@@ -236,11 +236,25 @@ namespace Pangoo.MetaTable
         float IDynamicObjectRow.ColliderTriggerStayExitDelay {get => ColliderTriggerStayExitDelay; set => ColliderTriggerStayExitDelay = value;}
 
         [JsonMember("TimelineHelperList")]
-        [MetaTableRowColumn("TimelineHelperList","string", "Timeline帮助列表",33)]
-        [LabelText("Timeline帮助列表")]
+        [MetaTableRowColumn("TimelineHelperList","string", "Timeline配置列表",33)]
+        [LabelText("Timeline配置列表")]
         public string TimelineHelperList ;
 
         string IDynamicObjectRow.TimelineHelperList {get => TimelineHelperList; set => TimelineHelperList = value;}
+
+        [JsonMember("ColliderTriggerType")]
+        [MetaTableRowColumn("ColliderTriggerType","string", "碰撞触发类型",34)]
+        [LabelText("碰撞触发类型")]
+        public string ColliderTriggerType ;
+
+        string IDynamicObjectRow.ColliderTriggerType {get => ColliderTriggerType; set => ColliderTriggerType = value;}
+
+        [JsonMember("ColliderTriggerManualList")]
+        [MetaTableRowColumn("ColliderTriggerManualList","string", "手动碰撞触发列表",35)]
+        [LabelText("手动碰撞触发列表")]
+        public string ColliderTriggerManualList ;
+
+        string IDynamicObjectRow.ColliderTriggerManualList {get => ColliderTriggerManualList; set => ColliderTriggerManualList = value;}
 
     }
 }

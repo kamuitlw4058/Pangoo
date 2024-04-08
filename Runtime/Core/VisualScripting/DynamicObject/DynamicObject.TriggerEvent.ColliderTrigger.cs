@@ -15,6 +15,8 @@ namespace Pangoo.Core.VisualScripting
         int m_EnterTriggerCount;
 
         [ShowInInspector]
+        [FoldoutGroup("碰撞触发")]
+        [LabelText("玩家进入触发次数")]
         public int EnterTriggerCount
         {
             get
@@ -44,9 +46,17 @@ namespace Pangoo.Core.VisualScripting
         List<DynamicObjectSubObjectTrigger> m_SubObjectTriggerInfo;
 
 
-        void DoAwakeSubObjectTrigger()
+        [LabelText("基础碰撞")]
+        [FoldoutGroup("碰撞触发")]
+        public Collider[] BaseColliders;
+
+
+        void DoAwakeColliderTrigger()
         {
+            BaseColliders = CachedTransfrom.GetComponents<Collider>();
+
             if (Row.SubObjectTriggerList.IsNullOrWhiteSpace()) return;
+
             try
             {
                 m_SubObjectTriggerInfo = JsonMapper.ToObject<List<DynamicObjectSubObjectTrigger>>(Row.SubObjectTriggerList);
@@ -76,30 +86,42 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
-
         public void SetColliderTriggerActive(bool val)
         {
-            var colliders = gameObject.GetComponents<Collider>();
-            if (colliders != null)
+            if (BaseColliders == null || (BaseColliders != null && BaseColliders.Length == 0)) return;
+            foreach (var collider in BaseColliders)
             {
-                foreach (var collider in colliders)
+                if (collider.isTrigger)
                 {
-                    if (collider.isTrigger)
-                    {
-                        collider.enabled = val;
-                    }
+                    collider.enabled = val;
                 }
             }
         }
 
-
+        [LabelText("玩家是否在触发内")]
+        [FoldoutGroup("碰撞触发")]
         public bool PlayerStayTrigger;
+
+        [LabelText("玩家停留进度")]
+        [FoldoutGroup("碰撞触发")]
         public float PlayerStayProgress;
+
+        [LabelText("玩家退出进度")]
+        [FoldoutGroup("碰撞触发")]
         public float PlayerStayExitProgress;
+
+        [LabelText("玩家退出是否超时")]
+        [FoldoutGroup("碰撞触发")]
         public bool IsTriggeredStayTimeoutExit;
 
+
+        [LabelText("玩家退出停留是否")]
+        [FoldoutGroup("碰撞触发")]
         public bool IsTriggeredStayTimeout;
 
+
+        [LabelText("玩家上一帧是否在触发中")]
+        [FoldoutGroup("碰撞触发")]
         public bool LastFramePlayerStayTrigger;
 
         protected override void DoFixedUpdate()
@@ -203,17 +225,17 @@ namespace Pangoo.Core.VisualScripting
 
         }
 
-        public void ExtraTriggerEnter3d(Collider collider,string triggerPath)
+        public void ExtraTriggerEnter3d(Collider collider, string triggerPath)
         {
             EnterTriggerCount += 1;
 
-            TriggerInovke(TriggerTypeEnum.OnExtraTriggerEnter3D,null,triggerPath);
+            TriggerInovke(TriggerTypeEnum.OnExtraTriggerEnter3D, null, triggerPath);
         }
 
-        public void ExtraTriggerExit3d(Collider collider,string triggerPath)
+        public void ExtraTriggerExit3d(Collider collider, string triggerPath)
         {
             EnterTriggerCount -= 1;
-            TriggerInovke(TriggerTypeEnum.OnExtraTriggerExit3D,null,triggerPath);
+            TriggerInovke(TriggerTypeEnum.OnExtraTriggerExit3D, null, triggerPath);
 
         }
 

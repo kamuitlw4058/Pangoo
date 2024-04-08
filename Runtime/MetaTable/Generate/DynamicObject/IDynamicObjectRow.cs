@@ -81,6 +81,10 @@ namespace Pangoo.MetaTable
 
         public string TimelineHelperList{ get; set; }
 
+        public string ColliderTriggerType{ get; set; }
+
+        public string ColliderTriggerManualList{ get; set; }
+
     }
 }
 

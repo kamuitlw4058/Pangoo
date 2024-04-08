@@ -220,7 +220,7 @@ namespace Pangoo.Core.VisualScripting
             DoAwakeTriggerEvent();
             DoAwakeHotspot();
             DoAwakeSubDynamicObject();
-            DoAwakeSubObjectTrigger();
+            DoAwakeColliderTrigger();
             DoAwakeMouseInteract();
             DoAwakeMaterial();
 
