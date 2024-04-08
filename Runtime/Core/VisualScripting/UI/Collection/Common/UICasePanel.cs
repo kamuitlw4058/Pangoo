@@ -138,6 +138,7 @@ namespace Pangoo.Core.VisualScripting
         List<UICaseClueSlot> ShowSlots = new List<UICaseClueSlot>();
         List<UICaseClueSlot> TargetSlots = new List<UICaseClueSlot>();
 
+        [ShowInInspector]
         Dictionary<string, bool> Dict = new Dictionary<string, bool>();
 
 
@@ -315,72 +316,115 @@ namespace Pangoo.Core.VisualScripting
                     Dict.Add(caseVariable, PanelData.Main.RuntimeData.GetDynamicObjectVariable<bool>(ShowContent.CaseRow.DynamicObjectUuid, caseVariable));
                 }
 
-                List<CaseStateCheckItem> States;
-                try
+                var ShowType = ShowContent.CaseRow.CaseShowType.ToEnum<CaseShowType>();
+                switch (ShowType)
                 {
-                    States = JsonMapper.ToObject<List<CaseStateCheckItem>>(ShowContent.CaseRow.CaseStates);
+                    case CaseShowType.State:
+                        ShowCaseState();
+                        break;
+                    case CaseShowType.Variable:
+                        ShowCaseVariableState();
+                        break;
                 }
-                catch
-                {
-                    States = null;
-                }
-
-
-                if (States != null)
-                {
-                    bool TotalMatch = false;
-                    foreach (var state in States)
-                    {
-                        bool stateMatch = true;
-                        foreach (var kv in Dict)
-                        {
-                            bool foundTrue = false;
-                            foreach (var trueVar in state.VariableUuids)
-                            {
-                                if (kv.Key.Equals(trueVar))
-                                {
-                                    foundTrue = true;
-                                    if (!kv.Value)
-                                    {
-                                        stateMatch = false;
-                                    }
-                                    break;
-                                }
-                            }
-
-
-                            if (!foundTrue && kv.Value)
-                            {
-                                stateMatch = false;
-                            }
-
-                            if (!stateMatch)
-                            {
-                                break;
-                            }
-                        }
-
-                        if (stateMatch)
-                        {
-                            TotalMatch = true;
-                            ShowContent.Entity.DynamicObj.SetMaterialState(state.State);
-                            break;
-                        }
-
-
-                    }
-
-                    if (!TotalMatch)
-                    {
-                        ShowContent.Entity.DynamicObj.SetMaterialState(0);
-
-                    }
-                }
-
 
             }
 
 
+        }
+
+        public void ShowCaseState()
+        {
+            List<CaseStateCheckItem> States;
+            try
+            {
+                States = JsonMapper.ToObject<List<CaseStateCheckItem>>(ShowContent.CaseRow.CaseStates);
+            }
+            catch
+            {
+                States = null;
+            }
+
+
+            if (States != null)
+            {
+                bool TotalMatch = false;
+                foreach (var state in States)
+                {
+                    bool stateMatch = true;
+                    foreach (var kv in Dict)
+                    {
+                        bool foundTrue = false;
+                        foreach (var trueVar in state.VariableUuids)
+                        {
+                            if (kv.Key.Equals(trueVar))
+                            {
+                                foundTrue = true;
+                                if (!kv.Value)
+                                {
+                                    stateMatch = false;
+                                }
+                                break;
+                            }
+                        }
+
+
+                        if (!foundTrue && kv.Value)
+                        {
+                            stateMatch = false;
+                        }
+
+                        if (!stateMatch)
+                        {
+                            break;
+                        }
+                    }
+
+                    if (stateMatch)
+                    {
+                        TotalMatch = true;
+                        ShowContent.Entity.DynamicObj.SetMaterialState(state.State);
+                        break;
+                    }
+
+
+                }
+
+                if (!TotalMatch)
+                {
+                    ShowContent.Entity.DynamicObj.SetMaterialState(0);
+
+                }
+            }
+        }
+
+        public void ShowCaseVariableState()
+        {
+            List<CaseVariableCheckItem> States;
+            try
+            {
+                States = JsonMapper.ToObject<List<CaseVariableCheckItem>>(ShowContent.CaseRow.CaseVariableState);
+            }
+            catch
+            {
+                States = null;
+            }
+
+
+            if (States != null)
+            {
+                foreach (var state in States)
+                {
+                    if (state.ControlChildList == null) continue;
+
+                    bool stateVal = Dict.GetValueOrDefault(state.VariableUuid, false);
+                    foreach (var path in state.ControlChildList)
+                    {
+                        var trans = ShowContent.Entity.DynamicObj.GetTransform(path);
+                        trans?.gameObject.SetActive(stateVal);
+                    }
+
+                }
+            }
         }
 
 

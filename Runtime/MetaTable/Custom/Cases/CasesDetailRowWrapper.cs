@@ -62,6 +62,23 @@ namespace Pangoo.MetaTable
                 MenuWindow?.TrySelectMenuItemWithObject(objectTarget);
             }
         }
+        GameObject m_Prefab;
+
+
+        [ShowInInspector]
+        [LabelText("资源预制体")]
+        [ReadOnly]
+        public GameObject Prefab
+        {
+            get
+            {
+                if (m_Prefab == null)
+                {
+                    m_Prefab = GameSupportEditorUtility.GetPrefabByDynamicObjectUuid(UnityRow.Row.DynamicObjectUuid);
+                }
+                return m_Prefab;
+            }
+        }
 
 
 
@@ -84,23 +101,6 @@ namespace Pangoo.MetaTable
         }
 
 
-        GameObject m_Prefab;
-
-
-        [ShowInInspector]
-        [LabelText("资源预制体")]
-        [ReadOnly]
-        public GameObject Prefab
-        {
-            get
-            {
-                if (m_Prefab == null)
-                {
-                    m_Prefab = GameSupportEditorUtility.GetPrefabByDynamicObjectUuid(UnityRow.Row.DynamicObjectUuid);
-                }
-                return m_Prefab;
-            }
-        }
 
         public void UpdatePrefab()
         {
@@ -126,9 +126,29 @@ namespace Pangoo.MetaTable
         }
 
 
-        List<CaseStateCheckItem> m_CaseStates;
+        [ShowInInspector]
+        [LabelText("案件显示类型")]
+        [FoldoutGroup("案件显示", expanded: true)]
+        public CaseShowType ShowType
+        {
+            get
+            {
+                return UnityRow.Row.CaseShowType.ToEnum<CaseShowType>();
+            }
+            set
+            {
+                UnityRow.Row.CaseShowType = value.ToString();
+            }
+        }
+
+
+
+
 
         [ShowInInspector]
+        [FoldoutGroup("案件显示")]
+        [ShowIf("@this.ShowType ==  CaseShowType.State")]
+        [LabelText("案件状态显示")]
         public string CaseStatesString
         {
             get
@@ -137,11 +157,15 @@ namespace Pangoo.MetaTable
             }
         }
 
+        List<CaseStateCheckItem> m_CaseStates;
+
         [ShowInInspector]
-        [ListDrawerSettings(CustomAddFunction = "OnCaseStatesAdd")]
+        [ListDrawerSettings(CustomAddFunction = "OnCaseStatesAdd", DefaultExpandedState = true)]
         [OnValueChanged("OnCaseStatesChanged", includeChildren: true)]
         [HideReferenceObjectPicker]
         [LabelText("案件状态列表")]
+        [FoldoutGroup("案件显示")]
+        [ShowIf("@this.ShowType ==  CaseShowType.State")]
         public List<CaseStateCheckItem> CaseStates
         {
             get
@@ -152,6 +176,10 @@ namespace Pangoo.MetaTable
                     try
                     {
                         m_CaseStates = JsonMapper.ToObject<List<CaseStateCheckItem>>(UnityRow.Row.CaseStates);
+                        foreach (var state in m_CaseStates)
+                        {
+                            state.OptionVariables = CaseVariables;
+                        }
                     }
                     catch { }
 
@@ -171,24 +199,104 @@ namespace Pangoo.MetaTable
             }
         }
 
-        [Serializable]
-        public class CaseStateModelOnOff
+
+
+        void OnCaseStatesAdd()
         {
-
-            [ValueDropdown("GetOptionVariables")]
-            [JsonMember("VariableUuids")]
-            [LabelText("案件变量")]
-            public string Path;
-
-            [JsonNoMember]
-            [HideInInspector]
-            public GameObject Prefab;
-
+            var item = new CaseStateCheckItem();
+            item.OptionVariables = CaseVariables;
+            m_CaseStates.Add(item);
         }
 
-        // Dictionary<int,CaseStateModelOnOff>
+        void OnCaseStatesChanged()
+        {
+            if (m_CaseStates != null)
+            {
+                foreach (var state in m_CaseStates)
+                {
+                    state.OptionVariables = CaseVariables;
+                }
+            }
+            UnityRow.Row.CaseStates = JsonMapper.ToJson(m_CaseStates);
+            Save();
+        }
 
+        [ShowInInspector]
+        [FoldoutGroup("案件显示")]
+        [ShowIf("@this.ShowType ==  CaseShowType.Variable")]
+        public string CaseVariableStateString
+        {
+            get
+            {
+                return UnityRow.Row.CaseVariableState;
+            }
+        }
+        List<CaseVariableCheckItem> m_CaseVariableState;
 
+        [ShowInInspector]
+        [ListDrawerSettings(CustomAddFunction = "OnCaseVariableStatesAdd", DefaultExpandedState = true)]
+        [OnValueChanged("OnVariableCaseStateChanged", includeChildren: true)]
+        [HideReferenceObjectPicker]
+        [LabelText("案件状态列表")]
+        [FoldoutGroup("案件显示")]
+        [ShowIf("@this.ShowType ==  CaseShowType.Variable")]
+        public List<CaseVariableCheckItem> CaseVariableState
+        {
+            get
+            {
+
+                if (m_CaseVariableState == null)
+                {
+                    try
+                    {
+                        m_CaseVariableState = JsonMapper.ToObject<List<CaseVariableCheckItem>>(UnityRow.Row.CaseVariableState);
+                        foreach (var state in m_CaseVariableState)
+                        {
+                            state.OptionVariables = CaseVariables;
+                            state.Prefab = Prefab;
+                        }
+                    }
+                    catch { }
+
+                    if (m_CaseVariableState == null)
+                    {
+                        m_CaseVariableState = new List<CaseVariableCheckItem>();
+                    }
+
+                }
+
+                return m_CaseVariableState;
+            }
+            set
+            {
+                UnityRow.Row.CaseVariableState = JsonMapper.ToJson(m_CaseVariableState);
+                Save();
+            }
+        }
+
+        void OnCaseVariableStatesAdd()
+        {
+            var item = new CaseVariableCheckItem();
+            item.OptionVariables = CaseVariables;
+            item.Prefab = Prefab;
+            m_CaseVariableState.Add(item);
+            UnityRow.Row.CaseVariableState = JsonMapper.ToJson(m_CaseVariableState);
+            Save();
+        }
+
+        void OnVariableCaseStateChanged()
+        {
+            if (m_CaseVariableState != null)
+            {
+                foreach (var state in m_CaseVariableState)
+                {
+                    state.OptionVariables = CaseVariables;
+                    state.Prefab = Prefab;
+                }
+            }
+            UnityRow.Row.CaseVariableState = JsonMapper.ToJson(m_CaseVariableState);
+            Save();
+        }
 
         public void UpdateOptionVariables()
         {
@@ -201,20 +309,11 @@ namespace Pangoo.MetaTable
             }
         }
 
-        void OnCaseStatesAdd()
-        {
-            var item = new CaseStateCheckItem();
-            item.OptionVariables = CaseVariables;
-            m_CaseStates.Add(item);
-        }
 
-        void OnCaseStatesChanged()
-        {
-            UnityRow.Row.CaseStates = JsonMapper.ToJson(m_CaseStates);
-            Save();
-        }
 
         [ShowInInspector]
+        [LabelText("线索合成")]
+        [FoldoutGroup("线索合成", expanded: true)]
         public string ClueIntegrateString
         {
             get
@@ -229,6 +328,8 @@ namespace Pangoo.MetaTable
         [LabelText("线索合成")]
         [HideReferenceObjectPicker]
         [OnValueChanged("OnClueIntegrateChanged", includeChildren: true)]
+        [FoldoutGroup("线索合成")]
+        [ListDrawerSettings(DefaultExpandedState = true)]
         public ClueIntegrate[] ClueIntegrate
         {
             get

@@ -667,3 +667,9 @@ MonoBehaviour:
     - Name: StateModelOnOff
       Type: string
       CnName: "\u72B6\u6001\u6A21\u578B\u5F00\u5173"
+    - Name: CaseShowType
+      Type: string
+      CnName: "\u6848\u4EF6\u663E\u793A\u7C7B\u578B"
+    - Name: CaseVariableState
+      Type: string
+      CnName: "\u6848\u4EF6\u53D8\u91CF\u72B6\u6001"

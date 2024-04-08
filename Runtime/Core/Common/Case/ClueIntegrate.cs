@@ -70,6 +70,7 @@ namespace Pangoo.Core.Common
         [ValueDropdown("GetOptionVariables")]
         [JsonMember("VariableUuids")]
         [LabelText("案件变量")]
+        [ListDrawerSettings(DefaultExpandedState = true)]
         public string[] VariableUuids = new string[0];
 
         [JsonNoMember]
@@ -86,12 +87,67 @@ namespace Pangoo.Core.Common
 
         IEnumerable GetOptionVariables()
         {
-            ValueDropdownList<string> ret = new ValueDropdownList<string>();
-            foreach (var optVar in OptionVariables)
+            List<Tuple<string, string>> includeUuids = new List<Tuple<string, string>>();
+            foreach (var variableUuid in OptionVariables)
             {
-                ret.Add(optVar);
+                includeUuids.Add(new Tuple<string, string>(variableUuid, string.Empty));
             }
-            return ret;
+            return VariablesOverview.GetUuidDropdown(includeUuids: includeUuids);
+        }
+
+    }
+
+
+    public enum CaseShowType
+    {
+        [LabelText("状态显示")]
+        State,
+        [LabelText("变量显示")]
+        Variable
+    }
+
+    [Serializable]
+    public class CaseVariableCheckItem
+    {
+        [ValueDropdown("GetOptionVariables")]
+        [JsonMember("VariableUuids")]
+        [LabelText("案件变量")]
+        public string VariableUuid = string.Empty;
+
+        [JsonNoMember]
+        [HideInInspector]
+        public string[] OptionVariables = new string[0];
+
+        [JsonMember("ControlChildList")]
+        [ValueDropdown("GetPrefabPath")]
+        [LabelText("控制子物体列表")]
+        public string[] ControlChildList = new string[0];
+
+
+#if UNITY_EDITOR
+        [JsonNoMember]
+        [HideInInspector]
+        public GameObject Prefab;
+
+#endif
+
+        [JsonMember("Note")]
+        [LabelText("备注")]
+        public string Note;
+
+        IEnumerable GetOptionVariables()
+        {
+            List<Tuple<string, string>> includeUuids = new List<Tuple<string, string>>();
+            foreach (var variableUuid in OptionVariables)
+            {
+                includeUuids.Add(new Tuple<string, string>(variableUuid, string.Empty));
+            }
+            return VariablesOverview.GetUuidDropdown(includeUuids: includeUuids);
+        }
+
+        IEnumerable GetPrefabPath()
+        {
+            return GameSupportEditorUtility.RefPrefabStringDropdown(Prefab, hasSelf: false);
         }
 
     }

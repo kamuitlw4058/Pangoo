@@ -72,6 +72,12 @@ namespace Pangoo.Editor
 
                 }
 
+                if (SirenixEditorGUI.ToolbarButton(new GUIContent("刷新编辑器缓存")))
+                {
+                    GameSupportEditorUtility.Refresh();
+                    SelectionStack.Clear();
+                }
+
             }
             SirenixEditorGUI.EndHorizontalToolbar();
         }

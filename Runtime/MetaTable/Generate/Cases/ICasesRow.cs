@@ -31,6 +31,10 @@ namespace Pangoo.MetaTable
 
         public string StateModelOnOff{ get; set; }
 
+        public string CaseShowType{ get; set; }
+
+        public string CaseVariableState{ get; set; }
+
     }
 }
 

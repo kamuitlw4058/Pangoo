@@ -1,14 +1,11 @@
 #if UNITY_EDITOR
 
 using System;
-using System.IO;
-using System.Collections.Generic;
-using LitJson;
+using System.Collections;
 using UnityEngine;
 using Sirenix.OdinInspector;
-using System.Xml.Serialization;
-using Pangoo.Common;
 using MetaTable;
+using UnityEditor;
 
 namespace Pangoo.MetaTable
 {
@@ -40,6 +37,49 @@ namespace Pangoo.MetaTable
                 }
                 return m_AssetPrefab;
             }
+        }
+
+        [ShowInInspector]
+        [ValueDropdown("OnAssetGroupUuidDropdown")]
+        public string AssetGroup
+        {
+            get
+            {
+                return GameSupportEditorUtility.GetAssetGroupUuidByAssetGroup(UnityRow.Row.AssetGroup);
+            }
+            set
+            {
+                var oldAssetGroupUuid = GameSupportEditorUtility.GetAssetGroupUuidByAssetGroup(UnityRow.Row.AssetGroup);
+                if (value != oldAssetGroupUuid)
+                {
+
+                    var oldGroup = GameSupportEditorUtility.GetAssetGroupByAssetGroupUuid(oldAssetGroupUuid);
+                    var newGroup = GameSupportEditorUtility.GetAssetGroupByAssetGroupUuid(value);
+
+                    var oldPath = AssetUtility.GetAssetPath(UnityRow.Row.AssetPackageDir, UnityRow.Row.AssetType, UnityRow.Row.AssetPath, oldGroup);
+                    var groupPath = AssetUtility.GetAssetPathDir(UnityRow.Row.AssetPackageDir, UnityRow.Row.AssetType, newGroup);
+                    if (!AssetDatabase.IsValidFolder(groupPath))
+                    {
+                        var baseAssetPath = AssetUtility.GetAssetPathDir(UnityRow.Row.AssetPackageDir, UnityRow.Row.AssetType);
+                        AssetDatabase.CreateFolder(baseAssetPath, newGroup);
+                    }
+                    var newPath = AssetUtility.GetAssetPath(UnityRow.Row.AssetPackageDir, UnityRow.Row.AssetType, UnityRow.Row.AssetPath, newGroup);
+                    MovePrefab(oldPath, newPath);
+                    UnityRow.Row.AssetGroup = newGroup;
+                    Save();
+                }
+            }
+        }
+
+        public void MovePrefab(string src, string dest)
+        {
+            Debug.Log($"Src:{src} Dest:{dest}");
+
+            AssetDatabase.MoveAsset(src, dest);
+        }
+        IEnumerable OnAssetGroupUuidDropdown()
+        {
+            return GameSupportEditorUtility.GetAssetGroupUuidDropdown();
         }
     }
 }

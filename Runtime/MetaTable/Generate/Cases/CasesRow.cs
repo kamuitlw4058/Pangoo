@@ -67,6 +67,20 @@ namespace Pangoo.MetaTable
 
         string ICasesRow.StateModelOnOff {get => StateModelOnOff; set => StateModelOnOff = value;}
 
+        [JsonMember("CaseShowType")]
+        [MetaTableRowColumn("CaseShowType","string", "案件显示类型",8)]
+        [LabelText("案件显示类型")]
+        public string CaseShowType ;
+
+        string ICasesRow.CaseShowType {get => CaseShowType; set => CaseShowType = value;}
+
+        [JsonMember("CaseVariableState")]
+        [MetaTableRowColumn("CaseVariableState","string", "案件变量状态",9)]
+        [LabelText("案件变量状态")]
+        public string CaseVariableState ;
+
+        string ICasesRow.CaseVariableState {get => CaseVariableState; set => CaseVariableState = value;}
+
     }
 }
 

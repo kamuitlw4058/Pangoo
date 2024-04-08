@@ -23,6 +23,16 @@ namespace Pangoo
             return DynamicObjectOverview.GetUuidDropdown(AdditionalOptions: new List<Tuple<string, string>>() { new Tuple<string, string>("Self", "Self") });
         }
 
+        public static void Refresh()
+        {
+            AssetGroupNameDict.Clear();
+            AssetGroupUuidDict.Clear();
+        }
+
+
+        public static Dictionary<string, AssetGroupRow> AssetGroupNameDict = new Dictionary<string, AssetGroupRow>();
+        public static Dictionary<string, AssetGroupRow> AssetGroupUuidDict = new Dictionary<string, AssetGroupRow>();
+
 
         public static string GetAssetGroupUuidByAssetGroup(string AssetGroup)
         {
@@ -31,14 +41,21 @@ namespace Pangoo
                 return null;
             }
 
+            if (AssetGroupNameDict.TryGetValue(AssetGroup, out AssetGroupRow dictRow))
+            {
+                return dictRow.Uuid;
+            }
+
             var overviews = AssetDatabaseUtility.FindAsset<AssetGroupOverview>();
             foreach (var overview in overviews)
             {
                 foreach (var row in overview.Rows)
                 {
 
+
                     if (row.Row.AssetGroup.Equals(AssetGroup))
                     {
+                        AssetGroupNameDict.Add(AssetGroup, row.Row);
                         return row.Uuid;
                     }
                 }
@@ -53,6 +70,12 @@ namespace Pangoo
                 return null;
             }
 
+            if (AssetGroupUuidDict.TryGetValue(uuid, out AssetGroupRow dictRow))
+            {
+                return dictRow.AssetGroup;
+            }
+
+
 
             var overviews = AssetDatabaseUtility.FindAsset<AssetGroupOverview>();
             foreach (var overview in overviews)
@@ -62,6 +85,7 @@ namespace Pangoo
 
                     if (row.Uuid.Equals(uuid))
                     {
+                        AssetGroupUuidDict.Add(uuid, row.Row);
                         return row.Row.AssetGroup;
                     }
                 }
