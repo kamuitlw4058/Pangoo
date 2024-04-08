@@ -102,6 +102,8 @@ namespace Pangoo.Core.Common
                 }
             }
             
+            playableDirector.time = playableDirector.time + DeltaTime;
+            
             switch (playableDirector.extrapolationMode)
             {
                 case DirectorWrapMode.None:
@@ -124,8 +126,6 @@ namespace Pangoo.Core.Common
                     }
                     break;
             }
-
-            playableDirector.time = playableDirector.time + DeltaTime;
             
             if (playableDirector.time<=0)
             {
