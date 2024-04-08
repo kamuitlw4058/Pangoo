@@ -68,19 +68,10 @@ namespace Pangoo.Core.Common
 
         public void Start()
         {
-            switch (TimelineOptType)
-            {
-                case TimelineOperationTypeEnum.Manual:
-                case TimelineOperationTypeEnum.ManualAndUpdate:
-                    if (playableDirector != null)
-                    {
-                        playableDirector.playOnAwake = false;
-                        playableDirector.Play();
-                    }
-
-                    break;
-            }
+            SetTimelineByMode();
         }
+
+        
 
         private void Update()
         {
@@ -129,7 +120,24 @@ namespace Pangoo.Core.Common
                 playableDirector.Evaluate();
             }
         }
+        
+        public void SetTimelineByMode()
+        {
+            switch (TimelineOptType)
+            {
+                case TimelineOperationTypeEnum.Manual:
+                case TimelineOperationTypeEnum.ManualAndUpdate:
+                    if (playableDirector != null)
+                    {
+                        playableDirector.timeUpdateMode = DirectorUpdateMode.Manual;
+                        playableDirector.playOnAwake = false;
+                        playableDirector.Play();
+                    }
 
+                    break;
+            }
+        }
+        
         public void OnNotify(Playable origin, INotification notification, object context)
         {
             Debug.Log($"OnTimelineNotify:{gameObject.name}:{playableDirector?.playableAsset}");
