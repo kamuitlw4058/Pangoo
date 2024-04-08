@@ -104,6 +104,16 @@ namespace Pangoo.Core.Common
             
             playableDirector.time = playableDirector.time + DeltaTime;
             
+            if (playableDirector.time<=0)
+            {
+                playableDirector.time = 0;
+            }
+
+            if (playableDirector.state == PlayState.Playing)
+            {
+                playableDirector.Evaluate();
+            }
+            
             switch (playableDirector.extrapolationMode)
             {
                 case DirectorWrapMode.None:
@@ -126,13 +136,6 @@ namespace Pangoo.Core.Common
                     }
                     break;
             }
-            
-            if (playableDirector.time<=0)
-            {
-                playableDirector.time = 0;
-            }
-            
-            playableDirector.Evaluate();
         }
         
         public void SetTimelineByMode()
