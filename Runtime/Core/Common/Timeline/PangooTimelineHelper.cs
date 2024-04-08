@@ -86,6 +86,16 @@ namespace Pangoo.Core.Common
         {
             if (TimelineOptType != TimelineOperationTypeEnum.ManualAndUpdate) return;
 
+            switch (TimelineOptType)
+            {
+                case TimelineOperationTypeEnum.Manual:
+                    playableDirector.timeUpdateMode = DirectorUpdateMode.Manual;
+                    break;
+                case TimelineOperationTypeEnum.ManualAndUpdate:
+                    playableDirector.timeUpdateMode = DirectorUpdateMode.GameTime;
+                    break;
+            }
+
             if (Speed > 0)
             {
                 var makers = Asset.markerTrack;
