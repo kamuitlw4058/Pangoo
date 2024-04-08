@@ -76,51 +76,33 @@ namespace Pangoo.Core.Common
         private void Update()
         {
             if (TimelineOptType != TimelineOperationTypeEnum.ManualAndUpdate) return;
-            if (Speed > 0)
+            
+            var makers = Asset.markerTrack;
+            if (makers != null)
             {
-                var makers = Asset.markerTrack;
-                if (makers != null)
+                foreach (IMarker marker in makers.GetMarkers())
                 {
-                    foreach (IMarker marker in makers.GetMarkers())
+                    if (Speed>0)
                     {
                         if (playableDirector.time < marker.time && marker.time <= playableDirector.time + DeltaTime)
                         {
-                            playableDirector.time = marker.time;
-                            playableDirector.Evaluate();
-                            Speed = 0;
                             InvokeSignal(playableDirector,marker);
                             return;
                         }
                     }
-                }
-
-                playableDirector.time = playableDirector.time + DeltaTime;
-                playableDirector.Evaluate();
-
-            }
-
-            if (Speed < 0)
-            {
-
-                var makers = Asset.markerTrack;
-                if (makers != null)
-                {
-                    foreach (IMarker marker in makers.GetMarkers())
+                    else
                     {
-                        if (playableDirector.time > marker.time && marker.time >= playableDirector.time - DeltaTime)
+                        if (playableDirector.time > marker.time && marker.time >= playableDirector.time + DeltaTime)
                         {
-                            playableDirector.time = marker.time;
-                            playableDirector.Evaluate();
-                            Speed = 0;
                             InvokeSignal(playableDirector,marker);
                             return;
                         }
                     }
                 }
-
-                playableDirector.time = playableDirector.time - DeltaTime;
-                playableDirector.Evaluate();
             }
+
+            playableDirector.time = playableDirector.time + DeltaTime;
+            playableDirector.Evaluate();
         }
         
         public void SetTimelineByMode()
@@ -140,8 +122,12 @@ namespace Pangoo.Core.Common
             }
         }
         
-        private static void InvokeSignal(PlayableDirector playableDirector, IMarker marker)
+        private void InvokeSignal(PlayableDirector playableDirector, IMarker marker)
         {
+            playableDirector.time = marker.time;
+            playableDirector.Evaluate();
+            Speed = 0;
+            
             playableDirector.playableGraph.GetOutput(0).PushNotification(playableDirector.playableGraph.GetRootPlayable(0),
                 marker as SignalEmitter, null);
         }
