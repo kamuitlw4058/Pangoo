@@ -63,7 +63,7 @@ namespace Pangoo.Core.VisualScripting
                     }
                 }
                 
-                Debug.Log($"当前鼠标速度:{args.PointerData.delta.magnitude}");
+                // Debug.Log($"当前鼠标速度:{args.PointerData.delta.magnitude}");
                 playableDirector.time += speed;
 
                 if (playableDirector.time<=0)
