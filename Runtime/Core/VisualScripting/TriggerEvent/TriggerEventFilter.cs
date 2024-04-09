@@ -46,6 +46,10 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("SubTriggerPath")]
         [ValueDropdown("@GameSupportEditorUtility.RefPrefabStringDropdown(GameSupportEditorUtility.GetPrefabByDynamicObjectUuid(DynamicObjectUuid))")]
         public string SubTriggerPath;
+
+        [ShowIf("FilterType", TriggerEventFilterEnum.Ray)]
+        [JsonMember("PointPath")]
+        public string PointPath;
         
         public bool Check(Args args)
         {
@@ -99,7 +103,13 @@ namespace Pangoo.Core.VisualScripting
                     {
                         return true;
                     }
-
+                    return false;
+                case TriggerEventFilterEnum.Ray:
+                    if (args.PointerPath.IsNullOrWhiteSpace()) return false;
+                    if (args.PointerPath.Equals(PointPath))
+                    {
+                        return true;
+                    }
                     return false;
             }
 
