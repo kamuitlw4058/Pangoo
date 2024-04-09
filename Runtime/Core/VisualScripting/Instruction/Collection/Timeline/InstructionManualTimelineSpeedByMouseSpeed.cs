@@ -29,7 +29,10 @@ namespace Pangoo.Core.VisualScripting
                 return;
             }
 
-            var mouseSpeed = Mathf.Clamp(args.PointerData.delta.magnitude, 0, ParamsRaw.MaxMouseSpeed);
+            var mouseX = Input.GetAxis("Mouse X");
+            var mouseY = Input.GetAxis("Mouse Y");
+            Vector2 mouseDelta = new Vector2(mouseX, mouseY);
+            var mouseSpeed = Mathf.Clamp(mouseDelta.magnitude, 0, ParamsRaw.MaxMouseSpeed);
             var speed=ParamsRaw.TimeFactor*mouseSpeed*Time.deltaTime;
             bool timelineStarted = false;
             
