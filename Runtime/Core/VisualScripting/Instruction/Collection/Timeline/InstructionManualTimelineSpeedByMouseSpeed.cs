@@ -23,6 +23,11 @@ namespace Pangoo.Core.VisualScripting
         public override void RunImmediate(Args args)
         {
             var trans = args.dynamicObject.CachedTransfrom.Find(ParamsRaw.Path);
+            if (args.PointerData.Equals(null))
+            {
+                Debug.LogError($"动态物体{args.dynamicObject}没有获取到PointerData");
+                return;
+            }
             var speed=ParamsRaw.TimeFactor*args.PointerData.delta.magnitude*Time.deltaTime;
             bool timelineStarted = false;
             

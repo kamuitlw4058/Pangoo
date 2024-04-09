@@ -404,7 +404,7 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.TimeFactor = timeFactor;
             return instruction;
         }
-        public static Instruction GetManualTimelineSpeedByMouse(string path, float timeFactor)
+        public static Instruction GetManualTimelineSpeedByMouseSpeed(string path, float timeFactor)
         {
             var instruction = Activator.CreateInstance<InstructionManualTimelineSpeedByMouseSpeed>();
             instruction.ParamsRaw.Path = path;
@@ -607,7 +607,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.ChangeTimelineUpdateMode:
                     return GetChangeTimelineUpdateMode(DropdownString1,TimelineOperationType,Float1);
                 case DirectInstructionTypeEnum.ManualTimelineSpeedByMouseSpeed:
-                    return GetManualTimelineSpeedByMouse(DropdownString1,Float1);
+                    return GetManualTimelineSpeedByMouseSpeed(DropdownString1,Float1);
             }
 
             return null;

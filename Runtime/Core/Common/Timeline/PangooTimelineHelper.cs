@@ -80,7 +80,7 @@ namespace Pangoo.Core.Common
         {
             if (TimelineOptType != TimelineOperationTypeEnum.ManualAndUpdate) return;
             if (Speed.Equals(0))return;
-            makers = Asset.markerTrack;
+            
             if (makers != null)
             {
                 foreach (IMarker marker in makers.GetMarkers())
