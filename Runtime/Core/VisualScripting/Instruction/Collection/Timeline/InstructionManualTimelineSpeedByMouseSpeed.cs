@@ -17,7 +17,7 @@ namespace Pangoo.Core.VisualScripting
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        public InstructionManualTimelineParams ParamsRaw = new InstructionManualTimelineParams();
+        public InstructionManualTimelineSpeedByMouseSpeedParams ParamsRaw = new InstructionManualTimelineSpeedByMouseSpeedParams();
         public override IParams Params { get; }
         
         public override void RunImmediate(Args args)
@@ -28,7 +28,9 @@ namespace Pangoo.Core.VisualScripting
                 Debug.LogError($"动态物体{args.dynamicObject}没有获取到PointerData");
                 return;
             }
-            var speed=ParamsRaw.TimeFactor*args.PointerData.delta.magnitude*Time.deltaTime;
+
+            var mouseSpeed = Mathf.Clamp(args.PointerData.delta.magnitude, 0, ParamsRaw.MaxMouseSpeed);
+            var speed=ParamsRaw.TimeFactor*mouseSpeed*Time.deltaTime;
             bool timelineStarted = false;
             
             if (trans != null)
