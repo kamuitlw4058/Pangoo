@@ -482,6 +482,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectDoRotationToTargetAngle=>true,
                     DirectInstructionTypeEnum.DynamicObjectRotationSetVariable=>true,
                     DirectInstructionTypeEnum.ChangeTimelineUpdateMode=>true,
+                    DirectInstructionTypeEnum.ManualTimelineSpeedByMouseSpeed=>true,
                     _ => false,
                 };
             }
@@ -509,6 +510,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.CyclePlaySound=>true,
                     DirectInstructionTypeEnum.SetPlayerSpeed=>true,
                     DirectInstructionTypeEnum.ChangeTimelineUpdateMode=>true,
+                    DirectInstructionTypeEnum.ManualTimelineSpeedByMouseSpeed=>true,
                     _ => false,
                 };
             }
@@ -878,6 +880,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.CyclePlaySound=>"周期时长",
                     DirectInstructionTypeEnum.SetPlayerSpeed=>"走路速度",
                     DirectInstructionTypeEnum.ChangeTimelineUpdateMode=>"播放速度",
+                    DirectInstructionTypeEnum.ManualTimelineSpeedByMouseSpeed=>"速度系数",
                     _ => "Float1",
                 };
             }
@@ -983,6 +986,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.DynamicObjectRotationSetVariable:
                 case DirectInstructionTypeEnum.DynamicObjectDoRotationToTargetAngle:
                 case DirectInstructionTypeEnum.ChangeTimelineUpdateMode:
+                case DirectInstructionTypeEnum.ManualTimelineSpeedByMouseSpeed:
                     return GameSupportEditorUtility.RefPrefabStringDropdown(ListPrefab);
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
                 case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:

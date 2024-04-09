@@ -68,10 +68,8 @@ namespace Pangoo.Core.Common
 
         public void Start()
         {
-            makers = Asset.markerTrack;
-
             SetTimelineByMode();
-
+            makers = Asset.markerTrack;
             InvokeStartSignal();
         }
 
@@ -105,7 +103,7 @@ namespace Pangoo.Core.Common
                     }
                 }
             }
-            
+
             playableDirector.time = playableDirector.time + DeltaTime;
             
             if (playableDirector.time<=0)
@@ -162,11 +160,14 @@ namespace Pangoo.Core.Common
         }
         private void InvokeStartSignal()
         {
-            foreach (IMarker marker in makers.GetMarkers())
+            if (makers!=null)
             {
-                if (marker.time == 0)
+                foreach (IMarker marker in makers.GetMarkers())
                 {
-                    InvokeSignal(playableDirector, marker);
+                    if (marker.time == 0)
+                    {
+                        InvokeSignal(playableDirector, marker);
+                    }
                 }
             }
         }
