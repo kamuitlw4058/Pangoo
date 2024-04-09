@@ -528,6 +528,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.TweenLightIntensity => true,
                     DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance => true,
                     DirectInstructionTypeEnum.SetPlayerSpeed=>true,
+                    DirectInstructionTypeEnum.ManualTimelineSpeedByMouseSpeed=>true,
                     _ => false,
                 };
             }
@@ -898,6 +899,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.TweenLightIntensity => "过渡时间",
                     DirectInstructionTypeEnum.ChangeCharacterHeightByDynamicObjectDistance => "结束距离",
                     DirectInstructionTypeEnum.SetPlayerSpeed=>"跑步速度",
+                    DirectInstructionTypeEnum.ManualTimelineSpeedByMouseSpeed=>"鼠标最大速度",
                     _ => "Float2",
                 };
             }
