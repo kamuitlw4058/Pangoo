@@ -52,7 +52,8 @@ namespace Pangoo.Core.VisualScripting
                                 InvokeSignal(playableDirector, marker);
                             }
                         }
-                        else
+
+                        if (ParamsRaw.TimeFactor < 0)
                         {
                             if (marker.time < playableDirector.time && marker.time >= playableDirector.time+Time.deltaTime * ParamsRaw.TimeFactor)
                             {
@@ -60,29 +61,6 @@ namespace Pangoo.Core.VisualScripting
                             }
                         }
                     }
-                }
-                
-                switch (playableDirector.extrapolationMode)
-                {
-                    case DirectorWrapMode.None:
-                        if (playableDirector.time>playableDirector.duration)
-                        {
-                            playableDirector.Stop();
-                        }
-                        break;
-                    case DirectorWrapMode.Hold:
-                        if (playableDirector.time>=playableDirector.duration)
-                        {
-                            playableDirector.time = playableDirector.duration;
-                            playableDirector.Pause();
-                        }
-                        break;
-                    case DirectorWrapMode.Loop:
-                        if (playableDirector.time>playableDirector.duration)
-                        {
-                            playableDirector.time = 0;
-                        }
-                        break;
                 }
                 
                 playableDirector.time += ParamsRaw.TimeFactor*Time.deltaTime;

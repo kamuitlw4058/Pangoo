@@ -64,21 +64,25 @@ namespace Pangoo.Core.Common
             }
         }
 
-
+        private MarkerTrack makers;
 
         public void Start()
         {
+            makers = Asset.markerTrack;
+
             SetTimelineByMode();
+
+            InvokeStartSignal();
         }
 
-        
+
+
 
         private void Update()
         {
             if (TimelineOptType != TimelineOperationTypeEnum.ManualAndUpdate) return;
             if (Speed.Equals(0))return;
-
-            var makers = Asset.markerTrack;
+            
             if (makers != null)
             {
                 foreach (IMarker marker in makers.GetMarkers())
@@ -107,6 +111,8 @@ namespace Pangoo.Core.Common
             if (playableDirector.time<=0)
             {
                 playableDirector.time = 0;
+
+                InvokeStartSignal();
             }
 
             if (playableDirector.state == PlayState.Playing)
@@ -152,6 +158,16 @@ namespace Pangoo.Core.Common
                     }
 
                     break;
+            }
+        }
+        private void InvokeStartSignal()
+        {
+            foreach (IMarker marker in makers.GetMarkers())
+            {
+                if (marker.time == 0)
+                {
+                    InvokeSignal(playableDirector, marker);
+                }
             }
         }
         
