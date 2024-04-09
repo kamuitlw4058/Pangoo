@@ -164,5 +164,8 @@ namespace Pangoo.Core.VisualScripting
         
         [LabelText("改变Timeline更新模式")]
         ChangeTimelineUpdateMode,
+        
+        [LabelText("动态物体自身/手动播放Timeline速度通过鼠标")]
+        ManualTimelineSpeedByMouseSpeed,
     }
 }
