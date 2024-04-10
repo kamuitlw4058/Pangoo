@@ -85,6 +85,7 @@ namespace Pangoo.Core.Common
         [LabelText("备注")]
         public string Note;
 
+#if UNITY_EDITOR
         IEnumerable GetOptionVariables()
         {
             List<Tuple<string, string>> includeUuids = new List<Tuple<string, string>>();
@@ -94,7 +95,7 @@ namespace Pangoo.Core.Common
             }
             return VariablesOverview.GetUuidDropdown(includeUuids: includeUuids);
         }
-
+#endif
     }
 
 
@@ -119,7 +120,7 @@ namespace Pangoo.Core.Common
         public string[] OptionVariables = new string[0];
 
         [JsonMember("ControlChildList")]
-        [ValueDropdown("GetPrefabPath")]
+        [ValueDropdown("@GameSupportEditorUtility.RefPrefabStringDropdown(Prefab, hasSelf: false)")]
         [LabelText("控制子物体列表")]
         public string[] ControlChildList = new string[0];
 
@@ -135,6 +136,7 @@ namespace Pangoo.Core.Common
         [LabelText("备注")]
         public string Note;
 
+#if UNITY_EDITOR
         IEnumerable GetOptionVariables()
         {
             List<Tuple<string, string>> includeUuids = new List<Tuple<string, string>>();
@@ -144,11 +146,6 @@ namespace Pangoo.Core.Common
             }
             return VariablesOverview.GetUuidDropdown(includeUuids: includeUuids);
         }
-
-        IEnumerable GetPrefabPath()
-        {
-            return GameSupportEditorUtility.RefPrefabStringDropdown(Prefab, hasSelf: false);
-        }
-
+#endif
     }
 }
