@@ -28,7 +28,6 @@ namespace Pangoo.Core.Services
         }
     }
 
-    [Serializable]
     public class StaticSceneService : MainSubService
     {
         public override string ServiceName => "StaticSceneService";

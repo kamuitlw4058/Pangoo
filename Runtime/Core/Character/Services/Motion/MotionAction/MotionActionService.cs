@@ -6,7 +6,6 @@ using UnityEngine;
 namespace Pangoo.Core.Characters
 {
 
-    [Serializable]
     public class MotionActionService : CharacterBaseService
     {
         MotionInfo m_MotionInfo;

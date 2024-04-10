@@ -5,7 +5,7 @@ using Pangoo.Core.Services;
 namespace Pangoo.Core.Characters
 {
 
-    [Serializable]
+    // [Serializable]
     public class DriverService : CharacterControllerService<CharacterDriverTypeEnum>
     {
 

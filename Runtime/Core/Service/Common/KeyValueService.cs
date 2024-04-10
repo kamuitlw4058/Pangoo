@@ -10,7 +10,6 @@ using UnityGameFramework.Runtime;
 
 namespace Pangoo
 {
-    [Serializable]
     public class KeyValueService : MainSubService, IKeyValue
     {
         [ShowInInspector]

@@ -6,7 +6,6 @@ using Sirenix.OdinInspector;
 namespace Pangoo.Core.Characters
 {
 
-    [Serializable]
     public class PlayerService : CharacterBaseService
     {
 

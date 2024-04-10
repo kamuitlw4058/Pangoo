@@ -10,7 +10,7 @@ using Sirenix.OdinInspector;
 namespace Pangoo.Core.VisualScripting
 {
 
-    [Serializable]
+    // [Serializable]
     public abstract class Instruction : TPolymorphicItem<Instruction>, IEnumerator, IParams
     {
 

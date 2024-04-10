@@ -8,7 +8,7 @@ using Cinemachine;
 namespace Pangoo.Core.Characters
 {
 
-    [Serializable]
+    // [Serializable]
     public class CharacterCameraService : CharacterControllerService<CharacterCameraTypeEnum>
     {
         public CharacterCameraService(NestedBaseService parent) : base(parent)

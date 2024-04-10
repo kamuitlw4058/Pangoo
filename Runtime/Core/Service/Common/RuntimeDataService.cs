@@ -10,7 +10,6 @@ using Sirenix.OdinInspector;
 
 namespace Pangoo.Core.Services
 {
-    [Serializable]
     public class RuntimeDataService : KeyValueService
     {
         public override int Priority => -1;

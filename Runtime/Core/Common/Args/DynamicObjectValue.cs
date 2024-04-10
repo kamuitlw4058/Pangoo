@@ -10,7 +10,6 @@ using Pangoo.MetaTable;
 
 namespace Pangoo.Core.Common
 {
-    [Serializable]
     public class DynamicObjectValue
     {
         [JsonNoMember]

@@ -9,7 +9,7 @@ using Pangoo.MetaTable;
 namespace Pangoo.Core.VisualScripting
 {
 
-    [Serializable]
+    // [Serializable]
     public class TriggerEvent
     {
         public const string SelfStr = ConstString.Self;

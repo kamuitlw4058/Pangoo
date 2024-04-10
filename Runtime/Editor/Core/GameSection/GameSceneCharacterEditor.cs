@@ -163,6 +163,17 @@ namespace Pangoo.Editor
                 }
             }
 
+            foreach (var child in transform.Children())
+            {
+                try
+                {
+                    DestroyImmediate(child.gameObject);
+                }
+                catch
+                {
+                }
+            }
+
         }
 
     }

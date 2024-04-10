@@ -12,7 +12,6 @@ using Pangoo.Common;
 namespace Pangoo.Core.Characters
 {
 
-    [Serializable]
     public partial class Character : MonoMasterService
     {
         [ShowInInspector]

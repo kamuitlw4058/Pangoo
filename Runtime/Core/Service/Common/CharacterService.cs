@@ -11,14 +11,10 @@ using Pangoo.MetaTable;
 
 namespace Pangoo.Core.Services
 {
-    [Serializable]
     public class CharacterService : MainSubService
     {
         public override string ServiceName => "CharacterService";
         public override int Priority => 5;
-
-
-        GameInfoService m_GameInfoService;
 
 
         IEntityGroupRow m_EntityGroupRow;
@@ -45,19 +41,15 @@ namespace Pangoo.Core.Services
         protected override void DoAwake()
         {
             base.DoAwake();
-            m_GameInfoService = Parent.GetService<GameInfoService>();
             m_LoadedEntityDict = new Dictionary<string, EntityCharacter>();
             m_LoadingEntityUuids = new List<string>();
 
-
         }
-
 
         protected override void DoStart()
         {
 
-            // m_StaticSceneTable = m_ExcelTableService.GetExcelTable<StaticSceneTable>();
-            m_CharacterInfo = m_GameInfoService.GetGameInfo<CharacterInfo>();
+            m_CharacterInfo = GameInfoSrv.GetGameInfo<CharacterInfo>();
             m_EntityGroupRow = EntityGroupRowExtension.CreateCharacterGroup();
         }
 

@@ -12,7 +12,6 @@ using Pangoo.Common;
 
 namespace Pangoo.Core.Services
 {
-    [Serializable]
     public partial class DynamicObjectService : MainSubService
     {
         public override string ServiceName => "DynamicObjectService";

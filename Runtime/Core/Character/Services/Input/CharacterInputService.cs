@@ -12,7 +12,7 @@ namespace Pangoo.Core.Characters
         Default,
         OnlyW,
     }
-    [Serializable]
+    // [Serializable]
     public class CharacterInputService : CharacterBaseService
     {
         [SerializeReference]
