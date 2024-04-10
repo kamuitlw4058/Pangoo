@@ -301,7 +301,7 @@ namespace Pangoo.Editor
             if (isBuildFail)
             {
                 Debug.LogError("资源包构建失败!!!");
-                Environment.Exit(1);
+                Environment.Exit(0);
             }
             Debug.Log($"阶段一:-------------结束构建资源包--------------{DateTime.Now.ToLocalTime()}");
             MoveResourceToGame();
