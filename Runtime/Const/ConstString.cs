@@ -27,5 +27,8 @@ namespace Pangoo
 
 
         public const string OdinInspectorDynamicObjectSelfDropdownExpress = "@GameSupportEditorUtility.DynamicObjectUuidDropdownWithSelf()";
+
+
+        public const string LatestPlayer = "Latest";
     }
 }

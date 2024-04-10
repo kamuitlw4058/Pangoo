@@ -74,6 +74,27 @@ namespace Pangoo.MetaTable
 
         string IGameSectionRow.SceneUuids {get => SceneUuids; set => SceneUuids = value;}
 
+        [JsonMember("StateVariableUuid")]
+        [MetaTableRowColumn("StateVariableUuid","string", "状态变量",11)]
+        [LabelText("状态变量")]
+        public string StateVariableUuid ;
+
+        string IGameSectionRow.StateVariableUuid {get => StateVariableUuid; set => StateVariableUuid = value;}
+
+        [JsonMember("PlayerBirthPlaceList")]
+        [MetaTableRowColumn("PlayerBirthPlaceList","string", "出生地列表",12)]
+        [LabelText("出生地列表")]
+        public string PlayerBirthPlaceList ;
+
+        string IGameSectionRow.PlayerBirthPlaceList {get => PlayerBirthPlaceList; set => PlayerBirthPlaceList = value;}
+
+        [JsonMember("PlayerCharacterUuid")]
+        [MetaTableRowColumn("PlayerCharacterUuid","string", "玩家Uuid",13)]
+        [LabelText("玩家Uuid")]
+        public string PlayerCharacterUuid ;
+
+        string IGameSectionRow.PlayerCharacterUuid {get => PlayerCharacterUuid; set => PlayerCharacterUuid = value;}
+
     }
 }
 

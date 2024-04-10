@@ -11,6 +11,8 @@ using System.Xml.Serialization;
 using Pangoo.Common;
 using MetaTable;
 using System.Linq;
+using Pangoo.Core.Characters;
+using Pangoo.Core.VisualScripting;
 
 namespace Pangoo.MetaTable
 {
@@ -72,7 +74,6 @@ namespace Pangoo.MetaTable
         [ValueDropdown("InstructionUuidsValueDropdown", IsUniqueList = true)]
         [ListDrawerSettings(Expanded = true)]
         [ShowInInspector]
-        [PropertyOrder(5)]
         public string[] InstructionUuids
         {
             get
@@ -102,11 +103,93 @@ namespace Pangoo.MetaTable
             }
             set
             {
-
-
                 UnityRow.Row.EditorInitedInstructionUuids = value.ToListString();
                 Save();
             }
+        }
+
+
+        [ShowInInspector]
+        [LabelText("状态变量")]
+        [FoldoutGroup("玩家配置")]
+        [OnValueChanged("@VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Int.ToString(), VariableTypeEnum.Global.ToString(),false)")]
+        public string StateVariable
+        {
+            get
+            {
+                return UnityRow.Row.StateVariableUuid;
+            }
+            set
+            {
+                UnityRow.Row.StateVariableUuid = value;
+            }
+        }
+
+
+        [ShowInInspector]
+        [LabelText("出生字符串")]
+        [FoldoutGroup("玩家配置")]
+        public string BornDictString
+        {
+            get
+            {
+                return UnityRow.Row.PlayerBirthPlaceList;
+            }
+        }
+
+        Dictionary<int, CharacterBornInfo> m_BornDict;
+
+        [ShowInInspector]
+        [LabelText("出生列表")]
+        [FoldoutGroup("玩家配置")]
+        [OnValueChanged("OnBornDictChanged", includeChildren: true)]
+        public Dictionary<int, CharacterBornInfo> BornDict
+        {
+            get
+            {
+                if (m_BornDict == null)
+                {
+                    try
+                    {
+                        m_BornDict = JsonMapper.ToObject<Dictionary<int, CharacterBornInfo>>(UnityRow.Row.PlayerBirthPlaceList);
+                    }
+                    catch
+                    {
+
+                    }
+                    if (m_BornDict == null)
+                    {
+                        m_BornDict = new Dictionary<int, CharacterBornInfo>();
+                    }
+                }
+
+                return m_BornDict;
+            }
+            set
+            {
+                m_BornDict = value;
+                OnBornDictChanged();
+            }
+        }
+
+        public void OnBornDictChanged()
+        {
+            Debug.Log($"OnBornDictChanged");
+            if (m_BornDict == null)
+            {
+                m_BornDict = new Dictionary<int, CharacterBornInfo>();
+            }
+
+            try
+            {
+                UnityRow.Row.PlayerBirthPlaceList = JsonMapper.ToJson(m_BornDict);
+            }
+            catch
+            {
+
+            }
+
+            Save();
         }
 
 

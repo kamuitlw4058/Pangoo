@@ -17,6 +17,14 @@ namespace Pangoo.Core.Services
             }
         }
 
+        public string DefaultPlayer
+        {
+            get
+            {
+                return GameMainConfig?.DefaultPlayer;
+            }
+        }
+
 
         public GameMainConfig GetGameMainConfig()
         {

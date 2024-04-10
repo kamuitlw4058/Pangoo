@@ -50,11 +50,10 @@ namespace Pangoo.Core.Services
         public void SetGameScetion(List<string> dynamicUuids)
         {
             m_GameSectionDynamicObjectUuids.Clear();
-            if (dynamicUuids != null && dynamicUuids.Count > 0)
-            {
-                m_GameSectionDynamicObjectUuids.AddRange(dynamicUuids);
 
-            }
+            if (dynamicUuids.IsNullOrEmpty()) return;
+
+            m_GameSectionDynamicObjectUuids.AddRange(dynamicUuids);
         }
 
 
@@ -188,7 +187,7 @@ namespace Pangoo.Core.Services
 
             if (ContainInLoadingList(dynamicObjectUuid))
             {
-                LogWarning("Try Load Loading Asset:" + dynamicObjectUuid);
+                // LogWarning("Try Load Loading Asset:" + dynamicObjectUuid);
                 return;
             }
 

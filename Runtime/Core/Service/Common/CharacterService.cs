@@ -12,7 +12,7 @@ using Pangoo.MetaTable;
 namespace Pangoo.Core.Services
 {
     [Serializable]
-    public class CharacterService : BaseService
+    public class CharacterService : MainSubService
     {
         public override string ServiceName => "CharacterService";
         public override int Priority => 5;
@@ -133,11 +133,11 @@ namespace Pangoo.Core.Services
             }
         }
 
-        public void SetPlayerSpeed(float walkVal,float runWalk)
+        public void SetPlayerSpeed(float walkVal, float runWalk)
         {
             if (Player != null)
             {
-                Player.character.SetCharacterSpeed(walkVal,runWalk);
+                Player.character.SetCharacterSpeed(walkVal, runWalk);
                 Log($"SetPlayer WalkSpeed:{walkVal} RunSpeed:{runWalk}");
             }
         }
@@ -169,9 +169,48 @@ namespace Pangoo.Core.Services
             }
         }
 
+        public string GetApplyCharacterUuid(string uuid)
+        {
+            if (uuid.IsNullOrWhiteSpace())
+            {
+                uuid = GameMainConfigSrv.DefaultPlayer;
+                if (uuid.IsNullOrWhiteSpace())
+                {
+                    LogError($"Character Uuid Is Null!");
+                    return null;
+                }
+                else
+                {
+                    return uuid;
+                }
+            }
+
+            if (uuid.Equals(ConstString.LatestPlayer))
+            {
+                if (Player == null)
+                {
+                    LogError($"Character Latest Player Uuid Is Null!");
+                    return null;
+                }
+                else
+                {
+                    return Player.character.Row.Uuid;
+                }
+            }
+
+            return uuid;
+
+        }
+
 
         public EntityCharacter GetLoadedEntity(string uuid)
         {
+            uuid = GetApplyCharacterUuid(uuid);
+            if (uuid == null)
+            {
+                return null;
+            }
+
             if (m_LoadedEntityDict.TryGetValue(uuid, out EntityCharacter var))
             {
                 return var;
@@ -183,11 +222,15 @@ namespace Pangoo.Core.Services
 
         public void ShowCharacter(string infoUuid, Vector3 positon, Vector3 rotation, float height = ConstFloat.InvaildCameraHeight, float colliderHeight = ConstFloat.InvaildColliderHeight, bool IsInteractive = true, bool NotMoveWhenPlayerCreated = false)
         {
-            if (infoUuid.IsNullOrWhiteSpace())
+
+            infoUuid = GetApplyCharacterUuid(infoUuid);
+            if (infoUuid == null)
             {
-                Debug.LogError("ShowCharacter Id is 0");
+                LogError($"Show Character uuid Is Null");
                 return;
             }
+
+
 
             if (Loader == null)
             {

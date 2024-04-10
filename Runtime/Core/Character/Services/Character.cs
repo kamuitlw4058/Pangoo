@@ -7,6 +7,7 @@ using Pangoo.Core.VisualScripting;
 using Pangoo.MetaTable;
 using Sirenix.OdinInspector;
 using UnityEngine.Serialization;
+using Pangoo.Common;
 
 namespace Pangoo.Core.Characters
 {
@@ -120,10 +121,18 @@ namespace Pangoo.Core.Characters
 
         }
 
-        public void SetCharacterSpeed(float walkVal,float runVal)
+        public void SetCharacterSpeed(float walkVal, float runVal)
         {
             m_MotionInfo.SetLinearSpeed(walkVal);
             m_MotionInfo.SetRunSpeed(runVal);
+        }
+
+        public void SetPose(PPose pose)
+        {
+            CachedTransfrom.position = pose.Position;
+            CachedTransfrom.rotation = Quaternion.Euler(pose.Rotation);
+            ResetCameraDirection();
+            Physics.SyncTransforms();
         }
 
         float m_CameraHeight;

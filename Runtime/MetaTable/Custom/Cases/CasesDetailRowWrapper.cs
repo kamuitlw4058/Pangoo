@@ -143,8 +143,6 @@ namespace Pangoo.MetaTable
 
 
 
-
-
         [ShowInInspector]
         [FoldoutGroup("案件显示")]
         [ShowIf("@this.ShowType ==  CaseShowType.State")]

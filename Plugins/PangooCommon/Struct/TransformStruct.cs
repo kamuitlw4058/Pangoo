@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Pangoo.Common
 {
+    [Serializable]
     public struct PPose
     {
         [JsonMember("Position")]
@@ -16,6 +17,7 @@ namespace Pangoo.Common
         public Vector3 Rotation;
     }
 
+    [Serializable]
     public struct PColliderRange
     {
         [JsonMember("Center")]

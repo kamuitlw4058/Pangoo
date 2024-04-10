@@ -9,6 +9,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using Pangoo.MetaTable;
 using Pangoo.Common;
+using Sirenix.Utilities;
 
 namespace Pangoo.Core.Services
 {
@@ -137,8 +138,15 @@ namespace Pangoo.Core.Services
         public void SetGameSectionScenes(List<string> sceneUuids)
         {
             m_SceneUuids.Clear();
-            m_SceneUuids.AddRange(sceneUuids);
             m_SceneInfos.Clear();
+            if (sceneUuids == null || (sceneUuids != null && sceneUuids.Count == 0))
+            {
+                return;
+            }
+
+
+            m_SceneUuids.AddRange(sceneUuids);
+
 
             foreach (var uuid in m_SceneUuids)
             {
