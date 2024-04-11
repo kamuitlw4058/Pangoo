@@ -154,18 +154,21 @@ namespace Pangoo.Core.VisualScripting
         SetLocalVector3Variable,
         [LabelText("变量/获取动态物体的Rotaion赋值给变量")]
         DynamicObjectRotationSetVariable,
-        [LabelText("周期性播放声音")]
+        [LabelText("音频/周期性播放声音")]
         CyclePlaySound,
 
         [LabelText("UI/显示案件")]
         ShowCase,
-        [LabelText("设置玩家速度")]
+        [LabelText("玩家/设置玩家速度")]
         SetPlayerSpeed,
-        
-        [LabelText("改变Timeline更新模式")]
+
+        [LabelText("Timeline/改变Timeline更新模式")]
         ChangeTimelineUpdateMode,
-        
+
         [LabelText("动态物体自身/手动播放Timeline速度通过鼠标速度")]
         ManualTimelineSpeedByMouseSpeed,
+
+        [LabelText("GameSection/设置段落Int变量")]
+        SetGameSectionIntVariable,
     }
 }

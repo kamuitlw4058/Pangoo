@@ -404,7 +404,7 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.TimeFactor = timeFactor;
             return instruction;
         }
-        public static Instruction GetManualTimelineSpeedByMouseSpeed(string path, float timeFactor,float maxMouseSpeed)
+        public static Instruction GetManualTimelineSpeedByMouseSpeed(string path, float timeFactor, float maxMouseSpeed)
         {
             var instruction = Activator.CreateInstance<InstructionManualTimelineSpeedByMouseSpeed>();
             instruction.ParamsRaw.Path = path;
@@ -412,7 +412,7 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.MaxMouseSpeed = maxMouseSpeed;
             return instruction;
         }
-        public static Instruction GetTweenRotation(string path,Vector3 initRotation,Vector3 targetRotation, float duration)
+        public static Instruction GetTweenRotation(string path, Vector3 initRotation, Vector3 targetRotation, float duration)
         {
             var instruction = Activator.CreateInstance<InstructionTweenRotation>();
             instruction.ParamsRaw.Path = path;
@@ -437,8 +437,8 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.Val = val;
             return instruction;
         }
-        
-        public static Instruction GetDoRotationToTargetAngle(string path,Vector3 initRotation,Vector3 targetRotation,float rotationSpeed,bool useDamping)
+
+        public static Instruction GetDoRotationToTargetAngle(string path, Vector3 initRotation, Vector3 targetRotation, float rotationSpeed, bool useDamping)
         {
             var instruction = Activator.CreateInstance<InstructionDynamicObjectDoRotationToTargetAngle>();
             instruction.ParamsRaw.Path = path;
@@ -448,15 +448,15 @@ namespace Pangoo.Core.VisualScripting
             instruction.ParamsRaw.UseDamping = useDamping;
             return instruction;
         }
-        
-        public static Instruction GetDynamicObjectRotationSetVariable(string path,string variableUuid)
+
+        public static Instruction GetDynamicObjectRotationSetVariable(string path, string variableUuid)
         {
             var instruction = Activator.CreateInstance<InstructionGetDynamicObjectRotationSetVariable>();
             instruction.ParamsRaw.Path = path;
             instruction.ParamsRaw.VariableUuid = variableUuid;
             return instruction;
         }
-        public static Instruction GetCyclePlaySound(string soundUuid,string timeUuid,float cycleTime,bool onStartPlay,string flagUuid)
+        public static Instruction GetCyclePlaySound(string soundUuid, string timeUuid, float cycleTime, bool onStartPlay, string flagUuid)
         {
             var instruction = Activator.CreateInstance<InstructionCyclePlaySound>();
             instruction.ParamsRaw.SoundUuid = soundUuid;
@@ -474,7 +474,7 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetSetPlayerSpeed(float walkSpeed,float runSpeed)
+        public static Instruction GetSetPlayerSpeed(float walkSpeed, float runSpeed)
         {
             var instruction = Activator.CreateInstance<InstructionSetPlayerSpeed>();
             instruction.ParamsRaw.Val1 = walkSpeed;
@@ -482,12 +482,20 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
-        public static Instruction GetChangeTimelineUpdateMode(string path , TimelineOperationTypeEnum timelineOperationType , float speed)
+        public static Instruction GetChangeTimelineUpdateMode(string path, TimelineOperationTypeEnum timelineOperationType, float speed)
         {
             var instruction = Activator.CreateInstance<InstructionChangeTimelineUpdateMode>();
             instruction.ParamsRaw.Path = path;
             instruction.ParamsRaw.TimelineOperationType = timelineOperationType;
             instruction.ParamsRaw.Speed = speed;
+            return instruction;
+        }
+        public static Instruction GetSetGameSectionIntVariable(string uuid1, string uuid2, int val)
+        {
+            var instruction = Activator.CreateInstance<InstructionSetGameSectionIntVariable>();
+            instruction.ParamsRaw.GameSectionUuid = uuid1;
+            instruction.ParamsRaw.VariableUuid = uuid2;
+            instruction.ParamsRaw.Value = val;
             return instruction;
         }
 
@@ -588,27 +596,29 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.ManualTimeline:
                     return GetManualTimeline(DropdownString1, Float1);
                 case DirectInstructionTypeEnum.TweenRotation:
-                    return GetTweenRotation(DropdownString1, Vector3_1,Vector3_2, Float1);
+                    return GetTweenRotation(DropdownString1, Vector3_1, Vector3_2, Float1);
                 case DirectInstructionTypeEnum.SetIntDelta:
                     return GetIntDelta(Uuid, Int1);
                 case DirectInstructionTypeEnum.DynamicObjectSetColliderTriggerActive:
                     return GetColliderTriggerActive(Uuid, Bool1);
                 case DirectInstructionTypeEnum.DynamicObjectDoRotationToTargetAngle:
-                    return GetDoRotationToTargetAngle(DropdownString1, Vector3_1,Vector3_2,Float1,Bool1);
+                    return GetDoRotationToTargetAngle(DropdownString1, Vector3_1, Vector3_2, Float1, Bool1);
                 case DirectInstructionTypeEnum.SetLocalVector3Variable:
-                    return GetSetLocalVector3Variable(Uuid,Uuid2,Vector3_1);
+                    return GetSetLocalVector3Variable(Uuid, Uuid2, Vector3_1);
                 case DirectInstructionTypeEnum.DynamicObjectRotationSetVariable:
-                    return GetDynamicObjectRotationSetVariable(DropdownString1,Uuid);
+                    return GetDynamicObjectRotationSetVariable(DropdownString1, Uuid);
                 case DirectInstructionTypeEnum.CyclePlaySound:
                     return GetCyclePlaySound(Uuid, Uuid2, Float1, Bool1, Uuid3);
                 case DirectInstructionTypeEnum.ShowCase:
                     return GetShowCase(Uuid);
                 case DirectInstructionTypeEnum.SetPlayerSpeed:
-                    return GetSetPlayerSpeed(Float1,Float2);
+                    return GetSetPlayerSpeed(Float1, Float2);
                 case DirectInstructionTypeEnum.ChangeTimelineUpdateMode:
-                    return GetChangeTimelineUpdateMode(DropdownString1,TimelineOperationType,Float1);
+                    return GetChangeTimelineUpdateMode(DropdownString1, TimelineOperationType, Float1);
                 case DirectInstructionTypeEnum.ManualTimelineSpeedByMouseSpeed:
-                    return GetManualTimelineSpeedByMouseSpeed(DropdownString1,Float1,Float2);
+                    return GetManualTimelineSpeedByMouseSpeed(DropdownString1, Float1, Float2);
+                case DirectInstructionTypeEnum.SetGameSectionIntVariable:
+                    return GetSetGameSectionIntVariable(Uuid, Uuid2, Int1);
             }
 
             return null;
