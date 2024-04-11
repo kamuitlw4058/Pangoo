@@ -11,6 +11,9 @@ using Pangoo.Core.VisualScripting;
 
 using Pangoo.Common;
 using Pangoo.MetaTable;
+using LitJson;
+using Pangoo.Core.Characters;
+using Sirenix.OdinInspector;
 
 namespace Pangoo.Core.Services
 {
@@ -24,6 +27,9 @@ namespace Pangoo.Core.Services
         public string LatestUuid = null;
 
         public bool IsGameSectionLoaded;
+
+        public bool CharacterShowed;
+
 
 
         protected override void DoAwake()
@@ -52,8 +58,10 @@ namespace Pangoo.Core.Services
         }
 
 
-        bool CheckGameSectionLoadedCompleted(IGameSectionRow row)
+        bool CheckGameSectionLoadedCompleted()
         {
+            if (LatestGameSectionRow == null) return false;
+
             bool dynamicObjectLoaded = DynamicObjectSrv.CheckGameSectionLoaded;
             var sceneLoaded = StaticSceneSrv.CheckGameSectionScenesLoaded();
             Log($"CheckGameSectionLoadedCompleted IsSceneLoaded:{sceneLoaded} IsDynamicObjectLoaded:{dynamicObjectLoaded}");
@@ -65,10 +73,100 @@ namespace Pangoo.Core.Services
             return false;
         }
 
-        void RunLoadedInstructions(IGameSectionRow GameSectionRow)
+        public IGameSectionRow LatestGameSectionRow
         {
+            get
+            {
+                return MetaTableSrv.GetGameSectionByUuid(LatestUuid);
+            }
+        }
+
+        Dictionary<int, CharacterBornInfo> m_BornDict;
+
+        Dictionary<int, CharacterBornInfo> BornDict
+        {
+            get
+            {
+                if (m_BornDict == null)
+                {
+                    if (LatestGameSectionRow != null)
+                    {
+                        m_BornDict = JsonMapper.ToObject<Dictionary<int, CharacterBornInfo>>(LatestGameSectionRow.PlayerBirthPlaceList);
+                    }
+                }
+
+                return m_BornDict;
+            }
+        }
+
+        int BornCount
+        {
+            get
+            {
+                var bornDict = BornDict;
+                if (bornDict == null)
+                {
+                    return 0;
+                }
+
+                return bornDict.Count;
+            }
+        }
+
+
+
+        bool CheckGameSectionLoadedWithPlayerCompleted()
+        {
+            if (LatestGameSectionRow == null) return false;
+
+            bool dynamicObjectLoaded = DynamicObjectSrv.CheckGameSectionLoaded;
+            var sceneLoaded = StaticSceneSrv.CheckGameSectionScenesLoaded();
+            Log($"CheckGameSectionLoadedCompleted IsSceneLoaded:{sceneLoaded} IsDynamicObjectLoaded:{dynamicObjectLoaded}");
+            if (sceneLoaded && dynamicObjectLoaded)
+            {
+                if (BornCount == 0)
+                {
+                    return true;
+                }
+
+                var state = 0;
+                if (!LatestGameSectionRow.StateVariableUuid.IsNullOrWhiteSpace())
+                {
+                    state = RuntimeDataSrv.GetVariable<int>(LatestGameSectionRow.StateVariableUuid);
+                }
+
+                var bornDict = BornDict;
+                if (bornDict != null)
+                {
+                    if (bornDict.TryGetValue(state, out CharacterBornInfo val))
+                    {
+                        var entity = CharacterSrv.GetLoadedEntity(val.PlayerUuid);
+                        if (entity != null)
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+
+
+
+                return true;
+            }
+
+            return false;
+        }
+
+        void RunLoadedInstructions()
+        {
+            if (LatestGameSectionRow == null) return;
 #if UNITY_EDITOR
-            var editorInstructionUuids = GameSectionRow.EditorInitedInstructionUuids.ToSplitList<string>();
+            var editorInstructionUuids = LatestGameSectionRow.EditorInitedInstructionUuids.ToSplitList<string>();
             if (editorInstructionUuids.Count > 0)
             {
                 var instructions = InstructionList.BuildInstructionList(editorInstructionUuids, MetaTableSrv.GetInstructionByUuid);
@@ -78,10 +176,9 @@ namespace Pangoo.Core.Services
             }
 
 #endif
-            var instructionUuids = GameSectionRow.InitedInstructionUuids.ToSplitList<string>();
+            var instructionUuids = LatestGameSectionRow.InitedInstructionUuids.ToSplitList<string>();
             if (instructionUuids.Count > 0)
             {
-
                 var instructions = InstructionList.BuildInstructionList(instructionUuids, MetaTableSrv.GetInstructionByUuid);
                 var args = new Args();
                 args.Main = Parent as MainService;
@@ -108,11 +205,12 @@ namespace Pangoo.Core.Services
             }
             Log($"Apply Game Section is :{uuid.ToShortUuid()}");
 
-
             if (LatestUuid != uuid)
             {
                 IsGameSectionLoaded = false;
                 LatestUuid = uuid;
+                m_BornDict = null;
+                CharacterShowed = false;
 
                 var GameSection = MetaTableSrv.GetGameSectionByUuid(LatestUuid);
                 if (GameSection == null)
@@ -132,6 +230,30 @@ namespace Pangoo.Core.Services
                 Log($"Update Static Scene:{GameSection.UuidShort} SceneUuids:{GameSection.SceneUuids}");
             }
         }
+
+
+        [ShowInInspector]
+        public int InitState
+        {
+            get
+            {
+                var state = 0;
+                var StateVariableUuid = string.Empty;
+                if (!LatestGameSectionRow.StateVariableUuid.IsNullOrWhiteSpace())
+                {
+                    StateVariableUuid = LatestGameSectionRow.StateVariableUuid;
+                }
+                else
+                {
+                    StateVariableUuid = GameMainConfigSrv.GameMainConfig.GameSectionInitStateVariableUuid;
+                }
+
+                state = RuntimeDataSrv.GetGameSectionVariable<int>(LatestUuid, StateVariableUuid);
+                return state;
+            }
+        }
+
+
         protected override void DoUpdate()
         {
             if (LatestUuid.IsNullOrWhiteSpace() || IsGameSectionLoaded)
@@ -139,12 +261,52 @@ namespace Pangoo.Core.Services
                 return;
             }
 
-            var GameSection = MetaTableSrv.GetGameSectionByUuid(LatestUuid);
-            var Loaded = CheckGameSectionLoadedCompleted(GameSection);
-            if (Loaded)
+
+            var LoadedWithoutPlayer = CheckGameSectionLoadedCompleted();
+            if (LoadedWithoutPlayer)
             {
-                RunLoadedInstructions(GameSection);
-                IsGameSectionLoaded = true;
+                var Loaded = CheckGameSectionLoadedWithPlayerCompleted();
+                if (Loaded)
+                {
+                    Log($"Scene DynamicObject Loaded Player Complete");
+                    var bornDict = BornDict;
+                    if (bornDict != null)
+                    {
+                        if (bornDict.TryGetValue(InitState, out CharacterBornInfo val))
+                        {
+                            var entity = CharacterSrv.GetLoadedEntity(val.PlayerUuid);
+                            if (entity != null && val.ForceMove)
+                            {
+                                entity.character.SetPose(val.Pose);
+                            }
+                        }
+                    }
+
+                    RunLoadedInstructions();
+                    IsGameSectionLoaded = true;
+                }
+                else
+                {
+                    Log($"Scene DynamicObject Loaded,:{CharacterShowed} ");
+                    if (!CharacterShowed)
+                    {
+                        var bornDict = BornDict;
+                        if (bornDict != null)
+                        {
+                            if (bornDict.TryGetValue(InitState, out CharacterBornInfo val))
+                            {
+                                Log($"Loaded. Try Show Character:{val.PlayerUuid}");
+                                CharacterSrv.ShowCharacter(val.PlayerUuid, val.Pose.Position, val.Pose.Rotation);
+                            }
+
+                        }
+                        CharacterShowed = true;
+
+                    }
+
+
+                }
+
             }
         }
 

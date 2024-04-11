@@ -8,7 +8,7 @@ using Cinemachine;
 namespace Pangoo.Core.Characters
 {
 
-    [Serializable]
+    // [Serializable]
     public class FirstPersonCameraService : CharacterBaseService
     {
         private Vector2 m_AnglesCurrent = new Vector2(0, 0f);

@@ -8,27 +8,15 @@ using Sirenix.OdinInspector;
 using Pangoo.Core.Services;
 using Pangoo.MetaTable;
 
-namespace Pangoo.Core.Common
+namespace Pangoo.Core.VisualScripting
 {
-    public class DynamicObjectValue
+    public abstract class TargetValue
     {
+        public virtual VariableTypeEnum TargetVariableType { get; }
+
         [JsonNoMember]
         public RuntimeDataService RuntimeDataSrv { get; set; }
 
-        [JsonNoMember]
-        public DynamicObject dynamicObejct { get; set; }
-
-        [JsonNoMember]
-        public TransformValue? transformValue { get; set; }
-
-        [JsonNoMember]
-        public Dictionary<string, TransformValue> ChilernTransforms = new Dictionary<string, TransformValue>();
-
-        [JsonNoMember]
-        public Dictionary<string, bool> TriggerEnabledDict = new Dictionary<string, bool>();
-
-        [JsonNoMember]
-        public Dictionary<string, int> TriggerIndexDict = new();
 
         [ShowInInspector]
         [JsonMember("KeyValueDict")]
@@ -42,27 +30,6 @@ namespace Pangoo.Core.Common
             }
         }
 
-
-        public void SetChilernTransforms(string key, TransformValue val)
-        {
-            if (key.IsNullOrWhiteSpace()) return;
-
-            ChilernTransforms.Set(key, val);
-        }
-
-        public void SetTriggerEnabled(string key, bool val)
-        {
-            if (key.IsNullOrWhiteSpace()) return;
-
-            TriggerEnabledDict.Set(key, val);
-        }
-
-        public void SetTriggerIndex(string key, int val)
-        {
-            TriggerIndexDict.Set(key, val);
-        }
-
-
         public virtual T Get<T>(string key, T defaultValue = default(T))
         {
             if (key.IsNullOrWhiteSpace())
@@ -74,7 +41,6 @@ namespace Pangoo.Core.Common
             if (m_KeyValueDict.ContainsKey(key))
             {
                 value = m_KeyValueDict[key];
-                // Debug.LogError($"获取的value值0：{value}");
                 return (T)value;
             }
             else
@@ -87,6 +53,11 @@ namespace Pangoo.Core.Common
 
         public virtual void Set<T>(string key, T value)
         {
+            if (key.IsNullOrWhiteSpace())
+            {
+                return;
+            }
+
             m_KeyValueDict.Set(key, value);
         }
 
@@ -98,6 +69,13 @@ namespace Pangoo.Core.Common
             IVariablesRow row = RuntimeDataSrv.GetVariablesRow(uuid);
             if (row != null)
             {
+                var VariableType = row.VariableType.ToEnum<VariableTypeEnum>();
+                if (VariableType != TargetVariableType)
+                {
+                    Debug.LogError($"Get Target Variable Type Wrong:{VariableType}, Target Type:{TargetVariableType},uuid:{uuid}");
+                    return default(T);
+                }
+
                 T defaultValue = row.DefaultValue.ToType<T>();
                 return Get<T>(row.Uuid, defaultValue);
             }
@@ -116,6 +94,13 @@ namespace Pangoo.Core.Common
             IVariablesRow row = RuntimeDataSrv.GetVariablesRow(uuid);
             if (row != null)
             {
+                var VariableType = row.VariableType.ToEnum<VariableTypeEnum>();
+                if (VariableType != TargetVariableType)
+                {
+                    Debug.LogError($"Set Target Variable Type Wrong:{VariableType}, Target Type:{TargetVariableType},uuid:{uuid}, val:{val}");
+                    return;
+                }
+
                 Set<T>(row.Uuid, val);
             }
         }

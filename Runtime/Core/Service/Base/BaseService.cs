@@ -4,7 +4,6 @@ using Sirenix.OdinInspector;
 
 namespace Pangoo.Core.Services
 {
-    [Serializable]
     public abstract partial class BaseService : IBaseServiceLifeCycle
     {
 

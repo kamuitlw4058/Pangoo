@@ -7,7 +7,6 @@ using Sirenix.OdinInspector;
 namespace Pangoo.Core.Characters
 {
 
-    [Serializable]
     public class PlayerDirectionalService : CharacterBaseService
     {
         MotionActionService m_MotionActionService;

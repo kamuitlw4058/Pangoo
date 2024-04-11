@@ -9,7 +9,7 @@ using Sirenix.OdinInspector;
 namespace Pangoo.Core.Characters
 {
 
-    [Serializable]
+    // [Serializable]
     public class InteractionService : CharacterControllerService<CharacterInteractionTypeEnum>
     {
         private static readonly Color COLOR_GIZMO_TARGET = new Color(0f, 1f, 0f, 1f);

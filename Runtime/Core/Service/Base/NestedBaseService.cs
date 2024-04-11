@@ -8,16 +8,15 @@ using System.Collections.Generic;
 
 namespace Pangoo.Core.Services
 {
-    [Serializable]
     public partial class NestedBaseService : BaseService, IBaseServiceContainer
     {
         public override float DeltaTime => UnityEngine.Time.deltaTime;
         public override float Time => UnityEngine.Time.time;
 
 
-        [field: NonSerialized]
-        [ShowInInspector]
-        [HideIf("@this.m_ChildernList == null ||  (this.m_ChildernList != null && this.m_ChildernList.Count == 0)")]
+        // [field: NonSerialized]
+        // [ShowInInspector]
+        // [HideIf("@this.m_ChildernList == null ||  (this.m_ChildernList != null && this.m_ChildernList.Count == 0)")]
         private List<BaseService> m_ChildernList;
         private Dictionary<Type, BaseService> m_ChildernDict;
 

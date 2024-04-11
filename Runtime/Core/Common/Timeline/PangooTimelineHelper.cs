@@ -69,7 +69,7 @@ namespace Pangoo.Core.Common
         public void Start()
         {
             SetTimelineByMode();
-            makers = Asset.markerTrack;
+            makers = Asset?.markerTrack;
             InvokeStartSignal();
         }
 
@@ -79,25 +79,25 @@ namespace Pangoo.Core.Common
         private void Update()
         {
             if (TimelineOptType != TimelineOperationTypeEnum.ManualAndUpdate) return;
-            if (Speed.Equals(0))return;
-            
+            if (Speed.Equals(0)) return;
+
             if (makers != null)
             {
                 foreach (IMarker marker in makers.GetMarkers())
                 {
-                    if (Speed>0)
+                    if (Speed > 0)
                     {
                         if (playableDirector.time < marker.time && marker.time <= playableDirector.time + DeltaTime)
                         {
-                            InvokeSignal(playableDirector,marker);
+                            InvokeSignal(playableDirector, marker);
                             return;
                         }
                     }
-                    if(Speed<0)
+                    if (Speed < 0)
                     {
                         if (playableDirector.time > marker.time && marker.time >= playableDirector.time + DeltaTime)
                         {
-                            InvokeSignal(playableDirector,marker);
+                            InvokeSignal(playableDirector, marker);
                             return;
                         }
                     }
@@ -105,8 +105,8 @@ namespace Pangoo.Core.Common
             }
 
             playableDirector.time = playableDirector.time + DeltaTime;
-            
-            if (playableDirector.time<=0)
+
+            if (playableDirector.time <= 0)
             {
                 playableDirector.time = 0;
 
@@ -117,31 +117,31 @@ namespace Pangoo.Core.Common
             {
                 playableDirector.Evaluate();
             }
-            
+
             switch (playableDirector.extrapolationMode)
             {
                 case DirectorWrapMode.None:
-                    if (playableDirector.time>playableDirector.duration)
+                    if (playableDirector.time > playableDirector.duration)
                     {
                         playableDirector.Stop();
                     }
                     break;
                 case DirectorWrapMode.Hold:
-                    if (playableDirector.time>=playableDirector.duration)
+                    if (playableDirector.time >= playableDirector.duration)
                     {
                         playableDirector.time = playableDirector.duration;
                         playableDirector.Pause();
                     }
                     break;
                 case DirectorWrapMode.Loop:
-                    if (playableDirector.time>playableDirector.duration)
+                    if (playableDirector.time > playableDirector.duration)
                     {
                         playableDirector.time = 0;
                     }
                     break;
             }
         }
-        
+
         public void SetTimelineByMode()
         {
             switch (TimelineOptType)
@@ -160,7 +160,7 @@ namespace Pangoo.Core.Common
         }
         private void InvokeStartSignal()
         {
-            if (makers!=null)
+            if (makers != null)
             {
                 foreach (IMarker marker in makers.GetMarkers())
                 {
@@ -171,17 +171,17 @@ namespace Pangoo.Core.Common
                 }
             }
         }
-        
+
         private void InvokeSignal(PlayableDirector playableDirector, IMarker marker)
         {
             playableDirector.time = marker.time;
             playableDirector.Evaluate();
             Speed = 0;
-            
+
             playableDirector.playableGraph.GetOutput(0).PushNotification(playableDirector.playableGraph.GetRootPlayable(0),
                 marker as SignalEmitter, null);
         }
-        
+
         public void OnNotify(Playable origin, INotification notification, object context)
         {
             Debug.Log($"OnTimelineNotify:{gameObject.name}:{playableDirector?.playableAsset}");

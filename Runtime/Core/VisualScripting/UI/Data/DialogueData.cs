@@ -11,7 +11,6 @@ using Sirenix.OdinInspector;
 namespace Pangoo.Core.VisualScripting
 {
 
-    [Serializable]
 
     public class DialogueData
     {
@@ -37,7 +36,6 @@ namespace Pangoo.Core.VisualScripting
         public Action FinishAction;
 
 
-        [ListDrawerSettings(ShowFoldout = false)]
         public List<DialogueUpdateData> dialogueUpdateDatas = new List<DialogueUpdateData>();
 
 

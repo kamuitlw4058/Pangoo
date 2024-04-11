@@ -39,7 +39,7 @@ namespace Pangoo.Editor
         GameSceneDynamicObjectEditor m_DynamicObjectEditor;
 
 
-
+        GameSceneCharacterEditor m_CharacterEditor;
 
         public void UpdateSection()
         {
@@ -63,6 +63,7 @@ namespace Pangoo.Editor
 
             InitStaticSceneEditor();
             InitDynamicObjectEditor();
+            UpdateCharacterEditor();
 
 
             if (!Application.isPlaying)
@@ -84,6 +85,7 @@ namespace Pangoo.Editor
             {
                 m_DynamicObjectEditor.Clear();
             }
+
         }
 
         void UpdateGameObjectName()
@@ -135,31 +137,47 @@ namespace Pangoo.Editor
             }
         }
 
+        public void UpdateCharacterEditor()
+        {
+            if (m_CharacterEditor == null)
+            {
+                m_CharacterEditor = GetComponentInChildren<GameSceneCharacterEditor>();
+                if (m_CharacterEditor != null)
+                {
+                    return;
+                }
+                var go = new GameObject();
+                go.transform.parent = transform;
+                go.ResetTransfrom();
+                m_CharacterEditor = go.GetOrAddComponent<GameSceneCharacterEditor>();
+            }
+
+            if (m_CharacterEditor != null)
+            {
+                if (!Application.isPlaying)
+                {
+                    m_CharacterEditor.GameSectionWrapper = DetailWrapper;
+                }
+                else
+                {
+                    m_CharacterEditor.Clear();
+                }
+
+            }
+
+
+        }
+
+        public void Save()
+        {
+
+            DetailWrapper.OnBornDictChanged();
+        }
+
 
         private void OnEnable()
         {
             OnSectionChange();
-
-            // m_StaticSceneEditor = GetComponentInChildren<GameSceneStaticSceneEditor>();
-            // if (m_StaticSceneEditor == null)
-            // {
-            //     var go = new GameObject();
-            //     go.transform.parent = transform;
-            //     go.ResetTransfrom();
-            //     m_StaticSceneEditor = go.GetOrAddComponent<GameSceneStaticSceneEditor>();
-            // }
-
-            // m_DynamicObjectEditor = GetComponentInChildren<GameSceneDynamicObjectEditor>();
-            // if (m_DynamicObjectEditor == null)
-            // {
-            //     var go = new GameObject();
-            //     go.transform.parent = transform;
-            //     go.ResetTransfrom();
-            //     m_DynamicObjectEditor = go.GetOrAddComponent<GameSceneDynamicObjectEditor>();
-            // }
-
-
-            // OnSectionChange();
         }
 
         private void OnDisable()
@@ -169,33 +187,17 @@ namespace Pangoo.Editor
 
         private void OnDestroy()
         {
-            // DestroyImmediate(m_StaticSceneEditor);
-            // UnityEditor.EditorApplication.delayCall += () =>
-            // {
-            //     if (gameObject != null)
-            //     {
-            //         DestroyImmediate(gameObject);
-            //     }
 
-            // };
         }
 
         void Update()
         {
+
+            InitStaticSceneEditor();
+            InitDynamicObjectEditor();
+            UpdateCharacterEditor();
+
             gameObject.ResetTransfrom();
-            // GameSectionRow = GameSectionOverview.GetUnityRowByUuid(Section);
-            // if (GameSectionRow == null)
-            // {
-            //     return;
-            // }
-
-
-            // if (Wrapper.OutsideNeedRefresh)
-            // {
-            //     UpdateSection();
-            // }
-
-
         }
 
 

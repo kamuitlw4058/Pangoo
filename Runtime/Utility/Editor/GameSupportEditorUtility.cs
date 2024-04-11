@@ -134,6 +134,11 @@ namespace Pangoo
             return datas;
         }
 
+        public static GameMainConfig GetGameMainConfig()
+        {
+            return AssetDatabaseUtility.FindAssetFirst<GameMainConfig>();
+        }
+
         public static IEnumerable GetNamespaces()
         {
             List<string> Namespaces = new List<string>();

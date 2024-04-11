@@ -82,6 +82,42 @@ namespace Pangoo.Common
             return false;
         }
 
+        public static bool NullEquals(this string str, string other)
+        {
+            if (str == null && other == null)
+            {
+                return true;
+            }
+
+            if ((str != null && other == null)
+            || (str == null && other != null))
+            {
+                return false;
+            }
+
+            return str.Equals(other);
+        }
+
+        public static bool NullOrWhiteSpaceEquals(this string str, string other)
+        {
+            var strVal = str.IsNullOrWhiteSpace();
+            var otherVal = other.IsNullOrWhiteSpace();
+
+            if (strVal && otherVal)
+            {
+                return true;
+            }
+
+            if ((strVal && !otherVal) || (!strVal && otherVal))
+            {
+                return false;
+            }
+
+            return str.Equals(other);
+        }
+
+
+
 
         public static string Humanize(this string source)
         {

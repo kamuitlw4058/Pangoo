@@ -33,6 +33,12 @@ namespace Pangoo.MetaTable
 
         public string SceneUuids{ get; set; }
 
+        public string StateVariableUuid{ get; set; }
+
+        public string PlayerBirthPlaceList{ get; set; }
+
+        public string PlayerCharacterUuid{ get; set; }
+
     }
 }
 

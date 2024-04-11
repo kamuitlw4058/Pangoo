@@ -15,7 +15,6 @@ namespace Pangoo.Core.VisualScripting
 {
 
 
-    [Serializable]
     public class DialogueUpdateData
     {
         public DialogueData DialogueData;
@@ -78,8 +77,16 @@ namespace Pangoo.Core.VisualScripting
 
         // public DialogueData Data;
 
-        public List<DialogueData> DataList = new List<DialogueData>();
+        List<DialogueData> m_DataList = new List<DialogueData>();
 
+        public List<DialogueData> DataList
+        {
+            get
+            {
+                return m_DataList;
+            }
+
+        }
 
         public float CurrentTime;
 

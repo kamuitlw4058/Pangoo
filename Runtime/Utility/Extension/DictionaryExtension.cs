@@ -75,5 +75,52 @@ namespace Pangoo
 
         }
 
+        public static void SyncKeyValue<K, V>(this Dictionary<K, V> dict, List<K> keys, Func<K, V, bool> CheckValue, Func<K, V> addAction, Action<K, V> removeAction)
+        {
+            if (dict == null || keys == null || (keys != null && keys.Count == 0) || CheckValue == null || addAction == null) return;
+
+            List<K> RemoveList = new List<K>();
+
+
+            foreach (var kv in dict)
+            {
+                if (!keys.Contains(kv.Key))
+                {
+                    RemoveList.Add(kv.Key);
+                }
+
+                if (!CheckValue(kv.Key, kv.Value) && !RemoveList.Contains(kv.Key))
+                {
+                    RemoveList.Add(kv.Key);
+                }
+            }
+
+
+            RemoveList.ForEach(o =>
+            {
+                var val = dict[o];
+                dict.Remove(o);
+                removeAction?.Invoke(o, val);
+            });
+
+            keys.ForEach(o =>
+            {
+                if (dict.ContainsKey(o))
+                {
+                    return;
+                }
+
+                if (addAction != null)
+                {
+                    var val = addAction.Invoke(o);
+                    if (val != null)
+                    {
+                        dict.Add(o, val);
+                    }
+                }
+            });
+
+        }
+
     }
 }

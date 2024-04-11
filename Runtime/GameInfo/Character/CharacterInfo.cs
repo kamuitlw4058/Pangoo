@@ -8,7 +8,6 @@ using System.Collections.Generic;
 
 namespace Pangoo
 {
-    [Serializable]
     public partial class CharacterInfo : BaseInfo
     {
 

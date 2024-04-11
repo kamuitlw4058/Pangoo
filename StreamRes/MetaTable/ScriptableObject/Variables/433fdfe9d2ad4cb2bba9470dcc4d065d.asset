@@ -20,4 +20,4 @@ MonoBehaviour:
     Key: Pangoo.CurrentGameSection
     ValueType: String
     DefaultValue: 
-    NeedSave: 0
+    NotSave: 0
