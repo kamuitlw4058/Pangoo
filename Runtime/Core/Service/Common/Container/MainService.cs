@@ -29,7 +29,6 @@ namespace Pangoo.Core.Services
 
 
 
-
         public MetaTableService MetaTable;
 
         public DynamicObjectService DynamicObject;
@@ -44,10 +43,13 @@ namespace Pangoo.Core.Services
 
         public CaseService Case;
 
+        public GameSectionService GameSection;
+
+        public GameInfoService GameInfo;
+
 
         public MainService()
         {
-
         }
 
         public void Init()
@@ -67,12 +69,14 @@ namespace Pangoo.Core.Services
             Dialogue = new DialogueService();
             Cursor = new CursorService();
             Case = new CaseService();
+            GameSection = new GameSectionService();
+            GameInfo = new GameInfoService();
 
             AddService(MetaTable, sortService: false);
             AddService(StaticScene, sortService: false);
-            AddService(new GameSectionService(), sortService: false);
+            AddService(GameSection, sortService: false);
             AddService(RuntimeData, sortService: false);
-            AddService(new GameInfoService(), sortService: false);
+            AddService(GameInfo, sortService: false);
             AddService(DynamicObject, sortService: false);
             AddService(CharacterService, sortService: false);
             AddService(GameConfig, sortService: false);

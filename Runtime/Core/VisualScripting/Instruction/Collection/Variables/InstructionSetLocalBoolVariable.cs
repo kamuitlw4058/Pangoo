@@ -17,8 +17,7 @@ namespace Pangoo.Core.VisualScripting
         [SerializeField]
         [LabelText("参数")]
         [HideReferenceObjectPicker]
-        public InstructionSetLocalBoolVariableParams ParamsRaw =
-            new InstructionSetLocalBoolVariableParams();
+        public InstructionSetLocalBoolVariableParams ParamsRaw = new InstructionSetLocalBoolVariableParams();
         public override IParams Params => this.ParamsRaw;
 
         public override void RunImmediate(Args args)

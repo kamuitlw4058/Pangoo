@@ -239,7 +239,7 @@ namespace Pangoo.Core.Services
             {
                 var state = 0;
                 var StateVariableUuid = string.Empty;
-                if (!LatestGameSectionRow.StateVariableUuid.IsNullOrWhiteSpace())
+                if (!LatestGameSectionRow.StateVariableUuid.IsNullOrWhiteSpace() && !LatestGameSectionRow.StateVariableUuid.Equals(ConstString.Default))
                 {
                     StateVariableUuid = LatestGameSectionRow.StateVariableUuid;
                 }
@@ -248,7 +248,9 @@ namespace Pangoo.Core.Services
                     StateVariableUuid = GameMainConfigSrv.GameMainConfig.GameSectionInitStateVariableUuid;
                 }
 
+
                 state = RuntimeDataSrv.GetGameSectionVariable<int>(LatestUuid, StateVariableUuid);
+                Log($"GameSection:{LatestUuid}, StateVariableUuid:{StateVariableUuid}, val:{state}");
                 return state;
             }
         }
@@ -268,8 +270,8 @@ namespace Pangoo.Core.Services
                 var Loaded = CheckGameSectionLoadedWithPlayerCompleted();
                 if (Loaded)
                 {
-                    Log($"Scene DynamicObject Loaded Player Complete");
                     var bornDict = BornDict;
+                    Log($"Scene DynamicObject Loaded Player Complete:{bornDict}");
                     if (bornDict != null)
                     {
                         if (bornDict.TryGetValue(InitState, out CharacterBornInfo val))
@@ -277,6 +279,7 @@ namespace Pangoo.Core.Services
                             var entity = CharacterSrv.GetLoadedEntity(val.PlayerUuid);
                             if (entity != null && val.ForceMove)
                             {
+                                Log($"Loaded. Set Character:{val.PlayerUuid}, State:{InitState} Post:{val.Pose}");
                                 entity.character.SetPose(val.Pose);
                             }
                         }
@@ -295,7 +298,7 @@ namespace Pangoo.Core.Services
                         {
                             if (bornDict.TryGetValue(InitState, out CharacterBornInfo val))
                             {
-                                Log($"Loaded. Try Show Character:{val.PlayerUuid}");
+                                Log($"Loaded. Try Show Character:{val.PlayerUuid}, State:{InitState}");
                                 CharacterSrv.ShowCharacter(val.PlayerUuid, val.Pose.Position, val.Pose.Rotation);
                             }
 
