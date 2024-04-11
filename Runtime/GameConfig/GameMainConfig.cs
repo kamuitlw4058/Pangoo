@@ -43,6 +43,12 @@ namespace Pangoo
         [ValueDropdown("GetStringVariableUuid")]
         public string CurrentGameSectionVariableUuid;
 
+        [ValueDropdown("@VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Int.ToString(), VariableTypeEnum.GameSection.ToString(),false)")]
+        [LabelText("段落初始化状态")]
+        [FoldoutGroup("段落", expanded: true)]
+        public string GameSectionInitStateVariableUuid;
+
+
         [ValueDropdown("GetDefaultPlayer")]
         [LabelText("默认玩家")]
         [FoldoutGroup("玩家", expanded: true)]
@@ -75,8 +81,8 @@ namespace Pangoo
         public FootstepEntry FootstepEntry;
 
         [LabelText("跑步按键")]
-        [TabGroup("玩家/玩家配置","玩家操作")]
-        public KeyCode RunKeyCode=KeyCode.LeftShift;
+        [TabGroup("玩家/玩家配置", "玩家操作")]
+        public KeyCode RunKeyCode = KeyCode.LeftShift;
 
         [ValueDropdown("GetIntVariableUuid")]
         [FoldoutGroup("动态物体", expanded: true)]
@@ -182,6 +188,8 @@ namespace Pangoo
         {
             return VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Bool.ToString());
         }
+
+
 
 
         private IEnumerable GetDefaultPlayer()

@@ -9,6 +9,8 @@ namespace Pangoo.Core.VisualScripting
     {
         DynamicObject,
         Global,
+
+        GameSection,
     }
 }
 

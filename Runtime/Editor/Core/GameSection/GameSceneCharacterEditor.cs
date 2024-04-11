@@ -9,7 +9,6 @@ using Sirenix.OdinInspector;
 using Pangoo.MetaTable;
 using Pangoo.Core.Characters;
 using System.Linq;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using Pangoo.Common;
 
@@ -20,7 +19,6 @@ namespace Pangoo.Editor
     [DisallowMultipleComponent]
     public partial class GameSceneCharacterEditor : MonoBehaviour
     {
-        [HideInInspector]
         public GameSectionDetailRowWrapper GameSectionWrapper;
 
         // [Serializable]
@@ -34,7 +32,7 @@ namespace Pangoo.Editor
 
 
 
-        // [ShowInInspector]
+        [ShowInInspector]
         // [ReadOnly]
         public Dictionary<int, CharacterBornData> BornDict = new();
 
@@ -124,7 +122,7 @@ namespace Pangoo.Editor
 
         void UpdateGameObjectName()
         {
-            name = "$$Player";
+            name = "$$玩家出生点";
         }
 
         private void Update()

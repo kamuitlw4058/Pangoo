@@ -13,6 +13,7 @@ using Pangoo.Common;
 using Pangoo.MetaTable;
 using LitJson;
 using Pangoo.Core.Characters;
+using Sirenix.OdinInspector;
 
 namespace Pangoo.Core.Services
 {
@@ -98,6 +99,20 @@ namespace Pangoo.Core.Services
             }
         }
 
+        int BornCount
+        {
+            get
+            {
+                var bornDict = BornDict;
+                if (bornDict == null)
+                {
+                    return 0;
+                }
+
+                return bornDict.Count;
+            }
+        }
+
 
 
         bool CheckGameSectionLoadedWithPlayerCompleted()
@@ -109,6 +124,11 @@ namespace Pangoo.Core.Services
             Log($"CheckGameSectionLoadedCompleted IsSceneLoaded:{sceneLoaded} IsDynamicObjectLoaded:{dynamicObjectLoaded}");
             if (sceneLoaded && dynamicObjectLoaded)
             {
+                if (BornCount == 0)
+                {
+                    return true;
+                }
+
                 var state = 0;
                 if (!LatestGameSectionRow.StateVariableUuid.IsNullOrWhiteSpace())
                 {
@@ -185,7 +205,6 @@ namespace Pangoo.Core.Services
             }
             Log($"Apply Game Section is :{uuid.ToShortUuid()}");
 
-
             if (LatestUuid != uuid)
             {
                 IsGameSectionLoaded = false;
@@ -213,6 +232,27 @@ namespace Pangoo.Core.Services
         }
 
 
+        [ShowInInspector]
+        public int InitState
+        {
+            get
+            {
+                var state = 0;
+                var StateVariableUuid = string.Empty;
+                if (!LatestGameSectionRow.StateVariableUuid.IsNullOrWhiteSpace())
+                {
+                    StateVariableUuid = LatestGameSectionRow.StateVariableUuid;
+                }
+                else
+                {
+                    StateVariableUuid = GameMainConfigSrv.GameMainConfig.GameSectionInitStateVariableUuid;
+                }
+
+                state = RuntimeDataSrv.GetGameSectionVariable<int>(LatestUuid, StateVariableUuid);
+                return state;
+            }
+        }
+
 
         protected override void DoUpdate()
         {
@@ -229,16 +269,10 @@ namespace Pangoo.Core.Services
                 if (Loaded)
                 {
                     Log($"Scene DynamicObject Loaded Player Complete");
-                    var state = 0;
-                    if (!LatestGameSectionRow.StateVariableUuid.IsNullOrWhiteSpace())
-                    {
-                        state = RuntimeDataSrv.GetVariable<int>(LatestGameSectionRow.StateVariableUuid);
-                    }
-
                     var bornDict = BornDict;
                     if (bornDict != null)
                     {
-                        if (bornDict.TryGetValue(state, out CharacterBornInfo val))
+                        if (bornDict.TryGetValue(InitState, out CharacterBornInfo val))
                         {
                             var entity = CharacterSrv.GetLoadedEntity(val.PlayerUuid);
                             if (entity != null && val.ForceMove)
@@ -256,16 +290,10 @@ namespace Pangoo.Core.Services
                     Log($"Scene DynamicObject Loaded,:{CharacterShowed} ");
                     if (!CharacterShowed)
                     {
-                        var state = 0;
-                        if (!LatestGameSectionRow.StateVariableUuid.IsNullOrWhiteSpace())
-                        {
-                            state = RuntimeDataSrv.GetVariable<int>(LatestGameSectionRow.StateVariableUuid);
-                        }
-
                         var bornDict = BornDict;
                         if (bornDict != null)
                         {
-                            if (bornDict.TryGetValue(state, out CharacterBornInfo val))
+                            if (bornDict.TryGetValue(InitState, out CharacterBornInfo val))
                             {
                                 Log($"Loaded. Try Show Character:{val.PlayerUuid}");
                                 CharacterSrv.ShowCharacter(val.PlayerUuid, val.Pose.Position, val.Pose.Rotation);

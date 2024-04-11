@@ -72,7 +72,6 @@ namespace Pangoo.MetaTable
 
         [LabelText("初始化完成指令Uuids")]
         [ValueDropdown("InstructionUuidsValueDropdown", IsUniqueList = true)]
-        [ListDrawerSettings(Expanded = true)]
         [ShowInInspector]
         public string[] InstructionUuids
         {
@@ -92,7 +91,6 @@ namespace Pangoo.MetaTable
 
         [LabelText("编辑器初始化完成指令Uuids")]
         [ValueDropdown("InstructionUuidsValueDropdown", IsUniqueList = true)]
-        [ListDrawerSettings(Expanded = true)]
         [ShowInInspector]
         [PropertyOrder(5)]
         public string[] EditorInstructionUuids
@@ -112,7 +110,7 @@ namespace Pangoo.MetaTable
         [ShowInInspector]
         [LabelText("状态变量")]
         [FoldoutGroup("玩家配置")]
-        [OnValueChanged("@VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Int.ToString(), VariableTypeEnum.Global.ToString(),false)")]
+        [ValueDropdown("@VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Int.ToString(), VariableTypeEnum.GameSection.ToString(),true)")]
         public string StateVariable
         {
             get
@@ -122,6 +120,7 @@ namespace Pangoo.MetaTable
             set
             {
                 UnityRow.Row.StateVariableUuid = value;
+                Save();
             }
         }
 

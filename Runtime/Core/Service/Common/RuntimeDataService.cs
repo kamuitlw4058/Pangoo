@@ -7,7 +7,6 @@ using UnityEngine;
 using LitJson;
 using Sirenix.OdinInspector;
 
-
 namespace Pangoo.Core.Services
 {
     public class RuntimeDataService : KeyValueService
@@ -30,7 +29,7 @@ namespace Pangoo.Core.Services
             }
         }
 
-        Pangoo.MetaTable.VariablesTable m_VariablesTable;
+        VariablesTable m_VariablesTable;
 
         [ShowInInspector]
         [Searchable]
@@ -38,6 +37,9 @@ namespace Pangoo.Core.Services
 
         [ShowInInspector]
         Dictionary<string, DynamicObjectValue> m_DynamicObjectValueDict = new Dictionary<string, DynamicObjectValue>();
+
+        [ShowInInspector]
+        Dictionary<string, GameSectionValue> m_GameSectionValueDict = new Dictionary<string, GameSectionValue>();
         protected override void DoStart()
         {
             base.DoStart();
@@ -96,6 +98,21 @@ namespace Pangoo.Core.Services
             val.RuntimeDataSrv = this;
             m_DynamicObjectValueDict.Add(dynamicObjectUuid, val);
 
+            return val;
+        }
+
+
+        public GameSectionValue GetOrCreateGameSectionValue(string dynamicObjectUuid)
+        {
+            GameSectionValue val = null;
+            if (m_GameSectionValueDict.ContainsKey(dynamicObjectUuid))
+            {
+                val = m_GameSectionValueDict[dynamicObjectUuid];
+                return val;
+            }
+            val = new GameSectionValue();
+            val.RuntimeDataSrv = this;
+            m_GameSectionValueDict.Add(dynamicObjectUuid, val);
             return val;
         }
 
@@ -163,6 +180,24 @@ namespace Pangoo.Core.Services
             dynamicObejctValue.SetVariable<T>(variableUuid, val);
         }
 
+
+
+        public T GetGameSectionVariable<T>(string targetUuid, string variableUuid)
+        {
+            if (targetUuid.IsNullOrWhiteSpace() || variableUuid.IsNullOrWhiteSpace()) return default(T);
+
+            var val = GetOrCreateGameSectionValue(targetUuid);
+            return val.GetVariable<T>(variableUuid);
+        }
+
+
+        public void SetGameSectionVariable<T>(string targetUuid, string variableUuid, T val)
+        {
+            if (targetUuid.IsNullOrWhiteSpace() || variableUuid.IsNullOrWhiteSpace()) return;
+
+            var targetValue = GetOrCreateGameSectionValue(targetUuid);
+            targetValue.SetVariable<T>(variableUuid, val);
+        }
 
 
         public VariableTypeEnum? GetVariableType(string uuid)

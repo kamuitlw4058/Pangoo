@@ -27,27 +27,6 @@ namespace Pangoo
         public string MainNamespace;
 
 
-        [LabelText("资源路径起始Id")]
-        public int AssetPathBaseId;
-
-
-        [LabelText("动态物体起始Id")]
-        public int DynmaicObjectBaseId;
-
-
-        [LabelText("静态场景起始Id")]
-        public int StaticSceneBaseId;
-
-
-        [LabelText("角色起始Id")]
-        public int CharacterBaseId;
-
-        [LabelText("*UI起始Id")]
-        public int UIBaseId;
-
-        // [ValueDropdown("GetAllEventsOverview")]
-        // public List<PangooEventsTableOverview> EventOverviews;
-
 
 #if UNITY_EDITOR
 
