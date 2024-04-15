@@ -9,7 +9,6 @@ using Sirenix.OdinInspector;
 using Pangoo.MetaTable;
 using Pangoo.Core.Characters;
 using System.Linq;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using Pangoo.Common;
 
 namespace Pangoo.Editor
@@ -19,7 +18,26 @@ namespace Pangoo.Editor
     [DisallowMultipleComponent]
     public partial class GameSceneCharacterEditor : MonoBehaviour
     {
-        public GameSectionDetailRowWrapper GameSectionWrapper;
+
+        string GameSectionUuid;
+
+        GameSectionDetailRowWrapper m_GameSectionWrapper;
+
+        public GameSectionDetailRowWrapper GameSectionWrapper
+        {
+            get
+            {
+                return m_GameSectionWrapper;
+            }
+            set
+            {
+                if (m_GameSectionWrapper == null || m_GameSectionWrapper.Uuid != value.Uuid)
+                {
+                    Clear();
+                }
+                m_GameSectionWrapper = value;
+            }
+        }
 
         // [Serializable]
         public class CharacterBornData
@@ -39,7 +57,7 @@ namespace Pangoo.Editor
 
         public void UpdateTargets()
         {
-            if (GameSectionWrapper.BornDict == null || GameSectionWrapper.BornDict.Count == 0) return;
+            if (GameSectionWrapper == null || GameSectionWrapper.BornDict == null || GameSectionWrapper.BornDict.Count == 0) return;
 
 
             BornDict.SyncKeyValue(GameSectionWrapper.BornDict.Keys.ToList(),

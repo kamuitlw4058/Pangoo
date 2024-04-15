@@ -499,6 +499,17 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
+
+        public static Instruction GetSetDynamicObjectAnimatorInt(string uuid, string path, string param, int val)
+        {
+            var instruction = Activator.CreateInstance<InstructionDynamicObjectSetAnimatorInt>();
+            instruction.ParamsRaw.DynamicObjectUuid = uuid;
+            instruction.ParamsRaw.Path = path;
+            instruction.ParamsRaw.AnimatorParamName = param;
+            instruction.ParamsRaw.Val = val;
+            return instruction;
+        }
+
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
             switch (InstructionType)
@@ -619,6 +630,8 @@ namespace Pangoo.Core.VisualScripting
                     return GetManualTimelineSpeedByMouseSpeed(DropdownString1, Float1, Float2);
                 case DirectInstructionTypeEnum.SetGameSectionIntVariable:
                     return GetSetGameSectionIntVariable(Uuid, Uuid2, Int1);
+                case DirectInstructionTypeEnum.DynamicObjectAnimatorInt:
+                    return GetSetDynamicObjectAnimatorInt(Uuid, DropdownString1, String1, Int1);
             }
 
             return null;

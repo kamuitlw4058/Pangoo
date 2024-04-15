@@ -62,6 +62,14 @@ namespace Pangoo.Core.VisualScripting
         public string Uuid2;
 
         [TableTitleGroup("参数")]
+        [LabelText("$DropdownString1Label")]
+        [ShowIf("$IsDropdownStringShow")]
+        [LabelWidth(50)]
+        [JsonMember("DropdownString1")]
+        [ValueDropdown("OnDropdownStringValueDropdown")]
+        public string DropdownString1;
+
+        [TableTitleGroup("参数")]
         [LabelText("$String1Label")]
         [ShowIf("$IsMainStringShow")]
         [LabelWidth(50)]
@@ -109,8 +117,6 @@ namespace Pangoo.Core.VisualScripting
         public int Int2;
 
 
-
-
         [TableTitleGroup("参数")]
         [JsonNoMember]
         // [ReadOnly]
@@ -119,13 +125,7 @@ namespace Pangoo.Core.VisualScripting
         [HideInInspector]
         public GameObject ListPrefab;
 
-        [TableTitleGroup("参数")]
-        [LabelText("$DropdownString1Label")]
-        [ShowIf("$IsDropdownStringShow")]
-        [LabelWidth(50)]
-        [JsonMember("DropdownString1")]
-        [ValueDropdown("OnDropdownStringValueDropdown")]
-        public string DropdownString1;
+
 
         [TableTitleGroup("参数")]
         [LabelText("$Bool1Label")]
@@ -246,6 +246,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.SetLocalIntVariable => true,
                     DirectInstructionTypeEnum.SetIntDelta => true,
                     DirectInstructionTypeEnum.SetGameSectionIntVariable => true,
+                    DirectInstructionTypeEnum.DynamicObjectAnimatorInt => true,
                     _ => false,
                 };
             }
@@ -289,6 +290,8 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.CyclePlaySound => true,
                     DirectInstructionTypeEnum.ShowCase => true,
                     DirectInstructionTypeEnum.SetGameSectionIntVariable => true,
+                    DirectInstructionTypeEnum.DynamicObjectAnimatorInt => true,
+
                     _ => false,
                 };
             }
@@ -444,6 +447,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.WaitMsg => true,
                     DirectInstructionTypeEnum.DoTweenKill => true,
                     DirectInstructionTypeEnum.SetGlobalGameObjectActive => true,
+                    DirectInstructionTypeEnum.DynamicObjectAnimatorInt => true,
                     _ => false,
                 };
             }
@@ -489,6 +493,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.DynamicObjectRotationSetVariable => true,
                     DirectInstructionTypeEnum.ChangeTimelineUpdateMode => true,
                     DirectInstructionTypeEnum.ManualTimelineSpeedByMouseSpeed => true,
+                    DirectInstructionTypeEnum.DynamicObjectAnimatorInt => true,
                     _ => false,
                 };
             }
@@ -698,7 +703,7 @@ namespace Pangoo.Core.VisualScripting
                 return InstructionType switch
                 {
                     DirectInstructionTypeEnum.DynamicObjectTriggerEnabled => "触发器Id",
-                    _ => "Int1",
+                    _ => "值",
                 };
             }
         }
@@ -725,6 +730,7 @@ namespace Pangoo.Core.VisualScripting
                 {
                     DirectInstructionTypeEnum.CyclePlaySound => "声音Uuid",
                     DirectInstructionTypeEnum.SetGameSectionIntVariable => "段落Uuid",
+                    DirectInstructionTypeEnum.DynamicObjectAnimatorInt => "动态物体Uuid",
                     _ => "Uuid1",
                 };
             }
@@ -836,6 +842,7 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.WaitMsg => "消息内容",
                     DirectInstructionTypeEnum.DoTweenKill => "TweenID",
                     DirectInstructionTypeEnum.SetGlobalGameObjectActive => "根节点",
+                    DirectInstructionTypeEnum.DynamicObjectAnimatorInt => "动画参数名",
                     _ => "String1",
                 };
             }
@@ -1001,6 +1008,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
                 case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:
                 case DirectInstructionTypeEnum.DynamicObjectPauseTimeline:
+                case DirectInstructionTypeEnum.DynamicObjectAnimatorInt:
                     var prefab = GameSupportEditorUtility.GetPrefabByDynamicObjectUuid(Uuid);
                     return GameSupportEditorUtility.RefPrefabStringDropdown(prefab);
 
@@ -1046,6 +1054,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.SetLocalIntVariable:
                 case DirectInstructionTypeEnum.SetLocalVector3Variable:
                 case DirectInstructionTypeEnum.DynamicObjectSetColliderTriggerActive:
+                case DirectInstructionTypeEnum.DynamicObjectAnimatorInt:
                     return DynamicObjectOverview.GetUuidDropdown(AdditionalOptions: new List<Tuple<string, string>>()
                     {
                         new Tuple<string, string>("Self","Self"),
@@ -1067,6 +1076,7 @@ namespace Pangoo.Core.VisualScripting
                     return StaticSceneOverview.GetUuidDropdown();
                 case DirectInstructionTypeEnum.ShowCase:
                     return CasesOverview.GetUuidDropdown();
+
             }
 
             return null;

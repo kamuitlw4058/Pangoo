@@ -88,6 +88,8 @@ namespace Pangoo.Core.VisualScripting
 
         }
 
+        public float LastTime;
+
         public float CurrentTime;
 
         public bool IsPlayData;
@@ -253,6 +255,26 @@ namespace Pangoo.Core.VisualScripting
                         }
                     }
 
+
+                    if (subtitle.InfoType == DialogueSubtitleType.Signal)
+                    {
+                        if (MathUtility.IsInRange(new Vector2(LastTime, CurrentTime), lastDialogue.StartTime + subtitle.TimePoint) && subtitle.DynamicObjectList != null && subtitle.DynamicObjectList.Count > 0)
+                        {
+                            foreach (var dynamicObjectUuid in subtitle.DynamicObjectList)
+                            {
+                                if (dynamicObjectUuid.IsNullOrWhiteSpace()) continue;
+
+                                var entity = PanelData.Main.DynamicObject.GetLoadedEntity(dynamicObjectUuid);
+                                if (entity != null)
+                                {
+                                    entity.DynamicObj.DialogueSignal(subtitle.Content, subtitle.TimePoint);
+                                }
+                            }
+                        }
+                    }
+
+
+
                 }
 
                 lastDialogue.Progress = Mathf.InverseLerp(0, lastDialogue.ActorsLinesRow.Duration, CurrentTime - lastDialogue.StartTime);
@@ -410,9 +432,9 @@ namespace Pangoo.Core.VisualScripting
                     {
                         if (actorLine.InfoType == DialogueSubtitleType.RecoverPoint)
                         {
-                            if (ProgressTime >= actorLine.RecoverPoint)
+                            if (ProgressTime >= actorLine.TimePoint)
                             {
-                                recoverPoint = actorLine.RecoverPoint;
+                                recoverPoint = actorLine.TimePoint;
                                 continue;
                             }
 
@@ -559,6 +581,7 @@ namespace Pangoo.Core.VisualScripting
 
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
         {
+            LastTime = CurrentTime;
             CurrentTime += elapseSeconds;
             if (!IsPlayData) return;
             UpdateDialogue();

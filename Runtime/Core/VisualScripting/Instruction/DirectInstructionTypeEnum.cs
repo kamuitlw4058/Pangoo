@@ -170,5 +170,9 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("GameSection/设置段落Int变量")]
         SetGameSectionIntVariable,
+
+
+        [LabelText("动态物体/设置动画Int参数")]
+        DynamicObjectAnimatorInt,
     }
 }

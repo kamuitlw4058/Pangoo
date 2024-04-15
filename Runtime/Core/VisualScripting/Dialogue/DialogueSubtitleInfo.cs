@@ -4,6 +4,7 @@ using UnityEngine;
 using LitJson;
 using Sirenix.OdinInspector;
 using Pangoo.MetaTable;
+using System.Collections.Generic;
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -18,6 +19,7 @@ namespace Pangoo.Core.VisualScripting
         [ShowIf("@this.InfoType == DialogueSubtitleType.Sound")]
         [LabelText("音频Uuid")]
         public string SoundUuid;
+
 
 #if UNITY_EDITOR
 
@@ -51,18 +53,26 @@ namespace Pangoo.Core.VisualScripting
 
         [JsonMember("Range")]
         [LabelText("片段起始")]
-        [ShowIf("@this.InfoType != DialogueSubtitleType.RecoverPoint")]
+        [ShowIf("@this.InfoType != DialogueSubtitleType.RecoverPoint && this.InfoType != DialogueSubtitleType.Signal")]
         public Vector2 Range;
+
+        [LabelText("时间点")]
+        [JsonMember("RecoverPoint")]
+        [ShowIf("@this.InfoType == DialogueSubtitleType.RecoverPoint || this.InfoType == DialogueSubtitleType.Signal")]
+        public float TimePoint;
+
 
         [LabelText("内容")]
         [JsonMember("Content")]
-        [ShowIf("@this.InfoType == DialogueSubtitleType.Subtitle")]
+        [ShowIf("@this.InfoType == DialogueSubtitleType.Subtitle || this.InfoType == DialogueSubtitleType.Signal")]
         public string Content;
 
 
-        [LabelText("恢复点")]
-        [JsonMember("RecoverPoint")]
-        [ShowIf("@this.InfoType == DialogueSubtitleType.RecoverPoint")]
-        public float RecoverPoint;
+        [ValueDropdown("@DynamicObjectOverview.GetUuidDropdown()")]
+        [ShowIf("@this.InfoType == DialogueSubtitleType.Signal")]
+        [LabelText("动态物体列表")]
+        [JsonMember("DynamicObjectList")]
+
+        public List<string> DynamicObjectList = new List<string>();
     }
 }

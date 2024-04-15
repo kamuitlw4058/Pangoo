@@ -70,12 +70,21 @@ namespace Pangoo.MetaTable
                 Save();
             }
         }
-
+        [ShowInInspector]
+        [LabelText("对话信息字符串")]
+        public string DialogueInfosString
+        {
+            get
+            {
+                return UnityRow.Row.DialogueSubtitles;
+            }
+        }
 
         [ShowInInspector]
         [HideReferenceObjectPicker]
         [ListDrawerSettings(ShowFoldout = true)]
         [LabelText("对话信息")]
+        [OnValueChanged("OnDialogueInfosChanged", includeChildren: true)]
         public List<DialogueSubtitleInfo> DialogueInfos
         {
             get
@@ -101,6 +110,12 @@ namespace Pangoo.MetaTable
             }
         }
 
+        public void OnDialogueInfosChanged()
+        {
+            UnityRow.Row.DialogueSubtitles = JsonMapper.ToJson(m_DialogueInfos);
+            Save();
+        }
+
 
         [Button("分析Timeline设置对话")]
         public void AnalysisTimeline()
@@ -114,10 +129,43 @@ namespace Pangoo.MetaTable
             var markers = markerTrack.GetMarkers();
             foreach (var marker in markers)
             {
-                var dialogueInfo = new DialogueSubtitleInfo();
-                dialogueInfo.InfoType = DialogueSubtitleType.RecoverPoint;
-                dialogueInfo.RecoverPoint = (float)marker.time;
-                timelineDialogueInfos.Add(dialogueInfo);
+                Debug.Log($"marker:{marker}");
+                var markerType = marker.GetType();
+
+                if (markerType == typeof(SignalEmitter))
+                {
+                    var dialogueInfo = new DialogueSubtitleInfo();
+                    dialogueInfo.InfoType = DialogueSubtitleType.RecoverPoint;
+                    dialogueInfo.TimePoint = (float)marker.time;
+                    timelineDialogueInfos.Add(dialogueInfo);
+                }
+
+                if (markerType == typeof(DialogueSignal))
+                {
+                    var dialogueInfo = new DialogueSubtitleInfo();
+                    dialogueInfo.InfoType = DialogueSubtitleType.Signal;
+                    dialogueInfo.TimePoint = (float)marker.time;
+                    var dialogueSignal = marker as DialogueSignal;
+                    dialogueInfo.Content = dialogueSignal?.Asset?.name ?? string.Empty;
+
+                    foreach (var info in m_DialogueInfos)
+                    {
+                        if (info.InfoType == DialogueSubtitleType.Signal && info.TimePoint == dialogueInfo.TimePoint)
+                        {
+                            foreach (var dynamicObject in info.DynamicObjectList)
+                            {
+                                dialogueInfo.DynamicObjectList.Add(dynamicObject);
+                            }
+
+                        }
+                    }
+
+                    timelineDialogueInfos.Add(dialogueInfo);
+
+                }
+
+
+
             }
 
 

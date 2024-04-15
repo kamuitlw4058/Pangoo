@@ -86,6 +86,8 @@ namespace Pangoo.Core.VisualScripting
         OnTriggerStayTimeOut,
         OnTriggerStayTimeOutExit,
 
+        OnDialogueSignal,
+
 
     }
 }
