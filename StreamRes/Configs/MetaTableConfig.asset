@@ -688,3 +688,12 @@ MonoBehaviour:
     - Name: CaseVariableState
       Type: string
       CnName: "\u6848\u4EF6\u53D8\u91CF\u72B6\u6001"
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: Card
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: AssetPathUuid
+      Type: string
+      CnName: "\u8D44\u6E90Uuid"
