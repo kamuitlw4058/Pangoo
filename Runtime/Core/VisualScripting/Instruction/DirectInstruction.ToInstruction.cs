@@ -510,6 +510,13 @@ namespace Pangoo.Core.VisualScripting
             return instruction;
         }
 
+        public static Instruction GetDynamicObjectSetTimelineTimeByMarkerTime(string path)
+        {
+            var instruction = Activator.CreateInstance<InstructionTimelineSetTimeByMarkerTime>();
+            instruction.ParamsRaw.Path = path;
+            return instruction;
+        }
+
         public Instruction ToInstruction(InstructionGetRowByUuidHandler handler = null)
         {
             switch (InstructionType)
@@ -632,6 +639,8 @@ namespace Pangoo.Core.VisualScripting
                     return GetSetGameSectionIntVariable(Uuid, Uuid2, Int1);
                 case DirectInstructionTypeEnum.DynamicObjectAnimatorInt:
                     return GetSetDynamicObjectAnimatorInt(Uuid, DropdownString1, String1, Int1);
+                case DirectInstructionTypeEnum.DynamicObjectSetTimelineTimeByMarkerTime:
+                    return GetDynamicObjectSetTimelineTimeByMarkerTime(DropdownString1);
             }
 
             return null;

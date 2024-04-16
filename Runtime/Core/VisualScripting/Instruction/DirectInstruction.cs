@@ -494,6 +494,8 @@ namespace Pangoo.Core.VisualScripting
                     DirectInstructionTypeEnum.ChangeTimelineUpdateMode => true,
                     DirectInstructionTypeEnum.ManualTimelineSpeedByMouseSpeed => true,
                     DirectInstructionTypeEnum.DynamicObjectAnimatorInt => true,
+                    DirectInstructionTypeEnum.DynamicObjectSetTimelineTimeByMarkerTime => true,
+
                     _ => false,
                 };
             }
@@ -1004,6 +1006,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.DynamicObjectDoRotationToTargetAngle:
                 case DirectInstructionTypeEnum.ChangeTimelineUpdateMode:
                 case DirectInstructionTypeEnum.ManualTimelineSpeedByMouseSpeed:
+                case DirectInstructionTypeEnum.DynamicObjectSetTimelineTimeByMarkerTime:
                     return GameSupportEditorUtility.RefPrefabStringDropdown(ListPrefab);
                 case DirectInstructionTypeEnum.DynamicObjectSubGameObjectEnabled:
                 case DirectInstructionTypeEnum.DynamicObjectPlayTimeline:
@@ -1055,6 +1058,7 @@ namespace Pangoo.Core.VisualScripting
                 case DirectInstructionTypeEnum.SetLocalVector3Variable:
                 case DirectInstructionTypeEnum.DynamicObjectSetColliderTriggerActive:
                 case DirectInstructionTypeEnum.DynamicObjectAnimatorInt:
+                case DirectInstructionTypeEnum.DynamicObjectSetTimelineTimeByMarkerTime:
                     return DynamicObjectOverview.GetUuidDropdown(AdditionalOptions: new List<Tuple<string, string>>()
                     {
                         new Tuple<string, string>("Self","Self"),

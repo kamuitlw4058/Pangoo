@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Pangoo.Common;
 using Pangoo.Core.Common;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -19,7 +20,7 @@ namespace Pangoo.Core.VisualScripting
         [HideReferenceObjectPicker]
         public InstructionManualTimelineSpeedByMouseSpeedParams ParamsRaw = new InstructionManualTimelineSpeedByMouseSpeedParams();
         public override IParams Params { get; }
-        
+
         public override void RunImmediate(Args args)
         {
             var trans = args.dynamicObject.CachedTransfrom.Find(ParamsRaw.Path);
@@ -33,9 +34,8 @@ namespace Pangoo.Core.VisualScripting
             var mouseY = Input.GetAxis("Mouse Y");
             Vector2 mouseDelta = new Vector2(mouseX, mouseY);
             var mouseSpeed = Mathf.Clamp(mouseDelta.magnitude, 0, ParamsRaw.MaxMouseSpeed);
-            var speed=ParamsRaw.TimeFactor*mouseSpeed*Time.deltaTime;
-            bool timelineStarted = false;
-            
+            var speed = ParamsRaw.TimeFactor * mouseSpeed * Time.deltaTime;
+
             if (trans != null)
             {
 
@@ -46,18 +46,18 @@ namespace Pangoo.Core.VisualScripting
                 }
 
                 playableDirector.Play();
-                
+
                 var asset = playableDirector.playableAsset as TimelineAsset;
                 var makers = asset.markerTrack;
 
 
-                if (makers != null && ParamsRaw.TimeFactor!=0)
+                if (makers != null && ParamsRaw.TimeFactor != 0)
                 {
                     foreach (IMarker marker in makers.GetMarkers())
                     {
                         if (ParamsRaw.TimeFactor > 0)
                         {
-                            if (marker.time > playableDirector.time && marker.time <= playableDirector.time +speed)
+                            if (marker.time > playableDirector.time && marker.time <= playableDirector.time + speed)
                             {
                                 InvokeSignal(playableDirector, marker);
                             }
@@ -65,52 +65,20 @@ namespace Pangoo.Core.VisualScripting
 
                         if (ParamsRaw.TimeFactor < 0)
                         {
-                            if (marker.time < playableDirector.time && marker.time >= playableDirector.time+speed)
+                            if (marker.time < playableDirector.time && marker.time >= playableDirector.time + speed)
                             {
                                 InvokeSignal(playableDirector, marker);
                             }
                         }
                     }
                 }
-                
-                // Debug.Log($"当前鼠标速度:{args.PointerData.delta.magnitude}");
-                playableDirector.time += speed;
 
-                if (playableDirector.time<=0)
-                {
-                    playableDirector.time = 0;
-                }
-                
-                if (playableDirector.state == PlayState.Playing)
-                {
-                    playableDirector.Evaluate();
-                }
-                
-                switch (playableDirector.extrapolationMode)
-                {
-                    case DirectorWrapMode.None:
-                        if (playableDirector.time>playableDirector.duration)
-                        {
-                            playableDirector.Stop();
-                        }
-                        break;
-                    case DirectorWrapMode.Hold:
-                        if (playableDirector.time>=playableDirector.duration)
-                        {
-                            playableDirector.time = playableDirector.duration;
-                            playableDirector.Pause();
-                        }
-                        break;
-                    case DirectorWrapMode.Loop:
-                        if (playableDirector.time>playableDirector.duration)
-                        {
-                            playableDirector.time = 0;
-                        }
-                        break;
-                }
+                playableDirector.time += speed;
+                playableDirector.UpdateManuel();
+
             }
         }
-        
+
         private void InvokeSignal(PlayableDirector playableDirector, IMarker marker)
         {
             playableDirector.playableGraph.GetOutput(0).PushNotification(playableDirector.playableGraph.GetRootPlayable(0),

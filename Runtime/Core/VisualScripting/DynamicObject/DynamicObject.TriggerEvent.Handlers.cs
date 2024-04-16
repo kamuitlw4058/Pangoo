@@ -42,14 +42,19 @@ namespace Pangoo.Core.VisualScripting
 
 
 
-        public bool TriggerInovke(TriggerTypeEnum triggerType,string uuid = null,string triggerPath=null)
+        public bool TriggerInovke(TriggerTypeEnum triggerType, string uuid = null, string triggerPath = null)
         {
             bool ret = false;
-            CurrentArgs.triggerPath = triggerPath;
-            
+
             if (!AllTriggerEnabled)
             {
                 return ret;
+            }
+
+            CurrentArgs.triggerPath = triggerPath;
+            if (triggerType != TriggerTypeEnum.OnTimelineSignal)
+            {
+                CurrentArgs.MarkerTime = -1;
             }
             if (TriggerDict.TryGetValue(triggerType, out List<TriggerEvent> triggers))
             {

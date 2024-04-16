@@ -43,34 +43,34 @@ namespace Pangoo.Core.VisualScripting
             if (!InitedTimelineSignal)
             {
                 Event.Subscribe(TimelineSignalEventArgs.EventId, OnTimelineSignalEvent);
-                 playableDirectors = gameObject.GetComponentsInChildren<PlayableDirector>(includeInactive: true);
-                 
-                 if (playableDirectors != null)
-                 {
-                     foreach (var pd in playableDirectors)
-                     {
-                         Debug.Log($"当前PD:{pd}");
-                         var timelineHelper = pd.gameObject.GetOrAddComponent<PangooTimelineHelper>(); 
-                         timelineHelper.dynamicObject = this;
-                         timelineHelper.playableDirector = pd;
-                         timelineHelper.Path = pd.transform.GetRelativePath(CachedTransfrom);
-                     }
-                 }
-                 
-                 var timelineHelperList =
-                     JsonMapper.ToObject<List<DynamicObjectTimelineHelperInfo>>(Row.TimelineHelperList);
-                 if (timelineHelperList!=null && timelineHelperList.Count>0)
-                 {
-                     foreach (var timelineHelper in timelineHelperList)
-                     {
-                         var pangooTimelineHelper=GetComponent<PangooTimelineHelper>(timelineHelper.Path);
-                         if (pangooTimelineHelper!=null)
-                         {
-                             pangooTimelineHelper.TimelineOptType = timelineHelper.OptType;
-                         }
-                     }
-                 }
-                 
+                playableDirectors = gameObject.GetComponentsInChildren<PlayableDirector>(includeInactive: true);
+
+                if (playableDirectors != null)
+                {
+                    foreach (var pd in playableDirectors)
+                    {
+                        Debug.Log($"当前PD:{pd}");
+                        var timelineHelper = pd.gameObject.GetOrAddComponent<PangooTimelineHelper>();
+                        timelineHelper.dynamicObject = this;
+                        timelineHelper.playableDirector = pd;
+                        timelineHelper.Path = pd.transform.GetRelativePath(CachedTransfrom);
+                    }
+                }
+
+                var timelineHelperList =
+                    JsonMapper.ToObject<List<DynamicObjectTimelineHelperInfo>>(Row.TimelineHelperList);
+                if (timelineHelperList != null && timelineHelperList.Count > 0)
+                {
+                    foreach (var timelineHelper in timelineHelperList)
+                    {
+                        var pangooTimelineHelper = GetComponent<PangooTimelineHelper>(timelineHelper.Path);
+                        if (pangooTimelineHelper != null)
+                        {
+                            pangooTimelineHelper.TimelineOptType = timelineHelper.OptType;
+                        }
+                    }
+                }
+
                 InitedTimelineSignal = true;
             }
 
@@ -93,6 +93,7 @@ namespace Pangoo.Core.VisualScripting
             CurrentArgs.playableDirector = args.playableDirector;
             CurrentArgs.signalAssetName = args.signalAssetName;
             CurrentArgs.SignalTime = args.playableDirectorTime;
+            CurrentArgs.MarkerTime = args.markerTime;
             TriggerInovke(TriggerTypeEnum.OnTimelineSignal);
         }
 

@@ -16,5 +16,8 @@ namespace Pangoo.Core.VisualScripting
         MouseDrag,
         SubTrigger,
         Ray,
+
+        TimelineSignal,
+
     }
 }

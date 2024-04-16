@@ -35,6 +35,9 @@ namespace Pangoo.Core.Common
 
         [field: NonSerialized] public string signalAssetName { get; set; }
         [field: NonSerialized] public double SignalTime { get; set; }
+        [field: NonSerialized] public double MarkerTime { get; set; }
+
+
 
 
         [ShowInInspector]

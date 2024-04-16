@@ -174,5 +174,8 @@ namespace Pangoo.Core.VisualScripting
 
         [LabelText("动态物体/设置动画Int参数")]
         DynamicObjectAnimatorInt,
+
+        [LabelText("Timeline/通过MakerTime去改变Timeline的时间")]
+        DynamicObjectSetTimelineTimeByMarkerTime,
     }
 }

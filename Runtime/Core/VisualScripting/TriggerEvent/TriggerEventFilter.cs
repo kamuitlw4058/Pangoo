@@ -7,6 +7,8 @@ using LitJson;
 using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine.Serialization;
+using UnityEngine.Timeline;
+using Pangoo.Common;
 
 namespace Pangoo.Core.VisualScripting
 {
@@ -15,6 +17,7 @@ namespace Pangoo.Core.VisualScripting
     public class TriggerEventFilter
     {
         [JsonMember("FilterType")]
+        [LabelText("过滤器类型")]
         public TriggerEventFilterEnum FilterType;
 
         [JsonMember("KeyCodePressTypeEnum")]
@@ -23,7 +26,7 @@ namespace Pangoo.Core.VisualScripting
         [ShowIf("FilterType", TriggerEventFilterEnum.KeyCode)]
         [JsonMember("FilterKeyCode")]
         public KeyCode FilterKeyCode;
-        
+
         private float FilterTimer;
         [ShowIf("FilterType", TriggerEventFilterEnum.Timer)]
         [JsonMember("FilterTimerDuration")]
@@ -32,7 +35,7 @@ namespace Pangoo.Core.VisualScripting
         [ShowIf("FilterType", TriggerEventFilterEnum.MouseKey)]
         [JsonMember("MouseKeyCode")]
         public MouseKeyCodeType MouseKeyCodeTypeEnum;
-        
+
         [ShowIf("FilterType", TriggerEventFilterEnum.MouseDrag)]
         [JsonMember("mouseDirType")]
         public MouseDirTypeEnum mouseDirType;
@@ -41,7 +44,7 @@ namespace Pangoo.Core.VisualScripting
         [ValueDropdown("@DynamicObjectOverview.GetUuidDropdown()")]
         [JsonMember("DynamicObjectUuid")]
         public string DynamicObjectUuid;
-        
+
         [ShowIf("FilterType", TriggerEventFilterEnum.SubTrigger)]
         [JsonMember("SubTriggerPath")]
         [ValueDropdown("@GameSupportEditorUtility.RefPrefabStringDropdown(GameSupportEditorUtility.GetPrefabByDynamicObjectUuid(DynamicObjectUuid))")]
@@ -50,7 +53,33 @@ namespace Pangoo.Core.VisualScripting
         [ShowIf("FilterType", TriggerEventFilterEnum.Ray)]
         [JsonMember("PointPath")]
         public string PointPath;
-        
+
+        [ShowIf("FilterType", TriggerEventFilterEnum.TimelineSignal)]
+        [JsonMember("TimelineSignalName")]
+        public string TimelineSignalName;
+
+#if UNITY_EDITOR
+
+        SignalAsset m_SignalAsset;
+
+        [AssetSelector]
+        [JsonNoMember]
+        [ShowInInspector]
+        [ShowIf("FilterType", TriggerEventFilterEnum.TimelineSignal)]
+        public SignalAsset TimelineSignalAsset
+        {
+            get
+            {
+                return m_SignalAsset;
+            }
+            set
+            {
+                m_SignalAsset = value;
+                TimelineSignalName = m_SignalAsset.name;
+            }
+        }
+#endif
+
         public bool Check(Args args)
         {
             switch (FilterType)
@@ -72,7 +101,7 @@ namespace Pangoo.Core.VisualScripting
                     }
                     break;
                 case TriggerEventFilterEnum.Timer:
-                    if (FilterTimer<FilterTimerDuration)
+                    if (FilterTimer < FilterTimerDuration)
                     {
                         FilterTimer += Time.deltaTime;
                         return false;
@@ -98,7 +127,7 @@ namespace Pangoo.Core.VisualScripting
                     return GetIsPush();
                 case TriggerEventFilterEnum.SubTrigger:
                     if (args.triggerPath.IsNullOrWhiteSpace()) return false;
-                    
+
                     if (args.triggerPath.Equals(SubTriggerPath))
                     {
                         return true;
@@ -107,6 +136,12 @@ namespace Pangoo.Core.VisualScripting
                 case TriggerEventFilterEnum.Ray:
                     if (args.PointerPath.IsNullOrWhiteSpace()) return false;
                     if (args.PointerPath.Equals(PointPath))
+                    {
+                        return true;
+                    }
+                    return false;
+                case TriggerEventFilterEnum.TimelineSignal:
+                    if (args.signalAssetName.NullOrWhiteSpaceEquals(TimelineSignalName))
                     {
                         return true;
                     }

@@ -174,20 +174,28 @@ namespace Pangoo.Core.Common
 
         private void InvokeSignal(PlayableDirector playableDirector, IMarker marker)
         {
-            playableDirector.time = marker.time;
-            playableDirector.Evaluate();
-            Speed = 0;
+            // playableDirector.time = marker.time;
+            // playableDirector.Evaluate();
+            // Speed = 0;
 
             playableDirector.playableGraph.GetOutput(0).PushNotification(playableDirector.playableGraph.GetRootPlayable(0),
-                marker as SignalEmitter, null);
+                marker as SignalEmitter, new PangooTimelineData() { MarkerTime = marker.time });
+        }
+
+        public class PangooTimelineData
+        {
+            public double MarkerTime;
         }
 
         public void OnNotify(Playable origin, INotification notification, object context)
         {
             Debug.Log($"OnTimelineNotify:{gameObject.name}:{playableDirector?.playableAsset}");
             var signal = notification as SignalEmitter;
+            var timelineData = context as PangooTimelineData;
+
             string signalAssetName = null;
             double signalTime = -1;
+            double makerTime = timelineData?.MarkerTime ?? -1;
             if (signal != null)
             {
                 if (signal.asset != null)
@@ -196,7 +204,7 @@ namespace Pangoo.Core.Common
                 }
                 signalTime = signal.time;
             }
-            PangooEntry.Event.FireNow(this, TimelineSignalEventArgs.Create(playableDirector, dynamicObject, signalAssetName, signalTime));
+            PangooEntry.Event.FireNow(this, TimelineSignalEventArgs.Create(playableDirector, dynamicObject, signalAssetName, signalTime, makerTime));
         }
 
     }
