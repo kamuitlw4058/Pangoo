@@ -153,7 +153,7 @@ namespace Pangoo.Core.Services
                 AddSubDynamicObjectDict(entry);
                 Log($"ShowSubDynamicObject:{dynamicObjectUuid}");
                 var info = m_DynamicObjectInfo.GetRowByUuid<DynamicObjectInfoRow>(dynamicObjectUuid);
-                EntityDynamicObjectData data = EntityDynamicObjectData.Create(info.CreateEntityInfo(m_EntityGroupRow), this, info);
+                EntityDynamicObjectData data = EntityDynamicObjectData.Create(this, info, m_EntityGroupRow);
                 Add2LoadingList(dynamicObjectUuid);
                 Loader.ShowEntity(EnumEntity.DynamicObject,
                     (o) =>
@@ -167,7 +167,7 @@ namespace Pangoo.Core.Services
                         showedEntity.UpdateDefaultTransform();
                         onShowSuccess?.Invoke(o.Logic as EntityDynamicObject);
                     },
-                    data.EntityInfo,
+                    data,
                     data);
             }
 
@@ -193,7 +193,7 @@ namespace Pangoo.Core.Services
             var info = m_DynamicObjectInfo.GetRowByUuid<DynamicObjectInfoRow>(dynamicObjectUuid);
             Log($"Show Module:{moduleName} DynamicObject:{info.Name}[{dynamicObjectUuid.ToShortUuid()}]");
 
-            EntityDynamicObjectData data = EntityDynamicObjectData.Create(info.CreateEntityInfo(m_EntityGroupRow), this, info);
+            EntityDynamicObjectData data = EntityDynamicObjectData.Create(this, info, m_EntityGroupRow);
             Add2LoadingList(dynamicObjectUuid);
             var serialId = Loader.ShowEntity(EnumEntity.DynamicObject,
                 (o) =>
@@ -203,7 +203,7 @@ namespace Pangoo.Core.Services
                     AddLoadedDict(moduleName, o.Logic as EntityDynamicObject);
                     finishCallback?.Invoke(o.Logic as EntityDynamicObject);
                 },
-                data.EntityInfo,
+                data,
                 data);
         }
 

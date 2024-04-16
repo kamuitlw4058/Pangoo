@@ -31,13 +31,16 @@ namespace Pangoo
 
         public double playableDirectorTime;
 
-        public static TimelineSignalEventArgs Create(PlayableDirector playableDirector, DynamicObject dynamicObject, string signalAssetName, double playableDirectorTime)
+        public double markerTime;
+
+        public static TimelineSignalEventArgs Create(PlayableDirector playableDirector, DynamicObject dynamicObject, string signalAssetName, double playableDirectorTime, double markerTime)
         {
             var args = ReferencePool.Acquire<TimelineSignalEventArgs>();
             args.dynamicObject = dynamicObject;
             args.playableDirector = playableDirector;
             args.signalAssetName = signalAssetName;
             args.playableDirectorTime = playableDirectorTime;
+            args.markerTime = markerTime;
             return args;
         }
 
@@ -46,6 +49,9 @@ namespace Pangoo
             dynamicObject = null;
             playableDirector = null;
             signalAssetName = null;
+            markerTime = 0;
+            playableDirectorTime = 0;
+
         }
 
 

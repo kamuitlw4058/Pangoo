@@ -77,14 +77,14 @@ public class ZhiRenMixer : MonoBehaviour
             return;
         }
 
-        if (PangooEntry.Service.mainService.StaticScene.EnterAssetCountDict.ContainsKey("7726c64ee90449a2807e1004da5efb53"))
-        {
-            AtRoom = true;
-        }
-        else
-        {
-            AtRoom = false;
-        }
+        // if (PangooEntry.Service.mainService.StaticScene.EnterAssetCountDict.ContainsKey("7726c64ee90449a2807e1004da5efb53"))
+        // {
+        //     AtRoom = true;
+        // }
+        // else
+        // {
+        //     AtRoom = false;
+        // }
         var dynamicObejctEntity = PangooEntry.Service.mainService.DynamicObject.GetLoadedEntity("a9dd0b0ec78d44efa0652f260aa15f80");
         if (dynamicObejctEntity != null)
         {

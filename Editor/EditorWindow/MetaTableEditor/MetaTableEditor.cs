@@ -49,6 +49,7 @@ namespace Pangoo.Editor
 
                 if (SirenixEditorGUI.ToolbarButton(new GUIContent("刷新菜单树")))
                 {
+                    ForceBuildMenuTree();
                     ForceMenuTreeRebuild();
                 }
                 if (SirenixEditorGUI.ToolbarButton(SdfIconType.ReplyFill))
@@ -131,48 +132,53 @@ namespace Pangoo.Editor
             }
         }
 
+        public void ForceBuildMenuTree()
+        {
+            DetailWrapperDict.Clear();
+            RowWrapperDict.Clear();
+            m_OdinMenuTree = new OdinMenuTree(false);
+
+            m_OdinMenuTree.Config.DrawSearchToolbar = true;
+            m_OdinMenuTree.Config.AutoScrollOnSelectionChanged = true;
+            m_OdinMenuTree.Selection.SelectionChanged += OnSeletionChecned;
+
+
+            var config = AssetDatabaseUtility.FindAssetFirst<GameMainConfig>();
+            if (config != null)
+            {
+                m_OdinMenuTree.Add("游戏配置", config);
+            }
+
+            InitOverviewWrapper<AssetGroupOverviewWrapper, AssetGroupOverview, AssetGroupDetailRowWrapper, AssetGroupRowWrapper, AssetGroupNewRowWrapper, UnityAssetGroupRow>(m_OdinMenuTree, null, "资源组");
+
+            InitOverviewWrapper<AssetPathOverviewWrapper, Pangoo.MetaTable.AssetPathOverview, Pangoo.MetaTable.AssetPathDetailRowWrapper, Pangoo.MetaTable.AssetPathRowWrapper, Pangoo.MetaTable.AssetPathNewRowWrapper, UnityAssetPathRow>(m_OdinMenuTree, null, "资源路径");
+            InitOverviewWrapper<CharacterOverviewWrapper, Pangoo.MetaTable.CharacterOverview, Pangoo.MetaTable.CharacterDetailRowWrapper, Pangoo.MetaTable.CharacterRowWrapper, Pangoo.MetaTable.CharacterNewRowWrapper, UnityCharacterRow>(m_OdinMenuTree, null, "角色");
+            InitOverviewWrapper<GameSectionOverviewWrapper, Pangoo.MetaTable.GameSectionOverview, Pangoo.MetaTable.GameSectionDetailRowWrapper, Pangoo.MetaTable.GameSectionRowWrapper, Pangoo.MetaTable.GameSectionNewRowWrapper, UnityGameSectionRow>(m_OdinMenuTree, null, "游戏段落");
+
+            InitOverviewWrapper<DynamicObjectOverviewWrapper, Pangoo.MetaTable.DynamicObjectOverview, Pangoo.MetaTable.DynamicObjectDetailRowWrapper, Pangoo.MetaTable.DynamicObjectRowWrapper, Pangoo.MetaTable.DynamicObjectNewRowWrapper, UnityDynamicObjectRow>(m_OdinMenuTree, null, "动态物体");
+            InitOverviewWrapper<HotspotOverviewWrapper, Pangoo.MetaTable.HotspotOverview, Pangoo.MetaTable.HotspotDetailRowWrapper, Pangoo.MetaTable.HotspotRowWrapper, Pangoo.MetaTable.HotspotNewRowWrapper, UnityHotspotRow>(m_OdinMenuTree, null, "交互UI");
+
+            InitOverviewWrapper<TriggerEventOverviewWrapper, Pangoo.MetaTable.TriggerEventOverview, Pangoo.MetaTable.TriggerEventDetailRowWrapper, Pangoo.MetaTable.TriggerEventRowWrapper, Pangoo.MetaTable.TriggerEventNewRowWrapper, UnityTriggerEventRow>(m_OdinMenuTree, null, "触发器");
+
+            InitOverviewWrapper<ConditionOverviewWrapper, Pangoo.MetaTable.ConditionOverview, Pangoo.MetaTable.ConditionDetailRowWrapper, Pangoo.MetaTable.ConditionRowWrapper, Pangoo.MetaTable.ConditionNewRowWrapper, UnityConditionRow>(m_OdinMenuTree, null, "条件");
+            InitOverviewWrapper<StaticSceneOverviewWrapper, Pangoo.MetaTable.StaticSceneOverview, Pangoo.MetaTable.StaticSceneDetailRowWrapper, Pangoo.MetaTable.StaticSceneRowWrapper, Pangoo.MetaTable.StaticSceneNewRowWrapper, UnityStaticSceneRow>(m_OdinMenuTree, null, "静态场景");
+            InitOverviewWrapper<InstructionOverviewWrapper, Pangoo.MetaTable.InstructionOverview, Pangoo.MetaTable.InstructionDetailRowWrapper, Pangoo.MetaTable.InstructionRowWrapper, Pangoo.MetaTable.InstructionNewRowWrapper, UnityInstructionRow>(m_OdinMenuTree, null, "指令");
+            InitOverviewWrapper<VariablesOverviewWrapper, Pangoo.MetaTable.VariablesOverview, Pangoo.MetaTable.VariablesDetailRowWrapper, Pangoo.MetaTable.VariablesRowWrapper, Pangoo.MetaTable.VariablesNewRowWrapper, UnityVariablesRow>(m_OdinMenuTree, null, "变量");
+            InitOverviewWrapper<SoundOverviewWrapper, Pangoo.MetaTable.SoundOverview, Pangoo.MetaTable.SoundDetailRowWrapper, Pangoo.MetaTable.SoundRowWrapper, Pangoo.MetaTable.SoundNewRowWrapper, UnitySoundRow>(m_OdinMenuTree, null, "音频");
+            InitOverviewWrapper<SimpleUIOverviewWrapper, Pangoo.MetaTable.SimpleUIOverview, Pangoo.MetaTable.SimpleUIDetailRowWrapper, Pangoo.MetaTable.SimpleUIRowWrapper, Pangoo.MetaTable.SimpleUINewRowWrapper, UnitySimpleUIRow>(m_OdinMenuTree, null, "UI");
+            InitOverviewWrapper<DynamicObjectPreviewOverviewWrapper, Pangoo.MetaTable.DynamicObjectPreviewOverview, Pangoo.MetaTable.DynamicObjectPreviewDetailRowWrapper, Pangoo.MetaTable.DynamicObjectPreviewRowWrapper, Pangoo.MetaTable.DynamicObjectPreviewNewRowWrapper, UnityDynamicObjectPreviewRow>(m_OdinMenuTree, null, "预览");
+            InitOverviewWrapper<ActorsLinesOverviewWrapper, Pangoo.MetaTable.ActorsLinesOverview, Pangoo.MetaTable.ActorsLinesDetailRowWrapper, Pangoo.MetaTable.ActorsLinesRowWrapper, Pangoo.MetaTable.ActorsLinesNewRowWrapper, UnityActorsLinesRow>(m_OdinMenuTree, null, "台词");
+            InitOverviewWrapper<DialogueOverviewWrapper, Pangoo.MetaTable.DialogueOverview, Pangoo.MetaTable.DialogueDetailRowWrapper, Pangoo.MetaTable.DialogueRowWrapper, Pangoo.MetaTable.DialogueNewRowWrapper, UnityDialogueRow>(m_OdinMenuTree, null, "对话");
+            InitOverviewWrapper<CasesOverviewWrapper, Pangoo.MetaTable.CasesOverview, Pangoo.MetaTable.CasesDetailRowWrapper, Pangoo.MetaTable.CasesRowWrapper, Pangoo.MetaTable.CasesNewRowWrapper, UnityCasesRow>(m_OdinMenuTree, null, "案件");
+            InitOverviewWrapper<ClueOverviewWrapper, Pangoo.MetaTable.ClueOverview, Pangoo.MetaTable.ClueDetailRowWrapper, Pangoo.MetaTable.ClueRowWrapper, Pangoo.MetaTable.ClueNewRowWrapper, UnityClueRow>(m_OdinMenuTree, null, "线索");
+        }
+
 
         protected override OdinMenuTree BuildMenuTree()
         {
             if (m_OdinMenuTree == null)
             {
-                DetailWrapperDict.Clear();
-                RowWrapperDict.Clear();
-                m_OdinMenuTree = new OdinMenuTree(false);
-
-                m_OdinMenuTree.Config.DrawSearchToolbar = true;
-                m_OdinMenuTree.Config.AutoScrollOnSelectionChanged = true;
-                m_OdinMenuTree.Selection.SelectionChanged += OnSeletionChecned;
-
-
-                var config = AssetDatabaseUtility.FindAssetFirst<GameMainConfig>();
-                if (config != null)
-                {
-                    m_OdinMenuTree.Add("游戏配置", config);
-                }
-
-                InitOverviewWrapper<AssetGroupOverviewWrapper, AssetGroupOverview, AssetGroupDetailRowWrapper, AssetGroupRowWrapper, AssetGroupNewRowWrapper, UnityAssetGroupRow>(m_OdinMenuTree, null, "资源组");
-
-                InitOverviewWrapper<AssetPathOverviewWrapper, Pangoo.MetaTable.AssetPathOverview, Pangoo.MetaTable.AssetPathDetailRowWrapper, Pangoo.MetaTable.AssetPathRowWrapper, Pangoo.MetaTable.AssetPathNewRowWrapper, UnityAssetPathRow>(m_OdinMenuTree, null, "资源路径");
-                InitOverviewWrapper<CharacterOverviewWrapper, Pangoo.MetaTable.CharacterOverview, Pangoo.MetaTable.CharacterDetailRowWrapper, Pangoo.MetaTable.CharacterRowWrapper, Pangoo.MetaTable.CharacterNewRowWrapper, UnityCharacterRow>(m_OdinMenuTree, null, "角色");
-                InitOverviewWrapper<GameSectionOverviewWrapper, Pangoo.MetaTable.GameSectionOverview, Pangoo.MetaTable.GameSectionDetailRowWrapper, Pangoo.MetaTable.GameSectionRowWrapper, Pangoo.MetaTable.GameSectionNewRowWrapper, UnityGameSectionRow>(m_OdinMenuTree, null, "游戏段落");
-
-                InitOverviewWrapper<DynamicObjectOverviewWrapper, Pangoo.MetaTable.DynamicObjectOverview, Pangoo.MetaTable.DynamicObjectDetailRowWrapper, Pangoo.MetaTable.DynamicObjectRowWrapper, Pangoo.MetaTable.DynamicObjectNewRowWrapper, UnityDynamicObjectRow>(m_OdinMenuTree, null, "动态物体");
-                InitOverviewWrapper<HotspotOverviewWrapper, Pangoo.MetaTable.HotspotOverview, Pangoo.MetaTable.HotspotDetailRowWrapper, Pangoo.MetaTable.HotspotRowWrapper, Pangoo.MetaTable.HotspotNewRowWrapper, UnityHotspotRow>(m_OdinMenuTree, null, "交互UI");
-
-                InitOverviewWrapper<TriggerEventOverviewWrapper, Pangoo.MetaTable.TriggerEventOverview, Pangoo.MetaTable.TriggerEventDetailRowWrapper, Pangoo.MetaTable.TriggerEventRowWrapper, Pangoo.MetaTable.TriggerEventNewRowWrapper, UnityTriggerEventRow>(m_OdinMenuTree, null, "触发器");
-
-                InitOverviewWrapper<ConditionOverviewWrapper, Pangoo.MetaTable.ConditionOverview, Pangoo.MetaTable.ConditionDetailRowWrapper, Pangoo.MetaTable.ConditionRowWrapper, Pangoo.MetaTable.ConditionNewRowWrapper, UnityConditionRow>(m_OdinMenuTree, null, "条件");
-                InitOverviewWrapper<StaticSceneOverviewWrapper, Pangoo.MetaTable.StaticSceneOverview, Pangoo.MetaTable.StaticSceneDetailRowWrapper, Pangoo.MetaTable.StaticSceneRowWrapper, Pangoo.MetaTable.StaticSceneNewRowWrapper, UnityStaticSceneRow>(m_OdinMenuTree, null, "静态场景");
-                InitOverviewWrapper<InstructionOverviewWrapper, Pangoo.MetaTable.InstructionOverview, Pangoo.MetaTable.InstructionDetailRowWrapper, Pangoo.MetaTable.InstructionRowWrapper, Pangoo.MetaTable.InstructionNewRowWrapper, UnityInstructionRow>(m_OdinMenuTree, null, "指令");
-                InitOverviewWrapper<VariablesOverviewWrapper, Pangoo.MetaTable.VariablesOverview, Pangoo.MetaTable.VariablesDetailRowWrapper, Pangoo.MetaTable.VariablesRowWrapper, Pangoo.MetaTable.VariablesNewRowWrapper, UnityVariablesRow>(m_OdinMenuTree, null, "变量");
-                InitOverviewWrapper<SoundOverviewWrapper, Pangoo.MetaTable.SoundOverview, Pangoo.MetaTable.SoundDetailRowWrapper, Pangoo.MetaTable.SoundRowWrapper, Pangoo.MetaTable.SoundNewRowWrapper, UnitySoundRow>(m_OdinMenuTree, null, "音频");
-                InitOverviewWrapper<SimpleUIOverviewWrapper, Pangoo.MetaTable.SimpleUIOverview, Pangoo.MetaTable.SimpleUIDetailRowWrapper, Pangoo.MetaTable.SimpleUIRowWrapper, Pangoo.MetaTable.SimpleUINewRowWrapper, UnitySimpleUIRow>(m_OdinMenuTree, null, "UI");
-                InitOverviewWrapper<DynamicObjectPreviewOverviewWrapper, Pangoo.MetaTable.DynamicObjectPreviewOverview, Pangoo.MetaTable.DynamicObjectPreviewDetailRowWrapper, Pangoo.MetaTable.DynamicObjectPreviewRowWrapper, Pangoo.MetaTable.DynamicObjectPreviewNewRowWrapper, UnityDynamicObjectPreviewRow>(m_OdinMenuTree, null, "预览");
-                InitOverviewWrapper<ActorsLinesOverviewWrapper, Pangoo.MetaTable.ActorsLinesOverview, Pangoo.MetaTable.ActorsLinesDetailRowWrapper, Pangoo.MetaTable.ActorsLinesRowWrapper, Pangoo.MetaTable.ActorsLinesNewRowWrapper, UnityActorsLinesRow>(m_OdinMenuTree, null, "台词");
-                InitOverviewWrapper<DialogueOverviewWrapper, Pangoo.MetaTable.DialogueOverview, Pangoo.MetaTable.DialogueDetailRowWrapper, Pangoo.MetaTable.DialogueRowWrapper, Pangoo.MetaTable.DialogueNewRowWrapper, UnityDialogueRow>(m_OdinMenuTree, null, "对话");
-                InitOverviewWrapper<CasesOverviewWrapper, Pangoo.MetaTable.CasesOverview, Pangoo.MetaTable.CasesDetailRowWrapper, Pangoo.MetaTable.CasesRowWrapper, Pangoo.MetaTable.CasesNewRowWrapper, UnityCasesRow>(m_OdinMenuTree, null, "案件");
-                InitOverviewWrapper<ClueOverviewWrapper, Pangoo.MetaTable.ClueOverview, Pangoo.MetaTable.ClueDetailRowWrapper, Pangoo.MetaTable.ClueRowWrapper, Pangoo.MetaTable.ClueNewRowWrapper, UnityClueRow>(m_OdinMenuTree, null, "线索");
+                ForceBuildMenuTree();
             }
             return m_OdinMenuTree;
         }

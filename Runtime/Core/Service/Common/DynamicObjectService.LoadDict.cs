@@ -91,7 +91,7 @@ namespace Pangoo.Core.Services
 
             if (m_LoadedModuleAssetDict.TryGetValue(moduleName, out Dictionary<string, EntityDynamicObject> dict))
             {
-                dict.Add(entity.DoData.Uuid, entity);
+                dict.Add(entity.DoData.InfoUuid, entity);
             }
             else
             {

@@ -148,12 +148,16 @@ namespace Pangoo
 
         public static string GetAssetPath(string packageDir, string assetType, string name, string assetGroup = null)
         {
-
             return Utility.Text.Format("{0}/{1}", GetAssetPathDir(packageDir, assetType, assetGroup), name);
         }
 
         public static string GetAssetPathDir(string packageDir, string assetType, string assetGroup = null)
         {
+            if (assetType.IsNullOrWhiteSpace())
+            {
+                return Utility.Text.Format("{0}/StreamRes/Prefab", packageDir);
+            }
+
             if (assetGroup.IsNullOrWhiteSpace())
             {
                 return Utility.Text.Format("{0}/StreamRes/Prefab/{1}", packageDir, assetType);

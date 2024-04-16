@@ -5,17 +5,21 @@ using GameFramework;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 using Pangoo.Core.Services;
+using Pangoo.MetaTable;
+using Pangoo.Core.Common;
 
 namespace Pangoo
 {
     [Serializable]
     public class EntityCharacterData : EntityData
     {
-        // public EntityInfo Info;
+        public override EntityLoadType LoadType => EntityLoadType.Info;
 
-        public EntityInfo EntityInfo;
+        public override EnumEntity EntityType => EnumEntity.Character;
 
         public CharacterInfoRow InfoRow;
+
+        public override string InfoUuid => InfoRow.Uuid;
 
         public float Height { get; set; } = ConstFloat.InvaildCameraHeight;
 
@@ -24,26 +28,24 @@ namespace Pangoo
         public bool IsInteractive { get; set; } = true;
 
 
-        public string AssetPathUuid
-        {
-            get
-            {
-                return EntityInfo.AssetPathUuid;
-            }
-        }
 
         public CharacterService Service;
-        public EntityCharacterData() : base()
+        public EntityCharacterData()
         {
         }
 
-        public static EntityCharacterData Create(EntityInfo Info, CharacterService service, CharacterInfoRow infoRow, Vector3 Position, Vector3 Rotation, object userData = null)
+        public override void InitAsset(IEntityGroupRow group)
+        {
+            InitAsset(group, InfoRow.AssetPathRow);
+        }
+
+        public static EntityCharacterData Create(CharacterService service, CharacterInfoRow infoRow, IEntityGroupRow group, Vector3 Position, Vector3 Rotation, object userData = null)
         {
             EntityCharacterData entityData = ReferencePool.Acquire<EntityCharacterData>();
-            entityData.EntityInfo = Info;
             entityData.Service = service;
             entityData.UserData = userData;
             entityData.InfoRow = infoRow;
+            entityData.InitAsset(group);
             entityData.Position = Position;
             entityData.Rotation = Quaternion.Euler(Rotation);
             return entityData;
@@ -53,7 +55,6 @@ namespace Pangoo
         {
             base.Clear();
             Service = null;
-            EntityInfo = null;
         }
 
         public bool IsPlayer

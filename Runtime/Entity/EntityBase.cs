@@ -110,7 +110,7 @@ namespace Pangoo
                                 ReferencePool.Release(m_EventHelper);
                         }
 
-                        ReferencePool.Release(m_EntityData);
+                        // ReferencePool.Release(m_EntityData);
                 }
 
 #if UNITY_2017_3_OR_NEWER
@@ -156,6 +156,12 @@ namespace Pangoo
 #endif
                 {
                         base.OnUpdate(elapseSeconds, realElapseSeconds);
+                }
+
+
+                public virtual void OnUpdateEntityData(EntityData entityData)
+                {
+
                 }
         }
 }

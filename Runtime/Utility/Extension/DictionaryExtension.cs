@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System.Text;
 using System;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 namespace Pangoo
 {
 
@@ -26,6 +27,54 @@ namespace Pangoo
             }
 
             return;
+        }
+
+        public static List<K> DiffKeys<K, V>(this Dictionary<K, V> dict, Dictionary<K, V> other)
+        {
+            List<K> ret = new List<K>();
+            if (other == null)
+            {
+                return ret;
+            }
+
+            if (dict == null)
+            {
+                if (other == null)
+                {
+                    return ret;
+                }
+                return other.Keys.ToList();
+            }
+
+            var otherKeys = other.Keys.ToList();
+            for (int i = 0; i < otherKeys.Count; i++)
+            {
+                var otherKey = otherKeys[i];
+                if (dict.ContainsKey(otherKey))
+                {
+                    continue;
+                }
+
+                ret.Add(otherKey);
+            }
+
+            return ret;
+        }
+
+        public static List<V> ValuesOfKeyList<K, V>(this Dictionary<K, V> dict, List<K> keys)
+        {
+            List<V> ret = new List<V>();
+            foreach (var key in keys)
+            {
+                if (dict.TryGetValue(key, out V val))
+                {
+                    if (!ret.Contains(val))
+                    {
+                        ret.Add(val);
+                    }
+                }
+            }
+            return ret;
         }
 
 
@@ -120,6 +169,69 @@ namespace Pangoo
                 }
             });
 
+        }
+
+        public static void AddToDictList<K, V, D>(this Dictionary<K, V> dict, K key, D inputData) where V : List<D>, new() where D : class
+        {
+
+            if (dict.TryGetValue(key, out V dataList))
+            {
+                if (dataList.Count == 0)
+                {
+                    dataList.Add(inputData);
+                    return;
+                }
+
+                bool flag = false;
+
+                foreach (var data in dataList)
+                {
+                    if (data.Equals(inputData))
+                    {
+                        flag = true;
+                    }
+                }
+
+                if (!flag)
+                {
+                    dataList.Add(inputData);
+                }
+            }
+            else
+            {
+                V newList = new V();
+                newList.Add(inputData);
+                dict.Add(key, newList);
+            }
+        }
+
+        public static void RemoveFromDictList<K, V, D>(this Dictionary<K, V> dict, K key, D inputData) where V : List<D>, new() where D : class
+        {
+
+            if (dict.TryGetValue(key, out V loaderDataList))
+            {
+                if (loaderDataList.Count == 0)
+                {
+                    return;
+                }
+
+
+                V removeList = new V();
+
+                foreach (var data in loaderDataList)
+                {
+                    if (data.Equals(inputData))
+                    {
+                        removeList.Add(data);
+                    }
+                }
+
+                foreach (var data in removeList)
+                {
+                    loaderDataList.Remove(data);
+                }
+
+            }
         }
 
     }

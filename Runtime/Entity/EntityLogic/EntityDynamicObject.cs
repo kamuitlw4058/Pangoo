@@ -19,18 +19,6 @@ namespace Pangoo
     public class EntityDynamicObject : EntityBase, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
         public override string EntityName => "EntityDynamicObject";
-        [ShowInInspector]
-        public EntityInfo Info
-        {
-            get
-            {
-                if (DoData != null)
-                {
-                    return DoData.EntityInfo;
-                }
-                return null;
-            }
-        }
 
 
         public string DynamicObjectUuid
@@ -61,7 +49,7 @@ namespace Pangoo
 
         public void UpdateDefaultTransform()
         {
-            switch (DoData.InfoRow.m_DynamicObjectRow.Space.ToEnum<Space>())
+            switch (DoData.InfoRow.DynamicObjectRow.Space.ToEnum<Space>())
             {
                 case Space.World:
                     transform.position = DoData.InfoRow.Position;
@@ -109,7 +97,7 @@ namespace Pangoo
 
             Log($"OnShow DynamicObject:{DoData.InfoRow.UuidShort}-{DoData.InfoRow.Name}");
             DynamicObj = DynamicObject.Create(gameObject);
-            DynamicObj.Row = DoData.InfoRow.m_DynamicObjectRow;
+            DynamicObj.Row = DoData.InfoRow.DynamicObjectRow;
             DynamicObj.CurrentArgs = new Core.Common.Args();
             DynamicObj.Main = DoData.Service.Parent as MainService;
             DynamicObj.Entity = this;

@@ -13,18 +13,6 @@ namespace Pangoo
 {
     public class EntityCharacter : EntityBase
     {
-        [ShowInInspector]
-        public EntityInfo Info
-        {
-            get
-            {
-                if (EntityData != null)
-                {
-                    return EntityData.EntityInfo;
-                }
-                return null;
-            }
-        }
 
 
         [ShowInInspector]
@@ -58,7 +46,7 @@ namespace Pangoo
                 tag = "Player";
             }
 
-            Name = Utility.Text.Format("{0}[{1}]", EntityData.EntityInfo.AssetName, Id);
+            Name = Utility.Text.Format("{0}[{1}]", EntityData.AssetName, Id);
             var MainService = EntityData.Service.Parent as MainService;
             character = new Character(gameObject, EntityData.CameraOnly);
             character.SetIsPlayer(EntityData.IsPlayer);

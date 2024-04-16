@@ -9,13 +9,23 @@ using Pangoo.Common;
 using Pangoo.Core.VisualScripting;
 using Sirenix.OdinInspector;
 
+using Pangoo.MetaTable;
+using Pangoo.Core.Common;
+
 namespace Pangoo
 {
     [Serializable]
     public class EntityStaticSceneData : EntityData
     {
+
+        public override EntityLoadType LoadType => EntityLoadType.AssetPath;
+
+        [ShowInInspector]
+        public override EnumEntity EntityType => EnumEntity.StaticScene;
+
         StaticSceneInfoRow m_sceneInfo;
-        // public EntityInfo Info;
+
+        [ShowInInspector]
         public StaticSceneInfoRow sceneInfo
         {
             get
@@ -27,22 +37,12 @@ namespace Pangoo
                 if (m_sceneInfo != value)
                 {
                     m_sceneInfo = value;
-                    m_LoadSceneUuids = null;
                 }
             }
         }
 
-        public EntityInfo EntityInfo;
 
-        public string AssetPathUuid
-        {
-            get
-            {
-                return EntityInfo.AssetPathUuid;
-            }
-        }
-
-        public string Uuid
+        public override string InfoUuid
         {
             get
             {
@@ -53,10 +53,11 @@ namespace Pangoo
         {
             get
             {
-                return sceneInfo.Uuid.ToShortUuid();
+                return Uuid.ToShortUuid();
             }
         }
 
+        [ShowInInspector]
         public string Name
         {
             get
@@ -81,127 +82,25 @@ namespace Pangoo
             }
         }
 
-        [ShowInInspector]
-        public bool Hide { get; set; }
-
-
-        string[] m_LoadSceneUuids;
-
-        public string[] LoadSceneUuids
-        {
-            get
-            {
-                if (m_LoadSceneUuids == null)
-                {
-                    m_LoadSceneUuids = sceneInfo.SceneRow.LoadSceneUuids.ToSplitArr<string>();
-                }
-                return m_LoadSceneUuids;
-            }
-        }
-
-        public void ClearModel()
-        {
-            m_Models = null;
-        }
-
-        Transform[] m_Models;
-        public Transform[] Models
-        {
-            get
-            {
-                if (m_Models == null)
-                {
-                    var modelPathList = sceneInfo.SceneRow.ModelList.ToSplitArr<string>();
-                    if (modelPathList != null && modelPathList.Length > 0)
-                    {
-                        List<Transform> ModelList = new List<Transform>();
-                        foreach (var modelPath in modelPathList)
-                        {
-                            var trans = EntityScene.CachedTransform.Find(modelPath);
-                            if (trans != null)
-                            {
-                                ModelList.Add(trans);
-                            }
-                        }
-                        m_Models = ModelList.ToArray();
-                    }
-                    else
-                    {
-                        var trans = EntityScene.CachedTransform.Find(ConstString.DefaultModel);
-                        if (trans == null)
-                        {
-                            m_Models = new Transform[0];
-                        }
-                        else
-                        {
-                            m_Models = new Transform[1] { trans };
-                        }
-
-                    }
-                }
-                return m_Models;
-            }
-        }
-
-
-        public bool ShowModels
-        {
-            get
-            {
-                switch (sceneInfo.SceneRow.ShowType.ToEnum<SceneShowType>())
-                {
-                    case SceneShowType.Always:
-                        return true;
-                    case SceneShowType.Auto:
-                        if (Hide)
-                        {
-                            return false;
-                        }
-                        break;
-                    case SceneShowType.ManualAlways:
-                        if (Hide)
-                        {
-                            return false;
-                        }
-                        return true;
-                }
-
-
-                if (LoadSceneUuids == null || (LoadSceneUuids != null && LoadSceneUuids.Length == 0))
-                {
-                    return true;
-                }
-
-                if (sceneInfo.SceneRow.ShowOnNoPlayerEnter && Service.EnterAssetCount == 0)
-                {
-                    return true;
-                }
-
-                if (Service.CheckEnterScenes(LoadSceneUuids, sceneInfo.SceneRow.Uuid))
-                {
-                    return true;
-                }
-
-
-                return false;
-            }
-        }
-
-        public EntityStaticScene EntityScene { get; set; }
 
 
         public StaticSceneService Service;
-        public EntityStaticSceneData() : base()
+        public EntityStaticSceneData()
         {
         }
 
-        public static EntityStaticSceneData Create(StaticSceneInfoRow staticSceneInfo, EntityInfo Info, StaticSceneService service, object userData = null)
+        public override void InitAsset(IEntityGroupRow group)
+        {
+            InitAsset(group, sceneInfo.AssetPathRow);
+        }
+
+        public static EntityStaticSceneData Create(StaticSceneInfoRow staticSceneInfo, StaticSceneService service, IEntityGroupRow group, object userData = null)
         {
             EntityStaticSceneData entityData = ReferencePool.Acquire<EntityStaticSceneData>();
-            entityData.EntityInfo = Info;
             entityData.Service = service;
             entityData.UserData = userData;
             entityData.sceneInfo = staticSceneInfo;
+            entityData.InitAsset(group);
             return entityData;
         }
 
@@ -209,7 +108,6 @@ namespace Pangoo
         {
             base.Clear();
             Service = null;
-            EntityInfo = null;
         }
     }
 }

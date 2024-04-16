@@ -43,6 +43,12 @@ namespace Pangoo
         [ValueDropdown("GetStringVariableUuid")]
         public string CurrentGameSectionVariableUuid;
 
+        [ValueDropdown("@AssetPathOverview.GetUuidDropdown()")]
+        [LabelText("默认资源路径")]
+        [FoldoutGroup("资源路径", expanded: true)]
+        public string DefaultAssetPathUuid;
+
+
         [ValueDropdown("@VariablesOverview.GetVariableUuidDropdown(VariableValueTypeEnum.Int.ToString(), VariableTypeEnum.GameSection.ToString(),false)")]
         [LabelText("段落初始化状态")]
         [FoldoutGroup("段落", expanded: true)]

@@ -267,7 +267,7 @@ namespace Pangoo.Core.Services
             }
             else
             {
-                EntityCharacterData data = EntityCharacterData.Create(infoRow.CreateEntityInfo(m_EntityGroupRow), this, infoRow, positon, rotation);
+                EntityCharacterData data = EntityCharacterData.Create(this, infoRow, m_EntityGroupRow, positon, rotation);
                 data.Height = height;
                 data.IsInteractive = IsInteractive;
                 m_LoadingEntityUuids.Add(infoUuid);
@@ -285,7 +285,7 @@ namespace Pangoo.Core.Services
                             Player = o.Logic as EntityCharacter;
                         }
                     },
-                    data.EntityInfo,
+                    data,
                     data);
             }
         }

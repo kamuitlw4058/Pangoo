@@ -13,7 +13,12 @@ namespace Pangoo
     public class StaticSceneInfoRow : BaseInfoRow
     {
         public IStaticSceneRow m_StaticSceneRow;
-        public IAssetPathRow m_AssetPathRow;
+
+        public IStaticSceneRow StaticSceneRow => m_StaticSceneRow;
+
+        IAssetPathRow m_AssetPathRow;
+
+        public IAssetPathRow AssetPathRow => m_AssetPathRow;
 
         public EntityInfo m_EntityInfo;
 
@@ -52,10 +57,6 @@ namespace Pangoo
             }
         }
 
-        public EntityInfo CreateEntityInfo(IEntityGroupRow entityGroupRow)
-        {
-            return EntityInfo.Create(m_AssetPathRow, entityGroupRow);
-        }
 
         public List<string> LoadSceneUuids
         {

@@ -12,8 +12,14 @@ namespace Pangoo
 {
     public class DynamicObjectInfoRow : BaseInfoRow
     {
-        public IDynamicObjectRow m_DynamicObjectRow;
+        IDynamicObjectRow m_DynamicObjectRow;
+
+        public IDynamicObjectRow DynamicObjectRow => m_DynamicObjectRow;
+
         public IAssetPathRow m_AssetPathRow;
+
+        public IAssetPathRow AssetPathRow => m_AssetPathRow;
+
 
         public EntityInfo m_EntityInfo;
 
@@ -48,11 +54,6 @@ namespace Pangoo
             }
         }
 
-        public EntityInfo CreateEntityInfo(IEntityGroupRow entityGroupRow)
-        {
-            return EntityInfo.Create(m_AssetPathRow, entityGroupRow);
-        }
-
 
         public string AssetPathUuid
         {
@@ -63,10 +64,6 @@ namespace Pangoo
         }
 
 
-        public override void Remove()
-        {
-            ReferencePool.Release(m_EntityInfo);
-        }
 
         public Vector3 Position
         {

@@ -19,13 +19,13 @@ namespace Pangoo
 
             GUILayout.Label("<b>进入的场景资源Id</b>");
             GUILayout.BeginVertical("box");
-            var KeyValues = StaticScene.EnterAssetCountDict;
-            var Keys = KeyValues.Keys.ToList();
+            // var KeyValues = StaticScene.EnterAssetCountDict;
+            // var Keys = KeyValues.Keys.ToList();
 
-            for (int i = 0; i < Keys.Count; i++)
-            {
-                DrawItem(Keys[i].ToString(), KeyValues[Keys[i]].ToString());
-            }
+            // for (int i = 0; i < Keys.Count; i++)
+            // {
+            //     DrawItem(Keys[i].ToString(), KeyValues[Keys[i]].ToString());
+            // }
             GUILayout.EndVertical();
 
             GUILayout.Label("<b>最后进入的场景</b>");
@@ -38,16 +38,16 @@ namespace Pangoo
 
             GUILayout.EndVertical();
 
-            var LoadedSceneAssetDict = StaticScene.LoadedSceneAssetDict;
-            GUILayout.Label($"<b>已经加载的场景Ids:{LoadedSceneAssetDict.Count}</b>");
-            GUILayout.BeginVertical("box");
-            var LoadedSceneAssetDictKeys = LoadedSceneAssetDict.Keys.ToList();
-            for (int i = 0; i < LoadedSceneAssetDictKeys.Count; i++)
-            {
-                var entity = LoadedSceneAssetDict[LoadedSceneAssetDictKeys[i]];
-                DrawItem(entity.Name, $"静态场景:{entity.SceneData.Uuid},资源Id:{entity.SceneData.AssetPathUuid}", titleWidth: 120);
-            }
-            GUILayout.EndVertical();
+            // var LoadedSceneAssetDict = StaticScene.LoadedSceneAssetDict;
+            // GUILayout.Label($"<b>已经加载的场景Ids:{LoadedSceneAssetDict.Count}</b>");
+            // GUILayout.BeginVertical("box");
+            // var LoadedSceneAssetDictKeys = LoadedSceneAssetDict.Keys.ToList();
+            // for (int i = 0; i < LoadedSceneAssetDictKeys.Count; i++)
+            // {
+            //     var entity = LoadedSceneAssetDict[LoadedSceneAssetDictKeys[i]];
+            //     DrawItem(entity.Name, $"静态场景:{entity.SceneData.InfoUuid},资源Id:{entity.SceneData.AssetPathUuid}", titleWidth: 120);
+            // }
+            // GUILayout.EndVertical();
 
 
 
