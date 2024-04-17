@@ -15,8 +15,8 @@ namespace Pangoo.Core.Services
 
 
         // [field: NonSerialized]
-        // [ShowInInspector]
-        // [HideIf("@this.m_ChildernList == null ||  (this.m_ChildernList != null && this.m_ChildernList.Count == 0)")]
+        [ShowInInspector]
+        [HideIf("@this.m_ChildernList == null ||  (this.m_ChildernList != null && this.m_ChildernList.Count == 0)")]
         private List<BaseService> m_ChildernList;
         private Dictionary<Type, BaseService> m_ChildernDict;
 

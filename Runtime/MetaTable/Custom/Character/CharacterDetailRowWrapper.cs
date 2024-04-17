@@ -345,6 +345,22 @@ namespace Pangoo.MetaTable
 
             }
         }
+
+        [ShowInInspector]
+        [LabelText("默认配置")]
+        [ValueDropdown("@CharacterConfigOverview.GetUuidDropdown()")]
+        public string CharacterConfigUuid
+        {
+            get
+            {
+                return UnityRow.Row.CharacterConfigUuid;
+            }
+            set
+            {
+                UnityRow.Row.CharacterConfigUuid = value;
+                Save();
+            }
+        }
     }
 }
 #endif

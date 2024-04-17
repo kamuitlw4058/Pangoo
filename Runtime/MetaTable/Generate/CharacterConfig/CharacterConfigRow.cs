@@ -19,18 +19,18 @@ namespace Pangoo.MetaTable
     {
 
         [JsonMember("WalkSpeed")]
-        [MetaTableRowColumn("WalkSpeed","string", "走路速度",1)]
+        [MetaTableRowColumn("WalkSpeed","float", "走路速度",1)]
         [LabelText("走路速度")]
-        public string WalkSpeed ;
+        public float WalkSpeed ;
 
-        string ICharacterConfigRow.WalkSpeed {get => WalkSpeed; set => WalkSpeed = value;}
+        float ICharacterConfigRow.WalkSpeed {get => WalkSpeed; set => WalkSpeed = value;}
 
         [JsonMember("RunSpeed")]
-        [MetaTableRowColumn("RunSpeed","string", "跑步速度",2)]
+        [MetaTableRowColumn("RunSpeed","float", "跑步速度",2)]
         [LabelText("跑步速度")]
-        public string RunSpeed ;
+        public float RunSpeed ;
 
-        string ICharacterConfigRow.RunSpeed {get => RunSpeed; set => RunSpeed = value;}
+        float ICharacterConfigRow.RunSpeed {get => RunSpeed; set => RunSpeed = value;}
 
         [JsonMember("NoiseProfile")]
         [MetaTableRowColumn("NoiseProfile","string", "噪声配置",3)]

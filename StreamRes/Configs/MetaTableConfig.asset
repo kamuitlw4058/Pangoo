@@ -112,9 +112,6 @@ MonoBehaviour:
     - Name: CameraOnly
       Type: bool
       CnName: "\u53EA\u4F7F\u7528\u76F8\u673A"
-    - Name: AssetPathId
-      Type: int
-      CnName: AssetPathId
     - Name: SubDynamicObject
       Type: string
       CnName: "\u5B50\u5BF9\u8C61"
@@ -139,6 +136,9 @@ MonoBehaviour:
     - Name: ColliderHeight
       Type: float
       CnName: "\u78B0\u649E\u9AD8\u5EA6"
+    - Name: CharacterConfigUuid
+      Type: string
+      CnName: "\u9ED8\u8BA4\u89D2\u8272\u914D\u7F6E"
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Condition
@@ -697,3 +697,18 @@ MonoBehaviour:
     - Name: AssetPathUuid
       Type: string
       CnName: "\u8D44\u6E90Uuid"
+  - Config: {fileID: 11400000}
+    MetaTableType: 0
+    TableName: CharacterConfig
+    RefConfig: {fileID: 0}
+    RefTableName: 
+    Columns:
+    - Name: WalkSpeed
+      Type: float
+      CnName: "\u8D70\u8DEF\u901F\u5EA6"
+    - Name: RunSpeed
+      Type: float
+      CnName: "\u8DD1\u6B65\u901F\u5EA6"
+    - Name: NoiseProfile
+      Type: string
+      CnName: "\u566A\u58F0\u914D\u7F6E"

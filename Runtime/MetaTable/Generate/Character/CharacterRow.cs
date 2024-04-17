@@ -144,6 +144,13 @@ namespace Pangoo.MetaTable
 
         float ICharacterRow.ColliderHeight {get => ColliderHeight; set => ColliderHeight = value;}
 
+        [JsonMember("CharacterConfigUuid")]
+        [MetaTableRowColumn("CharacterConfigUuid","string", "默认角色配置",21)]
+        [LabelText("默认角色配置")]
+        public string CharacterConfigUuid ;
+
+        string ICharacterRow.CharacterConfigUuid {get => CharacterConfigUuid; set => CharacterConfigUuid = value;}
+
     }
 }
 

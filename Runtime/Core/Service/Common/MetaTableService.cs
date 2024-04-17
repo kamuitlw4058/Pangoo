@@ -209,6 +209,19 @@ namespace Pangoo.Core.Services
             }
         }
 
+        MetaTable.CharacterConfigTable m_CharacterConfigTable;
+        public MetaTable.CharacterConfigTable CharacterConfigTab
+        {
+            get
+            {
+                if (m_CharacterConfigTable == null)
+                {
+                    m_CharacterConfigTable = GetMetaTable<MetaTable.CharacterConfigTable>();
+                }
+                return m_CharacterConfigTable;
+            }
+        }
+
 
         public IGameSectionRow GetGameSectionByUuid(string uuid)
         {
@@ -279,6 +292,11 @@ namespace Pangoo.Core.Services
         public IDynamicObjectRow GetDynamicObjectRow(string uuid)
         {
             return DynamicObjectTab.GetRowByUuid(uuid);
+        }
+
+        public ICharacterConfigRow GetCharacterConfigRow(string uuid)
+        {
+            return CharacterConfigTab.GetRowByUuid(uuid);
         }
 
     }

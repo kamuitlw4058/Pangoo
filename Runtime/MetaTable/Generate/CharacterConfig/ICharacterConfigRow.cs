@@ -17,9 +17,9 @@ namespace Pangoo.MetaTable
     public partial interface ICharacterConfigRow : IMetaTableRow
     {
 
-        public string WalkSpeed{ get; set; }
+        public float WalkSpeed{ get; set; }
 
-        public string RunSpeed{ get; set; }
+        public float RunSpeed{ get; set; }
 
         public string NoiseProfile{ get; set; }
 
