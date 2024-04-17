@@ -34,8 +34,14 @@ namespace Pangoo.Core.Common
         [field: NonSerialized] public PlayableDirector playableDirector { get; set; }
 
         [field: NonSerialized] public string signalAssetName { get; set; }
-        [field: NonSerialized] public double SignalTime { get; set; }
-        [field: NonSerialized] public double MarkerTime { get; set; }
+
+        [ShowInInspector]
+        [field: NonSerialized]
+        public double SignalTime { get; set; }
+
+        [ShowInInspector]
+        [field: NonSerialized]
+        public double MarkerTime { get; set; }
 
 
 
@@ -67,6 +73,7 @@ namespace Pangoo.Core.Common
             PointerPath = PointerPath,
             triggerPath = triggerPath,
             SignalTime = SignalTime,
+            MarkerTime = MarkerTime,
         };
 
 
