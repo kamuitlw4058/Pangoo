@@ -90,7 +90,6 @@ namespace Pangoo.Core.Common
                         if (playableDirector.time < marker.time && marker.time <= playableDirector.time + DeltaTime)
                         {
                             InvokeSignal(playableDirector, marker);
-                            return;
                         }
                     }
                     if (Speed < 0)
@@ -98,7 +97,6 @@ namespace Pangoo.Core.Common
                         if (playableDirector.time > marker.time && marker.time >= playableDirector.time + DeltaTime)
                         {
                             InvokeSignal(playableDirector, marker);
-                            return;
                         }
                     }
                 }
