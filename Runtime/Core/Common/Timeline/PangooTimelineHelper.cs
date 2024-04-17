@@ -205,7 +205,7 @@ namespace Pangoo.Core.Common
                 signalTime = signal.time;
             }
             Debug.Log($"OnTimelineNotify:{gameObject.name}:{playableDirector?.playableAsset},{signal},{timelineData},{signalTime},{makerTime}");
-            PangooEntry.Event.FireNow(this, TimelineSignalEventArgs.Create(playableDirector, dynamicObject, signalAssetName, signalTime, makerTime));
+            PangooEntry.Event.FireNow(this, TimelineSignalEventArgs.Create(playableDirector, dynamicObject, signalAssetName, signalTime, signalTime));
         }
 
     }
