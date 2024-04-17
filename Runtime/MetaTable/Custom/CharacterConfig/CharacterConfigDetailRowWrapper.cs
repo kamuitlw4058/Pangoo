@@ -14,10 +14,53 @@ using MetaTable;
 
 namespace Pangoo.MetaTable
 {
-    [Serializable]
-    public partial class CharacterConfigDetailRowWrapper : MetaTableDetailRowWrapper<CharacterConfigOverview,UnityCharacterConfigRow>
+    public partial class CharacterConfigDetailRowWrapper : MetaTableDetailRowWrapper<CharacterConfigOverview, UnityCharacterConfigRow>
     {
 
+        [ShowInInspector]
+        public float WalkSpeed
+        {
+            get
+            {
+                return UnityRow.Row.WalkSpeed;
+            }
+            set
+            {
+                UnityRow.Row.WalkSpeed = value;
+                Save();
+            }
+        }
+
+        [ShowInInspector]
+        public float RunSpeed
+        {
+            get
+            {
+                return UnityRow.Row.RunSpeed;
+            }
+            set
+            {
+                UnityRow.Row.RunSpeed = value;
+                Save();
+            }
+        }
+
+
+
+        [ValueDropdown("@GameSupportEditorUtility.GetNoiseSettings()")]
+        [ShowInInspector]
+        public string NoiseProfile
+        {
+            get
+            {
+                return UnityRow.Row.NoiseProfile;
+            }
+            set
+            {
+                UnityRow.Row.NoiseProfile = value;
+                Save();
+            }
+        }
     }
 }
 #endif

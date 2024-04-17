@@ -195,36 +195,112 @@ namespace Pangoo.Core.Characters
             }
         }
 
+        protected override void DoAwake()
+        {
+            base.DoAwake();
+            switch (m_ServiceType)
+            {
+                case CharacterCameraTypeEnum.FirstPerson:
+                    FirstPersonTryInit();
+                    InitPerlineNoise();
+                    break;
+            }
+        }
+
+        public float CurrentGain = 0;
+
+        public const float NoiseGainChangeTime = 0.5f;
+
+        public const float NoiseGainChangeSpeed = 1 / NoiseGainChangeTime;
+
+        public const float NoiseGainLerpPercent = 0.3f;
+
+
+        protected override void DoUpdate()
+        {
+            base.DoUpdate();
+            if (PerlinNoise != null)
+            {
+                if (Character.IsMoveInputDown)
+                {
+                    if (CurrentGain < 1)
+                    {
+                        // CurrentGain += DeltaTime * NoiseGainChangeSpeed;
+                        // CurrentGain = Mathf.Clamp01(CurrentGain);
+                        CurrentGain = Mathf.Lerp(CurrentGain, 1, NoiseGainLerpPercent);
+                        if (CurrentGain >= 0.99)
+                        {
+                            CurrentGain = 1;
+                        }
+                    }
+                    // PerlinNoise.m_FrequencyGain = 1;
+                    PerlinNoise.m_AmplitudeGain = CurrentGain;
+                }
+                else
+                {
+                    if (CurrentGain > 0)
+                    {
+                        // CurrentGain -= DeltaTime * NoiseGainChangeSpeed;
+                        // CurrentGain = Mathf.Clamp01(CurrentGain);
+
+                        CurrentGain = Mathf.Lerp(CurrentGain, 0, NoiseGainLerpPercent);
+                        if (CurrentGain <= 0.01)
+                        {
+                            CurrentGain = 0;
+                        }
+                    }
+                    // PerlinNoise.m_FrequencyGain = 0;
+                    PerlinNoise.m_AmplitudeGain = CurrentGain;
+                }
+            }
+        }
+
+        [ShowInInspector]
+        CinemachineBasicMultiChannelPerlin PerlinNoise;
+
+        public void InitPerlineNoise()
+        {
+            if (PerlinNoise == null)
+            {
+                PerlinNoise = Camera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+                if (PerlinNoise == null)
+                {
+                    PerlinNoise = Camera.AddCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+                }
+            }
+
+        }
+
         public void SetCameraNoise(bool isOpen, NoiseSettings noiseSettings = default, float amplitudeGain = 0, float frequencyGain = 0)
         {
-            CinemachineBasicMultiChannelPerlin noise = Camera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+
+
+            switch (m_ServiceType)
+            {
+                case CharacterCameraTypeEnum.FirstPerson:
+                    FirstPersonTryInit();
+                    break;
+            }
+
 
             if (isOpen)
             {
-                if (noise == null)
+                if (PerlinNoise == null)
                 {
-                    noise = Camera.AddCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+                    return;
                 }
 
                 if (noiseSettings == default)
                 {
                     Debug.LogWarning("不是有效的NoiseSettings,请确认配置是否正确");
+
                 }
-                noise.m_NoiseProfile = noiseSettings;
-                noise.m_AmplitudeGain = amplitudeGain;
-                noise.m_FrequencyGain = frequencyGain;
+                PerlinNoise.m_NoiseProfile = noiseSettings;
+                PerlinNoise.m_AmplitudeGain = amplitudeGain;
+                PerlinNoise.m_FrequencyGain = frequencyGain;
             }
-            else
-            {
-                if (noise != null)
-                {
-                    Camera.DestroyCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-                }
-                else
-                {
-                    Debug.Log("相机没有Noise的组件，不用关闭Noise");
-                }
-            }
+
 
         }
 

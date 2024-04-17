@@ -173,7 +173,10 @@ namespace Pangoo.Editor
                 InitOverviewWrapper<DialogueOverviewWrapper, Pangoo.MetaTable.DialogueOverview, Pangoo.MetaTable.DialogueDetailRowWrapper, Pangoo.MetaTable.DialogueRowWrapper, Pangoo.MetaTable.DialogueNewRowWrapper, UnityDialogueRow>(m_OdinMenuTree, null, "对话");
                 InitOverviewWrapper<CasesOverviewWrapper, Pangoo.MetaTable.CasesOverview, Pangoo.MetaTable.CasesDetailRowWrapper, Pangoo.MetaTable.CasesRowWrapper, Pangoo.MetaTable.CasesNewRowWrapper, UnityCasesRow>(m_OdinMenuTree, null, "案件");
                 InitOverviewWrapper<ClueOverviewWrapper, Pangoo.MetaTable.ClueOverview, Pangoo.MetaTable.ClueDetailRowWrapper, Pangoo.MetaTable.ClueRowWrapper, Pangoo.MetaTable.ClueNewRowWrapper, UnityClueRow>(m_OdinMenuTree, null, "线索");
+                InitOverviewWrapper<CharacterConfigOverviewWrapper, Pangoo.MetaTable.CharacterConfigOverview, Pangoo.MetaTable.CharacterConfigDetailRowWrapper, Pangoo.MetaTable.CharacterConfigRowWrapper, Pangoo.MetaTable.CharacterConfigNewRowWrapper, UnityCharacterConfigRow>(m_OdinMenuTree, null, "角色配置");
+
             }
+
             return m_OdinMenuTree;
         }
 

@@ -89,7 +89,13 @@ namespace Pangoo.Core.Characters
         protected override void DoAwake()
         {
             DoAwakeSubDynamicObject();
+            DoAwakeConfig();
             base.DoAwake();
+        }
+
+        protected override void DoStart()
+        {
+            base.DoStart();
         }
 
 

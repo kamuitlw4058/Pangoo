@@ -53,6 +53,8 @@ namespace Pangoo.MetaTable
 
         public float ColliderHeight{ get; set; }
 
+        public string CharacterConfigUuid{ get; set; }
+
     }
 }
 
