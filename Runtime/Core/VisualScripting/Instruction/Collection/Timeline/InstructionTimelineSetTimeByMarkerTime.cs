@@ -26,8 +26,10 @@ namespace Pangoo.Core.VisualScripting
             var timelineHelper = args.dynamicObject?.GetComponent<PangooTimelineHelper>(ParamsRaw.Path);
             if (timelineHelper != null)
             {
+                Debug.Log($"Set Timeline Marker Time:{args.MarkerTime} ");
                 if (args.MarkerTime >= 0 && timelineHelper.playableDirector != null)
                 {
+
                     timelineHelper.playableDirector.time = args.MarkerTime;
                     timelineHelper.playableDirector.UpdateManuel();
                 }

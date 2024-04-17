@@ -89,7 +89,7 @@ namespace Pangoo.Core.VisualScripting
         {
             var args = e as TimelineSignalEventArgs;
             if (args.dynamicObject == null || (args.dynamicObject != null && args.dynamicObject != this)) return;
-            Debug.Log($"OnTimelineSignalEvent:{args}");
+            Debug.Log($"OnTimelineSignalEvent:{args.signalAssetName},{args.playableDirectorTime},{args.markerTime}");
             CurrentArgs.playableDirector = args.playableDirector;
             CurrentArgs.signalAssetName = args.signalAssetName;
             CurrentArgs.SignalTime = args.playableDirectorTime;

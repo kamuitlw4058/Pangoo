@@ -15,9 +15,9 @@ using Pangoo.Common;
 namespace Pangoo.Core.VisualScripting
 {
 
-    [Serializable]
     public partial class DynamicObject : MonoMasterService, IReference
     {
+        [ShowInInspector]
         public Args CurrentArgs { get; set; }
 
         public EntityDynamicObject Entity { get; set; }
