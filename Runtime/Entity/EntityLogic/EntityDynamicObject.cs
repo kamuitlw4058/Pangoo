@@ -72,7 +72,7 @@ namespace Pangoo
                     }
                     else
                     {
-                        transform.localScale = DoData.InfoRow.Scale;
+                        transform.localScale = Vector3.one;
                     }
 
 
@@ -86,7 +86,7 @@ namespace Pangoo
                     }
                     else
                     {
-                        transform.localScale = DoData.InfoRow.Scale;
+                        transform.localScale = Vector3.one;
                     }
                     break;
             }
