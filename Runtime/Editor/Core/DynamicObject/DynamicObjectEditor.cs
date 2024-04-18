@@ -268,44 +268,44 @@ namespace Pangoo
 
         private void OnDrawGizmos()
         {
-            var oldColor = Gizmos.color;
-            Gizmos.color = GizmosColor;
-            var InteractPosition = transform.position;
+            // var oldColor = Gizmos.color;
+            // Gizmos.color = GizmosColor;
+            // var InteractPosition = transform.position;
 
-            if (UnityRow.Row.InteractTarget.IsNullOrWhiteSpace() || UnityRow.Row.InteractTarget.Equals("Self"))
-            {
-                InteractPosition = transform.position;
-            }
-            else
-            {
-                var interactionTarget = transform.Find(UnityRow.Row.InteractTarget);
-                if (interactionTarget != null)
-                {
-                    InteractPosition = interactionTarget.position;
-                }
-                else
-                {
-                    Debug.LogError($"Target is Null");
-                }
-            }
+            // if (UnityRow.Row.InteractTarget.IsNullOrWhiteSpace() || UnityRow.Row.InteractTarget.Equals("Self"))
+            // {
+            //     InteractPosition = transform.position;
+            // }
+            // else
+            // {
+            //     var interactionTarget = transform.Find(UnityRow.Row.InteractTarget);
+            //     if (interactionTarget != null)
+            //     {
+            //         InteractPosition = interactionTarget.position;
+            //     }
+            //     else
+            //     {
+            //         Debug.LogError($"Target is Null");
+            //     }
+            // }
 
-            Gizmos.DrawCube(InteractPosition + InteractOffset, GizmosSize);
+            // Gizmos.DrawCube(InteractPosition + InteractOffset, GizmosSize);
 
-            var InteractRadius = UnityRow.Row.InteractRadius > 0 ? UnityRow.Row.InteractRadius : GameSupportEditorUtility.GetGameMainConfig().DefaultInteractRadius;
-            if (Selection.activeGameObject == gameObject)
-            {
-                Gizmos.color = GizmosSelectRadiusColor;
-                Gizmos.DrawSphere(InteractPosition + InteractOffset, InteractRadius);
-            }
-            else
-            {
-                Gizmos.color = GizmosRadiusColor;
-                Gizmos.DrawSphere(InteractPosition + InteractOffset, InteractRadius);
-            }
+            // var InteractRadius = UnityRow.Row.InteractRadius > 0 ? UnityRow.Row.InteractRadius : GameSupportEditorUtility.GetGameMainConfig().DefaultInteractRadius;
+            // if (Selection.activeGameObject == gameObject)
+            // {
+            //     Gizmos.color = GizmosSelectRadiusColor;
+            //     Gizmos.DrawSphere(InteractPosition + InteractOffset, InteractRadius);
+            // }
+            // else
+            // {
+            //     Gizmos.color = GizmosRadiusColor;
+            //     Gizmos.DrawSphere(InteractPosition + InteractOffset, InteractRadius);
+            // }
 
 
 
-            Gizmos.color = oldColor;
+            // Gizmos.color = oldColor;
         }
 
 
