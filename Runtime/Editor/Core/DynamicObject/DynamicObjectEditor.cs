@@ -236,6 +236,7 @@ namespace Pangoo
             if (!Application.isPlaying)
             {
                 UpdateObjects();
+                transform.localScale = Vector3.one;
             }
         }
 
@@ -248,7 +249,7 @@ namespace Pangoo
         {
             Wrapper.UnityRow.Row.Position = transform.localPosition;
             Wrapper.UnityRow.Row.Rotation = transform.localRotation.eulerAngles;
-            Wrapper.UnityRow.Row.Scale = transform.localScale;
+            // Wrapper.UnityRow.Row.Scale = transform.localScale;
             Wrapper.Save();
         }
 
