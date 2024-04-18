@@ -7,6 +7,7 @@
 
 using GameFramework;
 using GameFramework.Sound;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -29,6 +30,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取当前是否正在播放。
         /// </summary>
+        [ShowInInspector]
         public override bool IsPlaying
         {
             get
@@ -36,7 +38,7 @@ namespace UnityGameFramework.Runtime
                 return m_AudioSource.isPlaying;
             }
         }
-
+        [ShowInInspector]
         public override float CurrentTime
         {
             get
@@ -48,6 +50,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取声音长度。
         /// </summary>
+        [ShowInInspector]
         public override float Length
         {
             get
@@ -59,6 +62,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取或设置播放位置。
         /// </summary>
+        [ShowInInspector]
         public override float Time
         {
             get
@@ -74,6 +78,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取或设置是否静音。
         /// </summary>
+        [ShowInInspector]
         public override bool Mute
         {
             get
@@ -89,6 +94,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取或设置是否循环播放。
         /// </summary>
+        [ShowInInspector]
         public override bool Loop
         {
             get
@@ -104,6 +110,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取或设置声音优先级。
         /// </summary>
+        [ShowInInspector]
         public override int Priority
         {
             get
@@ -119,6 +126,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取或设置音量大小。
         /// </summary>
+        [ShowInInspector]
         public override float Volume
         {
             get
@@ -134,6 +142,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取或设置声音音调。
         /// </summary>
+        [ShowInInspector]
         public override float Pitch
         {
             get
@@ -149,6 +158,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取或设置声音立体声声相。
         /// </summary>
+        [ShowInInspector]
         public override float PanStereo
         {
             get
@@ -164,6 +174,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取或设置声音空间混合量。
         /// </summary>
+        [ShowInInspector]
         public override float SpatialBlend
         {
             get
@@ -179,6 +190,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取或设置声音最大距离。
         /// </summary>
+        [ShowInInspector]
         public override float MaxDistance
         {
             get
@@ -195,6 +207,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取或设置声音多普勒等级。
         /// </summary>
+        [ShowInInspector]
         public override float DopplerLevel
         {
             get
@@ -210,6 +223,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取或设置声音代理辅助器所在的混音组。
         /// </summary>
+        [ShowInInspector]
         public override AudioMixerGroup AudioMixerGroup
         {
             get

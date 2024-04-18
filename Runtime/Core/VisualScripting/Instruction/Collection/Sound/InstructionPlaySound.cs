@@ -34,7 +34,7 @@ namespace Pangoo.Core.VisualScripting
         protected override IEnumerator Run(Args args)
         {
             SoundReset = false;
-            Debug.Log($"Play Sound:{ParamsRaw.SoundUuid}");
+            Debug.Log($"Play Sound:{ParamsRaw.SoundUuid},Loop:{ParamsRaw.Loop},fadeTime:{ParamsRaw.FadeTime} ");
             args.Main.Sound.PlaySound(ParamsRaw.SoundUuid, () =>
             {
                 SoundReset = true;
