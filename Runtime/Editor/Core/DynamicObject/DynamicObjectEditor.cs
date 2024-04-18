@@ -5,14 +5,10 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor;
-using Pangoo.Core.VisualScripting;
-using Pangoo.Core.Characters;
-using System;
+
 using UnityEngine.UI;
 using Pangoo.Core.Common;
 using Pangoo.MetaTable;
-using UnityEditor.VersionControl;
 using System.Linq;
 using UnityEngine.UIElements;
 
@@ -255,6 +251,64 @@ namespace Pangoo
             Wrapper.UnityRow.Row.Scale = transform.localScale;
             Wrapper.Save();
         }
+
+        public Color GizmosColor = Color.red;
+        public Color GizmosRadiusColor = new Color(0, 1, 0, 0.3f);
+        public Color GizmosSelectRadiusColor = new Color(1, 0.5f, 0.8f, 0.8f);
+
+
+
+        public Vector3 GizmosSize
+        {
+            get
+            {
+                return Vector3.one * 0.1f;
+            }
+        }
+
+        private void OnDrawGizmos()
+        {
+            var oldColor = Gizmos.color;
+            Gizmos.color = GizmosColor;
+            var InteractPosition = transform.position;
+
+            if (UnityRow.Row.InteractTarget.IsNullOrWhiteSpace() || UnityRow.Row.InteractTarget.Equals("Self"))
+            {
+                InteractPosition = transform.position;
+            }
+            else
+            {
+                var interactionTarget = transform.Find(UnityRow.Row.InteractTarget);
+                if (interactionTarget != null)
+                {
+                    InteractPosition = interactionTarget.position;
+                }
+                else
+                {
+                    Debug.LogError($"Target is Null");
+                }
+            }
+
+            Gizmos.DrawCube(InteractPosition + InteractOffset, GizmosSize);
+
+            var InteractRadius = UnityRow.Row.InteractRadius > 0 ? UnityRow.Row.InteractRadius : GameSupportEditorUtility.GetGameMainConfig().DefaultInteractRadius;
+            if (Selection.activeGameObject == gameObject)
+            {
+                Gizmos.color = GizmosSelectRadiusColor;
+                Gizmos.DrawSphere(InteractPosition + InteractOffset, InteractRadius);
+            }
+            else
+            {
+                Gizmos.color = GizmosRadiusColor;
+                Gizmos.DrawSphere(InteractPosition + InteractOffset, InteractRadius);
+            }
+
+
+
+            Gizmos.color = oldColor;
+        }
+
+
 
     }
 
