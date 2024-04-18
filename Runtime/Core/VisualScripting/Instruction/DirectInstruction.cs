@@ -39,7 +39,18 @@ namespace Pangoo.Core.VisualScripting
                 {
                     case DirectInstructionTypeEnum.SetBoolVariable:
                     case DirectInstructionTypeEnum.ShowSubtitle:
+                    case DirectInstructionTypeEnum.StopSound:
                         return VisualScripting.InstructionType.Immediate;
+                    case DirectInstructionTypeEnum.PlaySound:
+                        if (Bool2)
+                        {
+                            return VisualScripting.InstructionType.Coroutine;
+                        }
+                        else
+                        {
+                            return VisualScripting.InstructionType.Immediate;
+                        }
+
                 }
                 return Pangoo.Core.VisualScripting.InstructionType.Coroutine;
             }
