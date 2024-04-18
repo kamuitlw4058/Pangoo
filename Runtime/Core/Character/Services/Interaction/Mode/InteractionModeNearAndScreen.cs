@@ -41,7 +41,7 @@ namespace Pangoo.Core.Characters
             {
                 for (int i = 0; i < hits.Length; i++)
                 {
-                    if (!interactive.ColliderGameObjects.Contains(hits[i].collider.gameObject) && !hits[i].collider.isTrigger)
+                    if (!interactive.ColliderGameObjects.Contains(hits[i].collider.gameObject) && hits[i].collider.gameObject != character.gameObject && !hits[i].collider.isTrigger)
                     {
                         interactive.Blocked = hits[i].collider.gameObject;
                         interactive.InteractBlocked = true;
