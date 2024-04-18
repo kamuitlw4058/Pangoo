@@ -255,7 +255,7 @@ namespace Pangoo
 
         public Color GizmosColor = Color.red;
         public Color GizmosRadiusColor = new Color(0, 1, 0, 0.3f);
-        public Color GizmosSelectRadiusColor = new Color(1, 0.5f, 0.8f, 0.8f);
+        public Color GizmosSelectRadiusColor = new Color(1, 0.5f, 0.8f, 0.3f);
 
 
 
