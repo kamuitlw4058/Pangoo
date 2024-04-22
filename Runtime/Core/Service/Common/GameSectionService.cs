@@ -90,6 +90,7 @@ namespace Pangoo.Core.Services
 
         Dictionary<int, CharacterBornInfo> m_BornDict;
 
+        [ShowInInspector]
         Dictionary<int, CharacterBornInfo> BornDict
         {
             get
@@ -100,12 +101,17 @@ namespace Pangoo.Core.Services
                     {
                         m_BornDict = JsonMapper.ToObject<Dictionary<int, CharacterBornInfo>>(LatestGameSectionRow.PlayerBirthPlaceList);
                     }
+                    else
+                    {
+                        m_BornDict = null;
+                    }
                 }
 
                 return m_BornDict;
             }
         }
 
+        [ShowInInspector]
         int BornCount
         {
             get
@@ -209,6 +215,7 @@ namespace Pangoo.Core.Services
         {
             TargetUuid = uuid;
             IsGameSectionLoaded = false;
+            m_BornDict = null;
             // Log($"SetGameSection is :{uuid.ToShortUuid()}");
             // if (uuid.IsNullOrWhiteSpace())
             // {
@@ -416,6 +423,8 @@ namespace Pangoo.Core.Services
                     for (int i = 0; i < DiffScenes.Count; i++)
                     {
                         var diffScene = DiffScenes[i];
+                        var statiSceneEntityData = StaticSceneSrv.GetEntityData(diffScene);
+                        Log($"Diff Hide Static Scene:{statiSceneEntityData.Name}");
                         StaticSceneSrv.HideEntity(diffScene);
                     }
                 }
