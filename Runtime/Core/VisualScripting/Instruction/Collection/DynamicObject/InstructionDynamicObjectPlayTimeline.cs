@@ -40,7 +40,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 var DynamicObjectService = dynamicObject.DynamicObjectService;
                 var targetEntity = DynamicObjectService.GetLoadedEntity(ParamsRaw.DynamicObjectUuid);
-                targetEntity?.DynamicObj?.PlayTimeline();
+                (targetEntity as EntityDynamicObject)?.DynamicObj?.PlayTimeline();
                 Debug.Log($"DynamicObjectId:{ParamsRaw.DynamicObjectUuid}  Play Timeline:{ParamsRaw.Val} ");
             }
         }

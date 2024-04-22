@@ -1,8 +1,12 @@
+using System.Collections.Generic;
 using GameFramework;
 using UnityEngine;
+
 using UnityGameFramework.Runtime;
 using Pangoo.MetaTable;
 using System;
+using System.Linq;
+using Sirenix.OdinInspector;
 
 namespace Pangoo
 {
@@ -14,8 +18,36 @@ namespace Pangoo
 
         protected Quaternion m_Rotation = Quaternion.identity;
 
+        public List<string> Refs = new List<string>();
+
         public EntityData()
         {
+
+        }
+
+        public void AddRef(string refName)
+        {
+            if (!Refs.Contains(refName))
+            {
+                Refs.Add(refName);
+            }
+        }
+
+        public void RemoveRef(string refName)
+        {
+            if (Refs.Contains(refName))
+            {
+                Refs.Remove(refName);
+            }
+        }
+
+        [ShowInInspector]
+        public int RefCount
+        {
+            get
+            {
+                return Refs.Count;
+            }
         }
 
         /// <summary>
@@ -74,6 +106,7 @@ namespace Pangoo
             m_Rotation = Quaternion.identity;
             m_Space = Space.World;
             UserData = null;
+            Refs.Clear();
         }
     }
 }

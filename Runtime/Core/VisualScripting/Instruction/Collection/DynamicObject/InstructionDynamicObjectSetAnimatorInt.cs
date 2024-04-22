@@ -18,7 +18,7 @@ namespace Pangoo.Core.VisualScripting
         {
             if (ParamsRaw.DynamicObjectUuid.IsNullOrWhiteSpace() || ParamsRaw.AnimatorParamName.IsNullOrWhiteSpace()) return;
 
-            var entity = args.Main.DynamicObject.GetLoadedEntity(ParamsRaw.DynamicObjectUuid);
+            var entity = args.Main.DynamicObject.GetLoadedEntity(ParamsRaw.DynamicObjectUuid) as EntityDynamicObject;
             if (entity != null)
             {
                 var animator = entity.DynamicObj.GetComponent<Animator>(ParamsRaw.Path);

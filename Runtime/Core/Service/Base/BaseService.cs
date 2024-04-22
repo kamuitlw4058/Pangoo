@@ -12,6 +12,7 @@ namespace Pangoo.Core.Services
         [NonSerialized]
         protected EventHelper m_EventHelper;
 
+        [ShowInInspector]
         public EventHelper Event
         {
             get

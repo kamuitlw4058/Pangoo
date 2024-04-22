@@ -44,7 +44,7 @@ namespace Pangoo.Core.VisualScripting
             else
             {
                 var DynamicObjectService = args.Main.DynamicObject;
-                var targetEntity = DynamicObjectService.GetLoadedEntity(ParamsRaw.DynamicObjectUuid);
+                var targetEntity = DynamicObjectService.GetLoadedEntity(ParamsRaw.DynamicObjectUuid) as EntityDynamicObject;
                 targetEntity?.DynamicObj?.SetSubGameObjectsActive(ParamsRaw.Path, ParamsRaw.Val);
                 Debug.Log($"DynamicObjectUuid:{ParamsRaw.DynamicObjectUuid}  SetPath:{ParamsRaw.Path} Active:{ParamsRaw.Val} ");
             }

@@ -143,6 +143,7 @@ namespace Pangoo.Core.VisualScripting
             ModelList.Clear();
             CachedTransformDict.Clear();
             Components.Clear();
+            Event.UnSubscribeAll();
         }
 
 

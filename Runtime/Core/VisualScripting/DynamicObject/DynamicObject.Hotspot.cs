@@ -132,6 +132,7 @@ namespace Pangoo.Core.VisualScripting
                         var instance = ClassUtility.CreateInstance<HotSpot>(row.HotspotType);
                         if (instance == null)
                         {
+                            Log($"Create Hotspot Failed!!:{instance}");
                             return;
                         }
                         instance.Row = row;
@@ -139,6 +140,8 @@ namespace Pangoo.Core.VisualScripting
                         instance.Master = this;
                         instance.LoadParamsFromJson(row.Params);
                         m_HotSpots.Add(instance);
+                        Log($"Add Hotspot To List:{m_HotSpots.Count}");
+
                     }
                 }
             }

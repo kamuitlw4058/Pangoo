@@ -7,6 +7,7 @@ using UnityGameFramework.Runtime;
 using Pangoo.Core.Services;
 using Pangoo.MetaTable;
 using Pangoo.Core.Common;
+using Sirenix.OdinInspector;
 
 namespace Pangoo
 {
@@ -18,12 +19,19 @@ namespace Pangoo
 
         public override EnumEntity EntityType => EnumEntity.DynamicObject;
 
+        [ShowInInspector]
         public DynamicObjectInfoRow InfoRow;
 
+        [ShowInInspector]
         public override string InfoUuid
         {
             get
             {
+                if (InfoRow == null)
+                {
+                    Debug.LogError($"DynamicObject Info: is null");
+                }
+
                 return InfoRow.Uuid;
             }
         }

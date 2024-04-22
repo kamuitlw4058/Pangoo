@@ -43,10 +43,11 @@ namespace Pangoo.Core.VisualScripting
                 }
 
                 Log($"加载状态子动态物体:{subDo.DynamicObjectUuid}");
-                DynamicObjectService.ShowSubDynamicObject(subDo.DynamicObjectUuid, subDo.Path, Entity, false, (o) =>
+                DynamicObjectService.ShowEntity(subDo.DynamicObjectUuid, Entity, subDo.Path, "DynamicObject", (o) =>
                 {
-                    StateSubDynamicObjectDict.Add(kv.Key, o.DynamicObj);
-                    OnStateSubDynamicObjectLoadFinish(kv.Key, subDo, o.DynamicObj);
+                    var subEntity = o as EntityDynamicObject;
+                    StateSubDynamicObjectDict.Add(kv.Key, subEntity.DynamicObj);
+                    OnStateSubDynamicObjectLoadFinish(kv.Key, subDo, subEntity.DynamicObj);
                 });
             }
 

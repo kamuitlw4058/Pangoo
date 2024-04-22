@@ -35,6 +35,8 @@ namespace Pangoo.Core.VisualScripting
             {
                 foreach (var mouseInteractInfo in m_DynamicObjectMouseInteractInfos)
                 {
+                    if (mouseInteractInfo.HotSpotUuid.IsNullOrWhiteSpace()) continue;
+
                     var collider = CachedTransfrom.Find(mouseInteractInfo.Path)?.GetComponent<Collider>();
                     if (collider != null)
                     {

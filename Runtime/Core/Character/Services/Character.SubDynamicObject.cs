@@ -13,7 +13,7 @@ namespace Pangoo.Core.Characters
         public List<string> LoadingDynamicObject = new List<string>();
 
         public Dictionary<string, DynamicObject> SubDynamicObjectDict = new Dictionary<string, DynamicObject>();
-        
+
         DynamicObjectService m_DynamicObjectService;
         public DynamicObjectService DynamicObjectService
         {
@@ -45,13 +45,14 @@ namespace Pangoo.Core.Characters
                 }
 
                 Log($"加载子动态物体:{subDo.DynamicObjectUuid}");
-                DynamicObjectService.ShowSubDynamicObject(subDo.DynamicObjectUuid, subDo.Path, Entity, true, (o) =>
+                DynamicObjectService.ShowEntity(subDo.DynamicObjectUuid, Entity, subDo.Path, "Character", (o) =>
                 {
+                    var entity = o as EntityDynamicObject;
                     if (LoadingDynamicObject.Contains(subDo.DynamicObjectUuid))
                     {
                         LoadingDynamicObject.Remove(subDo.DynamicObjectUuid);
                     }
-                    SubDynamicObjectDict.Add(subDo.DynamicObjectUuid, o.DynamicObj);
+                    SubDynamicObjectDict.Add(subDo.DynamicObjectUuid, entity.DynamicObj);
                     if (LoadingDynamicObject.Count == 0)
                     {
                         OnSubDynamicObjectLoadFinish();

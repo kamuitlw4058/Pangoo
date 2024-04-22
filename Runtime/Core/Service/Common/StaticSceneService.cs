@@ -23,8 +23,6 @@ namespace Pangoo.Core.Services
 
         IEntityGroupRow m_EntityGroupRow;
 
-        [ShowInInspector]
-        Dictionary<string, EntityStaticSceneData> EntityDataDict = new Dictionary<string, EntityStaticSceneData>();
 
         protected override void DoAwake()
         {
@@ -41,8 +39,7 @@ namespace Pangoo.Core.Services
             m_EntityGroupRow = EntityGroupRowExtension.CreateStaticSceneGroup();
         }
 
-
-        public EntityStaticSceneData GetEntityData(string uuid)
+        public override EntityStaticSceneData GetEntityData(string uuid)
         {
             if (EntityDataDict.TryGetValue(uuid, out EntityStaticSceneData entityStaticSceneData))
             {
@@ -54,7 +51,7 @@ namespace Pangoo.Core.Services
             {
                 return null;
             }
-            var data = EntityStaticSceneData.Create(info, StaticSceneSrv, m_EntityGroupRow, null);
+            var data = EntityStaticSceneData.Create(info, this, m_EntityGroupRow, null);
             EntityDataDict.Add(uuid, data);
             return data;
         }
@@ -97,13 +94,6 @@ namespace Pangoo.Core.Services
         }
 
 
-        public bool GetEntityLoadedData(string uuid)
-        {
-            var entityData = GetEntityData(uuid);
-            return GetEntityLoadedData(entityData) != null;
-        }
-
-
         public void SetSceneModelActive(string uuid, bool val)
         {
             var entityData = GetEntityData(uuid);
@@ -116,28 +106,6 @@ namespace Pangoo.Core.Services
 
         }
 
-        public void ShowEntity(string uuid)
-        {
-            var data = GetEntityData(uuid);
-            ShowEntity(data, (o) =>
-            {
-                Log($"On Show Entity Sucess!:{uuid}");
-            }, (o) =>
-            {
-                Log($"On Show Entity Failed!:{uuid}");
-            }, overrideData: true
-            );
-        }
-
-        public void HideEntity(string uuid)
-        {
-            var data = GetEntityData(uuid);
-            if (data != null)
-            {
-                HideEntity(data);
-            }
-
-        }
 
     }
 }

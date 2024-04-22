@@ -264,7 +264,7 @@ namespace Pangoo.Core.VisualScripting
                             {
                                 if (dynamicObjectUuid.IsNullOrWhiteSpace()) continue;
 
-                                var entity = PanelData.Main.DynamicObject.GetLoadedEntity(dynamicObjectUuid);
+                                var entity = PanelData.Main.DynamicObject.GetLoadedEntity(dynamicObjectUuid) as EntityDynamicObject;
                                 if (entity != null)
                                 {
                                     entity.DynamicObj.DialogueSignal(subtitle.Content, subtitle.TimePoint);

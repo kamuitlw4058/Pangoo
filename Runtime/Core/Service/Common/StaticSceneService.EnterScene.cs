@@ -125,6 +125,7 @@ namespace Pangoo.Core.Services
                     LastestEnterUuid = k;
                     return m_StaticSceneInfo.GetRowByUuid<StaticSceneInfoRow>(k);
                 }
+                return null;
             }
 
             StaticSceneInfoRow ret = m_StaticSceneInfo.GetRowByUuid<StaticSceneInfoRow>(LastestEnterUuid);

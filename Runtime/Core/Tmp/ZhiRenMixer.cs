@@ -85,23 +85,23 @@ public class ZhiRenMixer : MonoBehaviour
         // {
         //     AtRoom = false;
         // }
-        var dynamicObejctEntity = PangooEntry.Service.mainService.DynamicObject.GetLoadedEntity("a9dd0b0ec78d44efa0652f260aa15f80");
-        if (dynamicObejctEntity != null)
-        {
-            var val = dynamicObejctEntity.DynamicObj.GetVariable<bool>("f6d3e5b39e7341198d9013799605b7e2");
-            if (val)
-            {
-                IsOpenedDoor = true;
-            }
-            else
-            {
-                IsOpenedDoor = false;
-            }
-        }
-        else
-        {
-            IsOpenedDoor = false;
-        }
+        // var dynamicObejctEntity = PangooEntry.Service.mainService.DynamicObject.GetLoadedEntity("a9dd0b0ec78d44efa0652f260aa15f80");
+        // if (dynamicObejctEntity != null)
+        // {
+        //     var val = dynamicObejctEntity.DynamicObj.GetVariable<bool>("f6d3e5b39e7341198d9013799605b7e2");
+        //     if (val)
+        //     {
+        //         IsOpenedDoor = true;
+        //     }
+        //     else
+        //     {
+        //         IsOpenedDoor = false;
+        //     }
+        // }
+        // else
+        // {
+        //     IsOpenedDoor = false;
+        // }
 
         if (!NotOptState)
         {

@@ -19,7 +19,7 @@ namespace Pangoo
             }
             var DynamicObject = main.DynamicObject;
             GUILayout.Label("<b>加载中的动态物体</b>");
-            foreach (var uuid in DynamicObject.m_LoadingAssetUuids)
+            foreach (var uuid in DynamicObject.LoadingEntityList)
             {
                 var dynamicObjectRow = main.MetaTable.GetDynamicObjectRow(uuid);
                 DrawItem(uuid, $"{dynamicObjectRow.Name}[{dynamicObjectRow.AssetPathUuid}]");
@@ -27,7 +27,7 @@ namespace Pangoo
 
 
             GUILayout.Label("<b>加载动态物体变量</b>");
-            var KeyValues = DynamicObject.m_LoadedAssetDict;
+            var KeyValues = DynamicObject.LoadedEntityDict;
             var Keys = KeyValues.Keys.ToList();
             for (int i = 0; i < Keys.Count; i++)
             {
@@ -35,11 +35,9 @@ namespace Pangoo
                 var val = KeyValues[key];
                 if (val != null)
                 {
-                    DrawDynamicObject(KeyValues[key]);
+                    DrawDynamicObject(KeyValues[key].Entity as EntityDynamicObject);
                 }
             }
-
-
 
         }
 

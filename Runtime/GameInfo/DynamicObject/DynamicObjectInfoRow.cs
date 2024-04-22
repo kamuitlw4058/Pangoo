@@ -21,7 +21,6 @@ namespace Pangoo
         public IAssetPathRow AssetPathRow => m_AssetPathRow;
 
 
-        public EntityInfo m_EntityInfo;
 
         public DynamicObjectInfoRow(IDynamicObjectRow row, IAssetPathRow assetPathRow)
         {

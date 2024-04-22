@@ -37,7 +37,7 @@ namespace Pangoo
             else
             {
                 var DynamicObjectService = args.Main.DynamicObject;
-                var targetEntity = DynamicObjectService.GetLoadedEntity(uuid);
+                var targetEntity = DynamicObjectService.GetLoadedEntity(uuid) as EntityDynamicObject;
                 DoTransform = targetEntity?.DynamicObj?.CachedTransfrom;
             }
 

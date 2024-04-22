@@ -112,7 +112,7 @@ namespace Pangoo
             }
         }
 
-
+        [ShowInInspector]
         public bool ShowModels
         {
             get

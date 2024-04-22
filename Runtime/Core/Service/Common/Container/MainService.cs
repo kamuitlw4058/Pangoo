@@ -47,7 +47,6 @@ namespace Pangoo.Core.Services
 
         public GameInfoService GameInfo;
 
-        public NewDynamicObjectService NewDynamicObject;
 
 
 
@@ -75,7 +74,6 @@ namespace Pangoo.Core.Services
             Case = new CaseService();
             GameSection = new GameSectionService();
             GameInfo = new GameInfoService();
-            NewDynamicObject = new NewDynamicObjectService();
 
             AddService(MetaTable, sortService: false);
             AddService(StaticScene, sortService: false);
@@ -93,7 +91,6 @@ namespace Pangoo.Core.Services
             AddService(Dialogue, sortService: false);
             AddService(Cursor, sortService: false);
             AddService(Case, sortService: false);
-            AddService(NewDynamicObject, sortService: false);
             SortService();
         }
 
