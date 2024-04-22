@@ -1,3 +1,4 @@
+#if USE_HDRP
 using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.Rendering;
@@ -18,12 +19,12 @@ using UnityEditor;
 
 class ScreenSpaceCameraUIBlur : CustomPass
 {
-    public float        blurRadius = 10;
-    public LayerMask    uiLayer = 1 << 5;
+    public float blurRadius = 10;
+    public LayerMask uiLayer = 1 << 5;
 
-    public bool         EnableBlur = true;
+    public bool EnableBlur = true;
 
-    RTHandle            downSampleBuffer;
+    RTHandle downSampleBuffer;
 
     protected override void Setup(ScriptableRenderContext renderContext, CommandBuffer cmd)
     {
@@ -48,7 +49,8 @@ class ScreenSpaceCameraUIBlur : CustomPass
         // This pass doesn't work with scene views
         if (ctx.hdCamera.camera.cameraType == CameraType.SceneView)
             return;
-        if(EnableBlur){
+        if (EnableBlur)
+        {
             CustomPassUtils.GaussianBlur(ctx, ctx.cameraColorBuffer, ctx.cameraColorBuffer, downSampleBuffer, radius: blurRadius);
         }
 
@@ -62,58 +64,72 @@ class ScreenSpaceCameraUIBlur : CustomPass
     }
 }
 
-interface IKeyValue{
+interface IKeyValue
+{
     int? GetInt(string key);
-    void SetInt(string key,int v);
+    void SetInt(string key, int v);
 }
 
-class SL:IKeyValue{
-    public int? GetInt(string key){
+class SL : IKeyValue
+{
+    public int? GetInt(string key)
+    {
         return 0;
     }
 
-    public void SetInt(string key, int v){
+    public void SetInt(string key, int v)
+    {
 
     }
 }
 
 
 
-class Runtime:IKeyValue{
-    public int? GetInt(string key){
+class Runtime : IKeyValue
+{
+    public int? GetInt(string key)
+    {
         return 0;
     }
 
-    public void SetInt(string key, int v){
+    public void SetInt(string key, int v)
+    {
 
     }
 }
 
 
-class Data:IKeyValue{
+class Data : IKeyValue
+{
     Runtime runtime = new Runtime();
     SL sl = new SL();
-    public int? GetInt(string key){
+    public int? GetInt(string key)
+    {
         int? v = runtime.GetInt(key);
-        if(v == null){
+        if (v == null)
+        {
             v = sl.GetInt(key);
 
-            if(v != null){
-                runtime.SetInt(key,v.Value);
+            if (v != null)
+            {
+                runtime.SetInt(key, v.Value);
             }
         }
 
         return v;
     }
 
-    public void SetInt(string key, int v){
-        runtime.SetInt(key,v);
+    public void SetInt(string key, int v)
+    {
+        runtime.SetInt(key, v);
 
-        if(true){
-            sl.SetInt(key,v);
+        if (true)
+        {
+            sl.SetInt(key, v);
         }
 
 
     }
 
 }
+#endif
