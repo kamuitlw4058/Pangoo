@@ -5,6 +5,9 @@ using GameFramework;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 using Pangoo.Core.Services;
+using Pangoo.MetaTable;
+using Pangoo.Core.Common;
+using Sirenix.OdinInspector;
 
 namespace Pangoo
 {
@@ -12,40 +15,45 @@ namespace Pangoo
     public class EntityDynamicObjectData : EntityData
     {
         // public EntityInfo Info;
+        public override EntityLoadType LoadType => EntityLoadType.Info;
 
-        public EntityInfo EntityInfo;
+        public override EnumEntity EntityType => EnumEntity.DynamicObject;
 
+        [ShowInInspector]
         public DynamicObjectInfoRow InfoRow;
 
-        public string Uuid
+        [ShowInInspector]
+        public override string InfoUuid
         {
             get
             {
+                if (InfoRow == null)
+                {
+                    Debug.LogError($"DynamicObject Info: is null");
+                }
+
                 return InfoRow.Uuid;
             }
         }
 
 
-        public string AssetPathUuid
-        {
-            get
-            {
-                return EntityInfo.AssetPathUuid;
-            }
-        }
-
         public DynamicObjectService Service;
-        public EntityDynamicObjectData() : base()
+        public EntityDynamicObjectData()
         {
         }
 
-        public static EntityDynamicObjectData Create(EntityInfo Info, DynamicObjectService service, DynamicObjectInfoRow infoRow, object userData = null)
+        public override void InitAsset(IEntityGroupRow group)
+        {
+            InitAsset(group, InfoRow.AssetPathRow);
+        }
+
+        public static EntityDynamicObjectData Create(DynamicObjectService service, DynamicObjectInfoRow infoRow, IEntityGroupRow group, object userData = null)
         {
             EntityDynamicObjectData entityData = ReferencePool.Acquire<EntityDynamicObjectData>();
-            entityData.EntityInfo = Info;
             entityData.Service = service;
             entityData.UserData = userData;
             entityData.InfoRow = infoRow;
+            entityData.InitAsset(group);
             return entityData;
         }
 
@@ -53,7 +61,6 @@ namespace Pangoo
         {
             base.Clear();
             Service = null;
-            EntityInfo = null;
         }
     }
 }

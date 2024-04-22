@@ -301,6 +301,8 @@ namespace Pangoo.MetaTable
         {
 
             AssetName = RefAssetName;
+            DirectoryUtility.ExistsOrCreate(Overview.RowDirPath);
+
             AssetDatabase.CreateAsset(UnityRow, Overview.RowPath(UnityRow.Uuid));
             Overview.Rows.Add(UnityRow);
             EditorUtility.SetDirty(Overview);

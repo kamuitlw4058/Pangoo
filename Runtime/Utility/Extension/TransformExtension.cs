@@ -85,10 +85,15 @@ namespace Pangoo
             var parentPath = parent.GetPath();
             var transformPath = transform.GetPath();
             Debug.Log($"parentPath:{parentPath} transformPath:{transformPath}");
+            if (transformPath.Equals(parentPath))
+            {
+                return null;
+            }
 
             if (transformPath.StartsWith(parentPath))
             {
-                return transformPath.Substring(parentPath.Length + 1);
+                var startIndex = Mathf.Min(parentPath.Length + 1, transformPath.Length - 1);
+                return transformPath.Substring(startIndex);
             }
 
             return transformPath;

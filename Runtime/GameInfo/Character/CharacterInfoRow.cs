@@ -12,22 +12,28 @@ namespace Pangoo
     public class CharacterInfoRow : BaseInfoRow
     {
         public ICharacterRow m_CharacterRow;
-        public IAssetPathRow m_AssetPathRow;
 
-        public EntityInfo m_EntityInfo;
+        public ICharacterRow CharacterRow => m_CharacterRow;
+
+        public IAssetPathRow m_AssetPathRow;
+        public IAssetPathRow AssetPathRow => m_AssetPathRow;
+
+
 
         public CharacterInfoRow(ICharacterRow character, IAssetPathRow assetPathRow)
         {
             this.m_CharacterRow = character;
             this.m_AssetPathRow = assetPathRow;
         }
-        public int Id
+
+        public string Uuid
         {
             get
             {
-                return m_CharacterRow.Id;
+                return m_CharacterRow.Uuid;
             }
         }
+
 
         public string Name
         {
@@ -37,25 +43,6 @@ namespace Pangoo
             }
         }
 
-        public EntityInfo CreateEntityInfo(IEntityGroupRow entityGroupRow)
-        {
-            return EntityInfo.Create(m_AssetPathRow, entityGroupRow);
-        }
-
-
-
-        public int AssetPathId
-        {
-            get
-            {
-                return m_AssetPathRow.Id;
-            }
-        }
-
-        public override void Remove()
-        {
-            ReferencePool.Release(m_EntityInfo);
-        }
 
         public bool IsPlayer
         {

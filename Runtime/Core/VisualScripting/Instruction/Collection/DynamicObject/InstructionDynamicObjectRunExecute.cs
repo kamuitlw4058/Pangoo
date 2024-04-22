@@ -47,7 +47,7 @@ namespace Pangoo.Core.VisualScripting
             else
             {
                 var DynamicObjectService = dynamicObject.DynamicObjectService;
-                var targetEntity = DynamicObjectService.GetLoadedEntity(ParamsRaw.DynamicObjectUuid);
+                var targetEntity = DynamicObjectService.GetLoadedEntity(ParamsRaw.DynamicObjectUuid) as EntityDynamicObject;
                 if (ParamsRaw.Val)
                 {
                     targetEntity?.DynamicObj?.StartExecuteEvent();

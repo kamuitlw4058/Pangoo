@@ -40,7 +40,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 var DynamicObjectService = dynamicObject.DynamicObjectService;
                 var targetEntity = DynamicObjectService.GetLoadedEntity(ParamsRaw.DynamicObjectUuid);
-                var targetDynamicObject = targetEntity?.DynamicObj;
+                var targetDynamicObject = (targetEntity as EntityDynamicObject)?.DynamicObj;
                 if (targetDynamicObject != null)
                 {
                     targetDynamicObject.IsHotspotActive = ParamsRaw.Val;

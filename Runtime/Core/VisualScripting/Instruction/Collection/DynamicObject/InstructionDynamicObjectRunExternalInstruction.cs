@@ -45,7 +45,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 var DynamicObjectService = dynamicObject.DynamicObjectService;
                 var targetEntity = DynamicObjectService.GetLoadedEntity(ParamsRaw.DynamicObjectUuid);
-                targetEntity?.DynamicObj?.StartExternalInstruction(ParamsRaw.InstruciontUuid, ParamsRaw.Targets.ToListString());
+                (targetEntity as EntityDynamicObject)?.DynamicObj?.StartExternalInstruction(ParamsRaw.InstruciontUuid, ParamsRaw.Targets.ToListString());
             }
 
         }

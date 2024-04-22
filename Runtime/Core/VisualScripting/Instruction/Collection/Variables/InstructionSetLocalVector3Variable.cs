@@ -21,11 +21,11 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            var entity = args.dynamicObject.DynamicObjectService.GetLoadedEntity(ParamsRaw.DynamicObjectUuid);
-            
+            var entity = args.dynamicObject.DynamicObjectService.GetLoadedEntity(ParamsRaw.DynamicObjectUuid) as EntityDynamicObject;
+
             if (entity.DynamicObj != null)
             {
-                entity.DynamicObj.Main.RuntimeData.SetDynamicObjectVariable<Vector3>(ParamsRaw.DynamicObjectUuid,ParamsRaw.LocalVariableUuid, ParamsRaw.Value);
+                entity.DynamicObj.Main.RuntimeData.SetDynamicObjectVariable<Vector3>(ParamsRaw.DynamicObjectUuid, ParamsRaw.LocalVariableUuid, ParamsRaw.Value);
             }
         }
     }

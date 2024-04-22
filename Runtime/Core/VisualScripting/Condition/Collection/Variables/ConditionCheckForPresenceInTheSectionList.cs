@@ -23,15 +23,15 @@ namespace Pangoo.Core.VisualScripting
         public override IParams Params => ParamRaw;
         protected override int Run(Args args)
         {
-            var currentGameSection = args.Main?.GetService<GameSectionService>().LatestUuid;
-            if (currentGameSection==null)
+            var currentGameSection = args.Main?.GetService<GameSectionService>().CurrentUuid;
+            if (currentGameSection == null)
             {
                 //Debug.Log("没有获取到章段落");
                 return 0;
             }
             for (int i = 0; i < ParamRaw.GameSectionUuidArray.Length; i++)
             {
-                if (ParamRaw.GameSectionUuidArray[i]==currentGameSection)
+                if (ParamRaw.GameSectionUuidArray[i] == currentGameSection)
                 {
                     //Debug.Log("包含当前章节段落");
                     return 1;

@@ -27,6 +27,26 @@ namespace Pangoo.Common
         }
 
 
+        public static List<T> DiffItems<T>(this List<T> l1, List<T> l2)
+        {
+            List<T> ret = new List<T>();
+
+            if (l2.IsNullOrEmpty()) return ret;
+
+            if (l1.IsNullOrEmpty()) return l2;
+
+            foreach (var item in l2)
+            {
+                if (!l1.Contains(item))
+                {
+                    ret.Add(item);
+                }
+
+            }
+            return ret;
+        }
+
+
 
 
     }

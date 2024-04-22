@@ -1,17 +1,16 @@
-//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2020 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
+using System.Collections.Generic;
 using GameFramework;
 using UnityEngine;
+
 using UnityGameFramework.Runtime;
+using Pangoo.MetaTable;
+using System;
+using System.Linq;
+using Sirenix.OdinInspector;
 
 namespace Pangoo
 {
-    public class EntityData : IReference
+    public abstract class EntityData : EntityInfo, IReference
     {
         protected Space m_Space = Space.Self;
 
@@ -19,11 +18,36 @@ namespace Pangoo
 
         protected Quaternion m_Rotation = Quaternion.identity;
 
+        public List<string> Refs = new List<string>();
+
         public EntityData()
         {
-            m_Position = Vector3.zero;
-            m_Rotation = Quaternion.identity;
-            UserData = null;
+
+        }
+
+        public void AddRef(string refName)
+        {
+            if (!Refs.Contains(refName))
+            {
+                Refs.Add(refName);
+            }
+        }
+
+        public void RemoveRef(string refName)
+        {
+            if (Refs.Contains(refName))
+            {
+                Refs.Remove(refName);
+            }
+        }
+
+        [ShowInInspector]
+        public int RefCount
+        {
+            get
+            {
+                return Refs.Count;
+            }
         }
 
         /// <summary>
@@ -74,42 +98,15 @@ namespace Pangoo
             protected set;
         }
 
-        public static EntityData Create(object userData = null)
-        {
-            EntityData entityData = ReferencePool.Acquire<EntityData>();
-            entityData.Position = Vector3.zero;
-            entityData.Rotation = Quaternion.identity;
-            entityData.UserData = userData;
-            entityData.Space = Space.World;
-            return entityData;
-        }
 
-        public static EntityData Create(Vector3 position, object userData = null)
+        public override void Clear()
         {
-            EntityData entityData = ReferencePool.Acquire<EntityData>();
-            entityData.Position = position;
-            entityData.Rotation = Quaternion.identity;
-            entityData.UserData = userData;
-            entityData.Space = Space.World;
-            return entityData;
-        }
-
-        public static EntityData Create(Vector3 position, Quaternion quaternion, object userData = null)
-        {
-            EntityData entityData = ReferencePool.Acquire<EntityData>();
-            entityData.Position = position;
-            entityData.Rotation = quaternion;
-            entityData.UserData = userData;
-            entityData.Space = Space.World;
-            return entityData;
-        }
-
-        public virtual void Clear()
-        {
+            base.Clear();
             m_Position = Vector3.zero;
             m_Rotation = Quaternion.identity;
             m_Space = Space.World;
             UserData = null;
+            Refs.Clear();
         }
     }
 }

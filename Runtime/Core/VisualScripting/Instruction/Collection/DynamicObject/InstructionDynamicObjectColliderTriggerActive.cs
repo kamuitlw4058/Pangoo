@@ -31,7 +31,7 @@ namespace Pangoo.Core.VisualScripting
             {
                 var DynamicObjectService = args.Main.DynamicObject;
                 var targetEntity = DynamicObjectService.GetLoadedEntity(ParamsRaw.DynamicObjectUuid);
-                var targetDynamicObject = targetEntity?.DynamicObj;
+                var targetDynamicObject = (targetEntity as EntityDynamicObject)?.DynamicObj;
                 if (targetDynamicObject != null)
                 {
                     targetDynamicObject?.SetColliderTriggerActive(ParamsRaw.Val);

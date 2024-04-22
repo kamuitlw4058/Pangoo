@@ -102,9 +102,9 @@ namespace Pangoo.Core.Services
             var dynamicObjectUuid = content.CaseRow?.DynamicObjectUuid;
             if (!dynamicObjectUuid.IsNullOrWhiteSpace())
             {
-                DynamicObjectSrv.ShowModuleDynamicObject(ConstString.CaseModule, dynamicObjectUuid, (o) =>
+                DynamicObjectSrv.ShowEntity(dynamicObjectUuid, null, null, "Case", (o) =>
                 {
-                    content.Entity = o;
+                    content.Entity = o as EntityDynamicObject;
                     OnShowCaseComplete(content, showFinishedCallback);
                 });
             }
@@ -119,11 +119,16 @@ namespace Pangoo.Core.Services
                 {
                     foreach (var clueRow in kv.Value.CluesRows)
                     {
-                        DynamicObjectSrv.ShowSubDynamicObject(clueRow.DynamicObjectUuid, null, kv.Value.Entity, false, (o) =>
+                        DynamicObjectSrv.ShowEntity(clueRow.DynamicObjectUuid, kv.Value.Entity, null, "Case", (o) =>
                         {
-                            o.DynamicObj.ModelActive = false;
-                            o.transform.localPosition = Vector3.zero;
-                            kv.Value.CluesEntity.Add(clueRow.DynamicObjectUuid, o);
+                            var entity = o as EntityDynamicObject;
+                            if (entity != null)
+                            {
+                                entity.DynamicObj.ModelActive = false;
+                                entity.transform.localPosition = Vector3.zero;
+                                kv.Value.CluesEntity.Add(clueRow.DynamicObjectUuid, entity);
+                            }
+
                         });
                     }
 
