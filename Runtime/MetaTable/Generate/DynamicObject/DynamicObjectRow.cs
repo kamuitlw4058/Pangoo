@@ -256,6 +256,13 @@ namespace Pangoo.MetaTable
 
         string IDynamicObjectRow.ColliderTriggerManualList {get => ColliderTriggerManualList; set => ColliderTriggerManualList = value;}
 
+        [JsonMember("PreviewRotationUp")]
+        [MetaTableRowColumn("PreviewRotationUp","Vector3", "预览的上方向",36)]
+        [LabelText("预览的上方向")]
+        public Vector3 PreviewRotationUp ;
+
+        Vector3 IDynamicObjectRow.PreviewRotationUp {get => PreviewRotationUp; set => PreviewRotationUp = value;}
+
     }
 }
 

@@ -162,8 +162,8 @@ namespace Pangoo
 
         }
 
-
         [BoxGroup("可视化设置")]
+        [BoxGroup("可视化设置/交互设置")]
         [ShowInInspector]
         [LabelText("设置交互偏移")]
         [ShowIf("@this.UnityRow != null")]
@@ -181,6 +181,59 @@ namespace Pangoo
                 AssetDatabase.SaveAssets();
             }
         }
+
+
+        bool PreviewMode;
+
+        string PreviewState = "预览编辑";
+
+        [Button("@this.PreviewState")]
+        [BoxGroup("可视化设置")]
+        [BoxGroup("可视化设置/预览设置")]
+        public void EnablePreviewEditor()
+        {
+            if (!PreviewMode)
+            {
+                PreviewMode = true;
+                PreviewState = "关闭预览";
+                var cameraTrans = SceneView.lastActiveSceneView.camera.transform;
+
+
+                var previewPosition = cameraTrans.TransformPoint(Vector3.forward * 0.3f);
+                transform.position = previewPosition;
+                Vector3 direction = cameraTrans.position - transform.position;
+                // transform.forward = Quaternion.FromToRotation(transform.TransformDirection(Wrapper.UnityRow.Row.PreviewRotation), direction).eulerAngles;
+                // transform.up = Quaternion.FromToRotation(transform.TransformDirection(PreviewDirectionUpSaved), cameraTrans.up).eulerAngles;
+
+                transform.rotation = Quaternion.FromToRotation(transform.TransformDirection(Wrapper.UnityRow.Row.PreviewRotationUp), cameraTrans.up) * transform.rotation;
+                transform.rotation = Quaternion.FromToRotation(transform.TransformDirection(Wrapper.UnityRow.Row.PreviewRotation), direction) * transform.rotation;
+                if (Wrapper.UnityRow.Row.PreviewScale != Vector3.zero)
+                {
+                    transform.localScale = Wrapper.UnityRow.Row.PreviewScale;
+                }
+            }
+            else
+            {
+                PreviewMode = false;
+                PreviewState = "预览编辑";
+                transform.position = Wrapper.Postion;
+                transform.rotation = Quaternion.Euler(Wrapper.Rotation);
+
+            }
+        }
+        [BoxGroup("可视化设置")]
+        [BoxGroup("可视化设置/预览设置")]
+        [EnableIf("@this.PreviewMode")]
+        public Vector3 PreviewDirection;
+
+
+        [BoxGroup("可视化设置")]
+        [BoxGroup("可视化设置/预览设置")]
+        [EnableIf("@this.PreviewMode")]
+        public Vector3 PreviewDirectionUp;
+
+
+
 
 
 
@@ -231,33 +284,54 @@ namespace Pangoo
         }
 
 
+
         private void Update()
         {
             if (!Application.isPlaying)
             {
                 UpdateObjects();
-                transform.localScale = Vector3.one;
+                if (!PreviewMode)
+                {
+                    transform.localScale = Vector3.one;
+                }
+            }
+
+            if (PreviewMode)
+            {
+                var sceneCameraTrans = SceneView.lastActiveSceneView.camera.transform;
+                var previewPosition = sceneCameraTrans.TransformPoint(Vector3.forward * 0.3f);
+                transform.position = previewPosition;
+
+                PreviewDirection = transform.InverseTransformPoint(sceneCameraTrans.transform.position).normalized;
+                PreviewDirectionUp = transform.InverseTransformDirection(sceneCameraTrans.up).normalized;
             }
         }
 
-
-
-        [Button("SetTransfrom")]
+        [BoxGroup("可视化设置")]
+        [Button("设置姿势")]
         [ShowIf("@this.UnityRow != null")]
-
+        [EnableIf("@!this.PreviewMode")]
         public void SetTransfrom()
         {
             Wrapper.UnityRow.Row.Position = transform.localPosition;
             Wrapper.UnityRow.Row.Rotation = transform.localRotation.eulerAngles;
-            // Wrapper.UnityRow.Row.Scale = transform.localScale;
+            Wrapper.Save();
+        }
+        [BoxGroup("可视化设置")]
+        [BoxGroup("可视化设置/预览设置")]
+        [Button("保存预览配置")]
+        [EnableIf("@this.PreviewMode")]
+        public void SetPreview()
+        {
+            Wrapper.UnityRow.Row.PreviewRotation = PreviewDirection;
+            Wrapper.UnityRow.Row.PreviewRotationUp = PreviewDirectionUp;
+            Wrapper.UnityRow.Row.PreviewScale = transform.localScale;
             Wrapper.Save();
         }
 
         public Color GizmosColor = Color.red;
         public Color GizmosRadiusColor = new Color(0, 1, 0, 0.3f);
         public Color GizmosSelectRadiusColor = new Color(1, 0.5f, 0.8f, 0.3f);
-
-
 
         public Vector3 GizmosSize
         {
@@ -286,6 +360,11 @@ namespace Pangoo
         private void OnDrawGizmos()
         {
             var oldColor = Gizmos.color;
+            if (PreviewMode)
+            {
+                return;
+            }
+
             Gizmos.color = GizmosColor;
             var InteractPosition = transform.position;
 
@@ -300,10 +379,10 @@ namespace Pangoo
                 {
                     InteractPosition = interactionTarget.position;
                 }
-                else
-                {
-                    Debug.LogError($"Target is Null");
-                }
+                // else
+                // {
+                //     Debug.LogError($"Target is Null");
+                // }
             }
 
             Gizmos.DrawCube(InteractPosition + InteractOffset, GizmosSize);

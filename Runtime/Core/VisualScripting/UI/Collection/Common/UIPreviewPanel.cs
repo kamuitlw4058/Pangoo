@@ -205,7 +205,16 @@ namespace Pangoo.Core.VisualScripting
 
                     var progress = curve.Evaluate(GrabProgress);
 
-                    PreviewData.CurrentRotation = Quaternion.Lerp(Quaternion.Euler(PreviewData.OldRotation), targetRotation, progress).eulerAngles;
+                    Vector3 finalDirection = MainCamera.transform.position - TargetPoint;
+                    PreviewData.DynamicObject.CachedTransfrom.rotation = Quaternion.FromToRotation(PreviewData.PreviewDirectionUp, MainCamera.transform.up) * PreviewData.DynamicObject.CachedTransfrom.rotation;
+                    PreviewData.DynamicObject.CachedTransfrom.rotation = Quaternion.FromToRotation(PreviewData.PreviewDirection, finalDirection) * PreviewData.DynamicObject.CachedTransfrom.rotation;
+
+                    // var finalRotation = Quaternion.FromToRotation(PreviewData.PreviewDirection, finalDirection) * Quaternion.Euler(PreviewData.CurrentRotation);
+                    // transform.rotation = Quaternion.FromToRotation(PreviewData.PreviewDirectionUp, MainCamera.transform.up) * transform.rotation;
+
+
+
+                    // PreviewData.CurrentRotation = Quaternion.Lerp(Quaternion.Euler(PreviewData.OldRotation), finalRotation, progress).eulerAngles;
                     return;
                 }
 
@@ -215,8 +224,17 @@ namespace Pangoo.Core.VisualScripting
             {
                 PreviewData.CurrentPosition = TargetPoint;
                 Vector3 direction = MainCamera.transform.position - PreviewData.OldPosition;
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
-                PreviewData.CurrentRotation = targetRotation.eulerAngles;
+
+                // Vector3 finalDirection = MainCamera.transform.position - TargetPoint;
+                // var finalRotation = Quaternion.FromToRotation(PreviewData.PreviewDirection, finalDirection) * Quaternion.Euler(PreviewData.CurrentRotation);
+                // // Quaternion targetRotation = Quaternion.LookRotation(direction);
+                // PreviewData.CurrentRotation = finalRotation.eulerAngles;
+
+
+                Vector3 finalDirection = MainCamera.transform.position - TargetPoint;
+                PreviewData.DynamicObject.CachedTransfrom.rotation = Quaternion.FromToRotation(PreviewData.PreviewDirectionUp, MainCamera.transform.up) * PreviewData.DynamicObject.CachedTransfrom.rotation;
+                PreviewData.DynamicObject.CachedTransfrom.rotation = Quaternion.FromToRotation(PreviewData.PreviewDirection, finalDirection) * PreviewData.DynamicObject.CachedTransfrom.rotation;
+
 
                 if (PreviewData.DynamicObject.Row.PreviewScale != Vector3.zero)
                 {

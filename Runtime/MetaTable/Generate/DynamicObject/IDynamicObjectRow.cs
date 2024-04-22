@@ -85,6 +85,8 @@ namespace Pangoo.MetaTable
 
         public string ColliderTriggerManualList{ get; set; }
 
+        public Vector3 PreviewRotationUp{ get; set; }
+
     }
 }
 

@@ -268,6 +268,9 @@ MonoBehaviour:
     - Name: ColliderTriggerManualList
       Type: string
       CnName: "\u624B\u52A8\u78B0\u649E\u89E6\u53D1\u5217\u8868"
+    - Name: PreviewRotationUp
+      Type: Vector3
+      CnName: "\u9884\u89C8\u7684\u4E0A\u65B9\u5411"
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: EntityGroup

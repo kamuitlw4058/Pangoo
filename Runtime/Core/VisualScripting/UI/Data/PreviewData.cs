@@ -51,6 +51,39 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
+        public Vector3 PreviewRotation
+        {
+            get
+            {
+                return DynamicObject.Row.PreviewRotation;
+            }
+        }
+
+        public Vector3 PreviewRotationUp
+        {
+            get
+            {
+                return DynamicObject.Row.PreviewRotationUp;
+            }
+        }
+
+        public Vector3 PreviewDirection
+        {
+            get
+            {
+                return DynamicObject.CachedTransfrom.TransformDirection(PreviewRotation);
+            }
+        }
+
+        public Vector3 PreviewDirectionUp
+        {
+            get
+            {
+                return DynamicObject.CachedTransfrom.TransformDirection(PreviewRotationUp);
+            }
+        }
+
+
 
         public Vector3 CurrentPosition
         {
