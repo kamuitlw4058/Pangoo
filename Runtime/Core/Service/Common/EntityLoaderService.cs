@@ -111,19 +111,21 @@ namespace Pangoo.Core.Services
             return GetEntityLoadedData(entityData) != null;
         }
 
-        public void ShowEntity(string uuid, EntityBase parentEntity = null, string path = null, string refName = null, Action<EntityBase> onSucess = null, Action<TData> onFailed = null)
+        public string ShowEntity(string infoUuid, EntityBase parentEntity = null, string path = null, string refName = null, Action<EntityBase> onSucess = null, Action<TData> onFailed = null)
         {
-            var data = GetEntityData(uuid);
+            var data = GetEntityData(infoUuid);
+            var InstanceUuid = data.InstanceUuid;
             ShowEntity(data, (o) =>
             {
-                Log($"On Show Entity Sucess!:{uuid}");
+                Log($"On Show Entity Sucess!:Info Uuid{infoUuid},Instance Uuid:{InstanceUuid}");
                 onSucess?.Invoke(o);
             }, (o) =>
             {
-                Log($"On Show Entity Failed!:{uuid}");
+                Log($"On Show Entity Failed!:Info Uuid{infoUuid},Instance Uuid:{InstanceUuid}");
                 onFailed?.Invoke(data);
             }, overrideData: true, refName: refName, parentEntity: parentEntity, path: path
             );
+            return InstanceUuid;
         }
 
         public void HideEntity(string uuid, string refName = null)

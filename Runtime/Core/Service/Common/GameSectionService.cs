@@ -216,46 +216,7 @@ namespace Pangoo.Core.Services
             TargetUuid = uuid;
             IsGameSectionLoaded = false;
             m_BornDict = null;
-            // Log($"SetGameSection is :{uuid.ToShortUuid()}");
-            // if (uuid.IsNullOrWhiteSpace())
-            // {
-            //     var CurrentGameSection = RuntimeDataSrv.GetVariable<string>(GameMainConfigSrv.GetGameMainConfig().CurrentGameSectionVariableUuid);
-            //     if (CurrentGameSection.IsNullOrWhiteSpace())
-            //     {
-            //         CurrentGameSection = GameMainConfigSrv.GetGameMainConfig().EnterGameSectionUuid;
-            //     }
 
-            //     if (!CurrentGameSection.IsNullOrWhiteSpace())
-            //     {
-            //         uuid = CurrentGameSection;
-            //     }
-            // }
-            // Log($"Apply Game Section is :{uuid.ToShortUuid()}");
-
-            // if (CurrentUuid != uuid)
-            // {
-            //     IsGameSectionLoaded = false;
-            //     CurrentUuid = uuid;
-            //     m_BornDict = null;
-            //     CharacterShowed = false;
-
-            //     var GameSection = MetaTableSrv.GetGameSectionByUuid(CurrentUuid);
-            //     if (GameSection == null)
-            //     {
-            //         LogError($"GameSection is null:{GameSection}");
-            //     }
-            //     RuntimeDataSrv.SetVariable<string>(GameMainConfigSrv.GetGameMainConfig().CurrentGameSectionVariableUuid, uuid);
-            //     if (!firstGameSection)
-            //     {
-            //         SaveLoadSrv.Save();
-            //     }
-            //     // StaticSceneSrv.SetGameSectionScenes(GameSection.SceneUuids.ToSplitList<string>());
-
-            //     DynamicObjectSrv.SetGameScetion(GameSection.DynamicObjectUuids.ToSplitList<string>());
-
-
-            //     Log($"Update Static Scene:{GameSection.UuidShort} SceneUuids:{GameSection.SceneUuids}");
-            // }
         }
 
 
