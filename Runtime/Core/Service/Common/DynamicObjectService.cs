@@ -33,7 +33,7 @@ namespace Pangoo.Core.Services
                 return null;
             }
             var data = EntityDynamicObjectData.Create(this, info, m_EntityGroupRow, null);
-            EntityDataDict.Add(uuid, data);
+            EntityDataDict.Add(data.Uuid, data);
             return data;
         }
 
