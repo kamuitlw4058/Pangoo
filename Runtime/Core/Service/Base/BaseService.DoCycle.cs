@@ -60,5 +60,13 @@ namespace Pangoo.Core.Services
         {
 
         }
+
+        protected virtual void DoBeginDrag(PointerEventData pointerEventData) { }
+        protected virtual void DoDrag(PointerEventData pointerEventData) { }
+
+        protected virtual void DoEndDrag(PointerEventData pointerEventData) { }
+
+
+
     }
 }

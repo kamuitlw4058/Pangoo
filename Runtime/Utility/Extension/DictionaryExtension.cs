@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System.Text;
 using System;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+
 namespace Pangoo
 {
 

@@ -10,7 +10,6 @@ using Sirenix.OdinInspector;
 using Pangoo.MetaTable;
 using Pangoo.Common;
 using Sirenix.Utilities;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 
 namespace Pangoo.Core.Services
 {
