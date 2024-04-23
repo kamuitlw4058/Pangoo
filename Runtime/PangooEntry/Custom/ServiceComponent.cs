@@ -23,6 +23,20 @@ namespace Pangoo
             }
         }
 
+        [NonSerialized]
+        SideEffectMainService m_SideEffectMainService = null;
+        [ShowInInspector]
+        public SideEffectMainService SideEffectMainSrv
+        {
+            get
+            {
+                return m_SideEffectMainService;
+            }
+            set
+            {
+                m_SideEffectMainService = value;
+            }
+        }
 
     }
 }

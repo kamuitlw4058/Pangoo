@@ -1,3 +1,4 @@
+#if USE_HDRP
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
@@ -91,3 +92,4 @@ public sealed class GlitchImageBlock : CustomPostProcessVolumeComponent, IPostPr
         CoreUtils.Destroy(m_Material);
     }
 }
+#endif
