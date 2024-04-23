@@ -39,10 +39,28 @@ namespace Pangoo.MetaTable
             set
             {
                 UnityRow.Row.AssetPathUuid = value;
+                m_UnityAssetPathRow = null;
                 Save();
             }
 
         }
+
+        UnityAssetPathRow m_UnityAssetPathRow = null;
+        [ShowInInspector]
+        [LabelText("资源路径组")]
+        public string AssetPathGroup
+        {
+            get
+            {
+                if (m_UnityAssetPathRow == null)
+                {
+                    m_UnityAssetPathRow = AssetPathOverview.GetUnityRowByUuid(AssetPathUuid);
+
+                }
+                return m_UnityAssetPathRow?.Row.AssetGroup;
+            }
+        }
+
 
         [ShowInInspector]
         [PropertyOrder(1)]

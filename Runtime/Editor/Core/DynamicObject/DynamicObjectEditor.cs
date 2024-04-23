@@ -8,9 +8,11 @@ using Sirenix.OdinInspector;
 
 using UnityEngine.UI;
 using Pangoo.Core.Common;
+using Pangoo.Core.VisualScripting;
 using Pangoo.MetaTable;
 using System.Linq;
 using UnityEngine.UIElements;
+using System.Data.Common;
 
 namespace Pangoo
 {
@@ -239,6 +241,7 @@ namespace Pangoo
 
         public void OnValueChanged()
         {
+            TriggerEventCachedDict.Clear();
             if (m_DynamicObjectUuid.IsNullOrWhiteSpace()) return;
 
             var overview = DynamicObjectOverview.GetOverviewByUuid(m_DynamicObjectUuid);
@@ -330,6 +333,9 @@ namespace Pangoo
         }
 
         public Color GizmosColor = Color.red;
+
+        public Color GizmosBoxColor = new Color(0, 0, 1, 0.3f);
+
         public Color GizmosRadiusColor = new Color(0, 1, 0, 0.3f);
         public Color GizmosSelectRadiusColor = new Color(1, 0.5f, 0.8f, 0.3f);
 
@@ -355,6 +361,112 @@ namespace Pangoo
             }
         }
 
+        Dictionary<string, UnityTriggerEventRow> TriggerEventCachedDict = new Dictionary<string, UnityTriggerEventRow>();
+
+
+        public bool HasOnInteraction
+        {
+            get
+            {
+                if (Wrapper == null)
+                {
+                    return false;
+                }
+
+                foreach (var di in Wrapper.DirectInstructions)
+                {
+                    if (di.TriggerType == TriggerTypeEnum.OnInteract)
+                    {
+                        return true;
+                    }
+                }
+
+                foreach (var uuid in Wrapper.TriggerEventUuids)
+                {
+                    if (TriggerEventCachedDict.TryGetValue(uuid, out UnityTriggerEventRow unityRow))
+                    {
+                        if (unityRow.Row.TriggerType.ToEnum<TriggerTypeEnum>() == TriggerTypeEnum.OnInteract)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        var triggerEvent = TriggerEventOverview.GetUnityRowByUuid(uuid);
+                        if (triggerEvent != null)
+                        {
+                            TriggerEventCachedDict.Add(uuid, triggerEvent);
+                        }
+                        if (triggerEvent.Row.TriggerType.ToEnum<TriggerTypeEnum>() == TriggerTypeEnum.OnInteract)
+                        {
+                            return true;
+                        }
+                    }
+
+                }
+
+                return false;
+            }
+        }
+
+        public bool HasOnColliderTrigger
+        {
+            get
+            {
+                if (Wrapper == null)
+                {
+                    return false;
+                }
+
+                foreach (var di in Wrapper.DirectInstructions)
+                {
+                    switch (di.TriggerType)
+                    {
+                        case TriggerTypeEnum.OnTriggerEnter3D:
+                        case TriggerTypeEnum.OnTriggerExit3D:
+                            return true;
+
+                    }
+                }
+
+                foreach (var uuid in Wrapper.TriggerEventUuids)
+                {
+                    if (TriggerEventCachedDict.TryGetValue(uuid, out UnityTriggerEventRow unityRow))
+                    {
+                        var triggerType = unityRow.Row.TriggerType.ToEnum<TriggerTypeEnum>();
+                        switch (triggerType)
+                        {
+                            case TriggerTypeEnum.OnTriggerEnter3D:
+                            case TriggerTypeEnum.OnTriggerExit3D:
+                                return true;
+
+                        }
+                    }
+                    else
+                    {
+                        var triggerEvent = TriggerEventOverview.GetUnityRowByUuid(uuid);
+                        if (triggerEvent != null)
+                        {
+                            TriggerEventCachedDict.Add(uuid, triggerEvent);
+                        }
+
+                        var triggerType = triggerEvent.Row.TriggerType.ToEnum<TriggerTypeEnum>();
+                        switch (triggerType)
+                        {
+                            case TriggerTypeEnum.OnTriggerEnter3D:
+                            case TriggerTypeEnum.OnTriggerExit3D:
+                                return true;
+
+                        }
+                    }
+
+                }
+
+                return false;
+            }
+        }
+
+
 
 
         private void OnDrawGizmos()
@@ -365,40 +477,58 @@ namespace Pangoo
                 return;
             }
 
-            Gizmos.color = GizmosColor;
-            var InteractPosition = transform.position;
+            if (HasOnInteraction)
+            {
+                Gizmos.color = GizmosColor;
+                var InteractPosition = transform.position;
 
-            if (UnityRow.Row.InteractTarget.IsNullOrWhiteSpace() || UnityRow.Row.InteractTarget.Equals("Self"))
-            {
-                InteractPosition = transform.position;
-            }
-            else
-            {
-                var interactionTarget = transform.Find(UnityRow.Row.InteractTarget);
-                if (interactionTarget != null)
+                if (UnityRow.Row.InteractTarget.IsNullOrWhiteSpace() || UnityRow.Row.InteractTarget.Equals("Self"))
                 {
-                    InteractPosition = interactionTarget.position;
+                    InteractPosition = transform.position;
                 }
-                // else
-                // {
-                //     Debug.LogError($"Target is Null");
-                // }
+                else
+                {
+                    var interactionTarget = transform.Find(UnityRow.Row.InteractTarget);
+                    if (interactionTarget != null)
+                    {
+                        InteractPosition = interactionTarget.position;
+                    }
+
+                }
+
+                Gizmos.DrawCube(InteractPosition + InteractOffset, GizmosSize);
+
+
+                var InteractRadius = UnityRow.Row.InteractRadius > 0 ? UnityRow.Row.InteractRadius : MainConfig.DefaultInteractRadius;
+                if (Selection.activeGameObject == gameObject)
+                {
+                    Gizmos.color = GizmosSelectRadiusColor;
+                    Gizmos.DrawSphere(InteractPosition + InteractOffset, InteractRadius);
+                }
+                else
+                {
+                    Gizmos.color = GizmosRadiusColor;
+                    Gizmos.DrawSphere(InteractPosition + InteractOffset, InteractRadius);
+                }
             }
 
-            Gizmos.DrawCube(InteractPosition + InteractOffset, GizmosSize);
-
-
-            var InteractRadius = UnityRow.Row.InteractRadius > 0 ? UnityRow.Row.InteractRadius : MainConfig.DefaultInteractRadius;
-            if (Selection.activeGameObject == gameObject)
+            if (HasOnColliderTrigger)
             {
-                Gizmos.color = GizmosSelectRadiusColor;
-                Gizmos.DrawSphere(InteractPosition + InteractOffset, InteractRadius);
+                Gizmos.color = GizmosBoxColor;
+                var Colliders = GetComponents<BoxCollider>();
+                if (Colliders != null)
+                {
+                    foreach (var collider in Colliders)
+                    {
+                        if (!collider.isTrigger) continue;
+
+                        Gizmos.DrawCube(transform.position + collider.center, collider.size);
+                    }
+                }
+
             }
-            else
-            {
-                Gizmos.color = GizmosRadiusColor;
-                Gizmos.DrawSphere(InteractPosition + InteractOffset, InteractRadius);
-            }
+
+
 
 
 
