@@ -266,6 +266,7 @@ namespace Pangoo.MetaTable
             {
                 Directory.CreateDirectory(UnityRow.ToDirPath());
             }
+            DirectoryUtility.ExistsOrCreate(Overview.RowDirPath);
 
             AssetDatabase.CreateAsset(UnityRow, Overview.RowPath(UnityRow.Uuid));
             Overview.Rows.Add(UnityRow);

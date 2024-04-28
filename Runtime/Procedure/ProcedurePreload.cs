@@ -95,6 +95,14 @@ namespace Pangoo
                     Type procedureType = Utility.Assembly.GetType(packageConfig.EntryProcedure);
                     ChangeState(procedureOwner, procedureType);
                 }
+                else
+                {
+                    Debug.LogError($"CustomProcedure Is Null");
+                }
+            }
+            else
+            {
+                Debug.LogError($"packageConfig is Null");
             }
         }
 

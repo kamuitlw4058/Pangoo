@@ -103,7 +103,7 @@ namespace Pangoo.Editor
                 var go = PrefabUtility.InstantiatePrefab(asset) as GameObject;
                 go.transform.parent = transform;
                 go.name = staticScene.Name;
-                var helper = go.AddComponent<StaticSceneEditor>();
+                var helper = go.GetOrAddComponent<StaticSceneEditor>();
                 helper.StaticSceneUuid = uuid;
                 //go.ResetTransfrom();
                 return go;

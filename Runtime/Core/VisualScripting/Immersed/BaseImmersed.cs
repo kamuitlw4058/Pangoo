@@ -14,11 +14,24 @@ namespace Pangoo.Core.VisualScripting
 
     public class BaseImmersed : MonoBehaviour, IImmersed
     {
-        [HideInInspector]
+        public bool ShowDynamicObject;
+        [ShowInInspector]
+        [ShowIf("@this.ShowDynamicObject")]
         public DynamicObject dynamicObject = null;
 
         [ShowInInspector]
+        [ShowIf("@this.ShowDynamicObject")]
+        public EntityDynamicObject entityDynamicObject = null;
+
+        [ShowInInspector]
         public bool IsRunning { get; set; }
+
+        protected virtual void Start()
+        {
+            entityDynamicObject = GetComponent<EntityDynamicObject>();
+            dynamicObject = entityDynamicObject?.DynamicObj;
+        }
+
 
         public virtual void OnEnter()
         {
@@ -29,6 +42,8 @@ namespace Pangoo.Core.VisualScripting
             }
             IsRunning = true;
         }
+
+
 
         public virtual void OnExit()
         {
