@@ -11,6 +11,7 @@ using Pangoo.Core.VisualScripting;
 using Pangoo.MetaTable;
 using Pangoo.Common;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
+using Pangoo.Core.Common;
 
 
 namespace Pangoo.Core.Services
@@ -208,7 +209,7 @@ namespace Pangoo.Core.Services
         }
 
 
-        public string m_FlipVariable;
+        string m_FlipVariable;
 
         public string FlipVariable
         {
@@ -220,6 +221,45 @@ namespace Pangoo.Core.Services
                 }
 
                 return m_FlipVariable;
+            }
+        }
+
+        string m_IsCreatedVariable;
+
+        public string CreatedVariable
+        {
+            get
+            {
+                if (m_IsCreatedVariable == null)
+                {
+                    m_IsCreatedVariable = GameMainConfigSrv.GetGameMainConfig().CaseClueHasVariable;
+                }
+
+                return m_IsCreatedVariable;
+            }
+        }
+
+
+        string m_IsRemovedVariable;
+
+        public string IsRemovedVariable
+        {
+            get
+            {
+                if (m_IsRemovedVariable == null)
+                {
+                    m_IsRemovedVariable = GameMainConfigSrv.GetGameMainConfig().CaseClueIsRemovedVariable;
+                }
+
+                return m_IsRemovedVariable;
+            }
+        }
+
+        Vector3 NewPosition
+        {
+            get
+            {
+                return GameMainConfigSrv?.GetGameMainConfig()?.NewPostion ?? Vector3.zero;
             }
         }
 
@@ -291,6 +331,7 @@ namespace Pangoo.Core.Services
             content.DynamicObject2Clue.TryGetValue(uuid2, out clueUuid2);
 
             bool CanCombine = false;
+            ClueIntegrate combine = null;
 
             foreach (var integrateInfo in content.IntegrateInfos)
             {
@@ -298,13 +339,30 @@ namespace Pangoo.Core.Services
 
                 if (integrateInfo.Targets.Contains(clueUuid) && integrateInfo.Targets.Contains(clueUuid2))
                 {
-                    CanCombine = true;
+                    combine = integrateInfo;
                 }
 
             }
 
-            if (CanCombine)
+            if (combine != null)
             {
+                foreach (var result in combine.Results)
+                {
+                    switch (result.ResultType)
+                    {
+                        case ClueIntegrateResultType.NewClue:
+                            var clueRow = content.ClueDict[result.ClueUuid];
+                            var entityDynamicObject = content.CluesEntity[clueRow.DynamicObjectUuid];
+                            var dynamicObject = entityDynamicObject.DynamicObj;
+                            dynamicObject.SetVariable<bool>(CreatedVariable, true);
+                            dynamicObject.ModelActive = true;
+                            dynamicObject.CachedTransfrom.position = NewPosition;
+                            break;
+                        case ClueIntegrateResultType.RemoveClue:
+                            break;
+                    }
+                }
+
                 Debug.Log($"检测完成可以合并");
             }
             else

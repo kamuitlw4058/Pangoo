@@ -149,6 +149,10 @@ namespace Pangoo
         [FoldoutGroup("案件")]
         public string IsFlipVariable = string.Empty;
 
+        [LabelText("新卡出生点")]
+        [FoldoutGroup("案件")]
+        public Vector3 NewPostion;
+
 
         [LabelText("案件线索拥有变量 Uuid")]
         [ValueDropdown("GetBoolVariableUuid")]
