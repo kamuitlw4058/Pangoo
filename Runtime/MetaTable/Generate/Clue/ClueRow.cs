@@ -46,6 +46,20 @@ namespace Pangoo.MetaTable
 
         string IClueRow.ClueKey {get => ClueKey; set => ClueKey = value;}
 
+        [JsonMember("ClueBackTitle")]
+        [MetaTableRowColumn("ClueBackTitle","string", "背面标题",5)]
+        [LabelText("背面标题")]
+        public string ClueBackTitle ;
+
+        string IClueRow.ClueBackTitle {get => ClueBackTitle; set => ClueBackTitle = value;}
+
+        [JsonMember("ClueBackDesc")]
+        [MetaTableRowColumn("ClueBackDesc","string", "背面描述",6)]
+        [LabelText("背面描述")]
+        public string ClueBackDesc ;
+
+        string IClueRow.ClueBackDesc {get => ClueBackDesc; set => ClueBackDesc = value;}
+
     }
 }
 

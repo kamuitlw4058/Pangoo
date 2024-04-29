@@ -658,6 +658,12 @@ MonoBehaviour:
     - Name: ClueKey
       Type: string
       CnName: "\u7EBF\u7D22\u7D22\u5F15Key"
+    - Name: ClueBackTitle
+      Type: string
+      CnName: "\u80CC\u9762\u6807\u9898"
+    - Name: ClueBackDesc
+      Type: string
+      CnName: "\u80CC\u9762\u63CF\u8FF0"
   - Config: {fileID: 11400000}
     MetaTableType: 0
     TableName: Cases

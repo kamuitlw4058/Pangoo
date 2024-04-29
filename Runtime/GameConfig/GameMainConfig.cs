@@ -144,6 +144,11 @@ namespace Pangoo
 
         public string[] DebuggerInstructions;
 
+        [LabelText("卡牌是否反面 Uuid")]
+        [ValueDropdown("GetBoolVariableUuid")]
+        [FoldoutGroup("案件")]
+        public string IsFlipVariable = string.Empty;
+
 
         [LabelText("案件线索拥有变量 Uuid")]
         [ValueDropdown("GetBoolVariableUuid")]

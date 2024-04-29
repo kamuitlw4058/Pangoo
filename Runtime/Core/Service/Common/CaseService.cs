@@ -21,11 +21,13 @@ namespace Pangoo.Core.Services
 
         public Dictionary<string, CaseContent> CaseDict = new Dictionary<string, CaseContent>();
 
-#if SIDE_EFFECT
+        public string LastShowCase;
+        // #if SIDE_EFFECT
         public UISideEffectPanel Panel;
-#else
-        public UICasePanel Panel;
-#endif
+
+        // #else
+        //         public UICasePanel Panel;
+        // #endif
         protected override void DoStart()
         {
 
@@ -44,17 +46,17 @@ namespace Pangoo.Core.Services
 
             if (!panelUuid.IsNullOrWhiteSpace())
             {
-#if SIDE_EFFECT
+                // #if SIDE_EFFECT
                 UISrv.ShowUI(panelUuid, showAction: (o) =>
                 {
                     Panel = o as UISideEffectPanel;
                 });
-#else
-                UISrv.ShowUI(panelUuid, showAction: (o) =>
-                {
-                    Panel = o as UICasePanel;
-                });
-#endif
+                // #else
+                //                 UISrv.ShowUI(panelUuid, showAction: (o) =>
+                //                 {
+                //                     Panel = o as UICasePanel;
+                //                 });
+                // #endif
             }
 
         }
@@ -74,7 +76,12 @@ namespace Pangoo.Core.Services
             ret.CluesRows = new IClueRow[clueUuids.Length];
             for (int i = 0; i < clueUuids.Length; i++)
             {
-                ret.CluesRows[i] = MetaTableSrv.GetClueRowByUuid(clueUuids[i]);
+                var clueUuid = clueUuids[i];
+                var clueRow = MetaTableSrv.GetClueRowByUuid(clueUuid);
+                ret.CluesRows[i] = clueRow;
+                ret.DynamicObject2Clue.Add(clueRow.DynamicObjectUuid, clueUuid);
+                ret.ClueDict.Add(clueUuid, clueRow);
+
             }
             return ret;
         }
@@ -83,6 +90,7 @@ namespace Pangoo.Core.Services
 
         public void ShowCase(string uuid, Action<CaseContent> showFinishedCallback = null)
         {
+            LastShowCase = uuid;
             if (CaseDict.TryGetValue(uuid, out CaseContent content))
             {
                 OnShowCaseComplete(content, showFinishedCallback);
@@ -196,6 +204,57 @@ namespace Pangoo.Core.Services
         {
             var row = MetaTableSrv.GetClueRowByUuid(uuid);
             RuntimeDataSrv.SetDynamicObjectVariable<bool>(row.DynamicObjectUuid, CaseClueIsRemovedVariable, val);
+        }
+
+
+        public string m_FlipVariable;
+
+        public string FlipVariable
+        {
+            get
+            {
+                if (m_FlipVariable == null)
+                {
+                    m_FlipVariable = GameMainConfigSrv.GetGameMainConfig().IsFlipVariable;
+                }
+
+                return m_FlipVariable;
+            }
+        }
+
+
+        public void ShowClueInfo(string uuid)
+        {
+            if (!LastShowCase.IsNullOrWhiteSpace())
+            {
+                if (CaseDict.TryGetValue(LastShowCase, out CaseContent content))
+                {
+                    if (content.DynamicObject2Clue.TryGetValue(uuid, out string clueUuid))
+                    {
+                        if (content.ClueDict.TryGetValue(clueUuid, out IClueRow clueRow))
+                        {
+                            var isFilped = RuntimeDataSrv.GetVariable<bool>(FlipVariable);
+                            if (isFilped)
+                            {
+                                Panel.ShowTitle(clueRow.ClueBackTitle);
+                                Panel.ShowDesc(clueRow.ClueBackDesc);
+                            }
+                            else
+                            {
+
+                                Panel.ShowTitle(clueRow.ClueTitle);
+                                Panel.ShowDesc(clueRow.Desc);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public void HideClueInfo()
+        {
+            Panel.HideTitle();
+            Panel.HideDesc();
         }
     }
 

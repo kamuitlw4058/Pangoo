@@ -25,10 +25,17 @@ namespace Pangoo.Core.VisualScripting
         [ShowInInspector]
         public IClueRow[] CluesRows;
 
+        [ShowInInspector]
+        public Dictionary<string, IClueRow> ClueDict = new Dictionary<string, IClueRow>();
+
+
         public EntityDynamicObject Entity;
 
         [ShowInInspector]
         public Dictionary<string, EntityDynamicObject> CluesEntity = new Dictionary<string, EntityDynamicObject>();
+
+        [ShowInInspector]
+        public Dictionary<string, string> DynamicObject2Clue = new Dictionary<string, string>();
 
 
         [ShowInInspector]

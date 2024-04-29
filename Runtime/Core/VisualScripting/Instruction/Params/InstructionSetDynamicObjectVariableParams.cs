@@ -17,9 +17,9 @@ namespace Pangoo.Core.VisualScripting
         public string DynamicObjectUuid;
 
         [JsonMember("LocalVariableUuid")]
-        [ValueDropdown("@VariablesOverview.GetVariableUuidDropdown(ValueTypeEnum.ToString(),VariableTypeEnum.DynamicObject.ToString())")]
+        [ValueDropdown("@VariablesOverview.GetVariableUuidDropdown(ValueTypeEnum.ToString(),VariableTypeEnum.DynamicObject.ToString(),false)")]
         public string LocalVariableUuid;
 
-        public abstract VariableValueTypeEnum ValueTypeEnum { get;}
+        public abstract VariableValueTypeEnum ValueTypeEnum { get; }
     }
 }

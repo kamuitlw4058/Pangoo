@@ -86,6 +86,54 @@ namespace Pangoo.MetaTable
             m_Prefab = GameSupportEditorUtility.GetPrefabByDynamicObjectUuid(UnityRow.Row.DynamicObjectUuid);
         }
 
+        [LabelText("线索描述")]
+        [ShowInInspector]
+        public string Desc
+        {
+            get
+            {
+                return UnityRow.Row.Desc;
+            }
+            set
+            {
+                UnityRow.Row.Desc = value;
+                Save();
+            }
+        }
+
+        [LabelText("线索背面标题")]
+        [ShowInInspector]
+        public string ClueBackTitle
+        {
+            get
+            {
+                return UnityRow.Row.ClueBackTitle;
+            }
+            set
+            {
+                UnityRow.Row.ClueBackTitle = value;
+                Save();
+            }
+        }
+
+
+        [LabelText("线索背面描述")]
+        [ShowInInspector]
+        public string ClueBackDesc
+        {
+            get
+            {
+                return UnityRow.Row.ClueBackDesc;
+            }
+            set
+            {
+                UnityRow.Row.ClueBackDesc = value;
+                Save();
+            }
+        }
+
+
+
     }
 }
 #endif

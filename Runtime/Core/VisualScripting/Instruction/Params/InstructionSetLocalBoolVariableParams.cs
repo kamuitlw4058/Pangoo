@@ -14,15 +14,7 @@ namespace Pangoo.Core.VisualScripting
         [JsonMember("Value")]
         public bool Value;
 
-        public override VariableValueTypeEnum ValueTypeEnum=> VariableValueTypeEnum.Bool;
-        public override void Load(string val)
-        {
-            var par = JsonMapper.ToObject<InstructionSetLocalBoolVariableParams>(val);
-            DynamicObjectUuid = par.DynamicObjectUuid;
-            LocalVariableUuid = par.LocalVariableUuid;
-            Value = par.Value;
-        }
-        
+        public override VariableValueTypeEnum ValueTypeEnum => VariableValueTypeEnum.Bool;
     }
 }
 

@@ -46,9 +46,6 @@ namespace Pangoo.Core.VisualScripting
         public bool IsShowingCase;
 
 
-        public RectTransform Clues1;
-
-        public RectTransform Clues2;
 
         public float Distance = 0.2f;
 
@@ -87,6 +84,27 @@ namespace Pangoo.Core.VisualScripting
 
 
 
+        }
+
+        public void ShowTitle(string title)
+        {
+            m_NameText.text = title;
+            m_NameText.gameObject.SetActive(true);
+        }
+        public void ShowDesc(string desc)
+        {
+            m_DescText.text = desc;
+            m_DescText.gameObject.SetActive(true);
+        }
+
+        public void HideTitle()
+        {
+            m_NameText.gameObject.SetActive(false);
+
+        }
+        public void HideDesc()
+        {
+            m_DescText.gameObject.SetActive(false);
         }
 
         //         public GameObject CreateClueItem()
@@ -404,18 +422,18 @@ namespace Pangoo.Core.VisualScripting
         //         }
 
 
-        //         public void ShowCase(CaseContent content)
-        //         {
-        //             if (content == null || (content != null && content.Entity == null)) return;
+        public void ShowCase(CaseContent content)
+        {
+            if (content == null || (content != null && content.Entity == null)) return;
 
-        //             ShowContent = content;
-        //             UpdateCaseDynamicObject();
-        //             PanelData.Main.CharacterService.SetPlayerControllable(false);
-        //             PanelData.Main.CharacterService.PlayerEnabledHotspot = false;
-        //             PanelData.Main.CharacterService.PlayerIsInteractive = false;
-        //             PanelData.Main.Cursor.CursorType = CursorTypeEnum.Show;
-        //             IsShowingCase = true;
-        //         }
+            // ShowContent = content;
+            // UpdateCaseDynamicObject();
+            // PanelData.Main.CharacterService.SetPlayerControllable(false);
+            // PanelData.Main.CharacterService.PlayerEnabledHotspot = false;
+            // PanelData.Main.CharacterService.PlayerIsInteractive = false;
+            // PanelData.Main.Cursor.CursorType = CursorTypeEnum.Show;
+            // IsShowingCase = true;
+        }
 
         //         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
         //         {

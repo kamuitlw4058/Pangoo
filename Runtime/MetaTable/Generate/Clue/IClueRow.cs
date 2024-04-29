@@ -25,6 +25,10 @@ namespace Pangoo.MetaTable
 
         public string ClueKey{ get; set; }
 
+        public string ClueBackTitle{ get; set; }
+
+        public string ClueBackDesc{ get; set; }
+
     }
 }
 
