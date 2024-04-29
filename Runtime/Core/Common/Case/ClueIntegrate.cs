@@ -52,6 +52,10 @@ namespace Pangoo.Core.Common
     [Serializable]
     public class ClueIntegrate
     {
+        [JsonMember("FlipCombine")]
+        [LabelText("背面合成")]
+        public bool FlipCombine;
+
         [JsonMember("Targets")]
         [LabelText("目标线索")]
         [ValueDropdown("@ClueOverview.GetUuidDropdown()")]
