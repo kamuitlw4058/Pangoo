@@ -18,11 +18,18 @@ namespace Pangoo.Core.Services
     {
         public override int Priority => 7;
 
+
         public Dictionary<string, CaseContent> CaseDict = new Dictionary<string, CaseContent>();
 
+#if SIDE_EFFECT
+        public UISideEffectPanel Panel;
+#else
         public UICasePanel Panel;
+#endif
         protected override void DoStart()
         {
+
+
             if (GameMainConfigSrv.GameMainConfig.CaseClueHasVariable.IsNullOrWhiteSpace())
             {
                 LogError($"线索拥有变量未设置!");
@@ -37,11 +44,19 @@ namespace Pangoo.Core.Services
 
             if (!panelUuid.IsNullOrWhiteSpace())
             {
+#if SIDE_EFFECT
+                UISrv.ShowUI(panelUuid, showAction: (o) =>
+                {
+                    Panel = o as UISideEffectPanel;
+                });
+#else
                 UISrv.ShowUI(panelUuid, showAction: (o) =>
                 {
                     Panel = o as UICasePanel;
                 });
+#endif
             }
+
         }
 
 

@@ -53,6 +53,11 @@ namespace Pangoo.Core.VisualScripting
 
         public virtual void OnUpdate()
         {
+            if (dynamicObject == null)
+            {
+                entityDynamicObject = GetComponent<EntityDynamicObject>();
+                dynamicObject = entityDynamicObject?.DynamicObj;
+            }
 
         }
     }

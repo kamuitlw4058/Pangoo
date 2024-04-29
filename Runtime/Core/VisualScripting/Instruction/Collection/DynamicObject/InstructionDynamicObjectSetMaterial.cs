@@ -20,7 +20,7 @@ namespace Pangoo.Core.VisualScripting
 
         public override void RunImmediate(Args args)
         {
-            args.dynamicObject.SetModelMaterial(ParamsRaw.TargetPath,ParamsRaw.Index);
+            args.dynamicObject.SetMaterialState(ParamsRaw.Index);
         }
     }
 }

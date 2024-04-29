@@ -32,24 +32,30 @@ namespace Pangoo.Core.Common
                 if (m_State != value)
                 {
                     m_State = value;
-                    if (Renderer != null && MaterialDict != null)
-                    {
-                        if (MaterialDict.TryGetValue(m_State, out Material mat))
-                        {
-                            Renderer.material = mat;
-                        }
-                        else
-                        {
-                            m_State = 0;
-                            if (MaterialDict.TryGetValue(m_State, out Material defaultMat))
-                            {
-                                Renderer.material = defaultMat;
-                            }
-                        }
-
-                    }
+                    UpdateMaterial();
 
                 }
+            }
+        }
+
+        public void UpdateMaterial()
+        {
+            if (Renderer != null && MaterialDict != null)
+            {
+                if (MaterialDict.TryGetValue(m_State, out Material mat))
+                {
+                    Debug.Log($"Set Material State:{m_State} ");
+                    Renderer.material = mat;
+                }
+                else
+                {
+                    m_State = 0;
+                    if (MaterialDict.TryGetValue(m_State, out Material defaultMat))
+                    {
+                        Renderer.material = defaultMat;
+                    }
+                }
+
             }
         }
 
@@ -68,10 +74,6 @@ namespace Pangoo.Core.Common
             {
                 MaterialDict = new Dictionary<int, Material>();
             }
-            if (!MaterialDict.ContainsKey(0))
-            {
-                MaterialDict.Add(0, Renderer.material);
-            }
 
             if (MaterialStateList != null)
             {
@@ -83,6 +85,17 @@ namespace Pangoo.Core.Common
                     }
                 }
             }
+
+            if (!MaterialDict.ContainsKey(0))
+            {
+                MaterialDict.Add(0, Renderer.material);
+            }
+
+
+
+            UpdateMaterial();
+
+
 
 
         }
