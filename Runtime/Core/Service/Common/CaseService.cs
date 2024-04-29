@@ -10,6 +10,7 @@ using Sirenix.OdinInspector;
 using Pangoo.Core.VisualScripting;
 using Pangoo.MetaTable;
 using Pangoo.Common;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 
 
 namespace Pangoo.Core.Services
@@ -222,30 +223,51 @@ namespace Pangoo.Core.Services
             }
         }
 
+        public bool IsFilp
+        {
+            get
+            {
+                return RuntimeDataSrv.GetVariable<bool>(FlipVariable); ;
+            }
+        }
+
+        CaseContent CurrentContent
+        {
+            get
+            {
+                if (!LastShowCase.IsNullOrWhiteSpace())
+                {
+                    if (CaseDict.TryGetValue(LastShowCase, out CaseContent content))
+                    {
+                        return content;
+                    }
+
+                }
+                return null;
+            }
+
+        }
+
 
         public void ShowClueInfo(string uuid)
         {
-            if (!LastShowCase.IsNullOrWhiteSpace())
-            {
-                if (CaseDict.TryGetValue(LastShowCase, out CaseContent content))
-                {
-                    if (content.DynamicObject2Clue.TryGetValue(uuid, out string clueUuid))
-                    {
-                        if (content.ClueDict.TryGetValue(clueUuid, out IClueRow clueRow))
-                        {
-                            var isFilped = RuntimeDataSrv.GetVariable<bool>(FlipVariable);
-                            if (isFilped)
-                            {
-                                Panel.ShowTitle(clueRow.ClueBackTitle);
-                                Panel.ShowDesc(clueRow.ClueBackDesc);
-                            }
-                            else
-                            {
+            var content = CurrentContent;
+            if (content == null) return;
 
-                                Panel.ShowTitle(clueRow.ClueTitle);
-                                Panel.ShowDesc(clueRow.Desc);
-                            }
-                        }
+            if (content.DynamicObject2Clue.TryGetValue(uuid, out string clueUuid))
+            {
+                if (content.ClueDict.TryGetValue(clueUuid, out IClueRow clueRow))
+                {
+                    if (IsFilp)
+                    {
+                        Panel.ShowTitle(clueRow.ClueBackTitle);
+                        Panel.ShowDesc(clueRow.ClueBackDesc);
+                    }
+                    else
+                    {
+
+                        Panel.ShowTitle(clueRow.ClueTitle);
+                        Panel.ShowDesc(clueRow.Desc);
                     }
                 }
             }
@@ -255,6 +277,45 @@ namespace Pangoo.Core.Services
         {
             Panel.HideTitle();
             Panel.HideDesc();
+        }
+
+        public void Combine(string uuid, string uuid2)
+        {
+            var content = CurrentContent;
+            if (content == null) return;
+
+            string clueUuid = string.Empty;
+            content.DynamicObject2Clue.TryGetValue(uuid, out clueUuid);
+
+            string clueUuid2 = string.Empty;
+            content.DynamicObject2Clue.TryGetValue(uuid2, out clueUuid2);
+
+            bool CanCombine = false;
+
+            foreach (var integrateInfo in content.IntegrateInfos)
+            {
+                if (IsFilp != integrateInfo.FlipCombine) continue;
+
+                if (integrateInfo.Targets.Contains(clueUuid) && integrateInfo.Targets.Contains(clueUuid2))
+                {
+                    CanCombine = true;
+                }
+
+            }
+
+            if (CanCombine)
+            {
+                Debug.Log($"检测完成可以合并");
+            }
+            else
+            {
+                Debug.Log($"不能合并:{uuid},{uuid2},{clueUuid},{clueUuid2}");
+            }
+
+
+
+
+
         }
     }
 

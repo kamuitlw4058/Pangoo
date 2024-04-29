@@ -92,6 +92,19 @@ namespace Pangoo.Core.VisualScripting
             }
         }
 
+        ClueIntegrate[] m_IntegrateInfos;
+        public ClueIntegrate[] IntegrateInfos
+        {
+            get
+            {
+                if (m_IntegrateInfos == null)
+                {
+                    m_IntegrateInfos = JsonMapper.ToObject<ClueIntegrate[]>(CaseRow.CluesIntegrate);
+                }
+                return m_IntegrateInfos;
+            }
+        }
+
 
     }
 }
